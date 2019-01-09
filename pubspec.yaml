@@ -38,6 +38,23 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - assets/graphics/pit.png
+    - assets/graphics/generator.png
+    - assets/graphics/rocket_blue.png
+    - assets/graphics/rocket_red.png
+    - assets/graphics/rocket_yellow.png
+    - assets/graphics/rocket_green.png
+    - assets/graphics/arrow_blue.png
+    - assets/graphics/arrow_red.png
+    - assets/graphics/arrow_yellow.png
+    - assets/graphics/arrow_green.png
+
+  fonts:
+    - family: Kimberley
+      fonts:
+        - asset: assets/fonts/kimberley.ttf
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
