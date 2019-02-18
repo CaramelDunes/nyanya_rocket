@@ -10,11 +10,26 @@ description: An open-source game taking inspiration from SEGA's ChuChu-Rocket !
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+
+  flare_flutter: ^1.2.3
+
+  font_awesome_flutter: ^8.4.0
+
+  nyanya_rocket_base:
+    path: ../nyanya_rocket_base
+
+  shared_preferences: ^0.5.0
+
+  path_provider: ^0.5.0
+
+  uuid: ^2.0.0
+
+  connectivity: ^0.4.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -23,9 +38,16 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  nyanya_rocket_base:
-    path: ../nyanya_rocket_base
 
+  flutter_launcher_icons: ^0.7.0
+
+flutter_icons:
+  image_path: "assets/graphics/app_icon.png"
+  android: true
+  ios: true
+
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/graphics/app_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -49,6 +71,19 @@ flutter:
     - assets/graphics/arrow_red.png
     - assets/graphics/arrow_yellow.png
     - assets/graphics/arrow_green.png
+    - assets/graphics/arrow_grey.png
+    - assets/animations/mouse_right.flr
+    - assets/animations/mouse_up.flr
+    - assets/animations/mouse_left.flr
+    - assets/animations/mouse_down.flr
+    - assets/animations/cat_down.flr
+    - assets/animations/cat_up.flr
+    - assets/animations/cat_right.flr
+    - assets/animations/cat_left.flr
+    - assets/graphics/wall.png
+    - assets/graphics/wall_cross.png
+    - assets/graphics/departed_rocket.png
+    - assets/graphics/app_icon.png
 
   fonts:
     - family: Kimberley

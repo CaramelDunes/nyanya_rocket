@@ -1,49 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/screens/home/home.dart';
+import 'package:nyanya_rocket/models/options.dart';
+import 'package:nyanya_rocket/options_holder.dart';
+import 'package:nyanya_rocket/routing.dart';
 
 class App extends StatelessWidget {
   static ThemeData darkTheme = ThemeData(
-    // Define the default Brightness and Colors
     brightness: Brightness.dark,
-    primaryColor: Color(0xFF4842C0),
-    accentColor: Colors.white,
-
-    // Define the default Font Family
-    fontFamily: 'Roboto',
-
-    // Define the default TextTheme. Use this to specify the default
-    // text styling for headlines, titles, bodies of text, and more.
-    textTheme: TextTheme(
-      headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-      title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-      body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-    ),
+    primarySwatch: Colors.orange,
+    accentColor: Colors.orangeAccent,
   );
 
-  static ThemeData brightTheme = ThemeData(
-    // Define the default Brightness and Colors
-    brightness: Brightness.dark,
-    primaryColor: Color(0xFF4842C0),
-    accentColor: Colors.cyan[600],
-
-    // Define the default Font Family
-    fontFamily: 'Montserrat',
-
-    // Define the default TextTheme. Use this to specify the default
-    // text styling for headlines, titles, bodies of text, and more.
-    textTheme: TextTheme(
-      headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-      title: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-      body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-    ),
+  static ThemeData lightTheme = ThemeData(
+    brightness: Brightness.light,
+    primarySwatch: Colors.deepPurple,
+    accentColor: Colors.orangeAccent,
   );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Welcome to Flutter',
-      theme: darkTheme,
-      home: Home(),
+    return OptionsHolder(
+      optionWidgetBuilder: (BuildContext context, Options options) =>
+          MaterialApp(
+              title: 'NyaNya Rocket!',
+              theme: options.darkTheme ? darkTheme : lightTheme,
+              initialRoute: Routing.initialRoute,
+              routes: Routing.routes),
     );
   }
 }
