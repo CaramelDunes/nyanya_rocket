@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/screens/multiplayer/toy_server.dart';
-import 'package:nyanya_rocket/widgets/game_view/synchronous_animation.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class ToyClient {
@@ -17,8 +16,6 @@ class ToyClient {
   final StreamController<Duration> timeStream = StreamController();
   final List<StreamController<int>> scoreStreams =
       List.generate(4, (_) => StreamController(), growable: false);
-
-  final SynchronousController animationController = SynchronousController();
 
   final BytesBuilder _builder = BytesBuilder();
 
@@ -84,7 +81,6 @@ class ToyClient {
             buffer = buffer.getRange(1, buffer.length).toList();
 
             ProtocolGame g = ProtocolGame.fromBuffer(buffer);
-            animationController.addGlobalTime(0.016);
 
             if (_timestamp < g.timestamp) {
               gameStream.add(Game.fromProtocolGame(g));

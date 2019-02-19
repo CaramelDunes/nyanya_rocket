@@ -1,15 +1,12 @@
 import 'dart:async';
 
 import 'package:meta/meta.dart';
-import 'package:nyanya_rocket/widgets/game_view/synchronous_animation.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class LocalGameController {
   static const Duration tickPeriod = Duration(milliseconds: 16);
 
   final StreamController<Game> gameStream = StreamController();
-
-  final SynchronousController _animationController = SynchronousController();
 
   Game _game;
 
@@ -30,7 +27,6 @@ class LocalGameController {
     _game.onArrowExpiry = onArrowExpiry;
   }
 
-  SynchronousController get animationController => _animationController;
   Game get game => _game;
 
   void pauseFor(Duration duration) {
@@ -66,8 +62,6 @@ class LocalGameController {
     if (running) {
       beforeTick();
 
-      _animationController.addGlobalTime(0.016);
-
       _game.tickEntities();
       _game.tickTiles();
       _game.tickEntities();
@@ -76,7 +70,6 @@ class LocalGameController {
       if (faster) {
         _game.tickEntities();
         _game.tickTiles();
-        _animationController.addGlobalTime(0.016);
       }
 
       updateGame();

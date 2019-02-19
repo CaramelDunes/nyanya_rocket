@@ -8,14 +8,15 @@ class ForegroundPainter extends CustomPainter {
   final Board board;
   final SplayTreeMap<int, Entity> entities;
   final BoardPosition mistake;
+  final EntitiesDrawerCanvas _entitiesDrawer = EntitiesDrawerCanvas();
 
   ForegroundPainter(
       {@required this.board, @required this.entities, this.mistake});
 
   @override
   void paint(Canvas canvas, Size size) {
-    EntitiesDrawerCanvas.drawEntities(canvas, size, entities);
     _paintWalls(canvas, size);
+    _entitiesDrawer.drawEntities(canvas, size, entities);
     _paintMistake(canvas, size);
   }
 
