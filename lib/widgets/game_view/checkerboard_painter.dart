@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CheckerboardPainter extends CustomPainter {
-  static const Color beigeColor = Color(0xFFF9D0A2);
-  static const Color purpleColor = Color(0xFFAC93F1);
+  static const Color beigeColor = Color(0xFFFBE0C2);
+  static const Color purpleColor = Color(0xFFC3B1F5);
 
   CheckerboardPainter();
 
