@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/challenge_progression_manager.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
+import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
 class OfficialChallenges extends StatefulWidget {
   static final ChallengeProgressionManager progression =
@@ -132,6 +133,24 @@ class _OfficialChallengesState extends State<OfficialChallenges> {
     });
   }
 
+  void _openNext(int i) {
+    if (OfficialChallenges.challenges.length > i + 1) {
+      Navigator.of(context)
+          .push(MaterialPageRoute<OverlayPopData>(
+              builder: (context) => Challenge(
+                    challenge: OfficialChallenges.challenges[i + 1],
+                    onWin: (Duration time) => _handleChallengeWin(i + 1, time),
+                  )))
+          .then((OverlayPopData popData) {
+        if (popData != null) {
+          if (popData.playNext) {
+            _openNext(i + 1);
+          }
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -153,12 +172,20 @@ class _OfficialChallengesState extends State<OfficialChallenges> {
                       ].where((Widget w) => w != null).toList())
                   : null,
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => Challenge(
-                          challenge: OfficialChallenges.challenges[i],
-                          onWin: (Duration time) =>
-                              _handleChallengeWin(i, time),
-                        )));
+                Navigator.of(context)
+                    .push(MaterialPageRoute<OverlayPopData>(
+                        builder: (context) => Challenge(
+                              challenge: OfficialChallenges.challenges[i],
+                              onWin: (Duration time) =>
+                                  _handleChallengeWin(i, time),
+                            )))
+                    .then((OverlayPopData popData) {
+                  if (popData != null) {
+                    if (popData.playNext) {
+                      _openNext(i);
+                    }
+                  }
+                });
               },
             ));
   }
