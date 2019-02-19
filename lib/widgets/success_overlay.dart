@@ -46,19 +46,19 @@ class SuccessOverlay extends StatelessWidget {
                             RaisedButton(
                               color: Theme.of(context).primaryColor,
                               textColor: Colors.white,
-                              child: Text('Next'),
+                              child: Text('Back'),
                               onPressed: () {
                                 Navigator.of(context)
-                                    .pop(OverlayPopData(playNext: true));
+                                    .pop(OverlayPopData(playNext: false));
                               },
                             ),
                             RaisedButton(
                               color: Theme.of(context).primaryColor,
                               textColor: Colors.white,
-                              child: Text('Back'),
+                              child: Text('Next'),
                               onPressed: () {
                                 Navigator.of(context)
-                                    .pop(OverlayPopData(playNext: false));
+                                    .pop(OverlayPopData(playNext: true));
                               },
                             ),
                           ],
