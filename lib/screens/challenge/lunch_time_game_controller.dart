@@ -20,7 +20,6 @@ class LunchTimeGameController extends ChallengeGameController {
   @override
   void onEntityInPit(Entity entity, int x, int y) {
     if (entity is Mouse) {
-      _score = 0;
       pleaseReset();
     }
   }
@@ -33,5 +32,10 @@ class LunchTimeGameController extends ChallengeGameController {
       running = false;
       onWin();
     }
+  }
+
+  @override
+  void onReset() {
+    _score = 0;
   }
 }
