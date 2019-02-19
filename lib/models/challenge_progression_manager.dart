@@ -1,15 +1,15 @@
-import 'package:nyanya_rocket/screens/challenges/widgets/official_challenges.dart';
+import 'package:nyanya_rocket/screens/challenges/widgets/original_challenges.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChallengeProgressionManager {
   List<bool> _statuses =
-      List.filled(OfficialChallenges.challenges.length, false);
+      List.filled(OriginalChallenges.challenges.length, false);
   List<Duration> _times =
-      List.filled(OfficialChallenges.challenges.length, Duration());
+      List.filled(OriginalChallenges.challenges.length, Duration());
   final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
-  static String clearedKeyOf(int i) => "challenge.official.$i.cleared";
-  static String timeKeyOf(int i) => "challenge.official.$i.time";
+  static String clearedKeyOf(int i) => "challenge.original.$i.cleared";
+  static String timeKeyOf(int i) => "challenge.original.$i.time";
 
   Future<void> loadStatuses() async {
     SharedPreferences prefs = await this.prefs;

@@ -4,7 +4,7 @@ import 'package:nyanya_rocket/models/challenge_progression_manager.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
-class OfficialChallenges extends StatefulWidget {
+class OriginalChallenges extends StatefulWidget {
   static final ChallengeProgressionManager progression =
       ChallengeProgressionManager();
 
@@ -112,33 +112,33 @@ class OfficialChallenges extends StatefulWidget {
   ];
 
   @override
-  _OfficialChallengesState createState() {
-    return _OfficialChallengesState();
+  _OriginalChallengesState createState() {
+    return _OriginalChallengesState();
   }
 }
 
-class _OfficialChallengesState extends State<OfficialChallenges> {
+class _OriginalChallengesState extends State<OriginalChallenges> {
   @override
   void initState() {
     super.initState();
 
-    OfficialChallenges.progression.loadStatuses().then((void whatever) {
+    OriginalChallenges.progression.loadStatuses().then((void whatever) {
       setState(() {});
     });
   }
 
   void _handleChallengeWin(int i, Duration time) {
     setState(() {
-      OfficialChallenges.progression.setCleared(i, time);
+      OriginalChallenges.progression.setCleared(i, time);
     });
   }
 
   void _openNext(int i) {
-    if (OfficialChallenges.challenges.length > i + 1) {
+    if (OriginalChallenges.challenges.length > i + 1) {
       Navigator.of(context)
           .push(MaterialPageRoute<OverlayPopData>(
               builder: (context) => Challenge(
-                    challenge: OfficialChallenges.challenges[i + 1],
+                    challenge: OriginalChallenges.challenges[i + 1],
                     onWin: (Duration time) => _handleChallengeWin(i + 1, time),
                   )))
           .then((OverlayPopData popData) {
@@ -155,16 +155,16 @@ class _OfficialChallengesState extends State<OfficialChallenges> {
   Widget build(BuildContext context) {
     return ListView.separated(
         separatorBuilder: (context, int) => Divider(),
-        itemCount: OfficialChallenges.challenges.length,
+        itemCount: OriginalChallenges.challenges.length,
         itemBuilder: (context, i) => ListTile(
-              title: Text(OfficialChallenges.challenges[i].name),
-              subtitle: Text(OfficialChallenges.challenges[i].type.toString()),
-              trailing: OfficialChallenges.progression.hasCleared(i)
+              title: Text(OriginalChallenges.challenges[i].name),
+              subtitle: Text(OriginalChallenges.challenges[i].type.toString()),
+              trailing: OriginalChallenges.progression.hasCleared(i)
                   ? Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(
-                            '${OfficialChallenges.progression.timeOf(i).inSeconds}.${OfficialChallenges.progression.timeOf(i).inMilliseconds % 1000 ~/ 10}s'),
+                            '${OriginalChallenges.progression.timeOf(i).inSeconds}.${OriginalChallenges.progression.timeOf(i).inMilliseconds % 1000 ~/ 10}s'),
                         Icon(
                           Icons.check,
                           color: Colors.green,
@@ -175,7 +175,7 @@ class _OfficialChallengesState extends State<OfficialChallenges> {
                 Navigator.of(context)
                     .push(MaterialPageRoute<OverlayPopData>(
                         builder: (context) => Challenge(
-                              challenge: OfficialChallenges.challenges[i],
+                              challenge: OriginalChallenges.challenges[i],
                               onWin: (Duration time) =>
                                   _handleChallengeWin(i, time),
                             )))

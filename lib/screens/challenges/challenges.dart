@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/screens/challenges/widgets/community_challenges.dart';
 import 'package:nyanya_rocket/screens/challenges/widgets/local_challenges.dart';
-import 'package:nyanya_rocket/screens/challenges/widgets/official_challenges.dart';
+import 'package:nyanya_rocket/screens/challenges/widgets/original_challenges.dart';
 import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
 
 class Challenges extends StatelessWidget {
@@ -32,7 +32,7 @@ class Challenges extends StatelessWidget {
         drawer: DefaultDrawer(),
         body: TabBarView(
           children: [
-            OfficialChallenges(),
+            OriginalChallenges(),
             CommunityChallenges(),
             LocalChallenges()
           ],

@@ -4,7 +4,7 @@ import 'package:nyanya_rocket/models/puzzle_progression_manager.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
-class OfficialPuzzles extends StatefulWidget {
+class OriginalPuzzles extends StatefulWidget {
   static final PuzzleProgressionManager progression =
       PuzzleProgressionManager();
 
@@ -137,34 +137,34 @@ class OfficialPuzzles extends StatefulWidget {
   ];
 
   @override
-  _OfficialPuzzlesState createState() {
-    return _OfficialPuzzlesState();
+  _OriginalPuzzlesState createState() {
+    return _OriginalPuzzlesState();
   }
 }
 
-class _OfficialPuzzlesState extends State<OfficialPuzzles> {
+class _OriginalPuzzlesState extends State<OriginalPuzzles> {
   @override
   void initState() {
     super.initState();
 
-    OfficialPuzzles.progression.loadStatuses().then((void whatever) {
+    OriginalPuzzles.progression.loadStatuses().then((void whatever) {
       setState(() {});
     });
   }
 
   void _handlePuzzleWin(int i, bool starred) {
     setState(() {
-      OfficialPuzzles.progression.setCleared(i);
-      OfficialPuzzles.progression.setStarred(i, starred);
+      OriginalPuzzles.progression.setCleared(i);
+      OriginalPuzzles.progression.setStarred(i, starred);
     });
   }
 
   void _openNext(int i) {
-    if (OfficialPuzzles.puzzles.length > i + 1) {
+    if (OriginalPuzzles.puzzles.length > i + 1) {
       Navigator.of(context)
           .push(MaterialPageRoute<OverlayPopData>(
               builder: (context) => Puzzle(
-                    puzzle: OfficialPuzzles.puzzles[i + 1],
+                    puzzle: OriginalPuzzles.puzzles[i + 1],
                     onWin: (bool starred) => _handlePuzzleWin(i + 1, starred),
                   )))
           .then((OverlayPopData popData) {
@@ -181,19 +181,19 @@ class _OfficialPuzzlesState extends State<OfficialPuzzles> {
   Widget build(BuildContext context) {
     return ListView.separated(
         separatorBuilder: (context, int) => Divider(),
-        itemCount: OfficialPuzzles.puzzles.length,
+        itemCount: OriginalPuzzles.puzzles.length,
         itemBuilder: (context, i) => ListTile(
-              title: Text(OfficialPuzzles.puzzles[i].name),
+              title: Text(OriginalPuzzles.puzzles[i].name),
               trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    OfficialPuzzles.progression.hasStarred(i)
+                    OriginalPuzzles.progression.hasStarred(i)
                         ? Icon(
                             Icons.star,
                             color: Theme.of(context).accentColor,
                           )
                         : null,
-                    OfficialPuzzles.progression.hasCleared(i)
+                    OriginalPuzzles.progression.hasCleared(i)
                         ? Icon(
                             Icons.check,
                             color: Colors.green,
@@ -204,8 +204,9 @@ class _OfficialPuzzlesState extends State<OfficialPuzzles> {
                 Navigator.of(context)
                     .push(MaterialPageRoute<OverlayPopData>(
                         builder: (context) => Puzzle(
-                              puzzle: OfficialPuzzles.puzzles[i],
-                              onWin: (bool starred) => _handlePuzzleWin(i, starred),
+                              puzzle: OriginalPuzzles.puzzles[i],
+                              onWin: (bool starred) =>
+                                  _handlePuzzleWin(i, starred),
                             )))
                     .then((OverlayPopData popData) {
                   if (popData != null) {

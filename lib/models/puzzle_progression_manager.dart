@@ -1,13 +1,13 @@
-import 'package:nyanya_rocket/screens/puzzles/widgets/official_puzzles.dart';
+import 'package:nyanya_rocket/screens/puzzles/widgets/original_puzzles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PuzzleProgressionManager {
-  List<bool> _statuses = List.filled(OfficialPuzzles.puzzles.length, false);
-  List<bool> _stars = List.filled(OfficialPuzzles.puzzles.length, false);
+  List<bool> _statuses = List.filled(OriginalPuzzles.puzzles.length, false);
+  List<bool> _stars = List.filled(OriginalPuzzles.puzzles.length, false);
   final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
-  static String clearedKeyOf(int i) => "puzzle.official.$i.cleared";
-  static String starredKeyOf(int i) => "puzzle.official.$i.starred";
+  static String clearedKeyOf(int i) => "puzzle.original.$i.cleared";
+  static String starredKeyOf(int i) => "puzzle.original.$i.starred";
 
   Future<void> loadStatuses() async {
     SharedPreferences prefs = await this.prefs;
