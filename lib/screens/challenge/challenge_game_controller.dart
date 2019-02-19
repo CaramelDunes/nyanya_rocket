@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/blocs/local_game_controller.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
-import 'package:nyanya_rocket/screens/challenge/cat_soccer_game_controller.dart';
 import 'package:nyanya_rocket/screens/challenge/lunch_time_game_controller.dart';
 import 'package:nyanya_rocket/screens/challenge/one_hundred_mice_game_controller.dart';
 import 'package:nyanya_rocket/screens/challenge/run_away_game_controller.dart';
@@ -52,11 +51,6 @@ abstract class ChallengeGameController extends LocalGameController {
       case ChallengeType.OneHundredMice:
         gameController =
             OneHundredMiceGameController(challenge: challenge, onWin: onWin);
-        break;
-
-      case ChallengeType.CatSoccer:
-        gameController =
-            CatSoccerGameController(challenge: challenge, onWin: onWin);
         break;
     }
 
@@ -125,11 +119,14 @@ abstract class ChallengeGameController extends LocalGameController {
     }
   }
 
+  void onReset() {}
+
   void _reset() {
     running = true;
     pauseFor(Duration(seconds: 3));
     _remainingTime = Duration(seconds: 30);
     timeStream.add(_remainingTime);
+    onReset();
     game = challenge.getGame();
     _pleaseReset = false;
   }

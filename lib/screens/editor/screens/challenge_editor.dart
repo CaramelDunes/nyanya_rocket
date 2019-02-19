@@ -111,7 +111,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
         ];
         break;
 
-      case ChallengeType.CatSoccer:
       default:
         return [];
         break;
