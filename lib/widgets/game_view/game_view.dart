@@ -9,8 +9,9 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class GameView extends StatelessWidget {
   final Board board;
   final SplayTreeMap<int, Entity> entities;
+  final BoardPosition mistake;
 
-  GameView({this.board, this.entities});
+  GameView({@required this.board, @required this.entities, this.mistake});
 
   @override
   Widget build(BuildContext context) => CustomPaint(
@@ -19,9 +20,7 @@ class GameView extends StatelessWidget {
             builder: (BuildContext context, BoxConstraints constraints) =>
                 TilesDrawer(board, constraints)),
         foregroundPainter: ForegroundPainter(
-          board,
-          entities,
-        ),
+            board: board, entities: entities, mistake: mistake),
         isComplex: true,
         willChange: true,
       );

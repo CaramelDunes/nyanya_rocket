@@ -7,18 +7,59 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class ForegroundPainter extends CustomPainter {
   final Board board;
   final SplayTreeMap<int, Entity> entities;
+  final BoardPosition mistake;
 
-  ForegroundPainter(this.board, this.entities);
+  ForegroundPainter(
+      {@required this.board, @required this.entities, this.mistake});
 
   @override
   void paint(Canvas canvas, Size size) {
-    _paintWalls(canvas, size);
     EntitiesDrawerCanvas.drawEntities(canvas, size, entities);
+    _paintWalls(canvas, size);
+    _paintMistake(canvas, size);
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
+  }
+
+  static Offset centerOfPosition(BoardPosition position, double tileSize) {
+    double top = position.y * tileSize + tileSize / 2;
+
+    switch (position.direction) {
+      case Direction.Up:
+        top -= (tileSize / BoardPosition.maxStep) * position.step;
+        top += tileSize / 2;
+        break;
+
+      case Direction.Down:
+        top += (tileSize / BoardPosition.maxStep) * position.step;
+        top -= tileSize / 2;
+        break;
+
+      default:
+        break;
+    }
+
+    double left = position.x * tileSize + tileSize / 2;
+
+    switch (position.direction) {
+      case Direction.Right:
+        left += (tileSize / BoardPosition.maxStep) * position.step;
+        left -= tileSize / 2;
+        break;
+
+      case Direction.Left:
+        left -= (tileSize / BoardPosition.maxStep) * position.step;
+        left += tileSize / 2;
+        break;
+
+      default:
+        break;
+    }
+
+    return Offset(left, top);
   }
 
   void _paintWalls(Canvas canvas, Size size) {
@@ -64,6 +105,18 @@ class ForegroundPainter extends CustomPainter {
           }
         }
       }
+    }
+  }
+
+  void _paintMistake(Canvas canvas, Size size) {
+    if (mistake != null) {
+      canvas.drawCircle(
+          centerOfPosition(mistake, size.width / 12),
+          size.width / 24,
+          Paint()
+            ..color = Colors.red
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2);
     }
   }
 }
