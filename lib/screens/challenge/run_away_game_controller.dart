@@ -18,20 +18,20 @@ class RunAwayGameController extends ChallengeGameController {
 
   @override
   void onMouseEaten(Mouse mouse, Cat cat) {
-    pleaseReset();
+    mistakeMade(mouse.position);
   }
 
   @override
   void onEntityInPit(Entity entity, int x, int y) {
     if (entity is Mouse) {
-      pleaseReset();
+      mistakeMade(entity.position);
     }
   }
 
   @override
   void onEntityInRocket(Entity entity, int x, int y) {
     if (entity is Cat) {
-      pleaseReset();
+      mistakeMade(entity.position);
     } else {
       if (game.scoreOf(PlayerColor.Blue) >= _targetScore) {
         departRockets();

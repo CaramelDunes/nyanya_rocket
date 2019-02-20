@@ -114,6 +114,7 @@ class _ChallengeState extends State<Challenge> {
                                   GameView(
                                     board: snapshot.data.board,
                                     entities: snapshot.data.entities,
+                                    mistake: _challengeController.mistake,
                                   )),
                           onDrop: _handleSwipeAndDrop,
                           onSwipe: _handleSwipeAndDrop,

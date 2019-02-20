@@ -34,6 +34,7 @@ class _PuzzleState extends State<Puzzle> {
   @override
   void initState() {
     super.initState();
+
     _puzzleController =
         PuzzleGameController(puzzle: widget.puzzle, onWin: _handleWin);
     _availableArrows = AvailableArrows(
@@ -43,8 +44,9 @@ class _PuzzleState extends State<Puzzle> {
 
   @override
   void dispose() {
-    _puzzleController.close();
     super.dispose();
+
+    _puzzleController.close();
   }
 
   void _handleTap(int x, int y) {
@@ -72,11 +74,7 @@ class _PuzzleState extends State<Puzzle> {
 
   Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
       List rejectedData, int x, int y) {
-    Position mistake = _puzzleController.consumeMistake();
-
-    if (mistake != null && mistake.x == x && mistake.y == y) {
-      return Container(color: Colors.red);
-    } else if (candidateData.length == 0) return Container();
+    if (candidateData.length == 0) return Container();
     return ArrowImage(
       direction: candidateData[0],
       player: PlayerColor.Blue,
@@ -117,6 +115,7 @@ class _PuzzleState extends State<Puzzle> {
                                   GameView(
                                     board: snapshot.data.board,
                                     entities: snapshot.data.entities,
+                                    mistake: _puzzleController.mistake,
                                   )),
                           onDrop: _handleDropAndSwipe,
                           onTap: _handleTap,

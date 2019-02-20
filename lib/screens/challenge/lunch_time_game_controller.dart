@@ -20,7 +20,7 @@ class LunchTimeGameController extends ChallengeGameController {
   @override
   void onEntityInPit(Entity entity, int x, int y) {
     if (entity is Mouse) {
-      pleaseReset();
+      mistakeMade(entity.position);
     }
   }
 

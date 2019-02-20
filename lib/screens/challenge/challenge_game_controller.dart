@@ -26,6 +26,8 @@ abstract class ChallengeGameController extends LocalGameController {
 
   bool _pleaseReset = false;
 
+  BoardPosition _mistake;
+
   ChallengeGameController({@required this.challenge, this.onWin})
       : super(challenge.getGame()) {
     running = true;
@@ -62,6 +64,15 @@ abstract class ChallengeGameController extends LocalGameController {
     super.close();
 
     timeStream.close();
+  }
+
+  BoardPosition get mistake => _mistake;
+
+  @protected
+  void mistakeMade(BoardPosition position) {
+    _mistake = position;
+    pauseFor(Duration(seconds: 3));
+    pleaseReset();
   }
 
   bool placeArrow(int x, int y, Direction direction) {
@@ -106,7 +117,7 @@ abstract class ChallengeGameController extends LocalGameController {
 
   @mustCallSuper
   @override
-  void afterTick() {
+  void beforeTick() {
     _remainingTime -= Duration(milliseconds: 16);
     timeStream.add(_remainingTime);
 
@@ -119,10 +130,12 @@ abstract class ChallengeGameController extends LocalGameController {
     }
   }
 
+  @protected
   void onReset() {}
 
   void _reset() {
     running = true;
+    _mistake = null;
     pauseFor(Duration(seconds: 3));
     _remainingTime = Duration(seconds: 30);
     timeStream.add(_remainingTime);
@@ -131,6 +144,7 @@ abstract class ChallengeGameController extends LocalGameController {
     _pleaseReset = false;
   }
 
+  @protected
   void pleaseReset() => _pleaseReset = true;
 
   Duration get remainingTime => _remainingTime;

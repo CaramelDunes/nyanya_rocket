@@ -46,11 +46,15 @@ class LocalGameController {
     _game.onArrowExpiry = onArrowExpiry;
   }
 
+  @protected
   void updateGame() {
     gameStream.add(_game);
   }
 
+  @protected
   void beforeTick() {}
+
+  @protected
   void afterTick() {}
 
   void _tick(Timer timer) {
@@ -68,6 +72,8 @@ class LocalGameController {
       _game.tickTiles();
 
       if (faster) {
+        _game.tickEntities();
+        _game.tickTiles();
         _game.tickEntities();
         _game.tickTiles();
       }
@@ -95,11 +101,15 @@ class LocalGameController {
     gameStream.close();
   }
 
+  @protected
   void onMouseEaten(Mouse mouse, Cat cat) {}
 
+  @protected
   void onEntityInPit(Entity entity, int x, int y) {}
 
+  @protected
   void onEntityInRocket(Entity entity, int x, int y) {}
 
+  @protected
   void onArrowExpiry(Arrow arrow, int x, int y) {}
 }

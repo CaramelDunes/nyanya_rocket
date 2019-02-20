@@ -34,7 +34,7 @@ class PuzzleGameController extends LocalGameController {
 
   bool _pleaseReset = false;
 
-  Position _mistake;
+  BoardPosition _mistake;
 
   PuzzleGameController({this.onWin, this.onMistake, @required this.puzzle})
       : super(puzzle.getGame()) {
@@ -49,6 +49,8 @@ class PuzzleGameController extends LocalGameController {
       }
     }
   }
+
+  BoardPosition get mistake => _mistake;
 
   get canPlaceArrow => _canPlaceArrow;
 
@@ -92,8 +94,23 @@ class PuzzleGameController extends LocalGameController {
     return false;
   }
 
+  void removeAllArrows() {
+    if (!_canPlaceArrow) return;
+
+    for (int direction = 0; direction < Direction.values.length; direction++) {
+      for (Position position in placedArrows[direction]) {
+        game.board.tiles[position.x][position.y] = Empty();
+      }
+
+      placedArrows[direction].clear();
+      remainingArrowsStreams[direction]
+          .add(remainingArrows(Direction.values[direction]));
+    }
+  }
+
   void reset() {
     running = false;
+    _mistake = null;
 
     game = puzzle.getGame();
 
@@ -117,36 +134,23 @@ class PuzzleGameController extends LocalGameController {
 
   @override
   void onMouseEaten(Mouse mouse, Cat cat) {
-    _pleaseReset = true;
-
-    if (onMistake != null) {
-      onMistake(mouse.position.x, mouse.position.y);
-      _mistake = Position(mouse.position.x, mouse.position.y);
-    }
+    running = false;
+    _mistake = mouse.position;
   }
 
   @override
   void onEntityInPit(Entity entity, int x, int y) {
     if (entity is Mouse) {
-      _pleaseReset = true;
-
-      _mistake = Position(x, y);
-
-      if (onMistake != null) {
-        onMistake(x, y);
-      }
+      running = false;
+      _mistake = entity.position;
     }
   }
 
   @override
   void onEntityInRocket(Entity entity, int x, int y) {
     if (entity is Cat) {
-      _pleaseReset = true;
-
-      if (onMistake != null) {
-        onMistake(x, y);
-        _mistake = Position(x, y);
-      }
+      running = false;
+      _mistake = entity.position;
     } else {
       _miceInRocket++;
       if (_miceCount == _miceInRocket) {
@@ -172,17 +176,5 @@ class PuzzleGameController extends LocalGameController {
       _pleaseReset = false;
       reset();
     }
-  }
-
-  Position consumeMistake() {
-    // TODO Make error pointing better
-    Position mistake = _mistake;
-    _mistake = null;
-
-    if (mistake != null) {
-      pauseFor(Duration(seconds: 3));
-    }
-
-    return mistake;
   }
 }
