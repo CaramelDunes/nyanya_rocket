@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class LocalGameController {
-  static const Duration tickPeriod = Duration(milliseconds: 16);
+  static const Duration tickPeriod = Duration(milliseconds: 8);
 
   final StreamController<Game> gameStream = StreamController();
 
@@ -68,12 +68,8 @@ class LocalGameController {
 
       _game.tickEntities();
       _game.tickTiles();
-      _game.tickEntities();
-      _game.tickTiles();
 
       if (faster) {
-        _game.tickEntities();
-        _game.tickTiles();
         _game.tickEntities();
         _game.tickTiles();
       }
