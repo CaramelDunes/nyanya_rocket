@@ -52,6 +52,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
 
     return ChallengeData(
       name: widget.challenge.name,
+      author: 'Anonymous',
       type: widget.challenge.type,
       gameData: jsonEncode(gameJson),
     );
@@ -188,7 +189,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
                           onPressed: () {
                             if (uuid == null) {
                               ChallengeEditor.store
-                                  .saveNewPuzzle(_buildChallengeData())
+                                  .saveNewChallenge(_buildChallengeData())
                                   .then((String uuid) {
                                 this.uuid = uuid;
                                 print('Saved $uuid');

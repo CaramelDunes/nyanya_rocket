@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
+import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/screens/editor/screens/challenge_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/multiplayer_editor.dart';
@@ -129,12 +130,17 @@ class CreateTabState extends State<CreateTab>
                               case EditorMode.Challenge:
                                 return ChallengeEditor(
                                   challenge: ChallengeData.withBorder(
-                                      name: _name, type: _challengeType),
+                                      name: _name,
+                                      author: 'Anonymous',
+                                      type: _challengeType),
                                 );
                                 break;
 
                               case EditorMode.Multiplayer:
-                                return MultiplayerEditor(name: _name);
+                                return MultiplayerEditor(
+                                  board: MultiplayerBoard.withBorder(
+                                      name: _name, maxPlayer: 2),
+                                );
                                 break;
                             }
                           }));

@@ -13,7 +13,7 @@ final MultiplayerBoard testData = MultiplayerBoard(
     name: 'Local Multiplayer',
     boardData:
         '{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":3,"player":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":4, "direction":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,1,1,1,1,1,1,1],[2,2,0,0,0,0,0,1,2],[2,3,0,0,0,0,0,0,2],[2,2,0,0,0,0,0,1,2],[2,1,0,0,0,0,0,0,0],[2,3,0,0,0,0,0,0,2],[2,2,0,0,0,0,0,1,2],[2,1,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,2],[2,2,0,0,0,0,0,1,2],[2,1,0,0,0,0,0,0,2],[2,0,0,0,0,0,0,1,0]]}',
-    playerCount: 2);
+    maxPlayer: 2);
 
 class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
   int _playerCount = 2;

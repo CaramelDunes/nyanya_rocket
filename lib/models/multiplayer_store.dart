@@ -2,23 +2,24 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:nyanya_rocket/models/challenge_data.dart';
+import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
-class ChallengeStore {
+class MultiplayerStore {
   HashMap<String, String> _entries = HashMap();
 
   File _registryFile;
 
   final Uuid uuid = Uuid();
+  final String registryLocation = 'multiplayer/registry.txt';
 
   Future<HashMap> readRegistry() async {
     _entries.clear();
 
     Directory directory = await getApplicationDocumentsDirectory();
 
-    _registryFile = File('${directory.path}/challenges/registry.txt');
+    _registryFile = File('${directory.path}/$registryLocation');
 
     if (!_registryFile.existsSync()) {
       _registryFile.createSync(recursive: true);
@@ -51,7 +52,7 @@ class ChallengeStore {
 
     Directory directory = await getApplicationDocumentsDirectory();
 
-    _registryFile = File('${directory.path}/challenges/registry.txt');
+    _registryFile = File('${directory.path}/$registryLocation');
 
     if (!_registryFile.existsSync()) {
       _registryFile.createSync(recursive: true);
@@ -66,32 +67,32 @@ class ChallengeStore {
     return true;
   }
 
-  Future<bool> _writeChallenge(String uuid, ChallengeData challengeData) async {
+  Future<bool> _writeBoard(String uuid, MultiplayerBoard board) async {
     Directory directory = await getApplicationDocumentsDirectory();
 
-    File challengeFile = File('${directory.path}/challenges/$uuid.txt');
+    File boardFile = File('${directory.path}/multiplayer/$uuid.txt');
 
-    if (!challengeFile.existsSync()) {
-      challengeFile.createSync();
+    if (!boardFile.existsSync()) {
+      boardFile.createSync();
 
-      if (!challengeFile.existsSync()) {
+      if (!boardFile.existsSync()) {
         return false;
       }
     }
 
-    await challengeFile.writeAsString(jsonEncode(challengeData.toJson()));
+    await boardFile.writeAsString(jsonEncode(board.toJson()));
 
     return true;
   }
 
-  Future<String> saveNewChallenge(ChallengeData challengeData) async {
+  Future<String> saveNewBoard(MultiplayerBoard board) async {
     await readRegistry();
 
     String newUuid = uuid.v4();
 
     if (!_entries.containsKey(newUuid)) {
-      if (await _writeChallenge(newUuid, challengeData)) {
-        _entries[newUuid] = challengeData.name;
+      if (await _writeBoard(newUuid, board)) {
+        _entries[newUuid] = board.name;
         _writeRegistry();
         return newUuid;
       }
@@ -100,28 +101,29 @@ class ChallengeStore {
     return '';
   }
 
-  Future<bool> updateChallenge(String uuid, ChallengeData challengeData) async {
+  Future<bool> updateBoard(
+      String uuid, MultiplayerBoard multiplayerBoard) async {
     await readRegistry();
 
     if (_entries.containsKey(uuid) &&
-        await _writeChallenge(uuid, challengeData)) {
-      _entries[uuid] = challengeData.name;
+        await _writeBoard(uuid, multiplayerBoard)) {
+      _entries[uuid] = multiplayerBoard.name;
       return true;
     }
 
     return false;
   }
 
-  Future<ChallengeData> readChallenge(String uuid) async {
+  Future<MultiplayerBoard> readBoard(String uuid) async {
     if (_entries.containsKey(uuid)) {
       Directory directory = await getApplicationDocumentsDirectory();
 
-      File challengeFile = File('${directory.path}/challenges/$uuid.txt');
+      File boardFile = File('${directory.path}/multiplayer/$uuid.txt');
 
-      if (challengeFile.existsSync()) {
-        var readAsStringSync = challengeFile.readAsStringSync();
-        ChallengeData data =
-            ChallengeData.fromJson(jsonDecode(readAsStringSync));
+      if (boardFile.existsSync()) {
+        var readAsStringSync = boardFile.readAsStringSync();
+        MultiplayerBoard data =
+            MultiplayerBoard.fromJson(jsonDecode(readAsStringSync));
 
         return data;
       }
@@ -130,11 +132,11 @@ class ChallengeStore {
     return null;
   }
 
-  Future<bool> deleteChallenge(String uuid) async {
+  Future<bool> deleteBoard(String uuid) async {
     if (_entries.containsKey(uuid)) {
       Directory directory = await getApplicationDocumentsDirectory();
 
-      File('${directory.path}/challenges/$uuid.txt').deleteSync();
+      File('${directory.path}/multiplayer/$uuid.txt').deleteSync();
 
       _entries.remove(uuid);
       await _writeRegistry();

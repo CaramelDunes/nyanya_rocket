@@ -39,13 +39,18 @@ class ChallengeType {
 
 class ChallengeData {
   final String name;
+  final String author;
   final String gameData;
   final ChallengeType type;
 
   ChallengeData(
-      {@required this.name, @required this.gameData, @required this.type});
+      {@required this.name,
+      @required this.author,
+      @required this.gameData,
+      @required this.type});
 
-  ChallengeData.withBorder({@required this.name, @required this.type})
+  ChallengeData.withBorder(
+      {@required this.name, @required this.author, @required this.type})
       : gameData = jsonEncode((Game()..board = Board.withBorder()).toJson());
 
   Game getGame() => Game.fromJson(jsonDecode(gameData));
@@ -53,6 +58,7 @@ class ChallengeData {
   static ChallengeData fromJson(Map<String, dynamic> json) {
     return ChallengeData(
         name: json['name'],
+        author: json['author'],
         gameData: json['gameData'],
         type: ChallengeType.values[json['type']]);
   }
