@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/blocs/local_game_controller.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
@@ -26,10 +27,11 @@ abstract class ChallengeGameController extends LocalGameController {
 
   bool _pleaseReset = false;
 
-  BoardPosition _mistake;
+  ValueNotifier<BoardPosition> _mistake = ValueNotifier(null);
 
   ChallengeGameController({@required this.challenge, this.onWin})
-      : super(challenge.getGame()) {
+      : super(
+            challenge.getGame()..generatorPolicy = GeneratorPolicy.Challenge) {
     running = true;
     pauseFor(Duration(seconds: 3));
   }
@@ -66,13 +68,14 @@ abstract class ChallengeGameController extends LocalGameController {
     timeStream.close();
   }
 
-  BoardPosition get mistake => _mistake;
+  ValueNotifier<BoardPosition> get mistake => _mistake;
 
   @protected
   void mistakeMade(BoardPosition position) {
-    _mistake = position;
-    pauseFor(Duration(seconds: 3));
-    pleaseReset();
+    _mistake.value = position;
+    running = false;
+    // pauseFor(Duration(seconds: 3));
+    // pleaseReset();
   }
 
   bool placeArrow(int x, int y, Direction direction) {
@@ -118,7 +121,7 @@ abstract class ChallengeGameController extends LocalGameController {
   @mustCallSuper
   @override
   void beforeTick() {
-    _remainingTime -= Duration(milliseconds: 16);
+    _remainingTime -= LocalGameController.tickPeriod;
     timeStream.add(_remainingTime);
 
     if (_remainingTime.isNegative) {
@@ -127,6 +130,7 @@ abstract class ChallengeGameController extends LocalGameController {
 
     if (_pleaseReset) {
       _reset();
+      _pleaseReset = false;
     }
   }
 
@@ -140,12 +144,43 @@ abstract class ChallengeGameController extends LocalGameController {
     _remainingTime = Duration(seconds: 30);
     timeStream.add(_remainingTime);
     onReset();
-    game = challenge.getGame();
-    _pleaseReset = false;
+    game = challenge.getGame()..generatorPolicy = GeneratorPolicy.Challenge;
   }
 
-  @protected
-  void pleaseReset() => _pleaseReset = true;
+  void pleaseReset() {
+    if (running) {
+      _pleaseReset = true;
+    } else {
+      _reset();
+    }
+  }
 
   Duration get remainingTime => _remainingTime;
+
+  StreamController<int> get scoreStream;
+  int get targetScore;
+
+  String get objective {
+    switch (challenge.type) {
+      case ChallengeType.GetMice:
+        return 'Lead all mice to the goal within 30 sec.';
+        break;
+
+      case ChallengeType.RunAway:
+        return 'Avoid the cat and get to the goal!';
+        break;
+
+      case ChallengeType.LunchTime:
+        return 'Feed the cat!';
+        break;
+
+      case ChallengeType.OneHundredMice:
+        return 'Collect 100 mice in 30 sec.';
+        break;
+
+      default:
+        return '';
+        break;
+    }
+  }
 }

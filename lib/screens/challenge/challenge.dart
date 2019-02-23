@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
 import 'package:nyanya_rocket/screens/challenge/widgets/arrow_drawer.dart';
-import 'package:nyanya_rocket/screens/challenge/widgets/challenge_game_controls.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
@@ -90,15 +89,64 @@ class _ChallengeState extends State<Challenge> {
                 MediaQuery.of(context).orientation == Orientation.portrait
                     ? Axis.vertical
                     : Axis.horizontal,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Spacer(),
+              Spacer(flex: 1),
+              Flexible(
+                flex: 5,
+                child: Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(widget.challenge.name),
+                      Text('by ${widget.challenge.author}'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          FlatButton(
+                            child: Text(
+                              'NEXT',
+                              style: TextStyle(
+                                  color: Theme.of(context).accentColor),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pop(OverlayPopData(playNext: true));
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Divider(),
-              StreamBuilder<Duration>(
-                  stream: _challengeController.timeStream.stream,
-                  initialData: Duration(seconds: 30),
-                  builder: (context, snapshot) {
-                    return Countdown(remaining: snapshot.data);
-                  }),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Flexible(
+                      flex: 3, child: Text(_challengeController.objective)),
+                  Flexible(
+                    flex: 1,
+                    child: StreamBuilder<int>(
+                        stream: _challengeController.scoreStream.stream,
+                        initialData: 0,
+                        builder: (context, snapshot) {
+                          return Text(
+                            '${snapshot.data} / ${_challengeController.targetScore}',
+                          );
+                        }),
+                  ),
+                ],
+              ),
+              Flexible(
+                child: StreamBuilder<Duration>(
+                    stream: _challengeController.timeStream.stream,
+                    initialData: Duration(seconds: 30),
+                    builder: (context, snapshot) {
+                      return Countdown(remaining: snapshot.data);
+                    }),
+              ),
               Flexible(
                   flex: 0,
                   child: Padding(
@@ -106,25 +154,27 @@ class _ChallengeState extends State<Challenge> {
                     child: AspectRatio(
                         aspectRatio: 12.0 / 9.0,
                         child: InputGridOverlay<Direction>(
-                          child: StreamBuilder<Game>(
-                              stream: _challengeController.gameStream.stream,
-                              initialData: Game(),
-                              builder: (BuildContext context,
-                                      AsyncSnapshot<Game> snapshot) =>
-                                  GameView(
-                                    board: snapshot.data.board,
-                                    entities: snapshot.data.entities,
-                                    mistake: _challengeController.mistake,
-                                  )),
+                          child: GameView(
+                            game: _challengeController.gameStream,
+                            mistake: _challengeController.mistake,
+                          ),
                           onDrop: _handleSwipeAndDrop,
                           onSwipe: _handleSwipeAndDrop,
                           previewBuilder: _dragTileBuilder,
                         )),
                   )),
-              Flexible(child: _availableArrows),
-              ChallengeGameControls(
-                challengeController: _challengeController,
-              ),
+              Flexible(flex: 3, child: _availableArrows),
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  icon: Icon(Icons.restore),
+                  onPressed: () {
+                    setState(() {
+                      _challengeController.pleaseReset();
+                    });
+                  },
+                ),
+              )
             ],
           ),
           _ended ? SuccessOverlay(succeededName: widget.challenge.name) : null,

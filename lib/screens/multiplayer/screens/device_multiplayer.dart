@@ -141,16 +141,9 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
                         child: AspectRatio(
                             aspectRatio: 12.0 / 9.0,
                             child: InputGridOverlay<Tile>(
-                              child: StreamBuilder<Game>(
-                                  stream: _localMultiplayerController
-                                      .gameStream.stream,
-                                  initialData: Game(),
-                                  builder: (BuildContext context,
-                                          AsyncSnapshot<Game> snapshot) =>
-                                      GameView(
-                                        board: snapshot.data.board,
-                                        entities: snapshot.data.entities,
-                                      )),
+                              child:  GameView(
+                                game: _localMultiplayerController.gameStream,
+                              ),
                               onDrop: _handleDrop,
                               previewBuilder: _dragTileBuilder,
                             )),

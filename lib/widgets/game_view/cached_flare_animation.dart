@@ -26,7 +26,6 @@ class CachedFlareAnimation {
 
         if (animation != null) {
           _numberOfFrames = (animation.duration * fps).floor();
-          print(_numberOfFrames);
           AABB bounds = artboard.artboardAABB();
 
           _size = Size(bounds[2] - bounds[0], bounds[3] - bounds[1]);
@@ -53,10 +52,10 @@ class CachedFlareAnimation {
   }
 
   void advance() {
-    _currentFrame = (_currentFrame + 1) % _numberOfFrames;
+    _currentFrame = (_currentFrame + 2) % _numberOfFrames;
   }
 
-  void draw(Canvas canvas, Size size, double x, double y) {
+  void draw(Canvas canvas, Size size, double x, double y, int frameNb) {
     if (_cachedPictures != null) {
       double scaleX = 1.0, scaleY = 1.0;
 
@@ -74,7 +73,7 @@ class CachedFlareAnimation {
 
       canvas.translate(x, y);
       canvas.scale(scaleX, scaleY);
-      canvas.drawImage(_cachedPictures[_currentFrame], Offset.zero, Paint());
+      canvas.drawImage(_cachedPictures[frameNb], Offset.zero, Paint());
 
       canvas.restore();
     }

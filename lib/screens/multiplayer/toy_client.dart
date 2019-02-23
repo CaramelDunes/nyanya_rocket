@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/screens/multiplayer/toy_server.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
@@ -12,7 +13,7 @@ class ToyClient {
 
   RawDatagramSocket _socket;
   final List<String> _players = List.filled(4, '');
-  final StreamController<Game> gameStream = StreamController();
+  final ValueNotifier<Game> gameStream = ValueNotifier(Game());
   final StreamController<Duration> timeStream = StreamController();
   final List<StreamController<int>> scoreStreams =
       List.generate(4, (_) => StreamController(), growable: false);
@@ -49,8 +50,6 @@ class ToyClient {
 
   void close() {
     _socket?.close();
-
-    gameStream.close();
     timeStream.close();
     scoreStreams.forEach((StreamController stream) => stream.close());
   }
@@ -83,7 +82,7 @@ class ToyClient {
             ProtocolGame g = ProtocolGame.fromBuffer(buffer);
 
             if (_timestamp < g.timestamp) {
-              gameStream.add(Game.fromProtocolGame(g));
+              gameStream.value = Game.fromProtocolGame(g);
               _timestamp = g.timestamp;
               timeStream.add(Duration(milliseconds: _timestamp * 16));
 

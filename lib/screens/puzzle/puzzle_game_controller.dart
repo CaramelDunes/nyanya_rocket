@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/blocs/local_game_controller.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
@@ -34,7 +35,7 @@ class PuzzleGameController extends LocalGameController {
 
   bool _pleaseReset = false;
 
-  BoardPosition _mistake;
+  ValueNotifier<BoardPosition> _mistake = ValueNotifier(null);
 
   PuzzleGameController({this.onWin, this.onMistake, @required this.puzzle})
       : super(puzzle.getGame()) {
@@ -50,7 +51,7 @@ class PuzzleGameController extends LocalGameController {
     }
   }
 
-  BoardPosition get mistake => _mistake;
+  ValueNotifier<BoardPosition> get mistake => _mistake;
 
   get canPlaceArrow => _canPlaceArrow;
 
@@ -110,7 +111,7 @@ class PuzzleGameController extends LocalGameController {
 
   void reset() {
     running = false;
-    _mistake = null;
+    _mistake.value = null;
 
     game = puzzle.getGame();
 
@@ -135,14 +136,14 @@ class PuzzleGameController extends LocalGameController {
   @override
   void onMouseEaten(Mouse mouse, Cat cat) {
     running = false;
-    _mistake = mouse.position;
+    _mistake.value = mouse.position;
   }
 
   @override
   void onEntityInPit(Entity entity, int x, int y) {
     if (entity is Mouse) {
       running = false;
-      _mistake = entity.position;
+      _mistake.value = entity.position;
     }
   }
 
@@ -150,7 +151,7 @@ class PuzzleGameController extends LocalGameController {
   void onEntityInRocket(Entity entity, int x, int y) {
     if (entity is Cat) {
       running = false;
-      _mistake = entity.position;
+      _mistake.value = entity.position;
     } else {
       _miceInRocket++;
       if (_miceCount == _miceInRocket) {

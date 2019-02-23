@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class LocalGameController {
-  static const Duration tickPeriod = Duration(milliseconds: 8);
+  static const Duration tickPeriod = Duration(milliseconds: 16);
 
-  final StreamController<Game> gameStream = StreamController();
+  final ValueNotifier<Game> gameStream;
 
   Game _game;
 
@@ -17,7 +18,7 @@ class LocalGameController {
 
   Duration _pauseDuration = Duration.zero;
 
-  LocalGameController(this._game) {
+  LocalGameController(this._game) : gameStream = ValueNotifier(_game) {
     _timer = Timer.periodic(tickPeriod, _tick);
     updateGame();
 
@@ -33,7 +34,7 @@ class LocalGameController {
     _pauseDuration = duration;
   }
 
-  bool get paused => _pauseDuration >= Duration.zero;
+  bool get paused => _pauseDuration > Duration.zero;
 
   set game(Game g) {
     _game = g;
@@ -48,7 +49,7 @@ class LocalGameController {
 
   @protected
   void updateGame() {
-    gameStream.add(_game);
+    gameStream.value = _game;
   }
 
   @protected
@@ -66,17 +67,17 @@ class LocalGameController {
     if (running) {
       beforeTick();
 
-      _game.tickEntities();
-      _game.tickTiles();
+      _game.tick();
+      _game.tick();
 
       if (faster) {
-        _game.tickEntities();
-        _game.tickTiles();
+        _game.tick();
+        _game.tick();
       }
 
-      updateGame();
-
       afterTick();
+
+      updateGame();
     }
   }
 
@@ -94,7 +95,7 @@ class LocalGameController {
   @mustCallSuper
   void close() {
     _timer.cancel();
-    gameStream.close();
+    gameStream.dispose();
   }
 
   @protected

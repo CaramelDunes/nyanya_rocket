@@ -107,16 +107,10 @@ class _PuzzleState extends State<Puzzle> {
                     child: AspectRatio(
                         aspectRatio: 12.0 / 9.0,
                         child: InputGridOverlay<Direction>(
-                          child: StreamBuilder<Game>(
-                              stream: _puzzleController.gameStream.stream,
-                              initialData: Game(),
-                              builder: (BuildContext context,
-                                      AsyncSnapshot<Game> snapshot) =>
-                                  GameView(
-                                    board: snapshot.data.board,
-                                    entities: snapshot.data.entities,
-                                    mistake: _puzzleController.mistake,
-                                  )),
+                          child: GameView(
+                            game: _puzzleController.gameStream,
+                            mistake: _puzzleController.mistake,
+                          ),
                           onDrop: _handleDropAndSwipe,
                           onTap: _handleTap,
                           onSwipe: _handleDropAndSwipe,

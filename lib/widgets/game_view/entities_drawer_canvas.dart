@@ -63,7 +63,7 @@ class EntitiesDrawerCanvas {
     return left;
   }
 
-  void draw(Entity entity, double tileSize, Canvas canvas) {
+  void draw(Entity entity, double tileSize, Canvas canvas, int frameNb) {
     final double catBonusSize = tileSize / 2;
 
     switch (entity.runtimeType) {
@@ -72,7 +72,8 @@ class EntitiesDrawerCanvas {
             canvas,
             Size(tileSize, tileSize + catBonusSize),
             leftOfEntity(entity, tileSize),
-            topOfEntity(entity, tileSize) - catBonusSize);
+            topOfEntity(entity, tileSize) - catBonusSize,
+            frameNb);
         break;
 
       case GoldenMouse:
@@ -81,7 +82,8 @@ class EntitiesDrawerCanvas {
             canvas,
             Size(tileSize, tileSize),
             leftOfEntity(entity, tileSize),
-            topOfEntity(entity, tileSize));
+            topOfEntity(entity, tileSize),
+            frameNb);
         break;
 
       default:
@@ -90,7 +92,8 @@ class EntitiesDrawerCanvas {
   }
 
   void drawEntities(
-      Canvas canvas, Size size, SplayTreeMap<int, Entity> entities) {
+      Canvas canvas, Size size, SplayTreeMap<int, Entity> entities,
+      [int frameNb = 0]) {
     mouseAnimations
         .forEach((CachedFlareAnimation animation) => animation.advance());
     catAnimations
@@ -100,13 +103,13 @@ class EntitiesDrawerCanvas {
 
     entities.forEach((int key, Entity entity) {
       if (entity is! Cat) {
-        draw(entity, tileSize, canvas);
+        draw(entity, tileSize, canvas, frameNb);
       }
     });
 
     entities.forEach((int key, Entity entity) {
       if (entity is Cat) {
-        draw(entity, tileSize, canvas);
+        draw(entity, tileSize, canvas, frameNb);
       }
     });
   }

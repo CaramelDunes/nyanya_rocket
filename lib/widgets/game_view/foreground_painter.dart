@@ -1,22 +1,28 @@
-import 'dart:collection';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/game_view/entities_drawer_canvas.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class ForegroundPainter extends CustomPainter {
-  final Board board;
-  final SplayTreeMap<int, Entity> entities;
-  final BoardPosition mistake;
+  final ValueListenable<Game> game;
+  final ValueListenable<BoardPosition> mistake;
   final EntitiesDrawerCanvas _entitiesDrawer = EntitiesDrawerCanvas();
+  final double timestamp;
+
+  final Animation entityAnimation;
 
   ForegroundPainter(
-      {@required this.board, @required this.entities, this.mistake});
+      {@required this.game,
+      @required this.timestamp,
+      @required this.entityAnimation,
+      this.mistake})
+      : super(repaint: entityAnimation);
 
   @override
   void paint(Canvas canvas, Size size) {
     _paintWalls(canvas, size);
-    _entitiesDrawer.drawEntities(canvas, size, entities);
+    _entitiesDrawer.drawEntities(
+        canvas, size, game.value.entities, entityAnimation.value);
     _paintMistake(canvas, size);
   }
 
@@ -74,14 +80,14 @@ class ForegroundPainter extends CustomPainter {
 
     for (int x = 0; x < 12; x++) {
       for (int y = 0; y < 9; y++) {
-        if (board.hasUpWall(x, y)) {
+        if (game.value.board.hasUpWall(x, y)) {
           canvas.drawRect(
               Rect.fromLTWH(
                   x * xStep, y * yStep - wallWidth / 2, xStep, wallWidth),
               wallPaint);
         }
 
-        if (board.hasLeftWall(x, y)) {
+        if (game.value.board.hasLeftWall(x, y)) {
           canvas.drawRect(
               Rect.fromLTWH(
                   x * xStep - wallWidth / 2, y * yStep, wallWidth, yStep),
@@ -89,7 +95,7 @@ class ForegroundPainter extends CustomPainter {
         }
 
         if (y == 8) {
-          if (board.hasDownWall(x, y)) {
+          if (game.value.board.hasDownWall(x, y)) {
             canvas.drawRect(
                 Rect.fromLTWH(x * xStep, (y + 1) * yStep - wallWidth / 2, xStep,
                     wallWidth),
@@ -98,7 +104,7 @@ class ForegroundPainter extends CustomPainter {
         }
 
         if (x == 11) {
-          if (board.hasRightWall(x, y)) {
+          if (game.value.board.hasRightWall(x, y)) {
             canvas.drawRect(
                 Rect.fromLTWH((x + 1) * xStep - wallWidth / 2, y * yStep,
                     wallWidth, yStep),
@@ -110,14 +116,16 @@ class ForegroundPainter extends CustomPainter {
   }
 
   void _paintMistake(Canvas canvas, Size size) {
-    if (mistake != null) {
+    if (mistake != null &&
+        mistake.value != null &&
+        entityAnimation.value > 15) {
       canvas.drawCircle(
-          centerOfPosition(mistake, size.width / 12),
+          centerOfPosition(mistake.value, size.width / 12),
           size.width / 24,
           Paint()
             ..color = Colors.red
             ..style = PaintingStyle.stroke
-            ..strokeWidth = 2);
+            ..strokeWidth = 4);
     }
   }
 }
