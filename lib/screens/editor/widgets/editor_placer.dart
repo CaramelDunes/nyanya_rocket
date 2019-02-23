@@ -21,7 +21,8 @@ class EditorTool {
   final Tile tile;
   final Direction direction;
 
-  const EditorTool({@required this.type, this.tile, this.entityType, this.direction});
+  const EditorTool(
+      {@required this.type, this.tile, this.entityType, this.direction});
 }
 
 class EditorPlacer extends StatefulWidget {
@@ -120,7 +121,10 @@ class _EditorPlacerState extends State<EditorPlacer> {
   }
 
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context) => Flex(
+        direction: MediaQuery.of(context).orientation == Orientation.portrait
+            ? Axis.vertical
+            : Axis.horizontal,
         children: <Widget>[
           Expanded(
               flex: 0,
@@ -129,22 +133,20 @@ class _EditorPlacerState extends State<EditorPlacer> {
                 child: AspectRatio(
                     aspectRatio: 12.0 / 9.0,
                     child: InputGridOverlay<EditorTool>(
-                      child: StreamBuilder<Game>(
-                          stream: widget.editorGameController.gameStream.stream,
-                          initialData: Game(),
-                          builder: (BuildContext context,
-                                  AsyncSnapshot<Game> snapshot) =>
-                              GameView(
-                                board: snapshot.data.board,
-                                entities: snapshot.data.entities,
-                              )),
+                      child: GameView(
+                        game: widget.editorGameController.gameStream,
+                      ),
                       previewBuilder: _dragTileBuilder,
                       onDrop: _handleDrop,
                       onTap: _handleTap,
                     )),
               )),
           Expanded(
-              child: Row(
+              child: Flex(
+            direction:
+                MediaQuery.of(context).orientation == Orientation.portrait
+                    ? Axis.horizontal
+                    : Axis.vertical,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: List<Widget>.generate(widget.menus.length, (int i) {
               return Expanded(
@@ -168,7 +170,10 @@ class _EditorPlacerState extends State<EditorPlacer> {
       );
 
   Widget _subModeBuilder() {
-    return Row(
+    return Flex(
+      direction: MediaQuery.of(context).orientation == Orientation.portrait
+          ? Axis.horizontal
+          : Axis.vertical,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: List<Widget>.generate(widget.menus[_selected].subMenu.length,
           (int i) {

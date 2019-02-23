@@ -106,7 +106,10 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
           title: Text(widget.puzzle.name),
         ),
         resizeToAvoidBottomPadding: false,
-        body: Column(
+        body: Flex(
+          direction: MediaQuery.of(context).orientation == Orientation.portrait
+              ? Axis.vertical
+              : Axis.horizontal,
           children: <Widget>[
             Expanded(
                 child: EditorPlacer(
@@ -124,51 +127,58 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
                   StandardMenus.walls,
                   StandardMenus.eraser,
                 ])),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          child: Text("Try"),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => Puzzle(
-                                      puzzle: _buildPuzzleData(),
-                                    )));
-                          }),
+            Flexible(
+              flex: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Flex(
+                  direction:
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? Axis.horizontal
+                          : Axis.vertical,
+                  children: <Widget>[
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RaisedButton(
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            child: Text("Try"),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) => Puzzle(
+                                        puzzle: _buildPuzzleData(),
+                                      )));
+                            }),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          child: Text("Save"),
-                          onPressed: () {
-                            if (uuid == null) {
-                              PuzzleEditor.store
-                                  .saveNewPuzzle(_buildPuzzleData())
-                                  .then((String uuid) {
-                                this.uuid = uuid;
-                                print('Saved $uuid');
-                              });
-                            } else {
-                              PuzzleEditor.store
-                                  .updatePuzzle(uuid, _buildPuzzleData())
-                                  .then((bool status) {
-                                print('Updated $uuid');
-                              });
-                            }
-                          }),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RaisedButton(
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            child: Text("Save"),
+                            onPressed: () {
+                              if (uuid == null) {
+                                PuzzleEditor.store
+                                    .saveNewPuzzle(_buildPuzzleData())
+                                    .then((String uuid) {
+                                  this.uuid = uuid;
+                                  print('Saved $uuid');
+                                });
+                              } else {
+                                PuzzleEditor.store
+                                    .updatePuzzle(uuid, _buildPuzzleData())
+                                    .then((bool status) {
+                                  print('Updated $uuid');
+                                });
+                              }
+                            }),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           ],

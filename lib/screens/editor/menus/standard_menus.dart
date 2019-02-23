@@ -77,6 +77,13 @@ class StandardMenus {
     EditorTool(type: ToolType.Tile, tile: Generator(direction: Direction.Down)),
   ]);
 
+  static const EditorMenu rockets = EditorMenu(subMenu: <EditorTool>[
+    EditorTool(type: ToolType.Tile, tile: Rocket(player: PlayerColor.Blue)),
+    EditorTool(type: ToolType.Tile, tile: Rocket(player: PlayerColor.Yellow)),
+    EditorTool(type: ToolType.Tile, tile: Rocket(player: PlayerColor.Red)),
+    EditorTool(type: ToolType.Tile, tile: Rocket(player: PlayerColor.Green)),
+  ]);
+
   static const EditorMenu eraser = EditorMenu(
       representative: Icon(FontAwesomeIcons.eraser),
       subMenu: <EditorTool>[
