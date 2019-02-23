@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/widgets/not_implemented.dart';
 
 class CommunityPuzzles extends StatefulWidget {
   @override
@@ -10,6 +11,6 @@ class CommunityPuzzles extends StatefulWidget {
 class _CommunityPuzzlesState extends State<CommunityPuzzles> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return NotImplemented();
   }
 }
