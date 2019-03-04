@@ -39,10 +39,13 @@ class CachedFlareAnimation {
             ui.Canvas canvas = ui.Canvas(pictureRecorder);
 
             artboard.draw(canvas); // TODO Make cache building async
-
-            return pictureRecorder
+            pictureRecorder
                 .endRecording()
-                .toImage(_size.width.floor(), _size.height.floor());
+                .toImage(_size.width.floor(), _size.height.floor())
+                .then((ui.Image img) {
+              _cachedPictures[i] = img;
+            });
+            return null;
           }, growable: false);
 
           _cachedPictures = cache;
@@ -56,7 +59,7 @@ class CachedFlareAnimation {
   }
 
   void draw(Canvas canvas, Size size, double x, double y, int frameNb) {
-    if (_cachedPictures != null) {
+    if (_cachedPictures != null && _cachedPictures[frameNb] != null) {
       double scaleX = 1.0, scaleY = 1.0;
 
       double minScale =
