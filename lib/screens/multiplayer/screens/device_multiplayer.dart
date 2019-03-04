@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/screens/multiplayer/device_multiplayer_game_contro
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
-import 'package:nyanya_rocket/widgets/game_view/game_view.dart';
+import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
@@ -141,7 +141,7 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
                         child: AspectRatio(
                             aspectRatio: 12.0 / 9.0,
                             child: InputGridOverlay<Tile>(
-                              child:  GameView(
+                              child:  AnimatedGameView(
                                 game: _localMultiplayerController.gameStream,
                               ),
                               onDrop: _handleDrop,

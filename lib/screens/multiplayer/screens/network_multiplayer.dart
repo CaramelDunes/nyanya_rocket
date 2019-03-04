@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/screens/multiplayer/toy_client.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
-import 'package:nyanya_rocket/widgets/game_view/game_view.dart';
+import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -105,7 +105,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                         child: AspectRatio(
                             aspectRatio: 12.0 / 9.0,
                             child: InputGridOverlay<int>(
-                              child: GameView(
+                              child: AnimatedGameView(
                                 game: _localMultiplayerController.gameStream,
                               ),
                               onSwipe: _handleSwipe,

@@ -3,27 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/game_view/entities_drawer_canvas.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class ForegroundPainter extends CustomPainter {
+class StaticForegroundPainter extends CustomPainter {
   final ValueListenable<Game> game;
-  final ValueListenable<BoardPosition> mistake;
   final EntitiesDrawerCanvas _entitiesDrawer = EntitiesDrawerCanvas();
-  final double timestamp;
 
-  final Animation entityAnimation;
-
-  ForegroundPainter(
-      {@required this.game,
-      @required this.timestamp,
-      @required this.entityAnimation,
-      this.mistake})
-      : super(repaint: entityAnimation);
+  StaticForegroundPainter({@required this.game});
 
   @override
   void paint(Canvas canvas, Size size) {
     _paintWalls(canvas, size);
-    _entitiesDrawer.drawEntities(
-        canvas, size, game.value.entities, entityAnimation.value);
-    _paintMistake(canvas, size);
+    _entitiesDrawer.drawEntities(canvas, size, game.value.entities, 0);
   }
 
   @override
@@ -112,20 +101,6 @@ class ForegroundPainter extends CustomPainter {
           }
         }
       }
-    }
-  }
-
-  void _paintMistake(Canvas canvas, Size size) {
-    if (mistake != null &&
-        mistake.value != null &&
-        entityAnimation.value > 15) {
-      canvas.drawCircle(
-          centerOfPosition(mistake.value, size.width / 12),
-          size.width / 24,
-          Paint()
-            ..color = Colors.red
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 4);
     }
   }
 }

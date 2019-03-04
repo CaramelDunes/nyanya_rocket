@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
 import 'package:nyanya_rocket/screens/puzzle/widgets/available_arrows.dart';
 import 'package:nyanya_rocket/screens/puzzle/widgets/puzzle_game_controls.dart';
-import 'package:nyanya_rocket/widgets/game_view/game_view.dart';
+import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -107,7 +107,7 @@ class _PuzzleState extends State<Puzzle> {
                     child: AspectRatio(
                         aspectRatio: 12.0 / 9.0,
                         child: InputGridOverlay<Direction>(
-                          child: GameView(
+                          child: AnimatedGameView(
                             game: _puzzleController.gameStream,
                             mistake: _puzzleController.mistake,
                           ),

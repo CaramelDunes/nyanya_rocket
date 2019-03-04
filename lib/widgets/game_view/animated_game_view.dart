@@ -2,24 +2,24 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/game_view/checkerboard_painter.dart';
-import 'package:nyanya_rocket/widgets/game_view/foreground_painter.dart';
+import 'package:nyanya_rocket/widgets/game_view/animated_foreground_painter.dart';
 import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class GameView extends StatefulWidget {
+class AnimatedGameView extends StatefulWidget {
   final ValueListenable<Game> game;
   final ValueListenable<BoardPosition> mistake;
   final double timestamp;
 
-  GameView({@required this.game, this.timestamp = 0, this.mistake});
+  AnimatedGameView({@required this.game, this.timestamp = 0, this.mistake});
 
   @override
-  _GameViewState createState() {
-    return _GameViewState();
+  _AnimatedGameViewState createState() {
+    return _AnimatedGameViewState();
   }
 }
 
-class _GameViewState extends State<GameView>
+class _AnimatedGameViewState extends State<AnimatedGameView>
     with SingleTickerProviderStateMixin {
   Animation<int> animation;
   AnimationController controller;
@@ -53,7 +53,7 @@ class _GameViewState extends State<GameView>
                   builder: (context, value, child) {
                     return TilesDrawer(value.board, constraints);
                   })),
-      foregroundPainter: ForegroundPainter(
+      foregroundPainter: AnimatedForegroundPainter(
           game: widget.game,
           timestamp: widget.timestamp,
           mistake: widget.mistake,

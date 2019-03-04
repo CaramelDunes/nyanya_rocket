@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
+import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/game_view/entities_drawer.dart';
-import 'package:nyanya_rocket/widgets/game_view/game_view.dart';
 import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -133,7 +133,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
                 child: AspectRatio(
                     aspectRatio: 12.0 / 9.0,
                     child: InputGridOverlay<EditorTool>(
-                      child: GameView(
+                      child: StaticGameView(
                         game: widget.editorGameController.gameStream,
                       ),
                       previewBuilder: _dragTileBuilder,
