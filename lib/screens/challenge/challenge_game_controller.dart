@@ -121,7 +121,7 @@ abstract class ChallengeGameController extends LocalGameController {
   @mustCallSuper
   @override
   void beforeTick() {
-    _remainingTime -= LocalGameController.tickPeriod;
+    _remainingTime -= GameTicker.tickPeriod;
     timeStream.add(_remainingTime);
 
     if (_remainingTime.isNegative) {

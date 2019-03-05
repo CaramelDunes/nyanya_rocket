@@ -106,6 +106,8 @@ class LocalMultiplayerGameController extends LocalGameController {
         16) {
       timeStream.add(_remainingTime);
     }
+
+    super.afterTick();
   }
 
   @override

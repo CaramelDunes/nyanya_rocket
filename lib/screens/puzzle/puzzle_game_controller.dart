@@ -177,5 +177,7 @@ class PuzzleGameController extends LocalGameController {
       _pleaseReset = false;
       reset();
     }
+
+    super.afterTick();
   }
 }
