@@ -3,7 +3,6 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/network_multiplayer.dart';
-import 'package:nyanya_rocket/screens/multiplayer/toy_server.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class LanMultiplayerSetup extends StatefulWidget {
@@ -26,7 +25,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   int _playerCount = 2;
   Duration _duration = Duration(minutes: 3);
 
-  static Isolate isolate;
+  static Isolate _serverIsolate;
   final _formKey = GlobalKey<FormState>();
 
   Future<String> _ipFuture;
@@ -51,7 +50,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   }
 
   static void serverEntryPoint(int nbPlayer) {
-    ToyServer(nbPlayer: nbPlayer, board: Board());
+    GameServer(nbPlayer: nbPlayer, board: Board());
   }
 
   @override
@@ -104,8 +103,9 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                                       hostname: _hostname,
                                     )))
                             .then((dynamic) {
-                          if (_LanMultiplayerSetupState.isolate != null) {
-                            _LanMultiplayerSetupState.isolate.kill();
+                          if (_LanMultiplayerSetupState._serverIsolate !=
+                              null) {
+                            _LanMultiplayerSetupState._serverIsolate.kill();
                           }
                         });
                       }
@@ -184,14 +184,14 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
             color: Theme.of(context).primaryColor,
             textColor: Colors.white,
             onPressed: () {
-              if (_LanMultiplayerSetupState.isolate != null) {
-                _LanMultiplayerSetupState.isolate.kill();
+              if (_LanMultiplayerSetupState._serverIsolate != null) {
+                _LanMultiplayerSetupState._serverIsolate.kill();
               }
 
               Isolate.spawn<int>(
                       _LanMultiplayerSetupState.serverEntryPoint, _playerCount)
                   .then((Isolate isolate) =>
-                      _LanMultiplayerSetupState.isolate = isolate);
+                      _LanMultiplayerSetupState._serverIsolate = isolate);
             },
           ),
         ],
