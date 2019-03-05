@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
+import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class PuzzleGameControls extends StatefulWidget {
   final PuzzleGameController puzzleController;
@@ -42,11 +43,15 @@ class _PuzzleGameControlsState extends State<PuzzleGameControls> {
           Expanded(
             child: IconButton(
               icon: Icon(Icons.fast_forward),
-              color: widget.puzzleController.faster ? Colors.green : null,
+              color: widget.puzzleController.speed == GameSpeed.Fast
+                  ? Colors.green
+                  : null,
               onPressed: () {
                 setState(() {
-                  widget.puzzleController.faster =
-                      !widget.puzzleController.faster;
+                  widget.puzzleController.speed =
+                      widget.puzzleController.speed == GameSpeed.Normal
+                          ? GameSpeed.Fast
+                          : GameSpeed.Normal;
                 });
               },
             ),
