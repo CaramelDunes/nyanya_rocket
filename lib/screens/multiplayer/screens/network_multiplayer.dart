@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nyanya_rocket/screens/multiplayer/toy_client.dart';
+import 'package:nyanya_rocket/screens/multiplayer/network_client.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
@@ -19,14 +19,14 @@ class NetworkMultiplayer extends StatefulWidget {
 }
 
 class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
-  ToyClient _localMultiplayerController;
+  NetworkClient _localMultiplayerController;
 
   @override
   void initState() {
     super.initState();
 
     _localMultiplayerController =
-        ToyClient(nickname: widget.nickname, serverHostname: widget.hostname);
+        NetworkClient(nickname: widget.nickname, serverHostname: widget.hostname);
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,

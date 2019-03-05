@@ -3,10 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:nyanya_rocket/screens/multiplayer/toy_server.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class ToyClient {
+class NetworkClient {
   final String serverHostname;
   final int port;
   final String nickname;
@@ -24,7 +23,7 @@ class ToyClient {
 
   int _timestamp = 0;
 
-  ToyClient({
+  NetworkClient({
     @required this.serverHostname,
     @required this.nickname,
     this.port = 43210,
