@@ -37,7 +37,7 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
-    ]).catchError(() {});
+    ]).catchError((Object error) {});
   }
 
   @override
@@ -46,7 +46,7 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
 
     _localMultiplayerController.close();
 
-    SystemChrome.setPreferredOrientations([]).catchError(() {});
+    SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
   }
 
   void _handleDrop(int x, int y, Tile tile) {
@@ -141,7 +141,7 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
                         child: AspectRatio(
                             aspectRatio: 12.0 / 9.0,
                             child: InputGridOverlay<Tile>(
-                              child:  AnimatedGameView(
+                              child: AnimatedGameView(
                                 game: _localMultiplayerController.gameStream,
                               ),
                               onDrop: _handleDrop,

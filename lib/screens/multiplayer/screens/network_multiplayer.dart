@@ -25,13 +25,13 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   void initState() {
     super.initState();
 
-    _localMultiplayerController =
-        NetworkClient(nickname: widget.nickname, serverHostname: widget.hostname);
+    _localMultiplayerController = NetworkClient(
+        nickname: widget.nickname, serverHostname: widget.hostname);
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
-    ]).catchError(() {});
+    ]).catchError((Object error) {});
   }
 
   @override
@@ -40,7 +40,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
 
     _localMultiplayerController.close();
 
-    SystemChrome.setPreferredOrientations([]).catchError(() {});
+    SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
   }
 
   void _handleSwipe(int x, int y, Direction direction) {
