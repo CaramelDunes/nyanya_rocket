@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-// TODO Somehow merge with LocalGameController
 class MultiplayerGameController extends MultiplayerGameTicker {
   final ValueNotifier<Game> gameStream;
 
