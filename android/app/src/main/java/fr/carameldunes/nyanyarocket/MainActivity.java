@@ -1,4 +1,4 @@
-package com.example.nyanyarocket;
+package fr.carameldunes.nyanyarocket;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
