@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:meta/meta.dart';
-import 'package:nyanya_rocket/blocs/local_game_controller.dart';
+import 'package:nyanya_rocket/blocs/multiplayer_game_controller.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -12,11 +12,8 @@ class ArrowPosition {
   ArrowPosition(this.x, this.y);
 }
 
-class LocalMultiplayerGameController extends LocalGameController {
+class LocalMultiplayerGameController extends MultiplayerGameController {
   final MultiplayerBoard board;
-
-  final List<List<ArrowPosition>> placedArrows =
-      List.generate(4, (_) => List(), growable: false);
 
   final List<StreamController<int>> scoreStreams =
       List.generate(4, (_) => StreamController(), growable: false);
@@ -72,30 +69,12 @@ class LocalMultiplayerGameController extends LocalGameController {
       }
 
       game.board.tiles[x][y] = Arrow(player: player, direction: direction);
-      placedArrows[player.index].add(ArrowPosition(x, y));
       updateGame();
 
       return true;
     }
 
     return false;
-  }
-
-  void reset() {
-    running = false;
-
-    game = Game()..board = board.board();
-
-    for (int direction = 0; direction < Direction.values.length; direction++) {
-      placedArrows[direction].forEach((ArrowPosition position) {
-        game.board.tiles[position.x][position.y] = Arrow(
-            player: PlayerColor.Blue, direction: Direction.values[direction]);
-      });
-    }
-
-    updateGame();
-    _canPlaceArrow = true;
-    _remainingTime = Duration(seconds: 30);
   }
 
   @override
