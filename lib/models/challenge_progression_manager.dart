@@ -1,4 +1,4 @@
-import 'package:nyanya_rocket/screens/challenges/widgets/original_challenges.dart';
+import 'package:nyanya_rocket/screens/challenges/tabs/original_challenges.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChallengeProgressionManager {
