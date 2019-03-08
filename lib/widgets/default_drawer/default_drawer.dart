@@ -63,6 +63,15 @@ class DefaultDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
+            leading: Icon(FontAwesomeIcons.book),
+            title: Text('How to play'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/tutorial', predicate);
+            },
+          ),
+          ListTile(
             leading: Icon(Icons.settings),
             title: Text('Settings'),
             onTap: () {
