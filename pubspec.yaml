@@ -12,6 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+
+  intl: ^0.15.7
+
   firebase_core: ^0.3.1+1
   cloud_firestore: ^0.9.5+2
 
@@ -36,6 +41,8 @@ dev_dependencies:
     sdk: flutter
 
   flutter_launcher_icons: ^0.7.0
+
+  intl_translation: ^0.17.3
 
 flutter_icons:
   image_path: "assets/graphics/app_icon.png"

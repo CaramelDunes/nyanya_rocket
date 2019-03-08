@@ -1,0 +1,45 @@
+{
+  "@@last_modified": "2019-03-08T23:58:34.906525",
+  "challengesTitle": "Challenges",
+  "@challengesTitle": {
+    "description": "Challenges title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "puzzlesTitle": "Puzzles",
+  "@puzzlesTitle": {
+    "description": "Puzzles title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "multiplayerTitle": "Multiplayer",
+  "@multiplayerTitle": {
+    "description": "Multiplayer title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "editorTitle": "Editor",
+  "@editorTitle": {
+    "description": "Editor title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "homeTitle": "Home",
+  "@homeTitle": {
+    "description": "Home title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tutorialTitle": "How to play",
+  "@tutorialTitle": {
+    "description": "Tutorial title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  }
+}

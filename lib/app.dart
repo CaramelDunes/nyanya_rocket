@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations_delegate.dart';
 import 'package:nyanya_rocket/models/options.dart';
 import 'package:nyanya_rocket/options_holder.dart';
 import 'package:nyanya_rocket/routing.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {
   static ThemeData darkTheme = ThemeData(
@@ -21,6 +23,15 @@ class App extends StatelessWidget {
     return OptionsHolder(
       optionWidgetBuilder: (BuildContext context, Options options) =>
           MaterialApp(
+              localizationsDelegates: [
+                const NyaNyaLocalizationsDelegate(),
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              supportedLocales: [
+                const Locale('en', 'US'),
+                const Locale('fr', 'FR'),
+              ],
               title: 'NyaNya Rocket!',
               theme: options.darkTheme ? darkTheme : lightTheme,
               initialRoute: Routing.initialRoute,

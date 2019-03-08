@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/screens/tutorial/tabs/challenge.dart';
 import 'package:nyanya_rocket/screens/tutorial/tabs/general.dart';
 import 'package:nyanya_rocket/screens/tutorial/tabs/puzzle.dart';
@@ -12,7 +13,7 @@ class Tutorial extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-            title: Text('How to play'),
+            title: Text(NyaNyaLocalizations.of(context).tutorialTitle),
             bottom: TabBar(
               tabs: [
                 Tab(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 
 class DefaultDrawer extends StatelessWidget {
   const DefaultDrawer({Key key}) : super(key: key);
@@ -21,7 +22,7 @@ class DefaultDrawer extends StatelessWidget {
               child: Container()),
           ListTile(
             leading: Icon(Icons.home),
-            title: Text('Home'),
+            title: Text(NyaNyaLocalizations.of(context).homeTitle),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamedAndRemoveUntil(context, '/', predicate);
@@ -29,7 +30,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(FontAwesomeIcons.puzzlePiece),
-            title: Text('Puzzles'),
+            title: Text(NyaNyaLocalizations.of(context).puzzlesTitle),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamedAndRemoveUntil(context, '/puzzles', predicate);
@@ -37,7 +38,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(FontAwesomeIcons.stopwatch),
-            title: Text('Challenges'),
+            title: Text(NyaNyaLocalizations.of(context).challengesTitle),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamedAndRemoveUntil(
@@ -46,7 +47,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(FontAwesomeIcons.gamepad),
-            title: Text('Multiplayer'),
+            title: Text(NyaNyaLocalizations.of(context).multiplayerTitle),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamedAndRemoveUntil(
@@ -55,7 +56,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.mode_edit),
-            title: Text('Editor'),
+            title: Text(NyaNyaLocalizations.of(context).editorTitle),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamedAndRemoveUntil(context, '/editor', predicate);
@@ -64,7 +65,7 @@ class DefaultDrawer extends StatelessWidget {
           Divider(),
           ListTile(
             leading: Icon(FontAwesomeIcons.book),
-            title: Text('How to play'),
+            title: Text(NyaNyaLocalizations.of(context).tutorialTitle),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamedAndRemoveUntil(
@@ -73,7 +74,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text('Settings'),
+            title: Text(NyaNyaLocalizations.of(context).settingsTitle),
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/settings');

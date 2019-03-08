@@ -1,0 +1,44 @@
+{
+  "challengesTitle": "Défis",
+  "@challengesTitle": {
+    "description": "Challenges title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "puzzlesTitle": "Puzzles",
+  "@puzzlesTitle": {
+    "description": "Puzzles title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+   "multiplayerTitle": "Multijoueurs",
+	 "@multiplayerTitle": {
+	   "description": "Multiplayer title in AppBar, Drawer...",
+	   "type": "text",
+	   "placeholders": {}
+	 },
+	 "editorTitle": "Éditeur",
+	 "@editorTitle": {
+	   "description": "Editor title in AppBar, Drawer...",
+	   "type": "text",
+	   "placeholders": {}
+	 },
+	 "settingsTitle": "Paramètres",
+	 "@settingsTitle": {
+	   "description": "Settings title in AppBar, Drawer...",
+	   "type": "text",
+	   "placeholders": {}
+	 },
+	 "homeTitle": "Accueil",
+	 "@homeTitle": {
+	   "description": "Home title in AppBar, Drawer...",
+	   "type": "text",
+	   "placeholders": {}
+	 },
+	 "tutorialTitle": "Tutoriel",
+	 "@tutorialTitle": {
+	   "description": "Tutorial title in AppBar, Drawer...",
+	   "type": "text",
+	   "placeholders": {}
+	}
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/screens/challenges/tabs/community_challenges.dart';
 import 'package:nyanya_rocket/screens/challenges/tabs/local_challenges.dart';
 import 'package:nyanya_rocket/screens/challenges/tabs/original_challenges.dart';
@@ -12,7 +13,7 @@ class Challenges extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-            title: Text('Challenges'),
+            title: Text(NyaNyaLocalizations.of(context).challengesTitle),
             bottom: TabBar(
               tabs: [
                 Tab(

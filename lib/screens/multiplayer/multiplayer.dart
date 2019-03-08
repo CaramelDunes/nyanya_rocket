@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_store.dart';
 import 'package:nyanya_rocket/screens/multiplayer/widgets/device_multiplayer_setup.dart';
 import 'package:nyanya_rocket/screens/multiplayer/widgets/lan_multiplayer_setup.dart';
@@ -18,7 +19,7 @@ class Multiplayer extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-            title: Text('Multiplayer'),
+            title: Text(NyaNyaLocalizations.of(context).multiplayerTitle),
             bottom: TabBar(
               tabs: [
                 Tab(

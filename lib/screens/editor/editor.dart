@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/create_tab.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/edit_tab.dart';
 import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
@@ -29,7 +30,7 @@ class EditorState extends State<Editor> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Editor'),
+          title: Text(NyaNyaLocalizations.of(context).editorTitle),
           bottom: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.add), text: 'New'),
