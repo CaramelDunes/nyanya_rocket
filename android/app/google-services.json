@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "199775224910",
+    "firebase_url": "https://nyanya-rocket.firebaseio.com",
+    "project_id": "nyanya-rocket",
+    "storage_bucket": "nyanya-rocket.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199775224910:android:8fb13b62d02bca4f",
+        "android_client_info": {
+          "package_name": "fr.carameldunes.nyanyarocket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199775224910-r3u2shk4vosfeak7u77098nlen2kd4c2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQJpUFyeH5OEl6AdnziTI3J5-_9cibXTY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

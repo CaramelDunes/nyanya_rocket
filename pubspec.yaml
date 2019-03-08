@@ -1,12 +1,8 @@
 name: nyanya_rocket
-description: An open-source game taking inspiration from SEGA's ChuChu-Rocket !
+description: An open-source game taking inspiration from SEGA's ChuChu Rocket!
+author: CaramelDunes
+homepage: https://github.com/CaramelDunes/nyanya_rocket
 
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# Read more about versioning at semver.org.
 version: 1.0.0+1
 
 environment:
@@ -16,12 +12,16 @@ dependencies:
   flutter:
     sdk: flutter
 
+  firebase_core: ^0.3.1+1
+  cloud_firestore: ^0.9.5+2
+
   flare_flutter: ^1.2.3
 
   font_awesome_flutter: ^8.4.0
 
   nyanya_rocket_base:
-    path: ../nyanya_rocket_base
+    git:
+      url: git://github.com/CaramelDunes/nyanya_rocket_base.git
 
   shared_preferences: ^0.5.1+1
 
@@ -30,10 +30,6 @@ dependencies:
   uuid: ^2.0.0
 
   connectivity: ^0.4.2
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
 
 dev_dependencies:
   flutter_test:
@@ -46,8 +42,8 @@ flutter_icons:
   android: true
   ios: true
 
-  adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/graphics/app_icon.png"
+  adaptive_icon_background: "#FF673AB7"
+  adaptive_icon_foreground: "assets/graphics/app_icon2.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
