@@ -18,15 +18,15 @@ class Challenges extends StatelessWidget {
               tabs: [
                 Tab(
                   icon: Icon(FontAwesomeIcons.stopwatch),
-                  text: 'Original',
+                  text: NyaNyaLocalizations.of(context).originalTab,
                 ),
                 Tab(
                   icon: Icon(FontAwesomeIcons.globe),
-                  text: 'Community',
+                  text: NyaNyaLocalizations.of(context).communityTab,
                 ),
                 Tab(
                   icon: Icon(FontAwesomeIcons.mobileAlt),
-                  text: 'Device',
+                  text: NyaNyaLocalizations.of(context).deviceTab,
                 ),
               ],
             )),

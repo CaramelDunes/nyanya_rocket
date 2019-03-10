@@ -17,11 +17,11 @@ class Home extends StatelessWidget {
               tabs: [
                 Tab(
                   icon: Icon(FontAwesomeIcons.newspaper),
-                  text: 'What\'s new?',
+                  text: NyaNyaLocalizations.of(context).whatsNewTab,
                 ),
                 Tab(
                   icon: Icon(FontAwesomeIcons.handsHelping),
-                  text: 'Contributing',
+                  text: NyaNyaLocalizations.of(context).contributingTab,
                 ),
               ],
             )),

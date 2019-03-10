@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
@@ -64,15 +65,17 @@ class CreateTabState extends State<CreateTab>
                   value: _mode,
                   items: <DropdownMenuItem<EditorMode>>[
                     DropdownMenuItem(
-                      child: Text('Puzzle'),
+                      child: Text(NyaNyaLocalizations.of(context).puzzleType),
                       value: EditorMode.Puzzle,
                     ),
                     DropdownMenuItem(
-                      child: Text('Challenge'),
+                      child:
+                          Text(NyaNyaLocalizations.of(context).challengeType),
                       value: EditorMode.Challenge,
                     ),
                     DropdownMenuItem(
-                      child: Text('Multiplayer'),
+                      child:
+                          Text(NyaNyaLocalizations.of(context).multiplayerType),
                       value: EditorMode.Multiplayer,
                     ),
                   ],

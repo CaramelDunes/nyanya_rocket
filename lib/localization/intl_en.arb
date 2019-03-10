@@ -1,5 +1,23 @@
 {
-  "@@last_modified": "2019-03-08T23:58:34.906525",
+  "@@last_modified": "2019-03-09T12:45:03.412822",
+  "puzzleType": "Puzzle",
+  "@puzzleType": {
+    "description": "Puzzle type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeType": "Challenge",
+  "@challengeType": {
+    "description": "Challenge type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "multiplayerType": "Multiplayer",
+  "@multiplayerType": {
+    "description": "Multiplayer type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
   "challengesTitle": "Challenges",
   "@challengesTitle": {
     "description": "Challenges title in AppBar, Drawer...",
@@ -39,6 +57,78 @@
   "tutorialTitle": "How to play",
   "@tutorialTitle": {
     "description": "Tutorial title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "whatsNewTab": "What's New?",
+  "@whatsNewTab": {
+    "description": "What's New tab of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contributingTab": "Contributing",
+  "@contributingTab": {
+    "description": "Contributing tab of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "originalTab": "Original",
+  "@originalTab": {
+    "description": "Original tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "communityTab": "Community",
+  "@communityTab": {
+    "description": "Community tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceTab": "Device",
+  "@deviceTab": {
+    "description": "Device tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lanTab": "LAN",
+  "@lanTab": {
+    "description": "LAN tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "matchmakingTab": "Matchmaking",
+  "@matchmakingTab": {
+    "description": "Matchmaking tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newTab": "New",
+  "@newTab": {
+    "description": "New tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "editTab": "Edit",
+  "@editTab": {
+    "description": "Edit tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "enableAnimationsLabel": "Enable Animations",
+  "@enableAnimationsLabel": {
+    "description": "Enable Animations setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "darkModeLabel": "Dark Mode",
+  "@darkModeLabel": {
+    "description": "Dark Mode setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageLabel": "Language",
+  "@languageLabel": {
+    "description": "Language setting of the Settings screen.",
     "type": "text",
     "placeholders": {}
   }

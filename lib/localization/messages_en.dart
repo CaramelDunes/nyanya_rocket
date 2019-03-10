@@ -20,12 +20,27 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "challengeType" : MessageLookupByLibrary.simpleMessage("Challenge"),
     "challengesTitle" : MessageLookupByLibrary.simpleMessage("Challenges"),
+    "communityTab" : MessageLookupByLibrary.simpleMessage("Community"),
+    "contributingTab" : MessageLookupByLibrary.simpleMessage("Contributing"),
+    "darkModeLabel" : MessageLookupByLibrary.simpleMessage("Dark Mode"),
+    "deviceTab" : MessageLookupByLibrary.simpleMessage("Device"),
+    "editTab" : MessageLookupByLibrary.simpleMessage("Edit"),
     "editorTitle" : MessageLookupByLibrary.simpleMessage("Editor"),
+    "enableAnimationsLabel" : MessageLookupByLibrary.simpleMessage("Enable Animations"),
     "homeTitle" : MessageLookupByLibrary.simpleMessage("Home"),
+    "lanTab" : MessageLookupByLibrary.simpleMessage("LAN"),
+    "languageLabel" : MessageLookupByLibrary.simpleMessage("Language"),
+    "matchmakingTab" : MessageLookupByLibrary.simpleMessage("Matchmaking"),
     "multiplayerTitle" : MessageLookupByLibrary.simpleMessage("Multiplayer"),
+    "multiplayerType" : MessageLookupByLibrary.simpleMessage("Multiplayer"),
+    "newTab" : MessageLookupByLibrary.simpleMessage("New"),
+    "originalTab" : MessageLookupByLibrary.simpleMessage("Original"),
+    "puzzleType" : MessageLookupByLibrary.simpleMessage("Puzzle"),
     "puzzlesTitle" : MessageLookupByLibrary.simpleMessage("Puzzles"),
     "settingsTitle" : MessageLookupByLibrary.simpleMessage("Settings"),
-    "tutorialTitle" : MessageLookupByLibrary.simpleMessage("How to play")
+    "tutorialTitle" : MessageLookupByLibrary.simpleMessage("How to play"),
+    "whatsNewTab" : MessageLookupByLibrary.simpleMessage("What\'s New?")
   };
 }

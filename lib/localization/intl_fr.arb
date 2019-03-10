@@ -1,4 +1,22 @@
 {
+  "puzzleType": "Puzzle",
+   "@puzzleType": {
+     "description": "Puzzle type of game.",
+     "type": "text",
+     "placeholders": {}
+   },
+   "challengeType": "Défi",
+   "@challengeType": {
+     "description": "Challenge type of game.",
+     "type": "text",
+     "placeholders": {}
+   },
+   "multiplayerType": "Multijoueurs",
+   "@multiplayerType": {
+     "description": "Multiplayer type of game.",
+     "type": "text",
+     "placeholders": {}
+   },
   "challengesTitle": "Défis",
   "@challengesTitle": {
     "description": "Challenges title in AppBar, Drawer...",
@@ -40,5 +58,77 @@
 	   "description": "Tutorial title in AppBar, Drawer...",
 	   "type": "text",
 	   "placeholders": {}
-	}
+	},
+  "whatsNewTab": "Quoi de neuf ?",
+    "@whatsNewTab": {
+      "description": "What's New tab of the Home screen.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "contributingTab": "Participer",
+    "@contributingTab": {
+      "description": "Contributing tab of the Home screen.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "originalTab": "Original",
+    "@originalTab": {
+      "description": "Original tab of the Puzzles, Challenges screens.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "communityTab": "Communauté",
+    "@communityTab": {
+      "description": "Community tab of the Puzzles, Challenges screens.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "deviceTab": "Local",
+    "@deviceTab": {
+      "description": "Device tab of the Puzzles, Challenges screens.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "lanTab": "Réseau local",
+    "@lanTab": {
+      "description": "LAN tab of the Multiplayer screen.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "matchmakingTab": "Monde",
+    "@matchmakingTab": {
+      "description": "Matchmaking tab of the Multiplayer screen.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "newTab": "Créer",
+    "@newTab": {
+      "description": "New tab of the Editor screen.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "editTab": "Modifier",
+    "@editTab": {
+      "description": "Edit tab of the Editor screen.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "enableAnimationsLabel": "Animations",
+    "@enableAnimationsLabel": {
+      "description": "Enable Animations setting of the Settings screen.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "darkModeLabel": "Mode nuit",
+    "@darkModeLabel": {
+      "description": "Dark Mode setting of the Settings screen.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "languageLabel": "Langue",
+    "@languageLabel": {
+      "description": "Language setting of the Settings screen.",
+      "type": "text",
+      "placeholders": {}
+    }
 }

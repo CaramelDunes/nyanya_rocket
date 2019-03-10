@@ -20,12 +20,27 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "challengeType" : MessageLookupByLibrary.simpleMessage("Défi"),
     "challengesTitle" : MessageLookupByLibrary.simpleMessage("Défis"),
+    "communityTab" : MessageLookupByLibrary.simpleMessage("Communauté"),
+    "contributingTab" : MessageLookupByLibrary.simpleMessage("Participer"),
+    "darkModeLabel" : MessageLookupByLibrary.simpleMessage("Mode nuit"),
+    "deviceTab" : MessageLookupByLibrary.simpleMessage("Local"),
+    "editTab" : MessageLookupByLibrary.simpleMessage("Modifier"),
     "editorTitle" : MessageLookupByLibrary.simpleMessage("Éditeur"),
+    "enableAnimationsLabel" : MessageLookupByLibrary.simpleMessage("Animations"),
     "homeTitle" : MessageLookupByLibrary.simpleMessage("Accueil"),
+    "lanTab" : MessageLookupByLibrary.simpleMessage("Réseau local"),
+    "languageLabel" : MessageLookupByLibrary.simpleMessage("Langue"),
+    "matchmakingTab" : MessageLookupByLibrary.simpleMessage("Monde"),
     "multiplayerTitle" : MessageLookupByLibrary.simpleMessage("Multijoueurs"),
+    "multiplayerType" : MessageLookupByLibrary.simpleMessage("Multijoueurs"),
+    "newTab" : MessageLookupByLibrary.simpleMessage("Créer"),
+    "originalTab" : MessageLookupByLibrary.simpleMessage("Original"),
+    "puzzleType" : MessageLookupByLibrary.simpleMessage("Puzzle"),
     "puzzlesTitle" : MessageLookupByLibrary.simpleMessage("Puzzles"),
     "settingsTitle" : MessageLookupByLibrary.simpleMessage("Paramètres"),
-    "tutorialTitle" : MessageLookupByLibrary.simpleMessage("Tutoriel")
+    "tutorialTitle" : MessageLookupByLibrary.simpleMessage("Tutoriel"),
+    "whatsNewTab" : MessageLookupByLibrary.simpleMessage("Quoi de neuf ?")
   };
 }

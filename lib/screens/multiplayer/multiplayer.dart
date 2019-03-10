@@ -24,15 +24,15 @@ class Multiplayer extends StatelessWidget {
               tabs: [
                 Tab(
                   icon: isPortrait ? Icon(FontAwesomeIcons.mobileAlt) : null,
-                  text: 'Device',
+                  text: NyaNyaLocalizations.of(context).deviceTab,
                 ),
                 Tab(
                   icon: isPortrait ? Icon(FontAwesomeIcons.networkWired) : null,
-                  text: 'LAN',
+                  text: NyaNyaLocalizations.of(context).lanTab,
                 ),
                 Tab(
                   icon: isPortrait ? Icon(FontAwesomeIcons.globe) : null,
-                  text: 'Matchmaking',
+                  text: NyaNyaLocalizations.of(context).matchmakingTab,
                 ),
               ],
             )),

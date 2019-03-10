@@ -5,29 +5,34 @@ class WhatsNew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Flexible(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Welcome!',
-                  style: Theme.of(context).textTheme.title,
-                ),
+          child: Dismissible(
+            key: UniqueKey(),
+            child: Card(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Welcome!',
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                  ),
+                  Text('First time here? Check the tutorial!'),
+                  RaisedButton(
+                    child: Text('Take me to it'),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/tutorial');
+                    },
+                  )
+                ],
               ),
-              Text('First time here? Check the tutorial!'),
-              RaisedButton(
-                child: Text('Take me to it'),
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/tutorial');
-                },
-              )
-            ],
+            ),
           ),
         ),
-        const Divider(),
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream: Firestore.instance.collection('articles').snapshots(),
@@ -46,7 +51,14 @@ class WhatsNew extends StatelessWidget {
                         .map((DocumentSnapshot document) {
                       return ExpansionTile(
                         title: Text(document['title']),
-                        children: [Text(document['author'])],
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(document['body']),
+                          )
+                        ],
+                        trailing: Text(MaterialLocalizations.of(context)
+                            .formatMediumDate(document['date'])),
                       );
                     }).toList(),
                   );

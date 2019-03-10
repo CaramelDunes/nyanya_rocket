@@ -33,8 +33,12 @@ class EditorState extends State<Editor> {
           title: Text(NyaNyaLocalizations.of(context).editorTitle),
           bottom: TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.add), text: 'New'),
-              Tab(icon: Icon(Icons.edit), text: 'Edit'),
+              Tab(
+                  icon: Icon(Icons.add),
+                  text: NyaNyaLocalizations.of(context).newTab),
+              Tab(
+                  icon: Icon(Icons.edit),
+                  text: NyaNyaLocalizations.of(context).editTab),
             ],
           ),
         ),
