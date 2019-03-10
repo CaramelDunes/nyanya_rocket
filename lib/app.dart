@@ -6,9 +6,14 @@ import 'package:nyanya_rocket/routing.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {
+  static const List<Locale> supportedLocales = const [
+    const Locale('en', 'US'),
+    const Locale('fr', 'FR'),
+  ];
+
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    primarySwatch: Colors.orange,
+    primarySwatch: Colors.deepPurple,
     accentColor: Colors.orangeAccent,
   );
 
@@ -28,10 +33,9 @@ class App extends StatelessWidget {
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
               ],
-              supportedLocales: [
-                const Locale('en', 'US'),
-                const Locale('fr', 'FR'),
-              ],
+              supportedLocales: supportedLocales,
+              locale:
+                  options.language == 'auto' ? null : Locale(options.language),
               title: 'NyaNya Rocket!',
               theme: options.darkTheme ? darkTheme : lightTheme,
               initialRoute: Routing.initialRoute,

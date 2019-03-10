@@ -1,7 +1,7 @@
 import 'package:nyanya_rocket/models/options.dart';
 import 'package:flutter/material.dart';
 
-typedef Widget OptionWidgetBuilder(BuildContext context, Options theme);
+typedef Widget OptionWidgetBuilder(BuildContext context, Options options);
 
 class OptionsHolder extends StatefulWidget {
   final OptionWidgetBuilder optionWidgetBuilder;
@@ -9,7 +9,7 @@ class OptionsHolder extends StatefulWidget {
   const OptionsHolder({Key key, this.optionWidgetBuilder}) : super(key: key);
 
   @override
-  OptionsHolderState createState() => new OptionsHolderState();
+  OptionsHolderState createState() => OptionsHolderState();
 
   static OptionsHolderState of(BuildContext context) {
     return context.ancestorStateOfType(const TypeMatcher<OptionsHolderState>());
@@ -31,7 +31,11 @@ class OptionsHolderState extends State<OptionsHolder> {
   void initState() {
     super.initState();
 
-    _options = Options(darkTheme: false, playSounds: false);
+    _options = Options(
+        darkTheme: false,
+        playSounds: false,
+        animations: true,
+        language: 'auto');
   }
 
   @override
