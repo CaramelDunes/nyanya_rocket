@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 
 class WhatsNew extends StatelessWidget {
   @override
@@ -25,7 +26,7 @@ class WhatsNew extends StatelessWidget {
                   RaisedButton(
                     child: Text('Take me to it'),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/tutorial');
+                      Navigator.pushNamed(context, '/tutorial');
                     },
                   )
                 ],
@@ -44,7 +45,9 @@ class WhatsNew extends StatelessWidget {
 
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return Center(child: Text('Loading...'));
+                  return Center(
+                      child:
+                          Text(NyaNyaLocalizations.of(context).loadingLabel));
                 default:
                   return ListView(
                     children: snapshot.data.documents

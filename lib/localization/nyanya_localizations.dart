@@ -114,6 +114,14 @@ class NyaNyaLocalizations {
     );
   }
 
+  String get contributorsLabel {
+    return Intl.message(
+      'Contributors',
+      name: 'contributorsLabel',
+      desc: 'Contributors label in Contributing tab of the Home screen.',
+    );
+  }
+
   // Puzzles, Challenges screens
   String get originalTab {
     return Intl.message(
@@ -195,6 +203,15 @@ class NyaNyaLocalizations {
       'Language',
       name: 'languageLabel',
       desc: 'Language setting of the Settings screen.',
+    );
+  }
+
+  // Misc
+  String get loadingLabel {
+    return Intl.message(
+      'Loading...',
+      name: 'loadingLabel',
+      desc: 'Loading... label of async loaded data.',
     );
   }
 }

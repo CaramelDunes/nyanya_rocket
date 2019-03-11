@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 
 class Contributing extends StatelessWidget {
   @override
@@ -9,7 +10,7 @@ class Contributing extends StatelessWidget {
         Divider(),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text('Contributors:',
+          child: Text('${NyaNyaLocalizations.of(context).contributorsLabel}:',
               style: Theme.of(context).textTheme.subtitle),
         ),
         StreamBuilder<QuerySnapshot>(
@@ -25,7 +26,8 @@ class Contributing extends StatelessWidget {
 
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
-                return Center(child: Text('Loading...'));
+                return Center(
+                    child: Text(NyaNyaLocalizations.of(context).loadingLabel));
               default:
                 return Column(
                   children:
