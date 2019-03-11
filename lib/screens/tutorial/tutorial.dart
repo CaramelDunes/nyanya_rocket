@@ -5,7 +5,6 @@ import 'package:nyanya_rocket/screens/tutorial/tabs/challenge.dart';
 import 'package:nyanya_rocket/screens/tutorial/tabs/general.dart';
 import 'package:nyanya_rocket/screens/tutorial/tabs/multiplayer.dart';
 import 'package:nyanya_rocket/screens/tutorial/tabs/puzzle.dart';
-import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
 
 class Tutorial extends StatelessWidget {
   @override
@@ -35,7 +34,6 @@ class Tutorial extends StatelessWidget {
                 ),
               ],
             )),
-        drawer: DefaultDrawer(),
         body: TabBarView(
           children: [General(), Puzzle(), Challenge(), Multiplayer()],
         ),

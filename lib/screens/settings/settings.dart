@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/options_holder.dart';
-import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -17,7 +16,6 @@ class SettingsState extends State<Settings> {
         appBar: AppBar(
           title: Text(NyaNyaLocalizations.of(context).settingsTitle),
         ),
-        drawer: DefaultDrawer(),
         body: ListView(
           children: <Widget>[
             SwitchListTile(
