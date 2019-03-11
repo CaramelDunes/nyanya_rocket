@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/screens/multiplayer/network_client.dart';
+import 'package:nyanya_rocket/screens/multiplayer/widgets/event_roulette.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
@@ -18,20 +19,36 @@ class NetworkMultiplayer extends StatefulWidget {
   _NetworkMultiplayerState createState() => _NetworkMultiplayerState();
 }
 
-class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
+class _NetworkMultiplayerState extends State<NetworkMultiplayer>
+    with SingleTickerProviderStateMixin<NetworkMultiplayer> {
   NetworkClient _localMultiplayerController;
+  bool _displayRoulette = false;
+  GameEvent _rouletteEvent = GameEvent.None;
+  AnimationController _animationController;
 
   @override
   void initState() {
     super.initState();
 
     _localMultiplayerController = NetworkClient(
-        nickname: widget.nickname, serverHostname: widget.hostname);
+        nickname: widget.nickname,
+        serverHostname: widget.hostname,
+        onGameEvent: _handleGameEvent);
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]).catchError((Object error) {});
+
+    _animationController = AnimationController(
+        duration: const Duration(milliseconds: 1500), vsync: this)
+      ..addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
+          setState(() {
+            _displayRoulette = false;
+          });
+        }
+      });
   }
 
   @override
@@ -47,6 +64,15 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     _localMultiplayerController.placeArrow(x, y, direction);
   }
 
+  void _handleGameEvent(GameEvent event) {
+    print('Hi');
+    _animationController.forward(from: 0);
+    _rouletteEvent = event;
+    setState(() {
+      _displayRoulette = true;
+    });
+  }
+
   Widget _streamBuiltScoreBox(int i, Color color) => StreamBuilder<int>(
       stream: _localMultiplayerController.scoreStreams[i].stream,
       initialData: 0,
@@ -59,6 +85,8 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
 
   @override
   Widget build(BuildContext context) {
+    bool notNull(Object o) => o != null;
+
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: Stack(
@@ -128,8 +156,14 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                 ),
               ),
             ],
-          )
-        ],
+          ),
+          _displayRoulette
+              ? Center(
+                  child: EventRoulette(
+                      animationController: _animationController,
+                      finalEvent: _rouletteEvent))
+              : null,
+        ].where(notNull).toList(),
       ),
     );
   }

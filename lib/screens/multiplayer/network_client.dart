@@ -23,11 +23,14 @@ class NetworkClient {
 
   int _timestamp = 0;
 
-  NetworkClient({
-    @required this.serverHostname,
-    @required this.nickname,
-    this.port = 43210,
-  }) {
+  ProtocolGameEvent _previousEvent = ProtocolGameEvent.NO_EVENT;
+  final void Function(GameEvent event) onGameEvent;
+
+  NetworkClient(
+      {@required this.serverHostname,
+      @required this.nickname,
+      this.port = 43210,
+      this.onGameEvent}) {
     InternetAddress.lookup(serverHostname)
         .then((List<InternetAddress> addresses) {
       if (addresses.length > 0) {
@@ -82,6 +85,14 @@ class NetworkClient {
 
             if (_timestamp < g.timestamp) {
               gameStream.value = Game.fromProtocolGame(g);
+
+              if (onGameEvent != null &&
+                  g.event != ProtocolGameEvent.NO_EVENT &&
+                  g.event != _previousEvent) {
+                _previousEvent = g.event;
+                onGameEvent(GameEvent.values[g.event.value]);
+              }
+
               _timestamp = g.timestamp;
               timeStream.add(Duration(milliseconds: _timestamp * 16));
 

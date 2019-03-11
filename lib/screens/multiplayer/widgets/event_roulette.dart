@@ -1,37 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class EventRoulette extends StatefulWidget {
+class EventRoulette extends StatelessWidget {
   final GameEvent finalEvent;
+  final Animation<int> _animation;
+  final AnimationController animationController;
 
-  const EventRoulette({Key key, this.finalEvent}) : super(key: key);
-
-  @override
-  _EventRouletteState createState() => _EventRouletteState();
-}
-
-class _EventRouletteState extends State<EventRoulette>
-    with SingleTickerProviderStateMixin {
-  Animation<double> _animation;
-  AnimationController _controller;
-  Animation<int> _intVersion;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 1500), vsync: this);
-    _animation = CurveTween(curve: Curves.easeOutQuint).animate(_controller);
-
-    _intVersion = IntTween(
-            begin: widget.finalEvent.index - 1,
-            // We don't want None to be part of the roulette
-            end:
-                3 * (GameEvent.values.length - 1) + widget.finalEvent.index - 1)
-        .animate(_animation);
-    _controller.forward();
-  }
+  EventRoulette(
+      {Key key, @required this.finalEvent, @required this.animationController})
+      : _animation = IntTween(
+                begin: finalEvent.index - 1,
+                // We don't want None to be part of the roulette
+                end: 3 * (GameEvent.values.length - 1) + finalEvent.index - 1)
+            .animate(CurvedAnimation(
+                parent: animationController, curve: Curves.easeOutQuint)),
+        super(key: key);
 
   Widget _cardForEvent(GameEvent event) {
     const TextStyle commonStyle = TextStyle(
@@ -90,6 +73,8 @@ class _EventRouletteState extends State<EventRoulette>
         break;
 
       case GameEvent.None:
+      default:
+        return Container();
         break;
     }
   }
@@ -97,11 +82,11 @@ class _EventRouletteState extends State<EventRoulette>
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: _intVersion,
+      animation: _animation,
       builder: (BuildContext context, Widget child) {
+        // We don't want None to be part of the roulette
         return _cardForEvent(GameEvent
-            // We don't want None to be part of the roulette
-            .values[1 + _intVersion.value % (GameEvent.values.length - 1)]);
+            .values[1 + _animation.value % (GameEvent.values.length - 1)]);
       },
     );
   }

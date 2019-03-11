@@ -77,6 +77,7 @@ class EntitiesDrawerCanvas {
         break;
 
       case GoldenMouse:
+      case SpecialMouse:
       case Mouse:
         mouseAnimations[entity.position.direction.index].draw(
             canvas,
