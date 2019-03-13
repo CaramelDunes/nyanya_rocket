@@ -6,7 +6,24 @@ class Contributing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: RichText(
+            text: TextSpan(
+              text: NyaNyaLocalizations.of(context).contributingText,
+              style: DefaultTextStyle.of(context).style,
+              children: <TextSpan>[
+                TextSpan(
+                    text: 'https://github.com/CaramelDunes/nyanya_rocket',
+                    style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline))
+              ],
+            ),
+          ),
+        ),
         Divider(),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -14,10 +31,7 @@ class Contributing extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle),
         ),
         StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance
-              .collection('contributors')
-              .orderBy('name')
-              .snapshots(),
+          stream: Firestore.instance.collection('contributors').snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
