@@ -22,10 +22,9 @@ class ScoreBox extends StatelessWidget {
               child: Container(
                   child: Center(child: Text(label ?? '')),
                   constraints: BoxConstraints.expand(),
-                  decoration: new BoxDecoration(
+                  decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius:
-                          new BorderRadius.all(Radius.circular(8.0)))),
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)))),
             ),
           ),
           Flexible(
@@ -40,9 +39,9 @@ class ScoreBox extends StatelessWidget {
                   ),
                 ),
                 constraints: BoxConstraints.expand(),
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                     color: Colors.black,
-                    borderRadius: new BorderRadius.all(Radius.circular(8.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
               ),
             ),
           )
