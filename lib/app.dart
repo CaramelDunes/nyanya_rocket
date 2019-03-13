@@ -6,7 +6,7 @@ import 'package:nyanya_rocket/routing.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {
-  static const List<Locale> supportedLocales = const [
+  static const List<Locale> supportedLocales = [
     const Locale('en', 'US'),
     const Locale('fr', 'FR'),
   ];
