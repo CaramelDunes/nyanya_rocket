@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:nyanya_rocket/options_holder.dart';
 
 class WhatsNew extends StatelessWidget {
   @override
@@ -8,32 +9,41 @@ class WhatsNew extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Flexible(
-          child: Dismissible(
-            key: UniqueKey(),
-            child: Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Welcome!',
-                      style: Theme.of(context).textTheme.title,
+        OptionsHolder.of(context).options.firstRun
+            ? Flexible(
+                child: Dismissible(
+                  key: UniqueKey(),
+                  onDismissed: (DismissDirection direction) {
+                    OptionsHolder.of(context).options =
+                        OptionsHolder.of(context)
+                            .options
+                            .copyWith(firstRun: false);
+                  },
+                  child: Card(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Welcome!',
+                            style: Theme.of(context).textTheme.title,
+                          ),
+                        ),
+                        Text(NyaNyaLocalizations.of(context).firstTimeText),
+                        RaisedButton(
+                          child: Text(NyaNyaLocalizations.of(context)
+                              .firstTimeButtonLabel),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/tutorial');
+                          },
+                        )
+                      ],
                     ),
                   ),
-                  Text('First time here? Check the tutorial!'),
-                  RaisedButton(
-                    child: Text('Take me to it'),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/tutorial');
-                    },
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
+                ),
+              )
+            : null,
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream: Firestore.instance.collection('articles').snapshots(),
@@ -69,7 +79,7 @@ class WhatsNew extends StatelessWidget {
             },
           ),
         )
-      ],
+      ].where((Object o) => o != null).toList(),
     );
   }
 }
