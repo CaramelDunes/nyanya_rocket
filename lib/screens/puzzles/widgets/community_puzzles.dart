@@ -11,6 +11,6 @@ class CommunityPuzzles extends StatefulWidget {
 class _CommunityPuzzlesState extends State<CommunityPuzzles> {
   @override
   Widget build(BuildContext context) {
-    return NotImplemented();
+    return NotImplemented(featureId: 'dL1M9fdQzn3RlTzBHKvl');
   }
 }

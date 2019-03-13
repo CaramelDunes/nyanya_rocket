@@ -11,6 +11,6 @@ class CommunityChallenges extends StatefulWidget {
 class _CommunityChallengesState extends State<CommunityChallenges> {
   @override
   Widget build(BuildContext context) {
-    return NotImplemented();
+    return NotImplemented(featureId: 'rx1bsALuoPXmbUWyEPgV');
   }
 }
