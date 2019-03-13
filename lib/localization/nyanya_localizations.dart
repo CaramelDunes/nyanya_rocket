@@ -106,11 +106,43 @@ class NyaNyaLocalizations {
     );
   }
 
+  String get firstTimeText {
+    return Intl.message(
+      'First time here? Check the tutorial!',
+      name: 'firstTimeText',
+      desc: 'First time welcome text of the Home screen.',
+    );
+  }
+
+  String get firstTimeButtonLabel {
+    return Intl.message(
+      'Take me to it!',
+      name: 'firstTimeButtonLabel',
+      desc: 'First time, go to tutorial button of the Home screen.',
+    );
+  }
+
   String get contributingTab {
     return Intl.message(
       'Contributing',
       name: 'contributingTab',
       desc: 'Contributing tab of the Home screen.',
+    );
+  }
+
+  String get contributingText {
+    return Intl.message(
+      '''Help NyaNya Rocket!
+
+You don\'t need any particular skills to contribute, you can:
+  • Report bugs and ask for new features
+  • Translate
+  • Improve graphical assets and animation
+  • Code
+
+For more information, head over to ''',
+      name: 'contributingText',
+      desc: 'Text of the Contributing tab of Home screen.',
     );
   }
 
@@ -212,6 +244,14 @@ class NyaNyaLocalizations {
       'Loading...',
       name: 'loadingLabel',
       desc: 'Loading... label of async loaded data.',
+    );
+  }
+
+  String get notImplementedText {
+    return Intl.message(
+      'Not (yet) available!\nWant it to be a priority? :-)',
+      name: 'notImplementedText',
+      desc: 'Text of the NotImplementedWidget.',
     );
   }
 }
