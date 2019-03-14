@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/app.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Contributing extends StatelessWidget {
   @override
@@ -16,10 +19,14 @@ class Contributing extends StatelessWidget {
               style: DefaultTextStyle.of(context).style,
               children: <TextSpan>[
                 TextSpan(
-                    text: 'https://github.com/CaramelDunes/nyanya_rocket',
+                    text: App.projectUrl,
                     style: TextStyle(
                         color: Colors.blue,
-                        decoration: TextDecoration.underline))
+                        decoration: TextDecoration.underline),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        launch(App.projectUrl);
+                      })
               ],
             ),
           ),
