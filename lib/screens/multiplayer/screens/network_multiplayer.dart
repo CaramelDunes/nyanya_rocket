@@ -159,9 +159,12 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer>
           ),
           _displayRoulette
               ? Center(
+                  child: Container(
+                  height: 200,
                   child: EventRoulette(
                       animationController: _animationController,
-                      finalEvent: _rouletteEvent))
+                      finalEvent: _rouletteEvent),
+                ))
               : null,
         ].where(notNull).toList(),
       ),
