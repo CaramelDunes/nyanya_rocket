@@ -77,7 +77,29 @@ class EntitiesDrawerCanvas {
         break;
 
       case GoldenMouse:
+        mouseAnimations[entity.position.direction.index].draw(
+            canvas,
+            Size(tileSize, tileSize),
+            leftOfEntity(entity, tileSize),
+            topOfEntity(entity, tileSize),
+            frameNb,
+            Paint()
+              ..colorFilter = ColorFilter.mode(
+                  Colors.yellow.withOpacity(0.5), BlendMode.srcATop));
+        break;
+
       case SpecialMouse:
+        mouseAnimations[entity.position.direction.index].draw(
+            canvas,
+            Size(tileSize, tileSize),
+            leftOfEntity(entity, tileSize),
+            topOfEntity(entity, tileSize),
+            frameNb,
+            Paint()
+              ..colorFilter = ColorFilter.mode(
+                  Colors.pink.withOpacity(0.5), BlendMode.srcATop));
+        break;
+
       case Mouse:
         mouseAnimations[entity.position.direction.index].draw(
             canvas,

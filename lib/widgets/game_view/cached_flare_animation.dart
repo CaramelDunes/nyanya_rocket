@@ -58,7 +58,8 @@ class CachedFlareAnimation {
     _currentFrame = (_currentFrame + 2) % _numberOfFrames;
   }
 
-  void draw(Canvas canvas, Size size, double x, double y, int frameNb) {
+  void draw(Canvas canvas, Size size, double x, double y, int frameNb,
+      [Paint paint]) {
     if (_cachedPictures != null && _cachedPictures[frameNb] != null) {
       double scaleX = 1.0, scaleY = 1.0;
 
@@ -76,7 +77,7 @@ class CachedFlareAnimation {
 
       canvas.translate(x, y);
       canvas.scale(scaleX, scaleY);
-      canvas.drawImage(_cachedPictures[frameNb], Offset.zero, Paint());
+      canvas.drawImage(_cachedPictures[frameNb], Offset.zero, paint ?? Paint());
 
       canvas.restore();
     }
