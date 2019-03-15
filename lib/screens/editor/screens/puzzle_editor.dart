@@ -5,6 +5,7 @@ import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_store.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
+import 'package:nyanya_rocket/screens/editor/widgets/discard_confirmation_dialog.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
@@ -75,25 +76,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Confirm leave"),
-            content: Text(
-                "Are you sure you want to leave?\nAny unsaved changes will be discarded!"),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("YES"),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-              ),
-              FlatButton(
-                child: Text("NO"),
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-              ),
-            ],
-          );
+          return const DiscardConfirmationDialog();
         });
   }
 
