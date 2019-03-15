@@ -26,7 +26,7 @@ class WhatsNew extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Welcome!',
+                            NyaNyaLocalizations.of(context).firstTimeWelcome,
                             style: Theme.of(context).textTheme.title,
                           ),
                         ),
