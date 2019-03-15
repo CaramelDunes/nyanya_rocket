@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
 import 'package:nyanya_rocket/screens/challenge/widgets/arrow_drawer.dart';
@@ -73,6 +74,30 @@ class _ChallengeState extends State<Challenge> {
     );
   }
 
+  String _objectiveText(BuildContext context) {
+    switch (_challengeController.challenge.type) {
+      case ChallengeType.GetMice:
+        return NyaNyaLocalizations.of(context).getMiceObjectiveText;
+        break;
+
+      case ChallengeType.RunAway:
+        return NyaNyaLocalizations.of(context).runAwayObjectiveText;
+        break;
+
+      case ChallengeType.LunchTime:
+        return NyaNyaLocalizations.of(context).lunchTimeObjectiveText;
+        break;
+
+      case ChallengeType.OneHundredMice:
+        return NyaNyaLocalizations.of(context).oneHundredMiceObjectiveText;
+        break;
+
+      default:
+        return '';
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool notNull(Object o) => o != null;
@@ -107,7 +132,7 @@ class _ChallengeState extends State<Challenge> {
                             child: Text(
                               'NEXT',
                               style: TextStyle(
-                                  color: Theme.of(context).accentColor),
+                                  color: Theme.of(context).primaryColor),
                             ),
                             onPressed: () {
                               Navigator.of(context)
@@ -124,8 +149,7 @@ class _ChallengeState extends State<Challenge> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Flexible(
-                      flex: 3, child: Text(_challengeController.objective)),
+                  Flexible(flex: 3, child: Text(_objectiveText(context))),
                   Flexible(
                     flex: 1,
                     child: StreamBuilder<int>(

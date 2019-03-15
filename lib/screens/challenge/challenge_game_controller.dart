@@ -159,28 +159,4 @@ abstract class ChallengeGameController extends LocalGameController {
 
   StreamController<int> get scoreStream;
   int get targetScore;
-
-  String get objective {
-    switch (challenge.type) {
-      case ChallengeType.GetMice:
-        return 'Lead all mice to the goal within 30 sec.';
-        break;
-
-      case ChallengeType.RunAway:
-        return 'Avoid the cat and get to the goal!';
-        break;
-
-      case ChallengeType.LunchTime:
-        return 'Feed the cat!';
-        break;
-
-      case ChallengeType.OneHundredMice:
-        return 'Collect 100 mice in 30 sec.';
-        break;
-
-      default:
-        return '';
-        break;
-    }
-  }
 }
