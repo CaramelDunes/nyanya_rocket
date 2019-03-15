@@ -11,7 +11,7 @@
      "type": "text",
      "placeholders": {}
    },
-   "multiplayerType": "Multijoueurs",
+   "multiplayerType": "Multijoueur",
    "@multiplayerType": {
      "description": "Multiplayer type of game.",
      "type": "text",
@@ -29,7 +29,7 @@
     "type": "text",
     "placeholders": {}
   },
-   "multiplayerTitle": "Multijoueurs",
+   "multiplayerTitle": "Multijoueur",
 	 "@multiplayerTitle": {
 	   "description": "Multiplayer title in AppBar, Drawer...",
 	   "type": "text",
@@ -65,13 +65,43 @@
       "type": "text",
       "placeholders": {}
     },
+  "firstTimeWelcome": "Bienvenue !",
+  "@firstTimeWelcome": {
+    "description": "First time welcome label of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+    "firstTimeText": "Première visite ? Allez voir le tutoriel !",
+    "@firstTimeText": {
+      "description": "First time welcome text of the Home screen.",
+      "type": "text",
+      "placeholders": {}
+    },
+    "firstTimeButtonLabel": "M'y emmener !",
+    "@firstTimeButtonLabel": {
+      "description": "First time, go to tutorial button of the Home screen.",
+      "type": "text",
+      "placeholders": {}
+    },
     "contributingTab": "Participer",
     "@contributingTab": {
       "description": "Contributing tab of the Home screen.",
       "type": "text",
       "placeholders": {}
     },
-    "originalTab": "Original",
+    "contributingText": "Vous aussi contribuez à NyaNya Rocket !\n\nPas besoin de savoir programmer ou d'être exposé au Louvre, toute contribution est la bienvenue. Vous pouvez:\n  • Signaler des bugs et proposer des améliorations\n  • Traduire l'application dans d'autres langues\n  • Améliorer le contenu artistique (images, animations)\n  • Programmer\n\nPour plus d'informations, rendez-vous sur ",
+      "@contributingText": {
+        "description": "Text of the Contributing tab of Home screen.",
+        "type": "text",
+        "placeholders": {}
+      },
+      "contributorsLabel": "Contributeurs",
+      "@contributorsLabel": {
+        "description": "Contributors label in Contributing tab of the Home screen.",
+        "type": "text",
+        "placeholders": {}
+      },
+    "originalTab": "Originaux",
     "@originalTab": {
       "description": "Original tab of the Puzzles, Challenges screens.",
       "type": "text",
@@ -89,6 +119,30 @@
       "type": "text",
       "placeholders": {}
     },
+  "getMiceObjectiveText": "Guidez toutes les souris vers les fusées en 30 secondes.",
+  "@getMiceObjectiveText": {
+    "description": "Short explanation of the Get Mice challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "runAwayObjectiveText": "Guidez toutes les souris vers les fusées en évitant les chats !",
+  "@runAwayObjectiveText": {
+    "description": "Short explanation of the Run Away challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lunchTimeObjectiveText": "Donnez toutes les souris à manger au(x) chat(s).",
+  "@lunchTimeObjectiveText": {
+    "description": "Short explanation of the Lunch Time challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "oneHundredMiceObjectiveText": "Sauvez 100 souris en 30 secondes !",
+  "@oneHundredMiceObjectiveText": {
+    "description": "Short explanation of the One Hundred Mice challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
     "lanTab": "Réseau local",
     "@lanTab": {
       "description": "LAN tab of the Multiplayer screen.",
@@ -113,6 +167,18 @@
       "type": "text",
       "placeholders": {}
     },
+  "discardDialogTitle": "Confirmation",
+  "@discardDialogTitle": {
+    "description": "Discard confirmation dialog of editor.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "discardDialogMessage": "Êtes-vous sûr(e) de vouloir terminer l'édition ?\nToute modification non sauvegardée sera perdue.",
+  "@discardDialogMessage": {
+    "description": "Discard confirmation dialog of editor.",
+    "type": "text",
+    "placeholders": {}
+  },
     "enableAnimationsLabel": "Animations",
     "@enableAnimationsLabel": {
       "description": "Enable Animations setting of the Settings screen.",
@@ -130,5 +196,35 @@
       "description": "Language setting of the Settings screen.",
       "type": "text",
       "placeholders": {}
-    }
+    },
+    "yes": "Oui",
+      "@yes": {
+        "description": "Yes string.",
+        "type": "text",
+        "placeholders": {}
+      },
+      "no": "Non",
+      "@no": {
+        "description": "No string.",
+        "type": "text",
+        "placeholders": {}
+      },
+    "loadingLabel": "Chargement...",
+      "@loadingLabel": {
+        "description": "Loading... label of async loaded data.",
+        "type": "text",
+        "placeholders": {}
+      },
+      "notImplementedText": "Pas encore disponible !\n...mais vous pouvez donner un coup de pouce :-)",
+      "@notImplementedText": {
+        "description": "Text of the NotImplementedWidget.",
+        "type": "text",
+        "placeholders": {}
+  },
+  "emptyListText": "Il n'y a rien ici...",
+  "@emptyListText": {
+    "description": "Displayed when a list is empty.",
+    "type": "text",
+    "placeholders": {}
+  }
 }

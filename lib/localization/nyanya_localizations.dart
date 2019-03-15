@@ -106,6 +106,14 @@ class NyaNyaLocalizations {
     );
   }
 
+  String get firstTimeWelcome {
+    return Intl.message(
+      'Welcome,',
+      name: 'firstTimeWelcome',
+      desc: 'First time welcome label of the Home screen.',
+    );
+  }
+
   String get firstTimeText {
     return Intl.message(
       'First time here? Check the tutorial!',
@@ -179,6 +187,39 @@ For more information, head over to ''',
     );
   }
 
+  // Challenge screen
+  String get getMiceObjectiveText {
+    return Intl.message(
+      'Lead all mice to the goal within 30 sec.',
+      name: 'getMiceObjectiveText',
+      desc: 'Short explanation of the Get Mice challenge type.',
+    );
+  }
+
+  String get runAwayObjectiveText {
+    return Intl.message(
+      'Avoid the cat and get to the goal!',
+      name: 'runAwayObjectiveText',
+      desc: 'Short explanation of the Run Away challenge type.',
+    );
+  }
+
+  String get lunchTimeObjectiveText {
+    return Intl.message(
+      'Feed the cat!',
+      name: 'lunchTimeObjectiveText',
+      desc: 'Short explanation of the Lunch Time challenge type.',
+    );
+  }
+
+  String get oneHundredMiceObjectiveText {
+    return Intl.message(
+      'Collect 100 mice in 30 sec.',
+      name: 'oneHundredMiceObjectiveText',
+      desc: 'Short explanation of the One Hundred Mice challenge type.',
+    );
+  }
+
   // Multiplayer screen
   String get lanTab {
     return Intl.message(
@@ -213,6 +254,22 @@ For more information, head over to ''',
     );
   }
 
+  String get discardDialogTitle {
+    return Intl.message(
+      'Confirm leave',
+      name: 'discardDialogTitle',
+      desc: 'Discard confirmation dialog of editor.',
+    );
+  }
+
+  String get discardDialogMessage {
+    return Intl.message(
+      'Are you sure you want to leave?\nAny unsaved changes will be discarded!',
+      name: 'discardDialogMessage',
+      desc: 'Discard confirmation dialog of editor.',
+    );
+  }
+
   // Settings screen
   String get enableAnimationsLabel {
     return Intl.message(
@@ -239,6 +296,22 @@ For more information, head over to ''',
   }
 
   // Misc
+  String get yes {
+    return Intl.message(
+      'Yes',
+      name: 'yes',
+      desc: 'Yes string.',
+    );
+  }
+
+  String get no {
+    return Intl.message(
+      'No',
+      name: 'no',
+      desc: 'No string.',
+    );
+  }
+
   String get loadingLabel {
     return Intl.message(
       'Loading...',
@@ -252,6 +325,14 @@ For more information, head over to ''',
       'Not (yet) available!\nWant it to be a priority? :-)',
       name: 'notImplementedText',
       desc: 'Text of the NotImplementedWidget.',
+    );
+  }
+
+  String get emptyListText {
+    return Intl.message(
+      'Nothing here...',
+      name: 'emptyListText',
+      desc: 'Displayed when a list is empty.',
     );
   }
 }
