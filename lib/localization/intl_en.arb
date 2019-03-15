@@ -1,0 +1,231 @@
+{
+  "@@last_modified": "2019-03-15T21:39:52.825242",
+  "puzzleType": "Puzzle",
+  "@puzzleType": {
+    "description": "Puzzle type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeType": "Challenge",
+  "@challengeType": {
+    "description": "Challenge type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "multiplayerType": "Multiplayer",
+  "@multiplayerType": {
+    "description": "Multiplayer type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengesTitle": "Challenges",
+  "@challengesTitle": {
+    "description": "Challenges title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "puzzlesTitle": "Puzzles",
+  "@puzzlesTitle": {
+    "description": "Puzzles title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "multiplayerTitle": "Multiplayer",
+  "@multiplayerTitle": {
+    "description": "Multiplayer title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "editorTitle": "Editor",
+  "@editorTitle": {
+    "description": "Editor title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "homeTitle": "Home",
+  "@homeTitle": {
+    "description": "Home title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tutorialTitle": "How to play",
+  "@tutorialTitle": {
+    "description": "Tutorial title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "whatsNewTab": "What's New?",
+  "@whatsNewTab": {
+    "description": "What's New tab of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "firstTimeWelcome": "Welcome,",
+  "@firstTimeWelcome": {
+    "description": "First time welcome label of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "firstTimeText": "First time here? Check the tutorial!",
+  "@firstTimeText": {
+    "description": "First time welcome text of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "firstTimeButtonLabel": "Take me to it!",
+  "@firstTimeButtonLabel": {
+    "description": "First time, go to tutorial button of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contributingTab": "Contributing",
+  "@contributingTab": {
+    "description": "Contributing tab of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contributingText": "Help NyaNya Rocket!\n\nYou don't need any particular skills to contribute, you can:\n  • Report bugs and ask for new features\n  • Translate\n  • Improve graphical assets and animation\n  • Code\n\nFor more information, head over to ",
+  "@contributingText": {
+    "description": "Text of the Contributing tab of Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contributorsLabel": "Contributors",
+  "@contributorsLabel": {
+    "description": "Contributors label in Contributing tab of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "originalTab": "Original",
+  "@originalTab": {
+    "description": "Original tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "communityTab": "Community",
+  "@communityTab": {
+    "description": "Community tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceTab": "Device",
+  "@deviceTab": {
+    "description": "Device tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "getMiceObjectiveText": "Lead all mice to the goal within 30 sec.",
+  "@getMiceObjectiveText": {
+    "description": "Short explanation of the Get Mice challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "runAwayObjectiveText": "Avoid the cat and get to the goal!",
+  "@runAwayObjectiveText": {
+    "description": "Short explanation of the Run Away challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lunchTimeObjectiveText": "Feed the cat!",
+  "@lunchTimeObjectiveText": {
+    "description": "Short explanation of the Lunch Time challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "oneHundredMiceObjectiveText": "Collect 100 mice in 30 sec.",
+  "@oneHundredMiceObjectiveText": {
+    "description": "Short explanation of the One Hundred Mice challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lanTab": "LAN",
+  "@lanTab": {
+    "description": "LAN tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "matchmakingTab": "Matchmaking",
+  "@matchmakingTab": {
+    "description": "Matchmaking tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newTab": "New",
+  "@newTab": {
+    "description": "New tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "editTab": "Edit",
+  "@editTab": {
+    "description": "Edit tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "discardDialogTitle": "Confirm leave",
+  "@discardDialogTitle": {
+    "description": "Discard confirmation dialog of editor.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "discardDialogMessage": "Are you sure you want to leave?\nAny unsaved changes will be discarded!",
+  "@discardDialogMessage": {
+    "description": "Discard confirmation dialog of editor.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "enableAnimationsLabel": "Enable Animations",
+  "@enableAnimationsLabel": {
+    "description": "Enable Animations setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "darkModeLabel": "Dark Mode",
+  "@darkModeLabel": {
+    "description": "Dark Mode setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageLabel": "Language",
+  "@languageLabel": {
+    "description": "Language setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yes": "Yes",
+  "@yes": {
+    "description": "Yes string.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "no": "No",
+  "@no": {
+    "description": "No string.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loadingLabel": "Loading...",
+  "@loadingLabel": {
+    "description": "Loading... label of async loaded data.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notImplementedText": "Not (yet) available!\nWant it to be a priority? :-)",
+  "@notImplementedText": {
+    "description": "Text of the NotImplementedWidget.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emptyListText": "Nothing here...",
+  "@emptyListText": {
+    "description": "Displayed when a list is empty.",
+    "type": "text",
+    "placeholders": {}
+  }
+}
