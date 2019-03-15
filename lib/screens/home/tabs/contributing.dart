@@ -8,35 +8,30 @@ import 'package:url_launcher/url_launcher.dart';
 class Contributing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return ListView(
+      padding: const EdgeInsets.all(8),
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: RichText(
-            text: TextSpan(
-              text: NyaNyaLocalizations.of(context).contributingText,
-              style: DefaultTextStyle.of(context).style,
-              children: <TextSpan>[
-                TextSpan(
-                    text: App.projectUrl,
-                    style: TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        launch(App.projectUrl);
-                      })
-              ],
-            ),
+        RichText(
+          text: TextSpan(
+            text: NyaNyaLocalizations.of(context).contributingText,
+            style: DefaultTextStyle.of(context).style,
+            children: <TextSpan>[
+              TextSpan(
+                  text: App.projectUrl,
+                  style: TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                      fontSize: 17),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      launch(App.projectUrl);
+                    })
+            ],
           ),
         ),
         Divider(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('${NyaNyaLocalizations.of(context).contributorsLabel}:',
-              style: Theme.of(context).textTheme.subtitle),
-        ),
+        Text('${NyaNyaLocalizations.of(context).contributorsLabel}:',
+            style: Theme.of(context).textTheme.subtitle),
         StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance.collection('contributors').snapshots(),
           builder:

@@ -55,147 +55,141 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListView(
-        children: <Widget>[
-          Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Nickname'),
-                  maxLength: 16,
-                  textCapitalization: TextCapitalization.words,
-                  onSaved: (String value) => _nickname = value,
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Please enter a valid nickname.';
-                    }
-                  },
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Server hostname',
-                  ),
-                  onSaved: (String value) => _hostname = value,
-                  validator: (String value) {
-                    if (!LanMultiplayerSetup.hostnameMatcher.hasMatch(value)) {
-                      return 'Please enter a valid hostname.';
-                    }
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RaisedButton(
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
-                    child: Text('Connect'),
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    NetworkMultiplayer(
-                                      nickname: _nickname,
-                                      hostname: _hostname,
-                                    )))
-                            .then((dynamic) {
-                          if (_LanMultiplayerSetupState._serverIsolate !=
-                              null) {
-                            _LanMultiplayerSetupState._serverIsolate.kill();
-                          }
-                        });
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Text(
-            _localIp,
-            style: TextStyle(fontSize: 30),
-          ),
-          Divider(),
-          Row(
+    return ListView(
+      padding: const EdgeInsets.all(8),
+      children: <Widget>[
+        Form(
+          key: _formKey,
+          child: Column(
             children: <Widget>[
-              Expanded(
-                child: DropdownButton<Duration>(
-                  value: _duration,
-                  items: <DropdownMenuItem<Duration>>[
-                    DropdownMenuItem(
-                      child: Text('2 minutes'),
-                      value: Duration(minutes: 2),
-                    ),
-                    DropdownMenuItem(
-                      child: Text('3 minutes'),
-                      value: Duration(minutes: 3),
-                    ),
-                    DropdownMenuItem(
-                      child: Text('4 minutes'),
-                      value: Duration(minutes: 4),
-                    ),
-                    DropdownMenuItem(
-                      child: Text('5 minutes'),
-                      value: Duration(minutes: 5),
-                    ),
-                  ],
-                  onChanged: (Duration value) => setState(() {
-                        _duration = value;
-                      }),
-                ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Nickname'),
+                maxLength: 16,
+                textCapitalization: TextCapitalization.words,
+                onSaved: (String value) => _nickname = value,
+                validator: (String value) {
+                  if (value.isEmpty) {
+                    return 'Please enter a valid nickname.';
+                  }
+                },
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: DropdownButton<int>(
-                    value: _playerCount,
-                    items: <DropdownMenuItem<int>>[
-                      DropdownMenuItem(
-                        child: Text('1 Players'),
-                        value: 1,
-                      ),
-                      DropdownMenuItem(
-                        child: Text('2 Players'),
-                        value: 2,
-                      ),
-                      DropdownMenuItem(
-                        child: Text('3 Players'),
-                        value: 3,
-                      ),
-                      DropdownMenuItem(
-                        child: Text('4 Players'),
-                        value: 4,
-                      ),
-                    ],
-                    onChanged: (int value) => setState(() {
-                          _playerCount = value;
-                        }),
-                  ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Server hostname',
+                ),
+                onSaved: (String value) => _hostname = value,
+                validator: (String value) {
+                  if (!LanMultiplayerSetup.hostnameMatcher.hasMatch(value)) {
+                    return 'Please enter a valid hostname.';
+                  }
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RaisedButton(
+                  color: Theme.of(context).primaryColor,
+                  textColor: Colors.white,
+                  child: Text('Connect'),
+                  onPressed: () {
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  NetworkMultiplayer(
+                                    nickname: _nickname,
+                                    hostname: _hostname,
+                                  )))
+                          .then((dynamic) {
+                        if (_LanMultiplayerSetupState._serverIsolate != null) {
+                          _LanMultiplayerSetupState._serverIsolate.kill();
+                        }
+                      });
+                    }
+                  },
                 ),
               ),
             ],
           ),
-          RaisedButton(
-            child: Text('Create'),
-            color: Theme.of(context).primaryColor,
-            textColor: Colors.white,
-            onPressed: () {
-              if (_LanMultiplayerSetupState._serverIsolate != null) {
-                _LanMultiplayerSetupState._serverIsolate.kill();
-              }
+        ),
+        Text(
+          _localIp,
+          style: TextStyle(fontSize: 30),
+        ),
+        Divider(),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: DropdownButton<Duration>(
+                value: _duration,
+                items: <DropdownMenuItem<Duration>>[
+                  DropdownMenuItem(
+                    child: Text('2 minutes'),
+                    value: Duration(minutes: 2),
+                  ),
+                  DropdownMenuItem(
+                    child: Text('3 minutes'),
+                    value: Duration(minutes: 3),
+                  ),
+                  DropdownMenuItem(
+                    child: Text('4 minutes'),
+                    value: Duration(minutes: 4),
+                  ),
+                  DropdownMenuItem(
+                    child: Text('5 minutes'),
+                    value: Duration(minutes: 5),
+                  ),
+                ],
+                onChanged: (Duration value) => setState(() {
+                      _duration = value;
+                    }),
+              ),
+            ),
+            Expanded(
+              child: DropdownButton<int>(
+                value: _playerCount,
+                items: <DropdownMenuItem<int>>[
+                  DropdownMenuItem(
+                    child: Text('1 Players'),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('2 Players'),
+                    value: 2,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('3 Players'),
+                    value: 3,
+                  ),
+                  DropdownMenuItem(
+                    child: Text('4 Players'),
+                    value: 4,
+                  ),
+                ],
+                onChanged: (int value) => setState(() {
+                      _playerCount = value;
+                    }),
+              ),
+            ),
+          ],
+        ),
+        RaisedButton(
+          child: Text('Create'),
+          color: Theme.of(context).primaryColor,
+          textColor: Colors.white,
+          onPressed: () {
+            if (_LanMultiplayerSetupState._serverIsolate != null) {
+              _LanMultiplayerSetupState._serverIsolate.kill();
+            }
 
-              Isolate.spawn<int>(
-                      _LanMultiplayerSetupState.serverEntryPoint, _playerCount)
-                  .then((Isolate isolate) =>
-                      _LanMultiplayerSetupState._serverIsolate = isolate);
-            },
-          ),
-        ],
-      ),
+            Isolate.spawn<int>(
+                    _LanMultiplayerSetupState.serverEntryPoint, _playerCount)
+                .then((Isolate isolate) =>
+                    _LanMultiplayerSetupState._serverIsolate = isolate);
+          },
+        ),
+      ],
     );
   }
 }

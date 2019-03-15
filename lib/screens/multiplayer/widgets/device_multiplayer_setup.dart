@@ -24,68 +24,62 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Form(
+    return ListView(padding: const EdgeInsets.all(8), children: [
+      Form(
           key: _formState,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
                   Row(
                     children: <Widget>[
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: DropdownButtonFormField<Duration>(
-                            value: _duration,
-                            items: <DropdownMenuItem<Duration>>[
-                              DropdownMenuItem(
-                                child: Text('2 minutes'),
-                                value: Duration(minutes: 2),
-                              ),
-                              DropdownMenuItem(
-                                child: Text('3 minutes'),
-                                value: Duration(minutes: 3),
-                              ),
-                              DropdownMenuItem(
-                                child: Text('4 minutes'),
-                                value: Duration(minutes: 4),
-                              ),
-                              DropdownMenuItem(
-                                child: Text('5 minutes'),
-                                value: Duration(minutes: 5),
-                              ),
-                            ],
-                            onChanged: (Duration value) => setState(() {
-                                  _duration = value;
-                                }),
-                            onSaved: (Duration value) => _duration = value,
-                          ),
+                        child: DropdownButtonFormField<Duration>(
+                          value: _duration,
+                          items: <DropdownMenuItem<Duration>>[
+                            DropdownMenuItem(
+                              child: Text('2 minutes'),
+                              value: Duration(minutes: 2),
+                            ),
+                            DropdownMenuItem(
+                              child: Text('3 minutes'),
+                              value: Duration(minutes: 3),
+                            ),
+                            DropdownMenuItem(
+                              child: Text('4 minutes'),
+                              value: Duration(minutes: 4),
+                            ),
+                            DropdownMenuItem(
+                              child: Text('5 minutes'),
+                              value: Duration(minutes: 5),
+                            ),
+                          ],
+                          onChanged: (Duration value) => setState(() {
+                                _duration = value;
+                              }),
+                          onSaved: (Duration value) => _duration = value,
                         ),
                       ),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: DropdownButtonFormField<int>(
-                            value: _playerCount,
-                            items: <DropdownMenuItem<int>>[
-                              DropdownMenuItem(
-                                child: Text('2 Players'),
-                                value: 2,
-                              ),
-                              DropdownMenuItem(
-                                child: Text('3 Players'),
-                                value: 3,
-                              ),
-                              DropdownMenuItem(
-                                child: Text('4 Players'),
-                                value: 4,
-                              ),
-                            ],
-                            onChanged: (int value) => setState(() {
-                                  _playerCount = value;
-                                }),
-                            onSaved: (int value) => _playerCount = value,
-                          ),
+                        child: DropdownButtonFormField<int>(
+                          value: _playerCount,
+                          items: <DropdownMenuItem<int>>[
+                            DropdownMenuItem(
+                              child: Text('2 Players'),
+                              value: 2,
+                            ),
+                            DropdownMenuItem(
+                              child: Text('3 Players'),
+                              value: 3,
+                            ),
+                            DropdownMenuItem(
+                              child: Text('4 Players'),
+                              value: 4,
+                            ),
+                          ],
+                          onChanged: (int value) => setState(() {
+                                _playerCount = value;
+                              }),
+                          onSaved: (int value) => _playerCount = value,
                         ),
                       ),
                     ],
@@ -122,6 +116,6 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
                   )
                 ],
           )),
-    );
+    ]);
   }
 }
