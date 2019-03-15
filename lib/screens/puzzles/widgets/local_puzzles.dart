@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_store.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
+import 'package:nyanya_rocket/widgets/empty_list.dart';
 
 class LocalPuzzles extends StatefulWidget {
   static final PuzzleStore store = PuzzleStore();
@@ -29,6 +30,10 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
   @override
   Widget build(BuildContext context) {
     List<String> uuidList = _puzzles.keys.toList();
+
+    if (uuidList.isEmpty) {
+      return Center(child: EmptyList());
+    }
 
     return ListView.separated(
         separatorBuilder: (context, int) => Divider(),

@@ -12,6 +12,7 @@ import 'package:nyanya_rocket/screens/editor/screens/multiplayer_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/puzzle_editor.dart';
 import 'package:nyanya_rocket/screens/multiplayer/multiplayer.dart';
 import 'package:nyanya_rocket/screens/puzzles/widgets/local_puzzles.dart';
+import 'package:nyanya_rocket/widgets/empty_list.dart';
 
 enum EditorMode { Puzzle, Challenge, Multiplayer }
 
@@ -48,6 +49,10 @@ class EditTabState extends State<EditTab> {
 
   Widget _puzzleListView() {
     List<String> uuidList = _puzzles.keys.toList();
+
+    if (uuidList.isEmpty) {
+      return Center(child: EmptyList());
+    }
 
     return ListView.separated(
         separatorBuilder: (context, int) => Divider(),
@@ -88,6 +93,10 @@ class EditTabState extends State<EditTab> {
   Widget _challengeListView() {
     List<String> uuidList = _challenges.keys.toList();
 
+    if (uuidList.isEmpty) {
+      return Center(child: EmptyList());
+    }
+
     return ListView.separated(
         separatorBuilder: (context, int) => Divider(),
         itemCount: _challenges.length,
@@ -126,6 +135,10 @@ class EditTabState extends State<EditTab> {
 
   Widget _multiplayerBoardsListView() {
     List<String> uuidList = _multiplayerBoards.keys.toList();
+
+    if (uuidList.isEmpty) {
+      return Center(child: EmptyList());
+    }
 
     return ListView.separated(
         separatorBuilder: (context, int) => Divider(),

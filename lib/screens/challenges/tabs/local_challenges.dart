@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/challenge_store.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
+import 'package:nyanya_rocket/widgets/empty_list.dart';
 
 class LocalChallenges extends StatefulWidget {
   static final ChallengeStore store = ChallengeStore();
@@ -29,6 +30,10 @@ class _LocalChallengesState extends State<LocalChallenges> {
   @override
   Widget build(BuildContext context) {
     List<String> uuidList = _challenges.keys.toList();
+
+    if (uuidList.isEmpty) {
+      return Center(child: EmptyList());
+    }
 
     return ListView.separated(
         separatorBuilder: (context, int) => Divider(),
