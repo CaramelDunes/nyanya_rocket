@@ -15,6 +15,7 @@ class Tutorial extends StatelessWidget {
         appBar: AppBar(
             title: Text(NyaNyaLocalizations.of(context).tutorialTitle),
             bottom: TabBar(
+              isScrollable: true,
               tabs: [
                 Tab(
                   icon: Icon(FontAwesomeIcons.play),
