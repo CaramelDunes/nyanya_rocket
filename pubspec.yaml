@@ -3,7 +3,7 @@ description: An open-source game taking inspiration from SEGA's ChuChu Rocket!
 author: CaramelDunes
 homepage: https://github.com/CaramelDunes/nyanya_rocket
 
-version: 1.0.0+6
+version: 1.0.0+7
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -12,21 +12,21 @@ dependencies:
   flutter:
     sdk: flutter
 
+  nyanya_rocket_base:
+    git:
+      url: git://github.com/CaramelDunes/nyanya_rocket_base.git
+
   flutter_localizations:
     sdk: flutter
 
   intl: ^0.15.7
 
   firebase_core: ^0.3.1+1
-  cloud_firestore: ^0.9.5+2
+  cloud_firestore: ^0.9.7
 
   flare_flutter: ^1.2.3
 
   font_awesome_flutter: ^8.4.0
-
-  nyanya_rocket_base:
-    git:
-      url: git://github.com/CaramelDunes/nyanya_rocket_base.git
 
   shared_preferences: ^0.5.1+1
 
