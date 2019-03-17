@@ -19,6 +19,8 @@ class MultiplayerGameController extends MultiplayerGameTicker {
   @override
   @mustCallSuper
   void afterTick() {
+    super.afterTick();
+
     updateGame();
   }
 
