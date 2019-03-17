@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/device_multiplayer.dart';
+import 'package:nyanya_rocket/screens/multiplayer/widgets/board_picker.dart';
 
 class DeviceMultiplayerSetup extends StatefulWidget {
   @override
@@ -9,18 +10,13 @@ class DeviceMultiplayerSetup extends StatefulWidget {
   }
 }
 
-final MultiplayerBoard testData = MultiplayerBoard(
-    name: 'Local Multiplayer',
-    boardData:
-        '{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":3,"player":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":4, "direction":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,1,1,1,1,1,1,1],[2,2,0,0,0,0,0,1,2],[2,3,0,0,0,0,0,0,2],[2,2,0,0,0,0,0,1,2],[2,1,0,0,0,0,0,0,0],[2,3,0,0,0,0,0,0,2],[2,2,0,0,0,0,0,1,2],[2,1,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,2],[2,2,0,0,0,0,0,1,2],[2,1,0,0,0,0,0,0,2],[2,0,0,0,0,0,0,1,0]]}',
-    maxPlayer: 2);
-
 class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
   int _playerCount = 2;
   List<String> _playerNames = List.filled(4, '');
   Duration _duration = Duration(minutes: 3);
 
   GlobalKey<FormState> _formState = GlobalKey();
+  MultiplayerBoard _board;
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +80,16 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
                       ),
                     ],
                   ),
+                  Container(
+                    height: 150,
+                    child: BoardPicker(
+                      onChanged: (MultiplayerBoard board) {
+                        setState(() {
+                          _board = board;
+                        });
+                      },
+                    ),
+                  ),
                   Divider()
                 ] +
                 List.generate(_playerCount, (int i) {
@@ -102,16 +108,18 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
                       child: Text('Play'),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                DeviceMultiplayer(
-                                  board: testData,
-                                  players:
-                                      _playerNames.sublist(0, _playerCount),
-                                  duration: _duration,
-                                )));
-                      },
+                      onPressed: _board == null
+                          ? null
+                          : () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      DeviceMultiplayer(
+                                        board: _board,
+                                        players: _playerNames.sublist(
+                                            0, _playerCount),
+                                        duration: _duration,
+                                      )));
+                            },
                     ),
                   )
                 ],

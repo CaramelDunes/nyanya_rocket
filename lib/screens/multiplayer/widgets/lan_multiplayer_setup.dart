@@ -2,7 +2,9 @@ import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/network_multiplayer.dart';
+import 'package:nyanya_rocket/screens/multiplayer/widgets/board_picker.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class LanMultiplayerSetup extends StatefulWidget {
@@ -29,6 +31,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   final _formKey = GlobalKey<FormState>();
 
   Future<String> _ipFuture;
+  MultiplayerBoard _board;
 
   @override
   void initState() {
@@ -174,20 +177,32 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
             ),
           ],
         ),
+        Container(
+          height: 150,
+          child: BoardPicker(
+            onChanged: (MultiplayerBoard board) {
+              setState(() {
+                _board = board;
+              });
+            },
+          ),
+        ),
         RaisedButton(
           child: Text('Create'),
           color: Theme.of(context).primaryColor,
           textColor: Colors.white,
-          onPressed: () {
-            if (_LanMultiplayerSetupState._serverIsolate != null) {
-              _LanMultiplayerSetupState._serverIsolate.kill();
-            }
+          onPressed: _board == null
+              ? null
+              : () {
+                  if (_LanMultiplayerSetupState._serverIsolate != null) {
+                    _LanMultiplayerSetupState._serverIsolate.kill();
+                  }
 
-            Isolate.spawn<int>(
-                    _LanMultiplayerSetupState.serverEntryPoint, _playerCount)
-                .then((Isolate isolate) =>
-                    _LanMultiplayerSetupState._serverIsolate = isolate);
-          },
+                  Isolate.spawn<int>(_LanMultiplayerSetupState.serverEntryPoint,
+                          _playerCount)
+                      .then((Isolate isolate) =>
+                          _LanMultiplayerSetupState._serverIsolate = isolate);
+                },
         ),
       ],
     );
