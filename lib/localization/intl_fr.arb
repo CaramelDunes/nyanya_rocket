@@ -226,5 +226,11 @@
     "description": "Displayed when a list is empty.",
     "type": "text",
     "placeholders": {}
-  }
+  },
+  "aboutDialogText": "Vous pouvez voir notre Politique de Confidentialité sur la page de l'application ou sur ",
+    "@aboutDialogText": {
+      "description": "Displayed in the About dialog.",
+      "type": "text",
+      "placeholders": {}
+    }
 }

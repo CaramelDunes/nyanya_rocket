@@ -335,4 +335,12 @@ For more information, head over to ''',
       desc: 'Displayed when a list is empty.',
     );
   }
+
+  String get aboutDialogText {
+    return Intl.message(
+      'See our Privacy Policy on the application store page or visit ',
+      name: 'aboutDialogText',
+      desc: 'Displayed in the About dialog.',
+    );
+  }
 }

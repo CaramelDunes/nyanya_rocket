@@ -20,6 +20,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "aboutDialogText" : MessageLookupByLibrary.simpleMessage("See our Privacy Policy on the application store page or visit "),
     "challengeType" : MessageLookupByLibrary.simpleMessage("Challenge"),
     "challengesTitle" : MessageLookupByLibrary.simpleMessage("Challenges"),
     "communityTab" : MessageLookupByLibrary.simpleMessage("Community"),

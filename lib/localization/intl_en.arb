@@ -227,5 +227,11 @@
     "description": "Displayed when a list is empty.",
     "type": "text",
     "placeholders": {}
-  }
+  },
+  "aboutDialogText": "See our Privacy Policy on the application store page or visit ",
+    "@aboutDialogText": {
+      "description": "Displayed in the About dialog.",
+      "type": "text",
+      "placeholders": {}
+    }
 }

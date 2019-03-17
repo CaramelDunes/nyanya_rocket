@@ -6,7 +6,10 @@ import 'package:nyanya_rocket/routing.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {
-  static const String projectUrl = 'https://github.com/CaramelDunes/nyanya_rocket';
+  static const String projectUrl =
+      'https://github.com/CaramelDunes/nyanya_rocket';
+  static const String privacyPolicyUrl =
+      'https://carameldunes.fr/NyaNyaPrivacyPolicy.html';
 
   static const List<Locale> supportedLocales = [
     const Locale('en', 'US'),
