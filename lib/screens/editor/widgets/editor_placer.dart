@@ -133,9 +133,14 @@ class _EditorPlacerState extends State<EditorPlacer> {
                 child: AspectRatio(
                     aspectRatio: 12.0 / 9.0,
                     child: InputGridOverlay<EditorTool>(
-                      child: StaticGameView(
-                        game: widget.editorGameController.gameStream,
-                      ),
+                      child: ValueListenableBuilder<Game>(
+                          valueListenable:
+                              widget.editorGameController.gameStream,
+                          builder: (context, value, child) {
+                            return StaticGameView(
+                              game: value,
+                            );
+                          }),
                       previewBuilder: _dragTileBuilder,
                       onDrop: _handleDrop,
                       onTap: _handleTap,

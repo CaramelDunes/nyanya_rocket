@@ -6,27 +6,19 @@ import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class StaticGameView extends StatelessWidget {
-  final ValueListenable<Game> game;
-  final ValueListenable<BoardPosition> mistake;
-  final double timestamp;
+  final Game game;
 
-  StaticGameView({@required this.game, this.timestamp = 0, this.mistake});
+  const StaticGameView({@required this.game});
 
   @override
   Widget build(BuildContext context) {
-    print('GameView rebuild');
-
     return CustomPaint(
       painter: CheckerboardPainter(),
       child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) =>
-              ValueListenableBuilder<Game>(
-                  valueListenable: game,
-                  builder: (context, value, child) {
-                    return TilesDrawer(value.board, constraints);
-                  })),
+              TilesDrawer(game.board, constraints)),
       foregroundPainter: StaticForegroundPainter(game: game),
-      willChange: true,
+      willChange: false,
     );
   }
 }

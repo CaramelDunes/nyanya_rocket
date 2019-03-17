@@ -4,7 +4,7 @@ import 'package:nyanya_rocket/widgets/game_view/entities_drawer_canvas.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class StaticForegroundPainter extends CustomPainter {
-  final ValueListenable<Game> game;
+  final Game game;
   final EntitiesDrawerCanvas _entitiesDrawer = EntitiesDrawerCanvas();
 
   StaticForegroundPainter({@required this.game});
@@ -12,7 +12,7 @@ class StaticForegroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     _paintWalls(canvas, size);
-    _entitiesDrawer.drawEntities(canvas, size, game.value.entities, 0);
+    _entitiesDrawer.drawEntities(canvas, size, game.entities, 0);
   }
 
   @override
@@ -69,14 +69,14 @@ class StaticForegroundPainter extends CustomPainter {
 
     for (int x = 0; x < 12; x++) {
       for (int y = 0; y < 9; y++) {
-        if (game.value.board.hasUpWall(x, y)) {
+        if (game.board.hasUpWall(x, y)) {
           canvas.drawRect(
               Rect.fromLTWH(
                   x * xStep, y * yStep - wallWidth / 2, xStep, wallWidth),
               wallPaint);
         }
 
-        if (game.value.board.hasLeftWall(x, y)) {
+        if (game.board.hasLeftWall(x, y)) {
           canvas.drawRect(
               Rect.fromLTWH(
                   x * xStep - wallWidth / 2, y * yStep, wallWidth, yStep),
@@ -84,7 +84,7 @@ class StaticForegroundPainter extends CustomPainter {
         }
 
         if (y == 8) {
-          if (game.value.board.hasDownWall(x, y)) {
+          if (game.board.hasDownWall(x, y)) {
             canvas.drawRect(
                 Rect.fromLTWH(x * xStep, (y + 1) * yStep - wallWidth / 2, xStep,
                     wallWidth),
@@ -93,7 +93,7 @@ class StaticForegroundPainter extends CustomPainter {
         }
 
         if (x == 11) {
-          if (game.value.board.hasRightWall(x, y)) {
+          if (game.board.hasRightWall(x, y)) {
             canvas.drawRect(
                 Rect.fromLTWH((x + 1) * xStep - wallWidth / 2, y * yStep,
                     wallWidth, yStep),
