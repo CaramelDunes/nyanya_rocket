@@ -2,6 +2,7 @@ import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/network_multiplayer.dart';
 import 'package:nyanya_rocket/screens/multiplayer/widgets/board_picker.dart';
@@ -30,26 +31,19 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   static Isolate _serverIsolate;
   final _formKey = GlobalKey<FormState>();
 
-  Future<String> _ipFuture;
   MultiplayerBoard _board;
 
   @override
   void initState() {
     super.initState();
 
-    _ipFuture = Connectivity().getWifiIP();
-    _ipFuture.then((String ip) {
+    Connectivity().getWifiIP().then((String ip) {
       if (mounted) {
         setState(() {
           _localIp = ip ?? '';
         });
       }
     });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   static void serverEntryPoint(ArgumentBundle arguments) {
@@ -66,33 +60,34 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
           child: Column(
             children: <Widget>[
               TextFormField(
-                decoration: InputDecoration(labelText: 'Nickname'),
+                decoration: InputDecoration(
+                    labelText: NyaNyaLocalizations.of(context).nicknameLabel),
                 maxLength: 16,
                 textCapitalization: TextCapitalization.words,
                 onSaved: (String value) => _nickname = value,
                 validator: (String value) {
                   if (value.isEmpty) {
-                    return 'Please enter a valid nickname.';
+                    return NyaNyaLocalizations.of(context).invalidNicknameText;
                   }
                 },
               ),
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Server hostname',
+                  labelText: NyaNyaLocalizations.of(context).hostnameLabel,
                 ),
                 onSaved: (String value) => _hostname = value,
                 validator: (String value) {
                   if (!LanMultiplayerSetup.hostnameMatcher.hasMatch(value)) {
-                    return 'Please enter a valid hostname.';
+                    return NyaNyaLocalizations.of(context).invalidHostnameText;
                   }
                 },
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: RaisedButton(
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
-                  child: Text('Connect'),
+                  child: Text(NyaNyaLocalizations.of(context).playLabel),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
@@ -118,6 +113,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
         ),
         Text(
           _localIp,
+          textAlign: TextAlign.center,
           style: TextStyle(fontSize: 30),
         ),
         Divider(),
@@ -149,24 +145,29 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                     }),
               ),
             ),
+            VerticalDivider(),
             Expanded(
               child: DropdownButton<int>(
                 value: _playerCount,
                 items: <DropdownMenuItem<int>>[
                   DropdownMenuItem(
-                    child: Text('1 Players'),
+                    child: Text(
+                        '1 ${NyaNyaLocalizations.of(context).playersLabel}'),
                     value: 1,
                   ),
                   DropdownMenuItem(
-                    child: Text('2 Players'),
+                    child: Text(
+                        '2 ${NyaNyaLocalizations.of(context).playersLabel}'),
                     value: 2,
                   ),
                   DropdownMenuItem(
-                    child: Text('3 Players'),
+                    child: Text(
+                        '3 ${NyaNyaLocalizations.of(context).playersLabel}'),
                     value: 3,
                   ),
                   DropdownMenuItem(
-                    child: Text('4 Players'),
+                    child: Text(
+                        '4 ${NyaNyaLocalizations.of(context).playersLabel}'),
                     value: 4,
                   ),
                 ],
@@ -187,23 +188,27 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
             },
           ),
         ),
-        RaisedButton(
-          child: Text('Create'),
-          color: Theme.of(context).primaryColor,
-          textColor: Colors.white,
-          onPressed: _board == null
-              ? null
-              : () {
-                  if (_LanMultiplayerSetupState._serverIsolate != null) {
-                    _LanMultiplayerSetupState._serverIsolate.kill();
-                  }
+        Container(
+          child: Center(
+            child: RaisedButton(
+              child: Text(NyaNyaLocalizations.of(context).createLabel),
+              color: Theme.of(context).primaryColor,
+              textColor: Colors.white,
+              onPressed: _board == null
+                  ? null
+                  : () {
+                      if (_LanMultiplayerSetupState._serverIsolate != null) {
+                        _LanMultiplayerSetupState._serverIsolate.kill();
+                      }
 
-                  Isolate.spawn<ArgumentBundle>(
-                          _LanMultiplayerSetupState.serverEntryPoint,
-                          ArgumentBundle(_board.board(), _playerCount))
-                      .then((Isolate isolate) =>
-                          _LanMultiplayerSetupState._serverIsolate = isolate);
-                },
+                      Isolate.spawn<ArgumentBundle>(
+                              _LanMultiplayerSetupState.serverEntryPoint,
+                              ArgumentBundle(_board.board(), _playerCount))
+                          .then((Isolate isolate) => _LanMultiplayerSetupState
+                              ._serverIsolate = isolate);
+                    },
+            ),
+          ),
         ),
       ],
     );

@@ -237,12 +237,68 @@ For more information, head over to ''',
     );
   }
 
+  String get nicknameLabel {
+    return Intl.message(
+      'Nickname',
+      name: 'nicknameLabel',
+      desc: 'Nickname field label of the Multiplayer screen.',
+    );
+  }
+
+  String get invalidNicknameText {
+    return Intl.message(
+      'Please enter a valid nickname.',
+      name: 'invalidNicknameText',
+      desc: 'When entered nickname is incorrect in the Multiplayer screen.',
+    );
+  }
+
+  String get invalidHostnameText {
+    return Intl.message(
+      'Please enter a valid hostname.',
+      name: 'invalidHostnameText',
+      desc: 'When entered hostname is incorrect in the Multiplayer screen.',
+    );
+  }
+
+  String get hostnameLabel {
+    return Intl.message(
+      'Server hostname',
+      name: 'hostnameLabel',
+      desc: 'Server hostname field label of the Multiplayer screen.',
+    );
+  }
+
+  String get createLabel {
+    return Intl.message(
+      'Create',
+      name: 'createLabel',
+      desc: 'Create button label of the Multiplayer screen.',
+    );
+  }
+
   // Editor screen
   String get newTab {
     return Intl.message(
       'New',
       name: 'newTab',
       desc: 'New tab of the Editor screen.',
+    );
+  }
+
+  String get nameLabel {
+    return Intl.message(
+      'Name',
+      name: 'nameLabel',
+      desc: 'Name field of the new tab of the Editor screen.',
+    );
+  }
+
+  String get invalidNameText {
+    return Intl.message(
+      'Please enter a valid name.',
+      name: 'invalidNameText',
+      desc: 'When entered name is invalid in the new tab of the Editor screen.',
     );
   }
 
@@ -341,6 +397,30 @@ For more information, head over to ''',
       'See our Privacy Policy on the application store page or visit ',
       name: 'aboutDialogText',
       desc: 'Displayed in the About dialog.',
+    );
+  }
+
+  String get playLabel {
+    return Intl.message(
+      'Play',
+      name: 'playLabel',
+      desc: 'Displayed in various buttons.',
+    );
+  }
+
+  String get playersLabel {
+    return Intl.message(
+      'players',
+      name: 'playersLabel',
+      desc: 'Displayed in various locations.',
+    );
+  }
+
+  String get boardSelectionText {
+    return Intl.message(
+      'Tap to select',
+      name: 'boardSelectionText',
+      desc: 'Displayed in board picker.',
     );
   }
 }

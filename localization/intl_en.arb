@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-03-15T21:39:52.825242",
+  "@@last_modified": "2019-03-18T23:27:39.318025",
   "puzzleType": "Puzzle",
   "@puzzleType": {
     "description": "Puzzle type of game.",
@@ -156,9 +156,51 @@
     "type": "text",
     "placeholders": {}
   },
+  "nicknameLabel": "Nickname",
+  "@nicknameLabel": {
+    "description": "Nickname field label of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidNicknameText": "Please enter a valid nickname.",
+  "@invalidNicknameText": {
+    "description": "When entered nickname is incorrect in the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidHostnameText": "Please enter a valid hostname.",
+  "@invalidHostnameText": {
+    "description": "When entered hostname is incorrect in the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "hostnameLabel": "Server hostname",
+  "@hostnameLabel": {
+    "description": "Server hostname field label of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createLabel": "Create",
+  "@createLabel": {
+    "description": "Create button label of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
   "newTab": "New",
   "@newTab": {
     "description": "New tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nameLabel": "Name",
+  "@nameLabel": {
+    "description": "Name field of the new tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidNameText": "Please enter a valid name.",
+  "@invalidNameText": {
+    "description": "When entered name is invalid in the new tab of the Editor screen.",
     "type": "text",
     "placeholders": {}
   },
@@ -229,9 +271,27 @@
     "placeholders": {}
   },
   "aboutDialogText": "See our Privacy Policy on the application store page or visit ",
-    "@aboutDialogText": {
-      "description": "Displayed in the About dialog.",
-      "type": "text",
-      "placeholders": {}
-    }
+  "@aboutDialogText": {
+    "description": "Displayed in the About dialog.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "playLabel": "Play",
+  "@playLabel": {
+    "description": "Displayed in various buttons.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "playersLabel": "players",
+  "@playersLabel": {
+    "description": "Displayed in various locations.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "boardSelectionText": "Tap to select",
+  "@boardSelectionText": {
+    "description": "Displayed in board picker.",
+    "type": "text",
+    "placeholders": {}
+  }
 }

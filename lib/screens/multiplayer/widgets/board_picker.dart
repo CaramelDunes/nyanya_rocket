@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/board_picker_lists.dart';
 import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
@@ -24,7 +25,7 @@ class _BoardPickerState extends State<BoardPicker> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: _selectedBoard == null
-                ? Text('Tap to select board')
+                ? Text(NyaNyaLocalizations.of(context).boardSelectionText)
                 : AspectRatio(
                     aspectRatio: 12 / 9,
                     child: StaticGameView(

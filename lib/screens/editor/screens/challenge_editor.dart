@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/challenge_store.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
@@ -153,7 +154,8 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
                       child: RaisedButton(
                           color: Theme.of(context).primaryColor,
                           textColor: Colors.white,
-                          child: Text("Try"),
+                          child:
+                              Text(NyaNyaLocalizations.of(context).playLabel),
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) => Challenge(
@@ -168,7 +170,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
                       child: RaisedButton(
                           color: Theme.of(context).primaryColor,
                           textColor: Colors.white,
-                          child: Text("Save"),
+                          child: Text('Save'),
                           onPressed: () {
                             if (uuid == null) {
                               ChallengeEditor.store

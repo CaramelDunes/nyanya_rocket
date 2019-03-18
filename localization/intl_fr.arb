@@ -1,22 +1,22 @@
 {
   "puzzleType": "Puzzle",
-   "@puzzleType": {
-     "description": "Puzzle type of game.",
-     "type": "text",
-     "placeholders": {}
-   },
-   "challengeType": "Défi",
-   "@challengeType": {
-     "description": "Challenge type of game.",
-     "type": "text",
-     "placeholders": {}
-   },
-   "multiplayerType": "Multijoueur",
-   "@multiplayerType": {
-     "description": "Multiplayer type of game.",
-     "type": "text",
-     "placeholders": {}
-   },
+  "@puzzleType": {
+    "description": "Puzzle type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeType": "Défi",
+  "@challengeType": {
+    "description": "Challenge type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "multiplayerType": "Multijoueur",
+  "@multiplayerType": {
+    "description": "Multiplayer type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
   "challengesTitle": "Défis",
   "@challengesTitle": {
     "description": "Challenges title in AppBar, Drawer...",
@@ -29,96 +29,96 @@
     "type": "text",
     "placeholders": {}
   },
-   "multiplayerTitle": "Multijoueur",
-	 "@multiplayerTitle": {
-	   "description": "Multiplayer title in AppBar, Drawer...",
-	   "type": "text",
-	   "placeholders": {}
-	 },
-	 "editorTitle": "Éditeur",
-	 "@editorTitle": {
-	   "description": "Editor title in AppBar, Drawer...",
-	   "type": "text",
-	   "placeholders": {}
-	 },
-	 "settingsTitle": "Paramètres",
-	 "@settingsTitle": {
-	   "description": "Settings title in AppBar, Drawer...",
-	   "type": "text",
-	   "placeholders": {}
-	 },
-	 "homeTitle": "Accueil",
-	 "@homeTitle": {
-	   "description": "Home title in AppBar, Drawer...",
-	   "type": "text",
-	   "placeholders": {}
-	 },
-	 "tutorialTitle": "Tutoriel",
-	 "@tutorialTitle": {
-	   "description": "Tutorial title in AppBar, Drawer...",
-	   "type": "text",
-	   "placeholders": {}
-	},
+  "multiplayerTitle": "Multijoueur",
+  "@multiplayerTitle": {
+    "description": "Multiplayer title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "editorTitle": "Éditeur",
+  "@editorTitle": {
+    "description": "Editor title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsTitle": "Paramètres",
+  "@settingsTitle": {
+    "description": "Settings title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "homeTitle": "Accueil",
+  "@homeTitle": {
+    "description": "Home title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tutorialTitle": "Tutoriel",
+  "@tutorialTitle": {
+    "description": "Tutorial title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
   "whatsNewTab": "Quoi de neuf ?",
-    "@whatsNewTab": {
-      "description": "What's New tab of the Home screen.",
-      "type": "text",
-      "placeholders": {}
-    },
+  "@whatsNewTab": {
+    "description": "What's New tab of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
   "firstTimeWelcome": "Bienvenue !",
   "@firstTimeWelcome": {
     "description": "First time welcome label of the Home screen.",
     "type": "text",
     "placeholders": {}
   },
-    "firstTimeText": "Première visite ? Allez voir le tutoriel !",
-    "@firstTimeText": {
-      "description": "First time welcome text of the Home screen.",
-      "type": "text",
-      "placeholders": {}
-    },
-    "firstTimeButtonLabel": "M'y emmener !",
-    "@firstTimeButtonLabel": {
-      "description": "First time, go to tutorial button of the Home screen.",
-      "type": "text",
-      "placeholders": {}
-    },
-    "contributingTab": "Participer",
-    "@contributingTab": {
-      "description": "Contributing tab of the Home screen.",
-      "type": "text",
-      "placeholders": {}
-    },
-    "contributingText": "Vous aussi contribuez à NyaNya Rocket !\n\nPas besoin de savoir programmer ou d'être exposé au Louvre, toute contribution est la bienvenue. Vous pouvez:\n  • Signaler des bugs et proposer des améliorations\n  • Traduire l'application dans d'autres langues\n  • Améliorer le contenu artistique (images, animations)\n  • Programmer\n\nPour plus d'informations, rendez-vous sur ",
-      "@contributingText": {
-        "description": "Text of the Contributing tab of Home screen.",
-        "type": "text",
-        "placeholders": {}
-      },
-      "contributorsLabel": "Contributeurs",
-      "@contributorsLabel": {
-        "description": "Contributors label in Contributing tab of the Home screen.",
-        "type": "text",
-        "placeholders": {}
-      },
-    "originalTab": "Originaux",
-    "@originalTab": {
-      "description": "Original tab of the Puzzles, Challenges screens.",
-      "type": "text",
-      "placeholders": {}
-    },
-    "communityTab": "Communauté",
-    "@communityTab": {
-      "description": "Community tab of the Puzzles, Challenges screens.",
-      "type": "text",
-      "placeholders": {}
-    },
-    "deviceTab": "Local",
-    "@deviceTab": {
-      "description": "Device tab of the Puzzles, Challenges screens.",
-      "type": "text",
-      "placeholders": {}
-    },
+  "firstTimeText": "Première visite ? Allez voir le tutoriel !",
+  "@firstTimeText": {
+    "description": "First time welcome text of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "firstTimeButtonLabel": "M'y emmener !",
+  "@firstTimeButtonLabel": {
+    "description": "First time, go to tutorial button of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contributingTab": "Participer",
+  "@contributingTab": {
+    "description": "Contributing tab of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contributingText": "Vous aussi contribuez à NyaNya Rocket !\n\nPas besoin de savoir programmer ou d'être exposé au Louvre, toute contribution est la bienvenue. Vous pouvez:\n  • Signaler des bugs et proposer des améliorations\n  • Traduire l'application dans d'autres langues\n  • Améliorer le contenu artistique (images, animations)\n  • Programmer\n\nPour plus d'informations, rendez-vous sur ",
+  "@contributingText": {
+    "description": "Text of the Contributing tab of Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contributorsLabel": "Contributeurs",
+  "@contributorsLabel": {
+    "description": "Contributors label in Contributing tab of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "originalTab": "Originaux",
+  "@originalTab": {
+    "description": "Original tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "communityTab": "Communauté",
+  "@communityTab": {
+    "description": "Community tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceTab": "Local",
+  "@deviceTab": {
+    "description": "Device tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
   "getMiceObjectiveText": "Guidez toutes les souris vers les fusées en 30 secondes.",
   "@getMiceObjectiveText": {
     "description": "Short explanation of the Get Mice challenge type.",
@@ -143,30 +143,72 @@
     "type": "text",
     "placeholders": {}
   },
-    "lanTab": "Réseau local",
-    "@lanTab": {
-      "description": "LAN tab of the Multiplayer screen.",
-      "type": "text",
-      "placeholders": {}
-    },
-    "matchmakingTab": "Monde",
-    "@matchmakingTab": {
-      "description": "Matchmaking tab of the Multiplayer screen.",
-      "type": "text",
-      "placeholders": {}
-    },
-    "newTab": "Créer",
-    "@newTab": {
-      "description": "New tab of the Editor screen.",
-      "type": "text",
-      "placeholders": {}
-    },
-    "editTab": "Modifier",
-    "@editTab": {
-      "description": "Edit tab of the Editor screen.",
-      "type": "text",
-      "placeholders": {}
-    },
+  "lanTab": "Réseau local",
+  "@lanTab": {
+    "description": "LAN tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "matchmakingTab": "Monde",
+  "@matchmakingTab": {
+    "description": "Matchmaking tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nicknameLabel": "Pseudo",
+  "@nicknameLabel": {
+    "description": "Nickname field label of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidNicknameText": "Pseudo invalide.",
+  "@invalidNicknameText": {
+    "description": "When entered nickname is incorrect in the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidHostnameText": "Adresse invalide",
+  "@invalidHostnameText": {
+    "description": "When entered hostname is incorrect in the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "hostnameLabel": "Adresse du serveur",
+  "@hostnameLabel": {
+    "description": "Server hostname field label of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createLabel": "Créer",
+  "@createLabel": {
+    "description": "Create button label of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newTab": "Créer",
+  "@newTab": {
+    "description": "New tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nameLabel": "Nom",
+  "@nameLabel": {
+    "description": "Name field of the new tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidNameText": "Nom invalide.",
+  "@invalidNameText": {
+    "description": "When entered name is invalid in the new tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "editTab": "Modifier",
+  "@editTab": {
+    "description": "Edit tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
   "discardDialogTitle": "Confirmation",
   "@discardDialogTitle": {
     "description": "Discard confirmation dialog of editor.",
@@ -179,47 +221,47 @@
     "type": "text",
     "placeholders": {}
   },
-    "enableAnimationsLabel": "Animations",
-    "@enableAnimationsLabel": {
-      "description": "Enable Animations setting of the Settings screen.",
-      "type": "text",
-      "placeholders": {}
-    },
-    "darkModeLabel": "Mode nuit",
-    "@darkModeLabel": {
-      "description": "Dark Mode setting of the Settings screen.",
-      "type": "text",
-      "placeholders": {}
-    },
-    "languageLabel": "Langue",
-    "@languageLabel": {
-      "description": "Language setting of the Settings screen.",
-      "type": "text",
-      "placeholders": {}
-    },
-    "yes": "Oui",
-      "@yes": {
-        "description": "Yes string.",
-        "type": "text",
-        "placeholders": {}
-      },
-      "no": "Non",
-      "@no": {
-        "description": "No string.",
-        "type": "text",
-        "placeholders": {}
-      },
-    "loadingLabel": "Chargement...",
-      "@loadingLabel": {
-        "description": "Loading... label of async loaded data.",
-        "type": "text",
-        "placeholders": {}
-      },
-      "notImplementedText": "Pas encore disponible !\n...mais vous pouvez donner un coup de pouce :-)",
-      "@notImplementedText": {
-        "description": "Text of the NotImplementedWidget.",
-        "type": "text",
-        "placeholders": {}
+  "enableAnimationsLabel": "Animations",
+  "@enableAnimationsLabel": {
+    "description": "Enable Animations setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "darkModeLabel": "Mode nuit",
+  "@darkModeLabel": {
+    "description": "Dark Mode setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageLabel": "Langue",
+  "@languageLabel": {
+    "description": "Language setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yes": "Oui",
+  "@yes": {
+    "description": "Yes string.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "no": "Non",
+  "@no": {
+    "description": "No string.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loadingLabel": "Chargement...",
+  "@loadingLabel": {
+    "description": "Loading... label of async loaded data.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notImplementedText": "Pas encore disponible !\n...mais vous pouvez donner un coup de pouce :-)",
+  "@notImplementedText": {
+    "description": "Text of the NotImplementedWidget.",
+    "type": "text",
+    "placeholders": {}
   },
   "emptyListText": "Il n'y a rien ici...",
   "@emptyListText": {
@@ -228,9 +270,27 @@
     "placeholders": {}
   },
   "aboutDialogText": "Vous pouvez voir notre Politique de Confidentialité sur la page de l'application ou sur ",
-    "@aboutDialogText": {
-      "description": "Displayed in the About dialog.",
-      "type": "text",
-      "placeholders": {}
-    }
+  "@aboutDialogText": {
+    "description": "Displayed in the About dialog.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "playLabel": "Jouer",
+  "@playLabel": {
+    "description": "Displayed in various buttons.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "playersLabel": "joueurs",
+  "@playersLabel": {
+    "description": "Displayed in various locations.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "boardSelectionText": "Toucher pour sélectionner",
+  "@boardSelectionText": {
+    "description": "Displayed in board picker.",
+    "type": "text",
+    "placeholders": {}
+  }
 }

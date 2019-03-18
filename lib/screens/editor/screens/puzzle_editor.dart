@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_store.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
@@ -126,7 +127,8 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
                         child: RaisedButton(
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
-                            child: Text("Try"),
+                            child:
+                                Text(NyaNyaLocalizations.of(context).playLabel),
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) => Puzzle(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/device_multiplayer.dart';
 import 'package:nyanya_rocket/screens/multiplayer/widgets/board_picker.dart';
@@ -20,7 +21,7 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(padding: const EdgeInsets.all(8), children: [
+    return ListView(padding: const EdgeInsets.all(8), children: <Widget>[
       Form(
           key: _formState,
           child: Column(
@@ -55,20 +56,24 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
                           onSaved: (Duration value) => _duration = value,
                         ),
                       ),
+                      VerticalDivider(),
                       Expanded(
                         child: DropdownButtonFormField<int>(
                           value: _playerCount,
                           items: <DropdownMenuItem<int>>[
                             DropdownMenuItem(
-                              child: Text('2 Players'),
+                              child: Text(
+                                  '2 ${NyaNyaLocalizations.of(context).playersLabel}'),
                               value: 2,
                             ),
                             DropdownMenuItem(
-                              child: Text('3 Players'),
+                              child: Text(
+                                  '3 ${NyaNyaLocalizations.of(context).playersLabel}'),
                               value: 3,
                             ),
                             DropdownMenuItem(
-                              child: Text('4 Players'),
+                              child: Text(
+                                  '4 ${NyaNyaLocalizations.of(context).playersLabel}'),
                               value: 4,
                             ),
                           ],
@@ -80,21 +85,25 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
                       ),
                     ],
                   ),
-                  Container(
-                    height: 150,
-                    child: BoardPicker(
-                      onChanged: (MultiplayerBoard board) {
-                        setState(() {
-                          _board = board;
-                        });
-                      },
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Container(
+                      height: 150,
+                      child: BoardPicker(
+                        onChanged: (MultiplayerBoard board) {
+                          setState(() {
+                            _board = board;
+                          });
+                        },
+                      ),
                     ),
                   ),
-                  Divider()
                 ] +
                 List.generate(_playerCount, (int i) {
                   return TextFormField(
-                    decoration: InputDecoration(hintText: 'Player ${i + 1}'),
+                    decoration: InputDecoration(
+                        hintText:
+                            '${NyaNyaLocalizations.of(context).nicknameLabel} ${i + 1}'),
                     maxLength: 16,
                     textCapitalization: TextCapitalization.words,
                     onSaved: (String text) {
@@ -107,7 +116,7 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
                     child: RaisedButton(
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
-                      child: Text('Play'),
+                      child: Text(NyaNyaLocalizations.of(context).playLabel),
                       onPressed: _board == null
                           ? null
                           : () {

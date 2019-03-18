@@ -48,7 +48,7 @@ class CreateTabState extends State<CreateTab>
               children: <Widget>[
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Name',
+                    labelText: NyaNyaLocalizations.of(context).nameLabel,
                   ),
                   textCapitalization: TextCapitalization.words,
                   maxLength: 32,
@@ -57,7 +57,7 @@ class CreateTabState extends State<CreateTab>
                   },
                   validator: (String value) {
                     if (value.isEmpty) {
-                      return 'Please enter a valid name.';
+                      return NyaNyaLocalizations.of(context).invalidNameText;
                     }
                   },
                 ),
@@ -118,7 +118,7 @@ class CreateTabState extends State<CreateTab>
                   child: RaisedButton(
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
-                      child: Text('Create!'),
+                      child: Text(NyaNyaLocalizations.of(context).createLabel),
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
@@ -160,6 +160,5 @@ class CreateTabState extends State<CreateTab>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
