@@ -1,4 +1,4 @@
-# NyaNya Rocket! ![https://github.com/CaramelDunes/nyanya_rocket/raw/master/assets/graphics/app_icon.png][]
+# NyaNya Rocket! ![Logo][]
 
 This repository is the home of the NyaNya Rocket! mobile application.
 
@@ -36,3 +36,6 @@ flutter build apk
 Licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International.
 
 See [LICENSE](LICENSE) for more information.
+
+
+[Logo]: https://github.com/CaramelDunes/nyanya_rocket/raw/master/assets/graphics/app_icon.png?raw=1
