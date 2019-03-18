@@ -1,6 +1,8 @@
 # NyaNya Rocket! <img src="https://github.com/CaramelDunes/nyanya_rocket/raw/master/assets/graphics/app_icon.png?raw=1" width="64" height="64" alt="Logo">
 
-This repository is the home of the NyaNya Rocket! mobile application.
+This repository is home to the NyaNya Rocket! mobile application.
+
+<a href='https://play.google.com/store/apps/details?id=fr.carameldunes.nyanyarocket'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height=100/></a>
 
 Powered by the [Flutter framework](https://flutter.dev).
 
@@ -36,3 +38,5 @@ flutter build apk
 Licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International.
 
 See [LICENSE](LICENSE) for more information.
+
+Google Play and the Google Play logo are trademarks of Google LLC.
