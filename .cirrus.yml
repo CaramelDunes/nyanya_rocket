@@ -1,0 +1,2 @@
+container:
+  image: cirrusci/flutter:latest
