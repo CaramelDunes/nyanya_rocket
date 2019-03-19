@@ -59,6 +59,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/graphics/adaptive_icon_foreground.png
     - assets/graphics/pit.png
     - assets/graphics/generator.png
     - assets/graphics/rocket_blue.png
@@ -70,6 +71,9 @@ flutter:
     - assets/graphics/arrow_yellow.png
     - assets/graphics/arrow_green.png
     - assets/graphics/arrow_grey.png
+    - assets/graphics/wall.png
+    - assets/graphics/wall_cross.png
+    - assets/graphics/departed_rocket.png
     - assets/animations/mouse_right.flr
     - assets/animations/mouse_up.flr
     - assets/animations/mouse_left.flr
@@ -78,6 +82,3 @@ flutter:
     - assets/animations/cat_up.flr
     - assets/animations/cat_right.flr
     - assets/animations/cat_left.flr
-    - assets/graphics/wall.png
-    - assets/graphics/wall_cross.png
-    - assets/graphics/departed_rocket.png
