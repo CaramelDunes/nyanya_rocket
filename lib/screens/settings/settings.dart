@@ -19,18 +19,6 @@ class SettingsState extends State<Settings> {
         body: ListView(
           children: <Widget>[
             SwitchListTile(
-              title:
-                  Text(NyaNyaLocalizations.of(context).enableAnimationsLabel),
-              onChanged: (bool value) {
-                setState(() {
-                  OptionsHolder.of(context).options = OptionsHolder.of(context)
-                      .options
-                      .copyWith(animations: value);
-                });
-              },
-              value: OptionsHolder.of(context).options.animations,
-            ),
-            SwitchListTile(
               title: Text(NyaNyaLocalizations.of(context).darkModeLabel),
               onChanged: (bool value) {
                 setState(() {
