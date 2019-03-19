@@ -34,34 +34,27 @@ class SuccessOverlay extends StatelessWidget {
                           height: 16,
                         ),
                         Text(
-                          "Stage Cleared!",
+                          'Stage Cleared!',
                           style: TextStyle(
-                              fontFamily: "Kimberley",
                               color: Colors.green,
                               fontSize: 50),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            RaisedButton(
-                              color: Theme.of(context).primaryColor,
-                              textColor: Colors.white,
-                              child: Text('Back'),
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pop(OverlayPopData(playNext: false));
-                              },
-                            ),
-                            RaisedButton(
-                              color: Theme.of(context).primaryColor,
-                              textColor: Colors.white,
-                              child: Text('Next'),
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pop(OverlayPopData(playNext: true));
-                              },
-                            ),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              RaisedButton(
+                                color: Theme.of(context).primaryColor,
+                                textColor: Colors.white,
+                                child: Text('Next'),
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(OverlayPopData(playNext: true));
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 16,
