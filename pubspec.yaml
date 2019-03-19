@@ -3,7 +3,7 @@ description: An open-source game taking inspiration from SEGA's ChuChu Rocket!
 author: CaramelDunes
 homepage: https://github.com/CaramelDunes/nyanya_rocket
 
-version: 1.0.0+7
+version: 1.0.0+9
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -81,8 +81,3 @@ flutter:
     - assets/graphics/wall.png
     - assets/graphics/wall_cross.png
     - assets/graphics/departed_rocket.png
-
-  fonts:
-    - family: Kimberley
-      fonts:
-        - asset: assets/fonts/kimberley.ttf
