@@ -45,7 +45,6 @@ class ForegroundPainter {
   static void paintWalls(Canvas canvas, Size size, Board board) {
     double xStep = size.width / 12;
     double yStep = size.height / 9;
-
     double wallWidth = yStep * 0.15;
 
     for (int x = 0; x < 12; x++) {
@@ -55,8 +54,9 @@ class ForegroundPainter {
               Rect.fromLTWH(
                   x * xStep, y * yStep - wallWidth / 2, xStep, wallWidth),
               wallPaint);
-          canvas.drawCircle(Offset(x * xStep, y * yStep), 4, wallPaint);
-          canvas.drawCircle(Offset(x * xStep + xStep, y * yStep), 4, wallPaint);
+          canvas.drawCircle(Offset(x * xStep, y * yStep), wallWidth, wallPaint);
+          canvas.drawCircle(
+              Offset(x * xStep + xStep, y * yStep), wallWidth, wallPaint);
         }
 
         if (board.hasLeftWall(x, y)) {
@@ -64,8 +64,9 @@ class ForegroundPainter {
               Rect.fromLTWH(
                   x * xStep - wallWidth / 2, y * yStep, wallWidth, yStep),
               wallPaint);
-          canvas.drawCircle(Offset(x * xStep, y * yStep), 4, wallPaint);
-          canvas.drawCircle(Offset(x * xStep, y * yStep + yStep), 4, wallPaint);
+          canvas.drawCircle(Offset(x * xStep, y * yStep), wallWidth, wallPaint);
+          canvas.drawCircle(
+              Offset(x * xStep, y * yStep + yStep), wallWidth, wallPaint);
         }
 
         if (y == 8) {
@@ -74,9 +75,10 @@ class ForegroundPainter {
                 Rect.fromLTWH(x * xStep, (y + 1) * yStep - wallWidth / 2, xStep,
                     wallWidth),
                 wallPaint);
-            canvas.drawCircle(Offset(x * xStep, (y + 1) * yStep), 4, wallPaint);
             canvas.drawCircle(
-                Offset(x * xStep + xStep, (y + 1) * yStep), 4, wallPaint);
+                Offset(x * xStep, (y + 1) * yStep), wallWidth, wallPaint);
+            canvas.drawCircle(Offset(x * xStep + xStep, (y + 1) * yStep),
+                wallWidth, wallPaint);
           }
         }
 
@@ -86,9 +88,10 @@ class ForegroundPainter {
                 Rect.fromLTWH((x + 1) * xStep - wallWidth / 2, y * yStep,
                     wallWidth, yStep),
                 wallPaint);
-            canvas.drawCircle(Offset((x + 1) * xStep, y * yStep), 4, wallPaint);
             canvas.drawCircle(
-                Offset((x + 1) * xStep, y * yStep + yStep), 4, wallPaint);
+                Offset((x + 1) * xStep, y * yStep), wallWidth, wallPaint);
+            canvas.drawCircle(Offset((x + 1) * xStep, y * yStep + yStep),
+                wallWidth, wallPaint);
           }
         }
       }
