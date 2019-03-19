@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/game_view/checkerboard_painter.dart';
@@ -9,9 +8,8 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class AnimatedGameView extends StatefulWidget {
   final ValueListenable<Game> game;
   final ValueListenable<BoardPosition> mistake;
-  final double timestamp;
 
-  AnimatedGameView({@required this.game, this.timestamp = 0, this.mistake});
+  AnimatedGameView({@required this.game, this.mistake});
 
   @override
   _AnimatedGameViewState createState() {
@@ -21,31 +19,30 @@ class AnimatedGameView extends StatefulWidget {
 
 class _AnimatedGameViewState extends State<AnimatedGameView>
     with SingleTickerProviderStateMixin {
-  Animation<int> animation;
-  AnimationController controller;
+  Animation<int> _animation;
+  AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
 
-    controller = AnimationController(
+    _controller = AnimationController(
         duration: const Duration(milliseconds: 500), vsync: this);
-    animation = IntTween(begin: 0, end: 29).animate(controller);
-    controller.repeat();
+    _animation = IntTween(begin: 0, end: 29).animate(_controller);
+    _controller.repeat();
   }
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
+
+    _controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('GameView rebuild');
-
     return CustomPaint(
-      painter: CheckerboardPainter(),
+      painter: const CheckerboardPainter(),
       child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) =>
               ValueListenableBuilder<Game>(
@@ -55,9 +52,8 @@ class _AnimatedGameViewState extends State<AnimatedGameView>
                   })),
       foregroundPainter: AnimatedForegroundPainter(
           game: widget.game,
-          timestamp: widget.timestamp,
           mistake: widget.mistake,
-          entityAnimation: animation),
+          entityAnimation: _animation),
       willChange: true,
     );
   }

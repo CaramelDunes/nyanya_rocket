@@ -9,8 +9,6 @@ import 'package:flutter/services.dart';
 class CachedFlareAnimation {
   static const int fps = 60;
 
-  int _currentFrame = 0;
-  int _numberOfFrames = 1;
   Size _size;
   List<ui.Image> _cachedPictures;
 
@@ -25,14 +23,14 @@ class CachedFlareAnimation {
         ActorAnimation animation = artboard.getAnimation(animationName);
 
         if (animation != null) {
-          _numberOfFrames = (animation.duration * fps).floor();
+          int numberOfFrames = (animation.duration * fps).floor();
           AABB bounds = artboard.artboardAABB();
 
           _size = Size(bounds[2] - bounds[0], bounds[3] - bounds[1]);
 
-          List<ui.Image> cache = List.generate(_numberOfFrames, (int i) {
+          List<ui.Image> cache = List.generate(numberOfFrames, (int i) {
             animation.apply(
-                i * animation.duration / _numberOfFrames, artboard, 1);
+                i * animation.duration / numberOfFrames, artboard, 1);
             artboard.advance(0); // The parameter is actually useless
 
             final pictureRecorder = ui.PictureRecorder();
@@ -45,7 +43,6 @@ class CachedFlareAnimation {
                 .then((ui.Image img) {
               _cachedPictures[i] = img;
             });
-            return null;
           }, growable: false);
 
           _cachedPictures = cache;
@@ -54,29 +51,21 @@ class CachedFlareAnimation {
     });
   }
 
-  void advance() {
-    _currentFrame = (_currentFrame + 2) % _numberOfFrames;
-  }
-
   void draw(Canvas canvas, Size size, double x, double y, int frameNb,
       [Paint paint]) {
     if (_cachedPictures != null && _cachedPictures[frameNb] != null) {
-      double scaleX = 1.0, scaleY = 1.0;
+      double scale = min(size.width / _size.width, size.height / _size.height);
 
-      double minScale =
-          min(size.width / _size.width, size.height / _size.height);
-      scaleX = scaleY = minScale;
-
-      if (scaleY * _size.height < size.height) {
-        y += (size.height - scaleY * _size.height) / 2;
-      } else if (scaleX * _size.width < size.width) {
-        x += (size.width - scaleX * _size.width) / 2;
+      if (scale * _size.height < size.height) {
+        y += (size.height - scale * _size.height) / 2;
+      } else if (scale * _size.width < size.width) {
+        x += (size.width - scale * _size.width) / 2;
       }
 
       canvas.save();
 
       canvas.translate(x, y);
-      canvas.scale(scaleX, scaleY);
+      canvas.scale(scale);
       canvas.drawImage(_cachedPictures[frameNb], Offset.zero, paint ?? Paint());
 
       canvas.restore();

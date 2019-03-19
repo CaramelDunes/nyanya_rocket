@@ -117,11 +117,6 @@ class EntitiesDrawerCanvas {
   void drawEntities(
       Canvas canvas, Size size, SplayTreeMap<int, Entity> entities,
       [int frameNb = 0]) {
-    mouseAnimations
-        .forEach((CachedFlareAnimation animation) => animation.advance());
-    catAnimations
-        .forEach((CachedFlareAnimation animation) => animation.advance());
-
     double tileSize = size.width / 12;
 
     entities.forEach((int key, Entity entity) {

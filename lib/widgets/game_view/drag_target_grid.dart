@@ -17,7 +17,7 @@ class DragTargetGrid<T> extends StatefulWidget {
   final TapAcceptor<T> tapAcceptor;
   final SwipeAcceptor swipeAcceptor;
 
-  DragTargetGrid(
+  const DragTargetGrid(
       {Key key,
       @required this.width,
       @required this.height,
@@ -36,6 +36,41 @@ class DragTargetGrid<T> extends StatefulWidget {
 class _DragTargetGridState<T> extends State<DragTargetGrid<T>> {
   PointerDownEvent _downEvent;
 
+  Widget _dragTargetBuilder(int x, int y) {
+    return Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: (PointerDownEvent event) => _downEvent = event,
+      onPointerUp: (PointerUpEvent event) {
+        Offset difference = event.position - _downEvent.position;
+
+        double direction = difference.direction;
+
+        if (widget.tapAcceptor != null && difference.distanceSquared < 10) {
+          widget.tapAcceptor(x, y);
+        } else if (widget.swipeAcceptor != null &&
+            difference.distanceSquared > 30) {
+          if (-pi / 4 < direction && direction < pi / 4) {
+            widget.swipeAcceptor(x, y, Direction.Right);
+          } else if (pi / 4 < direction && direction < 3 * pi / 4) {
+            widget.swipeAcceptor(x, y, Direction.Down);
+          } else if (3 * pi / 4 < direction || direction < -3 * pi / 4) {
+            widget.swipeAcceptor(x, y, Direction.Left);
+          } else if (-3 * pi / 4 < direction && direction < -pi / 4) {
+            widget.swipeAcceptor(x, y, Direction.Up);
+          }
+        }
+      },
+      child: widget.tileBuilder != null
+          ? DragTargetTile<T>(
+              x: x,
+              y: y,
+              builder: widget.tileBuilder,
+              acceptor: widget.dropAcceptor,
+            )
+          : Container(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -45,53 +80,8 @@ class _DragTargetGridState<T> extends State<DragTargetGrid<T>> {
             (x) => Expanded(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List<Widget>.generate(
-                          widget.height,
-                          (y) => Expanded(
-                                child: Listener(
-                                  behavior: HitTestBehavior.translucent,
-                                  onPointerDown: (PointerDownEvent event) =>
-                                      _downEvent = event,
-                                  onPointerUp: (PointerUpEvent event) {
-                                    Offset difference =
-                                        event.position - _downEvent.position;
-
-                                    double direction = difference.direction;
-
-                                    if (widget.tapAcceptor != null &&
-                                        difference.distanceSquared < 10) {
-                                      widget.tapAcceptor(x, y);
-                                    } else if (widget.swipeAcceptor != null &&
-                                        difference.distanceSquared > 30) {
-                                      if (-pi / 4 < direction &&
-                                          direction < pi / 4) {
-                                        widget.swipeAcceptor(
-                                            x, y, Direction.Right);
-                                      } else if (pi / 4 < direction &&
-                                          direction < 3 * pi / 4) {
-                                        widget.swipeAcceptor(
-                                            x, y, Direction.Down);
-                                      } else if (3 * pi / 4 < direction ||
-                                          direction < -3 * pi / 4) {
-                                        widget.swipeAcceptor(
-                                            x, y, Direction.Left);
-                                      } else if (-3 * pi / 4 < direction &&
-                                          direction < -pi / 4) {
-                                        widget.swipeAcceptor(
-                                            x, y, Direction.Up);
-                                      }
-                                    }
-                                  },
-                                  child: widget.tileBuilder != null
-                                      ? DragTargetTile<T>(
-                                          x: x,
-                                          y: y,
-                                          builder: widget.tileBuilder,
-                                          acceptor: widget.dropAcceptor,
-                                        )
-                                      : Container(),
-                                ),
-                              ))),
+                      children: List<Widget>.generate(widget.height,
+                          (y) => Expanded(child: _dragTargetBuilder(x, y)))),
                 )));
   }
 }
@@ -102,7 +92,7 @@ class DragTargetTile<T> extends StatelessWidget {
   final DragTargetTileBuilder<T> builder;
   final DropAcceptor<T> acceptor;
 
-  DragTargetTile(
+  const DragTargetTile(
       {@required this.x,
       @required this.y,
       @required this.builder,

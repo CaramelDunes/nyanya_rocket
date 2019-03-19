@@ -13,7 +13,7 @@ class StaticGameView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: CheckerboardPainter(),
+      painter: const CheckerboardPainter(),
       child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) =>
               TilesDrawer(game.board, constraints)),
