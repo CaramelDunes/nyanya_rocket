@@ -35,8 +35,6 @@ class CreateTabState extends State<CreateTab>
 
   @override
   Widget build(BuildContext context) {
-    bool notNull(Object o) => o != null;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
@@ -84,35 +82,34 @@ class CreateTabState extends State<CreateTab>
                       }),
                   onSaved: (EditorMode value) => _mode = value,
                 ),
-                _mode == EditorMode.Challenge
-                    ? DropdownButtonFormField<ChallengeType>(
-                        value: _challengeType,
-                        items: <DropdownMenuItem<ChallengeType>>[
-                          DropdownMenuItem(
-                            child: Text(ChallengeType.GetMice.toString()),
-                            value: ChallengeType.GetMice,
-                          ),
-                          DropdownMenuItem(
-                            child: Text(ChallengeType.RunAway.toString()),
-                            value: ChallengeType.RunAway,
-                          ),
-                          DropdownMenuItem(
-                            child: Text(ChallengeType.LunchTime.toString()),
-                            value: ChallengeType.LunchTime,
-                          ),
-                          DropdownMenuItem(
-                            child:
-                                Text(ChallengeType.OneHundredMice.toString()),
-                            value: ChallengeType.OneHundredMice,
-                          ),
-                        ],
-                        onChanged: (ChallengeType value) => setState(() {
-                              _challengeType = value;
-                            }),
-                        onSaved: (ChallengeType value) =>
-                            _challengeType = value,
-                      )
-                    : null,
+                Visibility(
+                  visible: _mode == EditorMode.Challenge,
+                  child: DropdownButtonFormField<ChallengeType>(
+                    value: _challengeType,
+                    items: <DropdownMenuItem<ChallengeType>>[
+                      DropdownMenuItem(
+                        child: Text(ChallengeType.GetMice.toString()),
+                        value: ChallengeType.GetMice,
+                      ),
+                      DropdownMenuItem(
+                        child: Text(ChallengeType.RunAway.toString()),
+                        value: ChallengeType.RunAway,
+                      ),
+                      DropdownMenuItem(
+                        child: Text(ChallengeType.LunchTime.toString()),
+                        value: ChallengeType.LunchTime,
+                      ),
+                      DropdownMenuItem(
+                        child: Text(ChallengeType.OneHundredMice.toString()),
+                        value: ChallengeType.OneHundredMice,
+                      ),
+                    ],
+                    onChanged: (ChallengeType value) => setState(() {
+                          _challengeType = value;
+                        }),
+                    onSaved: (ChallengeType value) => _challengeType = value,
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RaisedButton(
@@ -150,7 +147,7 @@ class CreateTabState extends State<CreateTab>
                         }
                       }),
                 ),
-              ].where(notNull).toList(),
+              ],
             ),
           ),
           Spacer(flex: 3),

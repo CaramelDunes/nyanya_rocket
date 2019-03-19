@@ -8,7 +8,6 @@ import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class DeviceMultiplayer extends StatefulWidget {
@@ -25,7 +24,6 @@ class DeviceMultiplayer extends StatefulWidget {
 
 class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
   LocalMultiplayerGameController _localMultiplayerController;
-  bool _ended = false;
 
   @override
   void initState() {
@@ -59,21 +57,19 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
 
   Widget _dragTileBuilder(BuildContext context, List<Tile> candidateData,
       List rejectedData, int x, int y) {
-    if (candidateData.length == 0) return Container();
+    if (candidateData.length == 0) return const SizedBox.expand();
     return TilesDrawer.tileView(candidateData[0]);
   }
 
   Widget _draggableArrow(PlayerColor player, Direction direction) =>
       Draggable<Tile>(
           maxSimultaneousDrags: 1,
-          feedback: Container(),
+          feedback: const SizedBox.shrink(),
           child: ArrowImage(player: player, direction: direction),
           data: Arrow(player: player, direction: direction));
 
   @override
   Widget build(BuildContext context) {
-    bool notNull(Object o) => o != null;
-
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: Stack(
@@ -188,8 +184,7 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
               ),
             ],
           ),
-          _ended ? SuccessOverlay(succeededName: widget.board.name) : null,
-        ].where(notNull).toList(),
+        ],
       ),
     );
   }

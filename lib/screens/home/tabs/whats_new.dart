@@ -9,41 +9,40 @@ class WhatsNew extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        OptionsHolder.of(context).options.firstRun
-            ? Flexible(
-                child: Dismissible(
-                  key: UniqueKey(),
-                  onDismissed: (DismissDirection direction) {
-                    OptionsHolder.of(context).options =
-                        OptionsHolder.of(context)
-                            .options
-                            .copyWith(firstRun: false);
-                  },
-                  child: Card(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            NyaNyaLocalizations.of(context).firstTimeWelcome,
-                            style: Theme.of(context).textTheme.title,
-                          ),
-                        ),
-                        Text(NyaNyaLocalizations.of(context).firstTimeText),
-                        RaisedButton(
-                          child: Text(NyaNyaLocalizations.of(context)
-                              .firstTimeButtonLabel),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/tutorial');
-                          },
-                        )
-                      ],
+        Visibility(
+          visible: OptionsHolder.of(context).options.firstRun,
+          child: Flexible(
+            child: Dismissible(
+              key: UniqueKey(),
+              onDismissed: (DismissDirection direction) {
+                OptionsHolder.of(context).options =
+                    OptionsHolder.of(context).options.copyWith(firstRun: false);
+              },
+              child: Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        NyaNyaLocalizations.of(context).firstTimeWelcome,
+                        style: Theme.of(context).textTheme.title,
+                      ),
                     ),
-                  ),
+                    Text(NyaNyaLocalizations.of(context).firstTimeText),
+                    RaisedButton(
+                      child: Text(
+                          NyaNyaLocalizations.of(context).firstTimeButtonLabel),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/tutorial');
+                      },
+                    )
+                  ],
                 ),
-              )
-            : null,
+              ),
+            ),
+          ),
+        ),
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream: Firestore.instance.collection('articles').snapshots(),
@@ -79,7 +78,7 @@ class WhatsNew extends StatelessWidget {
             },
           ),
         )
-      ].where((Object o) => o != null).toList(),
+      ],
     );
   }
 }

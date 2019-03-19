@@ -184,22 +184,22 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
         itemCount: OriginalPuzzles.puzzles.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(OriginalPuzzles.puzzles[i].name),
-              trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    OriginalPuzzles.progression.hasStarred(i)
-                        ? Icon(
-                            Icons.star,
-                            color: Theme.of(context).accentColor,
-                          )
-                        : null,
-                    OriginalPuzzles.progression.hasCleared(i)
-                        ? Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          )
-                        : null
-                  ].where((Widget w) => w != null).toList()),
+              trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                Visibility(
+                  visible: OriginalPuzzles.progression.hasStarred(i),
+                  child: Icon(
+                    Icons.star,
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
+                Visibility(
+                  visible: OriginalPuzzles.progression.hasCleared(i),
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.green,
+                  ),
+                )
+              ]),
               onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute<OverlayPopData>(

@@ -26,7 +26,7 @@ class AvailableArrows extends StatelessWidget {
                               puzzleGameController.canPlaceArrow
                                   ? snapshot.data
                                   : 0,
-                          feedback: Container(),
+                          feedback: const SizedBox.shrink(),
                           child: Card(
                             child: Flex(
                               direction: MediaQuery.of(context).orientation ==

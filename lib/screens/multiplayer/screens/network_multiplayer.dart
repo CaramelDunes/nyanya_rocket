@@ -85,8 +85,6 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer>
 
   @override
   Widget build(BuildContext context) {
-    bool notNull(Object o) => o != null;
-
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: Stack(
@@ -157,16 +155,17 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer>
               ),
             ],
           ),
-          _displayRoulette
-              ? Center(
-                  child: Container(
-                  height: 200,
-                  child: EventRoulette(
-                      animationController: _animationController,
-                      finalEvent: _rouletteEvent),
-                ))
-              : null,
-        ].where(notNull).toList(),
+          Visibility(
+            visible: _displayRoulette,
+            child: Center(
+                child: Container(
+              height: 200,
+              child: EventRoulette(
+                  animationController: _animationController,
+                  finalEvent: _rouletteEvent),
+            )),
+          )
+        ],
       ),
     );
   }

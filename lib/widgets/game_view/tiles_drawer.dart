@@ -32,7 +32,7 @@ class TilesDrawer extends StatelessWidget {
             child: ArrowImage(player: arrow.player, direction: arrow.direction),
           );
         } else {
-          return Container();
+          return const SizedBox.expand();
         }
         break;
 

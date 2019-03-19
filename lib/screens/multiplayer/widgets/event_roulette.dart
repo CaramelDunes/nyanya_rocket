@@ -74,7 +74,7 @@ class EventRoulette extends StatelessWidget {
 
       case GameEvent.None:
       default:
-        return Container();
+        return const SizedBox.shrink();
         break;
     }
   }

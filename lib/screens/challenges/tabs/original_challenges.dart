@@ -179,18 +179,17 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
         itemBuilder: (context, i) => ListTile(
               title: Text(OriginalChallenges.challenges[i].name),
               subtitle: Text(OriginalChallenges.challenges[i].type.toString()),
-              trailing: OriginalChallenges.progression.hasCleared(i)
-                  ? Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                            '${OriginalChallenges.progression.timeOf(i).inSeconds}.${OriginalChallenges.progression.timeOf(i).inMilliseconds % 1000 ~/ 10}s'),
-                        Icon(
-                          Icons.check,
-                          color: Colors.green,
-                        )
-                      ].where((Widget w) => w != null).toList())
-                  : null,
+              trailing: Visibility(
+                visible: OriginalChallenges.progression.hasCleared(i),
+                child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Text(
+                      '${OriginalChallenges.progression.timeOf(i).inSeconds}.${OriginalChallenges.progression.timeOf(i).inMilliseconds % 1000 ~/ 10}s'),
+                  Icon(
+                    Icons.check,
+                    color: Colors.green,
+                  )
+                ]),
+              ),
               onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute<OverlayPopData>(

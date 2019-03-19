@@ -38,48 +38,45 @@ class _DragTargetGridState<T> extends State<DragTargetGrid<T>> {
 
   Widget _dragTargetBuilder(int x, int y) {
     return Listener(
-      behavior: HitTestBehavior.translucent,
-      onPointerDown: (PointerDownEvent event) => _downEvent = event,
-      onPointerUp: (PointerUpEvent event) {
-        Offset difference = event.position - _downEvent.position;
+        behavior: HitTestBehavior.translucent,
+        onPointerDown: (PointerDownEvent event) => _downEvent = event,
+        onPointerUp: (PointerUpEvent event) {
+          Offset difference = event.position - _downEvent.position;
 
-        double direction = difference.direction;
+          double direction = difference.direction;
 
-        if (widget.tapAcceptor != null && difference.distanceSquared < 10) {
-          widget.tapAcceptor(x, y);
-        } else if (widget.swipeAcceptor != null &&
-            difference.distanceSquared > 30) {
-          if (-pi / 4 < direction && direction < pi / 4) {
-            widget.swipeAcceptor(x, y, Direction.Right);
-          } else if (pi / 4 < direction && direction < 3 * pi / 4) {
-            widget.swipeAcceptor(x, y, Direction.Down);
-          } else if (3 * pi / 4 < direction || direction < -3 * pi / 4) {
-            widget.swipeAcceptor(x, y, Direction.Left);
-          } else if (-3 * pi / 4 < direction && direction < -pi / 4) {
-            widget.swipeAcceptor(x, y, Direction.Up);
+          if (widget.tapAcceptor != null && difference.distanceSquared < 10) {
+            widget.tapAcceptor(x, y);
+          } else if (widget.swipeAcceptor != null &&
+              difference.distanceSquared > 30) {
+            if (-pi / 4 < direction && direction < pi / 4) {
+              widget.swipeAcceptor(x, y, Direction.Right);
+            } else if (pi / 4 < direction && direction < 3 * pi / 4) {
+              widget.swipeAcceptor(x, y, Direction.Down);
+            } else if (3 * pi / 4 < direction || direction < -3 * pi / 4) {
+              widget.swipeAcceptor(x, y, Direction.Left);
+            } else if (-3 * pi / 4 < direction && direction < -pi / 4) {
+              widget.swipeAcceptor(x, y, Direction.Up);
+            }
           }
-        }
-      },
-      child: widget.tileBuilder != null
-          ? DragTargetTile<T>(
-              x: x,
-              y: y,
-              builder: widget.tileBuilder,
-              acceptor: widget.dropAcceptor,
-            )
-          : Container(),
-    );
+        },
+        child: DragTargetTile<T>(
+          x: x,
+          y: y,
+          builder: widget.tileBuilder,
+          acceptor: widget.dropAcceptor,
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
         children: List<Widget>.generate(
             widget.width,
             (x) => Expanded(
                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.max,
                       children: List<Widget>.generate(widget.height,
                           (y) => Expanded(child: _dragTargetBuilder(x, y)))),
                 )));

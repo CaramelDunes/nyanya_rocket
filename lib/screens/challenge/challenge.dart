@@ -66,7 +66,7 @@ class _ChallengeState extends State<Challenge> {
 
   Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
       List rejectedData, int x, int y) {
-    if (candidateData.length == 0) return Container();
+    if (candidateData.length == 0) return const SizedBox.expand();
 
     return ArrowImage(
       direction: candidateData[0],
@@ -100,8 +100,6 @@ class _ChallengeState extends State<Challenge> {
 
   @override
   Widget build(BuildContext context) {
-    bool notNull(Object o) => o != null;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.challenge.name),
@@ -201,8 +199,10 @@ class _ChallengeState extends State<Challenge> {
               )
             ],
           ),
-          _ended ? SuccessOverlay(succeededName: widget.challenge.name) : null,
-        ].where(notNull).toList(),
+          Visibility(
+              visible: _ended,
+              child: SuccessOverlay(succeededName: widget.challenge.name)),
+        ],
       ),
     );
   }

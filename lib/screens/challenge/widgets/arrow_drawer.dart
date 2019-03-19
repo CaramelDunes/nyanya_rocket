@@ -19,7 +19,7 @@ class ArrowDrawer extends StatelessWidget {
                       child: Draggable<Direction>(
                           maxSimultaneousDrags:
                               challengeGameController.running ? null : 0,
-                          feedback: Container(),
+                          feedback: const SizedBox.shrink(),
                           child: ArrowImage(
                               player: PlayerColor.Blue,
                               direction: Direction.values[i]),

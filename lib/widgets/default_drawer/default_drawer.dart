@@ -18,7 +18,7 @@ class DefaultDrawer extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
               ),
-              child: Container()),
+              child: const SizedBox.shrink()),
           ListTile(
             leading: Icon(Icons.home),
             title: Text(NyaNyaLocalizations.of(context).homeTitle),

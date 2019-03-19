@@ -74,7 +74,7 @@ class _PuzzleState extends State<Puzzle> {
 
   Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
       List rejectedData, int x, int y) {
-    if (candidateData.length == 0) return Container();
+    if (candidateData.length == 0) return const SizedBox.expand();
     return ArrowImage(
       direction: candidateData[0],
       player: PlayerColor.Blue,
@@ -83,8 +83,6 @@ class _PuzzleState extends State<Puzzle> {
 
   @override
   Widget build(BuildContext context) {
-    bool notNull(Object o) => o != null;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.puzzle.name),
@@ -130,8 +128,10 @@ class _PuzzleState extends State<Puzzle> {
               ),
             ],
           ),
-          _ended ? SuccessOverlay(succeededName: widget.puzzle.name) : null,
-        ].where(notNull).toList(),
+          Visibility(
+              visible: _ended,
+              child: SuccessOverlay(succeededName: widget.puzzle.name)),
+        ],
       ),
     );
   }

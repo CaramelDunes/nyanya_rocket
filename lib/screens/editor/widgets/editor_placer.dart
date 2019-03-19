@@ -53,7 +53,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
 
   Widget _dragTileBuilder(BuildContext context, List<EditorTool> candidateData,
       List rejectedData, int x, int y) {
-    if (candidateData.length == 0) return Container();
+    if (candidateData.length == 0) return const SizedBox.expand();
 
     return _toolView(candidateData[0]);
   }
@@ -70,7 +70,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
             image: AssetImage('assets/graphics/wall.png'),
           ));
     else {
-      return Container();
+      return const SizedBox.shrink();
     }
   }
 
@@ -195,7 +195,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
                 },
               ),
             ),
-            feedback: Container(),
+            feedback: const SizedBox.shrink(),
             data: widget.menus[_selected].subMenu[i],
           ),
         );
