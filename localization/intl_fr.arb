@@ -221,6 +221,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "saveLabel": "Sauvegarder",
+  "@saveLabel": {
+    "description": "Save button label of editor.",
+    "type": "text",
+    "placeholders": {}
+  },
   "enableAnimationsLabel": "Animations",
   "@enableAnimationsLabel": {
     "description": "Enable Animations setting of the Settings screen.",
@@ -236,6 +242,18 @@
   "languageLabel": "Langue",
   "@languageLabel": {
     "description": "Language setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "stageClearedText": "Niveau réussi !",
+  "@stageClearedText": {
+    "description": "Stage cleared text of success overlay.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nextLevelLabel": "Niveau suivant",
+  "@nextLevelLabel": {
+    "description": "Next level button label of success overlay.",
     "type": "text",
     "placeholders": {}
   },

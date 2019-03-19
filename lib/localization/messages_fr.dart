@@ -55,6 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "multiplayerType" : MessageLookupByLibrary.simpleMessage("Multijoueur"),
     "nameLabel" : MessageLookupByLibrary.simpleMessage("Nom"),
     "newTab" : MessageLookupByLibrary.simpleMessage("Créer"),
+    "nextLevelLabel" : MessageLookupByLibrary.simpleMessage("Niveau suivant"),
     "nicknameLabel" : MessageLookupByLibrary.simpleMessage("Pseudo"),
     "no" : MessageLookupByLibrary.simpleMessage("Non"),
     "notImplementedText" : MessageLookupByLibrary.simpleMessage("Pas encore disponible !\n...mais vous pouvez donner un coup de pouce :-)"),
@@ -65,7 +66,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "puzzleType" : MessageLookupByLibrary.simpleMessage("Puzzle"),
     "puzzlesTitle" : MessageLookupByLibrary.simpleMessage("Puzzles"),
     "runAwayObjectiveText" : MessageLookupByLibrary.simpleMessage("Guidez toutes les souris vers les fusées en évitant les chats !"),
+    "saveLabel" : MessageLookupByLibrary.simpleMessage("Sauvegarder"),
     "settingsTitle" : MessageLookupByLibrary.simpleMessage("Paramètres"),
+    "stageClearedText" : MessageLookupByLibrary.simpleMessage("Niveau réussi !"),
     "tutorialTitle" : MessageLookupByLibrary.simpleMessage("Tutoriel"),
     "whatsNewTab" : MessageLookupByLibrary.simpleMessage("Quoi de neuf ?"),
     "yes" : MessageLookupByLibrary.simpleMessage("Oui")

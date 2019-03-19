@@ -170,7 +170,8 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
                       child: RaisedButton(
                           color: Theme.of(context).primaryColor,
                           textColor: Colors.white,
-                          child: Text('Save'),
+                          child:
+                              Text(NyaNyaLocalizations.of(context).saveLabel),
                           onPressed: () {
                             if (uuid == null) {
                               ChallengeEditor.store

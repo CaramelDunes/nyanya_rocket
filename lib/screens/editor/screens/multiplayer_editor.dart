@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/models/multiplayer_store.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
@@ -94,7 +95,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
               child: RaisedButton(
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
-                  child: Text("Save"),
+                  child: Text(NyaNyaLocalizations.of(context).saveLabel),
                   onPressed: () {
                     if (uuid == null) {
                       MultiplayerEditor.store

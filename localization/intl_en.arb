@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-03-18T23:27:39.318025",
+  "@@last_modified": "2019-03-19T23:24:47.439350",
   "puzzleType": "Puzzle",
   "@puzzleType": {
     "description": "Puzzle type of game.",
@@ -222,6 +222,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "saveLabel": "Save",
+  "@saveLabel": {
+    "description": "Save button label of editor.",
+    "type": "text",
+    "placeholders": {}
+  },
   "enableAnimationsLabel": "Enable Animations",
   "@enableAnimationsLabel": {
     "description": "Enable Animations setting of the Settings screen.",
@@ -237,6 +243,18 @@
   "languageLabel": "Language",
   "@languageLabel": {
     "description": "Language setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "stageClearedText": "Stage cleared!",
+  "@stageClearedText": {
+    "description": "Stage cleared text of success overlay.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nextLevelLabel": "Next level",
+  "@nextLevelLabel": {
+    "description": "Next level button label of success overlay.",
     "type": "text",
     "placeholders": {}
   },

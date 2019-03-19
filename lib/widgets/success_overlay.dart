@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 
 class OverlayPopData {
   final bool playNext;
@@ -34,10 +35,8 @@ class SuccessOverlay extends StatelessWidget {
                           height: 16,
                         ),
                         Text(
-                          'Stage Cleared!',
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 50),
+                          NyaNyaLocalizations.of(context).stageClearedText,
+                          style: TextStyle(color: Colors.green, fontSize: 50),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -47,7 +46,8 @@ class SuccessOverlay extends StatelessWidget {
                               RaisedButton(
                                 color: Theme.of(context).primaryColor,
                                 textColor: Colors.white,
-                                child: Text('Next'),
+                                child: Text(NyaNyaLocalizations.of(context)
+                                    .nextLevelLabel),
                                 onPressed: () {
                                   Navigator.of(context)
                                       .pop(OverlayPopData(playNext: true));

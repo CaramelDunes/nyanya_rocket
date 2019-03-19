@@ -326,6 +326,14 @@ For more information, head over to ''',
     );
   }
 
+  String get saveLabel {
+    return Intl.message(
+      'Save',
+      name: 'saveLabel',
+      desc: 'Save button label of editor.',
+    );
+  }
+
   // Settings screen
   String get enableAnimationsLabel {
     return Intl.message(
@@ -348,6 +356,23 @@ For more information, head over to ''',
       'Language',
       name: 'languageLabel',
       desc: 'Language setting of the Settings screen.',
+    );
+  }
+
+  // Success Overlay
+  String get stageClearedText {
+    return Intl.message(
+      'Stage cleared!',
+      name: 'stageClearedText',
+      desc: 'Stage cleared text of success overlay.',
+    );
+  }
+
+  String get nextLevelLabel {
+    return Intl.message(
+      'Next level',
+      name: 'nextLevelLabel',
+      desc: 'Next level button label of success overlay.',
     );
   }
 

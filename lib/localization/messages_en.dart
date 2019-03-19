@@ -55,6 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "multiplayerType" : MessageLookupByLibrary.simpleMessage("Multiplayer"),
     "nameLabel" : MessageLookupByLibrary.simpleMessage("Name"),
     "newTab" : MessageLookupByLibrary.simpleMessage("New"),
+    "nextLevelLabel" : MessageLookupByLibrary.simpleMessage("Next level"),
     "nicknameLabel" : MessageLookupByLibrary.simpleMessage("Nickname"),
     "no" : MessageLookupByLibrary.simpleMessage("No"),
     "notImplementedText" : MessageLookupByLibrary.simpleMessage("Not (yet) available!\nWant it to be a priority? :-)"),
@@ -65,7 +66,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "puzzleType" : MessageLookupByLibrary.simpleMessage("Puzzle"),
     "puzzlesTitle" : MessageLookupByLibrary.simpleMessage("Puzzles"),
     "runAwayObjectiveText" : MessageLookupByLibrary.simpleMessage("Avoid the cat and get to the goal!"),
+    "saveLabel" : MessageLookupByLibrary.simpleMessage("Save"),
     "settingsTitle" : MessageLookupByLibrary.simpleMessage("Settings"),
+    "stageClearedText" : MessageLookupByLibrary.simpleMessage("Stage cleared!"),
     "tutorialTitle" : MessageLookupByLibrary.simpleMessage("How to play"),
     "whatsNewTab" : MessageLookupByLibrary.simpleMessage("What\'s New?"),
     "yes" : MessageLookupByLibrary.simpleMessage("Yes")
