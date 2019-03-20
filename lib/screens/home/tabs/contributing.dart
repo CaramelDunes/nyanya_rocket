@@ -32,7 +32,7 @@ class Contributing extends StatelessWidget {
         Divider(),
         Text('${NyaNyaLocalizations.of(context).contributorsLabel}:',
             style: Theme.of(context).textTheme.subtitle),
-        Text(Contributors.list.join('\n')),
+        Contributors()
       ],
     );
   }
