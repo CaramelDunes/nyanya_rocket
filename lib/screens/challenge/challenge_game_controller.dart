@@ -139,12 +139,13 @@ abstract class ChallengeGameController extends LocalGameController {
 
   void _reset() {
     running = true;
-    _mistake = null;
+    _mistake.value = null;
     pauseFor(Duration(seconds: 3));
     _remainingTime = Duration(seconds: 30);
     timeStream.add(_remainingTime);
     onReset();
     game = challenge.getGame()..generatorPolicy = GeneratorPolicy.Challenge;
+    updateGame();
   }
 
   void pleaseReset() {
