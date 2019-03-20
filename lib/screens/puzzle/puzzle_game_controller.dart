@@ -44,7 +44,7 @@ class PuzzleGameController extends LocalGameController {
           .add(remainingArrows(Direction.values[direction]));
     }
 
-    for (Entity e in game.entities.values) {
+    for (Entity e in game.entities) {
       if (e is! Cat) {
         _miceCount++;
       }
@@ -129,6 +129,10 @@ class PuzzleGameController extends LocalGameController {
 
   @override
   set running(bool value) {
+    if (_mistake.value != null) {
+      return;
+    }
+
     super.running = value;
     _canPlaceArrow = false;
   }

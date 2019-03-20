@@ -18,8 +18,8 @@ class EditorGameController extends LocalGameController {
     if (!running) {
       game.board.tiles[x][y] = Empty();
 
-      game.entities.removeWhere(
-          (int, Entity e) => e.position.x == x && e.position.y == y);
+      game.entities
+          .removeWhere((Entity e) => e.position.x == x && e.position.y == y);
 
       updateGame();
     }
@@ -28,13 +28,12 @@ class EditorGameController extends LocalGameController {
   bool placeEntity(int x, int y, EntityType type, Direction direction) {
     if (!running) {
       if (game.board.tiles[x][y] is Empty || game.board.tiles[x][y] is Arrow) {
-        if (game.entities.entries
-            .where((MapEntry entry) =>
-                entry.value.position.x == x && entry.value.position.y == y)
+        if (game.entities
+            .where((Entity entity) =>
+                entity.position.x == x && entity.position.y == y)
             .isEmpty) {
-          game.entities[(game.entities.lastKey() ?? 0) + 1] =
-              Entity.fromEntityType(
-                  type, BoardPosition.centered(x, y, direction));
+          game.entities.add(Entity.fromEntityType(
+              type, BoardPosition.centered(x, y, direction)));
 
           updateGame();
           return true;

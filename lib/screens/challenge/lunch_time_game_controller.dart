@@ -14,7 +14,7 @@ class LunchTimeGameController extends ChallengeGameController {
   LunchTimeGameController(
       {@required void Function() onWin, @required ChallengeData challenge})
       : super(onWin: onWin, challenge: challenge) {
-    for (Entity e in game.entities.values) {
+    for (Entity e in game.entities) {
       if (e is Mouse) {
         _targetScore++;
       }

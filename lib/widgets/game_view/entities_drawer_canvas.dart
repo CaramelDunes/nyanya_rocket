@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/game_view/cached_flare_animation.dart';
 
@@ -114,18 +112,17 @@ class EntitiesDrawerCanvas {
     }
   }
 
-  void drawEntities(
-      Canvas canvas, Size size, SplayTreeMap<int, Entity> entities,
+  void drawEntities(Canvas canvas, Size size, Iterable<Entity> entities,
       [int frameNb = 0]) {
     double tileSize = size.width / 12;
 
-    entities.forEach((int key, Entity entity) {
+    entities.forEach((Entity entity) {
       if (entity is! Cat) {
         draw(entity, tileSize, canvas, frameNb);
       }
     });
 
-    entities.forEach((int key, Entity entity) {
+    entities.forEach((Entity entity) {
       if (entity is Cat) {
         draw(entity, tileSize, canvas, frameNb);
       }
