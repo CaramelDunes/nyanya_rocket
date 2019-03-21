@@ -45,7 +45,9 @@ class _DragTargetGridState<T> extends State<DragTargetGrid<T>> {
 
           double direction = difference.direction;
 
-          if (widget.tapAcceptor != null && difference.distanceSquared < 10) {
+          if (widget.tapAcceptor != null &&
+              (difference.distanceSquared < 10 ||
+                  widget.swipeAcceptor == null)) {
             widget.tapAcceptor(x, y);
           } else if (widget.swipeAcceptor != null &&
               difference.distanceSquared > 30) {
