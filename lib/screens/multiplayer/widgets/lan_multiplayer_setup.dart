@@ -100,9 +100,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                                     hostname: _hostname,
                                   )))
                           .then((dynamic) {
-                        if (_LanMultiplayerSetupState._serverIsolate != null) {
-                          _LanMultiplayerSetupState._serverIsolate.kill();
-                        }
+                        _LanMultiplayerSetupState._serverIsolate?.kill();
                       });
                     }
                   },
@@ -197,9 +195,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
               onPressed: _board == null
                   ? null
                   : () {
-                      if (_LanMultiplayerSetupState._serverIsolate != null) {
-                        _LanMultiplayerSetupState._serverIsolate.kill();
-                      }
+                      _LanMultiplayerSetupState._serverIsolate?.kill();
 
                       Isolate.spawn<ArgumentBundle>(
                               _LanMultiplayerSetupState.serverEntryPoint,
