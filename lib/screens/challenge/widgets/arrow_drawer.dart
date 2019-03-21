@@ -15,15 +15,14 @@ class ArrowDrawer extends StatelessWidget {
         children: List<Widget>.generate(
             4,
             (i) => Expanded(
-                  child: Card(
-                      child: Draggable<Direction>(
-                          maxSimultaneousDrags:
-                              challengeGameController.running ? null : 0,
-                          feedback: const SizedBox.shrink(),
-                          child: ArrowImage(
-                              player: PlayerColor.Blue,
-                              direction: Direction.values[i]),
-                          data: Direction.values[i])),
+                  child: Draggable<Direction>(
+                      maxSimultaneousDrags:
+                          challengeGameController.running ? null : 0,
+                      feedback: const SizedBox.shrink(),
+                      child: ArrowImage(
+                          player: PlayerColor.Blue,
+                          direction: Direction.values[i]),
+                      data: Direction.values[i]),
                 )));
   }
 }
