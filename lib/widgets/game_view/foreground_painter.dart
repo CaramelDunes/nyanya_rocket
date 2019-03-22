@@ -45,7 +45,7 @@ class ForegroundPainter {
   static void paintWalls(Canvas canvas, Size size, Board board) {
     double xStep = size.width / 12;
     double yStep = size.height / 9;
-    double wallWidth = yStep * 0.15;
+    double wallWidth = yStep * 0.10;
 
     for (int x = 0; x < 12; x++) {
       for (int y = 0; y < 9; y++) {
