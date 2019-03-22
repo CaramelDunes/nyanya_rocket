@@ -306,7 +306,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "boardSelectionText": "Tap to select",
+  "boardSelectionText": "Tap to select a multiplayer board",
   "@boardSelectionText": {
     "description": "Displayed in board picker.",
     "type": "text",

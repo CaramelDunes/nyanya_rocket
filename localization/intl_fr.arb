@@ -305,7 +305,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "boardSelectionText": "Toucher pour sélectionner",
+  "boardSelectionText": "Toucher pour sélectionner un plateau de jeu",
   "@boardSelectionText": {
     "description": "Displayed in board picker.",
     "type": "text",
