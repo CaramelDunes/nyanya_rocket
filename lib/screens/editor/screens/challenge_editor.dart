@@ -1,13 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/challenge_store.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
-import 'package:nyanya_rocket/screens/editor/widgets/discard_confirmation_dialog.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -120,82 +118,48 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
     }
   }
 
-  Future<bool> _confirmDiscard() {
-    return showDialog<bool>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const DiscardConfirmationDialog();
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _confirmDiscard,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.challenge.name),
-        ),
-        resizeToAvoidBottomPadding: false,
-        body: Column(
-          children: <Widget>[
-            Expanded(
-                child: EditorPlacer(
-                    editorGameController: _editorGameController,
-                    menus: _menusForType(widget.challenge.type))),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          child:
-                              Text(NyaNyaLocalizations.of(context).playLabel),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => Challenge(
-                                      challenge: _buildChallengeData(),
-                                    )));
-                          }),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          child:
-                              Text(NyaNyaLocalizations.of(context).saveLabel),
-                          onPressed: () {
-                            if (uuid == null) {
-                              ChallengeEditor.store
-                                  .saveNewChallenge(_buildChallengeData())
-                                  .then((String uuid) {
-                                this.uuid = uuid;
-                                print('Saved $uuid');
-                              });
-                            } else {
-                              ChallengeEditor.store
-                                  .updateChallenge(uuid, _buildChallengeData())
-                                  .then((bool status) {
-                                print('Updated $uuid');
-                              });
-                            }
-                          }),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.challenge.name),
+      ),
+      resizeToAvoidBottomPadding: false,
+      body: Column(
+        children: <Widget>[
+          Expanded(
+              child: EditorPlacer(
+            editorGameController: _editorGameController,
+            menus: _menusForType(widget.challenge.type),
+            onPlay: () => _handlePlay(context),
+            onSave: _handleSave,
+          )),
+        ],
       ),
     );
+  }
+
+  void _handlePlay(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => Challenge(
+              challenge: _buildChallengeData(),
+            )));
+  }
+
+  void _handleSave() {
+    if (uuid == null) {
+      ChallengeEditor.store
+          .saveNewChallenge(_buildChallengeData())
+          .then((String uuid) {
+        this.uuid = uuid;
+        print('Saved $uuid');
+      });
+    } else {
+      ChallengeEditor.store
+          .updateChallenge(uuid, _buildChallengeData())
+          .then((bool status) {
+        print('Updated $uuid');
+      });
+    }
   }
 }

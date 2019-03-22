@@ -1,12 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_store.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
-import 'package:nyanya_rocket/screens/editor/widgets/discard_confirmation_dialog.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
@@ -72,104 +70,64 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
         availableArrows: availableArrows);
   }
 
-  Future<bool> _confirmDiscard() {
-    return showDialog<bool>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const DiscardConfirmationDialog();
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _confirmDiscard,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.puzzle.name),
-        ),
-        resizeToAvoidBottomPadding: false,
-        body: Flex(
-          direction: MediaQuery.of(context).orientation == Orientation.portrait
-              ? Axis.vertical
-              : Axis.horizontal,
-          children: <Widget>[
-            Expanded(
-                child: EditorPlacer(
-                    editorGameController: _editorGameController,
-                    menus: [
-                  EditorMenu(subMenu: <EditorTool>[
-                    EditorTool(
-                        type: ToolType.Tile,
-                        tile: Rocket(player: PlayerColor.Blue)),
-                    EditorTool(type: ToolType.Tile, tile: Pit())
-                  ]),
-                  StandardMenus.arrows,
-                  StandardMenus.mice,
-                  StandardMenus.cats,
-                  StandardMenus.walls,
-                  StandardMenus.eraser,
-                ])),
-            Flexible(
-              flex: 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Flex(
-                  direction:
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                          ? Axis.horizontal
-                          : Axis.vertical,
-                  children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: RaisedButton(
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            child:
-                                Text(NyaNyaLocalizations.of(context).playLabel),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) => Puzzle(
-                                        puzzle: _buildPuzzleData(),
-                                      )));
-                            }),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: RaisedButton(
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            child:
-                                Text(NyaNyaLocalizations.of(context).saveLabel),
-                            onPressed: () {
-                              if (uuid == null) {
-                                PuzzleEditor.store
-                                    .saveNewPuzzle(_buildPuzzleData())
-                                    .then((String uuid) {
-                                  this.uuid = uuid;
-                                  print('Saved $uuid');
-                                });
-                              } else {
-                                PuzzleEditor.store
-                                    .updatePuzzle(uuid, _buildPuzzleData())
-                                    .then((bool status) {
-                                  print('Updated $uuid');
-                                });
-                              }
-                            }),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.puzzle.name),
+      ),
+      resizeToAvoidBottomPadding: false,
+      body: OrientationBuilder(
+        builder: (BuildContext context, Orientation orientation) {
+          return Flex(
+            direction: orientation == Orientation.portrait
+                ? Axis.vertical
+                : Axis.horizontal,
+            children: <Widget>[
+              Expanded(
+                  child: EditorPlacer(
+                      editorGameController: _editorGameController,
+                      onPlay: () => _handlePlay(context),
+                      onSave: _handleSave,
+                      menus: [
+                    EditorMenu(subMenu: <EditorTool>[
+                      EditorTool(
+                          type: ToolType.Tile,
+                          tile: Rocket(player: PlayerColor.Blue)),
+                      EditorTool(type: ToolType.Tile, tile: Pit())
+                    ]),
+                    StandardMenus.arrows,
+                    StandardMenus.mice,
+                    StandardMenus.cats,
+                    StandardMenus.walls,
+                    StandardMenus.eraser,
+                  ])),
+            ],
+          );
+        },
       ),
     );
+  }
+
+  void _handlePlay(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => Puzzle(
+              puzzle: _buildPuzzleData(),
+            )));
+  }
+
+  void _handleSave() {
+    if (uuid == null) {
+      PuzzleEditor.store.saveNewPuzzle(_buildPuzzleData()).then((String uuid) {
+        this.uuid = uuid;
+        print('Saved $uuid');
+      });
+    } else {
+      PuzzleEditor.store
+          .updatePuzzle(uuid, _buildPuzzleData())
+          .then((bool status) {
+        print('Updated $uuid');
+      });
+    }
   }
 }

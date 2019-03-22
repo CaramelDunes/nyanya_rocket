@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
+import 'package:nyanya_rocket/screens/editor/widgets/discard_confirmation_dialog.dart';
 import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/game_view/entities_drawer.dart';
@@ -28,9 +30,16 @@ class EditorTool {
 class EditorPlacer extends StatefulWidget {
   final EditorGameController editorGameController;
   final List<EditorMenu> menus;
+  final VoidCallback onPlay;
+  final VoidCallback onSave;
 
-  const EditorPlacer({Key key, this.editorGameController, @required this.menus})
-      : super(key: key);
+  const EditorPlacer({
+    Key key,
+    @required this.editorGameController,
+    @required this.menus,
+    @required this.onSave,
+    this.onPlay,
+  }) : super(key: key);
 
   @override
   _EditorPlacerState createState() => _EditorPlacerState();
@@ -51,6 +60,15 @@ class _EditorPlacerState extends State<EditorPlacer> {
     return widget.menus[_selected].subMenu[_subSelected[_selected]];
   }
 
+  Future<bool> _confirmDiscard() {
+    return showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const DiscardConfirmationDialog();
+        });
+  }
+
   Widget _dragTileBuilder(BuildContext context, List<EditorTool> candidateData,
       List rejectedData, int x, int y) {
     if (candidateData.length == 0) return const SizedBox.expand();
@@ -66,9 +84,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
     else if (tool.type == ToolType.Wall)
       return RotatedBox(
           quarterTurns: -tool.direction.index,
-          child: Image(
-            image: AssetImage('assets/graphics/wall.png'),
-          ));
+          child: Image.asset('assets/graphics/wall.png'));
     else {
       return const SizedBox.shrink();
     }
@@ -121,64 +137,107 @@ class _EditorPlacerState extends State<EditorPlacer> {
   }
 
   @override
-  Widget build(BuildContext context) => Flex(
-        direction: MediaQuery.of(context).orientation == Orientation.portrait
-            ? Axis.vertical
-            : Axis.horizontal,
-        children: <Widget>[
-          Expanded(
-              flex: 0,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: AspectRatio(
-                    aspectRatio: 12.0 / 9.0,
-                    child: InputGridOverlay<EditorTool>(
-                      child: ValueListenableBuilder<Game>(
-                          valueListenable:
-                              widget.editorGameController.gameStream,
-                          builder: (context, value, child) {
-                            return StaticGameView(
-                              game: value,
-                            );
-                          }),
-                      previewBuilder: _dragTileBuilder,
-                      onDrop: _handleDrop,
-                      onTap: _handleTap,
-                    )),
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: _confirmDiscard,
+      child: OrientationBuilder(
+        builder: (BuildContext context, Orientation orientation) {
+          return Flex(
+            direction: orientation == Orientation.portrait
+                ? Axis.vertical
+                : Axis.horizontal,
+            children: <Widget>[
+              Expanded(
+                  flex: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AspectRatio(
+                        aspectRatio: 12.0 / 9.0,
+                        child: InputGridOverlay<EditorTool>(
+                          child: ValueListenableBuilder<Game>(
+                              valueListenable:
+                                  widget.editorGameController.gameStream,
+                              builder: (context, value, child) {
+                                return StaticGameView(
+                                  game: value,
+                                );
+                              }),
+                          previewBuilder: _dragTileBuilder,
+                          onDrop: _handleDrop,
+                          onTap: _handleTap,
+                        )),
+                  )),
+              Flexible(
+                  child: Column(
+                children: <Widget>[
+                  Expanded(
+                      child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children:
+                        List<Widget>.generate(widget.menus.length, (int i) {
+                      return Expanded(
+                        child: Card(
+                          color: _selected == i ? Colors.grey.shade300 : null,
+                          child: InkWell(
+                            child: widget.menus[i].representative ??
+                                _toolView(widget.menus[i].subMenu[0]),
+                            onTap: () {
+                              setState(() {
+                                _selected = i;
+                              });
+                            },
+                          ),
+                        ),
+                      );
+                    }),
+                  )),
+                  Expanded(child: _subModeBuilder()),
+                  Flexible(
+                    flex: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Visibility(
+                            visible: widget.onPlay != null,
+                            child: Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: RaisedButton(
+                                    color: Theme.of(context).primaryColor,
+                                    textColor: Colors.white,
+                                    child: Text(NyaNyaLocalizations.of(context)
+                                        .playLabel),
+                                    onPressed: widget.onPlay),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: RaisedButton(
+                                  color: Theme.of(context).primaryColor,
+                                  textColor: Colors.white,
+                                  child: Text(NyaNyaLocalizations.of(context)
+                                      .saveLabel),
+                                  onPressed: widget.onSave),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
               )),
-          Expanded(
-              child: Flex(
-            direction:
-                MediaQuery.of(context).orientation == Orientation.portrait
-                    ? Axis.horizontal
-                    : Axis.vertical,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: List<Widget>.generate(widget.menus.length, (int i) {
-              return Expanded(
-                child: Card(
-                  color: _selected == i ? Colors.grey.shade300 : null,
-                  child: InkWell(
-                    child: widget.menus[i].representative ??
-                        _toolView(widget.menus[i].subMenu[0]),
-                    onTap: () {
-                      setState(() {
-                        _selected = i;
-                      });
-                    },
-                  ),
-                ),
-              );
-            }),
-          )),
-          Expanded(child: _subModeBuilder()),
-        ],
-      );
+            ],
+          );
+        },
+      ),
+    );
+  }
 
   Widget _subModeBuilder() {
-    return Flex(
-      direction: MediaQuery.of(context).orientation == Orientation.portrait
-          ? Axis.horizontal
-          : Axis.vertical,
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: List<Widget>.generate(widget.menus[_selected].subMenu.length,
           (int i) {
