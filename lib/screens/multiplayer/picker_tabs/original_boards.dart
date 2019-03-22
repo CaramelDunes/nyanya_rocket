@@ -69,49 +69,50 @@ class OriginalBoards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount:
-                MediaQuery.of(context).orientation == Orientation.portrait
-                    ? 2
-                    : 3),
-        itemCount: OriginalBoards.boards.length,
-        itemBuilder: (context, i) => InkWell(
-              child: Card(
-                child: Column(
-                  children: <Widget>[
-                    Flexible(
-                      flex: 0,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: AspectRatio(
-                            aspectRatio: 12 / 9,
-                            child: StaticGameView(
-                              game: Game()
-                                ..board = OriginalBoards.boards[i].board(),
+    return OrientationBuilder(
+      builder: (BuildContext context, Orientation orientation) {
+        return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: orientation == Orientation.portrait ? 2 : 3),
+            itemCount: OriginalBoards.boards.length,
+            itemBuilder: (context, i) => InkWell(
+                  child: Card(
+                    child: Column(
+                      children: <Widget>[
+                        Flexible(
+                          flex: 0,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AspectRatio(
+                                aspectRatio: 12 / 9,
+                                child: StaticGameView(
+                                  game: Game()
+                                    ..board = OriginalBoards.boards[i].board(),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    Flexible(
-                      child: Container(
-                        child: Center(
-                          child: Text(
-                            OriginalBoards.boards[i].name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.black),
+                        Flexible(
+                          child: Container(
+                            child: Center(
+                              child: Text(
+                                OriginalBoards.boards[i].name,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              onTap: () {
-                Navigator.of(context).pop(OriginalBoards.boards[i]);
-              },
-            ));
+                        )
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop(OriginalBoards.boards[i]);
+                  },
+                ));
+      },
+    );
   }
 }

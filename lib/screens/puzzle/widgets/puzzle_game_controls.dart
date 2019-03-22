@@ -12,50 +12,55 @@ class PuzzleGameControls extends StatefulWidget {
 
 class _PuzzleGameControlsState extends State<PuzzleGameControls> {
   @override
-  Widget build(BuildContext context) => Flex(
-        direction: MediaQuery.of(context).orientation == Orientation.portrait
-            ? Axis.horizontal
-            : Axis.vertical,
-        children: <Widget>[
-          Expanded(
-            child: IconButton(
-              icon: Icon(!widget.puzzleController.running
-                  ? Icons.play_arrow
-                  : Icons.pause),
-              onPressed: () {
-                setState(() {
-                  widget.puzzleController.running =
-                      !widget.puzzleController.running;
-                });
-              },
-            ),
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Flexible(
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            icon: Icon(!widget.puzzleController.running
+                ? Icons.play_arrow
+                : Icons.pause),
+            onPressed: () {
+              setState(() {
+                widget.puzzleController.running =
+                    !widget.puzzleController.running;
+              });
+            },
           ),
-          Expanded(
-            child: IconButton(
-              icon: Icon(Icons.restore),
-              onPressed: () {
-                setState(() {
-                  widget.puzzleController.reset();
-                });
-              },
-            ),
+        ),
+        Flexible(
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            icon: Icon(Icons.restore),
+            onPressed: () {
+              setState(() {
+                widget.puzzleController.reset();
+              });
+            },
           ),
-          Expanded(
-            child: IconButton(
-              icon: Icon(Icons.fast_forward),
-              color: widget.puzzleController.speed == GameSpeed.Fast
-                  ? Colors.green
-                  : null,
-              onPressed: () {
-                setState(() {
-                  widget.puzzleController.speed =
-                      widget.puzzleController.speed == GameSpeed.Normal
-                          ? GameSpeed.Fast
-                          : GameSpeed.Normal;
-                });
-              },
-            ),
+        ),
+        Flexible(
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            icon: Icon(Icons.fast_forward),
+            color: widget.puzzleController.speed == GameSpeed.Fast
+                ? Colors.green
+                : null,
+            onPressed: () {
+              setState(() {
+                widget.puzzleController.speed =
+                    widget.puzzleController.speed == GameSpeed.Normal
+                        ? GameSpeed.Fast
+                        : GameSpeed.Normal;
+              });
+            },
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
