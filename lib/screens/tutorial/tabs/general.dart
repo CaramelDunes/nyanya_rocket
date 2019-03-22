@@ -10,57 +10,6 @@ class General extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       children: <Widget>[
         Text(
-          'Entities',
-          style: Theme.of(context).textTheme.headline,
-        ),
-        Card(
-          child: Container(
-              height: 76,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: EntitiesDrawer.entityView(
-                        EntityType.Mouse, Direction.Right),
-                  )),
-                  Flexible(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Mouse'),
-                    ),
-                  ),
-                ],
-              )),
-        ),
-        Card(
-          child: Container(
-              height: 76,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: EntitiesDrawer.entityView(
-                        EntityType.Cat, Direction.Down),
-                  )),
-                  Flexible(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Cat'),
-                    ),
-                  ),
-                ],
-              )),
-        ),
-        Text("""
-An entity walks straight until it encounters an arrow or a wall.
-"""),
-        Divider(),
-        Text(
           'Tiles',
           style: Theme.of(context).textTheme.headline,
         ),
@@ -68,7 +17,6 @@ An entity walks straight until it encounters an arrow or a wall.
           child: Container(
               height: 76,
               child: Row(
-                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -126,19 +74,110 @@ An entity walks straight until it encounters an arrow or a wall.
         ),
         Divider(),
         Text(
+          'Entities',
+          style: Theme.of(context).textTheme.headline,
+        ),
+        Card(
+          child: Container(
+              height: 76,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: EntitiesDrawer.entityView(
+                        EntityType.Mouse, Direction.Right),
+                  )),
+                  Flexible(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Mouse'),
+                    ),
+                  ),
+                ],
+              )),
+        ),
+        Card(
+          child: Container(
+              height: 76,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: EntitiesDrawer.entityView(
+                        EntityType.Cat, Direction.Down),
+                  )),
+                  Flexible(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                          'Cats are slower than mice.\nWhen a cat meets an arrow head-on, it will damage it or destroy it if already damaged.'),
+                    ),
+                  ),
+                ],
+              )),
+        ),
+        Text("""
+An entity walks straight until it encounters an arrow or a wall.
+"""),
+        Divider(),
+        Text(
           'Arrow placement',
           style: Theme.of(context).textTheme.headline,
         ),
-        Text('Arrows can be drag n\' dropped...'),
-        Container(
-          height: 100,
-          child: Placeholder(),
-        ),
-        Text('... or swiped'),
-        Container(
-          height: 100,
-          child: Placeholder(),
-        )
+        Card(
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                  child: Text(
+                'Arrows can be drag n\' dropped...',
+                textAlign: TextAlign.center,
+              )),
+              Flexible(child: Image.asset('assets/animations/drag_arrow.gif')),
+            ],
+          ),
+        )),
+        Card(
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                  child: Text(
+                '...or swiped',
+                textAlign: TextAlign.center,
+              )),
+              Flexible(
+                  flex: 0,
+                  child: Image.asset('assets/animations/swipe_arrow.gif')),
+            ],
+          ),
+        )),
+        Card(
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                  child: Text(
+                'Arrows can be removed by tapping',
+                textAlign: TextAlign.center,
+              )),
+              Flexible(
+                  flex: 0,
+                  child: Image.asset('assets/animations/remove_arrow.gif')),
+            ],
+          ),
+        )),
       ],
     );
   }
