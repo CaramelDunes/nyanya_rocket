@@ -6,7 +6,6 @@ import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
-import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -55,17 +54,25 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
     }
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Tile> candidateData,
+  Widget _dragTileBuilder(BuildContext context, List<Arrow> candidateData,
       List rejectedData, int x, int y) {
     if (candidateData.length == 0) return const SizedBox.expand();
-    return TilesDrawer.tileView(candidateData[0]);
+
+    return ArrowImage(
+      player: candidateData[0].player,
+      direction: candidateData[0].direction,
+      opaque: false,
+    );
   }
 
   Widget _draggableArrow(PlayerColor player, Direction direction) =>
-      Draggable<Tile>(
+      Draggable<Arrow>(
           maxSimultaneousDrags: 1,
           feedback: const SizedBox.shrink(),
-          child: ArrowImage(player: player, direction: direction),
+          child: ArrowImage(
+            player: player,
+            direction: direction,
+          ),
           data: Arrow(player: player, direction: direction));
 
   @override
@@ -136,7 +143,7 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
                       Flexible(
                         child: AspectRatio(
                             aspectRatio: 12.0 / 9.0,
-                            child: InputGridOverlay<Tile>(
+                            child: InputGridOverlay<Arrow>(
                               child: AnimatedGameView(
                                 game: _localMultiplayerController.gameStream,
                               ),

@@ -75,9 +75,11 @@ class _PuzzleState extends State<Puzzle> {
   Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
       List rejectedData, int x, int y) {
     if (candidateData.length == 0) return const SizedBox.expand();
+
     return ArrowImage(
       direction: candidateData[0],
       player: PlayerColor.Blue,
+      opaque: false,
     );
   }
 
@@ -88,45 +90,61 @@ class _PuzzleState extends State<Puzzle> {
         title: Text(widget.puzzle.name),
       ),
       body: Stack(
-        fit: StackFit.expand,
+        fit: StackFit.passthrough,
         children: <Widget>[
-          Flex(
-            direction:
-                MediaQuery.of(context).orientation == Orientation.portrait
+          OrientationBuilder(
+            builder: (BuildContext context, Orientation orientation) {
+              return Flex(
+                direction: orientation == Orientation.portrait
                     ? Axis.vertical
                     : Axis.horizontal,
-            children: <Widget>[
-              Spacer(),
-              Divider(),
-              Flexible(
-                  flex: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AspectRatio(
-                        aspectRatio: 12.0 / 9.0,
-                        child: InputGridOverlay<Direction>(
-                          child: AnimatedGameView(
-                            game: _puzzleController.gameStream,
-                            mistake: _puzzleController.mistake,
-                          ),
-                          onDrop: _handleDropAndSwipe,
-                          onTap: _handleTap,
-                          onSwipe: _handleDropAndSwipe,
-                          previewBuilder: _dragTileBuilder,
-                        )),
-                  )),
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: _availableArrows,
-              )),
-              Flexible(
-                flex: 0,
-                child: PuzzleGameControls(
-                  puzzleController: _puzzleController,
-                ),
-              ),
-            ],
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: orientation == Orientation.portrait
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.center,
+                children: <Widget>[
+                  Spacer(),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AspectRatio(
+                              aspectRatio: 12.0 / 9.0,
+                              child: InputGridOverlay<Direction>(
+                                child: AnimatedGameView(
+                                  game: _puzzleController.gameStream,
+                                  mistake: _puzzleController.mistake,
+                                ),
+                                onDrop: _handleDropAndSwipe,
+                                onTap: _handleTap,
+                                onSwipe: _handleDropAndSwipe,
+                                previewBuilder: _dragTileBuilder,
+                              )),
+                        ),
+                      ),
+                      Visibility(
+                        visible: orientation == Orientation.landscape,
+                        child: PuzzleGameControls(
+                          puzzleController: _puzzleController,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(child: _availableArrows),
+                  Visibility(
+                    visible: orientation == Orientation.portrait,
+                    child: Flexible(
+                      child: PuzzleGameControls(
+                        puzzleController: _puzzleController,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           Visibility(
               visible: _ended,

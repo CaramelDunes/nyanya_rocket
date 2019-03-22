@@ -19,7 +19,7 @@ class InputGridOverlay<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
+    return Stack(fit: StackFit.expand, children: [
       child,
       DragTargetGrid<T>(
         width: Board.width,

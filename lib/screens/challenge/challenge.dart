@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
@@ -41,6 +42,11 @@ class _ChallengeState extends State<Challenge> {
     _availableArrows = ArrowDrawer(
       challengeGameController: _challengeController,
     );
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]).catchError((Object error) {});
   }
 
   @override
@@ -48,6 +54,8 @@ class _ChallengeState extends State<Challenge> {
     super.dispose();
 
     _challengeController.close();
+
+    SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
   }
 
   void _handleSwipeAndDrop(int x, int y, Direction direction) {
@@ -71,6 +79,7 @@ class _ChallengeState extends State<Challenge> {
     return ArrowImage(
       direction: candidateData[0],
       player: PlayerColor.Blue,
+      opaque: false,
     );
   }
 
@@ -107,22 +116,21 @@ class _ChallengeState extends State<Challenge> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          Flex(
-            direction:
-                MediaQuery.of(context).orientation == Orientation.portrait
-                    ? Axis.vertical
-                    : Axis.horizontal,
+          Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              Spacer(flex: 1),
               Flexible(
-                flex: 5,
+                flex: 3,
                 child: Card(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      Spacer(),
                       Text(widget.challenge.name),
                       Text('by ${widget.challenge.author}'),
+                      Spacer(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
@@ -144,22 +152,24 @@ class _ChallengeState extends State<Challenge> {
                 ),
               ),
               Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Flexible(flex: 3, child: Text(_objectiveText(context))),
-                  Flexible(
-                    flex: 1,
-                    child: StreamBuilder<int>(
-                        stream: _challengeController.scoreStream.stream,
-                        initialData: 0,
-                        builder: (context, snapshot) {
-                          return Text(
-                            '${snapshot.data} / ${_challengeController.targetScore}',
-                          );
-                        }),
-                  ),
-                ],
+              Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Flexible(flex: 3, child: Text(_objectiveText(context))),
+                    Flexible(
+                      flex: 1,
+                      child: StreamBuilder<int>(
+                          stream: _challengeController.scoreStream.stream,
+                          initialData: 0,
+                          builder: (context, snapshot) {
+                            return Text(
+                              '${snapshot.data} / ${_challengeController.targetScore}',
+                            );
+                          }),
+                    ),
+                  ],
+                ),
               ),
               Flexible(
                 child: StreamBuilder<Duration>(
@@ -185,9 +195,9 @@ class _ChallengeState extends State<Challenge> {
                           previewBuilder: _dragTileBuilder,
                         )),
                   )),
-              Flexible(flex: 3, child: _availableArrows),
+              Flexible(flex: 2, child: _availableArrows),
               Flexible(
-                flex: 1,
+                flex: 0,
                 child: IconButton(
                   icon: Icon(Icons.restore),
                   onPressed: () {
