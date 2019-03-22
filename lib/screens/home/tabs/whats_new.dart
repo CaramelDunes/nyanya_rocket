@@ -4,6 +4,11 @@ import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/options_holder.dart';
 
 class WhatsNew extends StatelessWidget {
+  void _dismissWelcomeCard(BuildContext context) {
+    OptionsHolder.of(context).options =
+        OptionsHolder.of(context).options.copyWith(firstRun: false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -15,8 +20,7 @@ class WhatsNew extends StatelessWidget {
             child: Dismissible(
               key: UniqueKey(),
               onDismissed: (DismissDirection direction) {
-                OptionsHolder.of(context).options =
-                    OptionsHolder.of(context).options.copyWith(firstRun: false);
+                _dismissWelcomeCard(context);
               },
               child: Card(
                 child: Column(
@@ -34,6 +38,7 @@ class WhatsNew extends StatelessWidget {
                       child: Text(
                           NyaNyaLocalizations.of(context).firstTimeButtonLabel),
                       onPressed: () {
+                        _dismissWelcomeCard(context);
                         Navigator.pushNamed(context, '/tutorial');
                       },
                     )
