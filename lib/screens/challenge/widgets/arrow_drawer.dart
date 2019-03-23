@@ -11,7 +11,10 @@ class ArrowDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Flex(
+        direction: MediaQuery.of(context).orientation == Orientation.landscape
+            ? Axis.vertical
+            : Axis.horizontal,
         children: List<Widget>.generate(
             4,
             (i) => Expanded(

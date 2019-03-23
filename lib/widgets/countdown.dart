@@ -9,6 +9,7 @@ class Countdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       '${remaining.inMinutes.toString().padLeft(2, '0')}:${(remaining.inSeconds % 60).toString().padLeft(2, '0')}',
+      textAlign: TextAlign.center,
       style: TextStyle(fontSize: 20),
     );
   }

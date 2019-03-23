@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
@@ -42,11 +41,6 @@ class _ChallengeState extends State<Challenge> {
     _availableArrows = ArrowDrawer(
       challengeGameController: _challengeController,
     );
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]).catchError((Object error) {});
   }
 
   @override
@@ -54,8 +48,6 @@ class _ChallengeState extends State<Challenge> {
     super.dispose();
 
     _challengeController.close();
-
-    SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
   }
 
   void _handleSwipeAndDrop(int x, int y, Direction direction) {
@@ -116,72 +108,52 @@ class _ChallengeState extends State<Challenge> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Flexible(
-                flex: 3,
-                child: Card(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Spacer(),
-                      Text(widget.challenge.name),
-                      Text('by ${widget.challenge.author}'),
-                      Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          FlatButton(
+          OrientationBuilder(
+            builder: (BuildContext context, Orientation orientation) {
+              return Flex(
+                direction: orientation == Orientation.portrait
+                    ? Axis.vertical
+                    : Axis.horizontal,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: orientation == Orientation.portrait
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Spacer(),
+                  Visibility(
+                    visible: orientation == Orientation.portrait,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Flexible(
+                            flex: 3,
                             child: Text(
-                              'NEXT',
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pop(OverlayPopData(playNext: true));
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Divider(),
-              Flexible(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Flexible(flex: 3, child: Text(_objectiveText(context))),
-                    Flexible(
-                      flex: 1,
-                      child: StreamBuilder<int>(
-                          stream: _challengeController.scoreStream.stream,
-                          initialData: 0,
-                          builder: (context, snapshot) {
-                            return Text(
-                              '${snapshot.data} / ${_challengeController.targetScore}',
-                            );
-                          }),
+                              _objectiveText(context),
+                              textAlign: TextAlign.center,
+                            )),
+                        Flexible(
+                          flex: 1,
+                          child: StreamBuilder<int>(
+                              stream: _challengeController.scoreStream.stream,
+                              initialData: 0,
+                              builder: (context, snapshot) {
+                                return Text(
+                                    '${snapshot.data} / ${_challengeController.targetScore}');
+                              }),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              Flexible(
-                child: StreamBuilder<Duration>(
-                    stream: _challengeController.timeStream.stream,
-                    initialData: Duration(seconds: 30),
-                    builder: (context, snapshot) {
-                      return Countdown(remaining: snapshot.data);
-                    }),
-              ),
-              Flexible(
-                  flex: 0,
-                  child: Padding(
+                  ),
+                  StreamBuilder<Duration>(
+                      stream: _challengeController.timeStream.stream,
+                      initialData: Duration(seconds: 30),
+                      builder: (context, snapshot) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Countdown(remaining: snapshot.data),
+                        );
+                      }),
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: AspectRatio(
                         aspectRatio: 12.0 / 9.0,
@@ -194,20 +166,19 @@ class _ChallengeState extends State<Challenge> {
                           onSwipe: _handleSwipeAndDrop,
                           previewBuilder: _dragTileBuilder,
                         )),
-                  )),
-              Flexible(flex: 2, child: _availableArrows),
-              Flexible(
-                flex: 0,
-                child: IconButton(
-                  icon: Icon(Icons.restore),
-                  onPressed: () {
-                    setState(() {
-                      _challengeController.pleaseReset();
-                    });
-                  },
-                ),
-              )
-            ],
+                  ),
+                  _availableArrows,
+                  IconButton(
+                    icon: Icon(Icons.restore),
+                    onPressed: () {
+                      setState(() {
+                        _challengeController.pleaseReset();
+                      });
+                    },
+                  )
+                ],
+              );
+            },
           ),
           Visibility(
               visible: _ended,
