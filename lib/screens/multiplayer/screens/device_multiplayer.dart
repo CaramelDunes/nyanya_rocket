@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/multiplayer/device_multiplayer_game_controller.dart';
+import 'package:nyanya_rocket/screens/multiplayer/widgets/event_roulette.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
@@ -21,15 +22,29 @@ class DeviceMultiplayer extends StatefulWidget {
   _DeviceMultiplayerState createState() => _DeviceMultiplayerState();
 }
 
-class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
+class _DeviceMultiplayerState extends State<DeviceMultiplayer>
+    with SingleTickerProviderStateMixin {
   LocalMultiplayerGameController _localMultiplayerController;
+  bool _displayRoulette = false;
+  GameEvent _rouletteEvent = GameEvent.None;
+  AnimationController _animationController;
 
   @override
   void initState() {
     super.initState();
 
-    _localMultiplayerController =
-        LocalMultiplayerGameController(board: widget.board);
+    _localMultiplayerController = LocalMultiplayerGameController(
+        board: widget.board, onGameEvent: _handleGameEvent);
+
+    _animationController = AnimationController(
+        duration: const Duration(milliseconds: 1500), vsync: this)
+      ..addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
+          setState(() {
+            _displayRoulette = false;
+          });
+        }
+      });
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -74,6 +89,14 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
             direction: direction,
           ),
           data: Arrow(player: player, direction: direction));
+
+  void _handleGameEvent(GameEvent event) {
+    _animationController.forward(from: 0);
+    _rouletteEvent = event;
+    setState(() {
+      _displayRoulette = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,6 +214,16 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
               ),
             ],
           ),
+          Visibility(
+            visible: _displayRoulette,
+            child: Center(
+                child: Container(
+              height: 200,
+              child: EventRoulette(
+                  animationController: _animationController,
+                  finalEvent: _rouletteEvent),
+            )),
+          )
         ],
       ),
     );

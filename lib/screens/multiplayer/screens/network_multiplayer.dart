@@ -65,7 +65,6 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer>
   }
 
   void _handleGameEvent(GameEvent event) {
-    print('Hi');
     _animationController.forward(from: 0);
     _rouletteEvent = event;
     setState(() {

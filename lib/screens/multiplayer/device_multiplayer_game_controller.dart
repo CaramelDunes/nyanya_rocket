@@ -23,9 +23,12 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
   bool _canPlaceArrow = false;
 
   Duration _remainingTime = Duration(minutes: 3);
+  final void Function(GameEvent event) onGameEvent;
 
-  LocalMultiplayerGameController({@required this.board})
-      : super(Game()..board = board.board()) {
+  LocalMultiplayerGameController({
+    @required this.board,
+    this.onGameEvent,
+  }) : super(Game()..board = board.board()) {
     running = true;
     pauseFor(Duration(seconds: 3));
     timeStream.add(_remainingTime);
@@ -66,5 +69,14 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
     Rocket rocket = game.board.tiles[x][y] as Rocket;
 
     scoreStreams[rocket.player.index].add(game.scoreOf(rocket.player));
+  }
+
+  @override
+  void setGameEvent(GameEvent event) {
+    super.setGameEvent(event);
+
+    if (event != GameEvent.None && onGameEvent != null) {
+      onGameEvent(event);
+    }
   }
 }
