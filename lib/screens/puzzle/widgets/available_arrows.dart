@@ -36,10 +36,10 @@ class AvailableArrows extends StatelessWidget {
                                       ? Axis.horizontal
                                       : Axis.vertical,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceAround,
+                                  mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
                                     Flexible(
-                                      flex: 0,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: RotatedBox(
@@ -52,7 +52,7 @@ class AvailableArrows extends StatelessWidget {
                                       ),
                                     ),
                                     Flexible(
-                                      flex: 1,
+                                      flex: 0,
                                       child: Text(
                                         snapshot.data.toString(),
                                         textAlign: TextAlign.center,

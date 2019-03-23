@@ -103,7 +103,10 @@ class _PuzzleState extends State<Puzzle> {
                     ? MainAxisAlignment.end
                     : MainAxisAlignment.center,
                 children: <Widget>[
-                  Spacer(),
+                  Visibility(
+                    visible: orientation == Orientation.landscape,
+                    child: Spacer(),
+                  ),
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,7 +136,7 @@ class _PuzzleState extends State<Puzzle> {
                       ),
                     ],
                   ),
-                  Expanded(child: _availableArrows),
+                  Flexible(flex: 1, child: _availableArrows),
                   Visibility(
                     visible: orientation == Orientation.portrait,
                     child: Flexible(
