@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class ChallengeType {
@@ -10,6 +12,30 @@ class ChallengeType {
 
   @override
   String toString() => '${_names[index]}';
+
+  String toLocalizedString(BuildContext context) {
+    switch (index) {
+      case 0:
+        return NyaNyaLocalizations.of(context).challengeGetMiceType;
+        break;
+
+      case 1:
+        return NyaNyaLocalizations.of(context).challengeRunAwayType;
+        break;
+
+      case 2:
+        return NyaNyaLocalizations.of(context).challengeLunchTimeType;
+        break;
+
+      case 3:
+        return NyaNyaLocalizations.of(context).challengeOneHundredMiceType;
+        break;
+
+      default:
+        return '';
+        break;
+    }
+  }
 
   ProtocolPlayerColor toProtocolPlayerColor() =>
       ProtocolPlayerColor.values[index];
