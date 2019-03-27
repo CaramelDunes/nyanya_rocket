@@ -24,7 +24,9 @@ class InputGridOverlay<T> extends StatelessWidget {
       DragTargetGrid<T>(
         width: Board.width,
         height: Board.height,
-        tileBuilder: previewBuilder,
+        tileBuilder: previewBuilder ??
+            (context, candidateData, rejectedData, x, y) =>
+                const SizedBox.expand(),
         dropAcceptor: onDrop,
         tapAcceptor: onTap,
         swipeAcceptor: onSwipe,
