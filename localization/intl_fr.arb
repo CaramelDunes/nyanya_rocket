@@ -23,6 +23,30 @@
     "type": "text",
     "placeholders": {}
   },
+  "challengeGetMiceType": "Attrapez-les toutes",
+  "@challengeGetMiceType": {
+    "description": "Get Mice type of challenge.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeRunAwayType": "Aux abris !",
+  "@challengeRunAwayType": {
+    "description": "Run Away type of challenge.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeLunchTimeType": "À table !",
+  "@challengeLunchTimeType": {
+    "description": "Lunch Time type of challenge.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeOneHundredMiceType": "100 souris",
+  "@challengeOneHundredMiceType": {
+    "description": "One Hundred Mice type of challenge.",
+    "type": "text",
+    "placeholders": {}
+  },
   "puzzlesTitle": "Puzzles",
   "@puzzlesTitle": {
     "description": "Puzzles title in AppBar, Drawer...",
@@ -254,6 +278,114 @@
   "nextLevelLabel": "Niveau suivant",
   "@nextLevelLabel": {
     "description": "Next level button label of success overlay.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "generalLabel": "Général",
+  "@generalLabel": {
+    "description": "General label of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tilesTutorialLabel": "Cases",
+  "@tilesTutorialLabel": {
+    "description": "Tiles label of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pitTutorialText": "Trou noir (un trou carré, certes...)",
+  "@pitTutorialText": {
+    "description": "Pit text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rocketTutorialText": "Fusée (si, si, je vous assure)",
+  "@rocketTutorialText": {
+    "description": "Rocket text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "arrowTutorialText": "Flèche",
+  "@arrowTutorialText": {
+    "description": "Arrow text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "entitiesTutorialLabel": "Personnages",
+  "@entitiesTutorialLabel": {
+    "description": "Entities label of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mouseTutorialText": "Souris",
+  "@mouseTutorialText": {
+    "description": "Mouse text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "catTutorialText": "Les chats sont plus lents que les souris.\nQuand un chat rencontre une flèche de face, il l'endommage ou la détruit si elle a déjà été endommagée.",
+  "@catTutorialText": {
+    "description": "Cat text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "movementTutorialText": "\nLes entités avancent tout droit jusqu'à rencontrer un mur ou une flèche.\nPour une raison mystérieuse, les souris et les chats préfèrent tourner à droite lorsqu'ils rencontrent un mur.",
+  "@movementTutorialText": {
+    "description": "Movement text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "placementTutorialLabel": "Placement des flèches",
+  "@placementTutorialLabel": {
+    "description": "Arrow placement label of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "arrowDnDTutorialText": "Les flèches peuvent être glissées-déposées...",
+  "@arrowDnDTutorialText": {
+    "description": "Arrow drag n drop placement text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "arrowSwipeTutorialText": "...ou simplement glissées",
+  "@arrowSwipeTutorialText": {
+    "description": "Arrow swipe placement text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "arrowRemoveTutorialText": "En mode puzzle, les flèches peuvent être retirées en tappant dessus.",
+  "@arrowRemoveTutorialText": {
+    "description": "Arrow remove text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "puzzleTutorialText": "En mode puzzle, l'objectif est de sauver toutes les souris sans exception.\nPour ce faire, vous avez un nombre limité de flèches à disposition.\n\nCes flèches ne peuvent être placées et retirées qu'avant le lancement de la simulation.\n\nVous perdez si:\n  • Un chat entre dans une fusée avant que toutes les souris ne soient à l'abris.\n  • Une souris se fait dévorer par un chat.\n  • Une souris tombe dans un trou noir.\n\nCertains niveaux peuvent être terminés en utilisant moins de flèches que disponible, vous obtiendrez une étoile dans ce cas.\n",
+  "@puzzleTutorialText": {
+    "description": "Puzzle text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeTutorialText": "Les Défis sont des mini-jeux de haute intensité ou vous n'avez que 30 secondes pour remplir un objectif.\n\nLe placement des flèches est différent de celui du mode Puzzle. En effet, vous pouvez placer autant de flèches que vous voulez mais seulement 3 peuvent être actives en même temps.",
+  "@challengeTutorialText": {
+    "description": "Challenge text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeGetMiceText": "Mêmes règles que le mode Puzzle, sauvez toutes les souris mais le plus vite possible cette fois !",
+  "@challengeGetMiceText": {
+    "description": "Get Mice challenge text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeLunchTimeText": "Aucune échappatoire possible, toutes les souris doivent finir dévorées par les chats.",
+  "@challengeLunchTimeText": {
+    "description": "Lunch Time challenge text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeOneHundredMiceText": "Les chats et les souris apparaissent naturellement, tachez d'attraper 100 souris.",
+  "@challengeOneHundredMiceText": {
+    "description": "One Hundred Mice challenge text of the tutorial screen.",
     "type": "text",
     "placeholders": {}
   },

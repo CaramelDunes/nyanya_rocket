@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/widgets/game_view/entities_drawer.dart';
 import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
@@ -10,7 +11,7 @@ class General extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       children: <Widget>[
         Text(
-          'Tiles',
+          NyaNyaLocalizations.of(context).tilesTutorialLabel,
           style: Theme.of(context).textTheme.headline,
         ),
         Card(
@@ -18,13 +19,19 @@ class General extends StatelessWidget {
               height: 76,
               child: Row(
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TilesDrawer.tileView(Pit()),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TilesDrawer.tileView(Pit()),
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Black Hole (technically a square though...)'),
+                  Flexible(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child:
+                          Text(NyaNyaLocalizations.of(context).pitTutorialText),
+                    ),
                   )
                 ],
               )),
@@ -34,17 +41,18 @@ class General extends StatelessWidget {
               height: 76,
               child: Row(
                 children: <Widget>[
-                  Flexible(
-                      flex: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TilesDrawer.tileView(
-                            Rocket(player: PlayerColor.Blue)),
-                      )),
                   Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:
+                        TilesDrawer.tileView(Rocket(player: PlayerColor.Blue)),
+                  )),
+                  Flexible(
+                    flex: 3,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Rocket'),
+                      child: Text(
+                          NyaNyaLocalizations.of(context).rocketTutorialText),
                     ),
                   ),
                 ],
@@ -55,18 +63,19 @@ class General extends StatelessWidget {
               height: 76,
               child: Row(
                 children: <Widget>[
-                  Flexible(
-                    flex: 0,
+                  Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TilesDrawer.tileView(Arrow(
                           player: PlayerColor.Blue, direction: Direction.Up)),
                     ),
                   ),
-                  Expanded(
+                  Flexible(
+                    flex: 3,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Arrow'),
+                      child: Text(
+                          NyaNyaLocalizations.of(context).arrowTutorialText),
                     ),
                   ),
                 ],
@@ -74,12 +83,12 @@ class General extends StatelessWidget {
         ),
         Divider(),
         Text(
-          'Entities',
+          NyaNyaLocalizations.of(context).entitiesTutorialLabel,
           style: Theme.of(context).textTheme.headline,
         ),
         Card(
           child: Container(
-              height: 76,
+              height: 100,
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -92,7 +101,8 @@ class General extends StatelessWidget {
                     flex: 3,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Mouse'),
+                      child: Text(
+                          NyaNyaLocalizations.of(context).mouseTutorialText),
                     ),
                   ),
                 ],
@@ -100,47 +110,53 @@ class General extends StatelessWidget {
         ),
         Card(
           child: Container(
-              height: 76,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: EntitiesDrawer.entityView(
-                        EntityType.Cat, Direction.Down),
-                  )),
-                  Flexible(
-                    flex: 3,
+            height: 100,
+            child: Row(
+              children: <Widget>[
+                Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                          'Cats are slower than mice.\nWhen a cat meets an arrow head-on, it will damage it or destroy it if already damaged.'),
-                    ),
+                  padding: const EdgeInsets.all(8.0),
+                  child:
+                      EntitiesDrawer.entityView(EntityType.Cat, Direction.Down),
+                )),
+                Flexible(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:
+                        Text(NyaNyaLocalizations.of(context).catTutorialText),
                   ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
         ),
-        Text("""
-An entity walks straight until it encounters an arrow or a wall.
-"""),
+        Text(
+          NyaNyaLocalizations.of(context).movementTutorialText,
+          textAlign: TextAlign.center,
+        ),
         Divider(),
         Text(
-          'Arrow placement',
+          NyaNyaLocalizations.of(context).placementTutorialLabel,
           style: Theme.of(context).textTheme.headline,
         ),
         Card(
             child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Expanded(
                   child: Text(
-                'Arrows can be drag n\' dropped...',
+                NyaNyaLocalizations.of(context).arrowDnDTutorialText,
                 textAlign: TextAlign.center,
               )),
-              Flexible(child: Image.asset('assets/animations/drag_arrow.gif')),
+              Flexible(
+                  flex: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset('assets/animations/drag_arrow.gif'),
+                  )),
             ],
           ),
         )),
@@ -148,33 +164,19 @@ An entity walks straight until it encounters an arrow or a wall.
             child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Expanded(
                   child: Text(
-                '...or swiped',
+                NyaNyaLocalizations.of(context).arrowSwipeTutorialText,
                 textAlign: TextAlign.center,
               )),
               Flexible(
                   flex: 0,
-                  child: Image.asset('assets/animations/swipe_arrow.gif')),
-            ],
-          ),
-        )),
-        Card(
-            child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                  child: Text(
-                'Arrows can be removed by tapping',
-                textAlign: TextAlign.center,
-              )),
-              Flexible(
-                  flex: 0,
-                  child: Image.asset('assets/animations/remove_arrow.gif')),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset('assets/animations/swipe_arrow.gif'),
+                  )),
             ],
           ),
         )),

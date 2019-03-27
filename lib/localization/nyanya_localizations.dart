@@ -33,6 +33,38 @@ class NyaNyaLocalizations {
     );
   }
 
+  String get challengeGetMiceType {
+    return Intl.message(
+      'Get Mice',
+      name: 'challengeGetMiceType',
+      desc: 'Get Mice type of challenge.',
+    );
+  }
+
+  String get challengeRunAwayType {
+    return Intl.message(
+      'Run Away',
+      name: 'challengeRunAwayType',
+      desc: 'Run Away type of challenge.',
+    );
+  }
+
+  String get challengeLunchTimeType {
+    return Intl.message(
+      'Lunch Time',
+      name: 'challengeLunchTimeType',
+      desc: 'Lunch Time type of challenge.',
+    );
+  }
+
+  String get challengeOneHundredMiceType {
+    return Intl.message(
+      'One Hundred Mice',
+      name: 'challengeOneHundredMiceType',
+      desc: 'One Hundred Mice type of challenge.',
+    );
+  }
+
   String get multiplayerType {
     return Intl.message(
       'Multiplayer',
@@ -373,6 +405,170 @@ For more information, head over to ''',
       'Next level',
       name: 'nextLevelLabel',
       desc: 'Next level button label of success overlay.',
+    );
+  }
+
+  // Tutorial screen
+  String get generalLabel {
+    return Intl.message(
+      'General',
+      name: 'generalLabel',
+      desc: 'General label of the tutorial screen.',
+    );
+  }
+
+  String get tilesTutorialLabel {
+    return Intl.message(
+      'Tiles',
+      name: 'tilesTutorialLabel',
+      desc: 'Tiles label of the tutorial screen.',
+    );
+  }
+
+  String get pitTutorialText {
+    return Intl.message(
+      'Black Hole (technically a square though...)',
+      name: 'pitTutorialText',
+      desc: 'Pit text of the tutorial screen.',
+    );
+  }
+
+  String get rocketTutorialText {
+    return Intl.message(
+      'Rocket',
+      name: 'rocketTutorialText',
+      desc: 'Rocket text of the tutorial screen.',
+    );
+  }
+
+  String get arrowTutorialText {
+    return Intl.message(
+      'Arrow',
+      name: 'arrowTutorialText',
+      desc: 'Arrow text of the tutorial screen.',
+    );
+  }
+
+  String get entitiesTutorialLabel {
+    return Intl.message(
+      'Entities',
+      name: 'entitiesTutorialLabel',
+      desc: 'Entities label of the tutorial screen.',
+    );
+  }
+
+  String get mouseTutorialText {
+    return Intl.message(
+      'Mouse',
+      name: 'mouseTutorialText',
+      desc: 'Mouse text of the tutorial screen.',
+    );
+  }
+
+  String get catTutorialText {
+    return Intl.message(
+      'Cats are slower than mice.\nWhen a cat meets an arrow head-on, it will damage it or destroy it if already damaged.',
+      name: 'catTutorialText',
+      desc: 'Cat text of the tutorial screen.',
+    );
+  }
+
+  String get movementTutorialText {
+    return Intl.message(
+      """
+
+An entity walks straight until it encounters an arrow or a wall.
+For some reasons, mice and cats prefer turning right when hitting a wall...
+""",
+      name: 'movementTutorialText',
+      desc: 'Movement text of the tutorial screen.',
+    );
+  }
+
+  String get placementTutorialLabel {
+    return Intl.message(
+      'Arrow placement',
+      name: 'placementTutorialLabel',
+      desc: 'Arrow placement label of the tutorial screen.',
+    );
+  }
+
+  String get arrowDnDTutorialText {
+    return Intl.message(
+      'Arrows can be drag n\' dropped...',
+      name: 'arrowDnDTutorialText',
+      desc: 'Arrow drag n drop placement text of the tutorial screen.',
+    );
+  }
+
+  String get arrowSwipeTutorialText {
+    return Intl.message(
+      '...or swiped',
+      name: 'arrowSwipeTutorialText',
+      desc: 'Arrow swipe placement text of the tutorial screen.',
+    );
+  }
+
+  String get arrowRemoveTutorialText {
+    return Intl.message(
+      'Arrows can be removed by tapping',
+      name: 'arrowRemoveTutorialText',
+      desc: 'Arrow remove text of the tutorial screen.',
+    );
+  }
+
+  String get puzzleTutorialText {
+    return Intl.message(
+      """
+A Puzzle game is won when every mice has reached a rocket.
+You have a restricted amount of arrows to achieve that goal.
+
+Note that you cannot place or remove an arrow after pressing the play button; you'll need to reset the level first.
+
+You'll lose if:
+  • A cat enters a rocket before every mice is safe.
+  • A mouse gets eaten by a cat.
+  • A mouse falls into a black hole.
+
+You'll be awarded a star if you complete a level without using all the available arrows.
+""",
+      name: 'puzzleTutorialText',
+      desc: 'Puzzle text of the tutorial screen.',
+    );
+  }
+
+  String get challengeTutorialText {
+    return Intl.message(
+      """
+Challenges are fast-paced games where you only have 30 seconds to complete an objective that depends on the type of the challenge.
+
+Unlike Puzzle mode, you can place as many arrows as you want but they expire after 10 seconds and there can only be 3 arrows at a time (placing more will replace the oldest).""",
+      name: 'challengeTutorialText',
+      desc: 'Challenge text of the tutorial screen.',
+    );
+  }
+
+  String get challengeGetMiceText {
+    return Intl.message(
+      'Like in Puzzle mode, you need to make all the mice, but as fast as possible this time.',
+      name: 'challengeGetMiceText',
+      desc: 'Get Mice challenge text of the tutorial screen.',
+    );
+  }
+
+  String get challengeLunchTimeText {
+    return Intl.message(
+      'No rocket here, feed the cats with every single mouse!',
+      name: 'challengeLunchTimeText',
+      desc: 'Lunch Time challenge text of the tutorial screen.',
+    );
+  }
+
+  String get challengeOneHundredMiceText {
+    return Intl.message(
+      'Mice and cats will naturally spawn, get one hundred of mice!',
+      name: 'challengeOneHundredMiceText',
+      desc: 'One Hundred Mice challenge text of the tutorial screen.',
     );
   }
 
