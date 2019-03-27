@@ -1,0 +1,447 @@
+{
+  "@@last_modified": "2019-03-27T20:12:45.930151",
+  "puzzleType": "Puzzle",
+  "@puzzleType": {
+    "description": "Puzzle type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeType": "Challenge",
+  "@challengeType": {
+    "description": "Challenge type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeGetMiceType": "Get Mice",
+  "@challengeGetMiceType": {
+    "description": "Get Mice type of challenge.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeRunAwayType": "Run Away",
+  "@challengeRunAwayType": {
+    "description": "Run Away type of challenge.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeLunchTimeType": "Lunch Time",
+  "@challengeLunchTimeType": {
+    "description": "Lunch Time type of challenge.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeOneHundredMiceType": "One Hundred Mice",
+  "@challengeOneHundredMiceType": {
+    "description": "One Hundred Mice type of challenge.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "multiplayerType": "Multiplayer",
+  "@multiplayerType": {
+    "description": "Multiplayer type of game.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengesTitle": "Challenges",
+  "@challengesTitle": {
+    "description": "Challenges title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "puzzlesTitle": "Puzzles",
+  "@puzzlesTitle": {
+    "description": "Puzzles title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "multiplayerTitle": "Multiplayer",
+  "@multiplayerTitle": {
+    "description": "Multiplayer title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "editorTitle": "Editor",
+  "@editorTitle": {
+    "description": "Editor title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "homeTitle": "Home",
+  "@homeTitle": {
+    "description": "Home title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tutorialTitle": "How to play",
+  "@tutorialTitle": {
+    "description": "Tutorial title in AppBar, Drawer...",
+    "type": "text",
+    "placeholders": {}
+  },
+  "whatsNewTab": "What's New?",
+  "@whatsNewTab": {
+    "description": "What's New tab of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "firstTimeWelcome": "Welcome,",
+  "@firstTimeWelcome": {
+    "description": "First time welcome label of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "firstTimeText": "First time here? Check the tutorial!",
+  "@firstTimeText": {
+    "description": "First time welcome text of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "firstTimeButtonLabel": "Take me to it!",
+  "@firstTimeButtonLabel": {
+    "description": "First time, go to tutorial button of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contributingTab": "Contributing",
+  "@contributingTab": {
+    "description": "Contributing tab of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contributingText": "Help NyaNya Rocket!\n\nYou don't need any particular skills to contribute, you can:\n  • Report bugs and ask for new features\n  • Translate\n  • Improve graphical assets and animation\n  • Code\n\nFor more information, head over to ",
+  "@contributingText": {
+    "description": "Text of the Contributing tab of Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contributorsLabel": "Contributors",
+  "@contributorsLabel": {
+    "description": "Contributors label in Contributing tab of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "originalTab": "Original",
+  "@originalTab": {
+    "description": "Original tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "communityTab": "Community",
+  "@communityTab": {
+    "description": "Community tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceTab": "Device",
+  "@deviceTab": {
+    "description": "Device tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "getMiceObjectiveText": "Lead all mice to the goal within 30 sec.",
+  "@getMiceObjectiveText": {
+    "description": "Short explanation of the Get Mice challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "runAwayObjectiveText": "Avoid the cat and get to the goal!",
+  "@runAwayObjectiveText": {
+    "description": "Short explanation of the Run Away challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lunchTimeObjectiveText": "Feed the cat!",
+  "@lunchTimeObjectiveText": {
+    "description": "Short explanation of the Lunch Time challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "oneHundredMiceObjectiveText": "Collect 100 mice in 30 sec.",
+  "@oneHundredMiceObjectiveText": {
+    "description": "Short explanation of the One Hundred Mice challenge type.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lanTab": "LAN",
+  "@lanTab": {
+    "description": "LAN tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "matchmakingTab": "Matchmaking",
+  "@matchmakingTab": {
+    "description": "Matchmaking tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nicknameLabel": "Nickname",
+  "@nicknameLabel": {
+    "description": "Nickname field label of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidNicknameText": "Please enter a valid nickname.",
+  "@invalidNicknameText": {
+    "description": "When entered nickname is incorrect in the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidHostnameText": "Please enter a valid hostname.",
+  "@invalidHostnameText": {
+    "description": "When entered hostname is incorrect in the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "hostnameLabel": "Server hostname",
+  "@hostnameLabel": {
+    "description": "Server hostname field label of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createLabel": "Create",
+  "@createLabel": {
+    "description": "Create button label of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newTab": "New",
+  "@newTab": {
+    "description": "New tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nameLabel": "Name",
+  "@nameLabel": {
+    "description": "Name field of the new tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidNameText": "Please enter a valid name.",
+  "@invalidNameText": {
+    "description": "When entered name is invalid in the new tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "editTab": "Edit",
+  "@editTab": {
+    "description": "Edit tab of the Editor screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "discardDialogTitle": "Confirm leave",
+  "@discardDialogTitle": {
+    "description": "Discard confirmation dialog of editor.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "discardDialogMessage": "Are you sure you want to leave?\nAny unsaved changes will be discarded!",
+  "@discardDialogMessage": {
+    "description": "Discard confirmation dialog of editor.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "saveLabel": "Save",
+  "@saveLabel": {
+    "description": "Save button label of editor.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "enableAnimationsLabel": "Enable Animations",
+  "@enableAnimationsLabel": {
+    "description": "Enable Animations setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "darkModeLabel": "Dark Mode",
+  "@darkModeLabel": {
+    "description": "Dark Mode setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "languageLabel": "Language",
+  "@languageLabel": {
+    "description": "Language setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "stageClearedText": "Stage cleared!",
+  "@stageClearedText": {
+    "description": "Stage cleared text of success overlay.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nextLevelLabel": "Next level",
+  "@nextLevelLabel": {
+    "description": "Next level button label of success overlay.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "generalLabel": "General",
+  "@generalLabel": {
+    "description": "General label of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tilesTutorialLabel": "Tiles",
+  "@tilesTutorialLabel": {
+    "description": "Tiles label of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pitTutorialText": "Black Hole (technically a square though...)",
+  "@pitTutorialText": {
+    "description": "Pit text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rocketTutorialText": "Rocket",
+  "@rocketTutorialText": {
+    "description": "Rocket text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "arrowTutorialText": "Arrow",
+  "@arrowTutorialText": {
+    "description": "Arrow text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "entitiesTutorialLabel": "Entities",
+  "@entitiesTutorialLabel": {
+    "description": "Entities label of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mouseTutorialText": "Mouse",
+  "@mouseTutorialText": {
+    "description": "Mouse text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "catTutorialText": "Cats are slower than mice.\nWhen a cat meets an arrow head-on, it will damage it or destroy it if already damaged.",
+  "@catTutorialText": {
+    "description": "Cat text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "movementTutorialText": "\nAn entity walks straight until it encounters an arrow or a wall.\nFor some reasons, mice and cats prefer turning right when hitting a wall...\n",
+  "@movementTutorialText": {
+    "description": "Movement text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "placementTutorialLabel": "Arrow placement",
+  "@placementTutorialLabel": {
+    "description": "Arrow placement label of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "arrowDnDTutorialText": "Arrows can be drag n' dropped...",
+  "@arrowDnDTutorialText": {
+    "description": "Arrow drag n drop placement text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "arrowSwipeTutorialText": "...or swiped",
+  "@arrowSwipeTutorialText": {
+    "description": "Arrow swipe placement text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "arrowRemoveTutorialText": "Arrows can be removed by tapping",
+  "@arrowRemoveTutorialText": {
+    "description": "Arrow remove text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "puzzleTutorialText": "A Puzzle game is won when every mice has reached a rocket.\nYou have a restricted amount of arrows to achieve that goal.\n\nNote that you cannot place or remove an arrow after pressing the play button; you'll need to reset the level first.\n\nYou'll lose if:\n  • A cat enters a rocket before every mice is safe.\n  • A mouse gets eaten by a cat.\n  • A mouse falls into a black hole.\n\nYou'll be awarded a star if you complete a level without using all the available arrows.\n",
+  "@puzzleTutorialText": {
+    "description": "Puzzle text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeTutorialText": "Challenges are fast-paced games where you only have 30 seconds to complete an objective that depends on the type of the challenge.\n\nUnlike Puzzle mode, you can place as many arrows as you want but they expire after 10 seconds and there can only be 3 arrows at a time (placing more will replace the oldest).",
+  "@challengeTutorialText": {
+    "description": "Challenge text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeGetMiceText": "Like in Puzzle mode, you need to make all the mice, but as fast as possible this time.",
+  "@challengeGetMiceText": {
+    "description": "Get Mice challenge text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeLunchTimeText": "No rocket here, feed the cats with every single mouse!",
+  "@challengeLunchTimeText": {
+    "description": "Lunch Time challenge text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "challengeOneHundredMiceText": "Mice and cats will naturally spawn, get one hundred of mice!",
+  "@challengeOneHundredMiceText": {
+    "description": "One Hundred Mice challenge text of the tutorial screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yes": "Yes",
+  "@yes": {
+    "description": "Yes string.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "no": "No",
+  "@no": {
+    "description": "No string.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loadingLabel": "Loading...",
+  "@loadingLabel": {
+    "description": "Loading... label of async loaded data.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notImplementedText": "Not (yet) available!\nWant it to be a priority? :-)",
+  "@notImplementedText": {
+    "description": "Text of the NotImplementedWidget.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "emptyListText": "Nothing here...",
+  "@emptyListText": {
+    "description": "Displayed when a list is empty.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "aboutDialogText": "See our Privacy Policy on the application store page or visit ",
+  "@aboutDialogText": {
+    "description": "Displayed in the About dialog.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "playLabel": "Play",
+  "@playLabel": {
+    "description": "Displayed in various buttons.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "playersLabel": "players",
+  "@playersLabel": {
+    "description": "Displayed in various locations.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "boardSelectionText": "Tap to select",
+  "@boardSelectionText": {
+    "description": "Displayed in board picker.",
+    "type": "text",
+    "placeholders": {}
+  }
+}
