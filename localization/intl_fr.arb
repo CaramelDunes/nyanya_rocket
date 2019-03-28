@@ -77,7 +77,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "tutorialTitle": "Tutoriel",
+  "tutorialTitle": "Guide de jeu",
   "@tutorialTitle": {
     "description": "Tutorial title in AppBar, Drawer...",
     "type": "text",
@@ -95,7 +95,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "firstTimeText": "Première visite ? Allez voir le tutoriel !",
+  "firstTimeText": "Première visite ? Allez voir le guide de jeu !",
   "@firstTimeText": {
     "description": "First time welcome text of the Home screen.",
     "type": "text",
@@ -299,7 +299,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "rocketTutorialText": "Fusée (si, si, je vous assure)",
+  "rocketTutorialText": "Fusée",
   "@rocketTutorialText": {
     "description": "Rocket text of the tutorial screen.",
     "type": "text",
