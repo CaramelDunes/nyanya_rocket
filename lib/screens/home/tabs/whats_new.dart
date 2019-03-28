@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/options_holder.dart';
 
@@ -50,7 +51,11 @@ class WhatsNew extends StatelessWidget {
         ),
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection('articles').snapshots(),
+            stream: Firestore.instance
+                .collection(
+                    'articles_${Intl.shortLocale(Intl.getCurrentLocale())}')
+                .orderBy('date', descending: true)
+                .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
