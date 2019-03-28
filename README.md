@@ -7,7 +7,7 @@ NyaNya Rocket! is a mobile game where you have to guide mice away from cats.
 
 Powered by the [Flutter framework](https://flutter.dev).
 
-## Contributing [![Build Status](https://api.cirrus-ci.com/github/CaramelDunes/nyanya_rocket.svg)](https://cirrus-ci.com/github/CaramelDunes/nyanya_rocket.svg)
+## Contributing [![Build Status](https://api.cirrus-ci.com/github/CaramelDunes/nyanya_rocket.svg)](https://cirrus-ci.com/github/CaramelDunes/nyanya_rocket)
 ### Bug reports and feature requests
 Simply use [GitHub's issue tracker](https://github.com/CaramelDunes/nyanya_rocket/issues).
 No templates required, do your best at describing your bug or feature :-)
