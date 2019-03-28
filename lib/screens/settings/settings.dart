@@ -35,7 +35,7 @@ class SettingsState extends State<Settings> {
                   value: OptionsHolder.of(context).options.language,
                   items: <DropdownMenuItem<String>>[
                     DropdownMenuItem(
-                      child: Text('System'),
+                      child: Text('Auto'),
                       value: 'auto',
                     ),
                     DropdownMenuItem(
