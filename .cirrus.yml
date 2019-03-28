@@ -4,7 +4,9 @@ container:
 android_build_task:
   pub_cache:
     folder: ~/.pub-cache
-  update_script:
+  upgrade_script:
     - flutter channel master
     - flutter upgrade
   build_script: flutter build apk
+  apk_artifacts:
+    path: "build/app/outputs/apk/release/app-release.apk"
