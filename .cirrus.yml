@@ -1,3 +1,7 @@
 container:
   image: cirrusci/flutter:latest
   
+android_build_task:
+  pub_cache:
+    folder: ~/.pub-cache
+  build_script: flutter build apk
