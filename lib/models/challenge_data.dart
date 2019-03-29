@@ -89,6 +89,10 @@ class ChallengeData {
         type: ChallengeType.values[json['type']]);
   }
 
-  Map<String, dynamic> toJson() =>
-      {'name': name, 'gameData': gameData, 'type': type.index};
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'author': author,
+        'gameData': gameData,
+        'type': type.index
+      };
 }
