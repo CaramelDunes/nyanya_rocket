@@ -88,6 +88,20 @@ class _PuzzleState extends State<Puzzle> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.puzzle.name),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.help_outline),
+            onPressed: () {
+              Navigator.pushNamed(context, '/tutorial');
+            },
+          )
+        ],
       ),
       body: Stack(
         fit: StackFit.passthrough,
