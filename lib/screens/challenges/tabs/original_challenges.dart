@@ -158,7 +158,13 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
       Navigator.of(context)
           .push(MaterialPageRoute<OverlayPopData>(
               builder: (context) => Challenge(
-                    challenge: OriginalChallenges.challenges[i + 1],
+                    challenge: ChallengeData(
+                        type: OriginalChallenges.challenges[i + 1].type,
+                        gameData: OriginalChallenges.challenges[i + 1].gameData,
+                        author: OriginalChallenges.challenges[i + 1].author,
+                        name: OriginalChallenges.challenges[i + 1].type
+                                .toLocalizedString(context) +
+                            OriginalChallenges.challenges[i + 1].name),
                     onWin: (Duration time) => _handleChallengeWin(i + 1, time),
                   )))
           .then((OverlayPopData popData) {
