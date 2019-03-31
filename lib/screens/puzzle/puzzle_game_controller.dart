@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/blocs/local_game_controller.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+import 'package:soundpool/soundpool.dart';
 
 class Position {
   final int x;
@@ -37,6 +39,10 @@ class PuzzleGameController extends LocalGameController {
 
   Iterable<Entity> _preMistakeEntities;
 
+  Soundpool _pool = Soundpool(streamType: StreamType.music);
+  int _mouseInRocketId;
+  int _catInRocketId;
+
   PuzzleGameController({this.onWin, this.onMistake, @required this.puzzle})
       : super(puzzle.getGame()) {
     for (int direction = 0; direction < Direction.values.length; direction++) {
@@ -49,6 +55,22 @@ class PuzzleGameController extends LocalGameController {
         _miceCount++;
       }
     }
+
+    rootBundle
+        .load("assets/sounds/mouse_in_rocket.aac")
+        .then((ByteData soundData) {
+      _pool.load(soundData).then((int id) {
+        _mouseInRocketId = id;
+      });
+    });
+
+    rootBundle
+        .load("assets/sounds/cat_in_rocket.aac")
+        .then((ByteData soundData) {
+      _pool.load(soundData).then((int id) {
+        _catInRocketId = id;
+      });
+    });
   }
 
   ValueNotifier<BoardPosition> get mistake => _mistake;
@@ -160,7 +182,15 @@ class PuzzleGameController extends LocalGameController {
       running = false;
       _mistake.value = entity.position;
       _preMistakeEntities = game.entities;
+
+      if (_mouseInRocketId != null) {
+        _pool.play(_catInRocketId);
+      }
     } else {
+      if (_mouseInRocketId != null) {
+        _pool.play(_mouseInRocketId);
+      }
+
       _miceInRocket++;
       if (_miceCount == _miceInRocket) {
         for (int x = 0; x < Board.width; x++) {

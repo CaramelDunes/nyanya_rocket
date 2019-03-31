@@ -43,6 +43,8 @@ dependencies:
 
   provider: ^2.0.1
 
+  soundpool: ^0.5.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -89,3 +91,5 @@ flutter:
     - assets/animations/drag_arrow.gif
     - assets/animations/swipe_arrow.gif
     - assets/animations/remove_arrow.gif
+    - assets/sounds/mouse_in_rocket.aac
+    - assets/sounds/cat_in_rocket.aac
