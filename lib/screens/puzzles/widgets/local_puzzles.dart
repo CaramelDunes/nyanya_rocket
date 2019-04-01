@@ -1,5 +1,7 @@
 import 'dart:collection';
+import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_store.dart';
@@ -40,8 +42,21 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
         itemCount: _puzzles.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(_puzzles[uuidList[i]]),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
+              trailing: IconButton(
+                icon: Icon(Icons.publish),
+                onPressed: () {
+                  LocalPuzzles.store.readPuzzle(uuidList[i]).then(
+                      (PuzzleData puzzle) => Firestore.instance
+                              .collection('puzzles')
+                              .document()
+                              .setData({
+                            'name': _puzzles[uuidList[i]],
+                            'author': "",
+                            'puzzle_data': jsonEncode(puzzle.toJson()),
+                            'date': DateTime.now(),
+                            'likes': 0
+                          }));
+                },
               ),
               onTap: () {
                 LocalPuzzles.store.readPuzzle(uuidList[i]).then(
