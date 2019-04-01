@@ -162,6 +162,14 @@ class NyaNyaLocalizations {
     );
   }
 
+  String get newsLabel {
+    return Intl.message(
+      'News',
+      name: 'newsLabel',
+      desc: 'News label of the What\'s New tab.',
+    );
+  }
+
   String get contributingTab {
     return Intl.message(
       'Contributing',

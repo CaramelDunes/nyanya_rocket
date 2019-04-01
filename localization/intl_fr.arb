@@ -101,9 +101,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "firstTimeButtonLabel": "M'y emmener !",
+  "firstTimeButtonLabel": "C'est parti !",
   "@firstTimeButtonLabel": {
     "description": "First time, go to tutorial button of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newsLabel": "Actualités",
+  "@newsLabel": {
+    "description": "News label of the What's New tab.",
     "type": "text",
     "placeholders": {}
   },

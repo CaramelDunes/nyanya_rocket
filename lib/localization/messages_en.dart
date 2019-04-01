@@ -72,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "multiplayerType" : MessageLookupByLibrary.simpleMessage("Multiplayer"),
     "nameLabel" : MessageLookupByLibrary.simpleMessage("Name"),
     "newTab" : MessageLookupByLibrary.simpleMessage("New"),
+    "newsLabel" : MessageLookupByLibrary.simpleMessage("News"),
     "nextLevelLabel" : MessageLookupByLibrary.simpleMessage("Next level"),
     "nicknameLabel" : MessageLookupByLibrary.simpleMessage("Nickname"),
     "no" : MessageLookupByLibrary.simpleMessage("No"),

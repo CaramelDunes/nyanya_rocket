@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-03-27T20:12:45.930151",
+  "@@last_modified": "2019-04-01T14:58:09.900928",
   "puzzleType": "Puzzle",
   "@puzzleType": {
     "description": "Puzzle type of game.",
@@ -105,6 +105,12 @@
   "firstTimeButtonLabel": "Take me to it!",
   "@firstTimeButtonLabel": {
     "description": "First time, go to tutorial button of the Home screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newsLabel": "News",
+  "@newsLabel": {
+    "description": "News label of the What's New tab.",
     "type": "text",
     "placeholders": {}
   },
