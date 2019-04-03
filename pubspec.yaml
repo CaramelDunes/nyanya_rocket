@@ -43,7 +43,9 @@ dependencies:
 
   provider: ^2.0.1
 
-  soundpool: ^0.5.0
+  soundpool:
+    git:
+      url: git://github.com/CaramelDunes/soundpool.git
 
 dev_dependencies:
   flutter_test:
