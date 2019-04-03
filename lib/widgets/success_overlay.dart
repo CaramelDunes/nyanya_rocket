@@ -9,8 +9,9 @@ class OverlayPopData {
 
 class SuccessOverlay extends StatelessWidget {
   final String succeededName;
+  final String succeededPath;
 
-  const SuccessOverlay({Key key, @required this.succeededName})
+  const SuccessOverlay({Key key, @required this.succeededName, this.succeededPath})
       : super(key: key);
 
   @override

@@ -1,7 +1,6 @@
 import 'dart:collection';
-import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_store.dart';
@@ -19,6 +18,7 @@ class LocalPuzzles extends StatefulWidget {
 
 class _LocalPuzzlesState extends State<LocalPuzzles> {
   HashMap<String, String> _puzzles = HashMap();
+  FirebaseUser user;
 
   @override
   void initState() {
@@ -45,17 +45,28 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
               trailing: IconButton(
                 icon: Icon(Icons.publish),
                 onPressed: () {
-                  LocalPuzzles.store.readPuzzle(uuidList[i]).then(
-                      (PuzzleData puzzle) => Firestore.instance
-                              .collection('puzzles')
-                              .document()
-                              .setData({
-                            'name': _puzzles[uuidList[i]],
-                            'author': "",
-                            'puzzle_data': jsonEncode(puzzle.toJson()),
-                            'date': DateTime.now(),
-                            'likes': 0
-                          }));
+                  if (user == null) {
+                    final FirebaseAuth _auth = FirebaseAuth.instance;
+                    _auth
+                        .signInAnonymously()
+                        .then((FirebaseUser user) => this.user = user);
+                  } else {
+                    user.getIdToken().then((String id) => print(id));
+                    FirebaseAuth.instance.signOut();
+                    user = null;
+                  }
+
+//                  LocalPuzzles.store.readPuzzle(uuidList[i]).then(
+//                      (PuzzleData puzzle) => Firestore.instance
+//                              .collection('puzzles')
+//                              .document()
+//                              .setData({
+//                            'name': _puzzles[uuidList[i]],
+//                            'author': "",
+//                            'puzzle_data': jsonEncode(puzzle.toJson()),
+//                            'date': DateTime.now(),
+//                            'likes': 0
+//                          }));
                 },
               ),
               onTap: () {

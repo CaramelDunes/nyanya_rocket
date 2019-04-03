@@ -2,16 +2,45 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
+class Entry {
+  final int likes;
+  final String name;
+  final String author;
+
+  Entry({this.likes, this.name, this.author});
+
+  static Entry fromJson(Map<String, dynamic> json) {
+    return Entry(
+        name: json['name'], author: json['author'], likes: json['likes']);
+  }
+
+  Map<String, dynamic> toJson() =>
+      {'name': name, 'author': author, 'likes': likes};
+}
+
 class CommunityPuzzleStore {
-  HashMap<String, String> _entries = HashMap();
+  HashMap<String, Entry> _entries = HashMap();
 
   File _registryFile;
 
   final Uuid uuid = Uuid();
+
+  void consume(QuerySnapshot snapshot) {
+    for (DocumentSnapshot document in snapshot.documents) {
+      _entries[document.documentID] = Entry(
+          likes: document['likes'],
+          name: document['name'],
+          author: document['author']);
+      _writePuzzle(document.documentID, document['puzzle_data']);
+    }
+
+    _writeRegistry();
+  }
 
   Future<HashMap> readRegistry() async {
     _entries.clear();
@@ -21,12 +50,12 @@ class CommunityPuzzleStore {
     _registryFile =
         File('${directory.path}/nyanya_rocket/puzzles/registry.txt');
 
-    if (!_registryFile.existsSync()) {
-      _registryFile.createSync(recursive: true);
+    if (!await _registryFile.exists()) {
+      await _registryFile.create(recursive: true);
       return _entries;
     }
 
-    String contents = _registryFile.readAsStringSync();
+    String contents = await _registryFile.readAsString();
 
     for (String entry in contents.split('\n')) {
       int separator = entry.indexOf(';');
@@ -38,7 +67,8 @@ class CommunityPuzzleStore {
         continue;
       }
 
-      _entries[entry.substring(0, separator)] = entry.substring(separator + 1);
+      _entries[entry.substring(0, separator)] =
+          Entry.fromJson(jsonDecode(entry.substring(separator + 1)));
     }
 
     return _entries;
@@ -47,8 +77,8 @@ class CommunityPuzzleStore {
   Future<bool> _writeRegistry() async {
     String stringValue = '';
 
-    _entries
-        .forEach((String uuid, String name) => stringValue += '$uuid;$name\n');
+    _entries.forEach((String uuid, Entry entry) =>
+        stringValue += '$uuid;${jsonEncode(entry.toJson())}\n');
 
     Directory directory = await getTemporaryDirectory();
 
@@ -68,49 +98,22 @@ class CommunityPuzzleStore {
     return true;
   }
 
-  Future<bool> _writePuzzle(String uuid, PuzzleData puzzleData) async {
+  Future<bool> _writePuzzle(String uuid, String puzzleData) async {
     Directory directory = await getTemporaryDirectory();
 
     File puzzleFile = File('${directory.path}/nyanya_rocket/puzzles/$uuid.txt');
 
-    if (!puzzleFile.existsSync()) {
-      puzzleFile.createSync();
+    if (!await puzzleFile.exists()) {
+      await puzzleFile.create(recursive: true);
 
-      if (!puzzleFile.existsSync()) {
+      if (!await puzzleFile.exists()) {
         return false;
       }
     }
 
-    await puzzleFile.writeAsString(jsonEncode(puzzleData.toJson()));
+    await puzzleFile.writeAsString(puzzleData);
 
     return true;
-  }
-
-  Future<String> saveNewPuzzle(PuzzleData puzzleData) async {
-    await readRegistry();
-
-    String newUuid = uuid.v4();
-
-    if (!_entries.containsKey(newUuid)) {
-      if (await _writePuzzle(newUuid, puzzleData)) {
-        _entries[newUuid] = puzzleData.name;
-        _writeRegistry();
-        return newUuid;
-      }
-    }
-
-    return '';
-  }
-
-  Future<bool> updatePuzzle(String uuid, PuzzleData puzzleData) async {
-    await readRegistry();
-
-    if (_entries.containsKey(uuid) && await _writePuzzle(uuid, puzzleData)) {
-      _entries[uuid] = puzzleData.name;
-      return true;
-    }
-
-    return false;
   }
 
   Future<PuzzleData> readPuzzle(String uuid) async {
@@ -129,20 +132,6 @@ class CommunityPuzzleStore {
     }
 
     return null;
-  }
-
-  Future<bool> deletePuzzle(String uuid) async {
-    if (_entries.containsKey(uuid)) {
-      Directory directory = await getTemporaryDirectory();
-
-      File('${directory.path}/nyanya_rocket/puzzles/$uuid.txt').deleteSync();
-
-      _entries.remove(uuid);
-      await _writeRegistry();
-      return true;
-    }
-
-    return false;
   }
 
   HashMap get entries => _entries;
