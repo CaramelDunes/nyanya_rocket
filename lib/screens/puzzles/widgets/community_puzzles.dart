@@ -40,7 +40,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
             likes: snapshot.data['likes'],
             author: snapshot.data['author'],
             name: snapshot.data['name'],
-            date: snapshot.data['date']);
+            date: snapshot.data['date'].toDate());
       }).toList();
 
       setState(() {});
@@ -98,8 +98,9 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
               itemCount: puzzles.length,
               itemBuilder: (context, i) => ListTile(
                     title: Text(puzzles[i].name),
-                    subtitle: Text(MaterialLocalizations.of(context)
-                        .formatMediumDate(puzzles[i].date)),
+                    subtitle: Text(puzzles[i].author +
+                        MaterialLocalizations.of(context)
+                            .formatMediumDate(puzzles[i].date)),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
