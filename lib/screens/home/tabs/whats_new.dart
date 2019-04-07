@@ -21,6 +21,7 @@ class WhatsNew extends StatelessWidget {
           Visibility(
             visible: OptionsHolder.of(context).options.firstRun,
             child: Flexible(
+              flex: 0,
               child: Dismissible(
                 key: UniqueKey(),
                 onDismissed: (DismissDirection direction) {
@@ -135,7 +136,7 @@ class WhatsNew extends StatelessWidget {
                         return ListTile(
                           title: Text(document['title']),
                           trailing: Text(MaterialLocalizations.of(context)
-                              .formatMediumDate(document['date'])),
+                              .formatMediumDate(document['date'].toDate())),
                         );
                       }).toList(),
                     );
