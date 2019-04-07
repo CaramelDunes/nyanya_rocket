@@ -49,7 +49,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                 onPressed: () {
                   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-                  _auth.currentUser().then((FirebaseUser user) {
+                  _auth.signInAnonymously().then((FirebaseUser user) {
                     if (user == null) return;
                     print(user.uid);
                     LocalPuzzles.store.readPuzzle(uuidList[i]).then(

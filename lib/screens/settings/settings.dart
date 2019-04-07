@@ -46,12 +46,12 @@ class SettingsState extends State<Settings> {
             ),
             actions: <Widget>[
               FlatButton(
-                  child: const Text('CANCEL'),
+                  child: const Text('Cancel'),
                   onPressed: () {
                     Navigator.pop(context);
                   }),
               FlatButton(
-                  child: const Text('OPEN'),
+                  child: const Text('Confirm'),
                   onPressed: () {
                     Navigator.pop(context, displayName);
                   })

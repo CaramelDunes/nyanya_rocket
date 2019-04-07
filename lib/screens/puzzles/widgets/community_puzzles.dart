@@ -14,7 +14,7 @@ class CommunityPuzzles extends StatefulWidget {
   }
 }
 
-enum _Sorting { ByDate, ByPopularity }
+enum _Sorting { ByDate, ByPopularity, ByName }
 
 class _CommunityPuzzlesState extends State<CommunityPuzzles> {
   List<CommunityPuzzleData> puzzles = List();
@@ -23,27 +23,33 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
   @override
   void initState() {
     super.initState();
+    _refreshList();
+  }
 
-    Firestore.instance
+  Future<void> _refreshList() async {
+    QuerySnapshot snapshot = await Firestore.instance
         .collection('puzzles')
-        .orderBy(_sorting == _Sorting.ByDate ? 'date' : 'likes',
-            descending: true)
-        .limit(10)
-        .getDocuments()
-        .then((QuerySnapshot snapshot) {
-      puzzles.clear();
+        .orderBy(
+            _sorting == _Sorting.ByDate
+                ? 'date'
+                : _sorting == _Sorting.ByPopularity ? 'likes' : 'name',
+            descending: _sorting != _Sorting.ByName)
+        .limit(50)
+        .getDocuments();
 
-      puzzles = snapshot.documents
-          .map<CommunityPuzzleData>((DocumentSnapshot snapshot) {
-        return CommunityPuzzleData(
-            puzzleData: snapshot.data['puzzle_data'],
-            likes: snapshot.data['likes'],
-            author: snapshot.data['author'],
-            name: snapshot.data['name'],
-            date: snapshot.data['date'].toDate());
-      }).toList();
+    List<CommunityPuzzleData> newPuzzles = snapshot.documents
+        .map<CommunityPuzzleData>((DocumentSnapshot snapshot) {
+      return CommunityPuzzleData(
+          uid: snapshot.documentID,
+          puzzleData: snapshot.data['puzzle_data'],
+          likes: snapshot.data['likes'],
+          author: snapshot.data['author'],
+          name: snapshot.data['name'],
+          date: snapshot.data['date'].toDate());
+    }).toList();
 
-      setState(() {});
+    setState(() {
+      puzzles = newPuzzles;
     });
   }
 
@@ -79,12 +85,19 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                       ),
                       DropdownMenuItem<_Sorting>(
                         child: Text('Name'),
+                        value: _Sorting.ByName,
+                      ),
+                      DropdownMenuItem<_Sorting>(
+                        child: Text('Popularity'),
                         value: _Sorting.ByPopularity,
                       )
                     ],
-                    onChanged: (_Sorting value) => setState(() {
-                          _sorting = value;
-                        }),
+                    onChanged: (_Sorting value) {
+                      setState(() {
+                        _sorting = value;
+                        _refreshList();
+                      });
+                    },
                   ),
                 ),
               ],
@@ -93,36 +106,41 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
         ),
         Divider(),
         Expanded(
-          child: ListView.separated(
-              separatorBuilder: (context, int) => Divider(),
-              itemCount: puzzles.length,
-              itemBuilder: (context, i) => ListTile(
-                    title: Text(puzzles[i].name),
-                    subtitle: Text(puzzles[i].author +
-                        MaterialLocalizations.of(context)
-                            .formatMediumDate(puzzles[i].date)),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text('${puzzles[i].likes}'),
-                        ),
-                        Icon(Icons.star),
-                      ],
-                    ),
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute<OverlayPopData>(
-                              builder: (context) => Puzzle(
-                                    puzzle: PuzzleData.fromJson(
-                                        jsonDecode(puzzles[i].puzzleData)),
-                                    onWin: (bool starred) =>
-                                        _handlePuzzleWin(i, starred),
-                                  )))
-                          .then((OverlayPopData popData) {});
-                    },
-                  )),
+          child: RefreshIndicator(
+            onRefresh: _refreshList,
+            child: ListView.separated(
+                separatorBuilder: (context, int) => Divider(),
+                itemCount: puzzles.length,
+                itemBuilder: (context, i) => ListTile(
+                      title: Text(puzzles[i].name),
+                      subtitle: Text(
+                          '${puzzles[i].author}\n${MaterialLocalizations.of(context).formatMediumDate(puzzles[i].date)}'),
+                      isThreeLine: true,
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text('${puzzles[i].likes}'),
+                          ),
+                          Icon(Icons.star),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute<OverlayPopData>(
+                                builder: (context) => Puzzle(
+                                      puzzle: PuzzleData.fromJson(
+                                          jsonDecode(puzzles[i].puzzleData)),
+                                      onWin: (bool starred) =>
+                                          _handlePuzzleWin(i, starred),
+                                      documentPath: 'puzzles/${puzzles[i].uid}',
+                                    )))
+                            .then((OverlayPopData popData) {});
+                      },
+                    )),
+          ),
         ),
       ],
     );

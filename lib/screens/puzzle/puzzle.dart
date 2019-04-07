@@ -18,9 +18,9 @@ class PuzzlePopData {
 class Puzzle extends StatefulWidget {
   final PuzzleData puzzle;
   final void Function(bool starred) onWin;
-  final void Function() playNext;
+  final String documentPath;
 
-  Puzzle({this.puzzle, this.onWin, this.playNext});
+  Puzzle({@required this.puzzle, this.onWin, this.documentPath});
 
   @override
   _PuzzleState createState() => _PuzzleState();
@@ -176,7 +176,10 @@ class _PuzzleState extends State<Puzzle> {
           ),
           Visibility(
               visible: _ended,
-              child: SuccessOverlay(succeededName: widget.puzzle.name)),
+              child: SuccessOverlay(
+                succeededName: widget.puzzle.name,
+                succeededPath: widget.documentPath,
+              )),
         ],
       ),
     );
