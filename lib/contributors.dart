@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class Contributors extends StatelessWidget {
   static const List<String> _list = const [
     'CaramelDunes',
-    'brouxco' // Early testing
+    'brouxco', // Early testing
+    'GuilloteauQ' // Early testing
   ];
 
   @override

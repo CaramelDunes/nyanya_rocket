@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -67,7 +68,8 @@ class EditTabState extends State<EditTab> {
                     onPressed: () {
                       LocalPuzzles.store.readPuzzle(uuidList[i]).then(
                           (PuzzleData puzzle) => Clipboard.setData(
-                              ClipboardData(text: puzzle.gameData)));
+                              ClipboardData(
+                                  text: jsonEncode(puzzle.toJson()))));
                     },
                   ),
                   IconButton(
