@@ -43,7 +43,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
           uid: snapshot.documentID,
           puzzleData: snapshot.data['puzzle_data'],
           likes: snapshot.data['likes'],
-          author: snapshot.data['author'],
+          author: snapshot.data['author_name'],
           name: snapshot.data['name'],
           date: snapshot.data['date'].toDate());
     }).toList();

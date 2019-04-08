@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
@@ -117,7 +118,6 @@ class SettingsState extends State<Settings> {
                 onTap: () {
                   _showDialog(context, _user.displayName)
                       .then((String displayName) {
-                    print(displayName);
                     _user
                         .updateProfile(
                             UserUpdateInfo()..displayName = displayName)
@@ -126,6 +126,11 @@ class SettingsState extends State<Settings> {
                         setState(() {});
                       });
                     });
+
+                    FirebaseAuth.instance.signInAnonymously();
+                    Firestore.instance
+                        .document('users/${_user.uid}')
+                        .setData({'display_name': displayName});
                   });
                 },
               ),
