@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/discard_confirmation_dialog.dart';
-import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/game_view/entities_drawer.dart';
+import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
+import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 enum ToolType { Tile, Entity, Wall, Eraser }
@@ -48,6 +48,7 @@ class EditorPlacer extends StatefulWidget {
 class _EditorPlacerState extends State<EditorPlacer> {
   int _selected;
   List<int> _subSelected;
+  bool _saved = false;
 
   @override
   void initState() {
@@ -61,6 +62,10 @@ class _EditorPlacerState extends State<EditorPlacer> {
   }
 
   Future<bool> _confirmDiscard() {
+    if (_saved) {
+      return Future.value(true);
+    }
+
     return showDialog<bool>(
         context: context,
         barrierDismissible: false,
@@ -108,6 +113,8 @@ class _EditorPlacerState extends State<EditorPlacer> {
       default:
         break;
     }
+
+    _saved = false;
   }
 
   void _handleTap(int x, int y) {
@@ -134,6 +141,8 @@ class _EditorPlacerState extends State<EditorPlacer> {
       default:
         break;
     }
+
+    _saved = false;
   }
 
   @override
@@ -220,7 +229,10 @@ class _EditorPlacerState extends State<EditorPlacer> {
                                   textColor: Colors.white,
                                   child: Text(NyaNyaLocalizations.of(context)
                                       .saveLabel),
-                                  onPressed: widget.onSave),
+                                  onPressed: () {
+                                    widget.onSave();
+                                    _saved = true;
+                                  }),
                             ),
                           ),
                         ],
