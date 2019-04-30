@@ -448,5 +448,29 @@
     "description": "Displayed in board picker.",
     "type": "text",
     "placeholders": {}
+  },
+  "easyLabel": "Facile",
+  "@easyLabel": {
+    "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "intermediateLabel": "Moyen",
+  "@intermediateLabel": {
+    "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "hardLabel": "Difficile",
+  "@hardLabel": {
+    "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "veryHardLabel": "Très difficile",
+  "@veryHardLabel": {
+    "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
   }
 }

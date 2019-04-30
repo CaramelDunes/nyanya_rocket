@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "deviceTab" : MessageLookupByLibrary.simpleMessage("Local"),
     "discardDialogMessage" : MessageLookupByLibrary.simpleMessage("Êtes-vous sûr(e) de vouloir terminer l\'édition ?\nToute modification non sauvegardée sera perdue."),
     "discardDialogTitle" : MessageLookupByLibrary.simpleMessage("Confirmation"),
+    "easyLabel" : MessageLookupByLibrary.simpleMessage("Facile"),
     "editTab" : MessageLookupByLibrary.simpleMessage("Modifier"),
     "editorTitle" : MessageLookupByLibrary.simpleMessage("Éditeur"),
     "emptyListText" : MessageLookupByLibrary.simpleMessage("Il n\'y a rien ici..."),
@@ -56,8 +57,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "firstTimeWelcome" : MessageLookupByLibrary.simpleMessage("Bienvenue !"),
     "generalLabel" : MessageLookupByLibrary.simpleMessage("Général"),
     "getMiceObjectiveText" : MessageLookupByLibrary.simpleMessage("Guidez toutes les souris vers les fusées en 30 secondes."),
+    "hardLabel" : MessageLookupByLibrary.simpleMessage("Difficile"),
     "homeTitle" : MessageLookupByLibrary.simpleMessage("Accueil"),
     "hostnameLabel" : MessageLookupByLibrary.simpleMessage("Adresse du serveur"),
+    "intermediateLabel" : MessageLookupByLibrary.simpleMessage("Moyen"),
     "invalidHostnameText" : MessageLookupByLibrary.simpleMessage("Adresse invalide"),
     "invalidNameText" : MessageLookupByLibrary.simpleMessage("Nom invalide."),
     "invalidNicknameText" : MessageLookupByLibrary.simpleMessage("Pseudo invalide."),
@@ -93,6 +96,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "stageClearedText" : MessageLookupByLibrary.simpleMessage("Niveau réussi !"),
     "tilesTutorialLabel" : MessageLookupByLibrary.simpleMessage("Cases"),
     "tutorialTitle" : MessageLookupByLibrary.simpleMessage("Guide de jeu"),
+    "veryHardLabel" : MessageLookupByLibrary.simpleMessage("Très difficile"),
     "whatsNewTab" : MessageLookupByLibrary.simpleMessage("Quoi de neuf ?"),
     "yes" : MessageLookupByLibrary.simpleMessage("Oui")
   };

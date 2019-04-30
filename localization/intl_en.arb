@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-04-01T14:58:09.900928",
+  "@@last_modified": "2019-04-30T15:54:05.012030",
   "puzzleType": "Puzzle",
   "@puzzleType": {
     "description": "Puzzle type of game.",
@@ -447,6 +447,30 @@
   "boardSelectionText": "Tap to select",
   "@boardSelectionText": {
     "description": "Displayed in board picker.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "easyLabel": "Easy",
+  "@easyLabel": {
+    "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "intermediateLabel": "Intermediate",
+  "@intermediateLabel": {
+    "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "hardLabel": "Hard",
+  "@hardLabel": {
+    "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "veryHardLabel": "Very Hard",
+  "@veryHardLabel": {
+    "description": "Displayed in original puzzles tab.",
     "type": "text",
     "placeholders": {}
   }

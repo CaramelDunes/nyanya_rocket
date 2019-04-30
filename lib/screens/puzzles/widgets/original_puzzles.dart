@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_progression_manager.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
@@ -123,6 +124,20 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
     }
   }
 
+  String _difficultyFromIndex(BuildContext context, int index) {
+    if (index >= 0 && index < 25) {
+      return NyaNyaLocalizations.of(context).easyLabel;
+    } else if (index >= 25 && index < 50) {
+      return NyaNyaLocalizations.of(context).intermediateLabel;
+    } else if (index >= 50 && index < 75) {
+      return NyaNyaLocalizations.of(context).hardLabel;
+    } else if (index >= 75 && index < 100) {
+      return NyaNyaLocalizations.of(context).veryHardLabel;
+    } else {
+      return 'Unspecified';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -130,6 +145,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
         itemCount: OriginalPuzzles.puzzles.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(OriginalPuzzles.puzzles[i].name),
+              subtitle: Text(_difficultyFromIndex(context, i)),
               trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                 Visibility(
                   visible: OriginalPuzzles.progression.hasStarred(i),

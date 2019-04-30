@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "deviceTab" : MessageLookupByLibrary.simpleMessage("Device"),
     "discardDialogMessage" : MessageLookupByLibrary.simpleMessage("Are you sure you want to leave?\nAny unsaved changes will be discarded!"),
     "discardDialogTitle" : MessageLookupByLibrary.simpleMessage("Confirm leave"),
+    "easyLabel" : MessageLookupByLibrary.simpleMessage("Easy"),
     "editTab" : MessageLookupByLibrary.simpleMessage("Edit"),
     "editorTitle" : MessageLookupByLibrary.simpleMessage("Editor"),
     "emptyListText" : MessageLookupByLibrary.simpleMessage("Nothing here..."),
@@ -56,8 +57,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "firstTimeWelcome" : MessageLookupByLibrary.simpleMessage("Welcome,"),
     "generalLabel" : MessageLookupByLibrary.simpleMessage("General"),
     "getMiceObjectiveText" : MessageLookupByLibrary.simpleMessage("Lead all mice to the goal within 30 sec."),
+    "hardLabel" : MessageLookupByLibrary.simpleMessage("Hard"),
     "homeTitle" : MessageLookupByLibrary.simpleMessage("Home"),
     "hostnameLabel" : MessageLookupByLibrary.simpleMessage("Server hostname"),
+    "intermediateLabel" : MessageLookupByLibrary.simpleMessage("Intermediate"),
     "invalidHostnameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid hostname."),
     "invalidNameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid name."),
     "invalidNicknameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid nickname."),
@@ -93,6 +96,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "stageClearedText" : MessageLookupByLibrary.simpleMessage("Stage cleared!"),
     "tilesTutorialLabel" : MessageLookupByLibrary.simpleMessage("Tiles"),
     "tutorialTitle" : MessageLookupByLibrary.simpleMessage("How to play"),
+    "veryHardLabel" : MessageLookupByLibrary.simpleMessage("Very Hard"),
     "whatsNewTab" : MessageLookupByLibrary.simpleMessage("What\'s New?"),
     "yes" : MessageLookupByLibrary.simpleMessage("Yes")
   };

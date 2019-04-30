@@ -652,4 +652,36 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
       desc: 'Displayed in board picker.',
     );
   }
+
+  String get easyLabel {
+    return Intl.message(
+      'Easy',
+      name: 'easyLabel',
+      desc: 'Displayed in original puzzles tab.',
+    );
+  }
+
+  String get intermediateLabel {
+    return Intl.message(
+      'Intermediate',
+      name: 'intermediateLabel',
+      desc: 'Displayed in original puzzles tab.',
+    );
+  }
+
+  String get hardLabel {
+    return Intl.message(
+      'Hard',
+      name: 'hardLabel',
+      desc: 'Displayed in original puzzles tab.',
+    );
+  }
+
+  String get veryHardLabel {
+    return Intl.message(
+      'Very Hard',
+      name: 'veryHardLabel',
+      desc: 'Displayed in original puzzles tab.',
+    );
+  }
 }
