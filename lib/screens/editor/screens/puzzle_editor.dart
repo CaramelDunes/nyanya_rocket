@@ -36,6 +36,11 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
 
     _editorGameController = EditorGameController(game: widget.puzzle.getGame());
 
+    for (int direction = 0; direction < 4; direction++) {
+      _initExistingArrows(Direction.values[direction],
+          widget.puzzle.availableArrows[direction]);
+    }
+
     uuid = widget.uuid;
   }
 
@@ -44,6 +49,25 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     super.dispose();
 
     _editorGameController.close();
+  }
+
+  void _initExistingArrows(Direction direction, int count) {
+    if (count <= 0) {
+      return;
+    }
+
+    for (int x = 0; x < Board.width; x++) {
+      for (int y = 0; y < Board.height; y++) {
+        if (_editorGameController.game.board.tiles[x][y] is Empty) {
+          _editorGameController.placeTile(
+              x, y, Arrow(direction: direction, player: PlayerColor.Blue));
+
+          if (--count == 0) {
+            return;
+          }
+        }
+      }
+    }
   }
 
   PuzzleData _buildPuzzleData() {
