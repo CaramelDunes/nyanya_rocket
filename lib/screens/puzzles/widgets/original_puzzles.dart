@@ -105,18 +105,31 @@ class OriginalPuzzles extends StatefulWidget {
 }
 
 class _OriginalPuzzlesState extends State<OriginalPuzzles> {
+  bool _showCleared = false;
+  int _clearedCount = 0;
+
   @override
   void initState() {
     super.initState();
 
     OriginalPuzzles.progression.loadStatuses().then((void whatever) {
+      for (int i = 0; i < OriginalPuzzles.puzzles.length; i++) {
+        if (OriginalPuzzles.progression.hasCleared(i)) {
+          _clearedCount++;
+        }
+      }
+
       setState(() {});
     });
   }
 
   void _handlePuzzleWin(int i, bool starred) {
     setState(() {
-      OriginalPuzzles.progression.setCleared(i);
+      if (!OriginalPuzzles.progression.hasCleared(i)) {
+        _clearedCount++;
+        OriginalPuzzles.progression.setCleared(i);
+      }
+
       OriginalPuzzles.progression.setStarred(i, starred);
     });
   }
@@ -155,44 +168,92 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-        separatorBuilder: (context, int) => Divider(),
-        itemCount: OriginalPuzzles.puzzles.length,
-        itemBuilder: (context, i) => ListTile(
-              title: Text(OriginalPuzzles.puzzles[i].name),
-              subtitle: Text(_difficultyFromIndex(context, i)),
-              trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                Visibility(
-                  visible: OriginalPuzzles.progression.hasStarred(i),
-                  child: Icon(
-                    Icons.star,
-                    color: Theme.of(context).accentColor,
-                  ),
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: ListView.builder(
+              itemCount: OriginalPuzzles.puzzles.length,
+              itemBuilder: (context, i) => Visibility(
+                  key: ValueKey(OriginalPuzzles.puzzles[i].name),
+                  visible: _showCleared ||
+                      !OriginalPuzzles.progression.hasCleared(i),
+                  child: ListTile(
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          '${i + 1}\n—\n${OriginalPuzzles.puzzles.length}',
+                          style: TextStyle(fontSize: 15),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                    title: Text(OriginalPuzzles.puzzles[i].name),
+                    subtitle: Text(_difficultyFromIndex(context, i)),
+                    trailing:
+                        Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                      Visibility(
+                        visible: OriginalPuzzles.progression.hasStarred(i),
+                        child: Icon(
+                          Icons.star,
+                          color: Theme.of(context).accentColor,
+                        ),
+                      ),
+                      Visibility(
+                        visible: OriginalPuzzles.progression.hasCleared(i),
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ]),
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute<OverlayPopData>(
+                              builder: (context) => Puzzle(
+                                    puzzle: OriginalPuzzles.puzzles[i],
+                                    onWin: (bool starred) =>
+                                        _handlePuzzleWin(i, starred),
+                                  )))
+                          .then((OverlayPopData popData) {
+                        if (popData != null) {
+                          if (popData.playNext) {
+                            _openNext(i);
+                          }
+                        }
+                      });
+                    },
+                  ))),
+        ),
+        Container(
+          color: Colors.grey.withOpacity(0.3),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                  child: Container(
+                      child: Center(
+                          child: Text(
+                              '${(_clearedCount / OriginalPuzzles.puzzles.length * 100).floor()}' +
+                                  NyaNyaLocalizations.of(context)
+                                      .completedLabel)))),
+              Expanded(
+                child: CheckboxListTile(
+                  value: _showCleared,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _showCleared = value;
+                    });
+                  },
+                  title: Text(NyaNyaLocalizations.of(context)
+                      .showCompletedLabel
+                      .toUpperCase()),
                 ),
-                Visibility(
-                  visible: OriginalPuzzles.progression.hasCleared(i),
-                  child: Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  ),
-                ),
-              ]),
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute<OverlayPopData>(
-                        builder: (context) => Puzzle(
-                              puzzle: OriginalPuzzles.puzzles[i],
-                              onWin: (bool starred) =>
-                                  _handlePuzzleWin(i, starred),
-                            )))
-                    .then((OverlayPopData popData) {
-                  if (popData != null) {
-                    if (popData.playNext) {
-                      _openNext(i);
-                    }
-                  }
-                });
-              },
-            ));
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

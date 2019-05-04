@@ -684,4 +684,20 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
       desc: 'Displayed in original puzzles tab.',
     );
   }
+
+  String get completedLabel {
+    return Intl.message(
+      '% Completed',
+      name: 'completedLabel',
+      desc: 'Displayed in original puzzles tab.',
+    );
+  }
+
+  String get showCompletedLabel {
+    return Intl.message(
+      'Show Completed',
+      name: 'showCompletedLabel',
+      desc: 'Displayed in original puzzles tab.',
+    );
+  }
 }

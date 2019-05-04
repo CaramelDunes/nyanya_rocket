@@ -472,5 +472,17 @@
     "description": "Displayed in original puzzles tab.",
     "type": "text",
     "placeholders": {}
+  },
+  "completedLabel": "% réussis",
+  "@completedLabel": {
+    "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "showCompletedLabel": "Montrer réussis",
+  "@showCompletedLabel": {
+    "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
   }
 }

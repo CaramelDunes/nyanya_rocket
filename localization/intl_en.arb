@@ -473,5 +473,17 @@
     "description": "Displayed in original puzzles tab.",
     "type": "text",
     "placeholders": {}
+  },
+  "completedLabel": "% Completed",
+  "@completedLabel": {
+    "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "showCompletedLabel": "Show Completed",
+  "@showCompletedLabel": {
+    "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
   }
 }
