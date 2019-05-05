@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
-import 'package:nyanya_rocket/widgets/arrow_image.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
 import 'package:nyanya_rocket/screens/puzzle/widgets/available_arrows.dart';
 import 'package:nyanya_rocket/screens/puzzle/widgets/puzzle_game_controls.dart';
+import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
+import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -74,6 +74,17 @@ class _PuzzleState extends State<Puzzle> {
 
   Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
       List rejectedData, int x, int y) {
+    if (_puzzleController.game.board.tiles[x][y] is Arrow) {
+      return Draggable<Direction>(
+          maxSimultaneousDrags: 1,
+          onDragStarted: () {
+            _puzzleController.removeArrow(x, y);
+          },
+          child: Container(color: Colors.transparent),
+          feedback: SizedBox.expand(),
+          data: (_puzzleController.game.board.tiles[x][y] as Arrow).direction);
+    }
+
     if (candidateData.length == 0) return const SizedBox.expand();
 
     return ArrowImage(

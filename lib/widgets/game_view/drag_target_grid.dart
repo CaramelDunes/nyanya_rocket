@@ -9,7 +9,7 @@ typedef SwipeAcceptor = void Function(int x, int y, Direction direction);
 typedef DragTargetTileBuilder<T> = Widget Function(BuildContext context,
     List<T> candidateData, List<dynamic> rejectedData, int x, int y);
 
-class DragTargetGrid<T> extends StatefulWidget {
+class DragTargetGrid<T> extends StatelessWidget {
   final int width;
   final int height;
   final DragTargetTileBuilder<T> tileBuilder;
@@ -27,47 +27,14 @@ class DragTargetGrid<T> extends StatefulWidget {
       this.swipeAcceptor})
       : super(key: key);
 
-  @override
-  _DragTargetGridState<T> createState() {
-    return _DragTargetGridState();
-  }
-}
-
-class _DragTargetGridState<T> extends State<DragTargetGrid<T>> {
-  PointerDownEvent _downEvent;
-
   Widget _dragTargetBuilder(int x, int y) {
-    return Listener(
-        behavior: HitTestBehavior.translucent,
-        onPointerDown: (PointerDownEvent event) => _downEvent = event,
-        onPointerUp: (PointerUpEvent event) {
-          Offset difference = event.position - _downEvent.position;
-
-          double direction = difference.direction;
-
-          if (widget.tapAcceptor != null &&
-              (difference.distanceSquared < 10 ||
-                  widget.swipeAcceptor == null)) {
-            widget.tapAcceptor(x, y);
-          } else if (widget.swipeAcceptor != null &&
-              difference.distanceSquared > 30) {
-            if (-pi / 4 < direction && direction < pi / 4) {
-              widget.swipeAcceptor(x, y, Direction.Right);
-            } else if (pi / 4 < direction && direction < 3 * pi / 4) {
-              widget.swipeAcceptor(x, y, Direction.Down);
-            } else if (3 * pi / 4 < direction || direction < -3 * pi / 4) {
-              widget.swipeAcceptor(x, y, Direction.Left);
-            } else if (-3 * pi / 4 < direction && direction < -pi / 4) {
-              widget.swipeAcceptor(x, y, Direction.Up);
-            }
-          }
-        },
-        child: DragTargetTile<T>(
-          x: x,
-          y: y,
-          builder: widget.tileBuilder,
-          acceptor: widget.dropAcceptor,
-        ));
+    return DragTargetTile<T>(
+        x: x,
+        y: y,
+        builder: tileBuilder,
+        dropAcceptor: dropAcceptor,
+        swipeAcceptor: swipeAcceptor,
+        tapAcceptor: tapAcceptor);
   }
 
   @override
@@ -75,11 +42,11 @@ class _DragTargetGridState<T> extends State<DragTargetGrid<T>> {
     return Row(
         mainAxisSize: MainAxisSize.max,
         children: List<Widget>.generate(
-            widget.width,
+            width,
             (x) => Expanded(
                   child: Column(
                       mainAxisSize: MainAxisSize.max,
-                      children: List<Widget>.generate(widget.height,
+                      children: List<Widget>.generate(height,
                           (y) => Expanded(child: _dragTargetBuilder(x, y)))),
                 )));
   }
@@ -89,23 +56,57 @@ class DragTargetTile<T> extends StatelessWidget {
   final int x;
   final int y;
   final DragTargetTileBuilder<T> builder;
-  final DropAcceptor<T> acceptor;
+  final DropAcceptor<T> dropAcceptor;
+  final SwipeAcceptor swipeAcceptor;
+  final TapAcceptor<T> tapAcceptor;
 
-  const DragTargetTile(
+  Offset _panOffset = Offset.zero;
+
+  DragTargetTile(
       {@required this.x,
       @required this.y,
       @required this.builder,
-      @required this.acceptor});
+      @required this.dropAcceptor,
+      this.swipeAcceptor,
+      this.tapAcceptor});
 
   @override
   Widget build(BuildContext context) {
-    return DragTarget<T>(
-      builder: (BuildContext context, List<T> candidateData,
-              List<dynamic> rejectedData) =>
-          builder(context, candidateData, rejectedData, x, y),
-      onAccept: (T t) {
-        acceptor(x, y, t);
-      },
-    );
+    return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          if (tapAcceptor != null) {
+            tapAcceptor(x, y);
+          }
+        },
+        onPanStart: (DragStartDetails details) {
+          _panOffset = Offset.zero;
+        },
+        onPanUpdate: (DragUpdateDetails details) {
+          _panOffset += details.delta;
+        },
+        onPanEnd: (DragEndDetails details) {
+          if (swipeAcceptor != null) {
+            double direction = _panOffset.direction;
+
+            if (-pi / 4 < direction && direction < pi / 4) {
+              swipeAcceptor(x, y, Direction.Right);
+            } else if (pi / 4 < direction && direction < 3 * pi / 4) {
+              swipeAcceptor(x, y, Direction.Down);
+            } else if (3 * pi / 4 < direction || direction < -3 * pi / 4) {
+              swipeAcceptor(x, y, Direction.Left);
+            } else if (-3 * pi / 4 < direction && direction < -pi / 4) {
+              swipeAcceptor(x, y, Direction.Up);
+            }
+          }
+        },
+        child: DragTarget<T>(
+          builder: (BuildContext context, List<T> candidateData,
+                  List<dynamic> rejectedData) =>
+              builder(context, candidateData, rejectedData, x, y),
+          onAccept: (T t) {
+            dropAcceptor(x, y, t);
+          },
+        ));
   }
 }
