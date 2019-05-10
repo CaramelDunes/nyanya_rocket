@@ -2,8 +2,7 @@
 
 NyaNya Rocket! is a mobile game where you have to guide mice away from cats.
 
-<!--- <a href='https://play.google.com/store/apps/details?id=fr.carameldunes.nyanyarocket'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height=100/></a> --->
-[Join the open beta!](https://play.google.com/apps/testing/fr.carameldunes.nyanyarocket)
+<a href='https://play.google.com/store/apps/details?id=fr.carameldunes.nyanyarocket'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height=100/></a>
 
 Powered by the [Flutter framework](https://flutter.dev).
 
