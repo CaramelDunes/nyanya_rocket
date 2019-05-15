@@ -39,4 +39,17 @@ class User {
   bool get isAnonymous {
     return !isConnected || _user.isAnonymous;
   }
+
+  Future<void> signInAnonymously() {
+    return FirebaseAuth.instance.signInAnonymously().then((FirebaseUser user) {
+      _user = user;
+      return;
+    });
+  }
+
+  Future<void> signOut() {
+    return FirebaseAuth.instance.signOut().then((void _) {
+      _user = null;
+    });
+  }
 }
