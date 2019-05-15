@@ -153,11 +153,11 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
     if (OriginalPuzzles.puzzles.length > i + 1) {
       Navigator.of(context)
           .push(MaterialPageRoute<OverlayPopData>(
-          builder: (context) =>
-              Puzzle(
-                puzzle: OriginalPuzzles.puzzles[i + 1],
-                onWin: (bool starred) => _handlePuzzleWin(i + 1, starred),
-              )))
+              builder: (context) => Puzzle(
+                    puzzle: OriginalPuzzles.puzzles[i + 1],
+                    onWin: (bool starred) => _handlePuzzleWin(i + 1, starred),
+                    hasNext: i + 2 != OriginalPuzzles.puzzles.length,
+                  )))
           .then((OverlayPopData popData) {
         if (popData != null) {
           if (popData.playNext) {
@@ -170,21 +170,13 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
 
   String _difficultyFromIndex(BuildContext context, int index) {
     if (index >= 0 && index < 25) {
-      return NyaNyaLocalizations
-          .of(context)
-          .easyLabel;
+      return NyaNyaLocalizations.of(context).easyLabel;
     } else if (index >= 25 && index < 50) {
-      return NyaNyaLocalizations
-          .of(context)
-          .intermediateLabel;
+      return NyaNyaLocalizations.of(context).intermediateLabel;
     } else if (index >= 50 && index < 75) {
-      return NyaNyaLocalizations
-          .of(context)
-          .hardLabel;
+      return NyaNyaLocalizations.of(context).hardLabel;
     } else if (index >= 75 && index < 100) {
-      return NyaNyaLocalizations
-          .of(context)
-          .veryHardLabel;
+      return NyaNyaLocalizations.of(context).veryHardLabel;
     } else {
       return 'Unspecified';
     }
@@ -197,62 +189,60 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
         Expanded(
           child: ListView.builder(
               itemCount: OriginalPuzzles.puzzles.length,
-              itemBuilder: (context, i) =>
-                  Visibility(
-                      key: ValueKey(OriginalPuzzles.puzzles[i].name),
-                      visible: _showCleared ||
-                          !OriginalPuzzles.progression.hasCleared(i),
-                      child: ListTile(
-                        leading: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              '${i + 1}\n—\n${OriginalPuzzles.puzzles.length}',
-                              style: TextStyle(fontSize: 15),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
+              itemBuilder: (context, i) => Visibility(
+                  key: ValueKey(OriginalPuzzles.puzzles[i].name),
+                  visible: _showCleared ||
+                      !OriginalPuzzles.progression.hasCleared(i),
+                  child: ListTile(
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          '${i + 1}\n—\n${OriginalPuzzles.puzzles.length}',
+                          style: TextStyle(fontSize: 15),
+                          textAlign: TextAlign.center,
                         ),
-                        title: Text(OriginalPuzzles.puzzles[i].name),
-                        subtitle: Text(_difficultyFromIndex(context, i)),
-                        trailing:
+                      ],
+                    ),
+                    title: Text(OriginalPuzzles.puzzles[i].name),
+                    subtitle: Text(_difficultyFromIndex(context, i)),
+                    trailing:
                         Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                          Visibility(
-                            visible: OriginalPuzzles.progression.hasStarred(i),
-                            child: Icon(
-                              Icons.star,
-                              color: Theme
-                                  .of(context)
-                                  .accentColor,
-                            ),
-                          ),
-                          Visibility(
-                            visible: OriginalPuzzles.progression.hasCleared(i),
-                            child: Icon(
-                              Icons.check,
-                              color: Colors.green,
-                            ),
-                          ),
-                        ]),
-                        onTap: () {
-                          Navigator.of(context)
-                              .push(MaterialPageRoute<OverlayPopData>(
-                              builder: (context) =>
-                                  Puzzle(
+                      Visibility(
+                        visible: OriginalPuzzles.progression.hasStarred(i),
+                        child: Icon(
+                          Icons.star,
+                          color: Theme.of(context).accentColor,
+                        ),
+                      ),
+                      Visibility(
+                        visible: OriginalPuzzles.progression.hasCleared(i),
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ]),
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute<OverlayPopData>(
+                              builder: (context) => Puzzle(
                                     puzzle: OriginalPuzzles.puzzles[i],
                                     onWin: (bool starred) =>
                                         _handlePuzzleWin(i, starred),
+                                    hasNext:
+                                        i != OriginalPuzzles.puzzles.length,
                                   )))
-                              .then((OverlayPopData popData) {
-                            if (popData != null) {
-                              if (popData.playNext) {
-                                _openNext(i);
-                              }
-                            }
-                          });
-                        },
-                      ))),
+                          .then((OverlayPopData popData) {
+                        if (popData != null) {
+                          if (popData.playNext) {
+                            _openNext(i);
+                          }
+                        }
+                      });
+                    },
+                  ))),
         ),
         Container(
           color: Colors.grey.withOpacity(0.3),
@@ -263,11 +253,8 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
                   child: Container(
                       child: Center(
                           child: Text(
-                              '${(_clearedCount /
-                                  OriginalPuzzles.puzzles.length * 100)
-                                  .floor()}' +
-                                  NyaNyaLocalizations
-                                      .of(context)
+                              '${(_clearedCount / OriginalPuzzles.puzzles.length * 100).floor()}' +
+                                  NyaNyaLocalizations.of(context)
                                       .completedLabel)))),
               Expanded(
                 flex: 2,
@@ -278,8 +265,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
                       _showCleared = value;
                     });
                   },
-                  title: Text(NyaNyaLocalizations
-                      .of(context)
+                  title: Text(NyaNyaLocalizations.of(context)
                       .showCompletedLabel
                       .toUpperCase()),
                 ),

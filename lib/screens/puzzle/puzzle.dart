@@ -9,18 +9,17 @@ import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class PuzzlePopData {
-  final bool playNext;
-
-  PuzzlePopData({@required this.playNext});
-}
-
 class Puzzle extends StatefulWidget {
   final PuzzleData puzzle;
   final void Function(bool starred) onWin;
   final String documentPath;
+  final bool hasNext;
 
-  Puzzle({@required this.puzzle, this.onWin, this.documentPath});
+  Puzzle(
+      {@required this.puzzle,
+      @required this.hasNext,
+      this.onWin,
+      this.documentPath});
 
   @override
   _PuzzleState createState() => _PuzzleState();
@@ -177,6 +176,7 @@ class _PuzzleState extends State<Puzzle> {
           Visibility(
               visible: _ended,
               child: SuccessOverlay(
+                hasNext: widget.hasNext,
                 succeededName: widget.puzzle.name,
                 succeededPath: widget.documentPath,
               )),

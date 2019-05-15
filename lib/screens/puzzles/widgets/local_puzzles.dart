@@ -72,6 +72,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => Puzzle(
                                   puzzle: puzzle,
+                                  hasNext: i != uuidList.length - 1,
                                 ))));
               },
             ));

@@ -12,9 +12,13 @@ class OverlayPopData {
 class SuccessOverlay extends StatefulWidget {
   final String succeededName;
   final String succeededPath;
+  final bool hasNext;
 
   const SuccessOverlay(
-      {Key key, @required this.succeededName, this.succeededPath})
+      {Key key,
+      @required this.succeededName,
+      @required this.hasNext,
+      this.succeededPath})
       : super(key: key);
 
   @override
@@ -100,11 +104,12 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                           RaisedButton(
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
-                            child: Text(
-                                NyaNyaLocalizations.of(context).nextLevelLabel),
+                            child: Text(widget.hasNext
+                                ? NyaNyaLocalizations.of(context).nextLevelLabel
+                                : 'Back'),
                             onPressed: () {
-                              Navigator.of(context)
-                                  .pop(OverlayPopData(playNext: true));
+                              Navigator.of(context).pop(
+                                  OverlayPopData(playNext: widget.hasNext));
                             },
                           ),
                         ],

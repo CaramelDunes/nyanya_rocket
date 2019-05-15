@@ -158,6 +158,7 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
       Navigator.of(context)
           .push(MaterialPageRoute<OverlayPopData>(
               builder: (context) => Challenge(
+                    hasNext: i + 1 != OriginalChallenges.challenges.length - 1,
                     challenge: ChallengeData(
                         type: OriginalChallenges.challenges[i + 1].type,
                         gameData: OriginalChallenges.challenges[i + 1].gameData,
@@ -203,6 +204,8 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
                 Navigator.of(context)
                     .push(MaterialPageRoute<OverlayPopData>(
                         builder: (context) => Challenge(
+                              hasNext:
+                                  i != OriginalChallenges.challenges.length - 1,
                               challenge: ChallengeData(
                                   type: OriginalChallenges.challenges[i].type,
                                   gameData:

@@ -48,9 +48,11 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
           date: snapshot.data['date'].toDate());
     }).toList();
 
-    setState(() {
-      puzzles = newPuzzles;
-    });
+    if (mounted) {
+      setState(() {
+        puzzles = newPuzzles;
+      });
+    }
   }
 
   void _handlePuzzleWin(int i, bool starred) {
@@ -136,6 +138,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                                       onWin: (bool starred) =>
                                           _handlePuzzleWin(i, starred),
                                       documentPath: 'puzzles/${puzzles[i].uid}',
+                                      hasNext: false,
                                     )))
                             .then((OverlayPopData popData) {});
                       },
