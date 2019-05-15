@@ -54,15 +54,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
             if (!_plusOned) {
               final DocumentReference postRef =
                   Firestore.instance.document(widget.succeededPath);
-              Firestore.instance.runTransaction((Transaction tx) async {
-                DocumentSnapshot postSnapshot = await tx.get(postRef);
-                if (postSnapshot.exists) {
-                  await tx.update(postRef, <String, dynamic>{
-                    'likes': postSnapshot.data['likes'] + 1
-                  });
-                }
-                print(widget.succeededPath);
-              });
+              postRef.updateData({'likes': FieldValue.increment(1)});
 
               setState(() {
                 _plusOned = true;
