@@ -39,9 +39,6 @@ class _AccountManagementState extends State<AccountManagement> {
                     autovalidate: true,
                     maxLength: 24,
                     initialValue: AccountManagement.user.displayName ?? '',
-                    decoration: InputDecoration(
-                      labelText: 'New display name',
-                    ),
                     validator: (String value) {
                       if (!AccountManagement.displayNameRegExp
                           .hasMatch(value)) {
@@ -66,8 +63,6 @@ class _AccountManagementState extends State<AccountManagement> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
-
-                      print(displayName);
 
                       Navigator.pop(context, displayName);
                     }
@@ -112,7 +107,7 @@ class _AccountManagementState extends State<AccountManagement> {
                 children: <Widget>[
                   ListTile(
                     title: Text(
-                        'Login Status: ${AccountManagement.user.isConnected ? 'Connected' : 'Not Connected'}'),
+                        'Login status: ${AccountManagement.user.isConnected ? 'Connected' : 'Not Connected'}'),
                     subtitle: Text(AccountManagement.user.isConnected
                         ? 'Tap to sign-out'
                         : 'Tap to sign-in'),
@@ -150,7 +145,8 @@ class _AccountManagementState extends State<AccountManagement> {
                   ListTile(
                     enabled: AccountManagement.user.isConnected,
                     title: Text(
-                        'Display Name: ${AccountManagement.user.displayName ?? "Anonymous"}'),
+                        'Display name: ${AccountManagement.user.displayName ?? "Anonymous"}'),
+                    subtitle: Text('Tap to change'),
                     onTap: () {
                       _showNameDialog(
                               context, AccountManagement.user.displayName)

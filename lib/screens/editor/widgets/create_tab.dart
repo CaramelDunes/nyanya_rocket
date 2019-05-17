@@ -11,6 +11,8 @@ import 'package:nyanya_rocket/screens/editor/screens/puzzle_editor.dart';
 enum EditorMode { Puzzle, Challenge, Multiplayer }
 
 class CreateTab extends StatefulWidget {
+  static final RegExp nameRegExp = RegExp(r'^[ -~]{2,24}$');
+
   @override
   CreateTabState createState() {
     return new CreateTabState();
@@ -48,17 +50,19 @@ class CreateTabState extends State<CreateTab>
             child: Column(
               children: <Widget>[
                 TextFormField(
+                  autovalidate: true,
+                  textCapitalization: TextCapitalization.words,
+                  maxLength: 24,
                   decoration: InputDecoration(
                     labelText: NyaNyaLocalizations.of(context).nameLabel,
                   ),
-                  textCapitalization: TextCapitalization.words,
-                  maxLength: 32,
                   onSaved: (String value) {
                     _name = value;
                   },
                   validator: (String value) {
-                    if (value.isEmpty) {
-                      return NyaNyaLocalizations.of(context).invalidNameText;
+                    if (!CreateTab.nameRegExp.hasMatch(value)) {
+                      return NyaNyaLocalizations.of(context).invalidNameText +
+                          ' (between 2 and 24 characters)';
                     }
                   },
                 ),
