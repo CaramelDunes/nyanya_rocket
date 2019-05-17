@@ -35,6 +35,8 @@ class CreateTabState extends State<CreateTab>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
