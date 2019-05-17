@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_store.dart';
@@ -40,9 +40,13 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                   hasNext: false,
                 ))).then((OverlayPopData popData) {
       if (popData != null) {
-        Firestore.instance.collection('submitted_puzzles').document().setData({
-          'author': AccountManagement.user.uid,
-          'puzzle_data': jsonEncode(puzzle.toJson()),
+        CloudFunctions.instance
+            .getHttpsCallable(functionName: 'publishPuzzle')
+            .call({
+          'name': puzzle.name,
+          'puzzle_data': jsonEncode(puzzle.puzzleData.toJson()),
+        }).then((HttpsCallableResult result) {
+            print(result.data);
         });
 
         final snackBar = SnackBar(content: Text('Puzzle published!'));
@@ -88,8 +92,9 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                                 _verifyAndPublish(context, puzzle));
                       } else {
                         // TODO Login Prompt
-                        final snackBar =
-                            SnackBar(content: Text('Please sign-in first!'));
+                        final snackBar = SnackBar(
+                            content: Text(
+                                'Please sign-in first! (Settings—Account Management)'));
                         Scaffold.of(context).showSnackBar(snackBar);
                       }
                     },

@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class User {
@@ -18,18 +18,26 @@ class User {
     return isConnected ? _user.displayName : '';
   }
 
-  Future<void> setDisplayName(String newDisplayName) async {
+  Future<bool> setDisplayName(String newDisplayName) async {
     if (isConnected) {
-      await _user.updateProfile(UserUpdateInfo()..displayName = newDisplayName);
+      try {
+        await CloudFunctions.instance
+            .getHttpsCallable(functionName: 'setDisplayName')
+            .call({'displayName': newDisplayName}).then(
+                (HttpsCallableResult result) {
+          print(result);
+        });
+      } catch (e) {
+        return false;
+      }
 
-      Firestore.instance
-          .document('users/${_user.uid}')
-          .setData({'display_name': newDisplayName});
-
+      await _user.reload();
       _user = await FirebaseAuth.instance.currentUser();
+
+      return true;
     }
 
-    return;
+    return false;
   }
 
   String get uid {

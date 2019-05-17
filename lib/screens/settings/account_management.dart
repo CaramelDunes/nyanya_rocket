@@ -134,9 +134,16 @@ class AccountManagementState extends State<AccountManagement> {
                   if (displayName != null) {
                     AccountManagement.user
                         .setDisplayName(displayName)
-                        .then((void _) {
-                      if (mounted) {
+                        .then((bool success) {
+                      if (mounted && success) {
                         setState(() {});
+//                        Scaffold.of(context).showSnackBar(SnackBar(
+////                          content: Text('Success!'),
+////                        ));
+                      } else if (!success) {
+//                        Scaffold.of(context).showSnackBar(SnackBar(
+//                          content: Text('Could not change display name!'),
+//                        ));
                       }
                     });
                   }
