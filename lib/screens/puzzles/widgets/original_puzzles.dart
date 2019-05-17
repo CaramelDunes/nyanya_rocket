@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/puzzle_data.dart';
+import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_progression_manager.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
@@ -11,8 +11,9 @@ class OriginalPuzzles extends StatefulWidget {
   static final PuzzleProgressionManager progression =
   PuzzleProgressionManager();
 
-  static final List<PuzzleData> puzzles = jsons
-      .map<PuzzleData>((String json) => PuzzleData.fromJson(jsonDecode(json)))
+  static final List<NamedPuzzleData> puzzles = jsons
+      .map<NamedPuzzleData>(
+          (String json) => NamedPuzzleData.fromJson(jsonDecode(json)))
       .toList();
 
   static List<String> jsons = [

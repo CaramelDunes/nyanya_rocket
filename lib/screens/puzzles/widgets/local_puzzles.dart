@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/models/puzzle_data.dart';
+import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_store.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/screens/settings/account_management.dart';
@@ -31,7 +31,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
         }));
   }
 
-  void _verifyAndPublish(BuildContext context, PuzzleData puzzle) {
+  void _verifyAndPublish(BuildContext context, NamedPuzzleData puzzle) {
     Navigator.push<OverlayPopData>(
         context,
         MaterialPageRoute(
@@ -84,7 +84,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                     onPressed: () {
                       if (AccountManagement.user.isConnected) {
                         LocalPuzzles.store.readPuzzle(uuidList[i]).then(
-                            (PuzzleData puzzle) =>
+                            (NamedPuzzleData puzzle) =>
                                 _verifyAndPublish(context, puzzle));
                       } else {
                         // TODO Login Prompt
@@ -98,7 +98,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
               ),
               onTap: () {
                 LocalPuzzles.store.readPuzzle(uuidList[i]).then(
-                    (PuzzleData puzzle) =>
+                    (NamedPuzzleData puzzle) =>
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => Puzzle(
                                   puzzle: puzzle,

@@ -41,7 +41,8 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
         .map<CommunityPuzzleData>((DocumentSnapshot snapshot) {
       return CommunityPuzzleData(
           uid: snapshot.documentID,
-          puzzleData: snapshot.data['puzzle_data'],
+          puzzleData:
+              PuzzleData.fromJson(jsonDecode(snapshot.data['puzzle_data'])),
           likes: snapshot.data['likes'],
           author: snapshot.data['author_name'],
           name: snapshot.data['name'],
@@ -133,8 +134,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                         Navigator.of(context)
                             .push(MaterialPageRoute<OverlayPopData>(
                                 builder: (context) => Puzzle(
-                                      puzzle: PuzzleData.fromJson(
-                                          jsonDecode(puzzles[i].puzzleData)),
+                                      puzzle: puzzles[i],
                                       onWin: (bool starred) =>
                                           _handlePuzzleWin(i, starred),
                                       documentPath: 'puzzles/${puzzles[i].uid}',

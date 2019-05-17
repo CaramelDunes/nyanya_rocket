@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
+import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/screens/editor/screens/challenge_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/multiplayer_editor.dart';
@@ -126,7 +127,9 @@ class CreateTabState extends State<CreateTab>
                             switch (_mode) {
                               case EditorMode.Puzzle:
                                 return PuzzleEditor(
-                                    puzzle: PuzzleData.withBorder(name: _name));
+                                    puzzle: NamedPuzzleData.fromPuzzleData(
+                                        name: _name,
+                                        puzzleData: PuzzleData.withBorder()));
                                 break;
 
                               case EditorMode.Challenge:

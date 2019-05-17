@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/models/puzzle_data.dart';
+import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_store.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
@@ -12,7 +12,7 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class PuzzleEditor extends StatefulWidget {
   static final PuzzleStore store = PuzzleStore();
 
-  final PuzzleData puzzle;
+  final NamedPuzzleData puzzle;
   final String uuid;
 
   PuzzleEditor({
@@ -34,11 +34,12 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController = EditorGameController(game: widget.puzzle.getGame());
+    _editorGameController =
+        EditorGameController(game: widget.puzzle.puzzleData.getGame());
 
     for (int direction = 0; direction < 4; direction++) {
       _initExistingArrows(Direction.values[direction],
-          widget.puzzle.availableArrows[direction]);
+          widget.puzzle.puzzleData.availableArrows[direction]);
     }
 
     uuid = widget.uuid;
@@ -70,7 +71,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     }
   }
 
-  PuzzleData _buildPuzzleData() {
+  NamedPuzzleData _buildPuzzleData() {
     List<int> availableArrows = List.filled(4, 0);
 
     Board copy = Board.copy(_editorGameController.game.board);
@@ -88,7 +89,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     dynamic gameJson = _editorGameController.game.toJson(); // TODO Cleaner way
     gameJson['board'] = copy.toJson();
 
-    return PuzzleData(
+    return NamedPuzzleData(
         name: widget.puzzle.name,
         gameData: jsonEncode(gameJson),
         availableArrows: availableArrows);
