@@ -1,17 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/blocs/user.dart';
+import 'package:nyanya_rocket/widgets/privacy_policy_link.dart';
 
 class AccountManagement extends StatefulWidget {
   static final User user = User();
+  static final RegExp displayNameRegExp = RegExp(r'^[!-~]{2,24}$');
 
   @override
-  AccountManagementState createState() {
-    return AccountManagementState();
+  _AccountManagementState createState() {
+    return _AccountManagementState();
   }
 }
 
-class AccountManagementState extends State<AccountManagement> {
+class _AccountManagementState extends State<AccountManagement> {
   @override
   void initState() {
     super.initState();
@@ -19,6 +21,7 @@ class AccountManagementState extends State<AccountManagement> {
 
   Future<String> _showNameDialog(BuildContext context, String initialValue) {
     String displayName;
+    final _formKey = GlobalKey<FormState>();
 
     return showDialog<String>(
         context: context,
@@ -29,18 +32,26 @@ class AccountManagementState extends State<AccountManagement> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                TextField(
-                  controller: TextEditingController.fromValue(TextEditingValue(
-                      text: AccountManagement.user.displayName,
-                      selection: TextSelection(
-                          baseOffset: 0,
-                          extentOffset:
-                              AccountManagement.user.displayName.length))),
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    labelText: 'New display name',
+                Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    autofocus: true,
+                    autovalidate: true,
+                    maxLength: 24,
+                    initialValue: AccountManagement.user.displayName ?? '',
+                    decoration: InputDecoration(
+                      labelText: 'New display name',
+                    ),
+                    validator: (String value) {
+                      if (!AccountManagement.displayNameRegExp
+                          .hasMatch(value)) {
+                        return 'Between 2 and 24 characters (no space).';
+                      }
+                    },
+                    onSaved: (String value) {
+                      displayName = value;
+                    },
                   ),
-                  onChanged: (String value) => displayName = value,
                 ),
               ],
             ),
@@ -53,7 +64,13 @@ class AccountManagementState extends State<AccountManagement> {
               FlatButton(
                   child: Text('Confirm'.toUpperCase()),
                   onPressed: () {
-                    Navigator.pop(context, displayName);
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+
+                      print(displayName);
+
+                      Navigator.pop(context, displayName);
+                    }
                   })
             ],
           );
@@ -90,75 +107,90 @@ class AccountManagementState extends State<AccountManagement> {
         appBar: AppBar(
           title: Text('Account Management'),
         ),
-        body: ListView(
-          children: <Widget>[
-            ListTile(
-              title: Text(
-                  'Login Status: ${AccountManagement.user.isConnected ? 'Connected' : 'Not Connected'}'),
-              subtitle: Text(AccountManagement.user.isConnected
-                  ? 'Tap to sign-out'
-                  : 'Tap to sign-in'),
-              onTap: () {
-                if (AccountManagement.user.isConnected) {
-                  _showConfirmDialog(
+        body: Builder(
+          builder: (innerContext) => ListView(
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                        'Login Status: ${AccountManagement.user.isConnected ? 'Connected' : 'Not Connected'}'),
+                    subtitle: Text(AccountManagement.user.isConnected
+                        ? 'Tap to sign-out'
+                        : 'Tap to sign-in'),
+                    onTap: () {
+                      if (AccountManagement.user.isConnected) {
+                        _showConfirmDialog(
+                                context,
+                                'Confirm sign-out',
+                                Text(
+                                    'Are you sure you want to sign-out?\n\nYou will lose the ability to publish community challenges and puzzles.'))
+                            .then((bool confirmed) {
+                          if (confirmed != null && confirmed) {
+                            AccountManagement.user.signOut().then((void _) {
+                              setState(() {});
+                            });
+                          }
+                        });
+                      } else {
+                        _showConfirmDialog(
                           context,
-                          'Confirm sign-out',
-                          Text(
-                              'Are you sure you want to sign-out?\n\nIt won\'t be possible to go back and you will lose the ability to publish community challenges and puzzles.'))
-                      .then((bool confirmed) {
-                    if (confirmed != null && confirmed) {
-                      AccountManagement.user.signOut().then((void _) {
-                        setState(() {});
-                      });
-                    }
-                  });
-                } else {
-                  _showConfirmDialog(context, 'Confirm sign-in', Text(''))
-                      .then((bool confirmed) {
-                    if (confirmed != null && confirmed) {
-                      AccountManagement.user.signInAnonymously().then((void _) {
-                        setState(() {});
-                      });
-                    }
-                  });
-                }
-              },
-            ),
-            ListTile(
-              enabled: AccountManagement.user.isConnected,
-              title: Text(
-                  'Display Name: ${AccountManagement.user.displayName ?? "Anonymous"}'),
-              onTap: () {
-                _showNameDialog(context, AccountManagement.user.displayName)
-                    .then((String displayName) {
-                  if (displayName != null) {
-                    AccountManagement.user
-                        .setDisplayName(displayName)
-                        .then((bool success) {
-                      if (mounted && success) {
-                        setState(() {});
-//                        Scaffold.of(context).showSnackBar(SnackBar(
-////                          content: Text('Success!'),
-////                        ));
-                      } else if (!success) {
-//                        Scaffold.of(context).showSnackBar(SnackBar(
-//                          content: Text('Could not change display name!'),
-//                        ));
+                          'Confirm sign-in',
+                          const PrivacyPolicyLink(),
+                        ).then((bool confirmed) {
+                          if (confirmed != null && confirmed) {
+                            AccountManagement.user
+                                .signInAnonymously()
+                                .then((void _) {
+                              setState(() {});
+                            });
+                          }
+                        });
                       }
-                    });
-                  }
-                });
-              },
-            ),
-            ListTile(
-              enabled: AccountManagement.user.isConnected,
-              title: Text('Account type: ' +
-                  (AccountManagement.user.isAnonymous
-                      ? 'Anonymous'
-                      : 'Permanenent')),
-//                subtitle: Text('Tap to link'),
-            )
-          ],
+                    },
+                  ),
+                  ListTile(
+                    enabled: AccountManagement.user.isConnected,
+                    title: Text(
+                        'Display Name: ${AccountManagement.user.displayName ?? "Anonymous"}'),
+                    onTap: () {
+                      _showNameDialog(
+                              context, AccountManagement.user.displayName)
+                          .then((String displayName) {
+                        if (displayName != null) {
+                          AccountManagement.user
+                              .setDisplayName(displayName)
+                              .then((StatusCode status) {
+                            if (mounted && status == StatusCode.Success) {
+                              setState(() {});
+                              Scaffold.of(innerContext).showSnackBar(SnackBar(
+                                content:
+                                    Text('Display name successfully changed!'),
+                              ));
+                            } else if (status != StatusCode.Success) {
+                              if (status == StatusCode.InvalidArgument) {
+                                Scaffold.of(innerContext).showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Error: The provided display name is invalid!'),
+                                ));
+                              } else if (status == StatusCode.Unauthenticated) {
+                                Scaffold.of(innerContext).showSnackBar(SnackBar(
+                                  content: Text('Error: Unauthenticated'),
+                                ));
+                              }
+                            }
+                          });
+                        }
+                      });
+                    },
+                  ),
+                  ListTile(
+                    enabled: AccountManagement.user.isConnected,
+                    title: Text('Account type: ' +
+                        (AccountManagement.user.isAnonymous
+                            ? 'Anonymous'
+                            : 'Permanenent')),
+                  )
+                ],
+              ),
         ));
   }
 }

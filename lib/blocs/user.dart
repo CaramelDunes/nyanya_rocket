@@ -1,6 +1,8 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+enum StatusCode { Success, Failure, InvalidArgument, Unauthenticated }
+
 class User {
   FirebaseUser _user;
 
@@ -18,7 +20,7 @@ class User {
     return isConnected ? _user.displayName : '';
   }
 
-  Future<bool> setDisplayName(String newDisplayName) async {
+  Future<StatusCode> setDisplayName(String newDisplayName) async {
     if (isConnected) {
       try {
         await CloudFunctions.instance
@@ -28,16 +30,28 @@ class User {
           print(result);
         });
       } catch (e) {
-        return false;
+        print(e.code);
+
+        switch (e.code) {
+          case 'INVALID_ARGUMENT':
+            return StatusCode.InvalidArgument;
+            break;
+
+          case 'UNAUTHENTICATED':
+            return StatusCode.Unauthenticated;
+            break;
+        }
+
+        return StatusCode.Failure;
       }
 
       await _user.reload();
       _user = await FirebaseAuth.instance.currentUser();
 
-      return true;
+      return StatusCode.Success;
     }
 
-    return false;
+    return StatusCode.Success;
   }
 
   String get uid {
