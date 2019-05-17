@@ -3,6 +3,8 @@ import 'dart:ui' as ui;
 
 import 'package:flare_dart/math/aabb.dart';
 import 'package:flare_flutter/flare.dart';
+import 'package:flare_flutter/flare_cache.dart';
+import 'package:flare_flutter/flare_cache_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,46 +16,45 @@ class CachedFlareAnimation {
 
   CachedFlareAnimation(
       {@required String assetFilename, @required String animationName}) {
-    FlutterActor actor = FlutterActor();
-    actor.loadFromBundle(rootBundle, assetFilename).then((bool success) {
-      if (success && actor != null) {
-        FlutterActorArtboard artboard = actor.artboard;
-        artboard.initializeGraphics();
+    cachedActor(rootBundle, assetFilename)
+        .then((FlareCacheAsset cacheAsset) async {
+      FlutterActor actor = cacheAsset.actor;
 
-        ActorAnimation animation = artboard.getAnimation(animationName);
+      FlutterActorArtboard artboard = actor.artboard;
+      artboard.initializeGraphics();
 
-        if (animation != null) {
-          int numberOfFrames = (animation.duration * fps).floor();
-          AABB bounds = artboard.artboardAABB();
+      ActorAnimation animation = artboard.getAnimation(animationName);
 
-          _size = Size(bounds[2] - bounds[0], bounds[3] - bounds[1]);
+      if (animation != null) {
+        int numberOfFrames = (animation.duration * fps).floor();
+        AABB bounds = artboard.artboardAABB();
 
-          List<ui.Image> cache = List.generate(numberOfFrames, (int i) {
-            animation.apply(
-                i * animation.duration / numberOfFrames, artboard, 1);
-            artboard.advance(0); // The parameter is actually useless
+        _size = Size(bounds[2] - bounds[0], bounds[3] - bounds[1]);
 
-            final pictureRecorder = ui.PictureRecorder();
-            ui.Canvas canvas = ui.Canvas(pictureRecorder);
+        List<ui.Image> cache = List(numberOfFrames);
 
-            artboard.draw(canvas); // TODO Make cache building async
-            pictureRecorder
-                .endRecording()
-                .toImage(_size.width.floor(), _size.height.floor())
-                .then((ui.Image img) {
-              _cachedPictures[i] = img;
-            });
-          }, growable: false);
+        for (int i = 0; i < numberOfFrames; i++) {
+          animation.apply(i * animation.duration / numberOfFrames, artboard, 1);
+          artboard.advance(0); // The parameter is actually useless
 
-          _cachedPictures = cache;
+          final pictureRecorder = ui.PictureRecorder();
+          ui.Canvas canvas = ui.Canvas(pictureRecorder);
+
+          artboard.draw(canvas); // TODO Make cache building async
+          cache[i] = await pictureRecorder
+              .endRecording()
+              .toImage(_size.width.floor(), _size.height.floor());
         }
+
+        _cachedPictures = cache;
+        print('Cached $assetFilename');
       }
     });
   }
 
   void draw(Canvas canvas, Size size, double x, double y, int frameNb,
       [Paint paint]) {
-    if (_cachedPictures != null && _cachedPictures[frameNb] != null) {
+    if (_cachedPictures != null) {
       double scale = min(size.width / _size.width, size.height / _size.height);
 
       if (scale * _size.height < size.height) {

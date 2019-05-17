@@ -1,11 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations_delegate.dart';
 import 'package:nyanya_rocket/models/options.dart';
 import 'package:nyanya_rocket/options_holder.dart';
 import 'package:nyanya_rocket/routing.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   static const String projectUrl =
       'https://github.com/CaramelDunes/nyanya_rocket';
   static const String privacyPolicyUrl =
@@ -29,6 +31,25 @@ class App extends StatelessWidget {
   );
 
   @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    // Copied from https://github.com/2d-inc/developer_quest/blob/master/lib/main.dart
+    // Schedule a micro-task that warms up the image cache with all the puzzle
+    // board images.
+    scheduleMicrotask(() {
+      precacheImage(AssetImage('assets/graphics/generator.png'), context);
+      precacheImage(AssetImage('assets/graphics/rocket_blue.png'), context);
+      precacheImage(AssetImage('assets/graphics/arrow_blue.png'), context);
+    });
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return OptionsHolder(
       optionWidgetBuilder: (BuildContext context, Options options) =>
@@ -38,11 +59,11 @@ class App extends StatelessWidget {
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
               ],
-              supportedLocales: supportedLocales,
+              supportedLocales: App.supportedLocales,
               locale:
                   options.language == 'auto' ? null : Locale(options.language),
               title: 'NyaNya Rocket!',
-              theme: options.darkTheme ? darkTheme : lightTheme,
+              theme: options.darkTheme ? App.darkTheme : App.lightTheme,
               initialRoute: Routing.initialRoute,
               routes: Routing.routes),
     );
