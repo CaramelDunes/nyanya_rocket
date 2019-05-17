@@ -81,7 +81,7 @@ class _PuzzleState extends State<Puzzle> {
             _puzzleController.removeArrow(x, y);
           },
           child: Container(color: Colors.transparent),
-          feedback: SizedBox.expand(),
+          feedback: SizedBox.shrink(),
           data: (_puzzleController.game.board.tiles[x][y] as Arrow).direction);
     }
 
