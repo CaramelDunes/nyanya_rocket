@@ -61,9 +61,10 @@ class SettingsState extends State<Settings> {
                   }),
             ),
             ListTile(
-              title: Text('Account Management'),
+              title:
+                  Text(NyaNyaLocalizations.of(context).accountManagementLabel),
               subtitle: Text(
-                  'Status: ${AccountManagement.user.isConnected ? 'Connected': 'Not Connected'}'),
+                  '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${AccountManagement.user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext context) {

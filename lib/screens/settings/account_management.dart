@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/blocs/user.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/widgets/privacy_policy_link.dart';
 
 class AccountManagement extends StatefulWidget {
@@ -28,7 +29,7 @@ class _AccountManagementState extends State<AccountManagement> {
         builder: (BuildContext context) {
           return AlertDialog(
             contentPadding: const EdgeInsets.all(16.0),
-            title: Text('Please enter your new display name'),
+            title: Text(NyaNyaLocalizations.of(context).displayNameDialogTitle),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -42,7 +43,8 @@ class _AccountManagementState extends State<AccountManagement> {
                     validator: (String value) {
                       if (!AccountManagement.displayNameRegExp
                           .hasMatch(value)) {
-                        return 'Between 2 and 24 characters (no space).';
+                        return NyaNyaLocalizations.of(context)
+                            .displayNameFormatText;
                       }
                     },
                     onSaved: (String value) {
@@ -54,12 +56,15 @@ class _AccountManagementState extends State<AccountManagement> {
             ),
             actions: <Widget>[
               FlatButton(
-                  child: Text('Cancel'.toUpperCase()),
+                  child: Text(
+                      NyaNyaLocalizations.of(context).cancel.toUpperCase()),
                   onPressed: () {
                     Navigator.pop(context);
                   }),
               FlatButton(
-                  child: Text('Confirm'.toUpperCase()),
+                  child: Text(NyaNyaLocalizations.of(context)
+                      .confirmLabel
+                      .toUpperCase()),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
@@ -82,12 +87,15 @@ class _AccountManagementState extends State<AccountManagement> {
             content: content,
             actions: <Widget>[
               FlatButton(
-                  child: Text('CANCEL'),
+                  child: Text(
+                      NyaNyaLocalizations.of(context).cancel.toUpperCase()),
                   onPressed: () {
                     Navigator.pop(context, false);
                   }),
               FlatButton(
-                  child: Text('CONFIRM'),
+                  child: Text(NyaNyaLocalizations.of(context)
+                      .confirmLabel
+                      .toUpperCase()),
                   onPressed: () {
                     Navigator.pop(context, true);
                   })
@@ -100,24 +108,25 @@ class _AccountManagementState extends State<AccountManagement> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Account Management'),
+          title: Text(NyaNyaLocalizations.of(context).accountManagementLabel),
         ),
         body: Builder(
           builder: (innerContext) => ListView(
                 children: <Widget>[
                   ListTile(
                     title: Text(
-                        'Login status: ${AccountManagement.user.isConnected ? 'Connected' : 'Not Connected'}'),
+                        '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${AccountManagement.user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
                     subtitle: Text(AccountManagement.user.isConnected
-                        ? 'Tap to sign-out'
-                        : 'Tap to sign-in'),
+                        ? NyaNyaLocalizations.of(context).signOutLabel
+                        : NyaNyaLocalizations.of(context).signInLabel),
                     onTap: () {
                       if (AccountManagement.user.isConnected) {
                         _showConfirmDialog(
                                 context,
-                                'Confirm sign-out',
-                                Text(
-                                    'Are you sure you want to sign-out?\n\nYou will lose the ability to publish community challenges and puzzles.'))
+                                NyaNyaLocalizations.of(context)
+                                    .signOutDialogTitle,
+                                Text(NyaNyaLocalizations.of(context)
+                                    .signOutDialogText))
                             .then((bool confirmed) {
                           if (confirmed != null && confirmed) {
                             AccountManagement.user.signOut().then((void _) {
@@ -128,7 +137,7 @@ class _AccountManagementState extends State<AccountManagement> {
                       } else {
                         _showConfirmDialog(
                           context,
-                          'Confirm sign-in',
+                          NyaNyaLocalizations.of(context).signInDialogTitle,
                           const PrivacyPolicyLink(),
                         ).then((bool confirmed) {
                           if (confirmed != null && confirmed) {
@@ -145,8 +154,9 @@ class _AccountManagementState extends State<AccountManagement> {
                   ListTile(
                     enabled: AccountManagement.user.isConnected,
                     title: Text(
-                        'Display name: ${AccountManagement.user.displayName ?? "Anonymous"}'),
-                    subtitle: Text('Tap to change'),
+                        '${NyaNyaLocalizations.of(context).displayNameLabel}: ${AccountManagement.user.displayName ?? ''}'),
+                    subtitle: Text(NyaNyaLocalizations.of(context)
+                        .tapToChangeDisplayNameLabel),
                     onTap: () {
                       _showNameDialog(
                               context, AccountManagement.user.displayName)
@@ -158,18 +168,19 @@ class _AccountManagementState extends State<AccountManagement> {
                             if (mounted && status == StatusCode.Success) {
                               setState(() {});
                               Scaffold.of(innerContext).showSnackBar(SnackBar(
-                                content:
-                                    Text('Display name successfully changed!'),
+                                content: Text(NyaNyaLocalizations.of(context)
+                                    .displayNameChangeSuccessText),
                               ));
                             } else if (status != StatusCode.Success) {
                               if (status == StatusCode.InvalidArgument) {
                                 Scaffold.of(innerContext).showSnackBar(SnackBar(
-                                  content: Text(
-                                      'Error: The provided display name is invalid!'),
+                                  content: Text(NyaNyaLocalizations.of(context)
+                                      .invalidDisplayNameError),
                                 ));
                               } else if (status == StatusCode.Unauthenticated) {
                                 Scaffold.of(innerContext).showSnackBar(SnackBar(
-                                  content: Text('Error: Unauthenticated'),
+                                  content: Text(NyaNyaLocalizations.of(context)
+                                      .unauthenticatedError),
                                 ));
                               }
                             }
@@ -177,13 +188,6 @@ class _AccountManagementState extends State<AccountManagement> {
                         }
                       });
                     },
-                  ),
-                  ListTile(
-                    enabled: AccountManagement.user.isConnected,
-                    title: Text('Account type: ' +
-                        (AccountManagement.user.isAnonymous
-                            ? 'Anonymous'
-                            : 'Permanenent')),
                   )
                 ],
               ),

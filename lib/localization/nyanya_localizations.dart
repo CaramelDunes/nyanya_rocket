@@ -219,11 +219,68 @@ For more information, head over to ''',
     );
   }
 
+  String get sortByLabel {
+    return Intl.message(
+      'Sort by',
+      name: 'sortByLabel',
+      desc: 'Community tab of the Puzzles, Challenges screens.',
+    );
+  }
+
+  String get dateLabel {
+    return Intl.message(
+      'Date',
+      name: 'dateLabel',
+      desc: 'Community tab of the Puzzles, Challenges screens.',
+    );
+  }
+
+  String get popularityLabel {
+    return Intl.message(
+      'Popularity',
+      name: 'popularityLabel',
+      desc: 'Community tab of the Puzzles, Challenges screens.',
+    );
+  }
+
   String get deviceTab {
     return Intl.message(
       'Device',
       name: 'deviceTab',
       desc: 'Device tab of the Puzzles, Challenges screens.',
+    );
+  }
+
+  String get loginPromptText {
+    return Intl.message(
+      'Please sign-in first! (Settings—Account Management)',
+      name: 'loginPromptText',
+      desc: 'Login prompt of the Local Puzzles and Challenges tabs.',
+    );
+  }
+
+  String get publishLabel {
+    return Intl.message(
+      'Publish',
+      name: 'publishLabel',
+      desc: 'Publish tooltip of the Local Puzzles and Challenges tabs.',
+    );
+  }
+
+  String get publishSuccessText {
+    return Intl.message(
+      'Puzzle published!',
+      name: 'publishSuccessText',
+      desc:
+          'Publish success text (snackbar) of the Local Puzzles and Challenges tabs.',
+    );
+  }
+
+  String get puzzleNotCompletedLocallyText {
+    return Intl.message(
+      'Puzzle not published as you didn\'t complete it',
+      name: 'puzzleNotCompletedLocallyText',
+      desc: 'Local Puzzles and Challenges tabs.',
     );
   }
 
@@ -597,6 +654,14 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
     );
   }
 
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: 'Cancel string.',
+    );
+  }
+
   String get loadingLabel {
     return Intl.message(
       'Loading...',
@@ -698,6 +763,143 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
       'Show Completed',
       name: 'showCompletedLabel',
       desc: 'Displayed in original puzzles tab.',
+    );
+  }
+
+  // Account Management
+  String get accountManagementLabel {
+    return Intl.message(
+      'Account Management',
+      name: 'accountManagementLabel',
+      desc: 'Displayed in the settings screen.',
+    );
+  }
+
+  String get loginStatusLabel {
+    return Intl.message(
+      'Login status',
+      name: 'loginStatusLabel',
+      desc: 'Displayed in the settings and account management screens.',
+    );
+  }
+
+  String get connectedStatusLabel {
+    return Intl.message(
+      'Connected',
+      name: 'connectedStatusLabel',
+      desc: 'Displayed in the account management screens.',
+    );
+  }
+
+  String get disconnectedStatusLabel {
+    return Intl.message(
+      'Disconnected',
+      name: 'disconnectedStatusLabel',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get signInLabel {
+    return Intl.message(
+      'Tap to sign-in',
+      name: 'signInLabel',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get signInDialogTitle {
+    return Intl.message(
+      'Privacy Policy',
+      name: 'signInDialogTitle',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get signOutLabel {
+    return Intl.message(
+      'Tap to sign-out',
+      name: 'signOutLabel',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get signOutDialogTitle {
+    return Intl.message(
+      'Confirm sign-out',
+      name: 'signOutDialogTitle',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get signOutDialogText {
+    return Intl.message(
+      'Are you sure you want to sign-out?\n\nYou will lose the ability to publish community challenges and puzzles.',
+      name: 'signOutDialogText',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get displayNameDialogTitle {
+    return Intl.message(
+      'Please enter your new display name',
+      name: 'displayNameDialogTitle',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get unauthenticatedError {
+    return Intl.message(
+      'Error: Unauthenticated',
+      name: 'unauthenticatedError',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get invalidDisplayNameError {
+    return Intl.message(
+      'Error: The provided display name is invalid!',
+      name: 'invalidDisplayNameError',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get displayNameLabel {
+    return Intl.message(
+      'Display name',
+      name: 'displayNameLabel',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get tapToChangeDisplayNameLabel {
+    return Intl.message(
+      'Tap to change',
+      name: 'tapToChangeDisplayNameLabel',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get displayNameChangeSuccessText {
+    return Intl.message(
+      'Display name successfully changed!',
+      name: 'displayNameChangeSuccessText',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get confirmLabel {
+    return Intl.message(
+      'Confirm',
+      name: 'confirmLabel',
+      desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get displayNameFormatText {
+    return Intl.message(
+      'Between 2 and 24 characters (no space).',
+      name: 'displayNameFormatText',
+      desc: 'Displayed in the account management screen.',
     );
   }
 }

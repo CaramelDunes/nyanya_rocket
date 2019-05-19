@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_store.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
@@ -46,14 +47,16 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
           'name': puzzle.name,
           'puzzle_data': jsonEncode(puzzle.puzzleData.toJson()),
         }).then((HttpsCallableResult result) {
-            print(result.data);
+          print(result.data);
         });
 
-        final snackBar = SnackBar(content: Text('Puzzle published!'));
+        final snackBar = SnackBar(
+            content: Text(NyaNyaLocalizations.of(context).publishSuccessText));
         Scaffold.of(context).showSnackBar(snackBar);
       } else {
         final snackBar = SnackBar(
-            content: Text('Puzzle not published as you didn\'t complete it'));
+            content: Text(
+                NyaNyaLocalizations.of(context).puzzleNotCompletedLocallyText));
         Scaffold.of(context).showSnackBar(snackBar);
       }
     });
@@ -84,17 +87,16 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
 //                  ),
                   IconButton(
                     icon: Icon(Icons.publish),
-                    tooltip: 'Publish',
+                    tooltip: NyaNyaLocalizations.of(context).publishLabel,
                     onPressed: () {
                       if (AccountManagement.user.isConnected) {
                         LocalPuzzles.store.readPuzzle(uuidList[i]).then(
                             (NamedPuzzleData puzzle) =>
                                 _verifyAndPublish(context, puzzle));
                       } else {
-                        // TODO Login Prompt
                         final snackBar = SnackBar(
-                            content: Text(
-                                'Please sign-in first! (Settings—Account Management)'));
+                            content: Text(NyaNyaLocalizations.of(context)
+                                .loginPromptText));
                         Scaffold.of(context).showSnackBar(snackBar);
                       }
                     },

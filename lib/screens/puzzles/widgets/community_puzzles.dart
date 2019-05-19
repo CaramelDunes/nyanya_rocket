@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
@@ -73,7 +74,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  'Sort by',
+                  NyaNyaLocalizations.of(context).sortByLabel,
                   style: Theme.of(context).textTheme.subhead,
                 ),
                 VerticalDivider(),
@@ -83,15 +84,16 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                     value: _sorting,
                     items: <DropdownMenuItem<_Sorting>>[
                       DropdownMenuItem<_Sorting>(
-                        child: Text('Date'),
+                        child: Text(NyaNyaLocalizations.of(context).dateLabel),
                         value: _Sorting.ByDate,
                       ),
                       DropdownMenuItem<_Sorting>(
-                        child: Text('Name'),
+                        child: Text(NyaNyaLocalizations.of(context).nameLabel),
                         value: _Sorting.ByName,
                       ),
                       DropdownMenuItem<_Sorting>(
-                        child: Text('Popularity'),
+                        child: Text(
+                            NyaNyaLocalizations.of(context).popularityLabel),
                         value: _Sorting.ByPopularity,
                       )
                     ],
