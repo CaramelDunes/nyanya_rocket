@@ -44,6 +44,9 @@ class _AppState extends State<App> {
       precacheImage(AssetImage('assets/graphics/generator.png'), context);
       precacheImage(AssetImage('assets/graphics/rocket_blue.png'), context);
       precacheImage(AssetImage('assets/graphics/arrow_blue.png'), context);
+      precacheImage(AssetImage('assets/graphics/pit.png'), context);
+      precacheImage(AssetImage('assets/graphics/arrow_grey.png'), context);
+      precacheImage(AssetImage('assets/graphics/departed_rocket.png'), context);
     });
 
     super.initState();
