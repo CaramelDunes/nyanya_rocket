@@ -3,9 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations_delegate.dart';
-import 'package:nyanya_rocket/models/options.dart';
-import 'package:nyanya_rocket/options_holder.dart';
+import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/routing.dart';
+import 'package:nyanya_rocket/screens/settings/dark_mode.dart';
+import 'package:nyanya_rocket/screens/settings/first_run.dart';
+import 'package:nyanya_rocket/screens/settings/language.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class App extends StatefulWidget {
   static const String projectUrl =
@@ -35,10 +39,15 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  final DarkMode _darkMode = DarkMode(false);
+  final Language _language = Language('en');
+  final FirstRun _firstRun = FirstRun(true);
+  final User _user = User();
+
   @override
   void initState() {
     // Copied from https://github.com/2d-inc/developer_quest/blob/master/lib/main.dart
-    // Schedule a micro-task that warms up the image cache with all the puzzle
+    // Schedule a micro-task that warms up the image cache with all the
     // board images.
     scheduleMicrotask(() {
       precacheImage(AssetImage('assets/graphics/generator.png'), context);
@@ -49,26 +58,41 @@ class _AppState extends State<App> {
       precacheImage(AssetImage('assets/graphics/departed_rocket.png'), context);
     });
 
+    SharedPreferences.getInstance().then((SharedPreferences prefs) {
+      _darkMode.prefs = prefs;
+      _language.prefs = prefs;
+      _firstRun.prefs = prefs;
+    });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return OptionsHolder(
-      optionWidgetBuilder: (BuildContext context, Options options) =>
-          MaterialApp(
-              localizationsDelegates: [
-                const NyaNyaLocalizationsDelegate(),
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              supportedLocales: App.supportedLocales,
-              locale:
-                  options.language == 'auto' ? null : Locale(options.language),
-              title: 'NyaNya Rocket!',
-              theme: options.darkTheme ? App.darkTheme : App.lightTheme,
-              initialRoute: Routing.initialRoute,
-              routes: Routing.routes),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(notifier: _darkMode),
+        ChangeNotifierProvider.value(notifier: _language),
+        // TODO Move this to the What's New tab
+        ChangeNotifierProvider.value(notifier: _firstRun),
+        ChangeNotifierProvider.value(notifier: _user)
+      ],
+      child: Consumer2<DarkMode, Language>(
+        builder: (context2, darkMode, language, _) => MaterialApp(
+                localizationsDelegates: [
+                  const NyaNyaLocalizationsDelegate(),
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                supportedLocales: App.supportedLocales,
+                locale:
+                    language.value == 'auto' ? null : Locale(language.value),
+                title: 'NyaNya Rocket!',
+                theme: darkMode.enabled ? App.darkTheme : App.lightTheme,
+                darkTheme: App.darkTheme,
+                initialRoute: Routing.initialRoute,
+                routes: Routing.routes),
+      ),
     );
   }
 }

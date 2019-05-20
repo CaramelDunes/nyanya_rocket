@@ -1,15 +1,17 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 enum StatusCode { Success, Failure, InvalidArgument, Unauthenticated }
 
-class User {
+class User with ChangeNotifier {
   FirebaseUser _user;
 
   User() {
-    FirebaseAuth.instance
-        .currentUser()
-        .then((FirebaseUser user) => _user = user);
+    FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+      _user = user;
+      notifyListeners();
+    });
   }
 
   bool get isConnected {
@@ -48,6 +50,8 @@ class User {
       await _user.reload();
       _user = await FirebaseAuth.instance.currentUser();
 
+      notifyListeners();
+
       return StatusCode.Success;
     }
 
@@ -65,6 +69,8 @@ class User {
   Future<void> signInAnonymously() {
     return FirebaseAuth.instance.signInAnonymously().then((FirebaseUser user) {
       _user = user;
+
+      notifyListeners();
       return;
     });
   }
@@ -72,6 +78,8 @@ class User {
   Future<void> signOut() {
     return FirebaseAuth.instance.signOut().then((void _) {
       _user = null;
+
+      notifyListeners();
     });
   }
 }

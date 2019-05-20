@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/options_holder.dart';
+import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/settings/account_management.dart';
+import 'package:nyanya_rocket/screens/settings/dark_mode.dart';
+import 'package:nyanya_rocket/screens/settings/language.dart';
+import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -28,17 +31,15 @@ class SettingsState extends State<Settings> {
               title: Text(NyaNyaLocalizations.of(context).darkModeLabel),
               onChanged: (bool value) {
                 setState(() {
-                  OptionsHolder.of(context).options = OptionsHolder.of(context)
-                      .options
-                      .copyWith(darkTheme: value);
+                  Provider.of<DarkMode>(context).enabled = value;
                 });
               },
-              value: Theme.of(context).brightness == Brightness.dark,
+              value: Provider.of<DarkMode>(context).enabled,
             ),
             ListTile(
               title: Text(NyaNyaLocalizations.of(context).languageLabel),
               trailing: DropdownButton<String>(
-                  value: OptionsHolder.of(context).options.language,
+                  value: Provider.of<Language>(context).value,
                   items: <DropdownMenuItem<String>>[
                     DropdownMenuItem(
                       child: Text('Auto'),
@@ -54,23 +55,22 @@ class SettingsState extends State<Settings> {
                     ),
                   ],
                   onChanged: (String language) {
-                    OptionsHolder.of(context).options =
-                        OptionsHolder.of(context)
-                            .options
-                            .copyWith(language: language);
+                    Provider.of<Language>(context).value = language;
                   }),
             ),
-            ListTile(
-              title:
-                  Text(NyaNyaLocalizations.of(context).accountManagementLabel),
-              subtitle: Text(
-                  '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${AccountManagement.user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return AccountManagement();
-                }));
-              },
+            Consumer<User>(
+              builder: (context, user, _) => ListTile(
+                    title: Text(
+                        NyaNyaLocalizations.of(context).accountManagementLabel),
+                    subtitle: Text(
+                        '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return AccountManagement();
+                      }));
+                    },
+                  ),
             ),
           ],
         ));
