@@ -11,8 +11,8 @@ class Language with ChangeNotifier {
 
   set prefs(SharedPreferences prefs) {
     _prefs = prefs;
-    
-    value = prefs.getString(key);
+
+    value = prefs.getString(key) ?? _value;
   }
 
   String get value => _value;
@@ -21,8 +21,8 @@ class Language with ChangeNotifier {
     if (value != _value) {
       _value = value;
       notifyListeners();
-
-      if (_prefs != null) _prefs.setString(key, _value);
     }
+
+    if (_prefs != null) _prefs.setString(key, _value);
   }
 }

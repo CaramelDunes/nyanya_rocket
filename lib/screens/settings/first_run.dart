@@ -12,7 +12,7 @@ class FirstRun with ChangeNotifier {
   set prefs(SharedPreferences prefs) {
     _prefs = prefs;
 
-    enabled = prefs.getBool(key);
+    enabled = prefs.getBool(key) ?? _enabled;
   }
 
   bool get enabled => _enabled;
@@ -21,8 +21,8 @@ class FirstRun with ChangeNotifier {
     if (_enabled != value) {
       _enabled = value;
       notifyListeners();
-
-      if (_prefs != null) _prefs.setBool(key, value);
     }
+
+    if (_prefs != null) _prefs.setBool(key, value);
   }
 }
