@@ -269,7 +269,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "invalidNameText": "Nom invalide.",
+  "invalidNameText": "Nom invalide (entrez entre 2 et 24 caractères ASCII).",
   "@invalidNameText": {
     "description": "When entered name is invalid in the new tab of the Editor screen.",
     "type": "text",

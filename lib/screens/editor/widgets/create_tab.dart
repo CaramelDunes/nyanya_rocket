@@ -61,8 +61,7 @@ class CreateTabState extends State<CreateTab>
                   },
                   validator: (String value) {
                     if (!CreateTab.nameRegExp.hasMatch(value)) {
-                      return NyaNyaLocalizations.of(context).invalidNameText +
-                          ' (between 2 and 24 characters)';
+                      return NyaNyaLocalizations.of(context).invalidNameText;
                     }
                   },
                 ),

@@ -74,7 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "intermediateLabel" : MessageLookupByLibrary.simpleMessage("Moyen"),
     "invalidDisplayNameError" : MessageLookupByLibrary.simpleMessage("Erreur: Le pseudo fourni est invalide."),
     "invalidHostnameText" : MessageLookupByLibrary.simpleMessage("Adresse invalide"),
-    "invalidNameText" : MessageLookupByLibrary.simpleMessage("Nom invalide."),
+    "invalidNameText" : MessageLookupByLibrary.simpleMessage("Nom invalide (entrez entre 2 et 24 caractères ASCII)."),
     "invalidNicknameText" : MessageLookupByLibrary.simpleMessage("Pseudo invalide."),
     "lanTab" : MessageLookupByLibrary.simpleMessage("Réseau local"),
     "languageLabel" : MessageLookupByLibrary.simpleMessage("Langue"),

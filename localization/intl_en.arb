@@ -270,7 +270,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "invalidNameText": "Please enter a valid name.",
+  "invalidNameText": "Please enter a valid name (between 2 and 24 ASCII characters).",
   "@invalidNameText": {
     "description": "When entered name is invalid in the new tab of the Editor screen.",
     "type": "text",

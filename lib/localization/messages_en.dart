@@ -74,7 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "intermediateLabel" : MessageLookupByLibrary.simpleMessage("Intermediate"),
     "invalidDisplayNameError" : MessageLookupByLibrary.simpleMessage("Error: The provided display name is invalid!"),
     "invalidHostnameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid hostname."),
-    "invalidNameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid name."),
+    "invalidNameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid name (between 2 and 24 ASCII characters)."),
     "invalidNicknameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid nickname."),
     "lanTab" : MessageLookupByLibrary.simpleMessage("LAN"),
     "languageLabel" : MessageLookupByLibrary.simpleMessage("Language"),
