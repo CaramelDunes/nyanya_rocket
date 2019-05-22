@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
-import 'package:nyanya_rocket/models/puzzle_data.dart';
+import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/screens/challenges/tabs/local_challenges.dart';
 import 'package:nyanya_rocket/screens/editor/screens/challenge_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/multiplayer_editor.dart';
@@ -67,7 +67,7 @@ class EditTabState extends State<EditTab> {
                     icon: Icon(Icons.content_copy),
                     onPressed: () {
                       LocalPuzzles.store.readPuzzle(uuidList[i]).then(
-                          (PuzzleData puzzle) => Clipboard.setData(
+                          (NamedPuzzleData puzzle) => Clipboard.setData(
                               ClipboardData(
                                   text: jsonEncode(puzzle.toJson()))));
                     },
@@ -84,7 +84,7 @@ class EditTabState extends State<EditTab> {
               ),
               onTap: () {
                 LocalPuzzles.store.readPuzzle(uuidList[i]).then(
-                    (PuzzleData puzzle) => Navigator.of(context).push(
+                    (NamedPuzzleData puzzle) => Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (context) => PuzzleEditor(
                                 puzzle: puzzle, uuid: uuidList[i]))));

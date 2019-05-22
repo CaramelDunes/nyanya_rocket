@@ -49,6 +49,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => Challenge(
                                   challenge: challenge,
+                                  hasNext: i != _challenges.length - 1,
                                 ))));
               },
             ));

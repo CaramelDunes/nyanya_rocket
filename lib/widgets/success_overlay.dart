@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 
 class OverlayPopData {
@@ -7,11 +9,68 @@ class OverlayPopData {
   OverlayPopData({@required this.playNext});
 }
 
-class SuccessOverlay extends StatelessWidget {
+class SuccessOverlay extends StatefulWidget {
   final String succeededName;
+  final String succeededPath;
+  final bool hasNext;
 
-  const SuccessOverlay({Key key, @required this.succeededName})
+  const SuccessOverlay(
+      {Key key,
+      @required this.succeededName,
+      @required this.hasNext,
+      this.succeededPath})
       : super(key: key);
+
+  @override
+  _SuccessOverlayState createState() => _SuccessOverlayState();
+}
+
+class _SuccessOverlayState extends State<SuccessOverlay> {
+  int _stars;
+  bool _plusOned = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.succeededPath != null) {
+      Firestore.instance
+          .document(widget.succeededPath)
+          .get()
+          .then((DocumentSnapshot snapshot) {
+        setState(() {
+          _stars = snapshot.data['likes'];
+        });
+      });
+    }
+  }
+
+  Widget _starAdder() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.star,
+            color: _plusOned ? Colors.green : null,
+          ),
+          onPressed: () {
+            if (!_plusOned) {
+              final DocumentReference postRef =
+                  Firestore.instance.document(widget.succeededPath);
+              postRef.updateData({'likes': FieldValue.increment(1)});
+
+              setState(() {
+                _plusOned = true;
+                _stars += 1;
+              });
+            }
+          },
+        ),
+        Text(_stars.toString())
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,48 +81,41 @@ class SuccessOverlay extends StatelessWidget {
         Material(
           color: Colors.black54,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Spacer(flex: 1),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                      child: Container(
+              Spacer(flex: 2),
+              Flexible(
+                  flex: 0,
+                  child: Container(
                     color: Colors.white,
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Text(
-                          NyaNyaLocalizations.of(context).stageClearedText,
-                          style: TextStyle(color: Colors.green, fontSize: 50),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              RaisedButton(
-                                color: Theme.of(context).primaryColor,
-                                textColor: Colors.white,
-                                child: Text(NyaNyaLocalizations.of(context)
-                                    .nextLevelLabel),
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pop(OverlayPopData(playNext: true));
-                                },
-                              ),
-                            ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Text(
+                            NyaNyaLocalizations.of(context).stageClearedText,
+                            style: TextStyle(color: Colors.green, fontSize: 50),
                           ),
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                      ],
+                          Visibility(
+                              visible: widget.succeededPath != null &&
+                                  _stars != null,
+                              child: _starAdder()),
+                          RaisedButton(
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            child: Text(widget.hasNext
+                                ? NyaNyaLocalizations.of(context).nextLevelLabel
+                                : 'Back'),
+                            onPressed: () {
+                              Navigator.of(context).pop(
+                                  OverlayPopData(playNext: widget.hasNext));
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   )),
-                ],
-              ),
               Spacer(flex: 3),
             ],
           ),

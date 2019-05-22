@@ -27,14 +27,7 @@ class NotImplemented extends StatelessWidget {
               onPressed: () {
                 final DocumentReference postRef =
                     Firestore.instance.document('feature_requests/$featureId');
-                Firestore.instance.runTransaction((Transaction tx) async {
-                  DocumentSnapshot postSnapshot = await tx.get(postRef);
-                  if (postSnapshot.exists) {
-                    await tx.update(postRef, <String, dynamic>{
-                      'thumbs_up': postSnapshot.data['thumbs_up'] + 1
-                    });
-                  }
-                });
+                postRef.updateData({'thumbs_up': FieldValue.increment(1)});
               },
             ),
           ],

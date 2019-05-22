@@ -1,9 +1,7 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nyanya_rocket/app.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:nyanya_rocket/widgets/privacy_policy_link.dart';
 
 class DefaultDrawer extends StatelessWidget {
   const DefaultDrawer({Key key}) : super(key: key);
@@ -77,24 +75,7 @@ class DefaultDrawer extends StatelessWidget {
           AboutListTile(
             icon: Icon(FontAwesomeIcons.questionCircle),
             aboutBoxChildren: <Widget>[
-              RichText(
-                text: TextSpan(
-                  text: NyaNyaLocalizations.of(context).aboutDialogText,
-                  style: TextStyle(color: Colors.black),
-                  children: [
-                    TextSpan(
-                        text: App.privacyPolicyUrl,
-                        style: TextStyle(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline,
-                            fontSize: 20),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            launch(App.privacyPolicyUrl);
-                          })
-                  ],
-                ),
-              )
+              const PrivacyPolicyLink(),
             ],
             applicationVersion: '1.0',
           ),

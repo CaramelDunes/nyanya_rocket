@@ -5,23 +5,21 @@ import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
 import 'package:nyanya_rocket/screens/challenge/widgets/arrow_drawer.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
+import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
-
-class ChallengePopData {
-  final bool cleared;
-  final bool starred;
-
-  ChallengePopData(this.cleared, this.starred);
-}
 
 class Challenge extends StatefulWidget {
   final ChallengeData challenge;
   final void Function(Duration time) onWin;
+  final bool hasNext;
 
-  Challenge({@required this.challenge, this.onWin});
+  Challenge({
+    @required this.challenge,
+    @required this.hasNext,
+    this.onWin,
+  });
 
   @override
   _ChallengeState createState() => _ChallengeState();
@@ -196,7 +194,10 @@ class _ChallengeState extends State<Challenge> {
           ),
           Visibility(
               visible: _ended,
-              child: SuccessOverlay(succeededName: widget.challenge.name)),
+              child: SuccessOverlay(
+                succeededName: widget.challenge.name,
+                hasNext: widget.hasNext,
+              )),
         ],
       ),
     );

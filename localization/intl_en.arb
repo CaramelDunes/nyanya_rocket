@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-04-30T15:54:05.012030",
+  "@@last_modified": "2019-05-19T21:23:31.401816",
   "puzzleType": "Puzzle",
   "@puzzleType": {
     "description": "Puzzle type of game.",
@@ -144,9 +144,51 @@
     "type": "text",
     "placeholders": {}
   },
+  "sortByLabel": "Sort by",
+  "@sortByLabel": {
+    "description": "Community tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dateLabel": "Date",
+  "@dateLabel": {
+    "description": "Community tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "popularityLabel": "Popularity",
+  "@popularityLabel": {
+    "description": "Community tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
   "deviceTab": "Device",
   "@deviceTab": {
     "description": "Device tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginPromptText": "Please sign-in first! (Settings—Account Management)",
+  "@loginPromptText": {
+    "description": "Login prompt of the Local Puzzles and Challenges tabs.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "publishLabel": "Publish",
+  "@publishLabel": {
+    "description": "Publish tooltip of the Local Puzzles and Challenges tabs.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "publishSuccessText": "Puzzle published!",
+  "@publishSuccessText": {
+    "description": "Publish success text (snackbar) of the Local Puzzles and Challenges tabs.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "puzzleNotCompletedLocallyText": "Puzzle not published as you didn't complete it",
+  "@puzzleNotCompletedLocallyText": {
+    "description": "Local Puzzles and Challenges tabs.",
     "type": "text",
     "placeholders": {}
   },
@@ -408,6 +450,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel string.",
+    "type": "text",
+    "placeholders": {}
+  },
   "loadingLabel": "Loading...",
   "@loadingLabel": {
     "description": "Loading... label of async loaded data.",
@@ -483,6 +531,108 @@
   "showCompletedLabel": "Show Completed",
   "@showCompletedLabel": {
     "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "accountManagementLabel": "Account Management",
+  "@accountManagementLabel": {
+    "description": "Displayed in the settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginStatusLabel": "Login status",
+  "@loginStatusLabel": {
+    "description": "Displayed in the settings and account management screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "connectedStatusLabel": "Connected",
+  "@connectedStatusLabel": {
+    "description": "Displayed in the account management screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "disconnectedStatusLabel": "Disconnected",
+  "@disconnectedStatusLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signInLabel": "Tap to sign-in",
+  "@signInLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signInDialogTitle": "Privacy Policy",
+  "@signInDialogTitle": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signOutLabel": "Tap to sign-out",
+  "@signOutLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signOutDialogTitle": "Confirm sign-out",
+  "@signOutDialogTitle": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signOutDialogText": "Are you sure you want to sign-out?\n\nYou will lose the ability to publish community challenges and puzzles.",
+  "@signOutDialogText": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayNameDialogTitle": "Please enter your new display name",
+  "@displayNameDialogTitle": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "unauthenticatedError": "Error: Unauthenticated",
+  "@unauthenticatedError": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidDisplayNameError": "Error: The provided display name is invalid!",
+  "@invalidDisplayNameError": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayNameLabel": "Display name",
+  "@displayNameLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tapToChangeDisplayNameLabel": "Tap to change",
+  "@tapToChangeDisplayNameLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayNameChangeSuccessText": "Display name successfully changed!",
+  "@displayNameChangeSuccessText": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirmLabel": "Confirm",
+  "@confirmLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayNameFormatText": "Between 2 and 24 characters (no space).",
+  "@displayNameFormatText": {
+    "description": "Displayed in the account management screen.",
     "type": "text",
     "placeholders": {}
   }

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/options_holder.dart';
+import 'package:nyanya_rocket/screens/settings/first_run.dart';
+import 'package:provider/provider.dart';
 
 class WhatsNew extends StatelessWidget {
   void _dismissWelcomeCard(BuildContext context) {
-    OptionsHolder.of(context).options =
-        OptionsHolder.of(context).options.copyWith(firstRun: false);
+    Provider.of<FirstRun>(context).enabled = false;
   }
 
   @override
@@ -17,7 +17,7 @@ class WhatsNew extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       children: <Widget>[
         Visibility(
-          visible: OptionsHolder.of(context).options.firstRun,
+          visible: Provider.of<FirstRun>(context).enabled,
           child: Dismissible(
             key: UniqueKey(),
             onDismissed: (DismissDirection direction) {

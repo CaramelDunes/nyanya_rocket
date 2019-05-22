@@ -2,9 +2,10 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+
+import 'named_puzzle_data.dart';
 
 class PuzzleStore {
   HashMap<String, String> _entries = HashMap();
@@ -66,7 +67,7 @@ class PuzzleStore {
     return true;
   }
 
-  Future<bool> _writePuzzle(String uuid, PuzzleData puzzleData) async {
+  Future<bool> _writePuzzle(String uuid, NamedPuzzleData puzzleData) async {
     Directory directory = await getApplicationDocumentsDirectory();
 
     File puzzleFile = File('${directory.path}/puzzles/$uuid.txt');
@@ -84,7 +85,7 @@ class PuzzleStore {
     return true;
   }
 
-  Future<String> saveNewPuzzle(PuzzleData puzzleData) async {
+  Future<String> saveNewPuzzle(NamedPuzzleData puzzleData) async {
     await readRegistry();
 
     String newUuid = uuid.v4();
@@ -100,7 +101,7 @@ class PuzzleStore {
     return '';
   }
 
-  Future<bool> updatePuzzle(String uuid, PuzzleData puzzleData) async {
+  Future<bool> updatePuzzle(String uuid, NamedPuzzleData puzzleData) async {
     await readRegistry();
 
     if (_entries.containsKey(uuid) && await _writePuzzle(uuid, puzzleData)) {
@@ -111,7 +112,7 @@ class PuzzleStore {
     return false;
   }
 
-  Future<PuzzleData> readPuzzle(String uuid) async {
+  Future<NamedPuzzleData> readPuzzle(String uuid) async {
     if (_entries.containsKey(uuid)) {
       Directory directory = await getApplicationDocumentsDirectory();
 
@@ -119,7 +120,8 @@ class PuzzleStore {
 
       if (puzzleFile.existsSync()) {
         var readAsStringSync = puzzleFile.readAsStringSync();
-        PuzzleData data = PuzzleData.fromJson(jsonDecode(readAsStringSync));
+        NamedPuzzleData data =
+            NamedPuzzleData.fromJson(jsonDecode(readAsStringSync));
 
         return data;
       }

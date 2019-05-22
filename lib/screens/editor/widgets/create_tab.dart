@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
+import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/screens/editor/screens/challenge_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/multiplayer_editor.dart';
@@ -10,6 +11,8 @@ import 'package:nyanya_rocket/screens/editor/screens/puzzle_editor.dart';
 enum EditorMode { Puzzle, Challenge, Multiplayer }
 
 class CreateTab extends StatefulWidget {
+  static final RegExp nameRegExp = RegExp(r'^[ -~]{2,24}$');
+
   @override
   CreateTabState createState() {
     return new CreateTabState();
@@ -47,17 +50,19 @@ class CreateTabState extends State<CreateTab>
             child: Column(
               children: <Widget>[
                 TextFormField(
+                  autovalidate: true,
+                  textCapitalization: TextCapitalization.words,
+                  maxLength: 24,
                   decoration: InputDecoration(
                     labelText: NyaNyaLocalizations.of(context).nameLabel,
                   ),
-                  textCapitalization: TextCapitalization.words,
-                  maxLength: 32,
                   onSaved: (String value) {
                     _name = value;
                   },
                   validator: (String value) {
-                    if (value.isEmpty) {
-                      return NyaNyaLocalizations.of(context).invalidNameText;
+                    if (!CreateTab.nameRegExp.hasMatch(value)) {
+                      return NyaNyaLocalizations.of(context).invalidNameText +
+                          ' (between 2 and 24 characters)';
                     }
                   },
                 ),
@@ -126,7 +131,9 @@ class CreateTabState extends State<CreateTab>
                             switch (_mode) {
                               case EditorMode.Puzzle:
                                 return PuzzleEditor(
-                                    puzzle: PuzzleData.withBorder(name: _name));
+                                    puzzle: NamedPuzzleData.fromPuzzleData(
+                                        name: _name,
+                                        puzzleData: PuzzleData.withBorder()));
                                 break;
 
                               case EditorMode.Challenge:

@@ -143,9 +143,51 @@
     "type": "text",
     "placeholders": {}
   },
+  "sortByLabel": "Trier par",
+  "@sortByLabel": {
+    "description": "Community tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dateLabel": "Date",
+  "@dateLabel": {
+    "description": "Community tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "popularityLabel": "Popularité",
+  "@popularityLabel": {
+    "description": "Community tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
   "deviceTab": "Local",
   "@deviceTab": {
     "description": "Device tab of the Puzzles, Challenges screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginPromptText": "Veuillez vous connecter avant (Paramètres—Gestion de compte)",
+  "@loginPromptText": {
+    "description": "Login prompt of the Local Puzzles and Challenges tabs.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "publishLabel": "Publier",
+  "@publishLabel": {
+    "description": "Publish tooltip of the Local Puzzles and Challenges tabs.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "publishSuccessText": "Puzzle publié !",
+  "@publishSuccessText": {
+    "description": "Publish success text (snackbar) of the Local Puzzles and Challenges tabs.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "puzzleNotCompletedLocallyText": "Puzzle non publié car non résolu... :-(",
+  "@puzzleNotCompletedLocallyText": {
+    "description": "Local Puzzles and Challenges tabs.",
     "type": "text",
     "placeholders": {}
   },
@@ -407,6 +449,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "cancel": "Annuler",
+  "@cancel": {
+    "description": "Cancel string.",
+    "type": "text",
+    "placeholders": {}
+  },
   "loadingLabel": "Chargement...",
   "@loadingLabel": {
     "description": "Loading... label of async loaded data.",
@@ -482,6 +530,108 @@
   "showCompletedLabel": "Montrer réussis",
   "@showCompletedLabel": {
     "description": "Displayed in original puzzles tab.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "accountManagementLabel": "Gestion de compte",
+  "@accountManagementLabel": {
+    "description": "Displayed in the settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginStatusLabel": "Statut",
+  "@loginStatusLabel": {
+    "description": "Displayed in the settings and account management screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "connectedStatusLabel": "Connecté",
+  "@connectedStatusLabel": {
+    "description": "Displayed in the account management screens.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "disconnectedStatusLabel": "Déconnecté",
+  "@disconnectedStatusLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signInLabel": "Taper pour se connecter",
+  "@signInLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signInDialogTitle": "Politique de Confidentialité",
+  "@signInDialogTitle": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signOutLabel": "Taper pour se déconnecter",
+  "@signOutLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signOutDialogTitle": "Déconnexion",
+  "@signOutDialogTitle": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "signOutDialogText": "Êtes-vous sûr(e) de vouloir vous déconnecter ?\n\nVous ne pourrez plus publier de puzzles et défis.",
+  "@signOutDialogText": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayNameDialogTitle": "Changement de pseudo",
+  "@displayNameDialogTitle": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "unauthenticatedError": "Erreur: Vous n'êtes pas connecté",
+  "@unauthenticatedError": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidDisplayNameError": "Erreur: Le pseudo fourni est invalide.",
+  "@invalidDisplayNameError": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayNameLabel": "Pseudo",
+  "@displayNameLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tapToChangeDisplayNameLabel": "Taper pour changer",
+  "@tapToChangeDisplayNameLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayNameChangeSuccessText": "Changement de pseudo réussi !",
+  "@displayNameChangeSuccessText": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirmLabel": "Confirmer",
+  "@confirmLabel": {
+    "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "displayNameFormatText": "Entre 2 et 24 caractères (sans espace).",
+  "@displayNameFormatText": {
+    "description": "Displayed in the account management screen.",
     "type": "text",
     "placeholders": {}
   }

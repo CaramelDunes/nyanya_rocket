@@ -3,7 +3,7 @@ description: Save cute mice from dangerous cats!
 author: CaramelDunes
 homepage: https://github.com/CaramelDunes/nyanya_rocket
 
-version: 1.0.0+14
+version: 1.0.0+19
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -19,10 +19,12 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  intl: ^0.15.7
+  intl: ^0.15.8
 
-  firebase_core: 0.3.1+1
-  cloud_firestore: ^0.9.11
+  firebase_core: ^0.4.0+1
+  cloud_firestore: ^0.11.0+1
+  firebase_auth: ^0.11.0
+  cloud_functions: ^0.3.0+1
 
   flare_flutter: ^1.5.0
 
@@ -30,13 +32,17 @@ dependencies:
 
   shared_preferences: ^0.5.1+2
 
-  path_provider: ^0.5.0+1
+  path_provider: ^1.1.0
 
   uuid: ^2.0.1
 
-  connectivity: ^0.4.2+2
-  
+  connectivity: ^0.4.3+1
+
   url_launcher: ^5.0.2
+
+  share: ^0.6.1+1
+
+  provider: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -44,7 +50,7 @@ dev_dependencies:
 
   flutter_launcher_icons: ^0.7.0
 
-  intl_translation: ^0.17.3
+  intl_translation: ^0.17.4
 
 flutter_icons:
   image_path: "assets/graphics/app_icon.png"
