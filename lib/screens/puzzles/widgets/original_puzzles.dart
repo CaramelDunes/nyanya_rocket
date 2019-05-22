@@ -9,7 +9,7 @@ import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
 class OriginalPuzzles extends StatefulWidget {
   static final PuzzleProgressionManager progression =
-  PuzzleProgressionManager();
+      PuzzleProgressionManager();
 
   static final List<NamedPuzzleData> puzzles = jsons
       .map<NamedPuzzleData>(
@@ -195,16 +195,13 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
                   visible: _showCleared ||
                       !OriginalPuzzles.progression.hasCleared(i),
                   child: ListTile(
-                    leading: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          '${i + 1}\n—\n${OriginalPuzzles.puzzles.length}',
-                          style: TextStyle(fontSize: 15),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                    leading: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        '${i + 1}',
+                        style: TextStyle(fontSize: 15),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                     title: Text(OriginalPuzzles.puzzles[i].name),
                     subtitle: Text(_difficultyFromIndex(context, i)),
