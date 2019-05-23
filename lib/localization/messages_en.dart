@@ -20,7 +20,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "aboutDialogText" : MessageLookupByLibrary.simpleMessage("See our Privacy Policy on the application store page or visit "),
+    "accept" : MessageLookupByLibrary.simpleMessage("Accept"),
     "accountManagementLabel" : MessageLookupByLibrary.simpleMessage("Account Management"),
     "arrowDnDTutorialText" : MessageLookupByLibrary.simpleMessage("Arrows can be drag n\' dropped..."),
     "arrowRemoveTutorialText" : MessageLookupByLibrary.simpleMessage("Arrows can be removed by tapping"),
@@ -49,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createLabel" : MessageLookupByLibrary.simpleMessage("Create"),
     "darkModeLabel" : MessageLookupByLibrary.simpleMessage("Dark Mode"),
     "dateLabel" : MessageLookupByLibrary.simpleMessage("Date"),
+    "deny" : MessageLookupByLibrary.simpleMessage("Deny"),
     "deviceTab" : MessageLookupByLibrary.simpleMessage("Device"),
     "discardDialogMessage" : MessageLookupByLibrary.simpleMessage("Are you sure you want to leave?\nAny unsaved changes will be discarded!"),
     "discardDialogTitle" : MessageLookupByLibrary.simpleMessage("Confirm leave"),
@@ -74,7 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "intermediateLabel" : MessageLookupByLibrary.simpleMessage("Intermediate"),
     "invalidDisplayNameError" : MessageLookupByLibrary.simpleMessage("Error: The provided display name is invalid!"),
     "invalidHostnameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid hostname."),
-    "invalidNameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid name (between 2 and 24 ASCII characters)."),
+    "invalidNameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid name."),
     "invalidNicknameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid nickname."),
     "lanTab" : MessageLookupByLibrary.simpleMessage("LAN"),
     "languageLabel" : MessageLookupByLibrary.simpleMessage("Language"),
@@ -101,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "playLabel" : MessageLookupByLibrary.simpleMessage("Play"),
     "playersLabel" : MessageLookupByLibrary.simpleMessage("players"),
     "popularityLabel" : MessageLookupByLibrary.simpleMessage("Popularity"),
+    "privacyPolicyLabel" : MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "publishLabel" : MessageLookupByLibrary.simpleMessage("Publish"),
     "publishSuccessText" : MessageLookupByLibrary.simpleMessage("Puzzle published!"),
     "puzzleNotCompletedLocallyText" : MessageLookupByLibrary.simpleMessage("Puzzle not published as you didn\'t complete it"),

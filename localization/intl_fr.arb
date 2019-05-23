@@ -455,6 +455,18 @@
     "type": "text",
     "placeholders": {}
   },
+  "accept": "Accepter",
+  "@accept": {
+    "description": "Accept string.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deny": "Refuser",
+  "@deny": {
+    "description": "Deny string.",
+    "type": "text",
+    "placeholders": {}
+  },
   "loadingLabel": "Chargement...",
   "@loadingLabel": {
     "description": "Loading... label of async loaded data.",
@@ -473,9 +485,9 @@
     "type": "text",
     "placeholders": {}
   },
-  "aboutDialogText": "Vous pouvez voir notre Politique de Confidentialité sur la page de l'application ou sur ",
-  "@aboutDialogText": {
-    "description": "Displayed in the About dialog.",
+  "privacyPolicyLabel": "Politique de confidentialité",
+  "@privacyPolicyLabel": {
+    "description": "Displayed in the drawer.",
     "type": "text",
     "placeholders": {}
   },

@@ -20,7 +20,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "aboutDialogText" : MessageLookupByLibrary.simpleMessage("Vous pouvez voir notre Politique de Confidentialité sur la page de l\'application ou sur "),
+    "accept" : MessageLookupByLibrary.simpleMessage("Accepter"),
     "accountManagementLabel" : MessageLookupByLibrary.simpleMessage("Gestion de compte"),
     "arrowDnDTutorialText" : MessageLookupByLibrary.simpleMessage("Les flèches peuvent être glissées-déposées..."),
     "arrowRemoveTutorialText" : MessageLookupByLibrary.simpleMessage("En mode puzzle, les flèches peuvent être retirées en tappant dessus."),
@@ -49,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createLabel" : MessageLookupByLibrary.simpleMessage("Créer"),
     "darkModeLabel" : MessageLookupByLibrary.simpleMessage("Mode nuit"),
     "dateLabel" : MessageLookupByLibrary.simpleMessage("Date"),
+    "deny" : MessageLookupByLibrary.simpleMessage("Refuser"),
     "deviceTab" : MessageLookupByLibrary.simpleMessage("Local"),
     "discardDialogMessage" : MessageLookupByLibrary.simpleMessage("Êtes-vous sûr(e) de vouloir terminer l\'édition ?\nToute modification non sauvegardée sera perdue."),
     "discardDialogTitle" : MessageLookupByLibrary.simpleMessage("Confirmation"),
@@ -101,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "playLabel" : MessageLookupByLibrary.simpleMessage("Jouer"),
     "playersLabel" : MessageLookupByLibrary.simpleMessage("joueurs"),
     "popularityLabel" : MessageLookupByLibrary.simpleMessage("Popularité"),
+    "privacyPolicyLabel" : MessageLookupByLibrary.simpleMessage("Politique de confidentialité"),
     "publishLabel" : MessageLookupByLibrary.simpleMessage("Publier"),
     "publishSuccessText" : MessageLookupByLibrary.simpleMessage("Puzzle publié !"),
     "puzzleNotCompletedLocallyText" : MessageLookupByLibrary.simpleMessage("Puzzle non publié car non résolu... :-("),

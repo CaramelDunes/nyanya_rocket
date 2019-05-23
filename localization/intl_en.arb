@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-05-19T21:23:31.401816",
+  "@@last_modified": "2019-05-23T11:04:01.211050",
   "puzzleType": "Puzzle",
   "@puzzleType": {
     "description": "Puzzle type of game.",
@@ -270,7 +270,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "invalidNameText": "Please enter a valid name (between 2 and 24 ASCII characters).",
+  "invalidNameText": "Please enter a valid name.",
   "@invalidNameText": {
     "description": "When entered name is invalid in the new tab of the Editor screen.",
     "type": "text",
@@ -456,6 +456,18 @@
     "type": "text",
     "placeholders": {}
   },
+  "accept": "Accept",
+  "@accept": {
+    "description": "Accept string.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deny": "Deny",
+  "@deny": {
+    "description": "Deny string.",
+    "type": "text",
+    "placeholders": {}
+  },
   "loadingLabel": "Loading...",
   "@loadingLabel": {
     "description": "Loading... label of async loaded data.",
@@ -474,9 +486,9 @@
     "type": "text",
     "placeholders": {}
   },
-  "aboutDialogText": "See our Privacy Policy on the application store page or visit ",
-  "@aboutDialogText": {
-    "description": "Displayed in the About dialog.",
+  "privacyPolicyLabel": "Privacy Policy",
+  "@privacyPolicyLabel": {
+    "description": "Displayed in the drawer.",
     "type": "text",
     "placeholders": {}
   },

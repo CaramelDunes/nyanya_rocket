@@ -662,6 +662,22 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
     );
   }
 
+  String get accept {
+    return Intl.message(
+      'Accept',
+      name: 'accept',
+      desc: 'Accept string.',
+    );
+  }
+
+  String get deny {
+    return Intl.message(
+      'Deny',
+      name: 'deny',
+      desc: 'Deny string.',
+    );
+  }
+
   String get loadingLabel {
     return Intl.message(
       'Loading...',
@@ -686,11 +702,11 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
     );
   }
 
-  String get aboutDialogText {
+  String get privacyPolicyLabel {
     return Intl.message(
-      'See our Privacy Policy on the application store page or visit ',
-      name: 'aboutDialogText',
-      desc: 'Displayed in the About dialog.',
+      'Privacy Policy',
+      name: 'privacyPolicyLabel',
+      desc: 'Displayed in the drawer.',
     );
   }
 

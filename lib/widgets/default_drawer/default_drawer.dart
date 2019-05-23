@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/widgets/privacy_policy_link.dart';
+import 'package:nyanya_rocket/screens/privacy_policy_prompt/privacy_policy_prompt.dart';
 
 class DefaultDrawer extends StatelessWidget {
   const DefaultDrawer({Key key}) : super(key: key);
@@ -72,13 +73,25 @@ class DefaultDrawer extends StatelessWidget {
               Navigator.pushNamed(context, '/settings');
             },
           ),
+          ListTile(
+            leading: Icon(Icons.library_books),
+            title: Text(NyaNyaLocalizations
+                .of(context)
+                .privacyPolicyLabel),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                      const PrivacyPolicyPrompt(askUser: false)));
+            },
+          ),
           AboutListTile(
             icon: Icon(FontAwesomeIcons.questionCircle),
-            aboutBoxChildren: <Widget>[
-              const PrivacyPolicyLink(),
-            ],
+            applicationLegalese:
+                'Made with ❤ by CaramelDunes️\n\n\nPowered by Flutter',
             applicationVersion: '1.0',
-          ),
+          )
         ],
       ),
     );

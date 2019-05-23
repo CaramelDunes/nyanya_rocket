@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/user.dart';
-import 'package:nyanya_rocket/widgets/privacy_policy_link.dart';
+import 'package:nyanya_rocket/screens/privacy_policy_prompt/privacy_policy_prompt.dart';
 import 'package:provider/provider.dart';
 
 class AccountManagement extends StatelessWidget {
@@ -121,11 +121,12 @@ class AccountManagement extends StatelessWidget {
                         }
                       });
                     } else {
-                      _showConfirmDialog(
-                        context,
-                        NyaNyaLocalizations.of(context).signInDialogTitle,
-                        const PrivacyPolicyLink(),
-                      ).then((bool confirmed) {
+                      Navigator.push<bool>(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      PrivacyPolicyPrompt(askUser: true)))
+                          .then((bool confirmed) {
                         if (confirmed != null && confirmed) {
                           user.signInAnonymously();
                         }
