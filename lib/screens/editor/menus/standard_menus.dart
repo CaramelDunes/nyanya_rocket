@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -83,10 +82,4 @@ class StandardMenus {
     EditorTool(type: ToolType.Tile, tile: Rocket(player: PlayerColor.Red)),
     EditorTool(type: ToolType.Tile, tile: Rocket(player: PlayerColor.Green)),
   ]);
-
-  static const EditorMenu eraser = EditorMenu(
-      representative: Icon(FontAwesomeIcons.eraser),
-      subMenu: <EditorTool>[
-        EditorTool(type: ToolType.Eraser),
-      ]);
 }

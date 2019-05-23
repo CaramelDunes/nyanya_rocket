@@ -7,36 +7,31 @@ class EditorGameController extends LocalGameController {
     running = false;
   }
 
-  void placeTile(int x, int y, Tile tile) {
+  void toggleTile(int x, int y, Tile tile) {
     if (game.board.tiles[x][y] is Empty) {
       game.board.tiles[x][y] = tile;
       updateGame();
-    }
-  }
-
-  void clearTile(int x, int y) {
-    if (!running) {
+    } else if (game.board.tiles[x][y].runtimeType == tile.runtimeType) {
       game.board.tiles[x][y] = Empty();
-
-      game.entities
-          .removeWhere((Entity e) => e.position.x == x && e.position.y == y);
-
-      updateGame();
     }
   }
 
-  bool placeEntity(int x, int y, EntityType type, Direction direction) {
+  bool toggleEntity(int x, int y, EntityType type, Direction direction) {
     if (!running) {
       if (game.board.tiles[x][y] is Empty || game.board.tiles[x][y] is Arrow) {
-        if (game.entities
-            .where((Entity entity) =>
-                entity.position.x == x && entity.position.y == y)
-            .isEmpty) {
+        Iterable<Entity> there = game.entities.where((Entity entity) =>
+            entity.position.x == x && entity.position.y == y);
+
+        if (there.isEmpty) {
           game.entities.add(Entity.fromEntityType(
               type, BoardPosition.centered(x, y, direction)));
 
           updateGame();
           return true;
+        } else if ((there.first is Mouse && type == EntityType.Mouse) ||
+            (there.first is Cat && type == EntityType.Cat)) {
+          game.entities.remove(there.first);
+          updateGame();
         }
       }
     }

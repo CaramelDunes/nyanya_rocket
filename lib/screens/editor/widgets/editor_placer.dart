@@ -8,7 +8,7 @@ import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-enum ToolType { Tile, Entity, Wall, Eraser }
+enum ToolType { Tile, Entity, Wall }
 
 class EditorMenu {
   final List<EditorTool> subMenu;
@@ -98,12 +98,12 @@ class _EditorPlacerState extends State<EditorPlacer> {
   void _handleDrop(int x, int y, EditorTool selected) {
     switch (selected.type) {
       case ToolType.Tile:
-        widget.editorGameController.placeTile(x, y, selected.tile);
+        widget.editorGameController.toggleTile(x, y, selected.tile);
         break;
 
       case ToolType.Entity:
         widget.editorGameController
-            .placeEntity(x, y, selected.entityType, selected.direction);
+            .toggleEntity(x, y, selected.entityType, selected.direction);
         break;
 
       case ToolType.Wall:
@@ -122,20 +122,16 @@ class _EditorPlacerState extends State<EditorPlacer> {
 
     switch (selected.type) {
       case ToolType.Tile:
-        widget.editorGameController.placeTile(x, y, selected.tile);
+        widget.editorGameController.toggleTile(x, y, selected.tile);
         break;
 
       case ToolType.Entity:
         widget.editorGameController
-            .placeEntity(x, y, selected.entityType, selected.direction);
+            .toggleEntity(x, y, selected.entityType, selected.direction);
         break;
 
       case ToolType.Wall:
         widget.editorGameController.toggleWall(x, y, selected.direction);
-        break;
-
-      case ToolType.Eraser:
-        widget.editorGameController.clearTile(x, y);
         break;
 
       default:

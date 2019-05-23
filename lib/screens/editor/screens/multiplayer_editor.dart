@@ -76,7 +76,6 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
                 StandardMenus.rockets,
                 StandardMenus.generators,
                 StandardMenus.walls,
-                StandardMenus.eraser,
               ]))
         ],
       ),

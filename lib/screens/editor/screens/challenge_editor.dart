@@ -69,7 +69,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           ]),
           StandardMenus.mice,
           StandardMenus.walls,
-          StandardMenus.eraser,
         ];
         break;
 
@@ -83,7 +82,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           StandardMenus.mice,
           StandardMenus.cats,
           StandardMenus.walls,
-          StandardMenus.eraser,
         ];
         break;
 
@@ -95,7 +93,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           StandardMenus.mice,
           StandardMenus.cats,
           StandardMenus.walls,
-          StandardMenus.eraser,
         ];
         break;
 
@@ -108,7 +105,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           ]),
           StandardMenus.generators,
           StandardMenus.walls,
-          StandardMenus.eraser,
         ];
         break;
 
