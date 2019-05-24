@@ -13,6 +13,7 @@ class EditorGameController extends LocalGameController {
       updateGame();
     } else if (game.board.tiles[x][y].runtimeType == tile.runtimeType) {
       game.board.tiles[x][y] = Empty();
+      updateGame();
     }
   }
 
