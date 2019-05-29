@@ -18,8 +18,10 @@ class TilesDrawer extends StatelessWidget {
         break;
 
       case Generator:
-        return Image.asset('assets/graphics/generator.png',
-            fit: BoxFit.contain);
+        return Image.asset(
+          'assets/graphics/generator.png',
+          fit: BoxFit.contain,
+        );
         break;
 
       case Arrow:
@@ -49,9 +51,7 @@ class TilesDrawer extends StatelessWidget {
         break;
 
       default:
-        return Container(
-          color: Colors.transparent,
-        );
+        return const SizedBox.shrink();
     }
   }
 

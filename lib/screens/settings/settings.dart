@@ -8,12 +8,12 @@ import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
   @override
-  SettingsState createState() {
-    return SettingsState();
+  _SettingsState createState() {
+    return _SettingsState();
   }
 }
 
-class SettingsState extends State<Settings> {
+class _SettingsState extends State<Settings> {
   @override
   void initState() {
     super.initState();

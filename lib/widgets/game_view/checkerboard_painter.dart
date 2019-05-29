@@ -10,8 +10,8 @@ class CheckerboardPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    double xStep = size.width / 12;
-    double yStep = size.height / 9;
+    final double xStep = size.width / 12;
+    final double yStep = size.height / 9;
 
     for (int x = 0; x < 12; x++) {
       for (int y = 0; y < 9; y++) {

@@ -92,6 +92,42 @@ class AccountManagement extends StatelessWidget {
         });
   }
 
+  Widget _buildDisplayNameTile(BuildContext context, User user) {
+    return ListTile(
+      enabled: user.isConnected,
+      title: Text(
+          '${NyaNyaLocalizations.of(context).displayNameLabel}: ${user.displayName ?? ''}'),
+      subtitle:
+          Text(NyaNyaLocalizations.of(context).tapToChangeDisplayNameLabel),
+      onTap: () {
+        _showNameDialog(context, user.displayName).then((String displayName) {
+          if (displayName != null) {
+            user.setDisplayName(displayName).then((StatusCode status) {
+              if (status == StatusCode.Success) {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text(NyaNyaLocalizations.of(context)
+                      .displayNameChangeSuccessText),
+                ));
+              } else {
+                if (status == StatusCode.InvalidArgument) {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text(NyaNyaLocalizations.of(context)
+                        .invalidDisplayNameError),
+                  ));
+                } else if (status == StatusCode.Unauthenticated) {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        NyaNyaLocalizations.of(context).unauthenticatedError),
+                  ));
+                }
+              }
+            });
+          }
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,42 +170,7 @@ class AccountManagement extends StatelessWidget {
                     }
                   },
                 ),
-                ListTile(
-                  enabled: user.isConnected,
-                  title: Text(
-                      '${NyaNyaLocalizations.of(context).displayNameLabel}: ${user.displayName ?? ''}'),
-                  subtitle: Text(NyaNyaLocalizations.of(context)
-                      .tapToChangeDisplayNameLabel),
-                  onTap: () {
-                    _showNameDialog(context, user.displayName)
-                        .then((String displayName) {
-                      if (displayName != null) {
-                        user
-                            .setDisplayName(displayName)
-                            .then((StatusCode status) {
-                          if (status == StatusCode.Success) {
-                            Scaffold.of(innerContext).showSnackBar(SnackBar(
-                              content: Text(NyaNyaLocalizations.of(innerContext)
-                                  .displayNameChangeSuccessText),
-                            ));
-                          } else if (status != StatusCode.Success) {
-                            if (status == StatusCode.InvalidArgument) {
-                              Scaffold.of(innerContext).showSnackBar(SnackBar(
-                                content: Text(NyaNyaLocalizations.of(context)
-                                    .invalidDisplayNameError),
-                              ));
-                            } else if (status == StatusCode.Unauthenticated) {
-                              Scaffold.of(innerContext).showSnackBar(SnackBar(
-                                content: Text(NyaNyaLocalizations.of(context)
-                                    .unauthenticatedError),
-                              ));
-                            }
-                          }
-                        });
-                      }
-                    });
-                  },
-                )
+                _buildDisplayNameTile(innerContext, user)
               ],
             ),
       ),
