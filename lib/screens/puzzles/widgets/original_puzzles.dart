@@ -193,16 +193,61 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
     }
   }
 
+  Widget _buildPuzzleTile(int i) {
+    return ListTile(
+      key: ValueKey(i),
+      leading: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Text(
+          '${i + 1}',
+          style: TextStyle(fontSize: 15),
+          textAlign: TextAlign.center,
+        ),
+      ),
+      title: Text(OriginalPuzzles.puzzles[i].name),
+      subtitle: Text(_difficultyFromIndex(context, i)),
+      trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+        Visibility(
+          visible: _starred.contains(i),
+          child: Icon(
+            Icons.star,
+            color: Theme.of(context).accentColor,
+          ),
+        ),
+        Visibility(
+          visible: _cleared.contains(i),
+          child: Icon(
+            Icons.check,
+            color: Colors.green,
+          ),
+        ),
+      ]),
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute<OverlayPopData>(
+                builder: (context) => Puzzle(
+                      puzzle: OriginalPuzzles.puzzles[i],
+                      onWin: (bool starred) => _handlePuzzleWin(i, starred),
+                      hasNext: i != OriginalPuzzles.puzzles.length,
+                    )))
+            .then((OverlayPopData popData) {
+          if (popData != null) {
+            if (popData.playNext) {
+              _openNext(i);
+            }
+          }
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<int> puzzleIndices;
+    List<int> puzzleIndices =
+        Iterable<int>.generate(OriginalPuzzles.puzzles.length).toList();
 
-    if (_showCompleted) {
-      puzzleIndices =
-          Iterable<int>.generate(OriginalPuzzles.puzzles.length).toList();
-    } else {
-      puzzleIndices = SplayTreeSet<int>.from(
-              Iterable<int>.generate(OriginalPuzzles.puzzles.length))
+    if (!_showCompleted) {
+      puzzleIndices = SplayTreeSet<int>.from(puzzleIndices)
           .difference(_cleared)
           .toList(growable: false);
     }
@@ -210,57 +255,10 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
     return Column(
       children: <Widget>[
         Expanded(
-          child: ListView.builder(
-              itemCount: puzzleIndices.length,
-              itemBuilder: (context, i) => ListTile(
-                    key: ValueKey(puzzleIndices[i]),
-                    leading: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Text(
-                        '${puzzleIndices[i] + 1}',
-                        style: TextStyle(fontSize: 15),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    title: Text(OriginalPuzzles.puzzles[puzzleIndices[i]].name),
-                    subtitle: Text(_difficultyFromIndex(context, i)),
-                    trailing:
-                        Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                      Visibility(
-                        visible: _starred.contains(puzzleIndices[i]),
-                        child: Icon(
-                          Icons.star,
-                          color: Theme.of(context).accentColor,
-                        ),
-                      ),
-                      Visibility(
-                        visible: _cleared.contains(puzzleIndices[i]),
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ]),
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute<OverlayPopData>(
-                              builder: (context) => Puzzle(
-                                    puzzle: OriginalPuzzles.puzzles[i],
-                                    onWin: (bool starred) =>
-                                        _handlePuzzleWin(i, starred),
-                                    hasNext:
-                                        i != OriginalPuzzles.puzzles.length,
-                                  )))
-                          .then((OverlayPopData popData) {
-                        if (popData != null) {
-                          if (popData.playNext) {
-                            _openNext(i);
-                          }
-                        }
-                      });
-                    },
-                  )),
-        ),
+            child: ListView.builder(
+                itemCount: puzzleIndices.length,
+                itemBuilder: (context, i) =>
+                    _buildPuzzleTile(puzzleIndices[i]))),
         CompletionIndicator(
           showCompleted: _showCompleted,
           completedRatio: _cleared.length / OriginalPuzzles.puzzles.length,
