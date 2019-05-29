@@ -1,51 +1,39 @@
+import 'dart:collection';
+
 import 'package:nyanya_rocket/screens/challenges/tabs/original_challenges.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChallengeProgressionManager {
-  List<bool> _statuses =
-      List.filled(OriginalChallenges.challenges.length, false);
-  List<Duration> _times =
-      List.filled(OriginalChallenges.challenges.length, Duration());
-  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  static final Future<SharedPreferences> prefs =
+      SharedPreferences.getInstance();
 
-  static String clearedKeyOf(int i) => "challenge.original.$i.cleared";
-  static String timeKeyOf(int i) => "challenge.original.$i.time";
+  static String _timeKeyOf(int i) => "challenge.original.$i.time";
 
-  Future<void> loadStatuses() async {
-    SharedPreferences prefs = await this.prefs;
+  static Future<SplayTreeSet<int>> getCleared() async {
+    SharedPreferences prefs = await ChallengeProgressionManager.prefs;
+    SplayTreeSet<int> cleared = SplayTreeSet();
 
-    for (int i = 0; i < _statuses.length; i += 1) {
-      _statuses[i] = prefs.getBool(clearedKeyOf(i)) ?? false;
-
-      if (_statuses[i]) {
-        _times[i] = Duration(milliseconds: prefs.getInt(timeKeyOf(i)) ?? 0);
+    for (int i = 0; i < OriginalChallenges.challenges.length; i += 1) {
+      if (prefs.getInt(_timeKeyOf(i)) > 0) {
+        cleared.add(i);
       }
     }
-
-    return;
+    return cleared;
   }
 
-  Future<void> _saveStatuses() async {
-    SharedPreferences prefs = await this.prefs;
+  static Future<List<Duration>> getTimes() async {
+    SharedPreferences prefs = await ChallengeProgressionManager.prefs;
+    List<Duration> times = List(OriginalChallenges.challenges.length);
 
-    for (int i = 0; i < _statuses.length; i += 1) {
-      prefs.setBool(clearedKeyOf(i), _statuses[i]);
-
-      if (_statuses[i]) {
-        prefs.setInt(timeKeyOf(i), _times[i].inMilliseconds);
-      }
+    for (int i = 0; i < OriginalChallenges.challenges.length; i += 1) {
+      times[i] = Duration(milliseconds: prefs.getInt(_timeKeyOf(i)) ?? 0);
     }
+
+    return times;
   }
 
-  bool hasCleared(int i) => _statuses[i];
-  Duration timeOf(int i) => _times[i];
-
-  void setCleared(int i, [Duration duration = Duration.zero]) {
-    if (!_statuses[i] || _times[i] > duration) {
-      _times[i] = duration;
-    }
-
-    _statuses[i] = duration.inSeconds != 0;
-    _saveStatuses();
+  static Future<void> setTime(int i, Duration time) async {
+    SharedPreferences prefs = await ChallengeProgressionManager.prefs;
+    return prefs.setInt(_timeKeyOf(i), time.inMilliseconds).then((bool _) {});
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/challenge_progression_manager.dart';
@@ -139,28 +141,37 @@ class OriginalChallenges extends StatefulWidget {
 }
 
 class _OriginalChallengesState extends State<OriginalChallenges> {
-  int _clearedCount = 0;
   bool _showCompleted = false;
+  SplayTreeSet<int> _cleared = SplayTreeSet();
+  List<Duration> _times =
+      List.filled(OriginalChallenges.challenges.length, Duration.zero);
 
   @override
   void initState() {
     super.initState();
 
-    OriginalChallenges.progression.loadStatuses().then((void whatever) {
-      for (int i = 0; i < OriginalChallenges.challenges.length; i++) {
-        if (OriginalChallenges.progression.hasCleared(i)) {
-          _clearedCount++;
-        }
-      }
+    ChallengeProgressionManager.getTimes().then((List<Duration> times) {
+      _cleared = SplayTreeSet<int>.from(Map.fromEntries(times
+          .asMap()
+          .entries
+          .where((MapEntry<int, Duration> entry) =>
+              entry.value.inMilliseconds > 0)).keys);
 
-      setState(() {});
+      setState(() {
+        _times = times;
+      });
     });
   }
 
   void _handleChallengeWin(int i, Duration time) {
-    setState(() {
-      OriginalChallenges.progression.setCleared(i, time);
-    });
+    if (_times[i].inMilliseconds == 0 || time < _times[i]) {
+      setState(() {
+        _times[i] = time;
+        _cleared.add(i);
+      });
+
+      ChallengeProgressionManager.setTime(i, time);
+    }
   }
 
   void _openNext(int i) {
@@ -188,69 +199,72 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
     }
   }
 
+  Widget _buildChallengeTile(int i) {
+    return ListTile(
+      title: Text(
+          OriginalChallenges.challenges[i].type.toLocalizedString(context) +
+              OriginalChallenges.challenges[i].name),
+      subtitle: Text(
+          OriginalChallenges.challenges[i].type.toLocalizedString(context)),
+      trailing: Visibility(
+        visible: _cleared.contains(i),
+        child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          Text(
+              '${_times[i].inSeconds}.${_times[i].inMilliseconds % 1000 ~/ 10}s'),
+          Icon(
+            Icons.check,
+            color: Colors.green,
+          )
+        ]),
+      ),
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute<OverlayPopData>(
+                builder: (context) => Challenge(
+                      hasNext: i != OriginalChallenges.challenges.length - 1,
+                      challenge: ChallengeData(
+                          type: OriginalChallenges.challenges[i].type,
+                          gameData: OriginalChallenges.challenges[i].gameData,
+                          author: OriginalChallenges.challenges[i].author,
+                          name: OriginalChallenges.challenges[i].type
+                                  .toLocalizedString(context) +
+                              OriginalChallenges.challenges[i].name),
+                      onWin: (Duration time) => _handleChallengeWin(i, time),
+                    )))
+            .then((OverlayPopData popData) {
+          if (popData != null) {
+            if (popData.playNext) {
+              _openNext(i);
+            }
+          }
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<int> challengeIndices =
+        Iterable<int>.generate(OriginalChallenges.challenges.length)
+            .toList(growable: false);
+
+    if (!_showCompleted) {
+      challengeIndices = SplayTreeSet<int>.from(challengeIndices)
+          .difference(_cleared)
+          .toList(growable: false);
+    }
+
     return Column(
       children: <Widget>[
         Expanded(
           child: ListView.builder(
-              itemCount: OriginalChallenges.challenges.length,
-              itemBuilder: (context, i) => Visibility(
-                  visible: _showCompleted ||
-                      !OriginalChallenges.progression.hasCleared(i),
-                  child: ListTile(
-                    title: Text(OriginalChallenges.challenges[i].type
-                            .toLocalizedString(context) +
-                        OriginalChallenges.challenges[i].name),
-                    subtitle: Text(OriginalChallenges.challenges[i].type
-                        .toLocalizedString(context)),
-                    trailing: Visibility(
-                      visible: OriginalChallenges.progression.hasCleared(i),
-                      child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                                '${OriginalChallenges.progression.timeOf(i).inSeconds}.${OriginalChallenges.progression.timeOf(i).inMilliseconds % 1000 ~/ 10}s'),
-                            Icon(
-                              Icons.check,
-                              color: Colors.green,
-                            )
-                          ]),
-                    ),
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute<OverlayPopData>(
-                              builder: (context) => Challenge(
-                                    hasNext: i !=
-                                        OriginalChallenges.challenges.length -
-                                            1,
-                                    challenge: ChallengeData(
-                                        type: OriginalChallenges
-                                            .challenges[i].type,
-                                        gameData: OriginalChallenges
-                                            .challenges[i].gameData,
-                                        author: OriginalChallenges
-                                            .challenges[i].author,
-                                        name: OriginalChallenges
-                                                .challenges[i].type
-                                                .toLocalizedString(context) +
-                                            OriginalChallenges
-                                                .challenges[i].name),
-                                    onWin: (Duration time) =>
-                                        _handleChallengeWin(i, time),
-                                  )))
-                          .then((OverlayPopData popData) {
-                        if (popData != null) {
-                          if (popData.playNext) {
-                            _openNext(i);
-                          }
-                        }
-                      });
-                    },
-                  ))),
+              itemCount: challengeIndices.length,
+              itemBuilder: (context, i) =>
+                  _buildChallengeTile(challengeIndices[i])),
         ),
         CompletionIndicator(
-          completedRatio: _clearedCount / OriginalChallenges.challenges.length,
+          completedRatio:
+              _cleared.length / OriginalChallenges.challenges.length,
           showCompleted: _showCompleted,
           onChanged: (bool value) {
             setState(() {
