@@ -39,9 +39,9 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final DarkMode _darkMode = DarkMode(false);
-  final Language _language = Language('en');
-  final FirstRun _firstRun = FirstRun(true);
+  final DarkMode _darkMode = DarkMode();
+  final Language _language = Language('auto');
+  final FirstRun _firstRun = FirstRun();
   final User _user = User();
 
   @override
@@ -75,7 +75,7 @@ class _AppState extends State<App> {
         ChangeNotifierProvider.value(notifier: _language),
         // TODO Move this to the What's New tab
         ChangeNotifierProvider.value(notifier: _firstRun),
-        ChangeNotifierProvider.value(notifier: _user)
+        ChangeNotifierProvider.value(notifier: _user),
       ],
       child: Consumer2<DarkMode, Language>(
         builder: (context2, darkMode, language, _) => MaterialApp(
