@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/challenge_progression_manager.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
+import 'package:nyanya_rocket/widgets/completion_indicator.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
 class OriginalChallenges extends StatefulWidget {
@@ -138,11 +139,20 @@ class OriginalChallenges extends StatefulWidget {
 }
 
 class _OriginalChallengesState extends State<OriginalChallenges> {
+  int _clearedCount = 0;
+  bool _showCompleted = false;
+
   @override
   void initState() {
     super.initState();
 
     OriginalChallenges.progression.loadStatuses().then((void whatever) {
+      for (int i = 0; i < OriginalChallenges.challenges.length; i++) {
+        if (OriginalChallenges.progression.hasCleared(i)) {
+          _clearedCount++;
+        }
+      }
+
       setState(() {});
     });
   }
@@ -180,52 +190,75 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-        separatorBuilder: (context, int) => Divider(),
-        itemCount: OriginalChallenges.challenges.length,
-        itemBuilder: (context, i) => ListTile(
-              title: Text(OriginalChallenges.challenges[i].type
-                      .toLocalizedString(context) +
-                  OriginalChallenges.challenges[i].name),
-              subtitle: Text(OriginalChallenges.challenges[i].type
-                  .toLocalizedString(context)),
-              trailing: Visibility(
-                visible: OriginalChallenges.progression.hasCleared(i),
-                child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                  Text(
-                      '${OriginalChallenges.progression.timeOf(i).inSeconds}.${OriginalChallenges.progression.timeOf(i).inMilliseconds % 1000 ~/ 10}s'),
-                  Icon(
-                    Icons.check,
-                    color: Colors.green,
-                  )
-                ]),
-              ),
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute<OverlayPopData>(
-                        builder: (context) => Challenge(
-                              hasNext:
-                                  i != OriginalChallenges.challenges.length - 1,
-                              challenge: ChallengeData(
-                                  type: OriginalChallenges.challenges[i].type,
-                                  gameData:
-                                      OriginalChallenges.challenges[i].gameData,
-                                  author:
-                                      OriginalChallenges.challenges[i].author,
-                                  name: OriginalChallenges.challenges[i].type
-                                          .toLocalizedString(context) +
-                                      OriginalChallenges.challenges[i].name),
-                              onWin: (Duration time) =>
-                                  _handleChallengeWin(i, time),
-                            )))
-                    .then((OverlayPopData popData) {
-                  if (popData != null) {
-                    if (popData.playNext) {
-                      _openNext(i);
-                    }
-                  }
-                });
-              },
-            ));
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: ListView.builder(
+              itemCount: OriginalChallenges.challenges.length,
+              itemBuilder: (context, i) => Visibility(
+                  visible: _showCompleted ||
+                      !OriginalChallenges.progression.hasCleared(i),
+                  child: ListTile(
+                    title: Text(OriginalChallenges.challenges[i].type
+                            .toLocalizedString(context) +
+                        OriginalChallenges.challenges[i].name),
+                    subtitle: Text(OriginalChallenges.challenges[i].type
+                        .toLocalizedString(context)),
+                    trailing: Visibility(
+                      visible: OriginalChallenges.progression.hasCleared(i),
+                      child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                                '${OriginalChallenges.progression.timeOf(i).inSeconds}.${OriginalChallenges.progression.timeOf(i).inMilliseconds % 1000 ~/ 10}s'),
+                            Icon(
+                              Icons.check,
+                              color: Colors.green,
+                            )
+                          ]),
+                    ),
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute<OverlayPopData>(
+                              builder: (context) => Challenge(
+                                    hasNext: i !=
+                                        OriginalChallenges.challenges.length -
+                                            1,
+                                    challenge: ChallengeData(
+                                        type: OriginalChallenges
+                                            .challenges[i].type,
+                                        gameData: OriginalChallenges
+                                            .challenges[i].gameData,
+                                        author: OriginalChallenges
+                                            .challenges[i].author,
+                                        name: OriginalChallenges
+                                                .challenges[i].type
+                                                .toLocalizedString(context) +
+                                            OriginalChallenges
+                                                .challenges[i].name),
+                                    onWin: (Duration time) =>
+                                        _handleChallengeWin(i, time),
+                                  )))
+                          .then((OverlayPopData popData) {
+                        if (popData != null) {
+                          if (popData.playNext) {
+                            _openNext(i);
+                          }
+                        }
+                      });
+                    },
+                  ))),
+        ),
+        CompletionIndicator(
+          completedRatio: _clearedCount / OriginalChallenges.challenges.length,
+          showCompleted: _showCompleted,
+          onChanged: (bool value) {
+            setState(() {
+              _showCompleted = value;
+            });
+          },
+        )
+      ],
+    );
   }
 }

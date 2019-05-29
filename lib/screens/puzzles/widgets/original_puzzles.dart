@@ -5,6 +5,7 @@ import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_progression_manager.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
+import 'package:nyanya_rocket/widgets/completion_indicator.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
 class OriginalPuzzles extends StatefulWidget {
@@ -126,8 +127,8 @@ class OriginalPuzzles extends StatefulWidget {
 }
 
 class _OriginalPuzzlesState extends State<OriginalPuzzles> {
-  bool _showCleared = false;
   int _clearedCount = 0;
+  bool _showCompleted = false;
 
   @override
   void initState() {
@@ -197,7 +198,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
               itemCount: OriginalPuzzles.puzzles.length,
               itemBuilder: (context, i) => Visibility(
                   key: ValueKey(OriginalPuzzles.puzzles[i].name),
-                  visible: _showCleared ||
+                  visible: _showCompleted ||
                       !OriginalPuzzles.progression.hasCleared(i),
                   child: ListTile(
                     leading: Padding(
@@ -247,35 +248,15 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
                     },
                   ))),
         ),
-        Container(
-          color: Colors.grey.withOpacity(0.3),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                  flex: 1,
-                  child: Container(
-                      child: Center(
-                          child: Text(
-                              '${(_clearedCount / OriginalPuzzles.puzzles.length * 100).floor()}' +
-                                  NyaNyaLocalizations.of(context)
-                                      .completedLabel)))),
-              Expanded(
-                flex: 2,
-                child: CheckboxListTile(
-                  value: _showCleared,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _showCleared = value;
-                    });
-                  },
-                  title: Text(NyaNyaLocalizations.of(context)
-                      .showCompletedLabel
-                      .toUpperCase()),
-                ),
-              ),
-            ],
-          ),
-        ),
+        CompletionIndicator(
+          showCompleted: _showCompleted,
+          completedRatio: _clearedCount / OriginalPuzzles.puzzles.length,
+          onChanged: (bool value) {
+            setState(() {
+              _showCompleted = value;
+            });
+          },
+        )
       ],
     );
   }
