@@ -95,19 +95,24 @@ class CreateTabState extends State<CreateTab>
                     value: _challengeType,
                     items: <DropdownMenuItem<ChallengeType>>[
                       DropdownMenuItem(
-                        child: Text(ChallengeType.GetMice.toString()),
+                        child: Text(
+                            ChallengeType.GetMice.toLocalizedString(context)),
                         value: ChallengeType.GetMice,
                       ),
                       DropdownMenuItem(
-                        child: Text(ChallengeType.RunAway.toString()),
+                        child: Text(
+                            ChallengeType.RunAway.toLocalizedString(context)),
                         value: ChallengeType.RunAway,
                       ),
                       DropdownMenuItem(
-                        child: Text(ChallengeType.LunchTime.toString()),
+                        child: Text(
+                            ChallengeType.LunchTime.toLocalizedString(context)),
                         value: ChallengeType.LunchTime,
                       ),
                       DropdownMenuItem(
-                        child: Text(ChallengeType.OneHundredMice.toString()),
+                        child: Text(
+                            ChallengeType.OneHundredMice.toLocalizedString(
+                                context)),
                         value: ChallengeType.OneHundredMice,
                       ),
                     ],
