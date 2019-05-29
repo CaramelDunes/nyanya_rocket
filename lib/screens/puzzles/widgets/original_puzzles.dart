@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -9,9 +10,6 @@ import 'package:nyanya_rocket/widgets/completion_indicator.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
 class OriginalPuzzles extends StatefulWidget {
-  static final PuzzleProgressionManager progression =
-      PuzzleProgressionManager();
-
   static final List<NamedPuzzleData> puzzles = jsons
       .map<NamedPuzzleData>(
           (String json) => NamedPuzzleData.fromJson(jsonDecode(json)))
@@ -127,32 +125,38 @@ class OriginalPuzzles extends StatefulWidget {
 }
 
 class _OriginalPuzzlesState extends State<OriginalPuzzles> {
-  int _clearedCount = 0;
   bool _showCompleted = false;
+  SplayTreeSet<int> _cleared = SplayTreeSet();
+  SplayTreeSet<int> _starred = SplayTreeSet();
 
   @override
   void initState() {
     super.initState();
 
-    OriginalPuzzles.progression.loadStatuses().then((void whatever) {
-      for (int i = 0; i < OriginalPuzzles.puzzles.length; i++) {
-        if (OriginalPuzzles.progression.hasCleared(i)) {
-          _clearedCount++;
-        }
-      }
+    PuzzleProgressionManager.getCleared().then((SplayTreeSet<int> cleared) {
+      setState(() {
+        _cleared = cleared;
+      });
+    });
 
-      setState(() {});
+    PuzzleProgressionManager.getStarred().then((SplayTreeSet<int> starred) {
+      setState(() {
+        _starred = starred;
+      });
     });
   }
 
   void _handlePuzzleWin(int i, bool starred) {
     setState(() {
-      if (!OriginalPuzzles.progression.hasCleared(i)) {
-        _clearedCount++;
-        OriginalPuzzles.progression.setCleared(i);
+      if (!_cleared.contains(i)) {
+        _cleared.add(i);
+        PuzzleProgressionManager.setCleared(i);
       }
 
-      OriginalPuzzles.progression.setStarred(i, starred);
+      if (!_starred.contains(i)) {
+        _starred.add(i);
+        PuzzleProgressionManager.setStarred(i, starred);
+      }
     });
   }
 
@@ -191,37 +195,46 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
 
   @override
   Widget build(BuildContext context) {
+    List<int> puzzleIndices;
+
+    if (_showCompleted) {
+      puzzleIndices =
+          Iterable<int>.generate(OriginalPuzzles.puzzles.length).toList();
+    } else {
+      puzzleIndices = SplayTreeSet<int>.from(
+              Iterable<int>.generate(OriginalPuzzles.puzzles.length))
+          .difference(_cleared)
+          .toList(growable: false);
+    }
+
     return Column(
       children: <Widget>[
         Expanded(
           child: ListView.builder(
-              itemCount: OriginalPuzzles.puzzles.length,
-              itemBuilder: (context, i) => Visibility(
-                  key: ValueKey(OriginalPuzzles.puzzles[i].name),
-                  visible: _showCompleted ||
-                      !OriginalPuzzles.progression.hasCleared(i),
-                  child: ListTile(
+              itemCount: puzzleIndices.length,
+              itemBuilder: (context, i) => ListTile(
+                    key: ValueKey(puzzleIndices[i]),
                     leading: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Text(
-                        '${i + 1}',
+                        '${puzzleIndices[i] + 1}',
                         style: TextStyle(fontSize: 15),
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    title: Text(OriginalPuzzles.puzzles[i].name),
+                    title: Text(OriginalPuzzles.puzzles[puzzleIndices[i]].name),
                     subtitle: Text(_difficultyFromIndex(context, i)),
                     trailing:
                         Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                       Visibility(
-                        visible: OriginalPuzzles.progression.hasStarred(i),
+                        visible: _starred.contains(puzzleIndices[i]),
                         child: Icon(
                           Icons.star,
                           color: Theme.of(context).accentColor,
                         ),
                       ),
                       Visibility(
-                        visible: OriginalPuzzles.progression.hasCleared(i),
+                        visible: _cleared.contains(puzzleIndices[i]),
                         child: Icon(
                           Icons.check,
                           color: Colors.green,
@@ -246,11 +259,11 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
                         }
                       });
                     },
-                  ))),
+                  )),
         ),
         CompletionIndicator(
           showCompleted: _showCompleted,
-          completedRatio: _clearedCount / OriginalPuzzles.puzzles.length,
+          completedRatio: _cleared.length / OriginalPuzzles.puzzles.length,
           onChanged: (bool value) {
             setState(() {
               _showCompleted = value;
