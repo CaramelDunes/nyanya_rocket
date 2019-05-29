@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
+import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/screens/challenges/tabs/local_challenges.dart';
 import 'package:nyanya_rocket/screens/editor/screens/challenge_editor.dart';
@@ -111,8 +111,9 @@ class EditTabState extends State<EditTab> {
                     icon: Icon(Icons.content_copy),
                     onPressed: () {
                       LocalChallenges.store.readChallenge(uuidList[i]).then(
-                          (ChallengeData challenge) => Clipboard.setData(
-                              ClipboardData(text: challenge.gameData)));
+                          (NamedChallengeData challenge) => Clipboard.setData(
+                              ClipboardData(
+                                  text: challenge.challengeData.gameData)));
                     },
                   ),
                   IconButton(
@@ -127,8 +128,8 @@ class EditTabState extends State<EditTab> {
               ),
               onTap: () {
                 LocalChallenges.store.readChallenge(uuidList[i]).then(
-                    (ChallengeData challenge) => Navigator.of(context).push(
-                        MaterialPageRoute(
+                    (NamedChallengeData challenge) => Navigator.of(context)
+                        .push(MaterialPageRoute(
                             builder: (context) => ChallengeEditor(
                                 challenge: challenge, uuid: uuidList[i]))));
               },

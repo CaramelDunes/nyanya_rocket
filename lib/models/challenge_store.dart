@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:nyanya_rocket/models/challenge_data.dart';
+import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -66,7 +66,8 @@ class ChallengeStore {
     return true;
   }
 
-  Future<bool> _writeChallenge(String uuid, ChallengeData challengeData) async {
+  Future<bool> _writeChallenge(
+      String uuid, NamedChallengeData challengeData) async {
     Directory directory = await getApplicationDocumentsDirectory();
 
     File challengeFile = File('${directory.path}/challenges/$uuid.txt');
@@ -84,7 +85,7 @@ class ChallengeStore {
     return true;
   }
 
-  Future<String> saveNewChallenge(ChallengeData challengeData) async {
+  Future<String> saveNewChallenge(NamedChallengeData challengeData) async {
     await readRegistry();
 
     String newUuid = uuid.v4();
@@ -100,7 +101,8 @@ class ChallengeStore {
     return '';
   }
 
-  Future<bool> updateChallenge(String uuid, ChallengeData challengeData) async {
+  Future<bool> updateChallenge(
+      String uuid, NamedChallengeData challengeData) async {
     await readRegistry();
 
     if (_entries.containsKey(uuid) &&
@@ -112,7 +114,7 @@ class ChallengeStore {
     return false;
   }
 
-  Future<ChallengeData> readChallenge(String uuid) async {
+  Future<NamedChallengeData> readChallenge(String uuid) async {
     if (_entries.containsKey(uuid)) {
       Directory directory = await getApplicationDocumentsDirectory();
 
@@ -120,8 +122,8 @@ class ChallengeStore {
 
       if (challengeFile.existsSync()) {
         var readAsStringSync = challengeFile.readAsStringSync();
-        ChallengeData data =
-            ChallengeData.fromJson(jsonDecode(readAsStringSync));
+        NamedChallengeData data =
+            NamedChallengeData.fromJson(jsonDecode(readAsStringSync));
 
         return data;
       }

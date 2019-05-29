@@ -1,10 +1,16 @@
 import 'dart:collection';
+import 'dart:convert';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/models/challenge_data.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_store.dart';
+import 'package:nyanya_rocket/models/named_challenge_data.dart';
+import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
 import 'package:nyanya_rocket/widgets/empty_list.dart';
+import 'package:nyanya_rocket/widgets/success_overlay.dart';
+import 'package:provider/provider.dart';
 
 class LocalChallenges extends StatefulWidget {
   static final ChallengeStore store = ChallengeStore();
@@ -27,8 +33,40 @@ class _LocalChallengesState extends State<LocalChallenges> {
         }));
   }
 
+  void _verifyAndPublish(BuildContext context, NamedChallengeData challenge) {
+    Navigator.push<OverlayPopData>(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => Challenge(
+                  challenge: challenge,
+                  hasNext: false,
+                ))).then((OverlayPopData popData) {
+      if (popData != null) {
+        CloudFunctions.instance
+            .getHttpsCallable(functionName: 'publishChallenge')
+            .call({
+          'name': challenge.name,
+          'challenge_data': jsonEncode(challenge.challengeData.toJson()),
+        }).then((HttpsCallableResult result) {
+          print(result.data);
+        });
+
+        final snackBar = SnackBar(
+            content: Text(NyaNyaLocalizations.of(context).publishSuccessText));
+        Scaffold.of(context).showSnackBar(snackBar);
+      } else {
+        final snackBar = SnackBar(
+            content: Text(
+                NyaNyaLocalizations.of(context).puzzleNotCompletedLocallyText));
+        Scaffold.of(context).showSnackBar(snackBar);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<User>(context);
+
     List<String> uuidList = _challenges.keys.toList();
 
     if (uuidList.isEmpty) {
@@ -42,10 +80,35 @@ class _LocalChallengesState extends State<LocalChallenges> {
               title: Text(_challenges[uuidList[i]]),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+//                  IconButton(
+//                    icon: Icon(Icons.share),
+//                    onPressed: () {
+//                      Share.share(
+//                          'Check out this new puzzle I made! nyanya://puzzle/superjsonbase64');
+//                    },
+//                  ),
+                  IconButton(
+                    icon: Icon(Icons.publish),
+                    tooltip: NyaNyaLocalizations.of(context).publishLabel,
+                    onPressed: () {
+                      if (user.isConnected) {
+                        LocalChallenges.store.readChallenge(uuidList[i]).then(
+                            (NamedChallengeData puzzle) =>
+                                _verifyAndPublish(context, puzzle));
+                      } else {
+                        final snackBar = SnackBar(
+                            content: Text(NyaNyaLocalizations.of(context)
+                                .loginPromptText));
+                        Scaffold.of(context).showSnackBar(snackBar);
+                      }
+                    },
+                  ),
+                ],
               ),
               onTap: () {
                 LocalChallenges.store.readChallenge(uuidList[i]).then(
-                    (ChallengeData challenge) =>
+                    (NamedChallengeData challenge) =>
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => Challenge(
                                   challenge: challenge,

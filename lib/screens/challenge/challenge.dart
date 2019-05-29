@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
+import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
 import 'package:nyanya_rocket/screens/challenge/widgets/arrow_drawer.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
@@ -11,7 +12,7 @@ import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class Challenge extends StatefulWidget {
-  final ChallengeData challenge;
+  final NamedChallengeData challenge;
   final void Function(Duration time) onWin;
   final bool hasNext;
 
@@ -35,7 +36,7 @@ class _ChallengeState extends State<Challenge> {
     super.initState();
 
     _challengeController = ChallengeGameController.proxy(
-        challenge: widget.challenge, onWin: _handleWin);
+        challenge: widget.challenge.challengeData, onWin: _handleWin);
     _availableArrows = ArrowDrawer(
       challengeGameController: _challengeController,
     );

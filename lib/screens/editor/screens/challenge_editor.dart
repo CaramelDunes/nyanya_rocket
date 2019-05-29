@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/challenge_store.dart';
+import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
@@ -12,7 +13,7 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class ChallengeEditor extends StatefulWidget {
   static final ChallengeStore store = ChallengeStore();
 
-  final ChallengeData challenge;
+  final NamedChallengeData challenge;
   final String uuid;
 
   ChallengeEditor({
@@ -35,7 +36,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
     super.initState();
 
     _editorGameController =
-        EditorGameController(game: widget.challenge.getGame());
+        EditorGameController(game: widget.challenge.challengeData.getGame());
 
     uuid = widget.uuid;
   }
@@ -47,13 +48,12 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
     _editorGameController.close();
   }
 
-  ChallengeData _buildChallengeData() {
+  NamedChallengeData _buildChallengeData() {
     dynamic gameJson = _editorGameController.game.toJson();
 
-    return ChallengeData(
+    return NamedChallengeData(
       name: widget.challenge.name,
-      author: 'Anonymous',
-      type: widget.challenge.type,
+      type: widget.challenge.challengeData.type,
       gameData: jsonEncode(gameJson),
     );
   }
@@ -126,7 +126,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           Expanded(
               child: EditorPlacer(
             editorGameController: _editorGameController,
-            menus: _menusForType(widget.challenge.type),
+            menus: _menusForType(widget.challenge.challengeData.type),
             onPlay: () => _handlePlay(context),
             onSave: _handleSave,
           )),

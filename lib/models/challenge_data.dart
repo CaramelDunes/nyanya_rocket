@@ -44,6 +44,7 @@ class ChallengeType {
   static const RunAway = const ChallengeType._internal(1);
   static const LunchTime = const ChallengeType._internal(2);
   static const OneHundredMice = const ChallengeType._internal(3);
+
 //  static const CatSoccer = const ChallengeType._internal(4);
 
   static const List<ChallengeType> values = const <ChallengeType>[
@@ -64,35 +65,20 @@ class ChallengeType {
 }
 
 class ChallengeData {
-  final String name;
-  final String author;
   final String gameData;
   final ChallengeType type;
 
-  ChallengeData(
-      {@required this.name,
-      @required this.author,
-      @required this.gameData,
-      @required this.type});
+  ChallengeData({@required this.gameData, @required this.type});
 
-  ChallengeData.withBorder(
-      {@required this.name, @required this.author, @required this.type})
+  ChallengeData.withBorder({@required this.type})
       : gameData = jsonEncode((Game()..board = Board.withBorder()).toJson());
 
   Game getGame() => Game.fromJson(jsonDecode(gameData));
 
   static ChallengeData fromJson(Map<String, dynamic> json) {
     return ChallengeData(
-        name: json['name'],
-        author: json['author'],
-        gameData: json['gameData'],
-        type: ChallengeType.values[json['type']]);
+        gameData: json['gameData'], type: ChallengeType.values[json['type']]);
   }
 
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'author': author,
-        'gameData': gameData,
-        'type': type.index
-      };
+  Map<String, dynamic> toJson() => {'gameData': gameData, 'type': type.index};
 }
