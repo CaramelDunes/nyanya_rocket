@@ -42,6 +42,6 @@ class PuzzleProgressionManager {
 
   static Future<void> setStarred(int i, [bool starred = true]) async {
     SharedPreferences prefs = await PuzzleProgressionManager.prefs;
-    return prefs.setBool(_clearedKeyOf(i), starred).then((bool _) {});
+    return prefs.setBool(_starredKeyOf(i), starred).then((bool _) {});
   }
 }

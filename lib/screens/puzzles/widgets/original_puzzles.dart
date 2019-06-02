@@ -153,7 +153,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
         PuzzleProgressionManager.setCleared(i);
       }
 
-      if (!_starred.contains(i)) {
+      if (starred && !_starred.contains(i)) {
         _starred.add(i);
         PuzzleProgressionManager.setStarred(i, starred);
       }
