@@ -1,7 +1,7 @@
 import 'dart:isolate';
 
-import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/network_multiplayer.dart';
@@ -69,6 +69,8 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                   if (value.isEmpty) {
                     return NyaNyaLocalizations.of(context).invalidNicknameText;
                   }
+
+                  return null;
                 },
               ),
               TextFormField(
@@ -80,6 +82,8 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                   if (!LanMultiplayerSetup.hostnameMatcher.hasMatch(value)) {
                     return NyaNyaLocalizations.of(context).invalidHostnameText;
                   }
+
+                  return null;
                 },
               ),
               Padding(

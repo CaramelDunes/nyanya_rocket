@@ -34,6 +34,8 @@ class AccountManagement extends StatelessWidget {
                         return NyaNyaLocalizations.of(context)
                             .displayNameFormatText;
                       }
+
+                      return null;
                     },
                     onSaved: (String value) {
                       displayName = value;

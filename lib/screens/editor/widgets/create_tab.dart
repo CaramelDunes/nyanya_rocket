@@ -64,6 +64,8 @@ class CreateTabState extends State<CreateTab>
                     if (!CreateTab.nameRegExp.hasMatch(value)) {
                       return NyaNyaLocalizations.of(context).invalidNameText;
                     }
+
+                    return null;
                   },
                 ),
                 DropdownButtonFormField<EditorMode>(
@@ -157,6 +159,10 @@ class CreateTabState extends State<CreateTab>
                                   board: MultiplayerBoard.withBorder(
                                       name: _name, maxPlayer: 2),
                                 );
+                                break;
+
+                              default:
+                                return const SizedBox.shrink();
                                 break;
                             }
                           }));
