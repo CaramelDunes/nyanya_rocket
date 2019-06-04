@@ -87,7 +87,9 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
               Flexible(
                   flex: 0,
                   child: Container(
-                    color: Colors.white,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.white
+                        : Colors.black,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
