@@ -13,4 +13,6 @@ ios_build_task:
     folder: ~/.pub-cache
   osx_instance:
     image: mojave-flutter
-  build_script: flutter build ios --no-codesign
+  build_script:
+    - pod repo update
+    - flutter build ios --no-codesign
