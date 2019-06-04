@@ -170,6 +170,7 @@ abstract class ChallengeGameController extends LocalGameController {
 
   Duration get remainingTime => _remainingTime;
 
-  StreamController<int> get scoreStream;
+  ValueNotifier<int> get scoreStream;
+
   int get targetScore;
 }

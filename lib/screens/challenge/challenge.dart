@@ -145,13 +145,12 @@ class _ChallengeState extends State<Challenge> {
                               textAlign: TextAlign.center,
                             )),
                         Flexible(
-                          flex: 1,
-                          child: StreamBuilder<int>(
-                              stream: _challengeController.scoreStream.stream,
-                              initialData: 0,
-                              builder: (context, snapshot) {
+                          child: ValueListenableBuilder<int>(
+                              valueListenable: _challengeController.scoreStream,
+                              builder:
+                                  (BuildContext context, int value, Widget _) {
                                 return Text(
-                                    '${snapshot.data} / ${_challengeController.targetScore}');
+                                    '$value / ${_challengeController.targetScore}');
                               }),
                         ),
                       ],

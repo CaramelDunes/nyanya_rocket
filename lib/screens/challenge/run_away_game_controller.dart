@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
@@ -8,7 +7,7 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class RunAwayGameController extends ChallengeGameController {
   int _targetScore = 0;
 
-  StreamController<int> _scoreStream = StreamController();
+  ValueNotifier<int> _scoreStream = ValueNotifier(0);
 
   RunAwayGameController(
       {@required void Function() onWin, @required ChallengeData challenge})
@@ -21,7 +20,7 @@ class RunAwayGameController extends ChallengeGameController {
   }
 
   @override
-  StreamController<int> get scoreStream => _scoreStream;
+  ValueNotifier<int> get scoreStream => _scoreStream;
 
   @override
   int get targetScore => _targetScore;
@@ -30,7 +29,7 @@ class RunAwayGameController extends ChallengeGameController {
   void close() {
     super.close();
 
-    _scoreStream.close();
+    _scoreStream.dispose();
   }
 
   @override
@@ -50,7 +49,7 @@ class RunAwayGameController extends ChallengeGameController {
     if (entity is Cat) {
       mistakeMade(entity.position);
     } else {
-      _scoreStream.add(game.scoreOf(PlayerColor.Blue));
+      _scoreStream.value = game.scoreOf(PlayerColor.Blue);
       if (game.scoreOf(PlayerColor.Blue) >= _targetScore) {
         departRockets();
         onWin();
