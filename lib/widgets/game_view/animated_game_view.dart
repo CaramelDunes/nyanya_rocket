@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/checkerboard_painter.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_foreground_painter.dart';
+import 'package:nyanya_rocket/widgets/game_view/checkerboard_painter.dart';
 import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -42,7 +42,8 @@ class _AnimatedGameViewState extends State<AnimatedGameView>
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: const CheckerboardPainter(),
+      painter: CheckerboardPainter(
+          useDarkColors: Theme.of(context).brightness == Brightness.dark),
       child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) =>
               ValueListenableBuilder<Game>(

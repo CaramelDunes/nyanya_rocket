@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 
 class CheckerboardPainter extends CustomPainter {
-  static final List<Paint> paints = [
+  static final List<Paint> lightPaints = [
     Paint()..color = Color(0xFFFBE0C2),
     Paint()..color = Color(0xFFC3B1F5)
   ];
 
-  const CheckerboardPainter();
+  static final List<Paint> darkPaints = [
+    Paint()..color = Colors.black45,
+    Paint()..color = Colors.black
+  ];
+
+  final List<Paint> paints;
+  final bool useDarkColors;
+
+  CheckerboardPainter({@required this.useDarkColors})
+      : paints = useDarkColors ? darkPaints : lightPaints;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -22,7 +31,7 @@ class CheckerboardPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+  bool shouldRepaint(CheckerboardPainter oldDelegate) {
+    return useDarkColors != oldDelegate.useDarkColors;
   }
 }
