@@ -129,7 +129,8 @@ NamedChallengeData _buildChallengeData(BuildContext context, int i) {
           OriginalChallenges.challenges[i].name);
 }
 
-class _OriginalChallengesState extends State<OriginalChallenges> {
+class _OriginalChallengesState extends State<OriginalChallenges>
+    with AutomaticKeepAliveClientMixin<OriginalChallenges> {
   bool _showCompleted = false;
   SplayTreeSet<int> _cleared = SplayTreeSet();
   List<Duration> _times =
@@ -151,6 +152,9 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
       });
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   void _handleChallengeWin(int i, Duration time) {
     if (_times[i].inMilliseconds == 0 || time < _times[i]) {
@@ -221,6 +225,8 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     List<int> challengeIndices =
         Iterable<int>.generate(OriginalChallenges.challenges.length)
             .toList(growable: false);

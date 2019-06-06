@@ -124,7 +124,8 @@ class OriginalPuzzles extends StatefulWidget {
   }
 }
 
-class _OriginalPuzzlesState extends State<OriginalPuzzles> {
+class _OriginalPuzzlesState extends State<OriginalPuzzles>
+    with AutomaticKeepAliveClientMixin<OriginalPuzzles> {
   bool _showCompleted = false;
   SplayTreeSet<int> _cleared = SplayTreeSet();
   SplayTreeSet<int> _starred = SplayTreeSet();
@@ -242,7 +243,12 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     List<int> puzzleIndices =
         Iterable<int>.generate(OriginalPuzzles.puzzles.length).toList();
 
