@@ -152,26 +152,24 @@ class _EditorPlacerState extends State<EditorPlacer> {
                 ? Axis.vertical
                 : Axis.horizontal,
             children: <Widget>[
-              Expanded(
-                  flex: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AspectRatio(
-                        aspectRatio: 12.0 / 9.0,
-                        child: InputGridOverlay<EditorTool>(
-                          child: ValueListenableBuilder<Game>(
-                              valueListenable:
-                                  widget.editorGameController.gameStream,
-                              builder: (context, value, child) {
-                                return StaticGameView(
-                                  game: value,
-                                );
-                              }),
-                          previewBuilder: _dragTileBuilder,
-                          onDrop: _handleDrop,
-                          onTap: _handleTap,
-                        )),
-                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AspectRatio(
+                    aspectRatio: 12.0 / 9.0,
+                    child: InputGridOverlay<EditorTool>(
+                      child: ValueListenableBuilder<Game>(
+                          valueListenable:
+                              widget.editorGameController.gameStream,
+                          builder: (context, value, child) {
+                            return StaticGameView(
+                              game: value,
+                            );
+                          }),
+                      previewBuilder: _dragTileBuilder,
+                      onDrop: _handleDrop,
+                      onTap: _handleTap,
+                    )),
+              ),
               Flexible(
                   child: Column(
                 children: <Widget>[
@@ -197,42 +195,39 @@ class _EditorPlacerState extends State<EditorPlacer> {
                     }),
                   )),
                   Expanded(child: _subModeBuilder()),
-                  Flexible(
-                    flex: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Visibility(
-                            visible: widget.onPlay != null,
-                            child: Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: RaisedButton(
-                                    color: Theme.of(context).primaryColor,
-                                    textColor: Colors.white,
-                                    child: Text(NyaNyaLocalizations.of(context)
-                                        .playLabel),
-                                    onPressed: widget.onPlay),
-                              ),
-                            ),
-                          ),
-                          Expanded(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      children: <Widget>[
+                        Visibility(
+                          visible: widget.onPlay != null,
+                          child: Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: RaisedButton(
                                   color: Theme.of(context).primaryColor,
                                   textColor: Colors.white,
                                   child: Text(NyaNyaLocalizations.of(context)
-                                      .saveLabel),
-                                  onPressed: () {
-                                    widget.onSave();
-                                    _saved = true;
-                                  }),
+                                      .playLabel),
+                                  onPressed: widget.onPlay),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: RaisedButton(
+                                color: Theme.of(context).primaryColor,
+                                textColor: Colors.white,
+                                child: Text(
+                                    NyaNyaLocalizations.of(context).saveLabel),
+                                onPressed: () {
+                                  widget.onSave();
+                                  _saved = true;
+                                }),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 ],

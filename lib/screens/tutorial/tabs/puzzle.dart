@@ -19,12 +19,10 @@ class Puzzle extends StatelessWidget {
                 NyaNyaLocalizations.of(context).arrowRemoveTutorialText,
                 textAlign: TextAlign.center,
               )),
-              Flexible(
-                  flex: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset('assets/animations/remove_arrow.gif'),
-                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset('assets/animations/remove_arrow.gif'),
+              ),
             ],
           ),
         )),

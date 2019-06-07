@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/blocs/local_game_controller.dart';
@@ -18,11 +16,11 @@ class PuzzleGameController extends LocalGameController {
 
   final List<List<Position>> placedArrows = [List(), List(), List(), List()];
 
-  final List<StreamController<int>> remainingArrowsStreams = [
-    StreamController(),
-    StreamController(),
-    StreamController(),
-    StreamController()
+  final List<ValueNotifier<int>> remainingArrowsStreams = [
+    ValueNotifier(0),
+    ValueNotifier(0),
+    ValueNotifier(0),
+    ValueNotifier(0)
   ];
 
   final void Function() onWin;
@@ -42,8 +40,8 @@ class PuzzleGameController extends LocalGameController {
   PuzzleGameController({this.onWin, this.onMistake, @required this.puzzle})
       : super(puzzle.getGame()) {
     for (int direction = 0; direction < Direction.values.length; direction++) {
-      remainingArrowsStreams[direction]
-          .add(remainingArrows(Direction.values[direction]));
+      remainingArrowsStreams[direction].value =
+          remainingArrows(Direction.values[direction]);
     }
 
     for (Entity e in game.entities) {
@@ -70,7 +68,8 @@ class PuzzleGameController extends LocalGameController {
           Arrow.notExpirable(player: PlayerColor.Blue, direction: direction);
       placedArrows[direction.index].add(Position(x, y));
       updateGame();
-      remainingArrowsStreams[direction.index].add(remainingArrows(direction));
+      remainingArrowsStreams[direction.index].value =
+          remainingArrows(direction);
       return true;
     }
 
@@ -88,8 +87,8 @@ class PuzzleGameController extends LocalGameController {
         placedArrows[direction].removeAt(index);
         game.board.tiles[x][y] = Empty();
         updateGame();
-        remainingArrowsStreams[direction]
-            .add(remainingArrows(Direction.values[direction]));
+        remainingArrowsStreams[direction].value =
+            remainingArrows(Direction.values[direction]);
         return true; // Remove at most one arrow
       }
     }
@@ -106,8 +105,8 @@ class PuzzleGameController extends LocalGameController {
       }
 
       placedArrows[direction].clear();
-      remainingArrowsStreams[direction]
-          .add(remainingArrows(Direction.values[direction]));
+      remainingArrowsStreams[direction].value =
+          remainingArrows(Direction.values[direction]);
     }
   }
 

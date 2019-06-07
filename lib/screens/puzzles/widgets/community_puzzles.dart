@@ -66,47 +66,44 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Flexible(
-          flex: 0,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  NyaNyaLocalizations.of(context).sortByLabel,
-                  style: Theme.of(context).textTheme.subhead,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                NyaNyaLocalizations.of(context).sortByLabel,
+                style: Theme.of(context).textTheme.subhead,
+              ),
+              VerticalDivider(),
+              Expanded(
+                child: DropdownButton<_Sorting>(
+                  isExpanded: true,
+                  value: _sorting,
+                  items: <DropdownMenuItem<_Sorting>>[
+                    DropdownMenuItem<_Sorting>(
+                      child: Text(NyaNyaLocalizations.of(context).dateLabel),
+                      value: _Sorting.ByDate,
+                    ),
+                    DropdownMenuItem<_Sorting>(
+                      child: Text(NyaNyaLocalizations.of(context).nameLabel),
+                      value: _Sorting.ByName,
+                    ),
+                    DropdownMenuItem<_Sorting>(
+                      child:
+                          Text(NyaNyaLocalizations.of(context).popularityLabel),
+                      value: _Sorting.ByPopularity,
+                    )
+                  ],
+                  onChanged: (_Sorting value) {
+                    setState(() {
+                      _sorting = value;
+                      _refreshList();
+                    });
+                  },
                 ),
-                VerticalDivider(),
-                Expanded(
-                  child: DropdownButton<_Sorting>(
-                    isExpanded: true,
-                    value: _sorting,
-                    items: <DropdownMenuItem<_Sorting>>[
-                      DropdownMenuItem<_Sorting>(
-                        child: Text(NyaNyaLocalizations.of(context).dateLabel),
-                        value: _Sorting.ByDate,
-                      ),
-                      DropdownMenuItem<_Sorting>(
-                        child: Text(NyaNyaLocalizations.of(context).nameLabel),
-                        value: _Sorting.ByName,
-                      ),
-                      DropdownMenuItem<_Sorting>(
-                        child: Text(
-                            NyaNyaLocalizations.of(context).popularityLabel),
-                        value: _Sorting.ByPopularity,
-                      )
-                    ],
-                    onChanged: (_Sorting value) {
-                      setState(() {
-                        _sorting = value;
-                        _refreshList();
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         Divider(),

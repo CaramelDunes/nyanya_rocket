@@ -5,8 +5,8 @@ import 'package:nyanya_rocket/screens/multiplayer/device_multiplayer_game_contro
 import 'package:nyanya_rocket/screens/multiplayer/widgets/event_roulette.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
+import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -147,22 +147,18 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer>
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      Flexible(
-                        flex: 0,
-                        child: StreamBuilder<Object>(
-                            stream:
-                                _localMultiplayerController.timeStream.stream,
-                            initialData: Duration.zero,
-                            builder: (context, snapshot) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Countdown(
-                                  remaining: snapshot.data,
-                                ),
-                              );
-                            }),
-                      ),
+                      StreamBuilder<Object>(
+                          stream: _localMultiplayerController.timeStream.stream,
+                          initialData: Duration.zero,
+                          builder: (context, snapshot) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Countdown(
+                                remaining: snapshot.data,
+                              ),
+                            );
+                          }),
                       Flexible(
                         child: AspectRatio(
                             aspectRatio: 12.0 / 9.0,

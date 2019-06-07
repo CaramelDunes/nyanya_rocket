@@ -40,7 +40,7 @@ class _PuzzleGameControlsState extends State<PuzzleGameControls> {
               setState(() {
                 widget.puzzleController.reset();
               });
-            },
+            }
           ),
         ),
         Flexible(

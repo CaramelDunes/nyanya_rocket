@@ -84,40 +84,38 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Spacer(flex: 2),
-              Flexible(
-                  flex: 0,
-                  child: Container(
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.white
-                        : Colors.black,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Text(
-                            NyaNyaLocalizations.of(context).stageClearedText,
-                            style: TextStyle(color: Colors.green, fontSize: 50),
-                          ),
-                          Visibility(
-                              visible: widget.succeededPath != null &&
-                                  _stars != null,
-                              child: _starAdder()),
-                          RaisedButton(
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            child: Text(widget.hasNext
-                                ? NyaNyaLocalizations.of(context).nextLevelLabel
-                                : 'Back'),
-                            onPressed: () {
-                              Navigator.of(context).pop(
-                                  OverlayPopData(playNext: widget.hasNext));
-                            },
-                          ),
-                        ],
+              Container(
+                color: Theme.of(context).brightness == Brightness.light
+                    ? Colors.white
+                    : Colors.black,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        NyaNyaLocalizations.of(context).stageClearedText,
+                        style: TextStyle(color: Colors.green, fontSize: 50),
                       ),
-                    ),
-                  )),
+                      Visibility(
+                          visible:
+                              widget.succeededPath != null && _stars != null,
+                          child: _starAdder()),
+                      RaisedButton(
+                        color: Theme.of(context).primaryColor,
+                        textColor: Colors.white,
+                        child: Text(widget.hasNext
+                            ? NyaNyaLocalizations.of(context).nextLevelLabel
+                            : 'Back'),
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pop(OverlayPopData(playNext: widget.hasNext));
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Spacer(flex: 3),
             ],
           ),

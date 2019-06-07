@@ -151,12 +151,10 @@ class General extends StatelessWidget {
                 NyaNyaLocalizations.of(context).arrowDnDTutorialText,
                 textAlign: TextAlign.center,
               )),
-              Flexible(
-                  flex: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset('assets/animations/drag_arrow.gif'),
-                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset('assets/animations/drag_arrow.gif'),
+              ),
             ],
           ),
         )),
@@ -171,12 +169,10 @@ class General extends StatelessWidget {
                 NyaNyaLocalizations.of(context).arrowSwipeTutorialText,
                 textAlign: TextAlign.center,
               )),
-              Flexible(
-                  flex: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset('assets/animations/swipe_arrow.gif'),
-                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset('assets/animations/swipe_arrow.gif'),
+              ),
             ],
           ),
         )),
