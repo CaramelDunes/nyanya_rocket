@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/models/multiplayer_store.dart';
@@ -15,13 +13,13 @@ class LocalBoards extends StatefulWidget {
 }
 
 class _LocalBoardsState extends State<LocalBoards> {
-  HashMap<String, String> _boards = HashMap();
+  Map<String, String> _boards = Map();
 
   @override
   void initState() {
     super.initState();
 
-    LocalBoards.store.readRegistry().then((HashMap entries) => setState(() {
+    LocalBoards.store.readRegistry().then((Map entries) => setState(() {
           _boards = entries;
         }));
   }

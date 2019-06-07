@@ -8,6 +8,7 @@ import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/screens/editor/screens/challenge_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/multiplayer_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/puzzle_editor.dart';
+import 'package:nyanya_rocket/screens/editor/widgets/name_field.dart';
 
 enum EditorMode { Puzzle, Challenge, Multiplayer }
 
@@ -15,12 +16,12 @@ class CreateTab extends StatefulWidget {
   static final RegExp nameRegExp = RegExp(r'^[ -~]{2,24}$');
 
   @override
-  CreateTabState createState() {
-    return new CreateTabState();
+  _CreateTabState createState() {
+    return _CreateTabState();
   }
 }
 
-class CreateTabState extends State<CreateTab>
+class _CreateTabState extends State<CreateTab>
     with AutomaticKeepAliveClientMixin<CreateTab> {
   String _name;
   EditorMode _mode;
@@ -50,22 +51,9 @@ class CreateTabState extends State<CreateTab>
             key: _formKey,
             child: Column(
               children: <Widget>[
-                TextFormField(
-                  autovalidate: true,
-                  textCapitalization: TextCapitalization.words,
-                  maxLength: 24,
-                  decoration: InputDecoration(
-                    labelText: NyaNyaLocalizations.of(context).nameLabel,
-                  ),
-                  onSaved: (String value) {
-                    _name = value;
-                  },
-                  validator: (String value) {
-                    if (!CreateTab.nameRegExp.hasMatch(value)) {
-                      return NyaNyaLocalizations.of(context).invalidNameText;
-                    }
-
-                    return null;
+                NameFormField(
+                  onSaved: (String newValue) {
+                    _name = newValue;
                   },
                 ),
                 DropdownButtonFormField<EditorMode>(

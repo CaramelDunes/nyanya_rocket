@@ -22,13 +22,13 @@ class LocalPuzzles extends StatefulWidget {
 }
 
 class _LocalPuzzlesState extends State<LocalPuzzles> {
-  HashMap<String, String> _puzzles = HashMap();
+  Map<String, String> _puzzles = HashMap();
 
   @override
   void initState() {
     super.initState();
 
-    LocalPuzzles.store.readRegistry().then((HashMap entries) => setState(() {
+    LocalPuzzles.store.readRegistry().then((Map entries) => setState(() {
           _puzzles = entries;
         }));
   }

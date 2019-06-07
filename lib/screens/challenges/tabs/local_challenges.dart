@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:cloud_functions/cloud_functions.dart';
@@ -22,13 +21,13 @@ class LocalChallenges extends StatefulWidget {
 }
 
 class _LocalChallengesState extends State<LocalChallenges> {
-  HashMap<String, String> _challenges = HashMap();
+  Map<String, String> _challenges = Map();
 
   @override
   void initState() {
     super.initState();
 
-    LocalChallenges.store.readRegistry().then((HashMap entries) => setState(() {
+    LocalChallenges.store.readRegistry().then((Map entries) => setState(() {
           _challenges = entries;
         }));
   }

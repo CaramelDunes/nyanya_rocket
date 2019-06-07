@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:nyanya_rocket/screens/editor/widgets/create_tab.dart';
+
+class NameFormField extends StatelessWidget {
+  final FormFieldSetter<String> onSaved;
+
+  NameFormField({Key key, @required this.onSaved}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      autofocus: true,
+      autovalidate: true,
+      textCapitalization: TextCapitalization.words,
+      maxLength: 24,
+      decoration: InputDecoration(
+        labelText: NyaNyaLocalizations.of(context).nameLabel,
+      ),
+      onSaved: onSaved,
+      validator: (String value) {
+        if (!CreateTab.nameRegExp.hasMatch(value)) {
+          return NyaNyaLocalizations.of(context).invalidNameText;
+        }
+
+        return null;
+      },
+    );
+  }
+}

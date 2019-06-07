@@ -1,8 +1,6 @@
 import 'dart:collection';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
@@ -11,7 +9,9 @@ import 'package:nyanya_rocket/screens/challenges/tabs/local_challenges.dart';
 import 'package:nyanya_rocket/screens/editor/screens/challenge_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/multiplayer_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/puzzle_editor.dart';
+import 'package:nyanya_rocket/screens/editor/widgets/name_field.dart';
 import 'package:nyanya_rocket/screens/multiplayer/multiplayer.dart';
+import 'package:nyanya_rocket/screens/multiplayer/picker_tabs/local_boards.dart';
 import 'package:nyanya_rocket/screens/puzzles/widgets/local_puzzles.dart';
 import 'package:nyanya_rocket/widgets/empty_list.dart';
 
@@ -25,9 +25,9 @@ class EditTab extends StatefulWidget {
 }
 
 class EditTabState extends State<EditTab> {
-  HashMap<String, String> _puzzles = HashMap();
-  HashMap<String, String> _challenges = HashMap();
-  HashMap<String, String> _multiplayerBoards = HashMap();
+  Map<String, String> _puzzles = HashMap();
+  Map<String, String> _challenges = HashMap();
+  Map<String, String> _multiplayerBoards = HashMap();
   String name;
   EditorMode _mode = EditorMode.Puzzle;
 
@@ -35,21 +35,98 @@ class EditTabState extends State<EditTab> {
   void initState() {
     super.initState();
 
-    LocalPuzzles.store.readRegistry().then((HashMap entries) => setState(() {
+    LocalPuzzles.store.readRegistry().then((Map entries) => setState(() {
           _puzzles = entries;
         }));
 
-    LocalChallenges.store.readRegistry().then((HashMap entries) => setState(() {
+    LocalChallenges.store.readRegistry().then((Map entries) => setState(() {
           _challenges = entries;
         }));
 
-    Multiplayer.store.readRegistry().then((HashMap entries) => setState(() {
+    Multiplayer.store.readRegistry().then((Map entries) => setState(() {
           _multiplayerBoards = entries;
         }));
   }
 
+  void _showNameChangeDialog(BuildContext context, String uuid) {
+    String _name;
+    final _formKey = GlobalKey<FormState>();
+
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Form(
+            key: _formKey,
+            child: NameFormField(
+              onSaved: (String newValue) {
+                _name = newValue;
+              },
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(NyaNyaLocalizations.of(context).accept.toUpperCase()),
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  _formKey.currentState.save();
+                  Navigator.pop(context, _name);
+                }
+              },
+            ),
+            FlatButton(
+              child: Text(NyaNyaLocalizations.of(context).cancel.toUpperCase()),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    ).then((String newName) {
+      if (newName != null) {
+        print('Valid $newName');
+        switch (_mode) {
+          case EditorMode.Puzzle:
+            LocalPuzzles.store.readPuzzle(uuid).then((NamedPuzzleData puzzle) {
+              LocalPuzzles.store
+                  .updatePuzzle(uuid, puzzle..name = newName)
+                  .then((bool status) {
+                setState(() {
+                  _puzzles[uuid] = newName;
+                });
+              });
+            });
+            break;
+          case EditorMode.Challenge:
+            LocalChallenges.store
+                .readChallenge(uuid)
+                .then((NamedChallengeData challenge) {
+              LocalChallenges.store
+                  .updateChallenge(uuid, challenge..name = newName)
+                  .then((bool status) {
+                setState(() {
+                  _challenges[uuid] = newName;
+                });
+              });
+            });
+            break;
+          case EditorMode.Multiplayer:
+            LocalBoards.store.readBoard(uuid).then((MultiplayerBoard board) {
+              LocalBoards.store.updateBoard(uuid, board).then((bool status) {
+                setState(() {
+                  _multiplayerBoards[uuid] = newName;
+                });
+              });
+            });
+            break;
+        }
+      }
+    });
+  }
+
   Widget _puzzleListView() {
-    List<String> uuidList = _puzzles.keys.toList();
+    List<String> uuidList = _puzzles.keys.toList().reversed.toList();
 
     if (uuidList.isEmpty) {
       return Center(child: EmptyList());
@@ -64,14 +141,20 @@ class EditTabState extends State<EditTab> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.content_copy),
+                    icon: Icon(Icons.text_format),
                     onPressed: () {
-                      LocalPuzzles.store.readPuzzle(uuidList[i]).then(
-                          (NamedPuzzleData puzzle) => Clipboard.setData(
-                              ClipboardData(
-                                  text: jsonEncode(puzzle.toJson()))));
+                      _showNameChangeDialog(context, uuidList[i]);
                     },
                   ),
+//                  IconButton(
+//                    icon: Icon(Icons.content_copy),
+//                    onPressed: () {
+//                      LocalPuzzles.store.readPuzzle(uuidList[i]).then(
+//                          (NamedPuzzleData puzzle) => Clipboard.setData(
+//                              ClipboardData(
+//                                  text: jsonEncode(puzzle.toJson()))));
+//                    },
+//                  ),
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
@@ -108,14 +191,20 @@ class EditTabState extends State<EditTab> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.content_copy),
+                    icon: Icon(Icons.text_format),
                     onPressed: () {
-                      LocalChallenges.store.readChallenge(uuidList[i]).then(
-                          (NamedChallengeData challenge) => Clipboard.setData(
-                              ClipboardData(
-                                  text: challenge.challengeData.gameData)));
+                      _showNameChangeDialog(context, uuidList[i]);
                     },
                   ),
+//                  IconButton(
+//                    icon: Icon(Icons.content_copy),
+//                    onPressed: () {
+//                      LocalChallenges.store.readChallenge(uuidList[i]).then(
+//                          (NamedChallengeData challenge) => Clipboard.setData(
+//                              ClipboardData(
+//                                  text: challenge.challengeData.gameData)));
+//                    },
+//                  ),
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
@@ -152,14 +241,20 @@ class EditTabState extends State<EditTab> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.content_copy),
+                    icon: Icon(Icons.text_format),
                     onPressed: () {
-                      Multiplayer.store.readBoard(uuidList[i]).then(
-                          (MultiplayerBoard multiplayerBoard) =>
-                              Clipboard.setData(ClipboardData(
-                                  text: multiplayerBoard.boardData)));
+                      _showNameChangeDialog(context, uuidList[i]);
                     },
                   ),
+//                  IconButton(
+//                    icon: Icon(Icons.content_copy),
+//                    onPressed: () {
+//                      Multiplayer.store.readBoard(uuidList[i]).then(
+//                          (MultiplayerBoard multiplayerBoard) =>
+//                              Clipboard.setData(ClipboardData(
+//                                  text: multiplayerBoard.boardData)));
+//                    },
+//                  ),
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {

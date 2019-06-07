@@ -2,15 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
-import 'package:nyanya_rocket/models/multiplayer_store.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
+import 'package:nyanya_rocket/screens/multiplayer/picker_tabs/local_boards.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class MultiplayerEditor extends StatefulWidget {
-  static final MultiplayerStore store = MultiplayerStore();
-
   final MultiplayerBoard board;
   final String uuid;
 
@@ -84,14 +82,14 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
 
   void _handleSave() {
     if (uuid == null) {
-      MultiplayerEditor.store
+      LocalBoards.store
           .saveNewBoard(_buildMultiplayerBoard())
           .then((String uuid) {
         this.uuid = uuid;
         print('Saved $uuid');
       });
     } else {
-      MultiplayerEditor.store
+      LocalBoards.store
           .updateBoard(uuid, _buildMultiplayerBoard())
           .then((bool status) {
         print('Updated $uuid');

@@ -7,13 +7,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 class ChallengeStore {
-  HashMap<String, String> _entries = HashMap();
+  LinkedHashMap<String, String> _entries = LinkedHashMap();
 
   File _registryFile;
 
   final Uuid uuid = Uuid();
 
-  Future<HashMap> readRegistry() async {
+  Future<Map> readRegistry() async {
     _entries.clear();
 
     Directory directory = await getApplicationDocumentsDirectory();
@@ -107,7 +107,9 @@ class ChallengeStore {
 
     if (_entries.containsKey(uuid) &&
         await _writeChallenge(uuid, challengeData)) {
+      _entries.remove(uuid);
       _entries[uuid] = challengeData.name;
+      _writeRegistry();
       return true;
     }
 
@@ -146,5 +148,5 @@ class ChallengeStore {
     return false;
   }
 
-  HashMap get entries => _entries;
+  Map get entries => _entries;
 }

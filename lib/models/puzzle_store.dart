@@ -8,13 +8,13 @@ import 'package:uuid/uuid.dart';
 import 'named_puzzle_data.dart';
 
 class PuzzleStore {
-  HashMap<String, String> _entries = HashMap();
+  LinkedHashMap<String, String> _entries = LinkedHashMap();
 
   File _registryFile;
 
   final Uuid uuid = Uuid();
 
-  Future<HashMap> readRegistry() async {
+  Future<Map> readRegistry() async {
     _entries.clear();
 
     Directory directory = await getApplicationDocumentsDirectory();
@@ -105,7 +105,9 @@ class PuzzleStore {
     await readRegistry();
 
     if (_entries.containsKey(uuid) && await _writePuzzle(uuid, puzzleData)) {
+      _entries.remove(uuid);
       _entries[uuid] = puzzleData.name;
+      _writeRegistry();
       return true;
     }
 
@@ -144,5 +146,5 @@ class PuzzleStore {
     return false;
   }
 
-  HashMap get entries => _entries;
+  Map get entries => _entries;
 }

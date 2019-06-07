@@ -2,16 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/models/puzzle_store.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
+import 'package:nyanya_rocket/screens/puzzles/widgets/local_puzzles.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class PuzzleEditor extends StatefulWidget {
-  static final PuzzleStore store = PuzzleStore();
-
   final NamedPuzzleData puzzle;
   final String uuid;
 
@@ -95,6 +93,29 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
         availableArrows: availableArrows);
   }
 
+  void _handlePlay(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => Puzzle(
+              hasNext: false,
+              puzzle: _buildPuzzleData(),
+            )));
+  }
+
+  void _handleSave() {
+    if (uuid == null) {
+      LocalPuzzles.store.saveNewPuzzle(_buildPuzzleData()).then((String uuid) {
+        this.uuid = uuid;
+        print('Saved $uuid');
+      });
+    } else {
+      LocalPuzzles.store
+          .updatePuzzle(uuid, _buildPuzzleData())
+          .then((bool status) {
+        print('Updated $uuid');
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,28 +152,5 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
         },
       ),
     );
-  }
-
-  void _handlePlay(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => Puzzle(
-              hasNext: false,
-              puzzle: _buildPuzzleData(),
-            )));
-  }
-
-  void _handleSave() {
-    if (uuid == null) {
-      PuzzleEditor.store.saveNewPuzzle(_buildPuzzleData()).then((String uuid) {
-        this.uuid = uuid;
-        print('Saved $uuid');
-      });
-    } else {
-      PuzzleEditor.store
-          .updatePuzzle(uuid, _buildPuzzleData())
-          .then((bool status) {
-        print('Updated $uuid');
-      });
-    }
   }
 }

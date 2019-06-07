@@ -2,17 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
-import 'package:nyanya_rocket/models/challenge_store.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
+import 'package:nyanya_rocket/screens/challenges/tabs/local_challenges.dart';
 import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class ChallengeEditor extends StatefulWidget {
-  static final ChallengeStore store = ChallengeStore();
-
   final NamedChallengeData challenge;
   final String uuid;
 
@@ -145,14 +143,14 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
 
   void _handleSave() {
     if (uuid == null) {
-      ChallengeEditor.store
+      LocalChallenges.store
           .saveNewChallenge(_buildChallengeData())
           .then((String uuid) {
         this.uuid = uuid;
         print('Saved $uuid');
       });
     } else {
-      ChallengeEditor.store
+      LocalChallenges.store
           .updateChallenge(uuid, _buildChallengeData())
           .then((bool status) {
         print('Updated $uuid');
