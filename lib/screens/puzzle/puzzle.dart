@@ -93,6 +93,81 @@ class _PuzzleState extends State<Puzzle> {
     );
   }
 
+  Widget _buildPortrait(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AspectRatio(
+                    aspectRatio: 12.0 / 9.0,
+                    child: InputGridOverlay<Direction>(
+                      child: AnimatedGameView(
+                        game: _puzzleController.gameStream,
+                        mistake: _puzzleController.mistake,
+                      ),
+                      onDrop: _handleDropAndSwipe,
+                      onTap: _handleTap,
+                      onSwipe: _handleDropAndSwipe,
+                      previewBuilder: _dragTileBuilder,
+                    )),
+              ),
+            ),
+          ],
+        ),
+        Flexible(flex: 1, child: _availableArrows),
+        Flexible(
+          child: PuzzleGameControls(
+            puzzleController: _puzzleController,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLandscape(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Spacer(),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AspectRatio(
+                    aspectRatio: 12.0 / 9.0,
+                    child: InputGridOverlay<Direction>(
+                      child: AnimatedGameView(
+                        game: _puzzleController.gameStream,
+                        mistake: _puzzleController.mistake,
+                      ),
+                      onDrop: _handleDropAndSwipe,
+                      onTap: _handleTap,
+                      onSwipe: _handleDropAndSwipe,
+                      previewBuilder: _dragTileBuilder,
+                    )),
+              ),
+            ),
+            PuzzleGameControls(
+              puzzleController: _puzzleController,
+            ),
+          ],
+        ),
+        Flexible(flex: 1, child: _availableArrows),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,59 +193,11 @@ class _PuzzleState extends State<Puzzle> {
         children: <Widget>[
           OrientationBuilder(
             builder: (BuildContext context, Orientation orientation) {
-              return Flex(
-                direction: orientation == Orientation.portrait
-                    ? Axis.vertical
-                    : Axis.horizontal,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: orientation == Orientation.portrait
-                    ? MainAxisAlignment.end
-                    : MainAxisAlignment.center,
-                children: <Widget>[
-                  Visibility(
-                    visible: orientation == Orientation.landscape,
-                    child: Spacer(),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: AspectRatio(
-                              aspectRatio: 12.0 / 9.0,
-                              child: InputGridOverlay<Direction>(
-                                child: AnimatedGameView(
-                                  game: _puzzleController.gameStream,
-                                  mistake: _puzzleController.mistake,
-                                ),
-                                onDrop: _handleDropAndSwipe,
-                                onTap: _handleTap,
-                                onSwipe: _handleDropAndSwipe,
-                                previewBuilder: _dragTileBuilder,
-                              )),
-                        ),
-                      ),
-                      Visibility(
-                        visible: orientation == Orientation.landscape,
-                        child: PuzzleGameControls(
-                          puzzleController: _puzzleController,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Flexible(flex: 1, child: _availableArrows),
-                  Visibility(
-                    visible: orientation == Orientation.portrait,
-                    child: Flexible(
-                      child: PuzzleGameControls(
-                        puzzleController: _puzzleController,
-                      ),
-                    ),
-                  ),
-                ],
-              );
+              if (orientation == Orientation.portrait) {
+                return _buildPortrait(context);
+              } else {
+                return _buildLandscape(context);
+              }
             },
           ),
           Visibility(
