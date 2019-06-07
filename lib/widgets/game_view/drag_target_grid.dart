@@ -40,12 +40,10 @@ class DragTargetGrid<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-        mainAxisSize: MainAxisSize.max,
         children: List<Widget>.generate(
             width,
             (x) => Expanded(
                   child: Column(
-                      mainAxisSize: MainAxisSize.max,
                       children: List<Widget>.generate(height,
                           (y) => Expanded(child: _dragTargetBuilder(x, y)))),
                 )));

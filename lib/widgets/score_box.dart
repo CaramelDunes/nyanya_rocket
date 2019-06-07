@@ -13,7 +13,6 @@ class ScoreBox extends StatelessWidget {
     return Card(
       color: color,
       child: Column(
-        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Flexible(
             flex: 1,

@@ -108,7 +108,6 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer>
               Flexible(
                   flex: 4,
                   child: Column(
-                    mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       StreamBuilder<Object>(
                           stream: _localMultiplayerController.timeStream.stream,

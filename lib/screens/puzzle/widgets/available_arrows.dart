@@ -22,7 +22,6 @@ class AvailableArrows extends StatelessWidget {
                       ? Axis.horizontal
                       : Axis.vertical,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     Flexible(
                       child: Padding(
