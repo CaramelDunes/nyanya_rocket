@@ -25,7 +25,9 @@ class MultiplayerEditor extends StatefulWidget {
 
 class _MultiplayerEditorState extends State<MultiplayerEditor> {
   EditorGameController _editorGameController;
-  String uuid;
+  String _uuid;
+
+  bool _saving = false;
 
   @override
   void initState() {
@@ -34,7 +36,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
     _editorGameController =
         EditorGameController(game: Game()..board = widget.board.board());
 
-    uuid = widget.uuid;
+    _uuid = widget.uuid;
   }
 
   @override
@@ -81,18 +83,26 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   }
 
   void _handleSave() {
-    if (uuid == null) {
+    if (_saving) {
+      return;
+    }
+
+    _saving = true;
+
+    if (_uuid == null) {
       LocalBoards.store
           .saveNewBoard(_buildMultiplayerBoard())
           .then((String uuid) {
-        this.uuid = uuid;
+        _uuid = uuid;
         print('Saved $uuid');
+        _saving = false;
       });
     } else {
       LocalBoards.store
-          .updateBoard(uuid, _buildMultiplayerBoard())
+          .updateBoard(_uuid, _buildMultiplayerBoard())
           .then((bool status) {
-        print('Updated $uuid');
+        print('Updated $_uuid');
+        _saving = false;
       });
     }
   }

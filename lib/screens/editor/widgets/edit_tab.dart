@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
+import 'package:nyanya_rocket/models/named_data_store.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/screens/challenges/tabs/local_challenges.dart';
 import 'package:nyanya_rocket/screens/editor/screens/challenge_editor.dart';
@@ -11,7 +12,6 @@ import 'package:nyanya_rocket/screens/editor/screens/multiplayer_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/puzzle_editor.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/name_field.dart';
 import 'package:nyanya_rocket/screens/multiplayer/multiplayer.dart';
-import 'package:nyanya_rocket/screens/multiplayer/picker_tabs/local_boards.dart';
 import 'package:nyanya_rocket/screens/puzzles/widgets/local_puzzles.dart';
 import 'package:nyanya_rocket/widgets/empty_list.dart';
 
@@ -19,12 +19,12 @@ enum EditorMode { Puzzle, Challenge, Multiplayer }
 
 class EditTab extends StatefulWidget {
   @override
-  EditTabState createState() {
-    return new EditTabState();
+  _EditTabState createState() {
+    return new _EditTabState();
   }
 }
 
-class EditTabState extends State<EditTab> {
+class _EditTabState extends State<EditTab> {
   Map<String, String> _puzzles = HashMap();
   Map<String, String> _challenges = HashMap();
   Map<String, String> _multiplayerBoards = HashMap();
@@ -85,42 +85,29 @@ class EditTabState extends State<EditTab> {
       },
     ).then((String newName) {
       if (newName != null) {
-        print('Valid $newName');
+        NamedDataStore activeStore;
+        Map<String, String> activeRegistry;
+
         switch (_mode) {
           case EditorMode.Puzzle:
-            LocalPuzzles.store.readPuzzle(uuid).then((NamedPuzzleData puzzle) {
-              LocalPuzzles.store
-                  .updatePuzzle(uuid, puzzle..name = newName)
-                  .then((bool status) {
-                setState(() {
-                  _puzzles[uuid] = newName;
-                });
-              });
-            });
+            activeStore = LocalPuzzles.store;
+            activeRegistry = _puzzles;
             break;
           case EditorMode.Challenge:
-            LocalChallenges.store
-                .readChallenge(uuid)
-                .then((NamedChallengeData challenge) {
-              LocalChallenges.store
-                  .updateChallenge(uuid, challenge..name = newName)
-                  .then((bool status) {
-                setState(() {
-                  _challenges[uuid] = newName;
-                });
-              });
-            });
+            activeStore = LocalPuzzles.store;
+            activeRegistry = _challenges;
             break;
           case EditorMode.Multiplayer:
-            LocalBoards.store.readBoard(uuid).then((MultiplayerBoard board) {
-              LocalBoards.store.updateBoard(uuid, board).then((bool status) {
-                setState(() {
-                  _multiplayerBoards[uuid] = newName;
-                });
-              });
-            });
+            activeStore = LocalPuzzles.store;
+            activeRegistry = _multiplayerBoards;
             break;
         }
+
+        activeStore.updateName(uuid, newName).then((bool status) {
+          setState(() {
+            activeRegistry[uuid] = newName;
+          });
+        });
       }
     });
   }

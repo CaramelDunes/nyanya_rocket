@@ -26,7 +26,8 @@ class PuzzleEditor extends StatefulWidget {
 
 class _PuzzleEditorState extends State<PuzzleEditor> {
   EditorGameController _editorGameController;
-  String uuid;
+  String _uuid;
+  bool _saving = false;
 
   @override
   void initState() {
@@ -40,7 +41,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
           widget.puzzle.puzzleData.availableArrows[direction]);
     }
 
-    uuid = widget.uuid;
+    _uuid = widget.uuid;
   }
 
   @override
@@ -102,16 +103,27 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   }
 
   void _handleSave() {
-    if (uuid == null) {
+    // Avoid creating 2 puzzles.
+    // A better solution would be to move the effective puzzle creation to the
+    // editor create tab.
+    if (_saving) {
+      return;
+    }
+
+    _saving = true;
+
+    if (_uuid == null) {
       LocalPuzzles.store.saveNewPuzzle(_buildPuzzleData()).then((String uuid) {
-        this.uuid = uuid;
+        this._uuid = uuid;
         print('Saved $uuid');
+        _saving = false;
       });
     } else {
       LocalPuzzles.store
-          .updatePuzzle(uuid, _buildPuzzleData())
+          .updatePuzzle(_uuid, _buildPuzzleData())
           .then((bool status) {
-        print('Updated $uuid');
+        print('Updated $_uuid');
+        _saving = false;
       });
     }
   }

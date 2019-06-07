@@ -27,7 +27,8 @@ class ChallengeEditor extends StatefulWidget {
 
 class _ChallengeEditorState extends State<ChallengeEditor> {
   EditorGameController _editorGameController;
-  String uuid;
+  String _uuid;
+  bool _saving = false;
 
   @override
   void initState() {
@@ -36,7 +37,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
     _editorGameController =
         EditorGameController(game: widget.challenge.challengeData.getGame());
 
-    uuid = widget.uuid;
+    _uuid = widget.uuid;
   }
 
   @override
@@ -142,18 +143,26 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   }
 
   void _handleSave() {
-    if (uuid == null) {
+    if (_saving) {
+      return;
+    }
+
+    _saving = true;
+
+    if (_uuid == null) {
       LocalChallenges.store
           .saveNewChallenge(_buildChallengeData())
           .then((String uuid) {
-        this.uuid = uuid;
+        this._uuid = uuid;
         print('Saved $uuid');
+        _saving = false;
       });
     } else {
       LocalChallenges.store
-          .updateChallenge(uuid, _buildChallengeData())
+          .updateChallenge(_uuid, _buildChallengeData())
           .then((bool status) {
-        print('Updated $uuid');
+        print('Updated $_uuid');
+        _saving = false;
       });
     }
   }
