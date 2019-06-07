@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
@@ -75,15 +74,13 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.library_books),
-            title: Text(NyaNyaLocalizations
-                .of(context)
-                .privacyPolicyLabel),
+            title: Text(NyaNyaLocalizations.of(context).privacyPolicyLabel),
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) =>
-                      const PrivacyPolicyPrompt(askUser: false)));
+                          const PrivacyPolicyPrompt(askUser: false)));
             },
           ),
           AboutListTile(
