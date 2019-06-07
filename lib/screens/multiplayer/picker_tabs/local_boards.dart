@@ -26,7 +26,7 @@ class _LocalBoardsState extends State<LocalBoards> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> uuidList = _boards.keys.toList();
+    List<String> uuidList = _boards.keys.toList().reversed.toList();
 
     if (uuidList.isEmpty) {
       return Center(child: EmptyList());

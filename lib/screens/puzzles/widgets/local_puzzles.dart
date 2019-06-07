@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:cloud_functions/cloud_functions.dart';
@@ -22,7 +21,7 @@ class LocalPuzzles extends StatefulWidget {
 }
 
 class _LocalPuzzlesState extends State<LocalPuzzles> {
-  Map<String, String> _puzzles = HashMap();
+  Map<String, String> _puzzles = Map();
 
   @override
   void initState() {
@@ -67,7 +66,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
 
-    List<String> uuidList = _puzzles.keys.toList();
+    List<String> uuidList = _puzzles.keys.toList().reversed.toList();
 
     if (uuidList.isEmpty) {
       return Center(child: EmptyList());

@@ -66,7 +66,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
 
-    List<String> uuidList = _challenges.keys.toList();
+    List<String> uuidList = _challenges.keys.toList().reversed.toList();
 
     if (uuidList.isEmpty) {
       return Center(child: EmptyList());
