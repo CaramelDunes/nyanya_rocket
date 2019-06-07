@@ -106,7 +106,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                         textColor: Colors.white,
                         child: Text(widget.hasNext
                             ? NyaNyaLocalizations.of(context).nextLevelLabel
-                            : 'Back'),
+                            : NyaNyaLocalizations.of(context).back),
                         onPressed: () {
                           Navigator.of(context)
                               .pop(OverlayPopData(playNext: widget.hasNext));

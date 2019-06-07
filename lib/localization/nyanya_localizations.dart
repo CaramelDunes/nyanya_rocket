@@ -678,6 +678,14 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
     );
   }
 
+  String get back {
+    return Intl.message(
+      'Back',
+      name: 'back',
+      desc: 'Back string.',
+    );
+  }
+
   String get loadingLabel {
     return Intl.message(
       'Loading...',

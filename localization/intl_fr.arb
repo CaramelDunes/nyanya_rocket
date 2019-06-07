@@ -467,6 +467,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "back": "Retour",
+  "@back": {
+    "description": "Back string.",
+    "type": "text",
+    "placeholders": {}
+  },
   "loadingLabel": "Chargement...",
   "@loadingLabel": {
     "description": "Loading... label of async loaded data.",

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-05-23T11:04:01.211050",
+  "@@last_modified": "2019-06-07T17:34:57.427643",
   "puzzleType": "Puzzle",
   "@puzzleType": {
     "description": "Puzzle type of game.",
@@ -465,6 +465,12 @@
   "deny": "Deny",
   "@deny": {
     "description": "Deny string.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "back": "Back",
+  "@back": {
+    "description": "Back string.",
     "type": "text",
     "placeholders": {}
   },

@@ -14,8 +14,8 @@ import 'package:nyanya_rocket/localization/messages_en.dart' deferred as message
 
 typedef Future<dynamic> LibraryLoader();
 Map<String, LibraryLoader> _deferredLibraries = {
-  'fr': () => messages_fr.loadLibrary(),
-  'en': () => messages_en.loadLibrary(),
+  'fr': messages_fr.loadLibrary,
+  'en': messages_en.loadLibrary,
 };
 
 MessageLookupByLibrary _findExact(localeName) {

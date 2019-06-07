@@ -3,6 +3,8 @@
 // messages from the main program should be duplicated here with the same
 // function name.
 
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
 
@@ -26,6 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "arrowRemoveTutorialText" : MessageLookupByLibrary.simpleMessage("En mode puzzle, les flèches peuvent être retirées en tappant dessus."),
     "arrowSwipeTutorialText" : MessageLookupByLibrary.simpleMessage("...ou simplement glissées"),
     "arrowTutorialText" : MessageLookupByLibrary.simpleMessage("Flèche"),
+    "back" : MessageLookupByLibrary.simpleMessage("Retour"),
     "boardSelectionText" : MessageLookupByLibrary.simpleMessage("Toucher pour sélectionner un plateau de jeu"),
     "cancel" : MessageLookupByLibrary.simpleMessage("Annuler"),
     "catTutorialText" : MessageLookupByLibrary.simpleMessage("Les chats sont plus lents que les souris.\nQuand un chat rencontre une flèche de face, il l\'endommage ou la détruit si elle a déjà été endommagée."),
