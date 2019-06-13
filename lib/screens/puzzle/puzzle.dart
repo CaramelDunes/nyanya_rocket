@@ -27,7 +27,6 @@ class Puzzle extends StatefulWidget {
 
 class _PuzzleState extends State<Puzzle> {
   PuzzleGameController _puzzleController;
-  AvailableArrows _availableArrows;
   bool _ended = false;
 
   @override
@@ -36,9 +35,6 @@ class _PuzzleState extends State<Puzzle> {
 
     _puzzleController = PuzzleGameController(
         puzzle: widget.puzzle.puzzleData, onWin: _handleWin);
-    _availableArrows = AvailableArrows(
-      puzzleGameController: _puzzleController,
-    );
   }
 
   @override
@@ -121,11 +117,11 @@ class _PuzzleState extends State<Puzzle> {
             ),
           ],
         ),
-        Flexible(flex: 1, child: _availableArrows),
         Flexible(
-          child: PuzzleGameControls(
-            puzzleController: _puzzleController,
-          ),
+            flex: 1,
+            child: AvailableArrows(puzzleGameController: _puzzleController)),
+        Flexible(
+          child: PuzzleGameControls(puzzleController: _puzzleController),
         ),
       ],
     );
@@ -158,12 +154,12 @@ class _PuzzleState extends State<Puzzle> {
                     )),
               ),
             ),
-            PuzzleGameControls(
-              puzzleController: _puzzleController,
-            ),
+            PuzzleGameControls(puzzleController: _puzzleController),
           ],
         ),
-        Flexible(flex: 1, child: _availableArrows),
+        Flexible(
+            flex: 1,
+            child: AvailableArrows(puzzleGameController: _puzzleController)),
       ],
     );
   }
