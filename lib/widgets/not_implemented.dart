@@ -44,14 +44,17 @@ class NotImplemented extends StatelessWidget {
             }
 
             switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Center(
-                    child: Text(NyaNyaLocalizations.of(context).loadingLabel));
-              default:
+              case ConnectionState.done:
                 return Text(
                   snapshot.data['thumbs_up'].toString(),
                   textAlign: TextAlign.center,
                 );
+                break;
+
+              default:
+                return Center(
+                    child: Text(NyaNyaLocalizations.of(context).loadingLabel));
+                break;
             }
           },
         )
