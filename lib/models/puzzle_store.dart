@@ -12,7 +12,7 @@ class PuzzleStore extends NamedDataStore {
         puzzleData.name, jsonEncode(puzzleData.puzzleData.toJson()));
   }
 
-  Future<bool> updatePuzzle(String uuid, NamedPuzzleData puzzleData) async {
+  Future<bool> updatePuzzle(String uuid, PuzzleData puzzleData) async {
     return updateData(uuid, jsonEncode(puzzleData.toJson()));
   }
 

@@ -120,7 +120,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
       });
     } else {
       LocalPuzzles.store
-          .updatePuzzle(_uuid, _buildPuzzleData())
+          .updatePuzzle(_uuid, _buildPuzzleData().puzzleData)
           .then((bool status) {
         print('Updated $_uuid');
         _saving = false;
