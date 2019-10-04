@@ -67,8 +67,8 @@ class User with ChangeNotifier {
   }
 
   Future<void> signInAnonymously() {
-    return FirebaseAuth.instance.signInAnonymously().then((FirebaseUser user) {
-      _user = user;
+    return FirebaseAuth.instance.signInAnonymously().then((AuthResult result) {
+      _user = result.user;
 
       notifyListeners();
       return;
