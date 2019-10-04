@@ -6,7 +6,7 @@ class NyaNyaLocalizationsDelegate
   const NyaNyaLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => ['en', 'fr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => ['en', 'fr', 'de'].contains(locale.languageCode);
 
   @override
   Future<NyaNyaLocalizations> load(Locale locale) {

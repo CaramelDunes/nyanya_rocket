@@ -53,6 +53,10 @@ class _SettingsState extends State<Settings> {
                       child: Text('Français'),
                       value: 'fr',
                     ),
+                    DropdownMenuItem(
+                      child: Text('Deutsch'),
+                      value: 'de',
+                    ),
                   ],
                   onChanged: (String language) {
                     Provider.of<Language>(context).value = language;

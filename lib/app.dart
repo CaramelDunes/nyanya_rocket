@@ -20,6 +20,7 @@ class App extends StatefulWidget {
   static const List<Locale> supportedLocales = [
     const Locale('en', 'US'),
     const Locale('fr', 'FR'),
+    const Locale('de', 'DE'),
   ];
 
   static ThemeData darkTheme = ThemeData(

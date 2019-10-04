@@ -6,6 +6,7 @@ class Contributors extends StatelessWidget {
     'brouxco', // Early testing
     'GuilloteauQ', // Early testing
     'chauvean', // Discovered null shared pref bug
+    'Savony', // German translation
   ];
 
   @override
