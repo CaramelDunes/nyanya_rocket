@@ -27,7 +27,7 @@ class _AnimatedGameViewState extends State<AnimatedGameView>
     super.initState();
 
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 500), vsync: this);
+        duration: const Duration(milliseconds: 350), vsync: this);
     _animation = IntTween(begin: 0, end: 29).animate(_controller);
     _controller.repeat();
   }
