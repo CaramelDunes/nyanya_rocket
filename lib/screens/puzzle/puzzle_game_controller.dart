@@ -39,9 +39,12 @@ class PuzzleGameController extends LocalGameController {
 
   Iterable<Entity> _preMistakeEntities;
 
-  Soundpool _pool = Soundpool(streamType: StreamType.music);
-  int _mouseInRocketId;
-  int _catInRocketId;
+  static Soundpool _pool = Soundpool(streamType: StreamType.music, maxStreams: 5);
+  static int _mouseInRocketId;
+  static int _catInRocketId;
+
+  bool _pleasePlayMouseInRocket = false;
+  bool _pleasePlayCatInRocket = false;
 
   PuzzleGameController({this.onWin, this.onMistake, @required this.puzzle})
       : super(puzzle.getGame()) {
@@ -56,21 +59,25 @@ class PuzzleGameController extends LocalGameController {
       }
     }
 
-    rootBundle
-        .load("assets/sounds/mouse_in_rocket.aac")
-        .then((ByteData soundData) {
-      _pool.load(soundData).then((int id) {
-        _mouseInRocketId = id;
+    if (_mouseInRocketId == null) {
+      rootBundle
+          .load("assets/sounds/mouse_in_rocket.aac")
+          .then((ByteData soundData) {
+        _pool.load(soundData).then((int id) {
+          _mouseInRocketId = id;
+        });
       });
-    });
+    }
 
-    rootBundle
-        .load("assets/sounds/cat_in_rocket.aac")
-        .then((ByteData soundData) {
-      _pool.load(soundData).then((int id) {
-        _catInRocketId = id;
+    if (_catInRocketId == null) {
+      rootBundle
+          .load("assets/sounds/cat_in_rocket.aac")
+          .then((ByteData soundData) {
+        _pool.load(soundData).then((int id) {
+          _catInRocketId = id;
+        });
       });
-    });
+    }
   }
 
   ValueNotifier<BoardPosition> get mistake => _mistake;
@@ -183,12 +190,12 @@ class PuzzleGameController extends LocalGameController {
       _mistake.value = entity.position;
       _preMistakeEntities = game.entities;
 
-      if (_mouseInRocketId != null) {
-        _pool.play(_catInRocketId);
+      if (_catInRocketId != null) {
+        _pleasePlayCatInRocket = true;
       }
     } else {
       if (_mouseInRocketId != null) {
-        _pool.play(_mouseInRocketId);
+        _pleasePlayMouseInRocket = true;
       }
 
       _miceInRocket++;
@@ -211,6 +218,15 @@ class PuzzleGameController extends LocalGameController {
 
   @override
   void afterTick() {
+    if (_pleasePlayCatInRocket) {
+      _pool.play(_catInRocketId);
+    } else if (_pleasePlayMouseInRocket) {
+      _pool.play(_mouseInRocketId);
+    }
+
+    _pleasePlayMouseInRocket = false;
+    _pleasePlayCatInRocket = false;
+
     if (_mistake.value != null) {
       game.entities = _preMistakeEntities;
       updateGame();
