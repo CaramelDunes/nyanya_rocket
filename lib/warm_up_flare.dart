@@ -25,6 +25,7 @@ Future<void> warmUpFlare() async {
     await Future<void>.delayed(const Duration(milliseconds: 16));
   }
 
+  // ignore_for_file: unnecessary_statements
   EntitiesDrawerCanvas.mouseAnimations;
   EntitiesDrawerCanvas.catAnimations;
 }

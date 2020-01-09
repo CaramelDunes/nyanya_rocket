@@ -12,26 +12,27 @@ class CheckerboardPainter extends CustomPainter {
   ];
 
   final List<Paint> paints;
-  final bool useDarkColors;
 
-  CheckerboardPainter({@required this.useDarkColors})
+  CheckerboardPainter({@required bool useDarkColors})
       : paints = useDarkColors ? darkPaints : lightPaints;
 
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.drawRect(Offset.zero & size, paints[0]);
+
     final double xStep = size.width / 12;
     final double yStep = size.height / 9;
 
     for (int x = 0; x < 12; x++) {
-      for (int y = 0; y < 9; y++) {
+      for (int y = x.isEven ? 1 : 0; y < 9; y += 2) {
         canvas.drawRect(Rect.fromLTWH(x * xStep, y * yStep, xStep, yStep),
-            paints[(x ^ y) & 1]);
+            paints[1]);
       }
     }
   }
 
   @override
   bool shouldRepaint(CheckerboardPainter oldDelegate) {
-    return useDarkColors != oldDelegate.useDarkColors;
+    return paints != oldDelegate.paints;
   }
 }
