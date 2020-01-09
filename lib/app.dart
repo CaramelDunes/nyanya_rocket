@@ -8,6 +8,7 @@ import 'package:nyanya_rocket/routing.dart';
 import 'package:nyanya_rocket/screens/settings/dark_mode.dart';
 import 'package:nyanya_rocket/screens/settings/first_run.dart';
 import 'package:nyanya_rocket/screens/settings/language.dart';
+import 'package:nyanya_rocket/screens/settings/sounds.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,6 +44,7 @@ class _AppState extends State<App> {
   final DarkMode _darkMode = DarkMode();
   final Language _language = Language('auto');
   final FirstRun _firstRun = FirstRun();
+  final Sounds _sounds = Sounds();
   final User _user = User();
 
   @override
@@ -63,6 +65,7 @@ class _AppState extends State<App> {
       _darkMode.prefs = prefs;
       _language.prefs = prefs;
       _firstRun.prefs = prefs;
+      _sounds.prefs = prefs;
     });
 
     super.initState();
@@ -76,6 +79,7 @@ class _AppState extends State<App> {
         ChangeNotifierProvider.value(notifier: _language),
         // TODO Move this to the What's New tab
         ChangeNotifierProvider.value(notifier: _firstRun),
+        ChangeNotifierProvider.value(notifier: _sounds),
         ChangeNotifierProvider.value(notifier: _user),
       ],
       child: Consumer2<DarkMode, Language>(

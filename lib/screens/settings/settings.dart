@@ -4,6 +4,7 @@ import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/settings/account_management.dart';
 import 'package:nyanya_rocket/screens/settings/dark_mode.dart';
 import 'package:nyanya_rocket/screens/settings/language.dart';
+import 'package:nyanya_rocket/screens/settings/sounds.dart';
 import 'package:provider/provider.dart';
 
 class Settings extends StatefulWidget {
@@ -40,12 +41,10 @@ class _SettingsState extends State<Settings> {
               title: Text('Sounds'),
               onChanged: (bool value) {
                 setState(() {
-                  OptionsHolder.of(context).options = OptionsHolder.of(context)
-                      .options
-                      .copyWith(playSounds: value);
+                  Provider.of<Sounds>(context).enabled = value;
                 });
               },
-              value: OptionsHolder.of(context).options.playSounds,
+              value: Provider.of<Sounds>(context).enabled,
             ),
             ListTile(
               title: Text(NyaNyaLocalizations.of(context).languageLabel),
