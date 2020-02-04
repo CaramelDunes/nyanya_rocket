@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/screens/multiplayer/network_client.dart';
@@ -10,9 +12,9 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class NetworkMultiplayer extends StatefulWidget {
   final String nickname;
-  final String hostname;
+  final InternetAddress serverAddress;
 
-  const NetworkMultiplayer({Key key, this.nickname, this.hostname})
+  const NetworkMultiplayer({Key key, this.nickname, this.serverAddress})
       : super(key: key);
 
   @override
@@ -32,7 +34,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer>
 
     _localMultiplayerController = NetworkClient(
         nickname: widget.nickname,
-        serverHostname: widget.hostname,
+        serverAddress: widget.serverAddress,
         onGameEvent: _handleGameEvent);
 
     SystemChrome.setPreferredOrientations([

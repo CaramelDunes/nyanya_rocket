@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:isolate';
 
 import 'package:connectivity/connectivity.dart';
@@ -47,7 +48,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   }
 
   static void serverEntryPoint(ArgumentBundle arguments) {
-    GameServer(nbPlayer: arguments.playerCount, board: arguments.board);
+    GameServer(nbPlayer: arguments.playerCount, board: arguments.board, port: 43122);
   }
 
   @override
@@ -96,15 +97,21 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                     if (_formKey.currentState.validate()) {
                       _formKey.currentState.save();
 
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  NetworkMultiplayer(
-                                    nickname: _nickname,
-                                    hostname: _hostname,
-                                  )))
-                          .then((dynamic) {
-                        _LanMultiplayerSetupState._serverIsolate?.kill();
+                      InternetAddress.lookup(_hostname,
+                              type: InternetAddressType.IPv4)
+                          .then((List<InternetAddress> result) {
+                        if (result.length > 0) {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      NetworkMultiplayer(
+                                        nickname: _nickname,
+                                        serverAddress: result[0],
+                                      )))
+                              .then((dynamic) {
+                            _LanMultiplayerSetupState._serverIsolate?.kill();
+                          });
+                        }
                       });
                     }
                   },
@@ -143,8 +150,8 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                   ),
                 ],
                 onChanged: (Duration value) => setState(() {
-                      _duration = value;
-                    }),
+                  _duration = value;
+                }),
               ),
             ),
             VerticalDivider(),
@@ -174,8 +181,8 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                   ),
                 ],
                 onChanged: (int value) => setState(() {
-                      _playerCount = value;
-                    }),
+                  _playerCount = value;
+                }),
               ),
             ),
           ],

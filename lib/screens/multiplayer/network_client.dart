@@ -5,52 +5,38 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class NetworkClient {
-  final String serverHostname;
-  final int port;
-  final String nickname;
-
-  RawDatagramSocket _socket;
+class NetworkClient extends GameTicker {
+  ClientSocket _socket;
   final List<String> _players = List.filled(4, '');
   final ValueNotifier<Game> gameStream = ValueNotifier(Game());
   final StreamController<Duration> timeStream = StreamController();
   final List<StreamController<int>> scoreStreams =
       List.generate(4, (_) => StreamController(), growable: false);
 
-  final BytesBuilder _builder = BytesBuilder();
-
-  InternetAddress _serverAddress;
-
   int _timestamp = 0;
 
-  ProtocolGameEvent _previousEvent = ProtocolGameEvent.NO_EVENT;
+  GameEvent _previousEvent = GameEvent.None;
   final void Function(GameEvent event) onGameEvent;
 
   NetworkClient(
-      {@required this.serverHostname,
-      @required this.nickname,
-      this.port = 43210,
-      this.onGameEvent}) {
-    InternetAddress.lookup(serverHostname)
-        .then((List<InternetAddress> addresses) {
-      if (addresses.length > 0) {
-        _serverAddress = addresses[0];
+      {@required InternetAddress serverAddress,
+      @required String nickname,
+      int port = 43122,
+      this.onGameEvent})
+      : super(Game()) {
 
-        RawDatagramSocket.bind(InternetAddress.anyIPv4, 0)
-            .then((RawDatagramSocket socket) {
-          _socket = socket;
-          _socket.listen(_handleSocketEvent);
-
-          _builder.addByte(MessageTypes.Login.index);
-          _builder
-              .add((RegisterMessage()..nickname = nickname).writeToBuffer());
-          _socket.send(_builder.takeBytes(), _serverAddress, port);
-        });
-      }
-    });
+    print('Connecting to $serverAddress:$port');
+    _socket = ClientSocket(
+        serverAddress: serverAddress,
+        port: port,
+        gameCallback: _handleGame,
+        nickname: nickname,
+        playerRegisterSuccessCallback: _handleRegisterSuccess);
   }
 
   void close() {
+    super.close();
+
     _socket?.close();
     timeStream.close();
     scoreStreams.forEach((StreamController stream) => stream.close());
@@ -60,58 +46,48 @@ class NetworkClient {
 
   void placeArrow(int x, int y, Direction direction) {
     if (_socket != null) {
-      PlaceArrowMessage msg = PlaceArrowMessage()
-        ..x = x
-        ..y = y
-        ..direction = ProtocolDirection.values[direction.index];
-
-      _builder.addByte(MessageTypes.PlaceArrow.index);
-      _builder.add(msg.writeToBuffer());
-      _socket.send(_builder.takeBytes(), _serverAddress, port);
+      _socket.sendArrowRequest(x, y, direction);
     }
   }
 
-  void _handleSocketEvent(RawSocketEvent event) {
-    if (event == RawSocketEvent.read) {
-      Datagram datagram = _socket.receive();
-      if (datagram != null) {
-        var buffer = datagram.data;
-
-        if (datagram.data.length > 0) {
-          if (datagram.data[0] == MessageTypes.GameState.index) {
-            buffer = buffer.getRange(1, buffer.length).toList();
-
-            ProtocolGame g = ProtocolGame.fromBuffer(buffer);
-
-            if (_timestamp < g.timestamp) {
-              gameStream.value = Game.fromProtocolGame(g);
-
-              if (onGameEvent != null &&
-                  g.event != ProtocolGameEvent.NO_EVENT &&
-                  g.event != _previousEvent) {
-                _previousEvent = g.event;
-                onGameEvent(GameEvent.values[g.event.value]);
-              }
-
-              _timestamp = g.timestamp;
-              timeStream.add(Duration(milliseconds: _timestamp * 16));
-
-              for (int i = 0; i < 4; i++) {
-                scoreStreams[i].add(g.scores[i]);
-              }
-            }
-          } else if (datagram.data[0] == MessageTypes.LoginSuccess.index) {
-            buffer = buffer.getRange(1, buffer.length).toList();
-
-            RegisterSuccessMessage msg =
-                RegisterSuccessMessage.fromBuffer(buffer);
-            _players[msg.givenColor.value] = msg.nickname;
-
-            scoreStreams
-                .forEach((StreamController scoreStream) => scoreStream.add(0));
-          }
-        }
-      }
+  void _handleGame(Game newGame) {
+    if (onGameEvent != null &&
+        newGame.currentEvent != GameEvent.None &&
+        newGame.currentEvent != _previousEvent) {
+      _previousEvent = newGame.currentEvent;
+      onGameEvent(newGame.currentEvent);
     }
+
+    _timestamp = newGame.tickCount;
+    timeStream.add(Duration(milliseconds: _timestamp * 16));
+
+    for (int i = 0; i < 4; i++) {
+      scoreStreams[i].add(newGame.scoreOf(PlayerColor.values[i]));
+    }
+
+    if (game.tickCount <= newGame.tickCount) {
+      game = newGame;
+    } else {
+      for (int i = 0; i < game.tickCount - newGame.tickCount; i++) {
+        newGame.tick();
+      }
+
+      game = newGame;
+    }
+
+//    game.generatorPolicy = GeneratorPolicy.None;
+    running = true;
+  }
+
+  @override
+  void afterTick() {
+    gameStream.value = game;
+  }
+
+  void _handleRegisterSuccess(RegisterSuccessMessage message) {
+    _players[message.givenColor.value] = message.nickname;
+
+    // Proc update of score boxes
+    scoreStreams.forEach((StreamController scoreStream) => scoreStream.add(0));
   }
 }
