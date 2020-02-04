@@ -5,6 +5,7 @@ import 'package:flare_dart/math/aabb.dart';
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_cache.dart';
 import 'package:flare_flutter/flare_cache_asset.dart';
+import 'package:flare_flutter/provider/asset_flare.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,7 +17,7 @@ class CachedFlareAnimation {
 
   CachedFlareAnimation(
       {@required String assetFilename, @required String animationName}) {
-    cachedActor(rootBundle, assetFilename)
+    cachedActor(AssetFlare(bundle: rootBundle, name: assetFilename))
         .then((FlareCacheAsset cacheAsset) async {
       FlutterActor actor = cacheAsset.actor;
 

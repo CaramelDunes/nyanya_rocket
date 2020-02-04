@@ -25,7 +25,7 @@ dependencies:
   firebase_auth: ^0.15.3+1
   cloud_functions: ^0.4.1+6
 
-  flare_flutter: ^1.8.3
+  flare_flutter: ^2.0.1
 
   font_awesome_flutter: ^8.5.0
 
