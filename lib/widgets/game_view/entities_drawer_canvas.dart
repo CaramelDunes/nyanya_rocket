@@ -5,21 +5,19 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class EntitiesDrawerCanvas {
   static const List<String> _directions = ['right', 'up', 'left', 'down'];
-  static final List<CachedFlareAnimation> mouseAnimations =
-      List.generate(4, (int i) {
-    return CachedFlareAnimation(
-        assetFilename: "assets/animations/mouse_${_directions[i]}.flr",
-        animationName: "Move");
-  });
+  static final List<CachedFlareAnimation> mouseAnimations = List.generate(
+      4,
+      (int i) => CachedFlareAnimation(
+          assetFilename: "assets/animations/mouse_${_directions[i]}.flr",
+          animationName: "Move"));
 
-  static final List<CachedFlareAnimation> catAnimations =
-      List.generate(4, (int i) {
-    return CachedFlareAnimation(
-        assetFilename: "assets/animations/cat_${_directions[i]}.flr",
-        animationName: "Move");
-  });
+  static final List<CachedFlareAnimation> catAnimations = List.generate(
+      4,
+      (int i) => CachedFlareAnimation(
+          assetFilename: "assets/animations/cat_${_directions[i]}.flr",
+          animationName: "Move"));
 
-  double topOfEntity(Entity entity, double tileSize) {
+  static double topOfEntity(Entity entity, double tileSize) {
     double top = entity.position.y * tileSize;
 
     switch (entity.position.direction) {
@@ -40,7 +38,7 @@ class EntitiesDrawerCanvas {
     return top;
   }
 
-  double leftOfEntity(Entity entity, double tileSize) {
+  static double leftOfEntity(Entity entity, double tileSize) {
     double left = entity.position.x * tileSize;
 
     switch (entity.position.direction) {
@@ -61,7 +59,7 @@ class EntitiesDrawerCanvas {
     return left;
   }
 
-  void draw(Entity entity, double tileSize, Canvas canvas, int frameNb) {
+  static void draw(Entity entity, double tileSize, Canvas canvas, int frameNb) {
     final double catBonusSize = tileSize / 2;
 
     switch (entity.runtimeType) {
@@ -112,20 +110,11 @@ class EntitiesDrawerCanvas {
     }
   }
 
-  void drawEntities(Canvas canvas, Size size, Iterable<Entity> entities,
+  static void drawEntities(Canvas canvas, Size size, Iterable<Entity> entities,
       [int frameNb = 0]) {
     double tileSize = size.width / 12;
-
     entities.forEach((Entity entity) {
-      if (entity is! Cat) {
-        draw(entity, tileSize, canvas, frameNb);
-      }
-    });
-
-    entities.forEach((Entity entity) {
-      if (entity is Cat) {
-        draw(entity, tileSize, canvas, frameNb);
-      }
+      draw(entity, tileSize, canvas, frameNb);
     });
   }
 }

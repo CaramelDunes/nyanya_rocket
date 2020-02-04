@@ -12,11 +12,7 @@ class RunAwayGameController extends ChallengeGameController {
   RunAwayGameController(
       {@required void Function() onWin, @required ChallengeData challenge})
       : super(onWin: onWin, challenge: challenge) {
-    for (Entity e in game.entities) {
-      if (e is! Cat) {
-        _targetScore++;
-      }
-    }
+    _targetScore = game.mice.length;
   }
 
   @override

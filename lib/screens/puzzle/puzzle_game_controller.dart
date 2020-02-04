@@ -35,7 +35,8 @@ class PuzzleGameController extends LocalGameController {
 
   ValueNotifier<BoardPosition> _mistake = ValueNotifier(null);
 
-  Iterable<Entity> _preMistakeEntities;
+  Iterable<Cat> _preMistakeCats;
+  Iterable<Entity> _preMistakeMice;
 
   PuzzleGameController({this.onWin, this.onMistake, @required this.puzzle})
       : super(puzzle.getGame()) {
@@ -44,11 +45,7 @@ class PuzzleGameController extends LocalGameController {
           remainingArrows(Direction.values[direction]);
     }
 
-    for (Entity e in game.entities) {
-      if (e is! Cat) {
-        _miceCount++;
-      }
-    }
+    _miceCount = game.mice.length;
   }
 
   ValueNotifier<BoardPosition> get mistake => _mistake;
@@ -142,7 +139,8 @@ class PuzzleGameController extends LocalGameController {
   void onMouseEaten(Mouse mouse, Cat cat) {
     running = false;
     _mistake.value = mouse.position;
-    _preMistakeEntities = game.entities;
+    _preMistakeMice = game.mice;
+    _preMistakeCats = game.cats;
   }
 
   @override
@@ -150,7 +148,8 @@ class PuzzleGameController extends LocalGameController {
     if (entity is Mouse) {
       running = false;
       _mistake.value = entity.position;
-      _preMistakeEntities = game.entities;
+      _preMistakeMice = game.mice;
+      _preMistakeCats = game.cats;
     }
   }
 
@@ -159,7 +158,8 @@ class PuzzleGameController extends LocalGameController {
     if (entity is Cat) {
       running = false;
       _mistake.value = entity.position;
-      _preMistakeEntities = game.entities;
+      _preMistakeMice = game.mice;
+      _preMistakeCats = game.cats;
     } else {
       _miceInRocket++;
       if (_miceCount == _miceInRocket) {
@@ -182,8 +182,8 @@ class PuzzleGameController extends LocalGameController {
   @override
   void afterTick() {
     if (_mistake.value != null) {
-      game.entities = _preMistakeEntities;
-      updateGame();
+      game.cats = _preMistakeCats;
+      game.mice = _preMistakeMice;
     }
 
     if (_pleaseReset) {

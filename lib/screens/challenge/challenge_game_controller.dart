@@ -29,7 +29,8 @@ abstract class ChallengeGameController extends LocalGameController {
 
   ValueNotifier<BoardPosition> _mistake = ValueNotifier(null);
 
-  Iterable<Entity> _preMistakeEntities;
+  Iterable<Cat> _preMistakeCats;
+  Iterable<Mouse> _preMistakeMice;
 
   ChallengeGameController({@required this.challenge, this.onWin})
       : super(
@@ -76,7 +77,8 @@ abstract class ChallengeGameController extends LocalGameController {
   void mistakeMade(BoardPosition position) {
     _mistake.value = position;
     running = false;
-    _preMistakeEntities = game.entities;
+    _preMistakeCats = game.cats;
+    _preMistakeMice = game.mice;
     // pauseFor(Duration(seconds: 3));
     // pleaseReset();
   }
@@ -139,7 +141,8 @@ abstract class ChallengeGameController extends LocalGameController {
 
   void afterTick() {
     if (_mistake.value != null) {
-      game.entities = _preMistakeEntities;
+      game.cats = _preMistakeCats;
+      game.mice = _preMistakeMice;
       updateGame();
     }
 

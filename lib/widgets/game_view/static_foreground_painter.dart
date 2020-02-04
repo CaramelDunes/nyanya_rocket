@@ -6,14 +6,14 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class StaticForegroundPainter extends CustomPainter {
   final Game game;
-  final EntitiesDrawerCanvas _entitiesDrawer = EntitiesDrawerCanvas();
 
   StaticForegroundPainter({@required this.game});
 
   @override
   void paint(Canvas canvas, Size size) {
     ForegroundPainter.paintWalls(canvas, size, game.board);
-    _entitiesDrawer.drawEntities(canvas, size, game.entities, 0);
+    EntitiesDrawerCanvas.drawEntities(canvas, size, game.cats, 0);
+    EntitiesDrawerCanvas.drawEntities(canvas, size, game.mice, 0);
   }
 
   @override
