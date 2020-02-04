@@ -92,37 +92,24 @@ class _PuzzleState extends State<Puzzle> {
   Widget _buildPortrait(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AspectRatio(
-                    aspectRatio: 12.0 / 9.0,
-                    child: InputGridOverlay<Direction>(
-                      child: AnimatedGameView(
-                        game: _puzzleController.gameStream,
-                        mistake: _puzzleController.mistake,
-                      ),
-                      onDrop: _handleDropAndSwipe,
-                      onTap: _handleTap,
-                      onSwipe: _handleDropAndSwipe,
-                      previewBuilder: _dragTileBuilder,
-                    )),
+        AspectRatio(
+            aspectRatio: 12.0 / 9.0,
+            child: InputGridOverlay<Direction>(
+              child: AnimatedGameView(
+                game: _puzzleController.gameStream,
+                mistake: _puzzleController.mistake,
               ),
-            ),
-          ],
-        ),
-        Flexible(
-            flex: 1,
-            child: AvailableArrows(puzzleGameController: _puzzleController)),
+              onDrop: _handleDropAndSwipe,
+              onTap: _handleTap,
+              onSwipe: _handleDropAndSwipe,
+              previewBuilder: _dragTileBuilder,
+            )),
+        Flexible(child: AvailableArrows(puzzleGameController: _puzzleController)),
         Flexible(
           child: PuzzleGameControls(puzzleController: _puzzleController),
-        ),
+        )
       ],
     );
   }
@@ -130,35 +117,23 @@ class _PuzzleState extends State<Puzzle> {
   Widget _buildLandscape(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Spacer(),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AspectRatio(
-                    aspectRatio: 12.0 / 9.0,
-                    child: InputGridOverlay<Direction>(
-                      child: AnimatedGameView(
-                        game: _puzzleController.gameStream,
-                        mistake: _puzzleController.mistake,
-                      ),
-                      onDrop: _handleDropAndSwipe,
-                      onTap: _handleTap,
-                      onSwipe: _handleDropAndSwipe,
-                      previewBuilder: _dragTileBuilder,
-                    )),
-              ),
-            ),
-            PuzzleGameControls(puzzleController: _puzzleController),
-          ],
-        ),
         Flexible(
-            flex: 1,
+            child: PuzzleGameControls(puzzleController: _puzzleController)),
+        AspectRatio(
+            aspectRatio: 12.0 / 9.0,
+            child: InputGridOverlay<Direction>(
+              child: AnimatedGameView(
+                game: _puzzleController.gameStream,
+                mistake: _puzzleController.mistake,
+              ),
+              onDrop: _handleDropAndSwipe,
+              onTap: _handleTap,
+              onSwipe: _handleDropAndSwipe,
+              previewBuilder: _dragTileBuilder,
+            )),
+        Flexible(
             child: AvailableArrows(puzzleGameController: _puzzleController)),
       ],
     );

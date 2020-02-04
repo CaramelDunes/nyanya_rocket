@@ -16,31 +16,38 @@ class AvailableArrows extends StatelessWidget {
               maxSimultaneousDrags:
                   puzzleGameController.canPlaceArrow ? count : 0,
               feedback: const SizedBox.shrink(),
-              child: Card(
-                child: Flex(
-                  direction: orientation == Orientation.portrait
-                      ? Axis.horizontal
-                      : Axis.vertical,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+              child: IntrinsicHeight(
+                child: Stack(
+                  fit: StackFit.passthrough,
                   children: <Widget>[
-                    Flexible(
+                    RotatedBox(
+                      quarterTurns: -i,
+                      child: Image.asset(
+                        'assets/graphics/arrow_${count > 0 ? 'blue' : 'grey'}.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: RotatedBox(
-                          quarterTurns: -i,
-                          child: Image.asset(
-                            'assets/graphics/arrow_${count > 0 ? 'blue' : 'grey'}.png',
-                            fit: BoxFit.contain,
+                        child: Container(
+                          decoration: new BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  new BorderRadius.all(Radius.circular(8))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              count.toString(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 25),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Text(
-                      count.toString(),
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -53,12 +60,13 @@ class AvailableArrows extends StatelessWidget {
     return OrientationBuilder(
       builder: (BuildContext context, Orientation orientation) {
         return Flex(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             direction: orientation == Orientation.landscape
                 ? Axis.horizontal
                 : Axis.vertical,
             children: List<Widget>.generate(
                 4,
-                (i) => Expanded(
+                (i) => Flexible(
                     child: _buildDraggableArrow(context, orientation, i))));
       },
     );
