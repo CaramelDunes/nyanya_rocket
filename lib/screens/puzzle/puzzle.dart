@@ -202,6 +202,7 @@ class _PuzzleState extends State<Puzzle> {
                 hasNext: widget.hasNext,
                 succeededName: widget.puzzle.name,
                 succeededPath: widget.documentPath,
+                canPlayAgain: true,
               )),
         ],
       ),

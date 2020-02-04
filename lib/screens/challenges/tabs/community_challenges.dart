@@ -127,12 +127,12 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
                       ),
                       onTap: () {
                         Navigator.of(context)
-                            .push(MaterialPageRoute<OverlayPopData>(
+                            .push(MaterialPageRoute<OverlayResult>(
                                 builder: (context) => Challenge(
                                       challenge: challenges[i],
                                       hasNext: false,
                                     )))
-                            .then((OverlayPopData popData) {});
+                            .then((OverlayResult popData) {});
                       },
                     )),
           ),

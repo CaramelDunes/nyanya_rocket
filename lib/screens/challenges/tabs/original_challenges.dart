@@ -170,16 +170,18 @@ class _OriginalChallengesState extends State<OriginalChallenges>
   void _openNext(int i) {
     if (OriginalChallenges.challenges.length > i + 1) {
       Navigator.of(context)
-          .push(MaterialPageRoute<OverlayPopData>(
+          .push(MaterialPageRoute<OverlayResult>(
               builder: (context) => Challenge(
                     hasNext: i + 1 != OriginalChallenges.challenges.length - 1,
                     challenge: _buildChallengeData(context, i + 1),
                     onWin: (Duration time) => _handleChallengeWin(i + 1, time),
                   )))
-          .then((OverlayPopData popData) {
-        if (popData != null) {
-          if (popData.playNext) {
+          .then((OverlayResult overlayResult) {
+        if (overlayResult != null) {
+          if (overlayResult == OverlayResult.PlayNext) {
             _openNext(i + 1);
+          } else if (overlayResult == OverlayResult.PlayAgain) {
+            _openNext(i);
           }
         }
       });
@@ -206,15 +208,15 @@ class _OriginalChallengesState extends State<OriginalChallenges>
       ),
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute<OverlayPopData>(
+            .push(MaterialPageRoute<OverlayResult>(
                 builder: (context) => Challenge(
                       hasNext: i != OriginalChallenges.challenges.length - 1,
                       challenge: _buildChallengeData(context, i),
                       onWin: (Duration time) => _handleChallengeWin(i, time),
                     )))
-            .then((OverlayPopData popData) {
-          if (popData != null) {
-            if (popData.playNext) {
+            .then((OverlayResult overlayResult) {
+          if (overlayResult != null) {
+            if (overlayResult == OverlayResult.PlayNext) {
               _openNext(i);
             }
           }

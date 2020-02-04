@@ -197,6 +197,7 @@ class _ChallengeState extends State<Challenge> {
               child: SuccessOverlay(
                 succeededName: widget.challenge.name,
                 hasNext: widget.hasNext,
+                canPlayAgain: true,
               )),
         ],
       ),

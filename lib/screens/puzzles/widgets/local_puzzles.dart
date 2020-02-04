@@ -33,14 +33,14 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
   }
 
   void _verifyAndPublish(BuildContext context, NamedPuzzleData puzzle) {
-    Navigator.push<OverlayPopData>(
+    Navigator.push<OverlayResult>(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => Puzzle(
                   puzzle: puzzle,
                   hasNext: false,
-                ))).then((OverlayPopData popData) {
-      if (popData != null) {
+                ))).then((OverlayResult overlayResult) {
+      if (overlayResult != null) {
         CloudFunctions.instance
             .getHttpsCallable(functionName: 'publishPuzzle')
             .call({

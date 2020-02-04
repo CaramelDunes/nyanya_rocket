@@ -131,7 +131,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                       ),
                       onTap: () {
                         Navigator.of(context)
-                            .push(MaterialPageRoute<OverlayPopData>(
+                            .push(MaterialPageRoute<OverlayResult>(
                                 builder: (context) => Puzzle(
                                       puzzle: puzzles[i],
                                       onWin: (bool starred) =>
@@ -139,7 +139,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                                       documentPath: 'puzzles/${puzzles[i].uid}',
                                       hasNext: false,
                                     )))
-                            .then((OverlayPopData popData) {});
+                            .then((OverlayResult overlayResult) {});
                       },
                     )),
           ),
