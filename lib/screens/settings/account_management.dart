@@ -137,43 +137,52 @@ class AccountManagement extends StatelessWidget {
       ),
       body: Consumer<User>(
         builder: (innerContext, user, _) => ListView(
-              children: <Widget>[
-                ListTile(
-                  title: Text(
-                      '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
-                  subtitle: Text(user.isConnected
-                      ? NyaNyaLocalizations.of(context).signOutLabel
-                      : NyaNyaLocalizations.of(context).signInLabel),
-                  onTap: () {
-                    if (user.isConnected) {
-                      _showConfirmDialog(
-                              context,
-                              NyaNyaLocalizations.of(context)
-                                  .signOutDialogTitle,
-                              Text(NyaNyaLocalizations.of(context)
-                                  .signOutDialogText))
-                          .then((bool confirmed) {
-                        if (confirmed != null && confirmed) {
-                          user.signOut();
-                        }
-                      });
-                    } else {
-                      Navigator.push<bool>(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      PrivacyPolicyPrompt(askUser: true)))
-                          .then((bool confirmed) {
-                        if (confirmed != null && confirmed) {
-                          user.signInAnonymously();
-                        }
-                      });
+          children: <Widget>[
+            ListTile(
+              title: Text(
+                  '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
+              subtitle: Text(user.isConnected
+                  ? NyaNyaLocalizations.of(context).signOutLabel
+                  : NyaNyaLocalizations.of(context).signInLabel),
+              onTap: () {
+                if (user.isConnected) {
+                  _showConfirmDialog(
+                          context,
+                          NyaNyaLocalizations.of(context).signOutDialogTitle,
+                          Text(NyaNyaLocalizations.of(context)
+                              .signOutDialogText))
+                      .then((bool confirmed) {
+                    if (confirmed ?? false) {
+                      user.signOut();
                     }
-                  },
-                ),
-                _buildDisplayNameTile(innerContext, user)
-              ],
+                  });
+                } else {
+                  Navigator.push<bool>(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  PrivacyPolicyPrompt(askUser: true)))
+                      .then((bool confirmed) {
+                    if (confirmed ?? false) {
+                      user.signInAnonymously();
+                    }
+                  });
+                }
+              },
             ),
+            _buildDisplayNameTile(innerContext, user),
+            ListTile(
+              title: Text(NyaNyaLocalizations.of(context).privacyPolicyLabel),
+              onTap: () {
+                Navigator.push<bool>(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            PrivacyPolicyPrompt(askUser: false)));
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
