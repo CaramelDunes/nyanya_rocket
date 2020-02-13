@@ -37,9 +37,6 @@ class ChallengeType {
     }
   }
 
-  ProtocolPlayerColor toProtocolPlayerColor() =>
-      ProtocolPlayerColor.values[index];
-
   static const GetMice = const ChallengeType._internal(0);
   static const RunAway = const ChallengeType._internal(1);
   static const LunchTime = const ChallengeType._internal(2);
