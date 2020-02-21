@@ -18,6 +18,9 @@ class _PuzzleGameControlsState extends State<PuzzleGameControls> {
   Widget build(BuildContext context) {
     return OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
+      double horizontalPadding = orientation == Orientation.portrait ? 8.0 : 0;
+      double verticalPadding = orientation == Orientation.portrait ? 0 : 8.0;
+
       return Flex(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         direction: orientation == Orientation.landscape
@@ -25,67 +28,71 @@ class _PuzzleGameControlsState extends State<PuzzleGameControls> {
             : Axis.vertical,
         children: <Widget>[
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: new BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: new BorderRadius.all(Radius.circular(8.0))),
-                child: IconButton(
-                  iconSize: iconSize,
-                  icon: Icon(!widget.puzzleController.running
-                      ? Icons.play_circle_outline
-                      : Icons.pause),
-                  onPressed: () {
-                    setState(() {
-                      widget.puzzleController.running =
-                          !widget.puzzleController.running;
-                    });
-                  },
+            child: Card(
+              elevation: 8.0,
+              color: Colors.green,
+              child: InkWell(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: verticalPadding, horizontal: horizontalPadding),
+                  child: Icon(
+                    !widget.puzzleController.running
+                        ? Icons.play_circle_outline
+                        : Icons.pause,
+                    size: iconSize,
+                  ),
                 ),
+                onTap: () {
+                  setState(() {
+                    widget.puzzleController.running =
+                        !widget.puzzleController.running;
+                  });
+                },
               ),
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: new BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: new BorderRadius.all(Radius.circular(8.0))),
-                child: IconButton(
-                    iconSize: iconSize,
-                    icon: Icon(Icons.replay),
-                    onPressed: () {
-                      setState(() {
-                        widget.puzzleController.reset();
-                      });
-                    }),
-              ),
+            child: Card(
+              elevation: 8.0,
+              color: Colors.red,
+              child: InkWell(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: verticalPadding,
+                        horizontal: horizontalPadding),
+                    child: Icon(Icons.replay, size: iconSize),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      widget.puzzleController.reset();
+                    });
+                  }),
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: new BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: new BorderRadius.all(Radius.circular(8.0))),
-                child: IconButton(
-                  iconSize: iconSize,
-                  icon: Icon(Icons.fast_forward),
-                  color: widget.puzzleController.speed == GameSpeed.Fast
-                      ? Colors.white
-                      : null,
-                  onPressed: () {
-                    setState(() {
-                      widget.puzzleController.speed =
-                          widget.puzzleController.speed == GameSpeed.Normal
-                              ? GameSpeed.Fast
-                              : GameSpeed.Normal;
-                    });
-                  },
+            child: Card(
+              elevation: 8.0,
+              color: Colors.blue,
+              child: InkWell(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: verticalPadding, horizontal: horizontalPadding),
+                  child: Icon(
+                    Icons.fast_forward,
+                    size: iconSize,
+                    color: widget.puzzleController.speed == GameSpeed.Fast
+                        ? Colors.white
+                        : null,
+                  ),
                 ),
+                onTap: () {
+                  setState(() {
+                    widget.puzzleController.speed =
+                        widget.puzzleController.speed == GameSpeed.Normal
+                            ? GameSpeed.Fast
+                            : GameSpeed.Normal;
+                  });
+                },
               ),
             ),
           ),

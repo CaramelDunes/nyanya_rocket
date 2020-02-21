@@ -97,16 +97,20 @@ class _PuzzleState extends State<Puzzle> {
         AspectRatio(
             aspectRatio: 12.0 / 9.0,
             child: InputGridOverlay<Direction>(
-              child: AnimatedGameView(
-                game: _puzzleController.gameStream,
-                mistake: _puzzleController.mistake,
+              child: Material(
+                elevation: 8.0,
+                child: AnimatedGameView(
+                  game: _puzzleController.gameStream,
+                  mistake: _puzzleController.mistake,
+                ),
               ),
               onDrop: _handleDropAndSwipe,
               onTap: _handleTap,
               onSwipe: _handleDropAndSwipe,
               previewBuilder: _dragTileBuilder,
             )),
-        Flexible(child: AvailableArrows(puzzleGameController: _puzzleController)),
+        Flexible(
+            child: AvailableArrows(puzzleGameController: _puzzleController)),
         Flexible(
           child: PuzzleGameControls(puzzleController: _puzzleController),
         )
