@@ -30,7 +30,7 @@ class WhatsNew extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       NyaNyaLocalizations.of(context).firstTimeWelcome,
-                      style: Theme.of(context).textTheme.title,
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
                   Text(NyaNyaLocalizations.of(context).firstTimeText),
@@ -50,67 +50,29 @@ class WhatsNew extends StatelessWidget {
         Row(
           children: <Widget>[
             Expanded(
-              child: Card(
-                child: InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.puzzlePiece,
-                          size: 48,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          NyaNyaLocalizations.of(context).puzzlesTitle,
-                          style: Theme.of(context).textTheme.subhead,
-                        )
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/puzzles');
-                  },
-                ),
-              ),
-            ),
+                child: _buildShortcutCard(
+                    context: context,
+                    faIcon: FontAwesomeIcons.puzzlePiece,
+                    name: NyaNyaLocalizations.of(context).puzzlesTitle,
+                    routeName: '/puzzles')),
             Expanded(
-              child: Card(
-                child: InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.stopwatch,
-                          size: 48,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          NyaNyaLocalizations.of(context).challengesTitle,
-                          style: Theme.of(context).textTheme.subhead,
-                        )
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/challenges');
-                  },
-                ),
-              ),
-            ),
+                child: _buildShortcutCard(
+                    context: context,
+                    faIcon: FontAwesomeIcons.stopwatch,
+                    name: NyaNyaLocalizations.of(context).challengesTitle,
+                    routeName: '/challenges')),
+            Expanded(
+                child: _buildShortcutCard(
+                    context: context,
+                    faIcon: FontAwesomeIcons.gamepad,
+                    name: NyaNyaLocalizations.of(context).multiplayerTitle,
+                    routeName: '/multiplayer'))
           ],
         ),
         Divider(),
         Text(
           NyaNyaLocalizations.of(context).newsLabel,
-          style: Theme.of(context).textTheme.headline,
+          style: Theme.of(context).textTheme.headline5,
         ),
         FutureBuilder<QuerySnapshot>(
           future: Firestore.instance
@@ -144,6 +106,33 @@ class WhatsNew extends StatelessWidget {
           },
         )
       ],
+    );
+  }
+
+  Widget _buildShortcutCard(
+      {BuildContext context, IconData faIcon, String name, String routeName}) {
+    return Card(
+      child: InkWell(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FaIcon(faIcon, size: 48),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                name,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+            )
+          ],
+        ),
+        onTap: () {
+          Navigator.pushNamed(context, routeName);
+        },
+      ),
     );
   }
 }
