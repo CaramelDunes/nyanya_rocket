@@ -27,7 +27,7 @@ dependencies:
 
   flare_flutter: ^2.0.1
 
-  font_awesome_flutter: ^8.5.0
+  font_awesome_flutter: ^8.7.0
 
   shared_preferences: ^0.5.1+2
 

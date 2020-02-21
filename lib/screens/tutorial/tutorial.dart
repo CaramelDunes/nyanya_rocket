@@ -16,15 +16,15 @@ class Tutorial extends StatelessWidget {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  icon: Icon(FontAwesomeIcons.play),
+                  icon: FaIcon(FontAwesomeIcons.play),
                   text: NyaNyaLocalizations.of(context).generalLabel,
                 ),
                 Tab(
-                  icon: Icon(FontAwesomeIcons.puzzlePiece),
+                  icon: FaIcon(FontAwesomeIcons.puzzlePiece),
                   text: NyaNyaLocalizations.of(context).puzzleType,
                 ),
                 Tab(
-                  icon: Icon(FontAwesomeIcons.stopwatch),
+                  icon: FaIcon(FontAwesomeIcons.stopwatch),
                   text: NyaNyaLocalizations.of(context).challengeType,
                 ),
               ],

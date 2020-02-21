@@ -73,7 +73,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
             children: <Widget>[
               Text(
                 NyaNyaLocalizations.of(context).sortByLabel,
-                style: Theme.of(context).textTheme.subhead,
+                style: Theme.of(context).textTheme.subtitle1,
               ),
               VerticalDivider(),
               Expanded(

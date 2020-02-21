@@ -31,7 +31,7 @@ class Contributing extends StatelessWidget {
         ),
         Divider(),
         Text('${NyaNyaLocalizations.of(context).contributorsLabel}:',
-            style: Theme.of(context).textTheme.subtitle),
+            style: Theme.of(context).textTheme.subtitle2),
         Contributors()
       ],
     );

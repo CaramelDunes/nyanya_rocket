@@ -34,11 +34,11 @@ class _HomeState extends State<Home> {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  icon: Icon(FontAwesomeIcons.newspaper),
+                  icon: FaIcon(FontAwesomeIcons.newspaper),
                   text: NyaNyaLocalizations.of(context).whatsNewTab,
                 ),
                 Tab(
-                  icon: Icon(FontAwesomeIcons.handsHelping),
+                  icon: FaIcon(FontAwesomeIcons.handsHelping),
                   text: NyaNyaLocalizations.of(context).contributingTab,
                 ),
               ],

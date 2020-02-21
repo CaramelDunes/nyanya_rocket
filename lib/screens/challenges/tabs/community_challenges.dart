@@ -69,7 +69,7 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
             children: <Widget>[
               Text(
                 NyaNyaLocalizations.of(context).sortByLabel,
-                style: Theme.of(context).textTheme.subhead,
+                style: Theme.of(context).textTheme.subtitle1,
               ),
               VerticalDivider(),
               Expanded(
