@@ -175,6 +175,7 @@ class _OriginalChallengesState extends State<OriginalChallenges>
                     hasNext: i + 1 != OriginalChallenges.challenges.length - 1,
                     challenge: _buildChallengeData(context, i + 1),
                     onWin: (Duration time) => _handleChallengeWin(i + 1, time),
+                    bestTime: _times[i + 1],
                   )))
           .then((OverlayResult overlayResult) {
         if (overlayResult != null) {
@@ -213,11 +214,14 @@ class _OriginalChallengesState extends State<OriginalChallenges>
                       hasNext: i != OriginalChallenges.challenges.length - 1,
                       challenge: _buildChallengeData(context, i),
                       onWin: (Duration time) => _handleChallengeWin(i, time),
+                      bestTime: _times[i],
                     )))
             .then((OverlayResult overlayResult) {
           if (overlayResult != null) {
             if (overlayResult == OverlayResult.PlayNext) {
               _openNext(i);
+            } else if (overlayResult == OverlayResult.PlayAgain) {
+              _openNext(i - 1);
             }
           }
         });
