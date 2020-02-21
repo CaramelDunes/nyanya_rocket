@@ -11,13 +11,14 @@ class ScoreBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 8.0,
       color: color,
       child: Column(
         children: <Widget>[
           Flexible(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Container(
                   child: Center(child: Text(label ?? '')),
                   constraints: BoxConstraints.expand(),
