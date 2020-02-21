@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class EventRoulette extends StatelessWidget {
-  final GameEvent finalEvent;
-  final Animation<int> _animation;
-  final AnimationController animationController;
+class EventWheel extends StatelessWidget {
+  final ScrollController scrollController;
 
-  EventRoulette(
-      {Key key, @required this.finalEvent, @required this.animationController})
-      : _animation = IntTween(
-                begin: finalEvent.index - 1,
-                // We don't want None to be part of the roulette
-                end: 3 * (GameEvent.values.length - 1) + finalEvent.index - 1)
-            .animate(CurvedAnimation(
-                parent: animationController, curve: Curves.easeOutQuint)),
-        super(key: key);
+  static final List<Widget> cards =
+      List.generate((GameEvent.values.length - 1) * 5, (index) {
+    return _cardForEvent(
+        GameEvent.values[(index % (GameEvent.values.length - 1)) + 1]);
+  });
 
-  Widget _cardForEvent(GameEvent event) {
+  const EventWheel({Key key, @required this.scrollController}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListWheelScrollView(
+      controller: scrollController,
+      physics: NeverScrollableScrollPhysics(),
+      children: cards,
+      itemExtent: 100,
+      squeeze: 1.1,
+    );
+  }
+
+  static Widget _cardForEvent(GameEvent event) {
     const TextStyle commonStyle = TextStyle(
       fontSize: 30,
       color: Colors.white,
@@ -77,17 +84,5 @@ class EventRoulette extends StatelessWidget {
         return const SizedBox.shrink();
         break;
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (BuildContext context, Widget child) {
-        // We don't want None to be part of the roulette
-        return _cardForEvent(GameEvent
-            .values[1 + _animation.value % (GameEvent.values.length - 1)]);
-      },
-    );
   }
 }

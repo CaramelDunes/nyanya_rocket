@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/multiplayer/device_multiplayer_game_controller.dart';
-import 'package:nyanya_rocket/screens/multiplayer/widgets/event_roulette.dart';
+import 'package:nyanya_rocket/screens/multiplayer/widgets/event_wheel.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
@@ -22,12 +24,10 @@ class DeviceMultiplayer extends StatefulWidget {
   _DeviceMultiplayerState createState() => _DeviceMultiplayerState();
 }
 
-class _DeviceMultiplayerState extends State<DeviceMultiplayer>
-    with SingleTickerProviderStateMixin {
+class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
   LocalMultiplayerGameController _localMultiplayerController;
   bool _displayRoulette = false;
-  GameEvent _rouletteEvent = GameEvent.None;
-  AnimationController _animationController;
+  FixedExtentScrollController _scrollController = FixedExtentScrollController();
 
   @override
   void initState() {
@@ -35,16 +35,6 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer>
 
     _localMultiplayerController = LocalMultiplayerGameController(
         board: widget.board, onGameEvent: _handleGameEvent);
-
-    _animationController = AnimationController(
-        duration: const Duration(milliseconds: 1500), vsync: this)
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          setState(() {
-            _displayRoulette = false;
-          });
-        }
-      });
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -91,11 +81,36 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer>
           data: Arrow(player: player, direction: direction));
 
   void _handleGameEvent(GameEvent event) {
-    _animationController.forward(from: 0);
-    _rouletteEvent = event;
-    setState(() {
-      _displayRoulette = true;
-    });
+    // Not 0 to have a card above and under the starting position on the wheel.
+    _scrollController.jumpToItem(1);
+
+    if (event != GameEvent.None) {
+      setState(() {
+        _displayRoulette = true;
+      });
+
+      // The scroll controller won't animate if the wheel hasn't been attached
+      // before. Wait for 32 milliseconds and hope it has been attached by then.
+      // Using a Wheel as a state attribute doesn't work because its build
+      // function creates a new ScrollView every time.
+      // Possible fixes:
+      // - make Wheel inherit ScrollView directly.
+      // - make Wheel keep its ScrollView across redraws.
+      // - register a post frame callback instead of using a Timer
+      Timer(Duration(milliseconds: 32), () {
+        _scrollController.animateToItem(
+            // Not * 4 to have a card above and under on the wheel.
+            (GameEvent.values.length - 1) * 3 + event.index - 1,
+            duration: Duration(milliseconds: 1500),
+            curve: Curves.decelerate);
+      });
+
+      Timer(Duration(seconds: 3), () {
+        setState(() {
+          _displayRoulette = false;
+        });
+      });
+    }
   }
 
   @override
@@ -214,9 +229,9 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer>
             child: Center(
                 child: Container(
               height: 200,
-              child: EventRoulette(
-                  animationController: _animationController,
-                  finalEvent: _rouletteEvent),
+              child: EventWheel(
+                scrollController: _scrollController,
+              ),
             )),
           )
         ],
