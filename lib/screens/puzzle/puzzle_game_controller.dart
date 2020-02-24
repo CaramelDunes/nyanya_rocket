@@ -39,7 +39,7 @@ class PuzzleGameController extends LocalGameController {
   Iterable<Entity> _preMistakeMice;
 
   PuzzleGameController({this.onWin, this.onMistake, @required this.puzzle})
-      : super(puzzle.getGame()) {
+      : super(puzzle.getGame(), PuzzleGameSimulator()) {
     for (int direction = 0; direction < Direction.values.length; direction++) {
       remainingArrowsStreams[direction].value =
           remainingArrows(Direction.values[direction]);
@@ -111,7 +111,7 @@ class PuzzleGameController extends LocalGameController {
     running = false;
     _mistake.value = null;
 
-    game = puzzle.getGame();
+    gameState = puzzle.getGame();
 
     for (int direction = 0; direction < Direction.values.length; direction++) {
       placedArrows[direction].forEach((Position position) {

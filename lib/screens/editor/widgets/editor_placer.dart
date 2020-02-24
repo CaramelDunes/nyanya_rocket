@@ -157,7 +157,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
                 child: AspectRatio(
                     aspectRatio: 12.0 / 9.0,
                     child: InputGridOverlay<EditorTool>(
-                      child: ValueListenableBuilder<Game>(
+                      child: ValueListenableBuilder<GameState>(
                           valueListenable:
                               widget.editorGameController.gameStream,
                           builder: (context, value, child) {

@@ -28,7 +28,7 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
   LocalMultiplayerGameController({
     @required this.board,
     this.onGameEvent,
-  }) : super(Game()..board = board.board()) {
+  }) : super(GameState()..board = board.board()) {
     running = true;
     pauseFor(Duration(seconds: 3));
     timeStream.add(_remainingTime);

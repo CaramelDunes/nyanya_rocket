@@ -33,8 +33,9 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController =
-        EditorGameController(game: widget.puzzle.puzzleData.getGame());
+    _editorGameController = EditorGameController(
+        game: widget.puzzle.puzzleData.getGame(),
+        gameSimulator: PuzzleGameSimulator());
 
     for (int direction = 0; direction < 4; direction++) {
       _initExistingArrows(Direction.values[direction],

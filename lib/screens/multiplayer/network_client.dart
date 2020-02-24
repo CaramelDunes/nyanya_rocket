@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class NetworkClient extends GameTicker {
+class NetworkClient extends MultiplayerGameTicker {
   ClientSocket _socket;
   final List<String> _players = List.filled(4, '');
-  final ValueNotifier<Game> gameStream = ValueNotifier(Game());
+  final ValueNotifier<GameState> gameStream = ValueNotifier(GameState());
   final StreamController<Duration> timeStream = StreamController();
   final List<StreamController<int>> scoreStreams =
       List.generate(4, (_) => StreamController(), growable: false);
@@ -17,40 +17,46 @@ class NetworkClient extends GameTicker {
 
   GameEvent _previousEvent = GameEvent.None;
   final void Function(GameEvent event) onGameEvent;
+  PlayerColor assignedColor;
 
   NetworkClient(
       {@required InternetAddress serverAddress,
       @required String nickname,
       int port = 43122,
+      int ticket,
       this.onGameEvent})
-      : super(Game()) {
-
-    print('Connecting to $serverAddress:$port');
+      : super(MultiplayerGameState()) {
+    print('Connecting to $serverAddress:$port using ticket $ticket');
     _socket = ClientSocket(
         serverAddress: serverAddress,
-        port: port,
-        gameCallback: _handleGame,
+        serverPort: port,
+        gameStateCallback: _handleGame,
         nickname: nickname,
-        playerRegisterSuccessCallback: _handleRegisterSuccess);
+        ticket: ticket,
+        playerRegisterSuccessCallback: _handleRegisterSuccess,
+        playerNicknamesCallback: _handlePlayerNicknames);
   }
 
   void close() {
-    super.close();
-
     _socket?.close();
     timeStream.close();
     scoreStreams.forEach((StreamController stream) => stream.close());
+
+    super.close();
   }
 
   List<String> get players => _players;
 
-  void placeArrow(int x, int y, Direction direction) {
+  @override
+  bool placeArrow(int x, int y, PlayerColor player, Direction direction) {
     if (_socket != null) {
       _socket.sendArrowRequest(x, y, direction);
     }
+
+    return true;
   }
 
-  void _handleGame(Game newGame) {
+  void _handleGame(MultiplayerGameState newGame) {
     if (onGameEvent != null &&
         newGame.currentEvent != GameEvent.None &&
         newGame.currentEvent != _previousEvent) {
@@ -66,28 +72,41 @@ class NetworkClient extends GameTicker {
     }
 
     if (game.tickCount <= newGame.tickCount) {
-      game = newGame;
+      gameState = newGame;
     } else {
-      for (int i = 0; i < game.tickCount - newGame.tickCount; i++) {
-        newGame.tick();
+      int catchingUp = game.tickCount - newGame.tickCount;
+      for (int i = 0; i < catchingUp; i++) {
+        gameSimulator.tick(game);
       }
 
-      game = newGame;
+      gameState = newGame;
     }
 
-//    game.generatorPolicy = GeneratorPolicy.None;
     running = true;
   }
 
   @override
   void afterTick() {
+    super.afterTick();
+
     gameStream.value = game;
   }
 
-  void _handleRegisterSuccess(RegisterSuccessMessage message) {
-    _players[message.givenColor.value] = message.nickname;
+  void _handleRegisterSuccess(PlayerColor assignedColor) {
+    this.assignedColor = assignedColor;
 
     // Proc update of score boxes
     scoreStreams.forEach((StreamController scoreStream) => scoreStream.add(0));
+  }
+
+  void _handlePlayerNicknames(List<String> nicknames) {
+    if (nicknames.length != 4) {
+      print('Got ${nicknames.length} nicknames!');
+    }
+
+    for (int i = 0; i < nicknames.length; i++) {
+      _players[i] = nicknames[i];
+      scoreStreams[i].add(game.scoreOf(PlayerColor.values[i]));
+    }
   }
 }

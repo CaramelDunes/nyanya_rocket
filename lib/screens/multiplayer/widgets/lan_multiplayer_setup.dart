@@ -47,8 +47,11 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
     });
   }
 
-  static void serverEntryPoint(ArgumentBundle arguments) {
-    GameServer(nbPlayer: arguments.playerCount, board: arguments.board, port: 43122);
+  static void serverEntryPoint(_ArgumentBundle arguments) {
+    GameServer(
+        playerCount: arguments.playerCount,
+        board: arguments.board,
+        port: 43122);
   }
 
   @override
@@ -208,9 +211,9 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                   : () {
                       _LanMultiplayerSetupState._serverIsolate?.kill();
 
-                      Isolate.spawn<ArgumentBundle>(
+                      Isolate.spawn<_ArgumentBundle>(
                               _LanMultiplayerSetupState.serverEntryPoint,
-                              ArgumentBundle(_board.board(), _playerCount))
+                              _ArgumentBundle(_board.board(), _playerCount))
                           .then((Isolate isolate) => _LanMultiplayerSetupState
                               ._serverIsolate = isolate);
                     },
@@ -222,9 +225,9 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   }
 }
 
-class ArgumentBundle {
+class _ArgumentBundle {
   final Board board;
   final int playerCount;
 
-  ArgumentBundle(this.board, this.playerCount);
+  _ArgumentBundle(this.board, this.playerCount);
 }

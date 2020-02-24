@@ -26,7 +26,7 @@ class DefaultDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(FontAwesomeIcons.puzzlePiece),
+            leading: FaIcon(FontAwesomeIcons.puzzlePiece),
             title: Text(NyaNyaLocalizations.of(context).puzzlesTitle),
             onTap: () {
               Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -34,7 +34,7 @@ class DefaultDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(FontAwesomeIcons.stopwatch),
+            leading: FaIcon(FontAwesomeIcons.stopwatch),
             title: Text(NyaNyaLocalizations.of(context).challengesTitle),
             onTap: () {
               Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -42,7 +42,7 @@ class DefaultDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(FontAwesomeIcons.gamepad),
+            leading: FaIcon(FontAwesomeIcons.gamepad),
             title: Text(NyaNyaLocalizations.of(context).multiplayerTitle),
             onTap: () {
               Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -59,7 +59,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(FontAwesomeIcons.book),
+            leading: FaIcon(FontAwesomeIcons.book),
             title: Text(NyaNyaLocalizations.of(context).tutorialTitle),
             onTap: () {
               Navigator.pushNamed(context, '/tutorial');
@@ -84,7 +84,7 @@ class DefaultDrawer extends StatelessWidget {
             },
           ),
           AboutListTile(
-            icon: Icon(FontAwesomeIcons.questionCircle),
+            icon: FaIcon(FontAwesomeIcons.questionCircle),
             applicationLegalese:
                 'Made with ❤ by CaramelDunes️\n\n\nPowered by Flutter',
             applicationVersion: '1.0',

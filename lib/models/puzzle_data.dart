@@ -11,10 +11,10 @@ class PuzzleData {
   PuzzleData({@required this.gameData, @required this.availableArrows});
 
   PuzzleData.withBorder()
-      : gameData = jsonEncode((Game()..board = Board.withBorder()).toJson()),
+      : gameData = jsonEncode((GameState()..board = Board.withBorder()).toJson()),
         availableArrows = List.filled(4, 0);
 
-  Game getGame() => Game.fromJson(jsonDecode(gameData));
+  GameState getGame() => GameState.fromJson(jsonDecode(gameData));
 
   static PuzzleData fromJson(Map<String, dynamic> json) {
     return PuzzleData(

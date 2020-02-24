@@ -3,7 +3,7 @@ import 'package:nyanya_rocket/blocs/local_game_controller.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class EditorGameController extends LocalGameController {
-  EditorGameController({@required Game game}) : super(game) {
+  EditorGameController({@required GameState game, @required GameSimulator gameSimulator}) : super(game, gameSimulator) {
     running = false;
   }
 

@@ -3,9 +3,9 @@ import 'package:meta/meta.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class MultiplayerGameController extends MultiplayerGameTicker {
-  final ValueNotifier<Game> gameStream;
+  final ValueNotifier<GameState> gameStream;
 
-  MultiplayerGameController(Game game)
+  MultiplayerGameController(MultiplayerGameState game)
       : gameStream = ValueNotifier(game),
         super(game) {
     updateGame();

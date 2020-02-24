@@ -33,8 +33,9 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController =
-        EditorGameController(game: Game()..board = widget.board.board());
+    _editorGameController = EditorGameController(
+        game: GameState()..board = widget.board.board(),
+        gameSimulator: MultiplayerGameSimulator());
 
     _uuid = widget.uuid;
   }

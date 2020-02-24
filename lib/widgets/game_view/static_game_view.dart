@@ -6,7 +6,7 @@ import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class StaticGameView extends StatelessWidget {
-  final Game game;
+  final GameState game;
 
   const StaticGameView({@required this.game});
 

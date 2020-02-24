@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/widgets/game_view/foreground_painter.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class StaticForegroundPainter extends CustomPainter {
-  final Game game;
+  final GameState game;
 
   StaticForegroundPainter({@required this.game});
 

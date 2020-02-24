@@ -61,7 +61,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   }
 
   void _handleSwipe(int x, int y, Direction direction) {
-    _localMultiplayerController.placeArrow(x, y, direction);
+    _localMultiplayerController.placeArrow(x, y, PlayerColor.Blue, direction);
   }
 
   void _handleGameEvent(GameEvent event) {

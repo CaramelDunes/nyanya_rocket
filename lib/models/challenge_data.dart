@@ -68,9 +68,9 @@ class ChallengeData {
   ChallengeData({@required this.gameData, @required this.type});
 
   ChallengeData.withBorder({@required this.type})
-      : gameData = jsonEncode((Game()..board = Board.withBorder()).toJson());
+      : gameData = jsonEncode((GameState()..board = Board.withBorder()).toJson());
 
-  Game getGame() => Game.fromJson(jsonDecode(gameData));
+  GameState getGame() => GameState.fromJson(jsonDecode(gameData));
 
   static ChallengeData fromJson(Map<String, dynamic> json) {
     return ChallengeData(

@@ -43,7 +43,7 @@ class OriginalBoards extends StatelessWidget {
                         child: AspectRatio(
                           aspectRatio: 12 / 9,
                           child: StaticGameView(
-                            game: Game()
+                            game: GameState()
                               ..board = OriginalBoards.boards[i].board(),
                           ),
                         ),

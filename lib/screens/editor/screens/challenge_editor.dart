@@ -34,8 +34,9 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController =
-        EditorGameController(game: widget.challenge.challengeData.getGame());
+    _editorGameController = EditorGameController(
+        game: widget.challenge.challengeData.getGame(),
+        gameSimulator: ChallengeGameSimulator());
 
     _uuid = widget.uuid;
   }

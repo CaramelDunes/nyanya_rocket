@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/widgets/game_view/foreground_painter.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class AnimatedForegroundPainter extends CustomPainter {
-  final ValueListenable<Game> game;
+  final ValueListenable<GameState> game;
   final ValueListenable<BoardPosition> mistake;
 
   final Animation entityAnimation;
