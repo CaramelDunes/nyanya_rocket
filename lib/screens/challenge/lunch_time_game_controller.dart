@@ -50,6 +50,6 @@ class LunchTimeGameController extends ChallengeGameController {
   @override
   void onReset() {
     _score = 0;
-    _scoreStream.value = _score;
+    _scoreStream.value = 0;
   }
 }

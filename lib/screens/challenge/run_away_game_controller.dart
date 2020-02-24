@@ -48,6 +48,7 @@ class RunAwayGameController extends ChallengeGameController {
       _scoreStream.value = game.scoreOf(PlayerColor.Blue);
       if (game.scoreOf(PlayerColor.Blue) >= _targetScore) {
         departRockets();
+        running = false;
         onWin();
       }
     }

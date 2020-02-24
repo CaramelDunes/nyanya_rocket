@@ -35,6 +35,7 @@ class OneHundredMiceGameController extends ChallengeGameController {
 
     if (game.scoreOf(PlayerColor.Blue) >= 100) {
       departRockets();
+      running = false;
       onWin();
     }
   }
