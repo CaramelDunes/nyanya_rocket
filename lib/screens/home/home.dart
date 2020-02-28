@@ -26,6 +26,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final bool displayIcons =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -34,11 +37,14 @@ class _HomeState extends State<Home> {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  icon: FaIcon(FontAwesomeIcons.newspaper),
+                  icon:
+                      displayIcons ? FaIcon(FontAwesomeIcons.newspaper) : null,
                   text: NyaNyaLocalizations.of(context).whatsNewTab,
                 ),
                 Tab(
-                  icon: FaIcon(FontAwesomeIcons.handsHelping),
+                  icon: displayIcons
+                      ? FaIcon(FontAwesomeIcons.handsHelping)
+                      : null,
                   text: NyaNyaLocalizations.of(context).contributingTab,
                 ),
               ],

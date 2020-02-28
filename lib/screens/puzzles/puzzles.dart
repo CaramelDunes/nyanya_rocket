@@ -9,6 +9,9 @@ import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
 class Puzzles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final bool displayIcons =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -17,15 +20,18 @@ class Puzzles extends StatelessWidget {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  icon: FaIcon(FontAwesomeIcons.puzzlePiece),
+                  icon: displayIcons
+                      ? FaIcon(FontAwesomeIcons.puzzlePiece)
+                      : null,
                   text: NyaNyaLocalizations.of(context).originalTab,
                 ),
                 Tab(
-                  icon: FaIcon(FontAwesomeIcons.globe),
+                  icon: displayIcons ? FaIcon(FontAwesomeIcons.globe) : null,
                   text: NyaNyaLocalizations.of(context).communityTab,
                 ),
                 Tab(
-                  icon: FaIcon(FontAwesomeIcons.mobileAlt),
+                  icon:
+                      displayIcons ? FaIcon(FontAwesomeIcons.mobileAlt) : null,
                   text: NyaNyaLocalizations.of(context).deviceTab,
                 ),
               ],

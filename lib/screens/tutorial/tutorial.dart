@@ -8,6 +8,9 @@ import 'package:nyanya_rocket/screens/tutorial/tabs/puzzle.dart';
 class Tutorial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final bool displayIcons =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -16,15 +19,18 @@ class Tutorial extends StatelessWidget {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  icon: FaIcon(FontAwesomeIcons.play),
+                  icon: displayIcons ? FaIcon(FontAwesomeIcons.play) : null,
                   text: NyaNyaLocalizations.of(context).generalLabel,
                 ),
                 Tab(
-                  icon: FaIcon(FontAwesomeIcons.puzzlePiece),
+                  icon: displayIcons
+                      ? FaIcon(FontAwesomeIcons.puzzlePiece)
+                      : null,
                   text: NyaNyaLocalizations.of(context).puzzleType,
                 ),
                 Tab(
-                  icon: FaIcon(FontAwesomeIcons.stopwatch),
+                  icon:
+                      displayIcons ? FaIcon(FontAwesomeIcons.stopwatch) : null,
                   text: NyaNyaLocalizations.of(context).challengeType,
                 ),
               ],

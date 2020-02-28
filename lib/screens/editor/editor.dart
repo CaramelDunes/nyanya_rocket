@@ -35,6 +35,9 @@ class _EditorState extends State<Editor> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final bool displayIcons =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(NyaNyaLocalizations.of(context).editorTitle),
@@ -42,10 +45,10 @@ class _EditorState extends State<Editor> with SingleTickerProviderStateMixin {
           controller: _tabController,
           tabs: [
             Tab(
-                icon: Icon(Icons.add),
+                icon: displayIcons ? Icon(Icons.add) : null,
                 text: NyaNyaLocalizations.of(context).newTab),
             Tab(
-                icon: Icon(Icons.edit),
+                icon: displayIcons ? Icon(Icons.edit) : null,
                 text: NyaNyaLocalizations.of(context).editTab),
           ],
         ),
