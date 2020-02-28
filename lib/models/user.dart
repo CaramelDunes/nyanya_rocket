@@ -8,10 +8,7 @@ class User with ChangeNotifier {
   FirebaseUser _user;
 
   User() {
-    FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
-      _user = user;
-      notifyListeners();
-    });
+    _refreshCurrentUser();
   }
 
   bool get isConnected {
@@ -20,6 +17,14 @@ class User with ChangeNotifier {
 
   String get displayName {
     return isConnected ? _user.displayName : '';
+  }
+
+  Future<String> authToken() async {
+    if (isConnected) {
+      return (await _user.getIdToken()).token;
+    }
+
+    return '';
   }
 
   Future<StatusCode> setDisplayName(String newDisplayName) async {
@@ -48,9 +53,7 @@ class User with ChangeNotifier {
       }
 
       await _user.reload();
-      _user = await FirebaseAuth.instance.currentUser();
-
-      notifyListeners();
+      await _refreshCurrentUser();
 
       return StatusCode.Success;
     }
@@ -66,20 +69,27 @@ class User with ChangeNotifier {
     return !isConnected || _user.isAnonymous;
   }
 
-  Future<void> signInAnonymously() {
-    return FirebaseAuth.instance.signInAnonymously().then((AuthResult result) {
-      _user = result.user;
-
-      notifyListeners();
-      return;
-    });
+  Future signInAnonymously() async {
+    AuthResult result = await FirebaseAuth.instance.signInAnonymously();
+    _user = result.user;
+    notifyListeners();
   }
 
-  Future<void> signOut() {
-    return FirebaseAuth.instance.signOut().then((void _) {
-      _user = null;
+  Future signOut() async {
+    await FirebaseAuth.instance.signOut();
+    _user = null;
+    notifyListeners();
+  }
 
-      notifyListeners();
-    });
+  Future _refreshCurrentUser() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    _user = user;
+    notifyListeners();
+
+    if (isConnected) {
+      print('User connected as `$displayName`');
+    } else {
+      print('User not connected');
+    }
   }
 }
