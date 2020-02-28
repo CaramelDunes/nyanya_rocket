@@ -44,11 +44,9 @@ abstract class QueueClient {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
-
       return data['queueSize'];
     } else {
-      print('Error ${response.statusCode} on queue info refresh.');
-      throw Error();
+      throw Exception('Error ${response.statusCode} on queue info refresh.');
     }
   }
 
@@ -56,31 +54,28 @@ abstract class QueueClient {
       {@required String authToken,
       @required String masterServerHostname,
       @required QueueType queueType}) async {
-    try {
-      Map<String, String> headers = {'Authorization': authToken};
+    Map<String, String> headers = {'Authorization': authToken};
 
-      http.Response response = await http.get(
-          'http://$masterServerHostname/${_queueTypeToString(queueType)}/search',
-          headers: headers);
+    http.Response response = await http.get(
+        'http://$masterServerHostname/${_queueTypeToString(queueType)}/search',
+        headers: headers);
 
-      if (response.statusCode == 200) {
-        Map<String, dynamic> data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
 
-        if (data.containsKey('position')) {
-          return QueueJoinStatus(
-              position: data['position'].toInt(),
-              queueLength: data['queueLength'].toInt());
-        } else if (data.containsKey('port')) {
-          return QueueJoinStatus(
-              ipAddress: data['ipAddress'],
-              port: data['port'].toInt(),
-              ticket: data['ticket'].toInt());
-        } else {
-          print('Error ${response.statusCode} on queue info refresh.');
-        }
+      if (data.containsKey('position')) {
+        return QueueJoinStatus(
+            position: data['position'].toInt(),
+            queueLength: data['queueLength'].toInt());
+      } else if (data.containsKey('port')) {
+        return QueueJoinStatus(
+            ipAddress: data['ipAddress'],
+            port: data['port'].toInt(),
+            ticket: data['ticket'].toInt());
+      } else {
+        throw Exception(
+            'Could not get queue info: Got status code ${response.statusCode}.');
       }
-    } catch (e) {
-      print('Could not refresh queue info: $e');
     }
 
     return null;

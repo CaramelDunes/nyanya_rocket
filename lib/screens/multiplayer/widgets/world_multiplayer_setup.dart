@@ -72,10 +72,16 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
 
     for (QueueType queueType in _queueSize.keys) {
       if (_joinedQueue[queueType]) {
-        QueueJoinStatus status = await QueueClient.updateQueueJoinStatus(
-            authToken: _authToken,
-            masterServerHostname: _masterServers[_selectedMasterIndex],
-            queueType: queueType);
+        QueueJoinStatus status;
+
+        try {
+          status = await QueueClient.updateQueueJoinStatus(
+              authToken: _authToken,
+              masterServerHostname: _masterServers[_selectedMasterIndex],
+              queueType: queueType);
+        } catch (e) {
+          print('Could not join queue: $e');
+        }
 
         if (status != null) {
           if (mounted) {
@@ -118,10 +124,14 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
     });
 
     for (QueueType queueType in _queueSize.keys) {
-      _queueSize[queueType] = await QueueClient.queueSize(
-          masterServerHostname: _masterServers[_selectedMasterIndex],
-          queueType: queueType,
-          authToken: _authToken);
+      try {
+        _queueSize[queueType] = await QueueClient.queueSize(
+            masterServerHostname: _masterServers[_selectedMasterIndex],
+            queueType: queueType,
+            authToken: _authToken);
+      } catch (e) {
+        print('Could not refresh queue size: $e');
+      }
     }
     if (mounted) {
       setState(() {
