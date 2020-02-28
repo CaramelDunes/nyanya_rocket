@@ -34,6 +34,9 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
 
   MultiplayerBoard _board;
 
+  FocusNode _nicknameFocusNode = FocusNode();
+  FocusNode _hostnameFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -64,11 +67,17 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
           child: Column(
             children: <Widget>[
               TextFormField(
+                focusNode: _nicknameFocusNode,
                 decoration: InputDecoration(
                     labelText: NyaNyaLocalizations.of(context).nicknameLabel),
                 maxLength: 16,
+                textInputAction: TextInputAction.next,
                 textCapitalization: TextCapitalization.words,
                 onSaved: (String value) => _nickname = value,
+                onFieldSubmitted: (term) {
+                  _nicknameFocusNode.unfocus();
+                  FocusScope.of(context).requestFocus(_hostnameFocusNode);
+                },
                 validator: (String value) {
                   if (value.isEmpty) {
                     return NyaNyaLocalizations.of(context).invalidNicknameText;
@@ -78,6 +87,8 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                 },
               ),
               TextFormField(
+                focusNode: _hostnameFocusNode,
+                initialValue: _hostname,
                 decoration: InputDecoration(
                   labelText: NyaNyaLocalizations.of(context).hostnameLabel,
                 ),
@@ -108,9 +119,9 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                               .push(MaterialPageRoute(
                                   builder: (BuildContext context) =>
                                       NetworkMultiplayer(
-                                        nickname: _nickname,
-                                        serverAddress: result[0],
-                                      )))
+                                          nickname: _nickname,
+                                          serverAddress: result[0],
+                                          port: 43122)))
                               .then((dynamic) {
                             _LanMultiplayerSetupState._serverIsolate?.kill();
                           });
@@ -124,9 +135,9 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
           ),
         ),
         Text(
-          _localIp,
+          'This device\'s IP: $_localIp',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 30),
+          style: TextStyle(fontSize: 25),
         ),
         Divider(),
         Row(
@@ -216,6 +227,8 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                               _ArgumentBundle(_board.board(), _playerCount))
                           .then((Isolate isolate) => _LanMultiplayerSetupState
                               ._serverIsolate = isolate);
+
+                      _hostname = 'localhost';
                     },
             ),
           ),

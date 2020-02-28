@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/multiplayer/device_multiplayer_game_controller.dart';
@@ -44,11 +45,11 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _localMultiplayerController.close();
 
     SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
+
+    super.dispose();
   }
 
   void _handleDrop(int x, int y, Tile tile) {
@@ -61,7 +62,7 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
 
   Widget _dragTileBuilder(BuildContext context, List<Arrow> candidateData,
       List rejectedData, int x, int y) {
-    if (candidateData.length == 0) return const SizedBox.expand();
+    if (candidateData.isEmpty) return const SizedBox.expand();
 
     return ArrowImage(
       player: candidateData[0].player,
@@ -70,15 +71,19 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
     );
   }
 
-  Widget _draggableArrow(PlayerColor player, Direction direction) =>
-      Draggable<Arrow>(
+  Widget _draggableArrow(PlayerColor player, Direction direction) {
+    return Material(
+      elevation: 8.0,
+      child: Draggable<Arrow>(
           maxSimultaneousDrags: 1,
           feedback: const SizedBox.shrink(),
           child: ArrowImage(
             player: player,
             direction: direction,
           ),
-          data: Arrow(player: player, direction: direction));
+          data: Arrow(player: player, direction: direction)),
+    );
+  }
 
   void _handleGameEvent(GameEvent event) {
     // Not 0 to have a card above and under the starting position on the wheel.
@@ -90,14 +95,13 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
       });
 
       // The scroll controller won't animate if the wheel hasn't been attached
-      // before. Wait for 32 milliseconds and hope it has been attached by then.
+      // before.
       // Using a Wheel as a state attribute doesn't work because its build
       // function creates a new ScrollView every time.
       // Possible fixes:
       // - make Wheel inherit ScrollView directly.
       // - make Wheel keep its ScrollView across redraws.
-      // - register a post frame callback instead of using a Timer
-      Timer(Duration(milliseconds: 32), () {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateToItem(
             // Not * 4 to have a card above and under on the wheel.
             (GameEvent.values.length - 1) * 3 + event.index - 1,
@@ -116,7 +120,6 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
           Row(
@@ -135,14 +138,12 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
                               _draggableArrow(PlayerColor.Blue, Direction.Up)),
                       Expanded(
                           child: Container(
-                              child: StreamBuilder<int>(
-                                  stream: _localMultiplayerController
-                                      .scoreStreams[PlayerColor.Blue.index]
-                                      .stream,
-                                  initialData: 0,
-                                  builder: (context, snapshot) {
+                              child: ValueListenableBuilder<int>(
+                                  valueListenable: _localMultiplayerController
+                                      .scoreStreams[PlayerColor.Blue.index],
+                                  builder: (context, score, snapshot) {
                                     return ScoreBox(
-                                      score: snapshot.data,
+                                      score: score,
                                       label: widget.players[0],
                                       color: Colors.blue,
                                     );
@@ -161,28 +162,31 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
                   flex: 4,
                   child: Column(
                     children: <Widget>[
-                      StreamBuilder<Object>(
-                          stream: _localMultiplayerController.timeStream.stream,
-                          initialData: Duration.zero,
-                          builder: (context, snapshot) {
+                      ValueListenableBuilder<Duration>(
+                          valueListenable:
+                              _localMultiplayerController.timeStream,
+                          builder: (context, remaining, snapshot) {
                             return Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: Countdown(
-                                remaining: snapshot.data,
+                                remaining: remaining,
                               ),
                             );
                           }),
                       Flexible(
-                        child: AspectRatio(
-                            aspectRatio: 12.0 / 9.0,
-                            child: InputGridOverlay<Arrow>(
-                              child: AnimatedGameView(
-                                game: _localMultiplayerController.gameStream,
-                              ),
-                              onDrop: _handleDrop,
-                              previewBuilder: _dragTileBuilder,
-                            )),
+                        child: Material(
+                          elevation: 8.0,
+                          child: AspectRatio(
+                              aspectRatio: 12.0 / 9.0,
+                              child: InputGridOverlay<Arrow>(
+                                child: AnimatedGameView(
+                                  game: _localMultiplayerController.gameStream,
+                                ),
+                                onDrop: _handleDrop,
+                                previewBuilder: _dragTileBuilder,
+                              )),
+                        ),
                       ),
                     ],
                   )),
@@ -200,14 +204,12 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
                               _draggableArrow(PlayerColor.Red, Direction.Up)),
                       Expanded(
                           child: Container(
-                              child: StreamBuilder<int>(
-                                  stream: _localMultiplayerController
-                                      .scoreStreams[PlayerColor.Red.index]
-                                      .stream,
-                                  initialData: 0,
-                                  builder: (context, snapshot) {
+                              child: ValueListenableBuilder<int>(
+                                  valueListenable: _localMultiplayerController
+                                      .scoreStreams[PlayerColor.Red.index],
+                                  builder: (context, score, snapshot) {
                                     return ScoreBox(
-                                      score: snapshot.data,
+                                      score: score,
                                       label: widget.players[1],
                                       color: Colors.red,
                                     );

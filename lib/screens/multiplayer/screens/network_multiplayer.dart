@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/screens/multiplayer/network_client.dart';
 import 'package:nyanya_rocket/screens/multiplayer/widgets/event_wheel.dart';
+import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
@@ -33,6 +35,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   NetworkClient _localMultiplayerController;
   bool _displayRoulette = false;
   FixedExtentScrollController _scrollController = FixedExtentScrollController();
+  PlayerColor _myColor;
 
   @override
   void initState() {
@@ -43,12 +46,15 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
         serverAddress: widget.serverAddress,
         port: widget.port,
         onGameEvent: _handleGameEvent,
+        onRegisterSuccess: _handleRegisterSuccess,
         ticket: widget.ticket);
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]).catchError((Object error) {});
+
+    SystemChrome.setEnabledSystemUIOverlays([]);
   }
 
   @override
@@ -57,11 +63,20 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
 
     SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
 
+    SystemChrome.setEnabledSystemUIOverlays(
+        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+
     super.dispose();
   }
 
   void _handleSwipe(int x, int y, Direction direction) {
     _localMultiplayerController.placeArrow(x, y, PlayerColor.Blue, direction);
+  }
+
+  void _handleRegisterSuccess(PlayerColor assignedColor) {
+    setState(() {
+      _myColor = assignedColor;
+    });
   }
 
   void _handleGameEvent(GameEvent event) {
@@ -74,11 +89,13 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
       });
 
       // The scroll controller won't animate if the wheel hasn't been attached
-      // before. Wait for 32 milliseconds and hope it has been attached by then.
+      // before.
       // Using a Wheel as a state attribute doesn't work because its build
       // function creates a new ScrollView every time.
-      // Possible fix: make Wheel inherit ScrollView directly.
-      Timer(Duration(milliseconds: 32), () {
+      // Possible fixes:
+      // - make Wheel inherit ScrollView directly.
+      // - make Wheel keep its ScrollView across redraws.
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateToItem(
             // Not * 4 to have a card above and under on the wheel.
             (GameEvent.values.length - 1) * 3 + event.index - 1,
@@ -95,15 +112,43 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   }
 
   Widget _streamBuiltScoreBox(int i, Color color) {
-    return StreamBuilder<int>(
-        stream: _localMultiplayerController.scoreStreams[i].stream,
-        initialData: 0,
-        builder: (context, snapshot) {
+    return ValueListenableBuilder<int>(
+        valueListenable: _localMultiplayerController.scoreStreams[i],
+        builder: (context, score, _) {
           return ScoreBox(
               label: _localMultiplayerController.players[i],
-              score: snapshot.data,
+              score: score,
               color: color);
         });
+  }
+
+  Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
+      List rejectedData, int x, int y) {
+    if (candidateData.isEmpty) return const SizedBox.expand();
+
+    return ArrowImage(
+      direction: candidateData[0],
+      player: _myColor,
+      opaque: false,
+    );
+  }
+
+  Widget _draggableArrow(PlayerColor player, Direction direction) {
+    if (player == null) {
+      return const SizedBox.expand();
+    }
+
+    return Material(
+      elevation: 8.0,
+      child: Draggable<Direction>(
+          maxSimultaneousDrags: 1,
+          feedback: const SizedBox.shrink(),
+          child: ArrowImage(
+            player: player,
+            direction: direction,
+          ),
+          data: direction),
+    );
   }
 
   @override
@@ -112,66 +157,80 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
       resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Column(
             children: <Widget>[
+              ValueListenableBuilder<Object>(
+                  valueListenable: _localMultiplayerController.timeStream,
+                  builder: (context, remaining, _) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Countdown(
+                        remaining: remaining,
+                      ),
+                    );
+                  }),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Spacer(flex: 1),
-                      Flexible(child: _streamBuiltScoreBox(0, Colors.blue)),
-                      Spacer(flex: 2),
-                      Flexible(child: _streamBuiltScoreBox(2, Colors.red)),
-                    ],
-                  ),
-                ),
-              ),
-              Flexible(
-                  flex: 4,
-                  child: Column(
-                    children: <Widget>[
-                      StreamBuilder<Object>(
-                          stream: _localMultiplayerController.timeStream.stream,
-                          initialData: Duration.zero,
-                          builder: (context, snapshot) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Countdown(
-                                remaining: snapshot.data,
-                              ),
-                            );
-                          }),
-                      Flexible(
-                        child: Material(
-                          elevation: 8.0,
-                          child: AspectRatio(
-                              aspectRatio: 12.0 / 9.0,
-                              child: InputGridOverlay<int>(
-                                child: AnimatedGameView(
-                                  game: _localMultiplayerController.gameStream,
-                                ),
-                                onSwipe: _handleSwipe,
-                              )),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(
+                                child: _streamBuiltScoreBox(0, Colors.blue)),
+                            Expanded(
+                                child: _streamBuiltScoreBox(1, Colors.yellow)),
+                            Expanded(
+                                child: _streamBuiltScoreBox(2, Colors.red)),
+                            Expanded(
+                                child: _streamBuiltScoreBox(3, Colors.green)),
+                          ],
                         ),
                       ),
-                    ],
-                  )),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Spacer(flex: 1),
-                      Flexible(child: _streamBuiltScoreBox(1, Colors.yellow)),
-                      Spacer(flex: 2),
-                      Flexible(child: _streamBuiltScoreBox(3, Colors.green)),
-                    ],
-                  ),
+                    ),
+                    Material(
+                      elevation: 8.0,
+                      child: AspectRatio(
+                          aspectRatio: 12.0 / 9.0,
+                          child: InputGridOverlay<Direction>(
+                            child: AnimatedGameView(
+                              game: _localMultiplayerController.gameStream,
+                            ),
+                            onSwipe: _handleSwipe,
+                            onDrop: _handleSwipe,
+                            previewBuilder: _dragTileBuilder,
+                          )),
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                              child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: _draggableArrow(_myColor, Direction.Right),
+                          )),
+                          Expanded(
+                              child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: _draggableArrow(_myColor, Direction.Up),
+                          )),
+                          Expanded(
+                              child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: _draggableArrow(_myColor, Direction.Left),
+                          )),
+                          Expanded(
+                              child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: _draggableArrow(_myColor, Direction.Down),
+                          )),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

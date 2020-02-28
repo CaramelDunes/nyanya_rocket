@@ -17,6 +17,7 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
   Duration _duration = Duration(minutes: 3);
 
   GlobalKey<FormState> _formState = GlobalKey();
+  List<FocusNode> _nicknameNodes = List.generate(4, (_) => FocusNode());
   MultiplayerBoard _board;
 
   @override
@@ -51,8 +52,8 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
                             ),
                           ],
                           onChanged: (Duration value) => setState(() {
-                                _duration = value;
-                              }),
+                            _duration = value;
+                          }),
                           onSaved: (Duration value) => _duration = value,
                         ),
                       ),
@@ -78,8 +79,8 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
                             ),
                           ],
                           onChanged: (int value) => setState(() {
-                                _playerCount = value;
-                              }),
+                            _playerCount = value;
+                          }),
                           onSaved: (int value) => _playerCount = value,
                         ),
                       ),
@@ -101,11 +102,21 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
                 ] +
                 List.generate(_playerCount, (int i) {
                   return TextFormField(
+                    focusNode: _nicknameNodes[i],
+                    onFieldSubmitted: (i < _playerCount)
+                        ? (_) {
+                            _nicknameNodes[i].unfocus();
+                            FocusScope.of(context)
+                                .requestFocus(_nicknameNodes[i + 1]);
+                          }
+                        : null,
                     decoration: InputDecoration(
                         hintText:
                             '${NyaNyaLocalizations.of(context).nicknameLabel} ${i + 1}'),
                     maxLength: 16,
                     textCapitalization: TextCapitalization.words,
+                    textInputAction:
+                        (i < _playerCount) ? TextInputAction.next : null,
                     onSaved: (String text) {
                       _playerNames[i] = text;
                     },

@@ -7,9 +7,7 @@ class MultiplayerGameController extends MultiplayerGameTicker {
 
   MultiplayerGameController(MultiplayerGameState game)
       : gameStream = ValueNotifier(game),
-        super(game) {
-    updateGame();
-  }
+        super(game);
 
   @protected
   void updateGame() {

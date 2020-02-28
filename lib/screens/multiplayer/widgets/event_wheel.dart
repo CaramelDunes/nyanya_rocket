@@ -10,7 +10,8 @@ class EventWheel extends StatelessWidget {
         GameEvent.values[(index % (GameEvent.values.length - 1)) + 1]);
   });
 
-  const EventWheel({Key key, @required this.scrollController}) : super(key: key);
+  const EventWheel({Key key, @required this.scrollController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,65 +25,81 @@ class EventWheel extends StatelessWidget {
   }
 
   static Widget _cardForEvent(GameEvent event) {
-    const TextStyle commonStyle = TextStyle(
-      fontSize: 30,
-      color: Colors.white,
-    );
+    Color cardColor = Colors.black;
+    String eventName = 'None';
 
     switch (event) {
       case GameEvent.CatMania:
-        return Container(
-          color: Colors.lightBlueAccent,
-          child: Center(child: Text('Cat Mania', style: commonStyle)),
-        );
+        cardColor = Colors.lightBlueAccent;
+        eventName = 'Cat Mania';
         break;
 
       case GameEvent.MouseMania:
-        return Container(
-          color: Colors.purpleAccent,
-          child: Center(child: Text('Mouse Mania', style: commonStyle)),
-        );
+        cardColor = Colors.purpleAccent;
+        eventName = 'Mouse Mania';
         break;
 
       case GameEvent.SpeedUp:
-        return Container(
-          color: Colors.red,
-          child: Center(child: Text('Speed Up', style: commonStyle)),
-        );
+        cardColor = Colors.red;
+        eventName = 'Speed Up';
         break;
 
       case GameEvent.SlowDown:
-        return Container(
-          color: Colors.purpleAccent,
-          child: Center(child: Text('Slow Down', style: commonStyle)),
-        );
+        cardColor = Colors.deepPurpleAccent;
+        eventName = 'Slow Down';
         break;
 
       case GameEvent.MouseMonopoly:
-        return Container(
-          color: Colors.lightBlueAccent,
-          child: Center(child: Text('Mouse Monopoly', style: commonStyle)),
-        );
+        cardColor = Colors.pinkAccent;
+        eventName = 'Mouse Monopoly';
         break;
 
       case GameEvent.CatAttack:
-        return Container(
-          color: Colors.lightGreenAccent,
-          child: Center(child: Text('Cat Attack', style: commonStyle)),
-        );
+        cardColor = Colors.green;
+        eventName = 'Cat Attack';
         break;
 
       case GameEvent.PlaceAgain:
-        return Container(
-          color: Colors.deepOrangeAccent,
-          child: Center(child: Text('Place Again', style: commonStyle)),
-        );
+        cardColor = Colors.deepOrangeAccent;
+        eventName = 'Place Arrows Again';
+        break;
+
+      case GameEvent.EverybodyMove:
+        cardColor = Colors.yellow;
+        eventName = 'Everybody Move!';
         break;
 
       case GameEvent.None:
       default:
-        return const SizedBox.shrink();
         break;
     }
+
+    return Container(
+      color: cardColor,
+      child: Center(
+          child: Stack(
+        children: <Widget>[
+          // Stroked text as border.
+          Text(
+            eventName,
+            style: TextStyle(
+              fontSize: 50,
+              foreground: Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 4
+                ..color = Colors.black,
+            ),
+          ),
+          // Solid text as fill.
+          Text(
+            eventName,
+            style: TextStyle(
+              fontSize: 50,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      )),
+    );
   }
 }

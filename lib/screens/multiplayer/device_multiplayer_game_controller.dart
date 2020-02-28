@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/blocs/multiplayer_game_controller.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
@@ -15,10 +14,10 @@ class ArrowPosition {
 class LocalMultiplayerGameController extends MultiplayerGameController {
   final MultiplayerBoard board;
 
-  final List<StreamController<int>> scoreStreams =
-      List.generate(4, (_) => StreamController(), growable: false);
+  final List<ValueNotifier<int>> scoreStreams =
+      List.generate(4, (_) => ValueNotifier(0), growable: false);
 
-  final StreamController<Duration> timeStream = StreamController();
+  final ValueNotifier<Duration> timeStream = ValueNotifier(Duration.zero);
 
   bool _canPlaceArrow = false;
 
@@ -28,20 +27,21 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
   LocalMultiplayerGameController({
     @required this.board,
     this.onGameEvent,
-  }) : super(GameState()..board = board.board()) {
+  }) : super(MultiplayerGameState()..board = board.board()) {
     running = true;
-    pauseFor(Duration(seconds: 3));
-    timeStream.add(_remainingTime);
+//    pauseFor(Duration(seconds: 3));
+    timeStream.value = _remainingTime;
   }
 
   get canPlaceArrow => _canPlaceArrow;
 
   @override
   void close() {
-    super.close();
+    scoreStreams
+        .forEach((ValueNotifier valueNotifier) => valueNotifier.dispose());
+    timeStream.dispose();
 
-    scoreStreams.forEach((StreamController stream) => stream.close());
-    timeStream.close();
+    super.close();
   }
 
   @override
@@ -50,7 +50,7 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
 
     if (_remainingTime.inMilliseconds.abs() % Duration.millisecondsPerSecond <=
         16) {
-      timeStream.add(_remainingTime);
+      timeStream.value = _remainingTime;
     }
 
     super.afterTick();
@@ -68,12 +68,16 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
 
     Rocket rocket = game.board.tiles[x][y] as Rocket;
 
-    scoreStreams[rocket.player.index].add(game.scoreOf(rocket.player));
+    scoreStreams[rocket.player.index].value = game.scoreOf(rocket.player);
   }
 
   @override
-  void setGameEvent(GameEvent event) {
-    super.setGameEvent(event);
+  void installGameEvent(GameEvent event) {
+    super.installGameEvent(event);
+
+    for (int i = 0; i < scoreStreams.length; i++) {
+      scoreStreams[i].value = game.scoreOf(PlayerColor.values[i]);
+    }
 
     if (event != GameEvent.None && onGameEvent != null) {
       onGameEvent(event);
