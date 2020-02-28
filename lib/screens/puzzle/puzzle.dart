@@ -80,7 +80,7 @@ class _PuzzleState extends State<Puzzle> {
           data: (_puzzleController.game.board.tiles[x][y] as Arrow).direction);
     }
 
-    if (candidateData.length == 0) return const SizedBox.expand();
+    if (candidateData.isEmpty) return const SizedBox.expand();
 
     return ArrowImage(
       direction: candidateData[0],

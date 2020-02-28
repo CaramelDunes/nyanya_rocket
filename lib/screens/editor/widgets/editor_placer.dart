@@ -76,7 +76,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
 
   Widget _dragTileBuilder(BuildContext context, List<EditorTool> candidateData,
       List rejectedData, int x, int y) {
-    if (candidateData.length == 0) return const SizedBox.expand();
+    if (candidateData.isEmpty) return const SizedBox.expand();
 
     return _toolView(candidateData[0]);
   }

@@ -80,15 +80,17 @@ class _PuzzleGameControlsState extends State<PuzzleGameControls> {
                   child: Icon(
                     Icons.fast_forward,
                     size: iconSize,
-                    color: widget.puzzleController.speed == GameSpeed.Fast
+                    color: widget.puzzleController.gameSimulator.speed ==
+                            GameSpeed.Fast
                         ? Colors.white
                         : null,
                   ),
                 ),
                 onTap: () {
                   setState(() {
-                    widget.puzzleController.speed =
-                        widget.puzzleController.speed == GameSpeed.Normal
+                    widget.puzzleController.gameSimulator.speed =
+                        widget.puzzleController.gameSimulator.speed ==
+                                GameSpeed.Normal
                             ? GameSpeed.Fast
                             : GameSpeed.Normal;
                   });

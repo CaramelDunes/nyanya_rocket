@@ -62,7 +62,7 @@ class PuzzleGameController extends LocalGameController {
             placedArrows[direction.index].length &&
         game.board.tiles[x][y] is Empty) {
       game.board.tiles[x][y] =
-          Arrow.notExpirable(player: PlayerColor.Blue, direction: direction);
+          Arrow.notExpiring(player: PlayerColor.Blue, direction: direction);
       placedArrows[direction.index].add(Position(x, y));
       updateGame();
       remainingArrowsStreams[direction.index].value =
@@ -115,7 +115,7 @@ class PuzzleGameController extends LocalGameController {
 
     for (int direction = 0; direction < Direction.values.length; direction++) {
       placedArrows[direction].forEach((Position position) {
-        game.board.tiles[position.x][position.y] = Arrow.notExpirable(
+        game.board.tiles[position.x][position.y] = Arrow.notExpiring(
             player: PlayerColor.Blue, direction: Direction.values[direction]);
       });
     }

@@ -62,7 +62,7 @@ class _ChallengeState extends State<Challenge> {
 
   Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
       List rejectedData, int x, int y) {
-    if (candidateData.length == 0) return const SizedBox.expand();
+    if (candidateData.isEmpty) return const SizedBox.expand();
 
     return ArrowImage(
       direction: candidateData[0],
@@ -141,7 +141,6 @@ class _ChallengeState extends State<Challenge> {
 
   Widget _buildPortrait() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Text(

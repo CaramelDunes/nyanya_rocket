@@ -74,7 +74,7 @@ abstract class ChallengeGameController extends LocalGameController {
   }
 
   bool placeArrow(int x, int y, Direction direction) {
-    if (!paused && running && game.board.tiles[x][y] is Empty) {
+    if (running && game.board.tiles[x][y] is Empty) {
       if (game.board.tiles[x][y] is Empty) {
         int count = 0;
         ArrowPosition last;
