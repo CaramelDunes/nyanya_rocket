@@ -72,27 +72,26 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(notifier: _darkMode),
-        ChangeNotifierProvider.value(notifier: _language),
+        ChangeNotifierProvider.value(value: _darkMode),
+        ChangeNotifierProvider.value(value: _language),
         // TODO Move this to the What's New tab
-        ChangeNotifierProvider.value(notifier: _firstRun),
-        ChangeNotifierProvider.value(notifier: _user),
+        ChangeNotifierProvider.value(value: _firstRun),
+        ChangeNotifierProvider.value(value: _user),
       ],
       child: Consumer2<DarkMode, Language>(
         builder: (context2, darkMode, language, _) => MaterialApp(
-                localizationsDelegates: [
-                  const NyaNyaLocalizationsDelegate(),
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                ],
-                supportedLocales: App.supportedLocales,
-                locale:
-                    language.value == 'auto' ? null : Locale(language.value),
-                title: 'NyaNya Rocket!',
-                theme: darkMode.enabled ? App.darkTheme : App.lightTheme,
-                darkTheme: App.darkTheme,
-                initialRoute: Routing.initialRoute,
-                routes: Routing.routes),
+            localizationsDelegates: [
+              const NyaNyaLocalizationsDelegate(),
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: App.supportedLocales,
+            locale: language.value == 'auto' ? null : Locale(language.value),
+            title: 'NyaNya Rocket!',
+            theme: darkMode.enabled ? App.darkTheme : App.lightTheme,
+            darkTheme: App.darkTheme,
+            initialRoute: Routing.initialRoute,
+            routes: Routing.routes),
       ),
     );
   }

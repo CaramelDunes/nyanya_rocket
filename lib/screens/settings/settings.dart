@@ -6,19 +6,7 @@ import 'package:nyanya_rocket/screens/settings/dark_mode.dart';
 import 'package:nyanya_rocket/screens/settings/language.dart';
 import 'package:provider/provider.dart';
 
-class Settings extends StatefulWidget {
-  @override
-  _SettingsState createState() {
-    return _SettingsState();
-  }
-}
-
-class _SettingsState extends State<Settings> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +18,7 @@ class _SettingsState extends State<Settings> {
             SwitchListTile(
               title: Text(NyaNyaLocalizations.of(context).darkModeLabel),
               onChanged: (bool value) {
-                setState(() {
-                  Provider.of<DarkMode>(context).enabled = value;
-                });
+                Provider.of<DarkMode>(context, listen: false).enabled = value;
               },
               value: Provider.of<DarkMode>(context).enabled,
             ),
@@ -59,22 +45,23 @@ class _SettingsState extends State<Settings> {
                     ),
                   ],
                   onChanged: (String language) {
-                    Provider.of<Language>(context).value = language;
+                    Provider.of<Language>(context, listen: false).value =
+                        language;
                   }),
             ),
             Consumer<User>(
               builder: (context, user, _) => ListTile(
-                    title: Text(
-                        NyaNyaLocalizations.of(context).accountManagementLabel),
-                    subtitle: Text(
-                        '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return AccountManagement();
-                      }));
-                    },
-                  ),
+                title: Text(
+                    NyaNyaLocalizations.of(context).accountManagementLabel),
+                subtitle: Text(
+                    '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return AccountManagement();
+                  }));
+                },
+              ),
             ),
           ],
         ));

@@ -64,7 +64,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
 
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
+    User user = Provider.of<User>(context, listen: false);
 
     List<String> uuidList = _puzzles.keys.toList().reversed.toList();
 

@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class WhatsNew extends StatelessWidget {
   void _dismissWelcomeCard(BuildContext context) {
-    Provider.of<FirstRun>(context).enabled = false;
+    Provider.of<FirstRun>(context, listen: false).enabled = false;
   }
 
   @override

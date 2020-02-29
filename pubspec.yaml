@@ -5,7 +5,7 @@ homepage: https://github.com/CaramelDunes/nyanya_rocket
 version: 1.1.0+45
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.5.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -18,30 +18,30 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  intl: ^0.16.0
+  intl: ^0.16.1
 
-  firebase_core: ^0.4.3+2
-  cloud_firestore: ^0.13.0+1
-  firebase_auth: ^0.15.3+1
-  cloud_functions: ^0.4.1+6
+  firebase_core: ^0.4.4+2
+  cloud_firestore: ^0.13.4
+  firebase_auth: ^0.15.5+2
+  cloud_functions: ^0.4.2+2
 
   flare_flutter: ^2.0.1
 
   font_awesome_flutter: ^8.7.0
 
-  shared_preferences: ^0.5.1+2
+  shared_preferences: ^0.5.6+2
 
-  path_provider: ^1.5.1
+  path_provider: ^1.6.1
 
   uuid: ^2.0.4
 
-  connectivity: ^0.4.6+2
+  connectivity: ^0.4.8+1
 
-  url_launcher: ^5.4.1
+  url_launcher: ^5.4.2
 
-  share: ^0.6.3+5
+  share: ^0.6.3+6
 
-  provider: ^2.0.1
+  provider: ^4.0.4
 
 dev_dependencies:
   flutter_test:

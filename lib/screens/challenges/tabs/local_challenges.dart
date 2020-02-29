@@ -64,7 +64,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
 
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
+    User user = Provider.of<User>(context, listen: false);
 
     List<String> uuidList = _challenges.keys.toList().reversed.toList();
 
