@@ -41,6 +41,8 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]).catchError((Object error) {});
+
+    SystemChrome.setEnabledSystemUIOverlays([]);
   }
 
   @override
@@ -48,6 +50,9 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
     _localMultiplayerController.close();
 
     SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
+    
+    SystemChrome.setEnabledSystemUIOverlays(
+        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
 
     super.dispose();
   }
