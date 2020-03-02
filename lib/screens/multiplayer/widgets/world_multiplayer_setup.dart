@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-import 'package:nyanya_rocket/blocs/queue_client.dart';
+import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/network_multiplayer.dart';
 
@@ -25,19 +25,9 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
 
   bool _updatePending = false;
 
-  final Map<QueueType, int> _queueSize = {
-    QueueType.Duels: null,
-    QueueType.FourPlayers: null
-  };
-
-  final Map<QueueType, int> _queuePosition = {
-    QueueType.Duels: 0,
-    QueueType.FourPlayers: 0
-  };
-
-  final Map<QueueType, bool> _joinedQueue = {
-    QueueType.Duels: false,
-    QueueType.FourPlayers: false
+  final Map<QueueType, MultiplayerQueue> _queues = {
+    QueueType.Duels: MultiplayerQueue(type: QueueType.Duels),
+    QueueType.FourPlayers: MultiplayerQueue(type: QueueType.FourPlayers)
   };
 
   Timer _queueJoinUpdateTimer;
@@ -50,7 +40,7 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
 
     widget.user.authToken().then((String token) {
       _authToken = token;
-      _updateQueueSize();
+      _updateQueueLength();
     });
 
     _queueJoinUpdateTimer = Timer.periodic(Duration(seconds: 1), (_) {
@@ -62,6 +52,12 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
   void dispose() {
     _queueJoinUpdateTimer?.cancel();
 
+    for (MultiplayerQueue queue in _queues.values) {
+      queue.cancelSearch(
+          authToken: _authToken,
+          masterServerHostname: _masterServers[_selectedMasterIndex]);
+    }
+
     super.dispose();
   }
 
@@ -70,29 +66,25 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
       return;
     }
 
-    for (QueueType queueType in _queueSize.keys) {
-      if (_joinedQueue[queueType]) {
+    for (MultiplayerQueue queue in _queues.values) {
+      if (queue.joined) {
         QueueJoinStatus status;
 
         try {
-          status = await QueueClient.updateQueueJoinStatus(
+          status = await queue.updateQueueJoinStatus(
               authToken: _authToken,
-              masterServerHostname: _masterServers[_selectedMasterIndex],
-              queueType: queueType);
+              masterServerHostname: _masterServers[_selectedMasterIndex]);
         } catch (e) {
           print('Could not join queue: $e');
         }
 
         if (status != null) {
           if (mounted) {
-            if (status.position != null) {
-              setState(() {
-                _queuePosition[queueType] = status.position;
-                _queueSize[queueType] = status.queueLength;
-              });
-            } else if (status.port != null) {
-              _joinedQueue[QueueType.Duels] =
-                  _joinedQueue[QueueType.FourPlayers] = false;
+            if (status.port == null) {
+              setState(() {});
+            } else {
+              _queues[QueueType.Duels].joined =
+                  _queues[QueueType.FourPlayers].joined = false;
 
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => NetworkMultiplayer(
@@ -109,25 +101,24 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
     }
   }
 
-  Future _updateQueueSize() async {
+  Future _updateQueueLength() async {
     if (!widget.user.isConnected) {
       return;
     }
 
     setState(() {
       _updatePending = true;
-      _joinedQueue.keys.forEach((QueueType queueType) {
-        if (!_joinedQueue[queueType]) {
-          _queueSize[queueType] = null;
+      _queues.values.forEach((MultiplayerQueue queue) {
+        if (!queue.joined) {
+          queue.length = null;
         }
       });
     });
 
-    for (QueueType queueType in _queueSize.keys) {
+    for (MultiplayerQueue queue in _queues.values) {
       try {
-        _queueSize[queueType] = await QueueClient.queueSize(
+        await queue.queueLength(
             masterServerHostname: _masterServers[_selectedMasterIndex],
-            queueType: queueType,
             authToken: _authToken);
       } catch (e) {
         print('Could not refresh queue size: $e');
@@ -159,13 +150,13 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
                     Expanded(
                         child: _buildQueueTile(
                       queueName: 'Duel',
-                      queueType: QueueType.Duels,
+                      queue: _queues[QueueType.Duels],
                       updatePending: _updatePending,
                     )),
                     Expanded(
                         child: _buildQueueTile(
                       queueName: '4-player battle',
-                      queueType: QueueType.FourPlayers,
+                      queue: _queues[QueueType.FourPlayers],
                       updatePending: _updatePending,
                     ))
                   ]);
@@ -187,12 +178,19 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
               value: _selectedMasterIndex,
               onChanged: (key) {
                 setState(() {
+                  for (MultiplayerQueue queue in _queues.values) {
+                    queue.cancelSearch(
+                        authToken: _authToken,
+                        masterServerHostname:
+                            _masterServers[_selectedMasterIndex]);
+                  }
+
                   _selectedMasterIndex = key;
-                  _joinedQueue[QueueType.Duels] = false;
-                  _joinedQueue[QueueType.FourPlayers] = false;
+                  _queues[QueueType.Duels].joined =
+                      _queues[QueueType.FourPlayers].joined = false;
                 });
 
-                _updateQueueSize();
+                _updateQueueLength();
               },
               items: _masterServers.keys
                   .map((e) => DropdownMenuItem(
@@ -204,7 +202,7 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
         IconButton(
           icon: Icon(Icons.refresh),
           onPressed: () {
-            _updateQueueSize();
+            _updateQueueLength();
           },
         )
       ],
@@ -212,10 +210,7 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
   }
 
   Widget _buildQueueTile(
-      {String queueName,
-      QueueType queueType,
-      bool updatePending,
-      QueueClient client}) {
+      {String queueName, bool updatePending, MultiplayerQueue queue}) {
     return Card(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -230,25 +225,24 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  _joinedQueue[queueType]
-                      ? 'Position in the queue: ${_queuePosition[queueType]} / ${_queueSize[queueType]}'
-                      : (_queueSize[queueType] != null
-                          ? '${_queueSize[queueType]} players in queue'
+                  queue.joined
+                      ? 'Position in the queue: ${queue.position} / ${queue.length}'
+                      : (queue.length != null
+                          ? '${queue.length} players in queue'
                           : updatePending
                               ? ''
                               : 'Error while refreshing queue info.'),
                   style: TextStyle(fontSize: 15),
                 ),
                 SizedBox(width: 16),
-                if (updatePending || _joinedQueue[queueType])
-                  CircularProgressIndicator()
+                if (updatePending || queue.joined) CircularProgressIndicator()
               ],
             )),
         RaisedButton(
-          child: Text(_joinedQueue[queueType] ? 'Cancel' : 'Join'),
+          child: Text(queue.joined ? 'Cancel' : 'Join'),
           onPressed: () {
             setState(() {
-              _joinedQueue[queueType] = !_joinedQueue[queueType];
+              queue.joined = !queue.joined;
             });
           },
         ),

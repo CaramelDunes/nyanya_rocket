@@ -4,23 +4,23 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class QueueJoinStatus {
-  final int position;
-  final int queueLength;
   final String ipAddress;
   final int port;
   final int ticket;
 
-  QueueJoinStatus(
-      {this.position,
-      this.queueLength,
-      this.ipAddress,
-      this.port,
-      this.ticket});
+  QueueJoinStatus({this.ipAddress, this.port, this.ticket});
 }
 
 enum QueueType { Duels, FourPlayers }
 
-abstract class QueueClient {
+class MultiplayerQueue {
+  final QueueType type;
+  int length;
+  bool joined = false;
+  int position = 0;
+
+  MultiplayerQueue({@required this.type});
+
   static _queueTypeToString(QueueType queueType) {
     switch (queueType) {
       case QueueType.Duels:
@@ -32,52 +32,69 @@ abstract class QueueClient {
     }
   }
 
-  static Future<int> queueSize(
+  Future queueLength(
       {@required String authToken,
-      @required String masterServerHostname,
-      @required QueueType queueType}) async {
+      @required String masterServerHostname}) async {
     Map<String, String> headers = {'Authorization': authToken};
 
     http.Response response = await http.get(
-        'http://$masterServerHostname/${_queueTypeToString(queueType)}/info',
+        'http://$masterServerHostname/${_queueTypeToString(type)}/info',
         headers: headers);
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
-      return data['queueSize'];
+      length = data['queueLength'];
     } else {
       throw Exception('Error ${response.statusCode} on queue info refresh.');
     }
   }
 
-  static Future<QueueJoinStatus> updateQueueJoinStatus(
+  Future<QueueJoinStatus> updateQueueJoinStatus(
       {@required String authToken,
-      @required String masterServerHostname,
-      @required QueueType queueType}) async {
+      @required String masterServerHostname}) async {
     Map<String, String> headers = {'Authorization': authToken};
 
     http.Response response = await http.get(
-        'http://$masterServerHostname/${_queueTypeToString(queueType)}/search',
+        'http://$masterServerHostname/${_queueTypeToString(type)}/search',
         headers: headers);
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
 
       if (data.containsKey('position')) {
-        return QueueJoinStatus(
-            position: data['position'].toInt(),
-            queueLength: data['queueLength'].toInt());
+        position = data['position'].toInt();
+        length = data['queueLength'].toInt();
+
+        return QueueJoinStatus();
       } else if (data.containsKey('port')) {
         return QueueJoinStatus(
             ipAddress: data['ipAddress'],
             port: data['port'].toInt(),
             ticket: data['ticket'].toInt());
-      } else {
-        throw Exception(
-            'Could not get queue info: Got status code ${response.statusCode}.');
       }
+    } else {
+      throw Exception(
+          'Could not get queue info: Got status code ${response.statusCode}.');
     }
 
     return null;
+  }
+
+  Future cancelSearch(
+      {@required String authToken,
+      @required String masterServerHostname}) async {
+    Map<String, String> headers = {'Authorization': authToken};
+
+    http.Response response = await http.get(
+        'http://$masterServerHostname/${_queueTypeToString(type)}/cancel',
+        headers: headers);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      print(data);
+    } else {
+      throw Exception(
+          'Could not cancel search: Got status code ${response.statusCode}.');
+    }
   }
 }
