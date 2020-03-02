@@ -18,19 +18,22 @@ class ScoreBox extends StatelessWidget {
           Flexible(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: Container(
-                  child: Center(child: Text(label ?? '')),
-                  constraints: BoxConstraints.expand(),
+                  child: Text(
+                    label ?? '',
+                    textAlign: TextAlign.center,
+                  ),
+                  constraints: const BoxConstraints.expand(),
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(8.0)))),
+                      borderRadius: BorderRadius.all(Radius.circular(4.0)))),
             ),
           ),
           Flexible(
             flex: 3,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 8.0),
+              padding: const EdgeInsets.fromLTRB(4.0, 0, 4.0, 4.0),
               child: Container(
                 child: Center(
                   child: Text(
@@ -41,7 +44,7 @@ class ScoreBox extends StatelessWidget {
                 constraints: BoxConstraints.expand(),
                 decoration: BoxDecoration(
                     color: Colors.black,
-                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                    borderRadius: BorderRadius.all(Radius.circular(4.0))),
               ),
             ),
           )
