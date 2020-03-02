@@ -176,7 +176,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                   children: <Widget>[
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: Column(
                           children: <Widget>[
                             Expanded(

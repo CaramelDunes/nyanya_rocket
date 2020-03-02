@@ -12,8 +12,6 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   final List<ValueNotifier<int>> scoreStreams =
       List.generate(4, (_) => ValueNotifier(0), growable: false);
 
-  int _timestamp = 0;
-
   final void Function(GameEvent event) onGameEvent;
   final void Function(PlayerColor assignedColor) onRegisterSuccess;
 
@@ -27,6 +25,8 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
       this.onGameEvent,
       this.onRegisterSuccess})
       : super(MultiplayerGameState(), MultiplayerGameSimulator()) {
+    gameSimulator.onEntityInRocket = _handleEntityInRocket;
+
     print('Connecting to $serverAddress:$port using ticket $ticket');
     _socket = ClientSocket(
         serverAddress: serverAddress,
@@ -67,9 +67,6 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   }
 
   void _handleGame(MultiplayerGameState newGame) {
-    _timestamp = newGame.tickCount;
-    timeStream.value = Duration(milliseconds: _timestamp * 16 * 2);
-
     for (int i = 0; i < 4; i++) {
       scoreStreams[i].value = newGame.scoreOf(PlayerColor.values[i]);
     }
@@ -116,6 +113,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     super.afterTick();
 
     gameStream.value = game;
+    timeStream.value = Duration(milliseconds: game.tickCount * 8);
   }
 
   void _handleRegisterSuccess(PlayerColor assignedColor) {
@@ -137,6 +135,12 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
     for (int i = 0; i < nicknames.length; i++) {
       _players[i] = nicknames[i];
+      scoreStreams[i].value = game.scoreOf(PlayerColor.values[i]);
+    }
+  }
+
+  void _handleEntityInRocket(Entity entity, int x, int y) {
+    for (int i = 0; i < scoreStreams.length; i++) {
       scoreStreams[i].value = game.scoreOf(PlayerColor.values[i]);
     }
   }
