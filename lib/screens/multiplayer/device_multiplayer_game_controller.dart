@@ -19,8 +19,6 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
 
   final ValueNotifier<Duration> timeStream = ValueNotifier(Duration.zero);
 
-  bool _canPlaceArrow = false;
-
   Duration _remainingTime = Duration(minutes: 3);
   final void Function(GameEvent event) onGameEvent;
 
@@ -29,11 +27,10 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
     this.onGameEvent,
   }) : super(MultiplayerGameState()..board = board.board()) {
     running = true;
-//    pauseFor(Duration(seconds: 3));
     timeStream.value = _remainingTime;
   }
 
-  get canPlaceArrow => _canPlaceArrow;
+  get canPlaceArrow => running;
 
   @override
   void close() {
@@ -46,20 +43,11 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
 
   @override
   void afterTick() {
+    super.afterTick();
+
     _remainingTime -= Duration(milliseconds: 16);
 
-    if (_remainingTime.inMilliseconds.abs() % Duration.millisecondsPerSecond <=
-        16) {
-      timeStream.value = _remainingTime;
-    }
-
-    super.afterTick();
-  }
-
-  @override
-  set running(bool value) {
-    super.running = value;
-    _canPlaceArrow = true;
+    timeStream.value = _remainingTime;
   }
 
   @override
