@@ -131,6 +131,7 @@ class _DeviceMultiplayerSetupState extends State<DeviceMultiplayerSetup> {
                       onPressed: _board == null
                           ? null
                           : () {
+                              _formState.currentState.save();
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) =>
                                       DeviceMultiplayer(
