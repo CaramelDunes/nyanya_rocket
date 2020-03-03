@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
+enum NetworkGameStatus { ConnectingToServer, WaitingForPlayers, Playing, Ended }
+
 class NetworkClient extends GameTicker<MultiplayerGameState> {
   ClientSocket _socket;
   final List<String> _players = List.filled(4, '');
@@ -16,6 +18,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   final void Function(PlayerColor assignedColor) onRegisterSuccess;
 
   PlayerColor assignedColor;
+  NetworkGameStatus _status = NetworkGameStatus.ConnectingToServer;
 
   NetworkClient(
       {@required InternetAddress serverAddress,
@@ -37,6 +40,8 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
         playerRegisterSuccessCallback: _handleRegisterSuccess,
         playerNicknamesCallback: _handlePlayerNicknames);
   }
+
+  NetworkGameStatus get status => _status;
 
   void close() {
     _socket?.close();
@@ -105,7 +110,10 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
       gameState = newGame;
     }
 
-    running = true;
+    if (!running) {
+      running = true;
+      _status = NetworkGameStatus.Playing;
+    }
   }
 
   @override
@@ -118,6 +126,8 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
   void _handleRegisterSuccess(PlayerColor assignedColor) {
     print('Register Success!');
+    _status = NetworkGameStatus.WaitingForPlayers;
+
     if (onRegisterSuccess != null) {
       onRegisterSuccess(assignedColor);
     }

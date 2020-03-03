@@ -159,9 +159,9 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
         children: <Widget>[
           Column(
             children: <Widget>[
-              ValueListenableBuilder<Object>(
+              ValueListenableBuilder<Duration>(
                   valueListenable: _localMultiplayerController.timeStream,
-                  builder: (context, remaining, _) {
+                  builder: (_, remaining, __) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Countdown(
@@ -171,8 +171,8 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                   }),
               Expanded(
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Expanded(
                       child: Padding(
@@ -245,8 +245,45 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                 scrollController: _scrollController,
               ),
             )),
-          )
+          ),
+          Visibility(
+              visible: _localMultiplayerController.status !=
+                  NetworkGameStatus.Playing,
+              child: _buildWaitingCard())
         ],
+      ),
+    );
+  }
+
+  String _networkGameStatusToString(NetworkGameStatus status) {
+    switch (status) {
+      case NetworkGameStatus.ConnectingToServer:
+        return 'Connecting to server...';
+        break;
+      case NetworkGameStatus.WaitingForPlayers:
+        return 'Waiting for players...';
+        break;
+      case NetworkGameStatus.Playing:
+        return 'Playing...';
+        break;
+      case NetworkGameStatus.Ended:
+        return 'Game Over';
+        break;
+    }
+
+    return '';
+  }
+
+  Widget _buildWaitingCard() {
+    return Center(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            _networkGameStatusToString(_localMultiplayerController.status),
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ),
       ),
     );
   }
