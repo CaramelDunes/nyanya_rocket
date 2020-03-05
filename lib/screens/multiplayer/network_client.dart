@@ -126,7 +126,10 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
   void _handleRegisterSuccess(PlayerColor assignedColor) {
     print('Register Success!');
-    _status = NetworkGameStatus.WaitingForPlayers;
+
+    if (_status == NetworkGameStatus.ConnectingToServer) {
+      _status = NetworkGameStatus.WaitingForPlayers;
+    }
 
     if (onRegisterSuccess != null) {
       onRegisterSuccess(assignedColor);
