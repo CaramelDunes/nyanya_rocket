@@ -19,6 +19,18 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static m0(percentCompleted) => "${percentCompleted}% completed";
+
+  static m1(minuteCount) => "${minuteCount} minutes";
+
+  static m2(playerCount) => "${playerCount} players";
+
+  static m3(queueLength) => "${queueLength} players in queue.";
+
+  static m4(position, queueLength) => "Position in queue: ${position} / ${queueLength}";
+
+  static m5(localIp) => "This device\'s IP: ${localIp}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "accept" : MessageLookupByLibrary.simpleMessage("Accept"),
@@ -42,9 +54,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "challengeType" : MessageLookupByLibrary.simpleMessage("Challenge"),
     "challengesTitle" : MessageLookupByLibrary.simpleMessage("Challenges"),
     "communityTab" : MessageLookupByLibrary.simpleMessage("Community"),
-    "completedLabel" : MessageLookupByLibrary.simpleMessage("% Completed"),
+    "completedPercentLabel" : m0,
     "confirmLabel" : MessageLookupByLibrary.simpleMessage("Confirm"),
     "connectedStatusLabel" : MessageLookupByLibrary.simpleMessage("Connected"),
+    "connectingToServerText" : MessageLookupByLibrary.simpleMessage("Connecting to server..."),
     "contributingTab" : MessageLookupByLibrary.simpleMessage("Contributing"),
     "contributingText" : MessageLookupByLibrary.simpleMessage("Help NyaNya Rocket!\n\nYou don\'t need any particular skills to contribute, you can:\n  • Report bugs and ask for new features\n  • Translate\n  • Improve graphical assets and animation\n  • Code\n\nFor more information, head over to "),
     "contributorsLabel" : MessageLookupByLibrary.simpleMessage("Contributors"),
@@ -60,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "displayNameDialogTitle" : MessageLookupByLibrary.simpleMessage("Please enter your new display name"),
     "displayNameFormatText" : MessageLookupByLibrary.simpleMessage("Between 2 and 24 characters (no space)."),
     "displayNameLabel" : MessageLookupByLibrary.simpleMessage("Display name"),
+    "duelLabel" : MessageLookupByLibrary.simpleMessage("Duel"),
     "easyLabel" : MessageLookupByLibrary.simpleMessage("Easy"),
     "editTab" : MessageLookupByLibrary.simpleMessage("Edit"),
     "editorTitle" : MessageLookupByLibrary.simpleMessage("Editor"),
@@ -69,6 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "firstTimeButtonLabel" : MessageLookupByLibrary.simpleMessage("Take me to it!"),
     "firstTimeText" : MessageLookupByLibrary.simpleMessage("First time here? Check the tutorial!"),
     "firstTimeWelcome" : MessageLookupByLibrary.simpleMessage("Welcome,"),
+    "fourPlayersLabel" : MessageLookupByLibrary.simpleMessage("4-players battle"),
     "generalLabel" : MessageLookupByLibrary.simpleMessage("General"),
     "getMiceObjectiveText" : MessageLookupByLibrary.simpleMessage("Lead all mice to the goal within 30 sec."),
     "hardLabel" : MessageLookupByLibrary.simpleMessage("Hard"),
@@ -79,13 +94,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidHostnameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid hostname."),
     "invalidNameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid name."),
     "invalidNicknameText" : MessageLookupByLibrary.simpleMessage("Please enter a valid nickname."),
+    "joinQueueLabel" : MessageLookupByLibrary.simpleMessage("Join"),
     "lanTab" : MessageLookupByLibrary.simpleMessage("LAN"),
     "languageLabel" : MessageLookupByLibrary.simpleMessage("Language"),
     "loadingLabel" : MessageLookupByLibrary.simpleMessage("Loading..."),
+    "localDuelTab" : MessageLookupByLibrary.simpleMessage("Local Duel"),
     "loginPromptText" : MessageLookupByLibrary.simpleMessage("Please sign-in first! (Settings—Account Management)"),
     "loginStatusLabel" : MessageLookupByLibrary.simpleMessage("Login status"),
     "lunchTimeObjectiveText" : MessageLookupByLibrary.simpleMessage("Feed the cat!"),
     "matchmakingTab" : MessageLookupByLibrary.simpleMessage("Matchmaking"),
+    "minuteCountLabel" : m1,
     "mouseTutorialText" : MessageLookupByLibrary.simpleMessage("Mouse"),
     "movementTutorialText" : MessageLookupByLibrary.simpleMessage("\nAn entity walks straight until it encounters an arrow or a wall.\nFor some reasons, mice and cats prefer turning right when hitting a wall...\n"),
     "multiplayerTitle" : MessageLookupByLibrary.simpleMessage("Multiplayer"),
@@ -101,9 +119,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "originalTab" : MessageLookupByLibrary.simpleMessage("Original"),
     "pitTutorialText" : MessageLookupByLibrary.simpleMessage("Black Hole (technically a square though...)"),
     "placementTutorialLabel" : MessageLookupByLibrary.simpleMessage("Arrow placement"),
+    "playAgainLabel" : MessageLookupByLibrary.simpleMessage("Play again"),
     "playLabel" : MessageLookupByLibrary.simpleMessage("Play"),
-    "playersLabel" : MessageLookupByLibrary.simpleMessage("players"),
+    "playerCountLabel" : m2,
+    "playersInQueueText" : m3,
     "popularityLabel" : MessageLookupByLibrary.simpleMessage("Popularity"),
+    "positionInQueueText" : m4,
     "privacyPolicyLabel" : MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "publishLabel" : MessageLookupByLibrary.simpleMessage("Publish"),
     "publishSuccessText" : MessageLookupByLibrary.simpleMessage("Puzzle published!"),
@@ -111,6 +132,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "puzzleTutorialText" : MessageLookupByLibrary.simpleMessage("A Puzzle game is won when every mice has reached a rocket.\nYou have a restricted amount of arrows to achieve that goal.\n\nNote that you cannot place or remove an arrow after pressing the play button; you\'ll need to reset the level first.\n\nYou\'ll lose if:\n  • A cat enters a rocket before every mice is safe.\n  • A mouse gets eaten by a cat.\n  • A mouse falls into a black hole.\n\nYou\'ll be awarded a star if you complete a level without using all the available arrows.\n"),
     "puzzleType" : MessageLookupByLibrary.simpleMessage("Puzzle"),
     "puzzlesTitle" : MessageLookupByLibrary.simpleMessage("Puzzles"),
+    "queueRefreshErrorText" : MessageLookupByLibrary.simpleMessage("Error while refreshing queue info."),
+    "regionLabel" : MessageLookupByLibrary.simpleMessage("Region"),
     "rocketTutorialText" : MessageLookupByLibrary.simpleMessage("Rocket"),
     "runAwayObjectiveText" : MessageLookupByLibrary.simpleMessage("Avoid the cat and get to the goal!"),
     "saveLabel" : MessageLookupByLibrary.simpleMessage("Save"),
@@ -124,10 +147,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "sortByLabel" : MessageLookupByLibrary.simpleMessage("Sort by"),
     "stageClearedText" : MessageLookupByLibrary.simpleMessage("Stage cleared!"),
     "tapToChangeDisplayNameLabel" : MessageLookupByLibrary.simpleMessage("Tap to change"),
+    "thisDeviceIpText" : m5,
     "tilesTutorialLabel" : MessageLookupByLibrary.simpleMessage("Tiles"),
     "tutorialTitle" : MessageLookupByLibrary.simpleMessage("How to play"),
     "unauthenticatedError" : MessageLookupByLibrary.simpleMessage("Error: Unauthenticated"),
     "veryHardLabel" : MessageLookupByLibrary.simpleMessage("Very Hard"),
+    "waitingForPlayersText" : MessageLookupByLibrary.simpleMessage("Waiting for players..."),
     "whatsNewTab" : MessageLookupByLibrary.simpleMessage("What\'s New?"),
     "yes" : MessageLookupByLibrary.simpleMessage("Yes")
   };

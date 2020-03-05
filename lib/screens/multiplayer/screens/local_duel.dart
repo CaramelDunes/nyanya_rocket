@@ -13,19 +13,19 @@ import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class DeviceMultiplayer extends StatefulWidget {
+class LocalDuel extends StatefulWidget {
   final MultiplayerBoard board;
   final List<String> players;
   final Duration duration;
 
-  DeviceMultiplayer(
+  LocalDuel(
       {@required this.board, @required this.players, @required this.duration});
 
   @override
-  _DeviceMultiplayerState createState() => _DeviceMultiplayerState();
+  _LocalDuelState createState() => _LocalDuelState();
 }
 
-class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
+class _LocalDuelState extends State<LocalDuel> {
   LocalMultiplayerGameController _localMultiplayerController;
   bool _displayRoulette = false;
   FixedExtentScrollController _scrollController = FixedExtentScrollController();
@@ -50,7 +50,7 @@ class _DeviceMultiplayerState extends State<DeviceMultiplayer> {
     _localMultiplayerController.close();
 
     SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
-    
+
     SystemChrome.setEnabledSystemUIOverlays(
         [SystemUiOverlay.top, SystemUiOverlay.bottom]);
 

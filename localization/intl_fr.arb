@@ -215,15 +215,21 @@
     "type": "text",
     "placeholders": {}
   },
-  "lanTab": "Réseau local",
-  "@lanTab": {
-    "description": "LAN tab of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "matchmakingTab": "Monde",
   "@matchmakingTab": {
     "description": "Matchmaking tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "localDuelTab": "Duel Local",
+  "@localDuelTab": {
+    "description": "Local Duel tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lanTab": "Réseau local",
+  "@lanTab": {
+    "description": "LAN tab of the Multiplayer screen.",
     "type": "text",
     "placeholders": {}
   },
@@ -250,6 +256,14 @@
     "description": "Server hostname field label of the Multiplayer screen.",
     "type": "text",
     "placeholders": {}
+  },
+  "thisDeviceIpText": "Votre adresse IP: {localIp}",
+  "@thisDeviceIpText": {
+    "description": "This device's local IP, displayed in the LAN tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {
+      "localIp": {}
+    }
   },
   "createLabel": "Créer",
   "@createLabel": {
@@ -320,6 +334,12 @@
   "stageClearedText": "Niveau réussi !",
   "@stageClearedText": {
     "description": "Stage cleared text of success overlay.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "playAgainLabel": "Rejouer",
+  "@playAgainLabel": {
+    "description": "Play again button label of success overlay.",
     "type": "text",
     "placeholders": {}
   },
@@ -503,11 +523,21 @@
     "type": "text",
     "placeholders": {}
   },
-  "playersLabel": "joueurs",
-  "@playersLabel": {
+  "playerCountLabel": "{playerCount} joueurs",
+  "@playerCountLabel": {
     "description": "Displayed in various locations.",
     "type": "text",
-    "placeholders": {}
+    "placeholders": {
+      "playerCount": {}
+    }
+  },
+  "minuteCountLabel": "{minuteCount} minutes",
+  "@minuteCountLabel": {
+    "description": "Displayed in various locations.",
+    "type": "text",
+    "placeholders": {
+      "minuteCount": {}
+    }
   },
   "boardSelectionText": "Toucher pour sélectionner un plateau de jeu",
   "@boardSelectionText": {
@@ -539,11 +569,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "completedLabel": "% réussis",
-  "@completedLabel": {
+  "completedPercentLabel": "{percentCompleted}% réussis",
+  "@completedPercentLabel": {
     "description": "Displayed in original puzzles tab.",
     "type": "text",
-    "placeholders": {}
+    "placeholders": {
+      "percentCompleted": {}
+    }
   },
   "showCompletedLabel": "Montrer réussis",
   "@showCompletedLabel": {
@@ -650,6 +682,65 @@
   "displayNameFormatText": "Entre 2 et 24 caractères (sans espace).",
   "@displayNameFormatText": {
     "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "connectingToServerText": "Connexion au serveur...",
+  "@connectingToServerText": {
+    "description": "Displayed in the network multiplayer when initially connecting to the game server.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "waitingForPlayersText": "En attente d'autres joueurs...",
+  "@waitingForPlayersText": {
+    "description": "Displayed in the network multiplayer when waiting for other players to connect.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "positionInQueueText": "Position dans la file d'attente: {position} / {queueLength}",
+  "@positionInQueueText": {
+    "description": "Displayed in the world multiplayer when searching for a game.",
+    "type": "text",
+    "placeholders": {
+      "position": {},
+      "queueLength": {}
+    }
+  },
+  "playersInQueueText": "{queueLength} joueurs dans la file d'attente.",
+  "@playersInQueueText": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {
+      "queueLength": {}
+    }
+  },
+  "queueRefreshErrorText": "Erreur lors du rafraîchissment du nombre de joueurs dans la file.",
+  "@queueRefreshErrorText": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "duelLabel": "Duel",
+  "@duelLabel": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "fourPlayersLabel": "Bataille 4 joueurs",
+  "@fourPlayersLabel": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "regionLabel": "Région",
+  "@regionLabel": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "joinQueueLabel": "Rejoindre",
+  "@joinQueueLabel": {
+    "description": "Displayed in the world multiplayer setup.",
     "type": "text",
     "placeholders": {}
   }

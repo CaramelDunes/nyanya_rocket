@@ -105,7 +105,8 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                           RaisedButton(
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
-                            child: Text('Play Again'),
+                            child: Text(
+                                NyaNyaLocalizations.of(context).playAgainLabel),
                             onPressed: () {
                               Navigator.of(context)
                                   .pop(OverlayResult.PlayAgain);

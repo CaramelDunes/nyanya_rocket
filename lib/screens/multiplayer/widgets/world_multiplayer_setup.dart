@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/network_multiplayer.dart';
 
@@ -15,7 +16,8 @@ class WorldMultiplayerSetup extends StatefulWidget {
   _WorldMultiplayerSetupState createState() => _WorldMultiplayerSetupState();
 }
 
-class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
+class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup>
+    with AutomaticKeepAliveClientMixin<WorldMultiplayerSetup> {
   static const Map<String, String> _masterServers = {
     'US East': 'nyanya-us-east.carameldunes.fr',
     'Europe West': 'nyanya-eu-west.carameldunes.fr'
@@ -106,14 +108,16 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
       return;
     }
 
-    setState(() {
-      _updatePending = true;
-      _queues.values.forEach((MultiplayerQueue queue) {
-        if (!queue.joined) {
-          queue.length = null;
-        }
-      });
+    _updatePending = true;
+    _queues.values.forEach((MultiplayerQueue queue) {
+      if (!queue.joined) {
+        queue.length = null;
+      }
     });
+
+    if (mounted) {
+      setState(() {});
+    }
 
     for (MultiplayerQueue queue in _queues.values) {
       try {
@@ -124,10 +128,11 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
         print('Could not refresh queue size: $e');
       }
     }
+
+    _updatePending = false;
+
     if (mounted) {
-      setState(() {
-        _updatePending = false;
-      });
+      setState(() {});
     }
   }
 
@@ -149,13 +154,14 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
                   children: <Widget>[
                     Expanded(
                         child: _buildQueueTile(
-                      queueName: 'Duel',
+                      queueName: NyaNyaLocalizations.of(context).duelLabel,
                       queue: _queues[QueueType.Duels],
                       updatePending: _updatePending,
                     )),
                     Expanded(
                         child: _buildQueueTile(
-                      queueName: '4-player battle',
+                      queueName:
+                          NyaNyaLocalizations.of(context).fourPlayersLabel,
                       queue: _queues[QueueType.FourPlayers],
                       updatePending: _updatePending,
                     ))
@@ -169,7 +175,7 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
     return Row(
       children: <Widget>[
         Text(
-          'Region: ',
+          '${NyaNyaLocalizations.of(context).regionLabel}: ',
           style: Theme.of(context).textTheme.subtitle1,
         ),
         Expanded(
@@ -212,41 +218,51 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup> {
   Widget _buildQueueTile(
       {String queueName, bool updatePending, MultiplayerQueue queue}) {
     return Card(
+        margin: const EdgeInsets.all(8.0),
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Text(
-          queueName,
-          style: TextStyle(fontSize: 25),
-        ),
-        Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  queue.joined
-                      ? 'Position in the queue: ${queue.position} / ${queue.length}'
-                      : (queue.length != null
-                          ? '${queue.length} players in queue'
-                          : updatePending
-                              ? ''
-                              : 'Error while refreshing queue info.'),
-                  style: TextStyle(fontSize: 15),
-                ),
-                SizedBox(width: 16),
-                if (updatePending || queue.joined) CircularProgressIndicator()
-              ],
-            )),
-        RaisedButton(
-          child: Text(queue.joined ? 'Cancel' : 'Join'),
-          onPressed: () {
-            setState(() {
-              queue.joined = !queue.joined;
-            });
-          },
-        ),
-      ],
-    ));
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text(
+              queueName,
+              style: TextStyle(fontSize: 25),
+            ),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      queue.joined
+                          ? NyaNyaLocalizations.of(context)
+                              .positionInQueueText(queue.position, queue.length)
+                          : (queue.length != null
+                              ? NyaNyaLocalizations.of(context)
+                                  .playersInQueueText(queue.length)
+                              : updatePending
+                                  ? ''
+                                  : NyaNyaLocalizations.of(context)
+                                      .queueRefreshErrorText),
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    SizedBox(width: 16),
+                    if (updatePending || queue.joined)
+                      CircularProgressIndicator()
+                  ],
+                )),
+            RaisedButton(
+              child: Text(queue.joined
+                  ? NyaNyaLocalizations.of(context).cancel
+                  : NyaNyaLocalizations.of(context).joinQueueLabel),
+              onPressed: () {
+                setState(() {
+                  queue.joined = !queue.joined;
+                });
+              },
+            ),
+          ],
+        ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

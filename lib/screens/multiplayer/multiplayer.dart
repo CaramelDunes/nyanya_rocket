@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_store.dart';
 import 'package:nyanya_rocket/models/user.dart';
-import 'package:nyanya_rocket/screens/multiplayer/widgets/device_multiplayer_setup.dart';
+import 'package:nyanya_rocket/screens/multiplayer/widgets/local_duel_setup.dart';
 import 'package:nyanya_rocket/screens/multiplayer/widgets/lan_multiplayer_setup.dart';
 import 'package:nyanya_rocket/screens/multiplayer/widgets/world_multiplayer_setup.dart';
 import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
@@ -54,7 +54,7 @@ class _MultiplayerState extends State<Multiplayer>
               ),
               Tab(
                 icon: displayIcons ? FaIcon(FontAwesomeIcons.mobileAlt) : null,
-                text: NyaNyaLocalizations.of(context).deviceTab,
+                text: NyaNyaLocalizations.of(context).localDuelTab,
               ),
               Tab(
                 icon:
@@ -70,7 +70,7 @@ class _MultiplayerState extends State<Multiplayer>
           Consumer<User>(
               builder: (context2, user, _) =>
                   WorldMultiplayerSetup(user: user)),
-          DeviceMultiplayerSetup(),
+          LocalDuelSetup(),
           LanMultiplayerSetup(),
         ],
       ),

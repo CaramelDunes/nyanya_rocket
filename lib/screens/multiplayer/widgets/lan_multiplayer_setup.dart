@@ -22,7 +22,7 @@ class LanMultiplayerSetup extends StatefulWidget {
 }
 
 class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
-  String _localIp = '';
+  String _localIpText = '';
   String _nickname = '';
   String _hostname = 'localhost';
 
@@ -44,7 +44,8 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
     Connectivity().getWifiIP().then((String ip) {
       if (mounted) {
         setState(() {
-          _localIp = ip ?? '';
+          if (ip != null)
+            _localIpText = NyaNyaLocalizations.of(context).thisDeviceIpText(ip);
         });
       }
     });
@@ -135,7 +136,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
           ),
         ),
         Text(
-          'This device\'s IP: $_localIp',
+          _localIpText,
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 25),
         ),
@@ -147,19 +148,23 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                 value: _duration,
                 items: <DropdownMenuItem<Duration>>[
                   DropdownMenuItem(
-                    child: Text('2 minutes'),
+                    child: Text(
+                        NyaNyaLocalizations.of(context).minuteCountLabel(2)),
                     value: Duration(minutes: 2),
                   ),
                   DropdownMenuItem(
-                    child: Text('3 minutes'),
+                    child: Text(
+                        NyaNyaLocalizations.of(context).minuteCountLabel(3)),
                     value: Duration(minutes: 3),
                   ),
                   DropdownMenuItem(
-                    child: Text('4 minutes'),
+                    child: Text(
+                        NyaNyaLocalizations.of(context).minuteCountLabel(4)),
                     value: Duration(minutes: 4),
                   ),
                   DropdownMenuItem(
-                    child: Text('5 minutes'),
+                    child: Text(
+                        NyaNyaLocalizations.of(context).minuteCountLabel(5)),
                     value: Duration(minutes: 5),
                   ),
                 ],
@@ -175,22 +180,22 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                 items: <DropdownMenuItem<int>>[
                   DropdownMenuItem(
                     child: Text(
-                        '1 ${NyaNyaLocalizations.of(context).playersLabel}'),
+                        NyaNyaLocalizations.of(context).playerCountLabel(1)),
                     value: 1,
                   ),
                   DropdownMenuItem(
                     child: Text(
-                        '2 ${NyaNyaLocalizations.of(context).playersLabel}'),
+                        NyaNyaLocalizations.of(context).playerCountLabel(2)),
                     value: 2,
                   ),
                   DropdownMenuItem(
                     child: Text(
-                        '3 ${NyaNyaLocalizations.of(context).playersLabel}'),
+                        NyaNyaLocalizations.of(context).playerCountLabel(3)),
                     value: 3,
                   ),
                   DropdownMenuItem(
                     child: Text(
-                        '4 ${NyaNyaLocalizations.of(context).playersLabel}'),
+                        NyaNyaLocalizations.of(context).playerCountLabel(4)),
                     value: 4,
                   ),
                 ],

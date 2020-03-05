@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/screens/multiplayer/network_client.dart';
 import 'package:nyanya_rocket/screens/multiplayer/widgets/event_wheel.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
@@ -258,10 +259,10 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   String _networkGameStatusToString(NetworkGameStatus status) {
     switch (status) {
       case NetworkGameStatus.ConnectingToServer:
-        return 'Connecting to server...';
+        return NyaNyaLocalizations.of(context).connectingToServerText;
         break;
       case NetworkGameStatus.WaitingForPlayers:
-        return 'Waiting for players...';
+        return NyaNyaLocalizations.of(context).waitingForPlayersText;
         break;
       case NetworkGameStatus.Playing:
         return 'Playing...';

@@ -21,7 +21,8 @@ class CompletionIndicator extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Text(
-            '${(completedRatio * 100).floor()} ${NyaNyaLocalizations.of(context).completedLabel}',
+            NyaNyaLocalizations.of(context)
+                .completedPercentLabel((completedRatio * 100).floor()),
             textAlign: TextAlign.center,
           ),
           Row(

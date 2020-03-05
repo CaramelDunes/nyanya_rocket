@@ -15,15 +15,15 @@ import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
 import 'package:intl/src/intl_helpers.dart';
 
-import 'messages_fr.dart' deferred as messages_fr;
-import 'messages_en.dart' deferred as messages_en;
-import 'messages_de.dart' deferred as messages_de;
+import 'messages_fr.dart' as messages_fr;
+import 'messages_en.dart' as messages_en;
+import 'messages_de.dart' as messages_de;
 
 typedef Future<dynamic> LibraryLoader();
 Map<String, LibraryLoader> _deferredLibraries = {
-  'fr': messages_fr.loadLibrary,
-  'en': messages_en.loadLibrary,
-  'de': messages_de.loadLibrary,
+  'fr': () => new Future.value(null),
+  'en': () => new Future.value(null),
+  'de': () => new Future.value(null),
 };
 
 MessageLookupByLibrary _findExact(String localeName) {
