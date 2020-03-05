@@ -119,9 +119,7 @@ class OriginalPuzzles extends StatefulWidget {
   ];
 
   @override
-  _OriginalPuzzlesState createState() {
-    return _OriginalPuzzlesState();
-  }
+  _OriginalPuzzlesState createState() => _OriginalPuzzlesState();
 }
 
 class _OriginalPuzzlesState extends State<OriginalPuzzles>

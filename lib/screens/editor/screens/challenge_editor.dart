@@ -20,9 +20,7 @@ class ChallengeEditor extends StatefulWidget {
   });
 
   @override
-  _ChallengeEditorState createState() {
-    return _ChallengeEditorState();
-  }
+  _ChallengeEditorState createState() => _ChallengeEditorState();
 }
 
 class _ChallengeEditorState extends State<ChallengeEditor> {

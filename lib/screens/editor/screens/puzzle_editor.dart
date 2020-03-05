@@ -19,9 +19,7 @@ class PuzzleEditor extends StatefulWidget {
   });
 
   @override
-  _PuzzleEditorState createState() {
-    return _PuzzleEditorState();
-  }
+  _PuzzleEditorState createState() => _PuzzleEditorState();
 }
 
 class _PuzzleEditorState extends State<PuzzleEditor> {

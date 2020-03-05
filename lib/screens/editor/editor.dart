@@ -8,9 +8,7 @@ enum EditorMode { Puzzle, Challenge, Multiplayer }
 
 class Editor extends StatefulWidget {
   @override
-  _EditorState createState() {
-    return _EditorState();
-  }
+  _EditorState createState() => _EditorState();
 }
 
 class _EditorState extends State<Editor> with SingleTickerProviderStateMixin {

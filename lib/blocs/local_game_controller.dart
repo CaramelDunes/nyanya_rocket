@@ -25,8 +25,8 @@ class LocalGameController extends GameTicker<GameState> {
   @mustCallSuper
   @override
   void close() {
-    super.close();
-
     gameStream.dispose();
+
+    super.close();
   }
 }

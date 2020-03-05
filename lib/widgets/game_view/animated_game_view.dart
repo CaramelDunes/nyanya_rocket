@@ -12,9 +12,7 @@ class AnimatedGameView extends StatefulWidget {
   AnimatedGameView({@required this.game, this.mistake});
 
   @override
-  _AnimatedGameViewState createState() {
-    return _AnimatedGameViewState();
-  }
+  _AnimatedGameViewState createState() => _AnimatedGameViewState();
 }
 
 class _AnimatedGameViewState extends State<AnimatedGameView>

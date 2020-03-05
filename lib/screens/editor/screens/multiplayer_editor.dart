@@ -18,9 +18,7 @@ class MultiplayerEditor extends StatefulWidget {
   });
 
   @override
-  _MultiplayerEditorState createState() {
-    return _MultiplayerEditorState();
-  }
+  _MultiplayerEditorState createState() => _MultiplayerEditorState();
 }
 
 class _MultiplayerEditorState extends State<MultiplayerEditor> {

@@ -10,9 +10,7 @@ import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
 class CommunityPuzzles extends StatefulWidget {
   @override
-  _CommunityPuzzlesState createState() {
-    return _CommunityPuzzlesState();
-  }
+  _CommunityPuzzlesState createState() => _CommunityPuzzlesState();
 }
 
 enum _Sorting { ByDate, ByPopularity, ByName }

@@ -16,9 +16,7 @@ class LanMultiplayerSetup extends StatefulWidget {
   LanMultiplayerSetup({Key key}) : super(key: key);
 
   @override
-  _LanMultiplayerSetupState createState() {
-    return _LanMultiplayerSetupState();
-  }
+  _LanMultiplayerSetupState createState() => _LanMultiplayerSetupState();
 }
 
 class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
@@ -61,7 +59,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8.0),
       children: <Widget>[
         Form(
           key: _formKey,
@@ -103,7 +101,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8.0),
                 child: RaisedButton(
                   color: Theme.of(context).primaryColor,
                   textColor: Colors.white,

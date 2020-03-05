@@ -15,9 +15,7 @@ class LocalChallenges extends StatefulWidget {
   static final ChallengeStore store = ChallengeStore();
 
   @override
-  _LocalChallengesState createState() {
-    return _LocalChallengesState();
-  }
+  _LocalChallengesState createState() => _LocalChallengesState();
 }
 
 class _LocalChallengesState extends State<LocalChallenges> {

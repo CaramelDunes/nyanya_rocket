@@ -7,9 +7,7 @@ class LocalBoards extends StatefulWidget {
   static final MultiplayerStore store = MultiplayerStore();
 
   @override
-  _LocalBoardsState createState() {
-    return _LocalBoardsState();
-  }
+  _LocalBoardsState createState() => _LocalBoardsState();
 }
 
 class _LocalBoardsState extends State<LocalBoards> {

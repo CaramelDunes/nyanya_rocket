@@ -34,7 +34,6 @@ class User with ChangeNotifier {
             .getHttpsCallable(functionName: 'setDisplayName')
             .call({'displayName': newDisplayName}).then(
                 (HttpsCallableResult result) {
-          print(result);
         });
       } catch (e) {
         print(e.code);

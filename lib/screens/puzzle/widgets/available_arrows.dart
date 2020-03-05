@@ -30,7 +30,8 @@ class AvailableArrows extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(4.0)),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
               child: Text(
                 count.toString(),
                 textAlign: TextAlign.center,

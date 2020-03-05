@@ -15,9 +15,7 @@ class LocalPuzzles extends StatefulWidget {
   static final PuzzleStore store = PuzzleStore();
 
   @override
-  _LocalPuzzlesState createState() {
-    return _LocalPuzzlesState();
-  }
+  _LocalPuzzlesState createState() => _LocalPuzzlesState();
 }
 
 class _LocalPuzzlesState extends State<LocalPuzzles> {

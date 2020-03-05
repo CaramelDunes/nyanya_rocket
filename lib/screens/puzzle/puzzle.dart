@@ -39,9 +39,9 @@ class _PuzzleState extends State<Puzzle> {
 
   @override
   void dispose() {
-    super.dispose();
-
     _puzzleController.close();
+
+    super.dispose();
   }
 
   void _handleTap(int x, int y) {

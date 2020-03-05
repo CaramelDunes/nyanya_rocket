@@ -116,9 +116,7 @@ class OriginalChallenges extends StatefulWidget {
   ];
 
   @override
-  _OriginalChallengesState createState() {
-    return _OriginalChallengesState();
-  }
+  _OriginalChallengesState createState() => _OriginalChallengesState();
 }
 
 NamedChallengeData _buildChallengeData(BuildContext context, int i) {

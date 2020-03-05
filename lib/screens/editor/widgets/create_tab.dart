@@ -16,9 +16,7 @@ class CreateTab extends StatefulWidget {
   static final RegExp nameRegExp = RegExp(r'^[ -~]{2,24}$');
 
   @override
-  _CreateTabState createState() {
-    return _CreateTabState();
-  }
+  _CreateTabState createState() => _CreateTabState();
 }
 
 class _CreateTabState extends State<CreateTab>
@@ -75,8 +73,8 @@ class _CreateTabState extends State<CreateTab>
                     ),
                   ],
                   onChanged: (EditorMode value) => setState(() {
-                        _mode = value;
-                      }),
+                    _mode = value;
+                  }),
                   onSaved: (EditorMode value) => _mode = value,
                 ),
                 Visibility(
@@ -107,8 +105,8 @@ class _CreateTabState extends State<CreateTab>
                       ),
                     ],
                     onChanged: (ChallengeType value) => setState(() {
-                          _challengeType = value;
-                        }),
+                      _challengeType = value;
+                    }),
                     onSaved: (ChallengeType value) => _challengeType = value,
                   ),
                 ),

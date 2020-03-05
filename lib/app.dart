@@ -79,7 +79,8 @@ class _AppState extends State<App> {
         ChangeNotifierProvider.value(value: _user),
       ],
       child: Consumer2<DarkMode, Language>(
-        builder: (context2, darkMode, language, _) => MaterialApp(
+        builder: (_, darkMode, language, __) {
+          return MaterialApp(
             localizationsDelegates: [
               const NyaNyaLocalizationsDelegate(),
               GlobalMaterialLocalizations.delegate,
@@ -91,7 +92,9 @@ class _AppState extends State<App> {
             theme: darkMode.enabled ? App.darkTheme : App.lightTheme,
             darkTheme: App.darkTheme,
             initialRoute: Routing.initialRoute,
-            routes: Routing.routes),
+            routes: Routing.routes,
+          );
+        },
       ),
     );
   }
