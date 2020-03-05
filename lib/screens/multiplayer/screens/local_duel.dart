@@ -124,10 +124,12 @@ class _LocalDuelState extends State<LocalDuel> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return Container(
+      color: Colors.white,
+      child: Stack(
         children: <Widget>[
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Expanded(
                 child: Padding(
@@ -180,17 +182,22 @@ class _LocalDuelState extends State<LocalDuel> {
                             );
                           }),
                       Flexible(
-                        child: Material(
-                          elevation: 8.0,
-                          child: AspectRatio(
-                              aspectRatio: 12.0 / 9.0,
-                              child: InputGridOverlay<Arrow>(
-                                child: AnimatedGameView(
-                                  game: _localMultiplayerController.gameStream,
-                                ),
-                                onDrop: _handleDrop,
-                                previewBuilder: _dragTileBuilder,
-                              )),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
+                          child: Material(
+                            elevation: 8.0,
+                            child: AspectRatio(
+                                aspectRatio: 12.0 / 9.0,
+                                child: InputGridOverlay<Arrow>(
+                                  child: AnimatedGameView(
+                                    game:
+                                        _localMultiplayerController.gameStream,
+                                  ),
+                                  onDrop: _handleDrop,
+                                  previewBuilder: _dragTileBuilder,
+                                )),
+                          ),
                         ),
                       ),
                     ],
@@ -235,6 +242,7 @@ class _LocalDuelState extends State<LocalDuel> {
             visible: _displayRoulette,
             child: Center(
                 child: Container(
+              width: 450,
               height: 200,
               child: EventWheel(
                 scrollController: _scrollController,

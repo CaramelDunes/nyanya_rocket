@@ -154,9 +154,9 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: Stack(
+    return Container(
+      color: Colors.white,
+      child: Stack(
         children: <Widget>[
           Column(
             children: <Widget>[
@@ -192,18 +192,21 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                         ),
                       ),
                     ),
-                    Material(
-                      elevation: 8.0,
-                      child: AspectRatio(
-                          aspectRatio: 12.0 / 9.0,
-                          child: InputGridOverlay<Direction>(
-                            child: AnimatedGameView(
-                              game: _localMultiplayerController.gameStream,
-                            ),
-                            onSwipe: _handleSwipe,
-                            onDrop: _handleSwipe,
-                            previewBuilder: _dragTileBuilder,
-                          )),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
+                      child: Material(
+                        elevation: 8.0,
+                        child: AspectRatio(
+                            aspectRatio: 12.0 / 9.0,
+                            child: InputGridOverlay<Direction>(
+                              child: AnimatedGameView(
+                                game: _localMultiplayerController.gameStream,
+                              ),
+                              onSwipe: _handleSwipe,
+                              onDrop: _handleSwipe,
+                              previewBuilder: _dragTileBuilder,
+                            )),
+                      ),
                     ),
                     Expanded(
                       child: Column(

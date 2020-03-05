@@ -177,7 +177,7 @@ class _ChallengeState extends State<Challenge> {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: _buildGameView(),
         ),
         ArrowDrawer(running: _challengeController.running),
@@ -187,18 +187,19 @@ class _ChallengeState extends State<Challenge> {
 
   Widget _buildGameView() {
     return Material(
-        elevation: 8.0,
-        child: AspectRatio(
-            aspectRatio: 12.0 / 9.0,
-            child: InputGridOverlay<Direction>(
-              child: AnimatedGameView(
-                game: _challengeController.gameStream,
-                mistake: _challengeController.mistake,
-              ),
-              onDrop: _handleSwipeAndDrop,
-              onSwipe: _handleSwipeAndDrop,
-              previewBuilder: _dragTileBuilder,
-            )));
+      elevation: 8.0,
+      child: AspectRatio(
+          aspectRatio: 12.0 / 9.0,
+          child: InputGridOverlay<Direction>(
+            child: AnimatedGameView(
+              game: _challengeController.gameStream,
+              mistake: _challengeController.mistake,
+            ),
+            onDrop: _handleSwipeAndDrop,
+            onSwipe: _handleSwipeAndDrop,
+            previewBuilder: _dragTileBuilder,
+          )),
+    );
   }
 
   Widget _buildElapsedTime() {
