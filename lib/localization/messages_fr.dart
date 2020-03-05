@@ -132,7 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "puzzleTutorialText" : MessageLookupByLibrary.simpleMessage("En mode puzzle, l\'objectif est de sauver toutes les souris sans exception.\nPour ce faire, vous avez un nombre limité de flèches à disposition.\n\nCes flèches ne peuvent être placées et retirées qu\'avant le lancement de la simulation.\n\nVous perdez si:\n  • Un chat entre dans une fusée avant que toutes les souris ne soient à l\'abris.\n  • Une souris se fait dévorer par un chat.\n  • Une souris tombe dans un trou noir.\n\nCertains niveaux peuvent être terminés en utilisant moins de flèches que disponible, vous obtiendrez une étoile dans ce cas.\n"),
     "puzzleType" : MessageLookupByLibrary.simpleMessage("Puzzle"),
     "puzzlesTitle" : MessageLookupByLibrary.simpleMessage("Puzzles"),
-    "queueRefreshErrorText" : MessageLookupByLibrary.simpleMessage("Erreur lors du rafraîchissment du nombre de joueurs dans la file."),
+    "queueRefreshErrorText" : MessageLookupByLibrary.simpleMessage("Erreur lors du rafraîchissment\ndu nombre de joueurs dans la file."),
     "regionLabel" : MessageLookupByLibrary.simpleMessage("Région"),
     "rocketTutorialText" : MessageLookupByLibrary.simpleMessage("Fusée"),
     "runAwayObjectiveText" : MessageLookupByLibrary.simpleMessage("Guidez toutes les souris vers les fusées en évitant les chats !"),

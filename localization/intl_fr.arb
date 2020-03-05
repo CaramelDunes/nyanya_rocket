@@ -714,7 +714,7 @@
       "queueLength": {}
     }
   },
-  "queueRefreshErrorText": "Erreur lors du rafraîchissment du nombre de joueurs dans la file.",
+  "queueRefreshErrorText": "Erreur lors du rafraîchissment\ndu nombre de joueurs dans la file.",
   "@queueRefreshErrorText": {
     "description": "Displayed in the world multiplayer setup.",
     "type": "text",
