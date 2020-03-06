@@ -54,10 +54,12 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup>
   void dispose() {
     _queueJoinUpdateTimer?.cancel();
 
-    for (MultiplayerQueue queue in _queues.values) {
-      queue.cancelSearch(
-          authToken: _authToken,
-          masterServerHostname: _masterServers[_selectedMasterIndex]);
+    if (widget.user.isConnected) {
+      for (MultiplayerQueue queue in _queues.values) {
+        queue.cancelSearch(
+            authToken: _authToken,
+            masterServerHostname: _masterServers[_selectedMasterIndex]);
+      }
     }
 
     super.dispose();
@@ -138,6 +140,13 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
+    if (_authToken == null) {
+      return Center(
+          child: Text(NyaNyaLocalizations.of(context).loginPromptText));
+    }
+
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -257,6 +266,8 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup>
                 setState(() {
                   queue.joined = !queue.joined;
                 });
+
+                updateKeepAlive();
               },
             ),
           ],
@@ -264,5 +275,5 @@ class _WorldMultiplayerSetupState extends State<WorldMultiplayerSetup>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => _queues.values.any((queue) => queue.joined);
 }

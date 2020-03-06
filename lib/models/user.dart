@@ -24,7 +24,7 @@ class User with ChangeNotifier {
       return (await _user.getIdToken()).token;
     }
 
-    return '';
+    return null;
   }
 
   Future<StatusCode> setDisplayName(String newDisplayName) async {
