@@ -8,17 +8,20 @@ enum NetworkGameStatus { ConnectingToServer, WaitingForPlayers, Playing, Ended }
 
 class NetworkClient extends GameTicker<MultiplayerGameState> {
   ClientSocket _socket;
+  NetworkGameStatus _status = NetworkGameStatus.ConnectingToServer;
+
   final List<String> _players = List.filled(4, '');
   final ValueNotifier<GameState> gameStream = ValueNotifier(GameState());
   final ValueNotifier<Duration> timeStream = ValueNotifier(Duration.zero);
   final List<ValueNotifier<int>> scoreStreams =
       List.generate(4, (_) => ValueNotifier(0), growable: false);
+  final ValueNotifier<NetworkGameStatus> statusNotifier =
+      ValueNotifier(NetworkGameStatus.ConnectingToServer);
 
   final void Function(GameEvent event) onGameEvent;
   final void Function(PlayerColor assignedColor) onRegisterSuccess;
 
   PlayerColor assignedColor;
-  NetworkGameStatus _status = NetworkGameStatus.ConnectingToServer;
 
   NetworkClient(
       {@required InternetAddress serverAddress,
@@ -67,7 +70,6 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
         newGame.currentEvent != GameEvent.None &&
         newGame.currentEvent != afterCatchup.currentEvent) {
       onGameEvent(newGame.currentEvent);
-      print('Event Mix');
     }
   }
 
@@ -113,6 +115,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     if (!running) {
       running = true;
       _status = NetworkGameStatus.Playing;
+      statusNotifier.value = _status;
     }
   }
 

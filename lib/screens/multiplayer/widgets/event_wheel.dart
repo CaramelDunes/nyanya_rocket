@@ -83,7 +83,8 @@ class EventWheel extends StatelessWidget {
           Text(
             eventName,
             style: TextStyle(
-              fontSize: 50,
+              decoration: TextDecoration.none,
+              fontSize: 35,
               foreground: Paint()
                 ..style = PaintingStyle.stroke
                 ..strokeWidth = 4
@@ -94,7 +95,8 @@ class EventWheel extends StatelessWidget {
           Text(
             eventName,
             style: TextStyle(
-              fontSize: 50,
+              decoration: TextDecoration.none,
+              fontSize: 35,
               color: Colors.white,
             ),
           ),

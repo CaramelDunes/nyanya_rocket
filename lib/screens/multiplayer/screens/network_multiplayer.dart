@@ -105,9 +105,11 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
       });
 
       Timer(Duration(seconds: 3), () {
-        setState(() {
-          _displayRoulette = false;
-        });
+        if (mounted) {
+          setState(() {
+            _displayRoulette = false;
+          });
+        }
       });
     }
   }
@@ -250,10 +252,14 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
               ),
             )),
           ),
-          Visibility(
-              visible: _localMultiplayerController.status !=
-                  NetworkGameStatus.Playing,
-              child: _buildWaitingCard())
+          ValueListenableBuilder<NetworkGameStatus>(
+              valueListenable: _localMultiplayerController.statusNotifier,
+              child: _buildWaitingCard(),
+              builder: (_, status, widget) {
+                return Visibility(
+                    visible: status != NetworkGameStatus.Playing,
+                    child: widget);
+              })
         ],
       ),
     );
