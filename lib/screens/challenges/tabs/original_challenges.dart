@@ -246,7 +246,7 @@ class _OriginalChallengesState extends State<OriginalChallenges>
         Expanded(
           child: ListView.builder(
               itemCount: challengeIndices.length,
-              itemBuilder: (context, i) =>
+              itemBuilder: (_, i) =>
                   _buildChallengeTile(challengeIndices[i])),
         ),
         CompletionIndicator(

@@ -119,8 +119,8 @@ class _CreateTabState extends State<CreateTab>
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (BuildContext context) {
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (BuildContext _) {
                             switch (_mode) {
                               case EditorMode.Puzzle:
                                 return PuzzleEditor(

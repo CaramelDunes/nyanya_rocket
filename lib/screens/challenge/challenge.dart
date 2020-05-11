@@ -119,7 +119,7 @@ class _ChallengeState extends State<Challenge> {
         fit: StackFit.expand,
         children: <Widget>[
           OrientationBuilder(
-            builder: (BuildContext context, Orientation orientation) {
+            builder: (BuildContext _, Orientation orientation) {
               if (orientation == Orientation.portrait) {
                 return _buildPortrait();
               } else {

@@ -2,7 +2,7 @@ name: nyanya_rocket
 description: Save cute mice from dangerous cats!
 homepage: https://github.com/CaramelDunes/nyanya_rocket
 
-version: 1.1.0+45
+version: 1.2.0+47
 
 environment:
   sdk: ">=2.5.0 <3.0.0"
@@ -22,7 +22,7 @@ dependencies:
 
   firebase_core: ^0.4.4+2
   cloud_firestore: ^0.13.4
-  firebase_auth: ^0.15.5+2
+  firebase_auth: ^0.16.0
   cloud_functions: ^0.4.2+2
 
   flare_flutter: ^2.0.1

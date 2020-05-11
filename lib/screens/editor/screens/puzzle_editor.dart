@@ -95,7 +95,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
 
   void _handlePlay(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => Puzzle(
+        builder: (BuildContext _) => Puzzle(
               hasNext: false,
               puzzle: _buildPuzzleData(),
             )));

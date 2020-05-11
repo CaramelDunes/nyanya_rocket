@@ -135,7 +135,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
 
   void _handlePlay(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => Challenge(
+        builder: (BuildContext _) => Challenge(
               hasNext: false,
               challenge: _buildChallengeData(),
             )));

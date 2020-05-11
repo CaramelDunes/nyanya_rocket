@@ -31,6 +31,7 @@ class CachedFlareAnimation {
         AABB bounds = artboard.artboardAABB();
 
         _size = Size(bounds[2] - bounds[0], bounds[3] - bounds[1]);
+        _size *= 0.228;
 
         List<ui.Image> cache = List(numberOfFrames);
 
@@ -40,6 +41,7 @@ class CachedFlareAnimation {
 
           final pictureRecorder = ui.PictureRecorder();
           ui.Canvas canvas = ui.Canvas(pictureRecorder);
+          canvas.scale(0.228);
 
           artboard.draw(canvas); // TODO Make cache building async
           cache[i] = await pictureRecorder
