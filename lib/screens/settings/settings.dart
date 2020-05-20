@@ -6,7 +6,14 @@ import 'package:nyanya_rocket/screens/settings/dark_mode.dart';
 import 'package:nyanya_rocket/screens/settings/language.dart';
 import 'package:provider/provider.dart';
 
+import 'region.dart';
+
 class Settings extends StatelessWidget {
+  static const Map<Regions, String> _regionLabels = {
+    Regions.usEast: 'US East',
+    Regions.euWest: 'Europe West'
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +54,29 @@ class Settings extends StatelessWidget {
                   onChanged: (String language) {
                     Provider.of<Language>(context, listen: false).value =
                         language;
+                  }),
+            ),
+            ListTile(
+              title: Text(NyaNyaLocalizations.of(context).regionLabel),
+              trailing: DropdownButton<Regions>(
+                  value: Provider.of<Region>(context).value,
+                  items: <DropdownMenuItem<Regions>>[
+                    DropdownMenuItem(
+                      child: Text(
+                          'Auto (${_regionLabels[Region.automaticValue()]})'),
+                      value: Regions.auto,
+                    ),
+                    DropdownMenuItem(
+                      child: Text(_regionLabels[Regions.euWest]),
+                      value: Regions.euWest,
+                    ),
+                    DropdownMenuItem(
+                      child: Text(_regionLabels[Regions.usEast]),
+                      value: Regions.usEast,
+                    ),
+                  ],
+                  onChanged: (Regions region) {
+                    Provider.of<Region>(context, listen: false).value = region;
                   }),
             ),
             Consumer<User>(
