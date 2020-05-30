@@ -13,6 +13,17 @@ class WhatsNew extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return OrientationBuilder(
+        builder: (BuildContext context, Orientation orientation) {
+      if (orientation == Orientation.portrait) {
+        return _buildPortrait(context);
+      } else {
+        return _buildLandscape(context);
+      }
+    });
+  }
+
+  Widget _buildPortrait(BuildContext context) {
     return Column(
       children: <Widget>[
         Visibility(
@@ -49,37 +60,113 @@ class WhatsNew extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 0),
           child: Row(
+            children: _buildShortcutList(context, Axis.vertical),
+          ),
+        ),
+        Divider(),
+        Expanded(child: _buildNews(context)),
+      ],
+    );
+  }
+
+  Widget _buildLandscape(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: _buildShortcutList(context, Axis.horizontal),
+            ),
+          ),
+        ),
+        VerticalDivider(),
+        Expanded(
+          flex: 2,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: _buildNews(context),
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _buildShortcutList(BuildContext context, Axis direction) {
+    return [
+      Expanded(
+          child: _buildShortcutCard(
+              context: context,
+              faIcon: FontAwesomeIcons.puzzlePiece,
+              name: NyaNyaLocalizations.of(context).puzzlesTitle,
+              routeName: '/puzzles',
+              direction: direction)),
+      Expanded(
+          child: _buildShortcutCard(
+              context: context,
+              faIcon: FontAwesomeIcons.stopwatch,
+              name: NyaNyaLocalizations.of(context).challengesTitle,
+              routeName: '/challenges',
+              direction: direction)),
+      Expanded(
+          child: _buildShortcutCard(
+              context: context,
+              faIcon: FontAwesomeIcons.gamepad,
+              name: NyaNyaLocalizations.of(context).multiplayerTitle,
+              routeName: '/multiplayer',
+              direction: direction))
+    ];
+  }
+
+  Widget _buildShortcutCard(
+      {@required BuildContext context,
+      @required IconData faIcon,
+      @required String name,
+      @required String routeName,
+      @required Axis direction}) {
+    return Card(
+      child: InkWell(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Flex(
+            direction: direction,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Expanded(
-                  child: _buildShortcutCard(
-                      context: context,
-                      faIcon: FontAwesomeIcons.puzzlePiece,
-                      name: NyaNyaLocalizations.of(context).puzzlesTitle,
-                      routeName: '/puzzles')),
-              Expanded(
-                  child: _buildShortcutCard(
-                      context: context,
-                      faIcon: FontAwesomeIcons.stopwatch,
-                      name: NyaNyaLocalizations.of(context).challengesTitle,
-                      routeName: '/challenges')),
-              Expanded(
-                  child: _buildShortcutCard(
-                      context: context,
-                      faIcon: FontAwesomeIcons.gamepad,
-                      name: NyaNyaLocalizations.of(context).multiplayerTitle,
-                      routeName: '/multiplayer'))
+              FaIcon(faIcon, size: 48),
+              const SizedBox(height: 4.0),
+              Text(
+                name,
+                style: Theme.of(context).textTheme.subtitle1,
+              )
             ],
           ),
         ),
-        Divider(height: 8.0),
+        onTap: () {
+          Navigator.pushNamed(context, routeName);
+        },
+      ),
+    );
+  }
+
+  Widget _buildNews(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            SizedBox(width: 8.0),
+            Icon(Icons.new_releases),
+            SizedBox(width: 8.0),
+            Text(
+              NyaNyaLocalizations.of(context).newsLabel,
+              style: Theme.of(context).textTheme.headline5,
+            ),
+          ],
+        ),
         Expanded(
           child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             children: <Widget>[
-              Text(
-                NyaNyaLocalizations.of(context).newsLabel,
-                style: Theme.of(context).textTheme.headline5,
-              ),
               FutureBuilder<QuerySnapshot>(
                 future: Firestore.instance
                     .collection(
@@ -105,7 +192,7 @@ class WhatsNew extends StatelessWidget {
                           return ListTile(
                             title: Text(document['title']),
                             trailing: Text(MaterialLocalizations.of(context)
-                                .formatMediumDate(document['date'].toDate())),
+                                .formatShortDate(document['date'].toDate())),
                           );
                         }).toList(),
                       );
@@ -116,31 +203,6 @@ class WhatsNew extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildShortcutCard(
-      {BuildContext context, IconData faIcon, String name, String routeName}) {
-    return Card(
-      child: InkWell(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              FaIcon(faIcon, size: 48),
-              const SizedBox(height: 4.0),
-              Text(
-                name,
-                style: Theme.of(context).textTheme.subtitle1,
-              )
-            ],
-          ),
-        ),
-        onTap: () {
-          Navigator.pushNamed(context, routeName);
-        },
-      ),
     );
   }
 }

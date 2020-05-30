@@ -25,16 +25,16 @@ class App extends StatefulWidget {
   ];
 
   static ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    primarySwatch: Colors.deepPurple,
-    accentColor: Colors.orangeAccent,
-  );
+      brightness: Brightness.dark,
+      primarySwatch: Colors.deepPurple,
+      accentColor: Colors.orangeAccent,
+      dividerTheme: DividerThemeData().copyWith(space: 8.0));
 
   static ThemeData lightTheme = ThemeData(
-    brightness: Brightness.light,
-    primarySwatch: Colors.deepPurple,
-    accentColor: Colors.orangeAccent,
-  );
+      brightness: Brightness.light,
+      primarySwatch: Colors.deepPurple,
+      accentColor: Colors.orangeAccent,
+      dividerTheme: DividerThemeData().copyWith(space: 8.0));
 
   @override
   _AppState createState() => _AppState();
