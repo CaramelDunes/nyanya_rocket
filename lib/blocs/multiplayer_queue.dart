@@ -14,6 +14,8 @@ class QueueJoinStatus {
 enum QueueType { Duels, FourPlayers }
 
 class MultiplayerQueue {
+  final String apiVersion = 'v1';
+
   final QueueType type;
   int length;
   bool joined = false;
@@ -38,7 +40,7 @@ class MultiplayerQueue {
     Map<String, String> headers = {'Authorization': authToken};
 
     http.Response response = await http.get(
-        'http://$masterServerHostname/${_queueTypeToString(type)}/info',
+        'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/info',
         headers: headers);
 
     if (response.statusCode == 200) {
@@ -55,7 +57,7 @@ class MultiplayerQueue {
     Map<String, String> headers = {'Authorization': authToken};
 
     http.Response response = await http.get(
-        'http://$masterServerHostname/${_queueTypeToString(type)}/search',
+        'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/search',
         headers: headers);
 
     if (response.statusCode == 200) {
@@ -86,7 +88,7 @@ class MultiplayerQueue {
     Map<String, String> headers = {'Authorization': authToken};
 
     http.Response response = await http.get(
-        'http://$masterServerHostname/${_queueTypeToString(type)}/cancel',
+        'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/cancel',
         headers: headers);
 
     if (response.statusCode == 200) {
