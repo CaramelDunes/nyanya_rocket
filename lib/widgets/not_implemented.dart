@@ -16,21 +16,16 @@ class NotImplemented extends StatelessWidget {
           NyaNyaLocalizations.of(context).notImplementedText,
           textAlign: TextAlign.center,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.thumb_up,
-                color: Colors.green,
-              ),
-              onPressed: () {
-                final DocumentReference postRef =
-                    Firestore.instance.document('feature_requests/$featureId');
-                postRef.updateData({'thumbs_up': FieldValue.increment(1)});
-              },
-            ),
-          ],
+        IconButton(
+          icon: Icon(
+            Icons.thumb_up,
+            color: Colors.green,
+          ),
+          onPressed: () {
+            final DocumentReference postRef =
+                Firestore.instance.document('feature_requests/$featureId');
+            postRef.updateData({'thumbs_up': FieldValue.increment(1)});
+          },
         ),
         StreamBuilder<DocumentSnapshot>(
           stream: Firestore.instance
@@ -44,6 +39,7 @@ class NotImplemented extends StatelessWidget {
             }
 
             switch (snapshot.connectionState) {
+              case ConnectionState.active:
               case ConnectionState.done:
                 return Text(
                   snapshot.data['thumbs_up'].toString(),
