@@ -33,17 +33,17 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
   get canPlaceArrow => running;
 
   @override
-  void close() {
+  void dispose() {
     scoreStreams
         .forEach((ValueNotifier valueNotifier) => valueNotifier.dispose());
     timeStream.dispose();
 
-    super.close();
+    super.dispose();
   }
 
   @override
-  void afterTick() {
-    super.afterTick();
+  void afterUpdate() {
+    super.afterUpdate();
 
     _remainingTime -= Duration(milliseconds: 16);
 

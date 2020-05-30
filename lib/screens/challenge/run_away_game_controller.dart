@@ -22,8 +22,8 @@ class RunAwayGameController extends ChallengeGameController {
   int get targetScore => _targetScore;
 
   @override
-  void close() {
-    super.close();
+  void dispose() {
+    super.dispose();
 
     _scoreStream.dispose();
   }
@@ -47,7 +47,7 @@ class RunAwayGameController extends ChallengeGameController {
     } else {
       _scoreStream.value = game.scoreOf(PlayerColor.Blue);
       if (game.scoreOf(PlayerColor.Blue) >= _targetScore) {
-        departRockets();
+        gameSimulator.departRockets(game);
         running = false;
         onWin();
       }

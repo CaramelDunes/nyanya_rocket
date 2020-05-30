@@ -16,16 +16,16 @@ class MultiplayerGameController extends MultiplayerGameTicker {
 
   @override
   @mustCallSuper
-  void afterTick() {
-    super.afterTick();
+  void afterUpdate() {
+    super.afterUpdate();
 
     updateGame();
   }
 
   @mustCallSuper
   @override
-  void close() {
-    super.close();
+  void dispose() {
+    super.dispose();
 
     gameStream.dispose();
   }

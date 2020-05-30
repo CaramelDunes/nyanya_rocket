@@ -23,8 +23,8 @@ class LunchTimeGameController extends ChallengeGameController {
   int get targetScore => _targetScore;
 
   @override
-  void close() {
-    super.close();
+  void dispose() {
+    super.dispose();
 
     _scoreStream.dispose();
   }

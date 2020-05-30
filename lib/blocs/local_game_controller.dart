@@ -18,15 +18,15 @@ class LocalGameController extends GameTicker<GameState> {
 
   @override
   @mustCallSuper
-  void afterTick() {
+  void afterUpdate() {
     updateGame();
   }
 
   @mustCallSuper
   @override
-  void close() {
+  void dispose() {
     gameStream.dispose();
 
-    super.close();
+    super.dispose();
   }
 }

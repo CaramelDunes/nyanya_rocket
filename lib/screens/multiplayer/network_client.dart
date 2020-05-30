@@ -18,7 +18,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   final ValueNotifier<NetworkGameStatus> statusNotifier =
       ValueNotifier(NetworkGameStatus.ConnectingToServer);
 
-  final void Function(GameEvent event) onGameEvent;
+  final void Function(GameEvent event, Duration animationDuration) onGameEvent;
   final void Function(PlayerColor assignedColor) onRegisterSuccess;
 
   PlayerColor assignedColor;
@@ -46,12 +46,12 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
   NetworkGameStatus get status => _status;
 
-  void close() {
-    _socket?.close();
+  void dispose() {
+    _socket?.dispose();
     timeStream.dispose();
     scoreStreams.forEach((ValueNotifier stream) => stream.dispose());
 
-    super.close();
+    super.dispose();
   }
 
   List<String> get players => _players;
@@ -64,12 +64,51 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     return true;
   }
 
+  Duration computeAnimationDuration(
+      GameEvent event, int tickCount, int pauseUntil) {
+    switch (event) {
+      case GameEvent.SlowDown:
+        return GameTicker.updatePeriod * (pauseUntil - tickCount);
+        break;
+
+      case GameEvent.SpeedUp:
+        return GameTicker.updatePeriod * ((pauseUntil - tickCount) / 4);
+        break;
+
+      case GameEvent.CatMania:
+      case GameEvent.MouseMania:
+        return GameTicker.updatePeriod * ((pauseUntil - tickCount) / 2);
+        break;
+
+      case GameEvent.PlaceAgain:
+        return GameTicker.updatePeriod * ((pauseUntil - tickCount) / 2) -
+            Duration(seconds: 3);
+        break;
+
+      case GameEvent.CatAttack:
+      case GameEvent.MouseMonopoly:
+      case GameEvent.EverybodyMove:
+        return GameTicker.updatePeriod * ((pauseUntil - tickCount) / 2) -
+            Duration(seconds: 2);
+        break;
+
+      case GameEvent.None:
+        return Duration.zero;
+        break;
+    }
+
+    return Duration.zero;
+  }
+
   void _mixGameEvents(
       MultiplayerGameState newGame, MultiplayerGameState afterCatchup) {
     if (onGameEvent != null &&
         newGame.currentEvent != GameEvent.None &&
         newGame.currentEvent != afterCatchup.currentEvent) {
-      onGameEvent(newGame.currentEvent);
+      onGameEvent(
+          newGame.currentEvent,
+          computeAnimationDuration(
+              newGame.currentEvent, newGame.tickCount, newGame.pauseUntil));
     }
   }
 
@@ -87,20 +126,20 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
       }
 
       if (game.tickCount < newGame.tickCount) {
-        print('jump');
+        print('jump ${newGame.tickCount - game.tickCount}');
       }
+
       gameState = newGame;
     } else {
       // We are slightly early, align the server snapshot to our timeline.
-      int catchingUp = game.tickCount - newGame.tickCount;
+      int lateness = game.tickCount - newGame.tickCount;
 
-      print(catchingUp);
+      print(lateness);
 
-      // Only use our time frame if we are less than 2 second in advance on the server.
-      if (catchingUp <= 2 * 2 * 60) {
-        for (int i = 0; i < catchingUp; i++) {
-          gameSimulator.microTick(newGame);
-        }
+      // Only use our time frame if we are less than 1 second in advance on the server.
+      if (lateness <= 60) {
+        (gameSimulator as MultiplayerGameSimulator)
+            .fastForward(newGame, lateness);
       }
 
       _mixGameEvents(newGame, game);
@@ -113,6 +152,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     }
 
     if (!running) {
+      gameState = newGame;
       running = true;
       _status = NetworkGameStatus.Playing;
       statusNotifier.value = _status;
@@ -120,8 +160,13 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   }
 
   @override
-  void afterTick() {
-    super.afterTick();
+  void afterUpdate() {
+    super.afterUpdate();
+
+    if (game.currentEvent != GameEvent.None &&
+        game.eventEnd <= game.tickCount) {
+      game.currentEvent = GameEvent.None;
+    }
 
     gameStream.value = game;
     timeStream.value = Duration(milliseconds: game.tickCount * 8);
@@ -156,6 +201,11 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   }
 
   void _handleEntityInRocket(Entity entity, int x, int y) {
+    if (entity is SpecialMouse) {
+      // Pause for half a second waiting for server update.
+      game.pauseUntil = game.tickCount + 60;
+    }
+
     for (int i = 0; i < scoreStreams.length; i++) {
       scoreStreams[i].value = game.scoreOf(PlayerColor.values[i]);
     }

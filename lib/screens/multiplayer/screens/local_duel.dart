@@ -47,7 +47,7 @@ class _LocalDuelState extends State<LocalDuel> {
 
   @override
   void dispose() {
-    _localMultiplayerController.close();
+    _localMultiplayerController.dispose();
 
     SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
 

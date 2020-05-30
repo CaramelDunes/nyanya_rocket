@@ -41,7 +41,7 @@ class _ChallengeState extends State<Challenge> {
 
   @override
   void dispose() {
-    _challengeController.close();
+    _challengeController.dispose();
 
     super.dispose();
   }

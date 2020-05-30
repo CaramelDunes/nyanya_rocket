@@ -39,7 +39,7 @@ class _PuzzleState extends State<Puzzle> {
 
   @override
   void dispose() {
-    _puzzleController.close();
+    _puzzleController.dispose();
 
     super.dispose();
   }

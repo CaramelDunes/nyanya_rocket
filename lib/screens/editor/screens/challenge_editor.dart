@@ -43,7 +43,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   void dispose() {
     super.dispose();
 
-    _editorGameController.close();
+    _editorGameController.dispose();
   }
 
   NamedChallengeData _buildChallengeData() {

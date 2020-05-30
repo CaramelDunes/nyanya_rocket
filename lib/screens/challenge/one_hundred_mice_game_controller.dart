@@ -18,8 +18,8 @@ class OneHundredMiceGameController extends ChallengeGameController {
   int get targetScore => 100;
 
   @override
-  void close() {
-    super.close();
+  void dispose() {
+    super.dispose();
 
     _scoreStream.dispose();
   }
@@ -34,7 +34,7 @@ class OneHundredMiceGameController extends ChallengeGameController {
     _scoreStream.value = game.scoreOf(PlayerColor.Blue);
 
     if (game.scoreOf(PlayerColor.Blue) >= 100) {
-      departRockets();
+      gameSimulator.departRockets(game);
       running = false;
       onWin();
     }

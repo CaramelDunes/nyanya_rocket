@@ -57,10 +57,10 @@ abstract class ChallengeGameController extends LocalGameController {
   }
 
   @override
-  void close() {
+  void dispose() {
     timeStream.dispose();
 
-    super.close();
+    super.dispose();
   }
 
   ValueNotifier<BoardPosition> get mistake => _mistake;
@@ -115,8 +115,8 @@ abstract class ChallengeGameController extends LocalGameController {
 
   @mustCallSuper
   @override
-  void beforeTick() {
-    _remainingTime -= GameTicker.tickPeriod;
+  void beforeUpdate() {
+    _remainingTime -= GameTicker.updatePeriod;
 
     if (_remainingTime.isNegative) {
       running = false;
@@ -126,7 +126,8 @@ abstract class ChallengeGameController extends LocalGameController {
     timeStream.value = Duration(seconds: 30) - _remainingTime;
   }
 
-  void afterTick() {
+  @override
+  void afterUpdate() {
     if (_mistake.value != null) {
       game.cats = _preMistakeCats;
       game.mice = _preMistakeMice;
@@ -134,7 +135,7 @@ abstract class ChallengeGameController extends LocalGameController {
 
     updateGame();
 
-    super.afterTick();
+    super.afterUpdate();
   }
 
   @protected

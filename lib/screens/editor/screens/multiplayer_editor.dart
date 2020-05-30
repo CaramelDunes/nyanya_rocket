@@ -42,7 +42,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   void dispose() {
     super.dispose();
 
-    _editorGameController.close();
+    _editorGameController.dispose();
   }
 
   MultiplayerBoard _buildMultiplayerBoard() {

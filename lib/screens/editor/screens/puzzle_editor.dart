@@ -47,7 +47,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   void dispose() {
     super.dispose();
 
-    _editorGameController.close();
+    _editorGameController.dispose();
   }
 
   void _initExistingArrows(Direction direction, int count) {

@@ -60,7 +60,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
 
   @override
   void dispose() {
-    _localMultiplayerController.close();
+    _localMultiplayerController.dispose();
 
     SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
 
@@ -80,7 +80,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     });
   }
 
-  void _handleGameEvent(GameEvent event) {
+  void _handleGameEvent(GameEvent event, Duration animationDuration) {
     // Not 0 to have a card above and under the starting position on the wheel.
     _scrollController.jumpToItem(1);
 
@@ -104,7 +104,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
             curve: Curves.decelerate);
       });
 
-      Timer(Duration(seconds: 3), () {
+      Timer(animationDuration, () {
         if (mounted) {
           setState(() {
             _displayRoulette = false;

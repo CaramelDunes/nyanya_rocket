@@ -180,7 +180,7 @@ class PuzzleGameController extends LocalGameController {
   }
 
   @override
-  void afterTick() {
+  void afterUpdate() {
     if (_mistake.value != null) {
       game.cats = _preMistakeCats;
       game.mice = _preMistakeMice;
@@ -191,6 +191,6 @@ class PuzzleGameController extends LocalGameController {
       reset();
     }
 
-    super.afterTick();
+    super.afterUpdate();
   }
 }
