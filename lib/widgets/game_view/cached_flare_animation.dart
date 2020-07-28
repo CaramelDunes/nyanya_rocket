@@ -22,6 +22,7 @@ class CachedFlareAnimation {
       FlutterActor actor = cacheAsset.actor;
 
       FlutterActorArtboard artboard = actor.artboard;
+      artboard.antialias = true;
       artboard.initializeGraphics();
 
       ActorAnimation animation = artboard.getAnimation(animationName);

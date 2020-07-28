@@ -326,19 +326,19 @@ For more information, head over to ''',
     );
   }
 
-  String get localDuelTab {
+  String get deviceDuelLabel {
     return Intl.message(
-      'Local Duel',
-      name: 'localDuelTab',
-      desc: 'Local Duel tab of the Multiplayer screen.',
+      'Device duel',
+      name: 'deviceDuelLabel',
+      desc: 'Device Duel button of the Multiplayer screen.',
     );
   }
 
-  String get lanTab {
+  String get lanMultiplayerLabel {
     return Intl.message(
-      'LAN',
-      name: 'lanTab',
-      desc: 'LAN tab of the Multiplayer screen.',
+      'LAN multiplayer',
+      name: 'lanMultiplayerLabel',
+      desc: 'LAN button of the Multiplayer screen.',
     );
   }
 
@@ -1040,5 +1040,58 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
       name: 'joinQueueLabel',
       desc: 'Displayed in the world multiplayer setup.',
     );
+  }
+
+  String get friendDuelLabel {
+    return Intl.message(
+      'Friend Duel',
+      name: 'friendDuelLabel',
+      desc: 'Displayed on the multiplayer screen.',
+    );
+  }
+
+  String get yourRoomCodeLabel {
+    return Intl.message(
+      'Your room code is',
+      name: 'roomCodePrompt',
+      desc: 'Displayed in the friend duel tab of the multiplayer screen.',
+    );
+  }
+
+  String get joinRoomLabel {
+    return Intl.message(
+      'Join a room',
+      name: 'joinRoomLabel',
+      desc: 'Displayed in the friend duel tab of the multiplayer screen.',
+    );
+  }
+
+  String get roomCodeRetrievalErrorText {
+    return Intl.message(
+      'Could not retrieve room code.',
+      name: 'roomCodeRetrievalErrorText',
+      desc: 'Displayed in the friend duel tab of the multiplayer screen.',
+    );
+  }
+
+  String get awaitingForPlayersLabel {
+    return Intl.message('Awaiting for players...',
+        name: 'awaitingForPlayersLabel');
+  }
+
+  String get boardLabel {
+    return Intl.message('Board', name: 'boardLabel');
+  }
+
+  String get nicknamesLabel {
+    return Intl.message('Nicknames', name: 'nicknamesLabel');
+  }
+
+  String get durationLabel {
+    return Intl.message('Duration', name: 'durationLabel');
+  }
+
+  String get leaderBoardLabel {
+    return Intl.message('Leaderboard', name: 'leaderBoardLabel');
   }
 }

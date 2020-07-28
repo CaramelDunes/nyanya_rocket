@@ -17,11 +17,13 @@ class MultiplayerQueue {
   final String apiVersion = 'v1';
 
   final QueueType type;
+  final http.Client client;
+
   int length;
   bool joined = false;
   int position = 0;
 
-  MultiplayerQueue({@required this.type});
+  MultiplayerQueue({@required this.type, @required this.client});
 
   static _queueTypeToString(QueueType queueType) {
     switch (queueType) {
@@ -34,14 +36,9 @@ class MultiplayerQueue {
     }
   }
 
-  Future queueLength(
-      {@required String authToken,
-      @required String masterServerHostname}) async {
-    Map<String, String> headers = {'Authorization': authToken};
-
-    http.Response response = await http.get(
-        'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/info',
-        headers: headers);
+  Future queueLength({@required String masterServerHostname}) async {
+    http.Response response = await client.get(
+        'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/info');
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -52,13 +49,9 @@ class MultiplayerQueue {
   }
 
   Future<QueueJoinStatus> updateQueueJoinStatus(
-      {@required String authToken,
-      @required String masterServerHostname}) async {
-    Map<String, String> headers = {'Authorization': authToken};
-
-    http.Response response = await http.get(
-        'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/search',
-        headers: headers);
+      {@required String masterServerHostname}) async {
+    http.Response response = await client.get(
+        'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/search');
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -82,14 +75,9 @@ class MultiplayerQueue {
     return null;
   }
 
-  Future cancelSearch(
-      {@required String authToken,
-      @required String masterServerHostname}) async {
-    Map<String, String> headers = {'Authorization': authToken};
-
-    http.Response response = await http.get(
-        'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/cancel',
-        headers: headers);
+  Future cancelSearch({@required String masterServerHostname}) async {
+    http.Response response = await client.get(
+        'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/cancel');
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);

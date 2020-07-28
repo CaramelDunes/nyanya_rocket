@@ -104,7 +104,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
       MultiplayerGameState newGame, MultiplayerGameState afterCatchup) {
     if (onGameEvent != null &&
         newGame.currentEvent != GameEvent.None &&
-        newGame.currentEvent != afterCatchup.currentEvent) {
+        newGame.eventEnd != afterCatchup.eventEnd) {
       onGameEvent(
           newGame.currentEvent,
           computeAnimationDuration(
@@ -112,50 +112,53 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     }
   }
 
-  void _handleGame(MultiplayerGameState newGame) {
-    for (int i = 0; i < 4; i++) {
-      scoreStreams[i].value = newGame.scoreOf(PlayerColor.values[i]);
-    }
+  void _handleGame(MultiplayerGameState receivedGame) {
+    // Local simulation is late or on-time compared to server simulation, just
+    // consume latest update.
+    if (game.tickCount <= receivedGame.tickCount) {
+      _mixGameEvents(receivedGame, game);
 
-    // Local simulation is late or on time, just consume latest update.
-    if (game.tickCount <= newGame.tickCount) {
-      _mixGameEvents(newGame, game);
-      if (game.tickCount == newGame.tickCount &&
-          game.rng.state != newGame.rng.state) {
-        print('rng?a');
+      if (game.tickCount == receivedGame.tickCount &&
+          game.rng.state != receivedGame.rng.state) {
+        print('On-time client RNG state discrepancy.');
       }
 
-      if (game.tickCount < newGame.tickCount) {
-        print('jump ${newGame.tickCount - game.tickCount}');
+      if (game.tickCount < receivedGame.tickCount) {
+        print('Skipping ${receivedGame.tickCount - game.tickCount} ticks.');
       }
 
-      gameState = newGame;
+      gameState = receivedGame;
     } else {
-      // We are slightly early, align the server snapshot to our timeline.
-      int lateness = game.tickCount - newGame.tickCount;
+      // We are slightly early, align the server snapshot to our tick count.
+      int earliness = game.tickCount - receivedGame.tickCount;
 
-      print(lateness);
+      print('Client is early by $earliness ticks.');
 
-      // Only use our time frame if we are less than 1 second in advance on the server.
-      if (lateness <= 60) {
+      // Only use our time frame if we are less than 60 ticks (~0.5 seconds)
+      // in advance on the server.
+      if (earliness <= 60) {
         (gameSimulator as MultiplayerGameSimulator)
-            .fastForward(newGame, lateness);
+            .fastForward(receivedGame, earliness);
       }
 
-      _mixGameEvents(newGame, game);
+      _mixGameEvents(receivedGame, game);
 
-      if (game.rng.state != newGame.rng.state) {
-        print('rng?b');
+      if (game.rng.state != receivedGame.rng.state) {
+        print('Early client RNG state discrepancy');
       }
 
-      gameState = newGame;
+      gameState = receivedGame;
     }
 
     if (!running) {
-      gameState = newGame;
+      gameState = receivedGame;
       running = true;
       _status = NetworkGameStatus.Playing;
       statusNotifier.value = _status;
+    }
+
+    for (int i = 0; i < 4; i++) {
+      scoreStreams[i].value = game.scoreOf(PlayerColor.values[i]);
     }
   }
 
@@ -163,13 +166,14 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   void afterUpdate() {
     super.afterUpdate();
 
+    // Check if current event has ended.
     if (game.currentEvent != GameEvent.None &&
         game.eventEnd <= game.tickCount) {
       game.currentEvent = GameEvent.None;
     }
 
     gameStream.value = game;
-    timeStream.value = Duration(milliseconds: game.tickCount * 8);
+    timeStream.value = GameTicker.updatePeriod * (game.tickCount / 2);
   }
 
   void _handleRegisterSuccess(PlayerColor assignedColor) {
@@ -179,14 +183,11 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
       _status = NetworkGameStatus.WaitingForPlayers;
     }
 
+    this.assignedColor = assignedColor;
+
     if (onRegisterSuccess != null) {
       onRegisterSuccess(assignedColor);
     }
-
-    this.assignedColor = assignedColor;
-
-    // Proc update of score boxes
-    scoreStreams.forEach((ValueNotifier scoreStream) => scoreStream.value = 0);
   }
 
   void _handlePlayerNicknames(List<String> nicknames) {

@@ -77,31 +77,14 @@ class EventWheel extends StatelessWidget {
     return Container(
       color: cardColor,
       child: Center(
-          child: Stack(
-        children: <Widget>[
-          // Stroked text as border.
-          Text(
-            eventName,
-            style: TextStyle(
-              decoration: TextDecoration.none,
-              fontSize: 35,
-              foreground: Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 4
-                ..color = Colors.black,
-            ),
-          ),
-          // Solid text as fill.
-          Text(
+          child: Text(
             eventName,
             style: TextStyle(
               decoration: TextDecoration.none,
               fontSize: 35,
               color: Colors.white,
             ),
-          ),
-        ],
-      )),
+          )),
     );
   }
 }

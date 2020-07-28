@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/multiplayer/device_multiplayer_game_controller.dart';
-import 'package:nyanya_rocket/screens/multiplayer/widgets/event_wheel.dart';
+import 'package:nyanya_rocket/screens/multiplayer/game_widgets/event_wheel.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
