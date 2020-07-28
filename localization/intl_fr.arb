@@ -283,7 +283,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "invalidNameText": "Nom invalide (entrez entre 2 et 24 caractères ASCII).",
+  "invalidNameText": "Nom invalide (entrez entre 2 et 24 caractères alphanumériques).",
   "@invalidNameText": {
     "description": "When entered name is invalid in the new tab of the Editor screen.",
     "type": "text",
@@ -726,7 +726,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "fourPlayersLabel": "Bataille 4 joueurs",
+  "fourPlayersLabel": "4 joueurs",
   "@fourPlayersLabel": {
     "description": "Displayed in the world multiplayer setup.",
     "type": "text",
@@ -741,6 +741,70 @@
   "joinQueueLabel": "Rejoindre",
   "@joinQueueLabel": {
     "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "friendDuelLabel": "Duel ami",
+  "@friendDuelLabel": {
+    "description": "Displayed on the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yourRoomCodeLabel": "Votre code joueur est",
+  "@yourRoomCodeLabel": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "joinRoomLabel": "Rejoindre un ami",
+  "@joinRoomLabel": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "roomCodeRetrievalErrorText": "Impossible de récupérer le code joueur",
+  "@roomCodeRetrievalErrorText": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "awaitingForPlayersLabel": "En attente de joueurs...",
+  "@awaitingForPlayersLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "boardLabel": "Plateau",
+  "@boardLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "nicknamesLabel": "Pseudos",
+  "@nicknamesLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "durationLabel": "Durée",
+  "@durationLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "leaderBoardLabel": "Classement",
+  "@leaderBoardLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "roomCodeLabel": "Code joueur",
+  "@roomCodeLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "findPlayersLabel": "Recherche de joueurs",
+  "@findPlayersLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "refreshLabel": "Actualiser",
+  "@refreshLabel": {
     "type": "text",
     "placeholders": {}
   }

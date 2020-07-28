@@ -24,49 +24,82 @@ class EventWheel extends StatelessWidget {
     );
   }
 
+  static String eventName(GameEvent event) {
+    switch (event) {
+      case GameEvent.CatMania:
+        return 'Cat Mania';
+        break;
+
+      case GameEvent.MouseMania:
+        return 'Mouse Mania';
+        break;
+
+      case GameEvent.SpeedUp:
+        return 'Speed Up';
+        break;
+
+      case GameEvent.SlowDown:
+        return 'Slow Down';
+        break;
+
+      case GameEvent.MouseMonopoly:
+        return 'Mouse Monopoly';
+        break;
+
+      case GameEvent.CatAttack:
+        return 'Cat Attack';
+        break;
+
+      case GameEvent.PlaceAgain:
+        return 'Place Arrows Again';
+        break;
+
+      case GameEvent.EverybodyMove:
+        return 'Everybody Move!';
+        break;
+
+      case GameEvent.None:
+      default:
+        return 'None';
+        break;
+    }
+  }
+
   static Widget _cardForEvent(GameEvent event) {
     Color cardColor = Colors.black;
-    String eventName = 'None';
+    String name = eventName(event);
 
     switch (event) {
       case GameEvent.CatMania:
         cardColor = Colors.lightBlueAccent;
-        eventName = 'Cat Mania';
         break;
 
       case GameEvent.MouseMania:
         cardColor = Colors.purpleAccent;
-        eventName = 'Mouse Mania';
         break;
 
       case GameEvent.SpeedUp:
         cardColor = Colors.red;
-        eventName = 'Speed Up';
         break;
 
       case GameEvent.SlowDown:
         cardColor = Colors.deepPurpleAccent;
-        eventName = 'Slow Down';
         break;
 
       case GameEvent.MouseMonopoly:
         cardColor = Colors.pinkAccent;
-        eventName = 'Mouse Monopoly';
         break;
 
       case GameEvent.CatAttack:
         cardColor = Colors.green;
-        eventName = 'Cat Attack';
         break;
 
       case GameEvent.PlaceAgain:
         cardColor = Colors.deepOrangeAccent;
-        eventName = 'Place Arrows Again';
         break;
 
       case GameEvent.EverybodyMove:
         cardColor = Colors.yellow;
-        eventName = 'Everybody Move!';
         break;
 
       case GameEvent.None:
@@ -78,13 +111,13 @@ class EventWheel extends StatelessWidget {
       color: cardColor,
       child: Center(
           child: Text(
-            eventName,
-            style: TextStyle(
-              decoration: TextDecoration.none,
-              fontSize: 35,
-              color: Colors.white,
-            ),
-          )),
+        name,
+        style: TextStyle(
+          decoration: TextDecoration.none,
+          fontSize: 35,
+          color: Colors.white,
+        ),
+      )),
     );
   }
 }

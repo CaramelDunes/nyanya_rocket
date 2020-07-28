@@ -78,7 +78,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "invalidHostnameText" : MessageLookupByLibrary.simpleMessage("Bitte einen gültigen Hostnamen eingeben."),
     "invalidNameText" : MessageLookupByLibrary.simpleMessage("Bitte einen gültigen Namen eingeben."),
     "invalidNicknameText" : MessageLookupByLibrary.simpleMessage("Bitte einen gültigen Spitznamen eingeben."),
-    "lanTab" : MessageLookupByLibrary.simpleMessage("LAN"),
     "languageLabel" : MessageLookupByLibrary.simpleMessage("Sprache"),
     "loadingLabel" : MessageLookupByLibrary.simpleMessage("Laden..."),
     "loginPromptText" : MessageLookupByLibrary.simpleMessage("Bitte melde dich zuerst an! (Einstellungen—Account verwalten)"),

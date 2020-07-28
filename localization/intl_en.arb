@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-03-04T14:01:52.824427",
+  "@@last_modified": "2020-07-28T22:30:18.321346",
   "puzzleType": "Puzzle",
   "@puzzleType": {
     "description": "Puzzle type of game.",
@@ -222,15 +222,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "localDuelTab": "Local Duel",
-  "@localDuelTab": {
-    "description": "Local Duel tab of the Multiplayer screen.",
+  "deviceDuelLabel": "Device duel",
+  "@deviceDuelLabel": {
+    "description": "Device Duel button of the Multiplayer screen.",
     "type": "text",
     "placeholders": {}
   },
-  "lanTab": "LAN",
-  "@lanTab": {
-    "description": "LAN tab of the Multiplayer screen.",
+  "lanMultiplayerLabel": "LAN multiplayer",
+  "@lanMultiplayerLabel": {
+    "description": "LAN button of the Multiplayer screen.",
     "type": "text",
     "placeholders": {}
   },
@@ -742,6 +742,70 @@
   "joinQueueLabel": "Join",
   "@joinQueueLabel": {
     "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "friendDuelLabel": "Friend Duel",
+  "@friendDuelLabel": {
+    "description": "Displayed on the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yourRoomCodeLabel": "Your room code is",
+  "@yourRoomCodeLabel": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "joinRoomLabel": "Join a room",
+  "@joinRoomLabel": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "roomCodeRetrievalErrorText": "Could not retrieve room code.",
+  "@roomCodeRetrievalErrorText": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "awaitingForPlayersLabel": "Awaiting for players...",
+  "@awaitingForPlayersLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "boardLabel": "Board",
+  "@boardLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "nicknamesLabel": "Nicknames",
+  "@nicknamesLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "durationLabel": "Duration",
+  "@durationLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "leaderBoardLabel": "Leaderboard",
+  "@leaderBoardLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "roomCodeLabel": "Room code",
+  "@roomCodeLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "findPlayersLabel": "Find players",
+  "@findPlayersLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "refreshLabel": "Refresh",
+  "@refreshLabel": {
     "type": "text",
     "placeholders": {}
   }

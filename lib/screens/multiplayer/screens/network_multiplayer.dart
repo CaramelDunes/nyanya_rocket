@@ -20,11 +20,12 @@ class NetworkMultiplayer extends StatefulWidget {
   final int port;
   final int ticket;
 
-  const NetworkMultiplayer({Key key,
-    @required this.nickname,
-    @required this.serverAddress,
-    @required this.port,
-    this.ticket})
+  const NetworkMultiplayer(
+      {Key key,
+      @required this.nickname,
+      @required this.serverAddress,
+      @required this.port,
+      this.ticket})
       : super(key: key);
 
   @override
@@ -97,7 +98,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
       // - make Wheel keep its ScrollView across builds.
       SchedulerBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateToItem(
-          // Not * 4 to have a card above and under on the wheel.
+            // Not * 4 to have a card above and under on the wheel.
             (GameEvent.values.length - 1) * 3 + event.index - 1,
             duration: Duration(milliseconds: 1500),
             curve: Curves.decelerate);
@@ -166,10 +167,13 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
           Column(
             children: <Widget>[
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                      _localMultiplayerController.game.currentEvent.toString()),
+                    EventWheel.eventName(
+                        _localMultiplayerController.game.currentEvent),
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
                   ValueListenableBuilder<Duration>(
                       valueListenable: _localMultiplayerController.timeStream,
                       builder: (_, remaining, __) {
@@ -225,27 +229,24 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                         children: <Widget>[
                           Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: _draggableArrow(
-                                    _myColor, Direction.Right),
-                              )),
+                            padding: const EdgeInsets.all(2.0),
+                            child: _draggableArrow(_myColor, Direction.Right),
+                          )),
                           Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: _draggableArrow(_myColor, Direction.Up),
-                              )),
+                            padding: const EdgeInsets.all(2.0),
+                            child: _draggableArrow(_myColor, Direction.Up),
+                          )),
                           Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: _draggableArrow(
-                                    _myColor, Direction.Left),
-                              )),
+                            padding: const EdgeInsets.all(2.0),
+                            child: _draggableArrow(_myColor, Direction.Left),
+                          )),
                           Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: _draggableArrow(
-                                    _myColor, Direction.Down),
-                              )),
+                            padding: const EdgeInsets.all(2.0),
+                            child: _draggableArrow(_myColor, Direction.Down),
+                          )),
                         ],
                       ),
                     ),
@@ -258,12 +259,12 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
             visible: _displayRoulette,
             child: Center(
                 child: Container(
-                  width: 450,
-                  height: 200,
-                  child: EventWheel(
-                    scrollController: _scrollController,
-                  ),
-                )),
+              width: 450,
+              height: 200,
+              child: EventWheel(
+                scrollController: _scrollController,
+              ),
+            )),
           ),
           ValueListenableBuilder<NetworkGameStatus>(
               valueListenable: _localMultiplayerController.statusNotifier,
@@ -281,14 +282,10 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   String _networkGameStatusToString(NetworkGameStatus status) {
     switch (status) {
       case NetworkGameStatus.ConnectingToServer:
-        return NyaNyaLocalizations
-            .of(context)
-            .connectingToServerText;
+        return NyaNyaLocalizations.of(context).connectingToServerText;
         break;
       case NetworkGameStatus.WaitingForPlayers:
-        return NyaNyaLocalizations
-            .of(context)
-            .waitingForPlayersText;
+        return NyaNyaLocalizations.of(context).waitingForPlayersText;
         break;
       case NetworkGameStatus.Playing:
         return 'Playing...';
@@ -308,10 +305,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
           padding: const EdgeInsets.all(16.0),
           child: Text(
             _networkGameStatusToString(_localMultiplayerController.status),
-            style: Theme
-                .of(context)
-                .textTheme
-                .headline6,
+            style: Theme.of(context).textTheme.headline6,
           ),
         ),
       ),

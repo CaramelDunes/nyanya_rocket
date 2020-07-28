@@ -139,7 +139,8 @@ class _FriendDuelState extends State<FriendDuel> {
             style: Theme.of(context).textTheme.headline6,
           ),
           TextField(
-            decoration: InputDecoration(hintText: 'Room Code'),
+            decoration: InputDecoration(
+                hintText: NyaNyaLocalizations.of(context).roomCodeLabel),
             textCapitalization: TextCapitalization.characters,
             maxLength: 4,
             expands: false,

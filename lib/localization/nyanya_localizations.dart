@@ -1053,7 +1053,7 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
   String get yourRoomCodeLabel {
     return Intl.message(
       'Your room code is',
-      name: 'roomCodePrompt',
+      name: 'yourRoomCodeLabel',
       desc: 'Displayed in the friend duel tab of the multiplayer screen.',
     );
   }
@@ -1093,5 +1093,17 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
 
   String get leaderBoardLabel {
     return Intl.message('Leaderboard', name: 'leaderBoardLabel');
+  }
+
+  String get roomCodeLabel {
+    return Intl.message('Room code', name: 'roomCodeLabel');
+  }
+
+  String get findPlayersLabel {
+    return Intl.message('Find players', name: 'findPlayersLabel');
+  }
+
+  String get refreshLabel {
+    return Intl.message('Refresh', name: 'refreshLabel');
   }
 }

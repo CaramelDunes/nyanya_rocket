@@ -80,7 +80,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
             FaIcon(FontAwesomeIcons.search),
             SizedBox(width: 8.0),
             Text(
-              'Find a player',
+              NyaNyaLocalizations.of(context).findPlayersLabel,
               style: Theme.of(context).textTheme.headline6,
             ),
           ],
@@ -126,7 +126,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
               },
             ),
             RaisedButton(
-              child: Text('Refresh'),
+              child: Text(NyaNyaLocalizations.of(context).refreshLabel),
               onPressed: () {
                 _updateQueueLength();
               },
