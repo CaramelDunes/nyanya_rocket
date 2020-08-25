@@ -26,7 +26,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
   }
 
   Future<void> _refreshList() async {
-    QuerySnapshot snapshot = await Firestore.instance
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('puzzles')
         .orderBy(
             _sorting == _Sorting.ByDate
@@ -34,18 +34,18 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                 : _sorting == _Sorting.ByPopularity ? 'likes' : 'name',
             descending: _sorting != _Sorting.ByName)
         .limit(50)
-        .getDocuments();
+        .get();
 
-    List<CommunityPuzzleData> newPuzzles = snapshot.documents
-        .map<CommunityPuzzleData>((DocumentSnapshot snapshot) {
+    List<CommunityPuzzleData> newPuzzles =
+        snapshot.docs.map<CommunityPuzzleData>((DocumentSnapshot snapshot) {
       return CommunityPuzzleData(
-          uid: snapshot.documentID,
+          uid: snapshot.id,
           puzzleData:
-              PuzzleData.fromJson(jsonDecode(snapshot.data['puzzle_data'])),
-          likes: snapshot.data['likes'],
-          author: snapshot.data['author_name'],
-          name: snapshot.data['name'],
-          date: snapshot.data['date'].toDate());
+              PuzzleData.fromJson(jsonDecode(snapshot.get('puzzle_data'))),
+          likes: snapshot.get('likes'),
+          author: snapshot.get('author_name'),
+          name: snapshot.get('name'),
+          date: snapshot.get('date').toDate());
     }).toList();
 
     if (mounted) {

@@ -1,11 +1,11 @@
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/foundation.dart';
 
 enum StatusCode { Success, Failure, InvalidArgument, Unauthenticated }
 
 class User with ChangeNotifier {
-  FirebaseUser _user;
+  auth.User _user;
 
   User() {
     _refreshCurrentUser();
@@ -21,7 +21,7 @@ class User with ChangeNotifier {
 
   Future<String> authToken() async {
     if (isConnected) {
-      return (await _user.getIdToken()).token;
+      return await _user.getIdToken();
     }
 
     return null;
@@ -33,8 +33,7 @@ class User with ChangeNotifier {
         await CloudFunctions.instance
             .getHttpsCallable(functionName: 'setDisplayName')
             .call({'displayName': newDisplayName}).then(
-                (HttpsCallableResult result) {
-        });
+                (HttpsCallableResult result) {});
       } catch (e) {
         print(e.code);
 
@@ -52,7 +51,7 @@ class User with ChangeNotifier {
       }
 
       await _user.reload();
-      await _refreshCurrentUser();
+      _refreshCurrentUser();
 
       return StatusCode.Success;
     }
@@ -69,19 +68,20 @@ class User with ChangeNotifier {
   }
 
   Future signInAnonymously() async {
-    AuthResult result = await FirebaseAuth.instance.signInAnonymously();
+    auth.UserCredential result =
+        await auth.FirebaseAuth.instance.signInAnonymously();
     _user = result.user;
     notifyListeners();
   }
 
   Future signOut() async {
-    await FirebaseAuth.instance.signOut();
+    await auth.FirebaseAuth.instance.signOut();
     _user = null;
     notifyListeners();
   }
 
-  Future _refreshCurrentUser() async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+  void _refreshCurrentUser() {
+    auth.User user = auth.FirebaseAuth.instance.currentUser;
     _user = user;
     notifyListeners();
 

@@ -168,11 +168,11 @@ class WhatsNew extends StatelessWidget {
           child: ListView(
             children: <Widget>[
               FutureBuilder<QuerySnapshot>(
-                future: Firestore.instance
+                future: FirebaseFirestore.instance
                     .collection(
                         'articles_${Intl.shortLocale(Intl.getCurrentLocale())}')
                     .orderBy('date', descending: true)
-                    .getDocuments(),
+                    .get(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
@@ -187,12 +187,13 @@ class WhatsNew extends StatelessWidget {
                     default:
                       return Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: snapshot.data.documents
-                            .map((DocumentSnapshot document) {
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
                           return ListTile(
-                            title: Text(document['title']),
+                            title: Text(document.get('title')),
                             trailing: Text(MaterialLocalizations.of(context)
-                                .formatShortDate(document['date'].toDate())),
+                                .formatShortDate(
+                                    document.get('date').toDate())),
                           );
                         }).toList(),
                       );

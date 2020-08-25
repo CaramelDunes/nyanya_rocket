@@ -32,12 +32,12 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
     super.initState();
 
     if (widget.succeededPath != null) {
-      Firestore.instance
-          .document(widget.succeededPath)
+      FirebaseFirestore.instance
+          .doc(widget.succeededPath)
           .get()
           .then((DocumentSnapshot snapshot) {
         setState(() {
-          _stars = snapshot.data['likes'];
+          _stars = snapshot.get('likes');
         });
       });
     }
@@ -55,8 +55,8 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
           onPressed: () {
             if (!_plusOned) {
               final DocumentReference postRef =
-                  Firestore.instance.document(widget.succeededPath);
-              postRef.updateData({'likes': FieldValue.increment(1)});
+                  FirebaseFirestore.instance.doc(widget.succeededPath);
+              postRef.update({'likes': FieldValue.increment(1)});
 
               setState(() {
                 _plusOned = true;

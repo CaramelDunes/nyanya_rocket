@@ -23,14 +23,14 @@ class NotImplemented extends StatelessWidget {
           ),
           onPressed: () {
             final DocumentReference postRef =
-                Firestore.instance.document('feature_requests/$featureId');
-            postRef.updateData({'thumbs_up': FieldValue.increment(1)});
+                FirebaseFirestore.instance.doc('feature_requests/$featureId');
+            postRef.update({'thumbs_up': FieldValue.increment(1)});
           },
         ),
         StreamBuilder<DocumentSnapshot>(
-          stream: Firestore.instance
+          stream: FirebaseFirestore.instance
               .collection('feature_requests')
-              .document(featureId)
+              .doc(featureId)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -42,7 +42,7 @@ class NotImplemented extends StatelessWidget {
               case ConnectionState.active:
               case ConnectionState.done:
                 return Text(
-                  snapshot.data['thumbs_up'].toString(),
+                  snapshot.data.get('thumbs_up').toString(),
                   textAlign: TextAlign.center,
                 );
                 break;
