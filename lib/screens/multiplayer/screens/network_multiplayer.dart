@@ -114,19 +114,48 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     }
   }
 
-  Widget _streamBuiltScoreBox(int i, Color color) {
-    if (_localMultiplayerController.players[i].isEmpty) {
+  Widget _streamBuiltScoreBox(PlayerColor player) {
+    if (!_localMultiplayerController.running &&
+        _localMultiplayerController.players[player.index] != '<empty>') {
       return SizedBox.shrink();
     }
 
     return ValueListenableBuilder<int>(
-        valueListenable: _localMultiplayerController.scoreStreams[i],
-        builder: (context, score, _) {
-          return ScoreBox(
-              label: _localMultiplayerController.players[i],
-              score: score,
-              color: color);
+        valueListenable: _localMultiplayerController.scoreStreams[player.index],
+        builder: (_, __, ___) {
+          return _buildScoreBox(player);
         });
+  }
+
+  Color _playerColorToColor(PlayerColor player) {
+    switch (player) {
+      case PlayerColor.Blue:
+        return Colors.blue;
+        break;
+
+      case PlayerColor.Red:
+        return Colors.red;
+        break;
+
+      case PlayerColor.Green:
+        return Colors.green;
+        break;
+
+      case PlayerColor.Yellow:
+        return Colors.yellow;
+        break;
+
+      default:
+        return Colors.black;
+        break;
+    }
+  }
+
+  Widget _buildScoreBox(PlayerColor player) {
+    return ScoreBox(
+        label: _localMultiplayerController.players[player.index],
+        score: _localMultiplayerController.game.scoreOf(player),
+        color: _playerColorToColor(player));
   }
 
   Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
@@ -195,17 +224,10 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: Column(
-                          children: <Widget>[
-                            Expanded(
-                                child: _streamBuiltScoreBox(0, Colors.blue)),
-                            Expanded(
-                                child: _streamBuiltScoreBox(1, Colors.yellow)),
-                            Expanded(
-                                child: _streamBuiltScoreBox(2, Colors.red)),
-                            Expanded(
-                                child: _streamBuiltScoreBox(3, Colors.green)),
-                          ],
-                        ),
+                            children: PlayerColor.values
+                                .map((e) =>
+                                Expanded(child: _streamBuiltScoreBox(e)))
+                                .toList()),
                       ),
                     ),
                     Padding(

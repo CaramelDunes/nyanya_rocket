@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-const List<String> kColorSuffixes = ["blue", "yellow", "red", "green"];
+const List<String> kColorSuffixes = ['blue', 'red', 'green', 'yellow', 'grey'];
 
 class ArrowImage extends StatelessWidget {
   final PlayerColor player;
@@ -20,7 +20,7 @@ class ArrowImage extends StatelessWidget {
     return RotatedBox(
       quarterTurns: -direction.index,
       child: Image.asset(
-        'assets/graphics/arrow_${kColorSuffixes[player.index]}.png',
+        'assets/graphics/arrow_${player == null ? 'grey' : kColorSuffixes[player.index]}.png',
         fit: BoxFit.contain,
         color: opaque ? null : Colors.white.withOpacity(0.5),
         colorBlendMode: BlendMode.modulate,
