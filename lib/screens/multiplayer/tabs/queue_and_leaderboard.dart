@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/multiplayer/setup_widgets/leaderboard.dart';
 import 'package:nyanya_rocket/screens/multiplayer/setup_widgets/player_finder.dart';
 
 class QueueAndLeaderboard extends StatefulWidget {
   final QueueType queueType;
-  final User user;
+  final String displayName;
+  final String idToken;
 
   const QueueAndLeaderboard(
-      {Key key, @required this.queueType, @required this.user})
+      {Key key,
+      @required this.queueType,
+      @required this.displayName,
+      @required this.idToken})
       : super(key: key);
 
   @override
@@ -20,26 +23,13 @@ class QueueAndLeaderboard extends StatefulWidget {
 }
 
 class _QueueAndLeaderboardState extends State<QueueAndLeaderboard> {
-  String _authToken;
-
   @override
   void initState() {
     super.initState();
-
-    widget.user.authToken().then((String token) {
-      _authToken = token;
-
-      if (mounted) setState(() {});
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_authToken == null) {
-      return Center(
-          child: Text(NyaNyaLocalizations.of(context).loginPromptText));
-    }
-
     return Padding(
         padding: const EdgeInsets.all(8.0),
         child: OrientationBuilder(
@@ -81,10 +71,9 @@ class _QueueAndLeaderboardState extends State<QueueAndLeaderboard> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: PlayerFinder(
-        authToken: _authToken,
-        queueType: widget.queueType,
-        user: widget.user,
-      ),
+          displayName: widget.displayName,
+          idToken: widget.idToken,
+          queueType: widget.queueType),
     );
   }
 

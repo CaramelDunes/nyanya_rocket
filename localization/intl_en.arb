@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-07-28T22:30:18.321346",
+  "@@last_modified": "2020-08-27T22:32:16.046042",
   "puzzleType": "Puzzle",
   "@puzzleType": {
     "description": "Puzzle type of game.",
@@ -168,9 +168,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "loginPromptText": "Please sign-in first! (Settings—Account Management)",
+  "loginPromptText": "Please sign-in first.",
   "@loginPromptText": {
-    "description": "Login prompt of the Local Puzzles and Challenges tabs.",
+    "description": "Login prompt of the Sign-up prompt widget.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginButtonLabel": "Sign-in",
+  "@loginButtonLabel": {
+    "description": "Login button of the Sign-up prompt widget.",
     "type": "text",
     "placeholders": {}
   },
@@ -638,9 +644,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "displayNameDialogTitle": "Please enter your new display name",
+  "displayNameDialogTitle": "Choose your display name",
   "@displayNameDialogTitle": {
     "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "privacyPolicySignUpText": "By clicking Confirm, you agree to the ",
+  "@privacyPolicySignUpText": {
+    "description": "Displayed in the sign-up dialog.",
     "type": "text",
     "placeholders": {}
   },
@@ -707,7 +719,7 @@
       "queueLength": {}
     }
   },
-  "playersInQueueText": "{queueLength} players in queue.",
+  "playersInQueueText": "{queueLength,plural, =0{No player in queue}other{{queueLength} players in queue.}}",
   "@playersInQueueText": {
     "description": "Displayed in the world multiplayer setup.",
     "type": "text",
@@ -727,7 +739,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "fourPlayersLabel": "4-players battle",
+  "fourPlayersLabel": "4-players Battle",
   "@fourPlayersLabel": {
     "description": "Displayed in the world multiplayer setup.",
     "type": "text",
@@ -771,6 +783,21 @@
   },
   "awaitingForPlayersLabel": "Awaiting for players...",
   "@awaitingForPlayersLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "victoryLabel": "Victory!",
+  "@victoryLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "defeatLabel": "Defeat...",
+  "@defeatLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "winnerLabel": "Winner!",
+  "@winnerLabel": {
     "type": "text",
     "placeholders": {}
   },

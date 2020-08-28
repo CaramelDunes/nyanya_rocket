@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
@@ -19,12 +21,14 @@ class NetworkMultiplayer extends StatefulWidget {
   final InternetAddress serverAddress;
   final int port;
   final int ticket;
+  final Duration gameDuration;
 
   const NetworkMultiplayer(
       {Key key,
       @required this.nickname,
       @required this.serverAddress,
       @required this.port,
+      this.gameDuration = const Duration(minutes: 3),
       this.ticket})
       : super(key: key);
 
@@ -33,9 +37,12 @@ class NetworkMultiplayer extends StatefulWidget {
 }
 
 class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
+  final FixedExtentScrollController _scrollController =
+      FixedExtentScrollController();
+
   NetworkClient _localMultiplayerController;
   bool _displayRoulette = false;
-  FixedExtentScrollController _scrollController = FixedExtentScrollController();
+  bool _hasEnded = false;
   PlayerColor _myColor;
 
   @override
@@ -56,6 +63,19 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     ]).catchError((Object error) {});
 
     SystemChrome.setEnabledSystemUIOverlays([]);
+
+    _localMultiplayerController.timeStream.addListener(() {
+      if (_localMultiplayerController.timeStream.value > Duration(minutes: 3)) {
+        setState(() {
+          _hasEnded = true;
+          _localMultiplayerController.running = false;
+        });
+      }
+    });
+
+    _localMultiplayerController.statusNotifier.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -71,7 +91,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   }
 
   void _handleSwipe(int x, int y, Direction direction) {
-    _localMultiplayerController.placeArrow(x, y, PlayerColor.Blue, direction);
+    _localMultiplayerController.placeArrow(x, y, direction);
   }
 
   void _handleRegisterSuccess(PlayerColor assignedColor) {
@@ -81,10 +101,10 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   }
 
   void _handleGameEvent(GameEvent event, Duration animationDuration) {
-    // Not 0 to have a card above and under the starting position on the wheel.
-    _scrollController.jumpToItem(1);
-
     if (event != GameEvent.None) {
+      // Not 0 to have a card above and under the starting position on the wheel.
+      _scrollController.jumpToItem(1);
+
       setState(() {
         _displayRoulette = true;
       });
@@ -111,12 +131,15 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
           });
         }
       });
+    } else {
+      print('No');
     }
   }
 
   Widget _streamBuiltScoreBox(PlayerColor player) {
-    if (!_localMultiplayerController.running &&
-        _localMultiplayerController.players[player.index] != '<empty>') {
+    if (_localMultiplayerController.players[player.index] == '<empty>' ||
+        (!_localMultiplayerController.running &&
+            _localMultiplayerController.game.scoreOf(player) == 0)) {
       return SizedBox.shrink();
     }
 
@@ -170,10 +193,6 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   }
 
   Widget _draggableArrow(PlayerColor player, Direction direction) {
-    if (player == null) {
-      return const SizedBox.expand();
-    }
-
     return Material(
       elevation: 8.0,
       child: Draggable<Direction>(
@@ -192,6 +211,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     return Container(
       color: Colors.white,
       child: Stack(
+        fit: StackFit.expand,
         children: <Widget>[
           Column(
             children: <Widget>[
@@ -199,8 +219,10 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    EventWheel.eventName(
-                        _localMultiplayerController.game.currentEvent),
+                    _displayRoulette
+                        ? ''
+                        : EventWheel.eventName(
+                            _localMultiplayerController.game.currentEvent),
                     style: Theme.of(context).textTheme.subtitle2,
                   ),
                   ValueListenableBuilder<Duration>(
@@ -226,7 +248,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                         child: Column(
                             children: PlayerColor.values
                                 .map((e) =>
-                                Expanded(child: _streamBuiltScoreBox(e)))
+                                    Expanded(child: _streamBuiltScoreBox(e)))
                                 .toList()),
                       ),
                     ),
@@ -248,29 +270,13 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                     ),
                     Expanded(
                       child: Column(
-                        children: <Widget>[
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: _draggableArrow(_myColor, Direction.Right),
-                          )),
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: _draggableArrow(_myColor, Direction.Up),
-                          )),
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: _draggableArrow(_myColor, Direction.Left),
-                          )),
-                          Expanded(
-                              child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: _draggableArrow(_myColor, Direction.Down),
-                          )),
-                        ],
-                      ),
+                          children: Direction.values
+                              .map((e) => Expanded(
+                                      child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: _draggableArrow(_myColor, e),
+                                  )))
+                              .toList()),
                     ),
                   ],
                 ),
@@ -295,7 +301,8 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                 return Visibility(
                     visible: status != NetworkGameStatus.Playing,
                     child: widget);
-              })
+              }),
+          if (_hasEnded) _buildEndOfGame()
         ],
       ),
     );
@@ -328,6 +335,51 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
           child: Text(
             _networkGameStatusToString(_localMultiplayerController.status),
             style: Theme.of(context).textTheme.headline6,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEndOfGame() {
+    int maxScore = _localMultiplayerController.game.scores.reduce(max);
+
+    return Container(
+      color: Colors.black.withAlpha(128),
+      child: Center(
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  (_localMultiplayerController.game.scoreOf(_myColor) ==
+                          maxScore)
+                      ? NyaNyaLocalizations.of(context).victoryLabel
+                      : NyaNyaLocalizations.of(context).defeatLabel,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                const SizedBox(height: 8.0),
+                Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: PlayerColor.values
+                        .map(
+                          (e) => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text((maxScore ==
+                                      _localMultiplayerController.game
+                                          .scoreOf(e))
+                                  ? NyaNyaLocalizations.of(context).winnerLabel
+                                  : ''),
+                              _buildScoreBox(e),
+                            ],
+                          ),
+                        )
+                        .toList())
+              ],
+            ),
           ),
         ),
       ),

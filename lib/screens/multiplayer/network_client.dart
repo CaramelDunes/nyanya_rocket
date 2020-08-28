@@ -10,7 +10,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   ClientSocket _socket;
   NetworkGameStatus _status = NetworkGameStatus.ConnectingToServer;
 
-  final List<String> _players = List.filled(4, '');
+  final List<String> _playerNicknames = List.filled(4, '<empty>');
   final ValueNotifier<GameState> gameStream = ValueNotifier(GameState());
   final ValueNotifier<Duration> timeStream = ValueNotifier(Duration.zero);
   final List<ValueNotifier<int>> scoreStreams =
@@ -37,11 +37,11 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     _socket = ClientSocket(
         serverAddress: serverAddress,
         serverPort: port,
-        gameStateCallback: _handleGame,
         nickname: nickname,
         ticket: ticket,
-        playerRegisterSuccessCallback: _handleRegisterSuccess,
-        playerNicknamesCallback: _handlePlayerNicknames);
+        onGameUpdate: _handleGame,
+        onPlayerRegister: _handleRegisterSuccess,
+        onPlayerNicknames: _handlePlayerNicknames);
   }
 
   NetworkGameStatus get status => _status;
@@ -54,9 +54,9 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     super.dispose();
   }
 
-  List<String> get players => _players;
+  List<String> get players => _playerNicknames;
 
-  bool placeArrow(int x, int y, PlayerColor player, Direction direction) {
+  bool placeArrow(int x, int y, Direction direction) {
     if (_socket != null) {
       _socket.sendArrowRequest(x, y, direction);
     }
@@ -196,7 +196,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     }
 
     for (int i = 0; i < nicknames.length; i++) {
-      _players[i] = nicknames[i];
+      _playerNicknames[i] = nicknames[i];
       scoreStreams[i].value = game.scoreOf(PlayerColor.values[i]);
     }
   }

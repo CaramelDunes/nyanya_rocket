@@ -253,9 +253,17 @@ For more information, head over to ''',
 
   String get loginPromptText {
     return Intl.message(
-      'Please sign-in first! (Settings—Account Management)',
+      'Please sign-in first.',
       name: 'loginPromptText',
-      desc: 'Login prompt of the Local Puzzles and Challenges tabs.',
+      desc: 'Login prompt of the Sign-up prompt widget.',
+    );
+  }
+
+  String get loginButtonLabel {
+    return Intl.message(
+      'Sign-in',
+      name: 'loginButtonLabel',
+      desc: 'Login button of the Sign-up prompt widget.',
     );
   }
 
@@ -902,9 +910,17 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
 
   String get displayNameDialogTitle {
     return Intl.message(
-      'Please enter your new display name',
+      'Choose your display name',
       name: 'displayNameDialogTitle',
       desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get privacyPolicySignUpText {
+    return Intl.message(
+      'By clicking Confirm, you agree to the ',
+      name: 'privacyPolicySignUpText',
+      desc: 'Displayed in the sign-up dialog.',
     );
   }
 
@@ -994,10 +1010,12 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
   }
 
   String playersInQueueText(int queueLength) {
-    return Intl.message(
-      '$queueLength players in queue.',
-      args: [queueLength],
+    return Intl.plural(
+      queueLength,
+      zero: 'No player in queue',
+      other: '$queueLength players in queue.',
       name: 'playersInQueueText',
+      args: [queueLength],
       desc: 'Displayed in the world multiplayer setup.',
     );
   }
@@ -1020,7 +1038,7 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
 
   String get fourPlayersLabel {
     return Intl.message(
-      '4-players battle',
+      '4-players Battle',
       name: 'fourPlayersLabel',
       desc: 'Displayed in the world multiplayer setup.',
     );
@@ -1077,6 +1095,18 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
   String get awaitingForPlayersLabel {
     return Intl.message('Awaiting for players...',
         name: 'awaitingForPlayersLabel');
+  }
+
+  String get victoryLabel {
+    return Intl.message('Victory!', name: 'victoryLabel');
+  }
+
+  String get defeatLabel {
+    return Intl.message('Defeat...', name: 'defeatLabel');
+  }
+
+  String get winnerLabel {
+    return Intl.message('Winner!', name: 'winnerLabel');
   }
 
   String get boardLabel {

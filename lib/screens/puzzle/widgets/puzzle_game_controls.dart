@@ -63,9 +63,7 @@ class _PuzzleGameControlsState extends State<PuzzleGameControls> {
                     child: Icon(Icons.replay, size: iconSize),
                   ),
                   onTap: () {
-                    setState(() {
-                      widget.puzzleController.reset();
-                    });
+                    widget.puzzleController.reset();
                   }),
             ),
           ),

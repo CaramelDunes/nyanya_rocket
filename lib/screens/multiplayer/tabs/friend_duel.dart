@@ -5,15 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/blocs/authenticated_client.dart';
 import 'package:nyanya_rocket/blocs/private_queue.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/network_multiplayer.dart';
 
 class FriendDuel extends StatefulWidget {
-  final User user;
+  final String idToken;
+  final String displayName;
   final String masterServerHostname;
 
   const FriendDuel(
-      {Key key, @required this.user, @required this.masterServerHostname})
+      {Key key,
+      @required this.displayName,
+      @required this.idToken,
+      @required this.masterServerHostname})
       : super(key: key);
 
   @override
@@ -25,23 +28,21 @@ class _FriendDuelState extends State<FriendDuel> {
   PrivateQueue _queue;
 
   Timer _roomCreationUpdateTimer;
-  bool inQueue = true;
+  bool _inQueue = true;
   String _myRoomCode;
   String _destCode;
-  bool gone = false;
+  bool _isInGame = false;
 
   @override
   void initState() {
     super.initState();
 
-    widget.user.authToken().then((String token) {
-      _client = AuthenticatedClient(authToken: token);
-      _queue = PrivateQueue(client: _client);
-      _roomCreationUpdateTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-        if (inQueue) {
-          _updateRoomCode();
-        }
-      });
+    _client = AuthenticatedClient(authToken: widget.idToken);
+    _queue = PrivateQueue(client: _client);
+    _roomCreationUpdateTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_inQueue) {
+        _updateRoomCode();
+      }
     });
   }
 
@@ -104,7 +105,7 @@ class _FriendDuelState extends State<FriendDuel> {
             style: Theme.of(context).textTheme.headline6,
           ),
           _buildRoomCode(),
-          if (inQueue && _myRoomCode != null)
+          if (_inQueue && _myRoomCode != null)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -112,12 +113,12 @@ class _FriendDuelState extends State<FriendDuel> {
                 CircularProgressIndicator(),
               ],
             )
-          else if (!inQueue)
+          else if (!_inQueue)
             IconButton(
               icon: Icon(Icons.refresh),
               onPressed: () {
                 setState(() {
-                  inQueue = true;
+                  _inQueue = true;
                 });
               },
             )
@@ -155,16 +156,10 @@ class _FriendDuelState extends State<FriendDuel> {
                   .updateQueueJoinStatus(
                       masterServerHostname: widget.masterServerHostname,
                       roomCode: _destCode)
-                  .then((value) {
-                if (value.ticket != null && !gone) {
-                  gone = true;
-
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => NetworkMultiplayer(
-                          nickname: widget.user.displayName,
-                          serverAddress: InternetAddress(value.ipAddress),
-                          port: value.port,
-                          ticket: value.ticket)));
+                  .then((status) {
+                if (status.ticket != null) {
+                  _startIfNotInGame(InternetAddress(status.ipAddress),
+                      status.port, status.ticket);
                 }
               });
             },
@@ -179,31 +174,28 @@ class _FriendDuelState extends State<FriendDuel> {
       QueueJoinStatus status = await _queue.updateQueueCreateStatus(
           masterServerHostname: widget.masterServerHostname);
 
-      if (status.roomId == null && !gone) {
-        gone = true;
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => NetworkMultiplayer(
-                nickname: widget.user.displayName,
-                serverAddress: InternetAddress(status.ipAddress),
-                port: status.port,
-                ticket: status.ticket)));
+      if (status.roomId == null) {
+        _startIfNotInGame(
+            InternetAddress(status.ipAddress), status.port, status.ticket);
       } else {
-        if (_myRoomCode != status.roomId) {
+        if (mounted && _myRoomCode != status.roomId) {
           setState(() {
             _myRoomCode = status.roomId;
           });
         }
       }
     } catch (e) {
-      setState(() {
-        inQueue = false;
-        _myRoomCode = null;
-      });
+      if (mounted) {
+        setState(() {
+          _inQueue = false;
+          _myRoomCode = null;
+        });
+      }
     }
   }
 
   Widget _codeBox() {
-    if (inQueue && _myRoomCode == null)
+    if (_inQueue && _myRoomCode == null)
       return CircularProgressIndicator();
     else if (_myRoomCode != null)
       return SelectableText(
@@ -213,7 +205,7 @@ class _FriendDuelState extends State<FriendDuel> {
             Theme.of(context).textTheme.headline3.copyWith(color: Colors.black),
       );
     else
-      return Text(NyaNyaLocalizations.of(context).playLabel);
+      return Text(NyaNyaLocalizations.of(context).roomCodeRetrievalErrorText);
   }
 
   Widget _buildRoomCode() {
@@ -225,5 +217,25 @@ class _FriendDuelState extends State<FriendDuel> {
           padding: const EdgeInsets.all(16.0),
           child: _codeBox(),
         ));
+  }
+
+  void _startIfNotInGame(
+      InternetAddress internetAddress, int port, int ticket) {
+    if (!_isInGame) {
+      _isInGame = true;
+      _roomCreationUpdateTimer?.cancel();
+
+      Navigator.of(context)
+          .push(MaterialPageRoute(
+              maintainState: false,
+              builder: (BuildContext context) => NetworkMultiplayer(
+                  nickname: widget.displayName,
+                  serverAddress: internetAddress,
+                  port: port,
+                  ticket: ticket)))
+          .then((value) {
+        _isInGame = false;
+      });
+    }
   }
 }

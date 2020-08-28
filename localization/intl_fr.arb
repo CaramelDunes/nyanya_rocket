@@ -167,9 +167,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "loginPromptText": "Veuillez vous connecter avant (Paramètres—Gestion de compte)",
+  "loginPromptText": "Merci de vous connecter.",
   "@loginPromptText": {
     "description": "Login prompt of the Local Puzzles and Challenges tabs.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginButtonLabel": "Se connecter",
+  "@loginButtonLabel": {
+    "description": "Login button of the Sign-up prompt widget.",
     "type": "text",
     "placeholders": {}
   },
@@ -637,9 +643,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "displayNameDialogTitle": "Changement de pseudo",
+  "displayNameDialogTitle": "Choix du pseudo",
   "@displayNameDialogTitle": {
     "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "privacyPolicySignUpText": "En vous connectant, vous acceptez les termes de la ",
+  "@privacyPolicySignUpText": {
+    "description": "Displayed in the sign-up dialog.",
     "type": "text",
     "placeholders": {}
   },
@@ -706,7 +718,7 @@
       "queueLength": {}
     }
   },
-  "playersInQueueText": "{queueLength} joueurs dans la file d'attente.",
+  "playersInQueueText": "{queueLength,plural, =0{Aucun joueur dans la file d'attente.}other{{queueLength} joueurs dans la file d'attente.}}",
   "@playersInQueueText": {
     "description": "Displayed in the world multiplayer setup.",
     "type": "text",
@@ -770,6 +782,21 @@
   },
   "awaitingForPlayersLabel": "En attente de joueurs...",
   "@awaitingForPlayersLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "victoryLabel": "Victoire !",
+  "@victoryLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "defeatLabel": "Défaite...",
+  "@defeatLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "winnerLabel": "Vainqueur !",
+  "@winnerLabel": {
     "type": "text",
     "placeholders": {}
   },

@@ -9,6 +9,11 @@ class User with ChangeNotifier {
 
   User() {
     _refreshCurrentUser();
+
+    auth.FirebaseAuth.instance.userChanges().listen((user) {
+      _user = user;
+      notifyListeners();
+    });
   }
 
   bool get isConnected {
@@ -67,11 +72,13 @@ class User with ChangeNotifier {
     return !isConnected || _user.isAnonymous;
   }
 
-  Future signInAnonymously() async {
+  Future<User> signInAnonymously() async {
     auth.UserCredential result =
         await auth.FirebaseAuth.instance.signInAnonymously();
     _user = result.user;
     notifyListeners();
+
+    return this;
   }
 
   Future signOut() async {
@@ -86,7 +93,7 @@ class User with ChangeNotifier {
     notifyListeners();
 
     if (isConnected) {
-      print('User connected as `$displayName`');
+      print('User connected as `$uid`');
     } else {
       print('User not connected');
     }

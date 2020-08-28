@@ -25,7 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m2(playerCount) => "${playerCount} joueurs";
 
-  static m3(queueLength) => "${queueLength} joueurs dans la file d\'attente.";
+  static m3(queueLength) => "${Intl.plural(queueLength, zero: 'Aucun joueur dans la file d\'attente.', other: '${queueLength} joueurs dans la file d\'attente.')}";
 
   static m4(position, queueLength) => "Position dans la file d\'attente: ${position} / ${queueLength}";
 
@@ -66,13 +66,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "createLabel" : MessageLookupByLibrary.simpleMessage("Créer"),
     "darkModeLabel" : MessageLookupByLibrary.simpleMessage("Mode nuit"),
     "dateLabel" : MessageLookupByLibrary.simpleMessage("Date"),
+    "defeatLabel" : MessageLookupByLibrary.simpleMessage("Défaite..."),
     "deny" : MessageLookupByLibrary.simpleMessage("Refuser"),
     "deviceTab" : MessageLookupByLibrary.simpleMessage("Local"),
     "discardDialogMessage" : MessageLookupByLibrary.simpleMessage("Êtes-vous sûr(e) de vouloir terminer l\'édition ?\nToute modification non sauvegardée sera perdue."),
     "discardDialogTitle" : MessageLookupByLibrary.simpleMessage("Confirmation"),
     "disconnectedStatusLabel" : MessageLookupByLibrary.simpleMessage("Déconnecté"),
     "displayNameChangeSuccessText" : MessageLookupByLibrary.simpleMessage("Changement de pseudo réussi !"),
-    "displayNameDialogTitle" : MessageLookupByLibrary.simpleMessage("Changement de pseudo"),
+    "displayNameDialogTitle" : MessageLookupByLibrary.simpleMessage("Choix du pseudo"),
     "displayNameFormatText" : MessageLookupByLibrary.simpleMessage("Entre 2 et 24 caractères (sans espace)."),
     "displayNameLabel" : MessageLookupByLibrary.simpleMessage("Pseudo"),
     "duelLabel" : MessageLookupByLibrary.simpleMessage("Duel"),
@@ -104,7 +105,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "languageLabel" : MessageLookupByLibrary.simpleMessage("Langue"),
     "leaderBoardLabel" : MessageLookupByLibrary.simpleMessage("Classement"),
     "loadingLabel" : MessageLookupByLibrary.simpleMessage("Chargement..."),
-    "loginPromptText" : MessageLookupByLibrary.simpleMessage("Veuillez vous connecter avant (Paramètres—Gestion de compte)"),
+    "loginButtonLabel" : MessageLookupByLibrary.simpleMessage("Se connecter"),
+    "loginPromptText" : MessageLookupByLibrary.simpleMessage("Merci de vous connecter."),
     "loginStatusLabel" : MessageLookupByLibrary.simpleMessage("Statut"),
     "lunchTimeObjectiveText" : MessageLookupByLibrary.simpleMessage("Donnez toutes les souris à manger au(x) chat(s)."),
     "matchmakingTab" : MessageLookupByLibrary.simpleMessage("Monde"),
@@ -132,6 +134,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "popularityLabel" : MessageLookupByLibrary.simpleMessage("Popularité"),
     "positionInQueueText" : m4,
     "privacyPolicyLabel" : MessageLookupByLibrary.simpleMessage("Politique de confidentialité"),
+    "privacyPolicySignUpText" : MessageLookupByLibrary.simpleMessage("En vous connectant, vous acceptez les termes de la "),
     "publishLabel" : MessageLookupByLibrary.simpleMessage("Publier"),
     "publishSuccessText" : MessageLookupByLibrary.simpleMessage("Puzzle publié !"),
     "puzzleNotCompletedLocallyText" : MessageLookupByLibrary.simpleMessage("Puzzle non publié car non résolu... :-("),
@@ -161,8 +164,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "tutorialTitle" : MessageLookupByLibrary.simpleMessage("Guide de jeu"),
     "unauthenticatedError" : MessageLookupByLibrary.simpleMessage("Erreur: Vous n\'êtes pas connecté"),
     "veryHardLabel" : MessageLookupByLibrary.simpleMessage("Très difficile"),
+    "victoryLabel" : MessageLookupByLibrary.simpleMessage("Victoire !"),
     "waitingForPlayersText" : MessageLookupByLibrary.simpleMessage("En attente d\'autres joueurs..."),
     "whatsNewTab" : MessageLookupByLibrary.simpleMessage("Quoi de neuf ?"),
+    "winnerLabel" : MessageLookupByLibrary.simpleMessage("Vainqueur !"),
     "yes" : MessageLookupByLibrary.simpleMessage("Oui"),
     "yourRoomCodeLabel" : MessageLookupByLibrary.simpleMessage("Votre code joueur est")
   };

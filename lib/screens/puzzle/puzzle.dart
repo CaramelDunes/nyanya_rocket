@@ -76,11 +76,13 @@ class _PuzzleState extends State<Puzzle> {
             _puzzleController.removeArrow(x, y);
           },
           child: Container(color: Colors.transparent),
-          feedback: SizedBox.shrink(),
+          feedback: const SizedBox.shrink(),
           data: (_puzzleController.game.board.tiles[x][y] as Arrow).direction);
     }
 
-    if (candidateData.isEmpty) return const SizedBox.expand();
+    if (candidateData.isEmpty) {
+      return const SizedBox.expand();
+    }
 
     return ArrowImage(
       direction: candidateData[0],

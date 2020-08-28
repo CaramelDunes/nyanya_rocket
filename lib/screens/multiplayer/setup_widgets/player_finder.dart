@@ -6,21 +6,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/blocs/authenticated_client.dart';
 import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/network_multiplayer.dart';
 import 'package:nyanya_rocket/screens/settings/region.dart';
 import 'package:provider/provider.dart';
 
 class PlayerFinder extends StatefulWidget {
   final QueueType queueType;
-  final User user;
-  final String authToken;
+  final String displayName;
+  final String idToken;
 
   const PlayerFinder(
       {Key key,
       @required this.queueType,
-      @required this.user,
-      @required this.authToken})
+      @required this.displayName,
+      @required this.idToken})
       : super(key: key);
 
   @override
@@ -41,7 +40,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
   void initState() {
     super.initState();
 
-    _client = AuthenticatedClient(authToken: widget.authToken);
+    _client = AuthenticatedClient(authToken: widget.idToken);
 
     _masterServerHostname =
         Provider.of<Region>(context, listen: false).masterServerHostname;
@@ -58,7 +57,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
   void dispose() {
     _queueJoinUpdateTimer?.cancel();
 
-    if (widget.user.isConnected) {
+    if (widget.idToken != null) {
       _queue.cancelSearch(masterServerHostname: _masterServerHostname);
     }
 
@@ -121,8 +120,6 @@ class _PlayerFinderState extends State<PlayerFinder> {
                 setState(() {
                   _queue.joined = !_queue.joined;
                 });
-
-//            updateKeepAlive();
               },
             ),
             RaisedButton(
@@ -138,7 +135,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
   }
 
   Future _updateQueueJoinStatus() async {
-    if (!widget.user.isConnected) {
+    if (widget.idToken == null) {
       return;
     }
 
@@ -161,7 +158,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
 
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => NetworkMultiplayer(
-                    nickname: widget.user.displayName,
+                    nickname: widget.displayName,
                     serverAddress: InternetAddress(status.ipAddress),
                     port: status.port,
                     ticket: status.ticket)));
@@ -174,7 +171,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
   }
 
   Future _updateQueueLength() async {
-    if (!widget.user.isConnected) {
+    if (widget.idToken == null) {
       return;
     }
 

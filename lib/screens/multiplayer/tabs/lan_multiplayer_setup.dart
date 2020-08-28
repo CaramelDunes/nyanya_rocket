@@ -52,6 +52,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   static void serverEntryPoint(_ArgumentBundle arguments) {
     GameServer(
         playerCount: arguments.playerCount,
+        gameDuration: const Duration(minutes: 3),
         board: arguments.board,
         port: 43122);
   }
