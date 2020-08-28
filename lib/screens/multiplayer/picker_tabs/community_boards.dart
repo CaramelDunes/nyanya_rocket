@@ -3,9 +3,7 @@ import 'package:nyanya_rocket/widgets/not_implemented.dart';
 
 class CommunityBoards extends StatefulWidget {
   @override
-  _CommunityBoardsState createState() {
-    return _CommunityBoardsState();
-  }
+  _CommunityBoardsState createState() => _CommunityBoardsState();
 }
 
 class _CommunityBoardsState extends State<CommunityBoards> {

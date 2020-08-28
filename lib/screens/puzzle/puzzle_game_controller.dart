@@ -35,20 +35,17 @@ class PuzzleGameController extends LocalGameController {
 
   ValueNotifier<BoardPosition> _mistake = ValueNotifier(null);
 
-  Iterable<Entity> _preMistakeEntities;
+  Iterable<Cat> _preMistakeCats;
+  Iterable<Entity> _preMistakeMice;
 
   PuzzleGameController({this.onWin, this.onMistake, @required this.puzzle})
-      : super(puzzle.getGame()) {
+      : super(puzzle.getGame(), PuzzleGameSimulator()) {
     for (int direction = 0; direction < Direction.values.length; direction++) {
       remainingArrowsStreams[direction].value =
           remainingArrows(Direction.values[direction]);
     }
 
-    for (Entity e in game.entities) {
-      if (e is! Cat) {
-        _miceCount++;
-      }
-    }
+    _miceCount = game.mice.length;
   }
 
   ValueNotifier<BoardPosition> get mistake => _mistake;
@@ -65,7 +62,7 @@ class PuzzleGameController extends LocalGameController {
             placedArrows[direction.index].length &&
         game.board.tiles[x][y] is Empty) {
       game.board.tiles[x][y] =
-          Arrow.notExpirable(player: PlayerColor.Blue, direction: direction);
+          Arrow.notExpiring(player: PlayerColor.Blue, direction: direction);
       placedArrows[direction.index].add(Position(x, y));
       updateGame();
       remainingArrowsStreams[direction.index].value =
@@ -114,11 +111,11 @@ class PuzzleGameController extends LocalGameController {
     running = false;
     _mistake.value = null;
 
-    game = puzzle.getGame();
+    gameState = puzzle.getGame();
 
     for (int direction = 0; direction < Direction.values.length; direction++) {
       placedArrows[direction].forEach((Position position) {
-        game.board.tiles[position.x][position.y] = Arrow.notExpirable(
+        game.board.tiles[position.x][position.y] = Arrow.notExpiring(
             player: PlayerColor.Blue, direction: Direction.values[direction]);
       });
     }
@@ -142,7 +139,8 @@ class PuzzleGameController extends LocalGameController {
   void onMouseEaten(Mouse mouse, Cat cat) {
     running = false;
     _mistake.value = mouse.position;
-    _preMistakeEntities = game.entities;
+    _preMistakeMice = game.mice;
+    _preMistakeCats = game.cats;
   }
 
   @override
@@ -150,7 +148,8 @@ class PuzzleGameController extends LocalGameController {
     if (entity is Mouse) {
       running = false;
       _mistake.value = entity.position;
-      _preMistakeEntities = game.entities;
+      _preMistakeMice = game.mice;
+      _preMistakeCats = game.cats;
     }
   }
 
@@ -159,7 +158,8 @@ class PuzzleGameController extends LocalGameController {
     if (entity is Cat) {
       running = false;
       _mistake.value = entity.position;
-      _preMistakeEntities = game.entities;
+      _preMistakeMice = game.mice;
+      _preMistakeCats = game.cats;
     } else {
       _miceInRocket++;
       if (_miceCount == _miceInRocket) {
@@ -180,10 +180,10 @@ class PuzzleGameController extends LocalGameController {
   }
 
   @override
-  void afterTick() {
+  void afterUpdate() {
     if (_mistake.value != null) {
-      game.entities = _preMistakeEntities;
-      updateGame();
+      game.cats = _preMistakeCats;
+      game.mice = _preMistakeMice;
     }
 
     if (_pleaseReset) {
@@ -191,6 +191,6 @@ class PuzzleGameController extends LocalGameController {
       reset();
     }
 
-    super.afterTick();
+    super.afterUpdate();
   }
 }

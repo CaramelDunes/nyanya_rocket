@@ -119,9 +119,7 @@ class OriginalPuzzles extends StatefulWidget {
   ];
 
   @override
-  _OriginalPuzzlesState createState() {
-    return _OriginalPuzzlesState();
-  }
+  _OriginalPuzzlesState createState() => _OriginalPuzzlesState();
 }
 
 class _OriginalPuzzlesState extends State<OriginalPuzzles>
@@ -161,19 +159,22 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
     });
   }
 
-  void _openNext(int i) {
-    if (OriginalPuzzles.puzzles.length > i + 1) {
+  void _openPuzzle(int puzzleIndex) {
+    if (puzzleIndex < OriginalPuzzles.puzzles.length) {
       Navigator.of(context)
-          .push(MaterialPageRoute<OverlayPopData>(
+          .push(MaterialPageRoute<OverlayResult>(
               builder: (context) => Puzzle(
-                    puzzle: OriginalPuzzles.puzzles[i + 1],
-                    onWin: (bool starred) => _handlePuzzleWin(i + 1, starred),
-                    hasNext: i + 2 != OriginalPuzzles.puzzles.length,
+                    puzzle: OriginalPuzzles.puzzles[puzzleIndex],
+                    onWin: (bool starred) =>
+                        _handlePuzzleWin(puzzleIndex, starred),
+                    hasNext: (puzzleIndex + 1) < OriginalPuzzles.puzzles.length,
                   )))
-          .then((OverlayPopData popData) {
-        if (popData != null) {
-          if (popData.playNext) {
-            _openNext(i + 1);
+          .then((OverlayResult overlayResult) {
+        if (overlayResult != null) {
+          if (overlayResult == OverlayResult.PlayNext) {
+            _openPuzzle(puzzleIndex + 1);
+          } else if (overlayResult == OverlayResult.PlayAgain) {
+            _openPuzzle(puzzleIndex);
           }
         }
       });
@@ -224,20 +225,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
         ),
       ]),
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute<OverlayPopData>(
-                builder: (context) => Puzzle(
-                      puzzle: OriginalPuzzles.puzzles[i],
-                      onWin: (bool starred) => _handlePuzzleWin(i, starred),
-                      hasNext: i != OriginalPuzzles.puzzles.length,
-                    )))
-            .then((OverlayPopData popData) {
-          if (popData != null) {
-            if (popData.playNext) {
-              _openNext(i);
-            }
-          }
-        });
+        _openPuzzle(i);
       },
     );
   }

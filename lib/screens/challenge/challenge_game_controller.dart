@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/blocs/local_game_controller.dart';
@@ -23,20 +21,15 @@ abstract class ChallengeGameController extends LocalGameController {
   final void Function() onWin;
 
   Duration _remainingTime = Duration(seconds: 30);
-  final StreamController<Duration> timeStream = StreamController();
-
-  bool _pleaseReset = false;
+  final ValueNotifier<Duration> timeStream = ValueNotifier(Duration.zero);
 
   ValueNotifier<BoardPosition> _mistake = ValueNotifier(null);
 
-  Iterable<Entity> _preMistakeEntities;
+  Iterable<Cat> _preMistakeCats;
+  Iterable<Mouse> _preMistakeMice;
 
   ChallengeGameController({@required this.challenge, this.onWin})
-      : super(
-            challenge.getGame()..generatorPolicy = GeneratorPolicy.Challenge) {
-    running = true;
-    pauseFor(Duration(seconds: 3));
-  }
+      : super(challenge.getGame(), ChallengeGameSimulator());
 
   factory ChallengeGameController.proxy(
       {@required ChallengeData challenge, void Function() onWin}) {
@@ -64,10 +57,10 @@ abstract class ChallengeGameController extends LocalGameController {
   }
 
   @override
-  void close() {
-    super.close();
+  void dispose() {
+    timeStream.dispose();
 
-    timeStream.close();
+    super.dispose();
   }
 
   ValueNotifier<BoardPosition> get mistake => _mistake;
@@ -76,13 +69,12 @@ abstract class ChallengeGameController extends LocalGameController {
   void mistakeMade(BoardPosition position) {
     _mistake.value = position;
     running = false;
-    _preMistakeEntities = game.entities;
-    // pauseFor(Duration(seconds: 3));
-    // pleaseReset();
+    _preMistakeCats = game.cats;
+    _preMistakeMice = game.mice;
   }
 
   bool placeArrow(int x, int y, Direction direction) {
-    if (!paused && running && game.board.tiles[x][y] is Empty) {
+    if (running && game.board.tiles[x][y] is Empty) {
       if (game.board.tiles[x][y] is Empty) {
         int count = 0;
         ArrowPosition last;
@@ -123,49 +115,40 @@ abstract class ChallengeGameController extends LocalGameController {
 
   @mustCallSuper
   @override
-  void beforeTick() {
-    _remainingTime -= GameTicker.tickPeriod;
-    timeStream.add(_remainingTime);
+  void beforeUpdate() {
+    _remainingTime -= GameTicker.updatePeriod;
 
     if (_remainingTime.isNegative) {
       running = false;
+      _remainingTime = Duration.zero;
     }
 
-    if (_pleaseReset) {
-      _reset();
-      _pleaseReset = false;
-    }
+    timeStream.value = Duration(seconds: 30) - _remainingTime;
   }
 
-  void afterTick() {
+  @override
+  void afterUpdate() {
     if (_mistake.value != null) {
-      game.entities = _preMistakeEntities;
-      updateGame();
+      game.cats = _preMistakeCats;
+      game.mice = _preMistakeMice;
     }
 
-    super.afterTick();
+    updateGame();
+
+    super.afterUpdate();
   }
 
   @protected
   void onReset() {}
 
-  void _reset() {
-    running = true;
+  void reset() {
+    running = false;
     _mistake.value = null;
-    pauseFor(Duration(seconds: 3));
     _remainingTime = Duration(seconds: 30);
-    timeStream.add(_remainingTime);
+    timeStream.value = Duration.zero;
+    gameState = challenge.getGame();
     onReset();
-    game = challenge.getGame()..generatorPolicy = GeneratorPolicy.Challenge;
     updateGame();
-  }
-
-  void pleaseReset() {
-    if (running) {
-      _pleaseReset = true;
-    } else {
-      _reset();
-    }
   }
 
   Duration get remainingTime => _remainingTime;
@@ -173,4 +156,6 @@ abstract class ChallengeGameController extends LocalGameController {
   ValueNotifier<int> get scoreStream;
 
   int get targetScore;
+
+  bool get hasMistake => _mistake.value != null;
 }

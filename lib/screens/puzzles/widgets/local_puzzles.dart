@@ -15,9 +15,7 @@ class LocalPuzzles extends StatefulWidget {
   static final PuzzleStore store = PuzzleStore();
 
   @override
-  _LocalPuzzlesState createState() {
-    return _LocalPuzzlesState();
-  }
+  _LocalPuzzlesState createState() => _LocalPuzzlesState();
 }
 
 class _LocalPuzzlesState extends State<LocalPuzzles> {
@@ -33,14 +31,14 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
   }
 
   void _verifyAndPublish(BuildContext context, NamedPuzzleData puzzle) {
-    Navigator.push<OverlayPopData>(
+    Navigator.push<OverlayResult>(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => Puzzle(
                   puzzle: puzzle,
                   hasNext: false,
-                ))).then((OverlayPopData popData) {
-      if (popData != null) {
+                ))).then((OverlayResult overlayResult) {
+      if (overlayResult != null) {
         CloudFunctions.instance
             .getHttpsCallable(functionName: 'publishPuzzle')
             .call({
@@ -64,7 +62,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
 
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
+    User user = Provider.of<User>(context, listen: false);
 
     List<String> uuidList = _puzzles.keys.toList().reversed.toList();
 

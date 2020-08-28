@@ -3,13 +3,11 @@ import 'package:meta/meta.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class MultiplayerGameController extends MultiplayerGameTicker {
-  final ValueNotifier<Game> gameStream;
+  final ValueNotifier<GameState> gameStream;
 
-  MultiplayerGameController(Game game)
+  MultiplayerGameController(MultiplayerGameState game)
       : gameStream = ValueNotifier(game),
-        super(game) {
-    updateGame();
-  }
+        super(game);
 
   @protected
   void updateGame() {
@@ -18,16 +16,16 @@ class MultiplayerGameController extends MultiplayerGameTicker {
 
   @override
   @mustCallSuper
-  void afterTick() {
-    super.afterTick();
+  void afterUpdate() {
+    super.afterUpdate();
 
     updateGame();
   }
 
   @mustCallSuper
   @override
-  void close() {
-    super.close();
+  void dispose() {
+    super.dispose();
 
     gameStream.dispose();
   }

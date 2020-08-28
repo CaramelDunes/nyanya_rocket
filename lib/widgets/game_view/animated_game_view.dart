@@ -6,15 +6,13 @@ import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class AnimatedGameView extends StatefulWidget {
-  final ValueListenable<Game> game;
+  final ValueListenable<GameState> game;
   final ValueListenable<BoardPosition> mistake;
 
   AnimatedGameView({@required this.game, this.mistake});
 
   @override
-  _AnimatedGameViewState createState() {
-    return _AnimatedGameViewState();
-  }
+  _AnimatedGameViewState createState() => _AnimatedGameViewState();
 }
 
 class _AnimatedGameViewState extends State<AnimatedGameView>
@@ -46,7 +44,7 @@ class _AnimatedGameViewState extends State<AnimatedGameView>
           useDarkColors: Theme.of(context).brightness == Brightness.dark),
       child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) =>
-              ValueListenableBuilder<Game>(
+              ValueListenableBuilder<GameState>(
                   valueListenable: widget.game,
                   builder: (context, value, child) {
                     return TilesDrawer(value.board, constraints);

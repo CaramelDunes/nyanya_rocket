@@ -15,12 +15,13 @@ class Challenge extends StatefulWidget {
   final NamedChallengeData challenge;
   final void Function(Duration time) onWin;
   final bool hasNext;
+  final Duration bestTime;
 
-  Challenge({
-    @required this.challenge,
-    @required this.hasNext,
-    this.onWin,
-  });
+  Challenge(
+      {@required this.challenge,
+      @required this.hasNext,
+      this.onWin,
+      this.bestTime});
 
   @override
   _ChallengeState createState() => _ChallengeState();
@@ -28,7 +29,6 @@ class Challenge extends StatefulWidget {
 
 class _ChallengeState extends State<Challenge> {
   ChallengeGameController _challengeController;
-  ArrowDrawer _availableArrows;
   bool _ended = false;
 
   @override
@@ -37,16 +37,13 @@ class _ChallengeState extends State<Challenge> {
 
     _challengeController = ChallengeGameController.proxy(
         challenge: widget.challenge.challengeData, onWin: _handleWin);
-    _availableArrows = ArrowDrawer(
-      challengeGameController: _challengeController,
-    );
   }
 
   @override
   void dispose() {
-    super.dispose();
+    _challengeController.dispose();
 
-    _challengeController.close();
+    super.dispose();
   }
 
   void _handleSwipeAndDrop(int x, int y, Direction direction) {
@@ -65,7 +62,7 @@ class _ChallengeState extends State<Challenge> {
 
   Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
       List rejectedData, int x, int y) {
-    if (candidateData.length == 0) return const SizedBox.expand();
+    if (candidateData.isEmpty) return const SizedBox.expand();
 
     return ArrowImage(
       direction: candidateData[0],
@@ -122,74 +119,12 @@ class _ChallengeState extends State<Challenge> {
         fit: StackFit.expand,
         children: <Widget>[
           OrientationBuilder(
-            builder: (BuildContext context, Orientation orientation) {
-              return Flex(
-                direction: orientation == Orientation.portrait
-                    ? Axis.vertical
-                    : Axis.horizontal,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: orientation == Orientation.portrait
-                    ? MainAxisAlignment.end
-                    : MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Spacer(),
-                  Visibility(
-                    visible: orientation == Orientation.portrait,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Flexible(
-                            flex: 3,
-                            child: Text(
-                              _objectiveText(context),
-                              textAlign: TextAlign.center,
-                            )),
-                        Flexible(
-                          child: ValueListenableBuilder<int>(
-                              valueListenable: _challengeController.scoreStream,
-                              builder:
-                                  (BuildContext context, int value, Widget _) {
-                                return Text(
-                                    '$value / ${_challengeController.targetScore}');
-                              }),
-                        ),
-                      ],
-                    ),
-                  ),
-                  StreamBuilder<Duration>(
-                      stream: _challengeController.timeStream.stream,
-                      initialData: Duration(seconds: 30),
-                      builder: (context, snapshot) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Countdown(remaining: snapshot.data),
-                        );
-                      }),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AspectRatio(
-                        aspectRatio: 12.0 / 9.0,
-                        child: InputGridOverlay<Direction>(
-                          child: AnimatedGameView(
-                            game: _challengeController.gameStream,
-                            mistake: _challengeController.mistake,
-                          ),
-                          onDrop: _handleSwipeAndDrop,
-                          onSwipe: _handleSwipeAndDrop,
-                          previewBuilder: _dragTileBuilder,
-                        )),
-                  ),
-                  _availableArrows,
-                  IconButton(
-                    icon: Icon(Icons.restore),
-                    onPressed: () {
-                      setState(() {
-                        _challengeController.pleaseReset();
-                      });
-                    },
-                  )
-                ],
-              );
+            builder: (BuildContext _, Orientation orientation) {
+              if (orientation == Orientation.portrait) {
+                return _buildPortrait();
+              } else {
+                return _buildLandscape();
+              }
             },
           ),
           Visibility(
@@ -197,9 +132,142 @@ class _ChallengeState extends State<Challenge> {
               child: SuccessOverlay(
                 succeededName: widget.challenge.name,
                 hasNext: widget.hasNext,
+                canPlayAgain: true,
               )),
         ],
       ),
+    );
+  }
+
+  Widget _buildPortrait() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Text(
+          _objectiveText(context),
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _buildElapsedTime(),
+            _buildBestTime(),
+            _buildTargetCount(),
+          ],
+        ),
+        _buildGameView(),
+        ArrowDrawer(running: _challengeController.running),
+        _buildPlayResetButton(Orientation.portrait)
+      ],
+    );
+  }
+
+  Widget _buildLandscape() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _buildElapsedTime(),
+            _buildBestTime(),
+            _buildTargetCount(),
+            _buildPlayResetButton(Orientation.landscape)
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: _buildGameView(),
+        ),
+        ArrowDrawer(running: _challengeController.running),
+      ],
+    );
+  }
+
+  Widget _buildGameView() {
+    return Material(
+      elevation: 8.0,
+      child: AspectRatio(
+          aspectRatio: 12.0 / 9.0,
+          child: InputGridOverlay<Direction>(
+            child: AnimatedGameView(
+              game: _challengeController.gameStream,
+              mistake: _challengeController.mistake,
+            ),
+            onDrop: _handleSwipeAndDrop,
+            onSwipe: _handleSwipeAndDrop,
+            previewBuilder: _dragTileBuilder,
+          )),
+    );
+  }
+
+  Widget _buildElapsedTime() {
+    return ValueListenableBuilder<Duration>(
+        valueListenable: _challengeController.timeStream,
+        builder: (context, remaining, snapshot) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Countdown(
+                remaining: remaining,
+                color: _challengeController.remainingTime == Duration.zero
+                    ? Colors.red
+                    : null),
+          );
+        });
+  }
+
+  Widget _buildTargetCount() {
+    return ValueListenableBuilder<int>(
+        valueListenable: _challengeController.scoreStream,
+        builder: (BuildContext context, int value, Widget _) {
+          return Text(
+            '$value / ${_challengeController.targetScore}',
+            style: Theme.of(context).textTheme.headline6,
+          );
+        });
+  }
+
+  Widget _buildBestTime() {
+    return Text(
+      (widget.bestTime != null && widget.bestTime != Duration.zero)
+          ? Countdown.formatDuration(widget.bestTime)
+          : '',
+      style:
+          Theme.of(context).textTheme.headline6.copyWith(color: Colors.green),
+    );
+  }
+
+  Widget _buildPlayResetButton(Orientation orientation) {
+    return Card(
+      elevation: 8,
+      color: _challengeController.running ||
+              _challengeController.hasMistake ||
+              _challengeController.remainingTime == Duration.zero
+          ? Colors.red
+          : Colors.green,
+      child: InkWell(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+                _challengeController.running ||
+                        _challengeController.hasMistake ||
+                        _challengeController.remainingTime == Duration.zero
+                    ? Icons.replay
+                    : Icons.play_circle_outline,
+                size: 70),
+          ),
+          onTap: () {
+            setState(() {
+              if (_challengeController.running ||
+                  _challengeController.hasMistake ||
+                  _challengeController.remainingTime == Duration.zero) {
+                _challengeController.reset();
+              } else {
+                _challengeController.running = true;
+              }
+            });
+          }),
     );
   }
 }

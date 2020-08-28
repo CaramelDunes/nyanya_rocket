@@ -8,13 +8,23 @@ import 'package:provider/provider.dart';
 
 class WhatsNew extends StatelessWidget {
   void _dismissWelcomeCard(BuildContext context) {
-    Provider.of<FirstRun>(context).enabled = false;
+    Provider.of<FirstRun>(context, listen: false).enabled = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(8),
+    return OrientationBuilder(
+        builder: (BuildContext context, Orientation orientation) {
+      if (orientation == Orientation.portrait) {
+        return _buildPortrait(context);
+      } else {
+        return _buildLandscape(context);
+      }
+    });
+  }
+
+  Widget _buildPortrait(BuildContext context) {
+    return Column(
       children: <Widget>[
         Visibility(
           visible: Provider.of<FirstRun>(context).enabled,
@@ -30,7 +40,7 @@ class WhatsNew extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       NyaNyaLocalizations.of(context).firstTimeWelcome,
-                      style: Theme.of(context).textTheme.title,
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
                   Text(NyaNyaLocalizations.of(context).firstTimeText),
@@ -47,102 +57,152 @@ class WhatsNew extends StatelessWidget {
             ),
           ),
         ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Card(
-                child: InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.puzzlePiece,
-                          size: 48,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          NyaNyaLocalizations.of(context).puzzlesTitle,
-                          style: Theme.of(context).textTheme.subhead,
-                        )
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/puzzles');
-                  },
-                ),
-              ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 0),
+          child: Row(
+            children: _buildShortcutList(context, Axis.vertical),
+          ),
+        ),
+        Divider(),
+        Expanded(child: _buildNews(context)),
+      ],
+    );
+  }
+
+  Widget _buildLandscape(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: _buildShortcutList(context, Axis.horizontal),
             ),
-            Expanded(
-              child: Card(
-                child: InkWell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.stopwatch,
-                          size: 48,
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          NyaNyaLocalizations.of(context).challengesTitle,
-                          style: Theme.of(context).textTheme.subhead,
-                        )
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/challenges');
-                  },
-                ),
-              ),
+          ),
+        ),
+        VerticalDivider(),
+        Expanded(
+          flex: 2,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: _buildNews(context),
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _buildShortcutList(BuildContext context, Axis direction) {
+    return [
+      Expanded(
+          child: _buildShortcutCard(
+              context: context,
+              faIcon: FontAwesomeIcons.puzzlePiece,
+              name: NyaNyaLocalizations.of(context).puzzlesTitle,
+              routeName: '/puzzles',
+              direction: direction)),
+      Expanded(
+          child: _buildShortcutCard(
+              context: context,
+              faIcon: FontAwesomeIcons.stopwatch,
+              name: NyaNyaLocalizations.of(context).challengesTitle,
+              routeName: '/challenges',
+              direction: direction)),
+      Expanded(
+          child: _buildShortcutCard(
+              context: context,
+              faIcon: FontAwesomeIcons.gamepad,
+              name: NyaNyaLocalizations.of(context).multiplayerTitle,
+              routeName: '/multiplayer',
+              direction: direction))
+    ];
+  }
+
+  Widget _buildShortcutCard(
+      {@required BuildContext context,
+      @required IconData faIcon,
+      @required String name,
+      @required String routeName,
+      @required Axis direction}) {
+    return Card(
+      child: InkWell(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Flex(
+            direction: direction,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              FaIcon(faIcon, size: 48),
+              const SizedBox(height: 4.0),
+              Text(
+                name,
+                style: Theme.of(context).textTheme.subtitle1,
+              )
+            ],
+          ),
+        ),
+        onTap: () {
+          Navigator.pushNamed(context, routeName);
+        },
+      ),
+    );
+  }
+
+  Widget _buildNews(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            SizedBox(width: 8.0),
+            Icon(Icons.new_releases),
+            SizedBox(width: 8.0),
+            Text(
+              NyaNyaLocalizations.of(context).newsLabel,
+              style: Theme.of(context).textTheme.headline5,
             ),
           ],
         ),
-        Divider(),
-        Text(
-          NyaNyaLocalizations.of(context).newsLabel,
-          style: Theme.of(context).textTheme.headline,
-        ),
-        FutureBuilder<QuerySnapshot>(
-          future: Firestore.instance
-              .collection(
-                  'articles_${Intl.shortLocale(Intl.getCurrentLocale())}')
-              .orderBy('date', descending: true)
-              .getDocuments(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
+        Expanded(
+          child: ListView(
+            children: <Widget>[
+              FutureBuilder<QuerySnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection(
+                        'articles_${Intl.shortLocale(Intl.getCurrentLocale())}')
+                    .orderBy('date', descending: true)
+                    .get(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
 
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Center(
-                    child: Text(NyaNyaLocalizations.of(context).loadingLabel));
-              default:
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children:
-                      snapshot.data.documents.map((DocumentSnapshot document) {
-                    return ListTile(
-                      title: Text(document['title']),
-                      trailing: Text(MaterialLocalizations.of(context)
-                          .formatMediumDate(document['date'].toDate())),
-                    );
-                  }).toList(),
-                );
-            }
-          },
-        )
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return Center(
+                          child: Text(
+                              NyaNyaLocalizations.of(context).loadingLabel));
+                    default:
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
+                          return ListTile(
+                            title: Text(document.get('title')),
+                            trailing: Text(MaterialLocalizations.of(context)
+                                .formatShortDate(
+                                    document.get('date').toDate())),
+                          );
+                        }).toList(),
+                      );
+                  }
+                },
+              )
+            ],
+          ),
+        ),
       ],
     );
   }

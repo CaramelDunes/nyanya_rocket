@@ -20,9 +20,7 @@ class ChallengeEditor extends StatefulWidget {
   });
 
   @override
-  _ChallengeEditorState createState() {
-    return _ChallengeEditorState();
-  }
+  _ChallengeEditorState createState() => _ChallengeEditorState();
 }
 
 class _ChallengeEditorState extends State<ChallengeEditor> {
@@ -34,8 +32,9 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController =
-        EditorGameController(game: widget.challenge.challengeData.getGame());
+    _editorGameController = EditorGameController(
+        game: widget.challenge.challengeData.getGame(),
+        gameSimulator: ChallengeGameSimulator());
 
     _uuid = widget.uuid;
   }
@@ -44,7 +43,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   void dispose() {
     super.dispose();
 
-    _editorGameController.close();
+    _editorGameController.dispose();
   }
 
   NamedChallengeData _buildChallengeData() {
@@ -136,7 +135,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
 
   void _handlePlay(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => Challenge(
+        builder: (BuildContext _) => Challenge(
               hasNext: false,
               challenge: _buildChallengeData(),
             )));

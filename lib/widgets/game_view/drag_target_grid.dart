@@ -45,20 +45,20 @@ class DragTargetGrid<T> extends StatelessWidget {
             (x) => Expanded(
                   child: Column(
                       children: List<Widget>.generate(height,
-                          (y) => Expanded(child: _dragTargetBuilder(x, y)))),
-                )));
+                          (y) => Expanded(child: _dragTargetBuilder(x, y)),
+                          growable: false)),
+                ),
+            growable: false));
   }
 }
 
-class DragTargetTile<T> extends StatelessWidget {
+class DragTargetTile<T> extends StatefulWidget {
   final int x;
   final int y;
   final DragTargetTileBuilder<T> builder;
   final DropAcceptor<T> dropAcceptor;
   final SwipeAcceptor swipeAcceptor;
   final TapAcceptor<T> tapAcceptor;
-
-  Offset _panOffset = Offset.zero;
 
   DragTargetTile(
       {@required this.x,
@@ -69,41 +69,59 @@ class DragTargetTile<T> extends StatelessWidget {
       this.tapAcceptor});
 
   @override
+  _DragTargetTileState<T> createState() => _DragTargetTileState<T>();
+}
+
+class _DragTargetTileState<T> extends State<DragTargetTile<T>> {
+  Offset _panOffset = Offset.zero;
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          if (tapAcceptor != null) {
-            tapAcceptor(x, y);
-          }
-        },
-        onPanStart: (DragStartDetails details) {
-          _panOffset = Offset.zero;
-        },
-        onPanUpdate: (DragUpdateDetails details) {
-          _panOffset += details.delta;
-        },
-        onPanEnd: (DragEndDetails details) {
-          if (swipeAcceptor != null) {
-            double direction = _panOffset.direction;
+        excludeFromSemantics: true,
+        onTap: widget.swipeAcceptor != null
+            ? () {
+                if (widget.tapAcceptor != null) {
+                  widget.tapAcceptor(widget.x, widget.y);
+                  setState(() {});
+                }
+              }
+            : null,
+        onPanStart: widget.swipeAcceptor != null
+            ? (DragStartDetails details) {
+                _panOffset = Offset.zero;
+              }
+            : null,
+        onPanUpdate: widget.swipeAcceptor != null
+            ? (DragUpdateDetails details) {
+                _panOffset += details.delta;
+              }
+            : null,
+        onPanEnd: widget.swipeAcceptor != null
+            ? (DragEndDetails details) {
+                double direction = _panOffset.direction;
 
-            if (-pi / 4 < direction && direction < pi / 4) {
-              swipeAcceptor(x, y, Direction.Right);
-            } else if (pi / 4 < direction && direction < 3 * pi / 4) {
-              swipeAcceptor(x, y, Direction.Down);
-            } else if (3 * pi / 4 < direction || direction < -3 * pi / 4) {
-              swipeAcceptor(x, y, Direction.Left);
-            } else if (-3 * pi / 4 < direction && direction < -pi / 4) {
-              swipeAcceptor(x, y, Direction.Up);
-            }
-          }
-        },
+                if (-pi / 4 < direction && direction < pi / 4) {
+                  widget.swipeAcceptor(widget.x, widget.y, Direction.Right);
+                } else if (pi / 4 < direction && direction < 3 * pi / 4) {
+                  widget.swipeAcceptor(widget.x, widget.y, Direction.Down);
+                } else if (3 * pi / 4 < direction || direction < -3 * pi / 4) {
+                  widget.swipeAcceptor(widget.x, widget.y, Direction.Left);
+                } else if (-3 * pi / 4 < direction && direction < -pi / 4) {
+                  widget.swipeAcceptor(widget.x, widget.y, Direction.Up);
+                }
+
+                setState(() {});
+              }
+            : null,
         child: DragTarget<T>(
           builder: (BuildContext context, List<T> candidateData,
                   List<dynamic> rejectedData) =>
-              builder(context, candidateData, rejectedData, x, y),
+              widget.builder(
+                  context, candidateData, rejectedData, widget.x, widget.y),
           onAccept: (T t) {
-            dropAcceptor(x, y, t);
+            widget.dropAcceptor(widget.x, widget.y, t);
+            setState(() {});
           },
         ));
   }

@@ -3,21 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 
-class OverlayPopData {
-  final bool playNext;
-
-  OverlayPopData({@required this.playNext});
-}
+enum OverlayResult { PlayNext, PlayAgain }
 
 class SuccessOverlay extends StatefulWidget {
   final String succeededName;
   final String succeededPath;
   final bool hasNext;
+  final bool canPlayAgain;
 
   const SuccessOverlay(
       {Key key,
       @required this.succeededName,
       @required this.hasNext,
+      @required this.canPlayAgain,
       this.succeededPath})
       : super(key: key);
 
@@ -34,12 +32,12 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
     super.initState();
 
     if (widget.succeededPath != null) {
-      Firestore.instance
-          .document(widget.succeededPath)
+      FirebaseFirestore.instance
+          .doc(widget.succeededPath)
           .get()
           .then((DocumentSnapshot snapshot) {
         setState(() {
-          _stars = snapshot.data['likes'];
+          _stars = snapshot.get('likes');
         });
       });
     }
@@ -57,8 +55,8 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
           onPressed: () {
             if (!_plusOned) {
               final DocumentReference postRef =
-                  Firestore.instance.document(widget.succeededPath);
-              postRef.updateData({'likes': FieldValue.increment(1)});
+                  FirebaseFirestore.instance.doc(widget.succeededPath);
+              postRef.update({'likes': FieldValue.increment(1)});
 
               setState(() {
                 _plusOned = true;
@@ -101,16 +99,30 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                           visible:
                               widget.succeededPath != null && _stars != null,
                           child: _starAdder()),
-                      RaisedButton(
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        child: Text(widget.hasNext
-                            ? NyaNyaLocalizations.of(context).nextLevelLabel
-                            : NyaNyaLocalizations.of(context).back),
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pop(OverlayPopData(playNext: widget.hasNext));
-                        },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          RaisedButton(
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            child: Text(
+                                NyaNyaLocalizations.of(context).playAgainLabel),
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pop(OverlayResult.PlayAgain);
+                            },
+                          ),
+                          RaisedButton(
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            child: Text(widget.hasNext
+                                ? NyaNyaLocalizations.of(context).nextLevelLabel
+                                : NyaNyaLocalizations.of(context).back),
+                            onPressed: () {
+                              Navigator.of(context).pop(OverlayResult.PlayNext);
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),

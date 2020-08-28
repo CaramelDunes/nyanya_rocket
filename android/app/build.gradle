@@ -30,6 +30,8 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 28
 
@@ -41,7 +43,7 @@ android {
         applicationId "fr.carameldunes.nyanyarocket"
         minSdkVersion 16
         multiDexEnabled true
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

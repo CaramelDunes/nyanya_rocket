@@ -16,15 +16,15 @@ class BoardPickerLists extends StatelessWidget {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  icon: Icon(FontAwesomeIcons.gamepad),
+                  icon: FaIcon(FontAwesomeIcons.gamepad),
                   text: NyaNyaLocalizations.of(context).originalTab,
                 ),
                 Tab(
-                  icon: Icon(FontAwesomeIcons.globe),
+                  icon: FaIcon(FontAwesomeIcons.globe),
                   text: NyaNyaLocalizations.of(context).communityTab,
                 ),
                 Tab(
-                  icon: Icon(FontAwesomeIcons.mobileAlt),
+                  icon: FaIcon(FontAwesomeIcons.mobileAlt),
                   text: NyaNyaLocalizations.of(context).deviceTab,
                 ),
               ],

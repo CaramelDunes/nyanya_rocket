@@ -19,9 +19,7 @@ class PuzzleEditor extends StatefulWidget {
   });
 
   @override
-  _PuzzleEditorState createState() {
-    return _PuzzleEditorState();
-  }
+  _PuzzleEditorState createState() => _PuzzleEditorState();
 }
 
 class _PuzzleEditorState extends State<PuzzleEditor> {
@@ -33,8 +31,9 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController =
-        EditorGameController(game: widget.puzzle.puzzleData.getGame());
+    _editorGameController = EditorGameController(
+        game: widget.puzzle.puzzleData.getGame(),
+        gameSimulator: PuzzleGameSimulator());
 
     for (int direction = 0; direction < 4; direction++) {
       _initExistingArrows(Direction.values[direction],
@@ -48,7 +47,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   void dispose() {
     super.dispose();
 
-    _editorGameController.close();
+    _editorGameController.dispose();
   }
 
   void _initExistingArrows(Direction direction, int count) {
@@ -96,7 +95,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
 
   void _handlePlay(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => Puzzle(
+        builder: (BuildContext _) => Puzzle(
               hasNext: false,
               puzzle: _buildPuzzleData(),
             )));

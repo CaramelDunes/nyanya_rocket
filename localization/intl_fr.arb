@@ -167,9 +167,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "loginPromptText": "Veuillez vous connecter avant (Paramètres—Gestion de compte)",
+  "loginPromptText": "Merci de vous connecter.",
   "@loginPromptText": {
     "description": "Login prompt of the Local Puzzles and Challenges tabs.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginButtonLabel": "Se connecter",
+  "@loginButtonLabel": {
+    "description": "Login button of the Sign-up prompt widget.",
     "type": "text",
     "placeholders": {}
   },
@@ -215,15 +221,21 @@
     "type": "text",
     "placeholders": {}
   },
-  "lanTab": "Réseau local",
-  "@lanTab": {
-    "description": "LAN tab of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "matchmakingTab": "Monde",
   "@matchmakingTab": {
     "description": "Matchmaking tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "localDuelTab": "Duel Local",
+  "@localDuelTab": {
+    "description": "Local Duel tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lanTab": "Réseau local",
+  "@lanTab": {
+    "description": "LAN tab of the Multiplayer screen.",
     "type": "text",
     "placeholders": {}
   },
@@ -251,6 +263,14 @@
     "type": "text",
     "placeholders": {}
   },
+  "thisDeviceIpText": "Votre adresse IP: {localIp}",
+  "@thisDeviceIpText": {
+    "description": "This device's local IP, displayed in the LAN tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {
+      "localIp": {}
+    }
+  },
   "createLabel": "Créer",
   "@createLabel": {
     "description": "Create button label of the Multiplayer screen.",
@@ -269,7 +289,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "invalidNameText": "Nom invalide (entrez entre 2 et 24 caractères ASCII).",
+  "invalidNameText": "Nom invalide (entrez entre 2 et 24 caractères alphanumériques).",
   "@invalidNameText": {
     "description": "When entered name is invalid in the new tab of the Editor screen.",
     "type": "text",
@@ -320,6 +340,12 @@
   "stageClearedText": "Niveau réussi !",
   "@stageClearedText": {
     "description": "Stage cleared text of success overlay.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "playAgainLabel": "Rejouer",
+  "@playAgainLabel": {
+    "description": "Play again button label of success overlay.",
     "type": "text",
     "placeholders": {}
   },
@@ -503,11 +529,21 @@
     "type": "text",
     "placeholders": {}
   },
-  "playersLabel": "joueurs",
-  "@playersLabel": {
+  "playerCountLabel": "{playerCount} joueurs",
+  "@playerCountLabel": {
     "description": "Displayed in various locations.",
     "type": "text",
-    "placeholders": {}
+    "placeholders": {
+      "playerCount": {}
+    }
+  },
+  "minuteCountLabel": "{minuteCount} minutes",
+  "@minuteCountLabel": {
+    "description": "Displayed in various locations.",
+    "type": "text",
+    "placeholders": {
+      "minuteCount": {}
+    }
   },
   "boardSelectionText": "Toucher pour sélectionner un plateau de jeu",
   "@boardSelectionText": {
@@ -539,11 +575,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "completedLabel": "% réussis",
-  "@completedLabel": {
+  "completedPercentLabel": "{percentCompleted}% réussis",
+  "@completedPercentLabel": {
     "description": "Displayed in original puzzles tab.",
     "type": "text",
-    "placeholders": {}
+    "placeholders": {
+      "percentCompleted": {}
+    }
   },
   "showCompletedLabel": "Montrer réussis",
   "@showCompletedLabel": {
@@ -605,9 +643,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "displayNameDialogTitle": "Changement de pseudo",
+  "displayNameDialogTitle": "Choix du pseudo",
   "@displayNameDialogTitle": {
     "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "privacyPolicySignUpText": "En vous connectant, vous acceptez les termes de la ",
+  "@privacyPolicySignUpText": {
+    "description": "Displayed in the sign-up dialog.",
     "type": "text",
     "placeholders": {}
   },
@@ -650,6 +694,144 @@
   "displayNameFormatText": "Entre 2 et 24 caractères (sans espace).",
   "@displayNameFormatText": {
     "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "connectingToServerText": "Connexion au serveur...",
+  "@connectingToServerText": {
+    "description": "Displayed in the network multiplayer when initially connecting to the game server.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "waitingForPlayersText": "En attente d'autres joueurs...",
+  "@waitingForPlayersText": {
+    "description": "Displayed in the network multiplayer when waiting for other players to connect.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "positionInQueueText": "Position dans la file d'attente: {position} / {queueLength}",
+  "@positionInQueueText": {
+    "description": "Displayed in the world multiplayer when searching for a game.",
+    "type": "text",
+    "placeholders": {
+      "position": {},
+      "queueLength": {}
+    }
+  },
+  "playersInQueueText": "{queueLength,plural, =0{Aucun joueur dans la file d'attente.}other{{queueLength} joueurs dans la file d'attente.}}",
+  "@playersInQueueText": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {
+      "queueLength": {}
+    }
+  },
+  "queueRefreshErrorText": "Erreur lors du rafraîchissment\ndu nombre de joueurs dans la file.",
+  "@queueRefreshErrorText": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "duelLabel": "Duel",
+  "@duelLabel": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "fourPlayersLabel": "4 joueurs",
+  "@fourPlayersLabel": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "regionLabel": "Région",
+  "@regionLabel": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "joinQueueLabel": "Rejoindre",
+  "@joinQueueLabel": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "friendDuelLabel": "Duel ami",
+  "@friendDuelLabel": {
+    "description": "Displayed on the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yourRoomCodeLabel": "Votre code joueur est",
+  "@yourRoomCodeLabel": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "joinRoomLabel": "Rejoindre un ami",
+  "@joinRoomLabel": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "roomCodeRetrievalErrorText": "Impossible de récupérer le code joueur",
+  "@roomCodeRetrievalErrorText": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "awaitingForPlayersLabel": "En attente de joueurs...",
+  "@awaitingForPlayersLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "victoryLabel": "Victoire !",
+  "@victoryLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "defeatLabel": "Défaite...",
+  "@defeatLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "winnerLabel": "Vainqueur !",
+  "@winnerLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "boardLabel": "Plateau",
+  "@boardLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "nicknamesLabel": "Pseudos",
+  "@nicknamesLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "durationLabel": "Durée",
+  "@durationLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "leaderBoardLabel": "Classement",
+  "@leaderBoardLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "roomCodeLabel": "Code joueur",
+  "@roomCodeLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "findPlayersLabel": "Recherche de joueurs",
+  "@findPlayersLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "refreshLabel": "Actualiser",
+  "@refreshLabel": {
     "type": "text",
     "placeholders": {}
   }

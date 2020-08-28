@@ -12,11 +12,7 @@ class RunAwayGameController extends ChallengeGameController {
   RunAwayGameController(
       {@required void Function() onWin, @required ChallengeData challenge})
       : super(onWin: onWin, challenge: challenge) {
-    for (Entity e in game.entities) {
-      if (e is! Cat) {
-        _targetScore++;
-      }
-    }
+    _targetScore = game.mice.length;
   }
 
   @override
@@ -26,8 +22,8 @@ class RunAwayGameController extends ChallengeGameController {
   int get targetScore => _targetScore;
 
   @override
-  void close() {
-    super.close();
+  void dispose() {
+    super.dispose();
 
     _scoreStream.dispose();
   }
@@ -51,7 +47,8 @@ class RunAwayGameController extends ChallengeGameController {
     } else {
       _scoreStream.value = game.scoreOf(PlayerColor.Blue);
       if (game.scoreOf(PlayerColor.Blue) >= _targetScore) {
-        departRockets();
+        gameSimulator.departRockets(game);
+        running = false;
         onWin();
       }
     }

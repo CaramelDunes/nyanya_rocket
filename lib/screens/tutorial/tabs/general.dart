@@ -8,11 +8,11 @@ class General extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8.0),
       children: <Widget>[
         Text(
           NyaNyaLocalizations.of(context).tilesTutorialLabel,
-          style: Theme.of(context).textTheme.headline,
+          style: Theme.of(context).textTheme.headline5,
         ),
         Card(
           child: Container(
@@ -84,7 +84,7 @@ class General extends StatelessWidget {
         Divider(),
         Text(
           NyaNyaLocalizations.of(context).entitiesTutorialLabel,
-          style: Theme.of(context).textTheme.headline,
+          style: Theme.of(context).textTheme.headline5,
         ),
         Card(
           child: Container(
@@ -138,7 +138,7 @@ class General extends StatelessWidget {
         Divider(),
         Text(
           NyaNyaLocalizations.of(context).placementTutorialLabel,
-          style: Theme.of(context).textTheme.headline,
+          style: Theme.of(context).textTheme.headline5,
         ),
         Card(
             child: Padding(

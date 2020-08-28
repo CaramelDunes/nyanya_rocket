@@ -29,7 +29,7 @@ class _BoardPickerState extends State<BoardPicker> {
                 : AspectRatio(
                     aspectRatio: 12 / 9,
                     child: StaticGameView(
-                      game: Game()..board = _selectedBoard.board(),
+                      game: GameState()..board = _selectedBoard.board(),
                     ),
                   ),
           ),

@@ -1,14 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class LocalGameController extends GameTicker {
-  final ValueNotifier<Game> gameStream;
+class LocalGameController extends GameTicker<GameState> {
+  final ValueNotifier<GameState> gameStream;
 
-  LocalGameController(Game game)
+  LocalGameController(GameState game, GameSimulator gameSimulator)
       : gameStream = ValueNotifier(game),
-        super(game) {
+        super(game, gameSimulator) {
     updateGame();
   }
 
@@ -19,15 +18,15 @@ class LocalGameController extends GameTicker {
 
   @override
   @mustCallSuper
-  void afterTick() {
+  void afterUpdate() {
     updateGame();
   }
 
   @mustCallSuper
   @override
-  void close() {
-    super.close();
-
+  void dispose() {
     gameStream.dispose();
+
+    super.dispose();
   }
 }

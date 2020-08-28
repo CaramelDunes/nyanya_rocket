@@ -8,6 +8,7 @@ import 'package:nyanya_rocket/routing.dart';
 import 'package:nyanya_rocket/screens/settings/dark_mode.dart';
 import 'package:nyanya_rocket/screens/settings/first_run.dart';
 import 'package:nyanya_rocket/screens/settings/language.dart';
+import 'package:nyanya_rocket/screens/settings/region.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,16 +25,16 @@ class App extends StatefulWidget {
   ];
 
   static ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    primarySwatch: Colors.deepPurple,
-    accentColor: Colors.orangeAccent,
-  );
+      brightness: Brightness.dark,
+      primarySwatch: Colors.deepPurple,
+      accentColor: Colors.orangeAccent,
+      dividerTheme: DividerThemeData().copyWith(space: 8.0));
 
   static ThemeData lightTheme = ThemeData(
-    brightness: Brightness.light,
-    primarySwatch: Colors.deepPurple,
-    accentColor: Colors.orangeAccent,
-  );
+      brightness: Brightness.light,
+      primarySwatch: Colors.deepPurple,
+      accentColor: Colors.orangeAccent,
+      dividerTheme: DividerThemeData().copyWith(space: 8.0));
 
   @override
   _AppState createState() => _AppState();
@@ -44,6 +45,7 @@ class _AppState extends State<App> {
   final Language _language = Language('auto');
   final FirstRun _firstRun = FirstRun();
   final User _user = User();
+  final Region _region = Region(Region.automaticValue());
 
   @override
   void initState() {
@@ -63,6 +65,7 @@ class _AppState extends State<App> {
       _darkMode.prefs = prefs;
       _language.prefs = prefs;
       _firstRun.prefs = prefs;
+      _region.prefs = prefs;
     });
 
     super.initState();
@@ -72,27 +75,30 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(notifier: _darkMode),
-        ChangeNotifierProvider.value(notifier: _language),
+        ChangeNotifierProvider.value(value: _darkMode),
+        ChangeNotifierProvider.value(value: _language),
         // TODO Move this to the What's New tab
-        ChangeNotifierProvider.value(notifier: _firstRun),
-        ChangeNotifierProvider.value(notifier: _user),
+        ChangeNotifierProvider.value(value: _firstRun),
+        ChangeNotifierProvider.value(value: _user),
+        ChangeNotifierProvider.value(value: _region)
       ],
       child: Consumer2<DarkMode, Language>(
-        builder: (context2, darkMode, language, _) => MaterialApp(
-                localizationsDelegates: [
-                  const NyaNyaLocalizationsDelegate(),
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                ],
-                supportedLocales: App.supportedLocales,
-                locale:
-                    language.value == 'auto' ? null : Locale(language.value),
-                title: 'NyaNya Rocket!',
-                theme: darkMode.enabled ? App.darkTheme : App.lightTheme,
-                darkTheme: App.darkTheme,
-                initialRoute: Routing.initialRoute,
-                routes: Routing.routes),
+        builder: (_, darkMode, language, __) {
+          return MaterialApp(
+            localizationsDelegates: [
+              const NyaNyaLocalizationsDelegate(),
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: App.supportedLocales,
+            locale: language.value == 'auto' ? null : Locale(language.value),
+            title: 'NyaNya Rocket!',
+            theme: darkMode.enabled ? App.darkTheme : App.lightTheme,
+            darkTheme: App.darkTheme,
+            initialRoute: Routing.initialRoute,
+            routes: Routing.routes,
+          );
+        },
       ),
     );
   }

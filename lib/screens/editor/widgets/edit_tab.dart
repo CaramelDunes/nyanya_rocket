@@ -19,9 +19,7 @@ enum EditorMode { Puzzle, Challenge, Multiplayer }
 
 class EditTab extends StatefulWidget {
   @override
-  _EditTabState createState() {
-    return new _EditTabState();
-  }
+  _EditTabState createState() => _EditTabState();
 }
 
 class _EditTabState extends State<EditTab> {
@@ -286,8 +284,8 @@ class _EditTabState extends State<EditTab> {
               ),
             ],
             onChanged: (EditorMode value) => setState(() {
-                  _mode = value;
-                }),
+              _mode = value;
+            }),
           ),
         ),
         Expanded(

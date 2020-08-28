@@ -5,6 +5,7 @@ import 'package:flare_dart/math/aabb.dart';
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_cache.dart';
 import 'package:flare_flutter/flare_cache_asset.dart';
+import 'package:flare_flutter/provider/asset_flare.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,11 +17,12 @@ class CachedFlareAnimation {
 
   CachedFlareAnimation(
       {@required String assetFilename, @required String animationName}) {
-    cachedActor(rootBundle, assetFilename)
+    cachedActor(AssetFlare(bundle: rootBundle, name: assetFilename))
         .then((FlareCacheAsset cacheAsset) async {
       FlutterActor actor = cacheAsset.actor;
 
       FlutterActorArtboard artboard = actor.artboard;
+      artboard.antialias = true;
       artboard.initializeGraphics();
 
       ActorAnimation animation = artboard.getAnimation(animationName);
@@ -30,6 +32,7 @@ class CachedFlareAnimation {
         AABB bounds = artboard.artboardAABB();
 
         _size = Size(bounds[2] - bounds[0], bounds[3] - bounds[1]);
+        _size *= 0.228;
 
         List<ui.Image> cache = List(numberOfFrames);
 
@@ -39,6 +42,7 @@ class CachedFlareAnimation {
 
           final pictureRecorder = ui.PictureRecorder();
           ui.Canvas canvas = ui.Canvas(pictureRecorder);
+          canvas.scale(0.228);
 
           artboard.draw(canvas); // TODO Make cache building async
           cache[i] = await pictureRecorder

@@ -8,47 +8,56 @@ enum EditorMode { Puzzle, Challenge, Multiplayer }
 
 class Editor extends StatefulWidget {
   @override
-  EditorState createState() {
-    return new EditorState();
-  }
+  _EditorState createState() => _EditorState();
 }
 
-class EditorState extends State<Editor> {
-  String name;
-  EditorMode mode;
+class _EditorState extends State<Editor> with SingleTickerProviderStateMixin {
+  TabController _tabController;
 
   @override
   void initState() {
     super.initState();
 
-    mode = EditorMode.Puzzle;
+    _tabController = TabController(vsync: this, length: 2);
+    _tabController.addListener(() {
+      FocusScope.of(context).unfocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(NyaNyaLocalizations.of(context).editorTitle),
-          bottom: TabBar(
-            tabs: [
-              Tab(
-                  icon: Icon(Icons.add),
-                  text: NyaNyaLocalizations.of(context).newTab),
-              Tab(
-                  icon: Icon(Icons.edit),
-                  text: NyaNyaLocalizations.of(context).editTab),
-            ],
-          ),
-        ),
-        drawer: DefaultDrawer(),
-        body: TabBarView(
-          children: [
-            CreateTab(),
-            EditTab(),
+    final bool displayIcons =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(NyaNyaLocalizations.of(context).editorTitle),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: [
+            Tab(
+                icon: displayIcons ? Icon(Icons.add) : null,
+                text: NyaNyaLocalizations.of(context).newTab),
+            Tab(
+                icon: displayIcons ? Icon(Icons.edit) : null,
+                text: NyaNyaLocalizations.of(context).editTab),
           ],
         ),
+      ),
+      drawer: DefaultDrawer(),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          CreateTab(),
+          EditTab(),
+        ],
       ),
     );
   }

@@ -5,9 +5,8 @@ import 'package:nyanya_rocket/widgets/game_view/foreground_painter.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class AnimatedForegroundPainter extends CustomPainter {
-  final ValueListenable<Game> game;
+  final ValueListenable<GameState> game;
   final ValueListenable<BoardPosition> mistake;
-  final EntitiesDrawerCanvas _entitiesDrawer = EntitiesDrawerCanvas();
 
   final Animation entityAnimation;
 
@@ -19,8 +18,10 @@ class AnimatedForegroundPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     ForegroundPainter.paintWalls(canvas, size, game.value.board);
 
-    _entitiesDrawer.drawEntities(
-        canvas, size, game.value.entities, entityAnimation.value);
+    EntitiesDrawerCanvas.drawEntities(
+        canvas, size, game.value.cats, entityAnimation.value);
+    EntitiesDrawerCanvas.drawEntities(
+        canvas, size, game.value.mice, entityAnimation.value);
 
     _paintMistake(canvas, size);
   }

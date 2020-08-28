@@ -13,11 +13,7 @@ class LunchTimeGameController extends ChallengeGameController {
   LunchTimeGameController(
       {@required void Function() onWin, @required ChallengeData challenge})
       : super(onWin: onWin, challenge: challenge) {
-    for (Entity e in game.entities) {
-      if (e is Mouse) {
-        _targetScore++;
-      }
-    }
+    _targetScore = game.mice.length;
   }
 
   @override
@@ -27,8 +23,8 @@ class LunchTimeGameController extends ChallengeGameController {
   int get targetScore => _targetScore;
 
   @override
-  void close() {
-    super.close();
+  void dispose() {
+    super.dispose();
 
     _scoreStream.dispose();
   }
@@ -54,6 +50,6 @@ class LunchTimeGameController extends ChallengeGameController {
   @override
   void onReset() {
     _score = 0;
-    _scoreStream.value = _score;
+    _scoreStream.value = 0;
   }
 }

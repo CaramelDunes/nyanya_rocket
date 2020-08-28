@@ -1,14 +1,16 @@
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/foundation.dart';
 
 enum StatusCode { Success, Failure, InvalidArgument, Unauthenticated }
 
 class User with ChangeNotifier {
-  FirebaseUser _user;
+  auth.User _user;
 
   User() {
-    FirebaseAuth.instance.currentUser().then((FirebaseUser user) {
+    _refreshCurrentUser();
+
+    auth.FirebaseAuth.instance.userChanges().listen((user) {
       _user = user;
       notifyListeners();
     });
@@ -22,15 +24,21 @@ class User with ChangeNotifier {
     return isConnected ? _user.displayName : '';
   }
 
+  Future<String> authToken() async {
+    if (isConnected) {
+      return await _user.getIdToken();
+    }
+
+    return null;
+  }
+
   Future<StatusCode> setDisplayName(String newDisplayName) async {
     if (isConnected) {
       try {
         await CloudFunctions.instance
             .getHttpsCallable(functionName: 'setDisplayName')
             .call({'displayName': newDisplayName}).then(
-                (HttpsCallableResult result) {
-          print(result);
-        });
+                (HttpsCallableResult result) {});
       } catch (e) {
         print(e.code);
 
@@ -48,9 +56,7 @@ class User with ChangeNotifier {
       }
 
       await _user.reload();
-      _user = await FirebaseAuth.instance.currentUser();
-
-      notifyListeners();
+      _refreshCurrentUser();
 
       return StatusCode.Success;
     }
@@ -66,20 +72,30 @@ class User with ChangeNotifier {
     return !isConnected || _user.isAnonymous;
   }
 
-  Future<void> signInAnonymously() {
-    return FirebaseAuth.instance.signInAnonymously().then((AuthResult result) {
-      _user = result.user;
+  Future<User> signInAnonymously() async {
+    auth.UserCredential result =
+        await auth.FirebaseAuth.instance.signInAnonymously();
+    _user = result.user;
+    notifyListeners();
 
-      notifyListeners();
-      return;
-    });
+    return this;
   }
 
-  Future<void> signOut() {
-    return FirebaseAuth.instance.signOut().then((void _) {
-      _user = null;
+  Future signOut() async {
+    await auth.FirebaseAuth.instance.signOut();
+    _user = null;
+    notifyListeners();
+  }
 
-      notifyListeners();
-    });
+  void _refreshCurrentUser() {
+    auth.User user = auth.FirebaseAuth.instance.currentUser;
+    _user = user;
+    notifyListeners();
+
+    if (isConnected) {
+      print('User connected as `$uid`');
+    } else {
+      print('User not connected');
+    }
   }
 }

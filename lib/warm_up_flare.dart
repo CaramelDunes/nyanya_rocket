@@ -1,4 +1,5 @@
 import 'package:flare_flutter/flare_cache.dart';
+import 'package:flare_flutter/provider/asset_flare.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket/widgets/game_view/entities_drawer_canvas.dart';
 
@@ -21,8 +22,7 @@ const _filesToWarmUp = [
 Future<void> warmUpFlare() async {
   for (final filename in _filesToWarmUp) {
     print('Warming up $filename');
-    await cachedActor(rootBundle, filename);
-    await Future<void>.delayed(const Duration(milliseconds: 16));
+    await cachedActor(AssetFlare(bundle: rootBundle, name: filename));
   }
 
   // ignore_for_file: unnecessary_statements

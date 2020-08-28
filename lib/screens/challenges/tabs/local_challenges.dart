@@ -15,9 +15,7 @@ class LocalChallenges extends StatefulWidget {
   static final ChallengeStore store = ChallengeStore();
 
   @override
-  _LocalChallengesState createState() {
-    return _LocalChallengesState();
-  }
+  _LocalChallengesState createState() => _LocalChallengesState();
 }
 
 class _LocalChallengesState extends State<LocalChallenges> {
@@ -33,14 +31,14 @@ class _LocalChallengesState extends State<LocalChallenges> {
   }
 
   void _verifyAndPublish(BuildContext context, NamedChallengeData challenge) {
-    Navigator.push<OverlayPopData>(
+    Navigator.push<OverlayResult>(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => Challenge(
                   challenge: challenge,
                   hasNext: false,
-                ))).then((OverlayPopData popData) {
-      if (popData != null) {
+                ))).then((OverlayResult overlayResult) {
+      if (overlayResult != null) {
         CloudFunctions.instance
             .getHttpsCallable(functionName: 'publishChallenge')
             .call({
@@ -64,7 +62,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
 
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
+    User user = Provider.of<User>(context, listen: false);
 
     List<String> uuidList = _challenges.keys.toList().reversed.toList();
 

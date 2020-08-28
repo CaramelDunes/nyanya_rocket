@@ -7,7 +7,7 @@ class Multiplayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8.0),
       children: <Widget>[
         Card(
           child: Container(

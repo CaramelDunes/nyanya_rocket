@@ -7,44 +7,67 @@ class AvailableArrows extends StatelessWidget {
 
   const AvailableArrows({@required this.puzzleGameController});
 
+  Widget _buildArrowAndCount(int i, int count, Brightness brightness) {
+    return Stack(
+      fit: StackFit.passthrough,
+      children: <Widget>[
+        Material(
+          elevation: 8,
+          child: RotatedBox(
+            quarterTurns: -i,
+            child: Image.asset(
+              'assets/graphics/arrow_${count > 0 ? 'blue' : 'grey'}.png',
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Container(
+            decoration: BoxDecoration(
+              color:
+                  brightness == Brightness.dark ? Colors.black : Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+              child: Text(
+                count.toString(),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   Widget _buildDraggableArrow(
       BuildContext context, Orientation orientation, int i) {
     return ValueListenableBuilder<int>(
         valueListenable: puzzleGameController.remainingArrowsStreams[i],
         builder: (BuildContext context, int count, Widget _) {
-          return Draggable<Direction>(
-              maxSimultaneousDrags:
-                  puzzleGameController.canPlaceArrow ? count : 0,
-              feedback: const SizedBox.shrink(),
-              child: Card(
-                child: Flex(
-                  direction: orientation == Orientation.portrait
-                      ? Axis.horizontal
-                      : Axis.vertical,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: RotatedBox(
-                          quarterTurns: -i,
-                          child: Image.asset(
-                            'assets/graphics/arrow_${count > 0 ? 'blue' : 'grey'}.png',
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      count.toString(),
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                    ),
-                  ],
-                ),
-              ),
-              data: Direction.values[i]);
+          if (orientation == Orientation.landscape) {
+            return Draggable<Direction>(
+                maxSimultaneousDrags:
+                    puzzleGameController.canPlaceArrow ? count : 0,
+                feedback: const SizedBox.shrink(),
+                child: IntrinsicHeight(
+                    child: _buildArrowAndCount(
+                        i, count, Theme.of(context).brightness)),
+                data: Direction.values[i]);
+          } else {
+            return Draggable<Direction>(
+                maxSimultaneousDrags:
+                    puzzleGameController.canPlaceArrow ? count : 0,
+                feedback: const SizedBox.shrink(),
+                child: IntrinsicWidth(
+                    child: _buildArrowAndCount(
+                        i, count, Theme.of(context).brightness)),
+                data: Direction.values[i]);
+          }
         });
   }
 
@@ -53,13 +76,17 @@ class AvailableArrows extends StatelessWidget {
     return OrientationBuilder(
       builder: (BuildContext context, Orientation orientation) {
         return Flex(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             direction: orientation == Orientation.landscape
                 ? Axis.horizontal
                 : Axis.vertical,
             children: List<Widget>.generate(
                 4,
-                (i) => Expanded(
-                    child: _buildDraggableArrow(context, orientation, i))));
+                (i) => Flexible(
+                        child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: _buildDraggableArrow(context, orientation, i),
+                    ))));
       },
     );
   }

@@ -39,9 +39,9 @@ class _PuzzleState extends State<Puzzle> {
 
   @override
   void dispose() {
-    super.dispose();
+    _puzzleController.dispose();
 
-    _puzzleController.close();
+    super.dispose();
   }
 
   void _handleTap(int x, int y) {
@@ -76,11 +76,13 @@ class _PuzzleState extends State<Puzzle> {
             _puzzleController.removeArrow(x, y);
           },
           child: Container(color: Colors.transparent),
-          feedback: SizedBox.shrink(),
+          feedback: const SizedBox.shrink(),
           data: (_puzzleController.game.board.tiles[x][y] as Arrow).direction);
     }
 
-    if (candidateData.length == 0) return const SizedBox.expand();
+    if (candidateData.isEmpty) {
+      return const SizedBox.expand();
+    }
 
     return ArrowImage(
       direction: candidateData[0],
@@ -89,76 +91,33 @@ class _PuzzleState extends State<Puzzle> {
     );
   }
 
-  Widget _buildPortrait(BuildContext context) {
+  Widget _buildPortrait() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AspectRatio(
-                    aspectRatio: 12.0 / 9.0,
-                    child: InputGridOverlay<Direction>(
-                      child: AnimatedGameView(
-                        game: _puzzleController.gameStream,
-                        mistake: _puzzleController.mistake,
-                      ),
-                      onDrop: _handleDropAndSwipe,
-                      onTap: _handleTap,
-                      onSwipe: _handleDropAndSwipe,
-                      previewBuilder: _dragTileBuilder,
-                    )),
-              ),
-            ),
-          ],
-        ),
+        _buildGameView(),
         Flexible(
-            flex: 1,
             child: AvailableArrows(puzzleGameController: _puzzleController)),
         Flexible(
           child: PuzzleGameControls(puzzleController: _puzzleController),
-        ),
+        )
       ],
     );
   }
 
-  Widget _buildLandscape(BuildContext context) {
+  Widget _buildLandscape() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Spacer(),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AspectRatio(
-                    aspectRatio: 12.0 / 9.0,
-                    child: InputGridOverlay<Direction>(
-                      child: AnimatedGameView(
-                        game: _puzzleController.gameStream,
-                        mistake: _puzzleController.mistake,
-                      ),
-                      onDrop: _handleDropAndSwipe,
-                      onTap: _handleTap,
-                      onSwipe: _handleDropAndSwipe,
-                      previewBuilder: _dragTileBuilder,
-                    )),
-              ),
-            ),
-            PuzzleGameControls(puzzleController: _puzzleController),
-          ],
+        Flexible(
+            child: PuzzleGameControls(puzzleController: _puzzleController)),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: _buildGameView(),
         ),
         Flexible(
-            flex: 1,
             child: AvailableArrows(puzzleGameController: _puzzleController)),
       ],
     );
@@ -190,9 +149,9 @@ class _PuzzleState extends State<Puzzle> {
           OrientationBuilder(
             builder: (BuildContext context, Orientation orientation) {
               if (orientation == Orientation.portrait) {
-                return _buildPortrait(context);
+                return _buildPortrait();
               } else {
-                return _buildLandscape(context);
+                return _buildLandscape();
               }
             },
           ),
@@ -202,9 +161,28 @@ class _PuzzleState extends State<Puzzle> {
                 hasNext: widget.hasNext,
                 succeededName: widget.puzzle.name,
                 succeededPath: widget.documentPath,
+                canPlayAgain: true,
               )),
         ],
       ),
+    );
+  }
+
+  Widget _buildGameView() {
+    return Material(
+      elevation: 8.0,
+      child: AspectRatio(
+          aspectRatio: 12.0 / 9.0,
+          child: InputGridOverlay<Direction>(
+            child: AnimatedGameView(
+              game: _puzzleController.gameStream,
+              mistake: _puzzleController.mistake,
+            ),
+            onDrop: _handleDropAndSwipe,
+            onTap: _handleTap,
+            onSwipe: _handleDropAndSwipe,
+            previewBuilder: _dragTileBuilder,
+          )),
     );
   }
 }

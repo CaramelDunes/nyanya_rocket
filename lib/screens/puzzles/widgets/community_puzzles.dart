@@ -10,9 +10,7 @@ import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
 class CommunityPuzzles extends StatefulWidget {
   @override
-  _CommunityPuzzlesState createState() {
-    return _CommunityPuzzlesState();
-  }
+  _CommunityPuzzlesState createState() => _CommunityPuzzlesState();
 }
 
 enum _Sorting { ByDate, ByPopularity, ByName }
@@ -28,7 +26,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
   }
 
   Future<void> _refreshList() async {
-    QuerySnapshot snapshot = await Firestore.instance
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('puzzles')
         .orderBy(
             _sorting == _Sorting.ByDate
@@ -36,18 +34,18 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                 : _sorting == _Sorting.ByPopularity ? 'likes' : 'name',
             descending: _sorting != _Sorting.ByName)
         .limit(50)
-        .getDocuments();
+        .get();
 
-    List<CommunityPuzzleData> newPuzzles = snapshot.documents
-        .map<CommunityPuzzleData>((DocumentSnapshot snapshot) {
+    List<CommunityPuzzleData> newPuzzles =
+        snapshot.docs.map<CommunityPuzzleData>((DocumentSnapshot snapshot) {
       return CommunityPuzzleData(
-          uid: snapshot.documentID,
+          uid: snapshot.id,
           puzzleData:
-              PuzzleData.fromJson(jsonDecode(snapshot.data['puzzle_data'])),
-          likes: snapshot.data['likes'],
-          author: snapshot.data['author_name'],
-          name: snapshot.data['name'],
-          date: snapshot.data['date'].toDate());
+              PuzzleData.fromJson(jsonDecode(snapshot.get('puzzle_data'))),
+          likes: snapshot.get('likes'),
+          author: snapshot.get('author_name'),
+          name: snapshot.get('name'),
+          date: snapshot.get('date').toDate());
     }).toList();
 
     if (mounted) {
@@ -73,7 +71,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
             children: <Widget>[
               Text(
                 NyaNyaLocalizations.of(context).sortByLabel,
-                style: Theme.of(context).textTheme.subhead,
+                style: Theme.of(context).textTheme.subtitle1,
               ),
               VerticalDivider(),
               Expanded(
@@ -131,7 +129,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                       ),
                       onTap: () {
                         Navigator.of(context)
-                            .push(MaterialPageRoute<OverlayPopData>(
+                            .push(MaterialPageRoute<OverlayResult>(
                                 builder: (context) => Puzzle(
                                       puzzle: puzzles[i],
                                       onWin: (bool starred) =>
@@ -139,7 +137,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                                       documentPath: 'puzzles/${puzzles[i].uid}',
                                       hasNext: false,
                                     )))
-                            .then((OverlayPopData popData) {});
+                            .then((OverlayResult overlayResult) {});
                       },
                     )),
           ),

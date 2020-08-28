@@ -253,9 +253,17 @@ For more information, head over to ''',
 
   String get loginPromptText {
     return Intl.message(
-      'Please sign-in first! (Settings—Account Management)',
+      'Please sign-in first.',
       name: 'loginPromptText',
-      desc: 'Login prompt of the Local Puzzles and Challenges tabs.',
+      desc: 'Login prompt of the Sign-up prompt widget.',
+    );
+  }
+
+  String get loginButtonLabel {
+    return Intl.message(
+      'Sign-in',
+      name: 'loginButtonLabel',
+      desc: 'Login button of the Sign-up prompt widget.',
     );
   }
 
@@ -318,19 +326,27 @@ For more information, head over to ''',
   }
 
   // Multiplayer screen
-  String get lanTab {
-    return Intl.message(
-      'LAN',
-      name: 'lanTab',
-      desc: 'LAN tab of the Multiplayer screen.',
-    );
-  }
-
   String get matchmakingTab {
     return Intl.message(
       'Matchmaking',
       name: 'matchmakingTab',
       desc: 'Matchmaking tab of the Multiplayer screen.',
+    );
+  }
+
+  String get deviceDuelLabel {
+    return Intl.message(
+      'Device duel',
+      name: 'deviceDuelLabel',
+      desc: 'Device Duel button of the Multiplayer screen.',
+    );
+  }
+
+  String get lanMultiplayerLabel {
+    return Intl.message(
+      'LAN multiplayer',
+      name: 'lanMultiplayerLabel',
+      desc: 'LAN button of the Multiplayer screen.',
     );
   }
 
@@ -363,6 +379,16 @@ For more information, head over to ''',
       'Server hostname',
       name: 'hostnameLabel',
       desc: 'Server hostname field label of the Multiplayer screen.',
+    );
+  }
+
+  String thisDeviceIpText(String localIp) {
+    return Intl.message(
+      'This device\'s IP: $localIp',
+      args: [localIp],
+      name: 'thisDeviceIpText',
+      desc:
+          'This device\'s local IP, displayed in the LAN tab of the Multiplayer screen.',
     );
   }
 
@@ -465,6 +491,14 @@ For more information, head over to ''',
     );
   }
 
+  String get playAgainLabel {
+    return Intl.message(
+      'Play again',
+      name: 'playAgainLabel',
+      desc: 'Play again button label of success overlay.',
+    );
+  }
+
   String get nextLevelLabel {
     return Intl.message(
       'Next level',
@@ -540,11 +574,11 @@ For more information, head over to ''',
 
   String get movementTutorialText {
     return Intl.message(
-      """
+      '''
 
 An entity walks straight until it encounters an arrow or a wall.
 For some reasons, mice and cats prefer turning right when hitting a wall...
-""",
+''',
       name: 'movementTutorialText',
       desc: 'Movement text of the tutorial screen.',
     );
@@ -584,7 +618,7 @@ For some reasons, mice and cats prefer turning right when hitting a wall...
 
   String get puzzleTutorialText {
     return Intl.message(
-      """
+      '''
 A Puzzle game is won when every mice has reached a rocket.
 You have a restricted amount of arrows to achieve that goal.
 
@@ -596,7 +630,7 @@ You'll lose if:
   • A mouse falls into a black hole.
 
 You'll be awarded a star if you complete a level without using all the available arrows.
-""",
+''',
       name: 'puzzleTutorialText',
       desc: 'Puzzle text of the tutorial screen.',
     );
@@ -726,10 +760,20 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
     );
   }
 
-  String get playersLabel {
+  String playerCountLabel(int playerCount) {
     return Intl.message(
-      'players',
-      name: 'playersLabel',
+      '$playerCount players',
+      args: [playerCount],
+      name: 'playerCountLabel',
+      desc: 'Displayed in various locations.',
+    );
+  }
+
+  String minuteCountLabel(int minuteCount) {
+    return Intl.message(
+      '$minuteCount minutes',
+      args: [minuteCount],
+      name: 'minuteCountLabel',
       desc: 'Displayed in various locations.',
     );
   }
@@ -774,10 +818,11 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
     );
   }
 
-  String get completedLabel {
+  String completedPercentLabel(int percentCompleted) {
     return Intl.message(
-      '% Completed',
-      name: 'completedLabel',
+      '$percentCompleted% completed',
+      args: [percentCompleted],
+      name: 'completedPercentLabel',
       desc: 'Displayed in original puzzles tab.',
     );
   }
@@ -865,9 +910,17 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
 
   String get displayNameDialogTitle {
     return Intl.message(
-      'Please enter your new display name',
+      'Choose your display name',
       name: 'displayNameDialogTitle',
       desc: 'Displayed in the account management screen.',
+    );
+  }
+
+  String get privacyPolicySignUpText {
+    return Intl.message(
+      'By clicking Confirm, you agree to the ',
+      name: 'privacyPolicySignUpText',
+      desc: 'Displayed in the sign-up dialog.',
     );
   }
 
@@ -925,5 +978,162 @@ Unlike Puzzle mode, you can place as many arrows as you want but they expire aft
       name: 'displayNameFormatText',
       desc: 'Displayed in the account management screen.',
     );
+  }
+
+  // Network Multiplayer
+  String get connectingToServerText {
+    return Intl.message(
+      'Connecting to server...',
+      name: 'connectingToServerText',
+      desc:
+          'Displayed in the network multiplayer when initially connecting to the game server.',
+    );
+  }
+
+  String get waitingForPlayersText {
+    return Intl.message(
+      'Waiting for players...',
+      name: 'waitingForPlayersText',
+      desc:
+          'Displayed in the network multiplayer when waiting for other players to connect.',
+    );
+  }
+
+  // World Multiplayer Setup
+  String positionInQueueText(int position, int queueLength) {
+    return Intl.message(
+      'Position in queue: $position / $queueLength',
+      args: [position, queueLength],
+      name: 'positionInQueueText',
+      desc: 'Displayed in the world multiplayer when searching for a game.',
+    );
+  }
+
+  String playersInQueueText(int queueLength) {
+    return Intl.plural(
+      queueLength,
+      zero: 'No player in queue',
+      other: '$queueLength players in queue.',
+      name: 'playersInQueueText',
+      args: [queueLength],
+      desc: 'Displayed in the world multiplayer setup.',
+    );
+  }
+
+  String get queueRefreshErrorText {
+    return Intl.message(
+      'Error while refreshing queue info.',
+      name: 'queueRefreshErrorText',
+      desc: 'Displayed in the world multiplayer setup.',
+    );
+  }
+
+  String get duelLabel {
+    return Intl.message(
+      'Duel',
+      name: 'duelLabel',
+      desc: 'Displayed in the world multiplayer setup.',
+    );
+  }
+
+  String get fourPlayersLabel {
+    return Intl.message(
+      '4-players Battle',
+      name: 'fourPlayersLabel',
+      desc: 'Displayed in the world multiplayer setup.',
+    );
+  }
+
+  String get regionLabel {
+    return Intl.message(
+      'Region',
+      name: 'regionLabel',
+      desc: 'Displayed in the world multiplayer setup.',
+    );
+  }
+
+  String get joinQueueLabel {
+    return Intl.message(
+      'Join',
+      name: 'joinQueueLabel',
+      desc: 'Displayed in the world multiplayer setup.',
+    );
+  }
+
+  String get friendDuelLabel {
+    return Intl.message(
+      'Friend Duel',
+      name: 'friendDuelLabel',
+      desc: 'Displayed on the multiplayer screen.',
+    );
+  }
+
+  String get yourRoomCodeLabel {
+    return Intl.message(
+      'Your room code is',
+      name: 'yourRoomCodeLabel',
+      desc: 'Displayed in the friend duel tab of the multiplayer screen.',
+    );
+  }
+
+  String get joinRoomLabel {
+    return Intl.message(
+      'Join a room',
+      name: 'joinRoomLabel',
+      desc: 'Displayed in the friend duel tab of the multiplayer screen.',
+    );
+  }
+
+  String get roomCodeRetrievalErrorText {
+    return Intl.message(
+      'Could not retrieve room code.',
+      name: 'roomCodeRetrievalErrorText',
+      desc: 'Displayed in the friend duel tab of the multiplayer screen.',
+    );
+  }
+
+  String get awaitingForPlayersLabel {
+    return Intl.message('Awaiting for players...',
+        name: 'awaitingForPlayersLabel');
+  }
+
+  String get victoryLabel {
+    return Intl.message('Victory!', name: 'victoryLabel');
+  }
+
+  String get defeatLabel {
+    return Intl.message('Defeat...', name: 'defeatLabel');
+  }
+
+  String get winnerLabel {
+    return Intl.message('Winner!', name: 'winnerLabel');
+  }
+
+  String get boardLabel {
+    return Intl.message('Board', name: 'boardLabel');
+  }
+
+  String get nicknamesLabel {
+    return Intl.message('Nicknames', name: 'nicknamesLabel');
+  }
+
+  String get durationLabel {
+    return Intl.message('Duration', name: 'durationLabel');
+  }
+
+  String get leaderBoardLabel {
+    return Intl.message('Leaderboard', name: 'leaderBoardLabel');
+  }
+
+  String get roomCodeLabel {
+    return Intl.message('Room code', name: 'roomCodeLabel');
+  }
+
+  String get findPlayersLabel {
+    return Intl.message('Find players', name: 'findPlayersLabel');
+  }
+
+  String get refreshLabel {
+    return Intl.message('Refresh', name: 'refreshLabel');
   }
 }

@@ -116,9 +116,7 @@ class OriginalChallenges extends StatefulWidget {
   ];
 
   @override
-  _OriginalChallengesState createState() {
-    return _OriginalChallengesState();
-  }
+  _OriginalChallengesState createState() => _OriginalChallengesState();
 }
 
 NamedChallengeData _buildChallengeData(BuildContext context, int i) {
@@ -170,16 +168,19 @@ class _OriginalChallengesState extends State<OriginalChallenges>
   void _openNext(int i) {
     if (OriginalChallenges.challenges.length > i + 1) {
       Navigator.of(context)
-          .push(MaterialPageRoute<OverlayPopData>(
+          .push(MaterialPageRoute<OverlayResult>(
               builder: (context) => Challenge(
                     hasNext: i + 1 != OriginalChallenges.challenges.length - 1,
                     challenge: _buildChallengeData(context, i + 1),
                     onWin: (Duration time) => _handleChallengeWin(i + 1, time),
+                    bestTime: _times[i + 1],
                   )))
-          .then((OverlayPopData popData) {
-        if (popData != null) {
-          if (popData.playNext) {
+          .then((OverlayResult overlayResult) {
+        if (overlayResult != null) {
+          if (overlayResult == OverlayResult.PlayNext) {
             _openNext(i + 1);
+          } else if (overlayResult == OverlayResult.PlayAgain) {
+            _openNext(i);
           }
         }
       });
@@ -206,16 +207,19 @@ class _OriginalChallengesState extends State<OriginalChallenges>
       ),
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute<OverlayPopData>(
+            .push(MaterialPageRoute<OverlayResult>(
                 builder: (context) => Challenge(
                       hasNext: i != OriginalChallenges.challenges.length - 1,
                       challenge: _buildChallengeData(context, i),
                       onWin: (Duration time) => _handleChallengeWin(i, time),
+                      bestTime: _times[i],
                     )))
-            .then((OverlayPopData popData) {
-          if (popData != null) {
-            if (popData.playNext) {
+            .then((OverlayResult overlayResult) {
+          if (overlayResult != null) {
+            if (overlayResult == OverlayResult.PlayNext) {
               _openNext(i);
+            } else if (overlayResult == OverlayResult.PlayAgain) {
+              _openNext(i - 1);
             }
           }
         });
@@ -242,7 +246,7 @@ class _OriginalChallengesState extends State<OriginalChallenges>
         Expanded(
           child: ListView.builder(
               itemCount: challengeIndices.length,
-              itemBuilder: (context, i) =>
+              itemBuilder: (_, i) =>
                   _buildChallengeTile(challengeIndices[i])),
         ),
         CompletionIndicator(

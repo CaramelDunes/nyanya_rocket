@@ -18,9 +18,7 @@ class MultiplayerEditor extends StatefulWidget {
   });
 
   @override
-  _MultiplayerEditorState createState() {
-    return _MultiplayerEditorState();
-  }
+  _MultiplayerEditorState createState() => _MultiplayerEditorState();
 }
 
 class _MultiplayerEditorState extends State<MultiplayerEditor> {
@@ -33,8 +31,9 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController =
-        EditorGameController(game: Game()..board = widget.board.board());
+    _editorGameController = EditorGameController(
+        game: GameState()..board = widget.board.board(),
+        gameSimulator: MultiplayerGameSimulator());
 
     _uuid = widget.uuid;
   }
@@ -43,7 +42,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   void dispose() {
     super.dispose();
 
-    _editorGameController.close();
+    _editorGameController.dispose();
   }
 
   MultiplayerBoard _buildMultiplayerBoard() {

@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-06-07T17:34:57.427643",
+  "@@last_modified": "2020-08-27T22:32:16.046042",
   "puzzleType": "Puzzle",
   "@puzzleType": {
     "description": "Puzzle type of game.",
@@ -168,9 +168,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "loginPromptText": "Please sign-in first! (Settings—Account Management)",
+  "loginPromptText": "Please sign-in first.",
   "@loginPromptText": {
-    "description": "Login prompt of the Local Puzzles and Challenges tabs.",
+    "description": "Login prompt of the Sign-up prompt widget.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginButtonLabel": "Sign-in",
+  "@loginButtonLabel": {
+    "description": "Login button of the Sign-up prompt widget.",
     "type": "text",
     "placeholders": {}
   },
@@ -216,15 +222,21 @@
     "type": "text",
     "placeholders": {}
   },
-  "lanTab": "LAN",
-  "@lanTab": {
-    "description": "LAN tab of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "matchmakingTab": "Matchmaking",
   "@matchmakingTab": {
     "description": "Matchmaking tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceDuelLabel": "Device duel",
+  "@deviceDuelLabel": {
+    "description": "Device Duel button of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lanMultiplayerLabel": "LAN multiplayer",
+  "@lanMultiplayerLabel": {
+    "description": "LAN button of the Multiplayer screen.",
     "type": "text",
     "placeholders": {}
   },
@@ -251,6 +263,14 @@
     "description": "Server hostname field label of the Multiplayer screen.",
     "type": "text",
     "placeholders": {}
+  },
+  "thisDeviceIpText": "This device's IP: {localIp}",
+  "@thisDeviceIpText": {
+    "description": "This device's local IP, displayed in the LAN tab of the Multiplayer screen.",
+    "type": "text",
+    "placeholders": {
+      "localIp": {}
+    }
   },
   "createLabel": "Create",
   "@createLabel": {
@@ -321,6 +341,12 @@
   "stageClearedText": "Stage cleared!",
   "@stageClearedText": {
     "description": "Stage cleared text of success overlay.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "playAgainLabel": "Play again",
+  "@playAgainLabel": {
+    "description": "Play again button label of success overlay.",
     "type": "text",
     "placeholders": {}
   },
@@ -504,11 +530,21 @@
     "type": "text",
     "placeholders": {}
   },
-  "playersLabel": "players",
-  "@playersLabel": {
+  "playerCountLabel": "{playerCount} players",
+  "@playerCountLabel": {
     "description": "Displayed in various locations.",
     "type": "text",
-    "placeholders": {}
+    "placeholders": {
+      "playerCount": {}
+    }
+  },
+  "minuteCountLabel": "{minuteCount} minutes",
+  "@minuteCountLabel": {
+    "description": "Displayed in various locations.",
+    "type": "text",
+    "placeholders": {
+      "minuteCount": {}
+    }
   },
   "boardSelectionText": "Tap to select",
   "@boardSelectionText": {
@@ -540,11 +576,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "completedLabel": "% Completed",
-  "@completedLabel": {
+  "completedPercentLabel": "{percentCompleted}% completed",
+  "@completedPercentLabel": {
     "description": "Displayed in original puzzles tab.",
     "type": "text",
-    "placeholders": {}
+    "placeholders": {
+      "percentCompleted": {}
+    }
   },
   "showCompletedLabel": "Show Completed",
   "@showCompletedLabel": {
@@ -606,9 +644,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "displayNameDialogTitle": "Please enter your new display name",
+  "displayNameDialogTitle": "Choose your display name",
   "@displayNameDialogTitle": {
     "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "privacyPolicySignUpText": "By clicking Confirm, you agree to the ",
+  "@privacyPolicySignUpText": {
+    "description": "Displayed in the sign-up dialog.",
     "type": "text",
     "placeholders": {}
   },
@@ -651,6 +695,144 @@
   "displayNameFormatText": "Between 2 and 24 characters (no space).",
   "@displayNameFormatText": {
     "description": "Displayed in the account management screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "connectingToServerText": "Connecting to server...",
+  "@connectingToServerText": {
+    "description": "Displayed in the network multiplayer when initially connecting to the game server.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "waitingForPlayersText": "Waiting for players...",
+  "@waitingForPlayersText": {
+    "description": "Displayed in the network multiplayer when waiting for other players to connect.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "positionInQueueText": "Position in queue: {position} / {queueLength}",
+  "@positionInQueueText": {
+    "description": "Displayed in the world multiplayer when searching for a game.",
+    "type": "text",
+    "placeholders": {
+      "position": {},
+      "queueLength": {}
+    }
+  },
+  "playersInQueueText": "{queueLength,plural, =0{No player in queue}other{{queueLength} players in queue.}}",
+  "@playersInQueueText": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {
+      "queueLength": {}
+    }
+  },
+  "queueRefreshErrorText": "Error while refreshing queue info.",
+  "@queueRefreshErrorText": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "duelLabel": "Duel",
+  "@duelLabel": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "fourPlayersLabel": "4-players Battle",
+  "@fourPlayersLabel": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "regionLabel": "Region",
+  "@regionLabel": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "joinQueueLabel": "Join",
+  "@joinQueueLabel": {
+    "description": "Displayed in the world multiplayer setup.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "friendDuelLabel": "Friend Duel",
+  "@friendDuelLabel": {
+    "description": "Displayed on the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yourRoomCodeLabel": "Your room code is",
+  "@yourRoomCodeLabel": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "joinRoomLabel": "Join a room",
+  "@joinRoomLabel": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "roomCodeRetrievalErrorText": "Could not retrieve room code.",
+  "@roomCodeRetrievalErrorText": {
+    "description": "Displayed in the friend duel tab of the multiplayer screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "awaitingForPlayersLabel": "Awaiting for players...",
+  "@awaitingForPlayersLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "victoryLabel": "Victory!",
+  "@victoryLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "defeatLabel": "Defeat...",
+  "@defeatLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "winnerLabel": "Winner!",
+  "@winnerLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "boardLabel": "Board",
+  "@boardLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "nicknamesLabel": "Nicknames",
+  "@nicknamesLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "durationLabel": "Duration",
+  "@durationLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "leaderBoardLabel": "Leaderboard",
+  "@leaderBoardLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "roomCodeLabel": "Room code",
+  "@roomCodeLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "findPlayersLabel": "Find players",
+  "@findPlayersLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "refreshLabel": "Refresh",
+  "@refreshLabel": {
     "type": "text",
     "placeholders": {}
   }

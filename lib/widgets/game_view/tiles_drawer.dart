@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-const List<String> kColorSuffixes = ["blue", "yellow", "red", "green"];
+const List<String> kColorSuffixes = ["blue", "red", "green", "yellow"];
 
 class TilesDrawer extends StatelessWidget {
   final Board board;
@@ -27,6 +27,7 @@ class TilesDrawer extends StatelessWidget {
       case Arrow:
         Arrow arrow = tile as Arrow;
 
+        // Make arrow blink 1 second (120 ticks) before expiration.
         if (arrow.expiration > 120 || arrow.expiration % 20 < 10) {
           return Transform.scale(
             scale: arrow.halfTurnPower == ArrowHalfTurnPower.TwoCats ? 1 : 0.5,

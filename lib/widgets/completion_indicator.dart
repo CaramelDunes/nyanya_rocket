@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import '../localization/nyanya_localizations.dart';
 
 class CompletionIndicator extends StatelessWidget {
   final double completedRatio;
@@ -18,22 +18,25 @@ class CompletionIndicator extends StatelessWidget {
     return Container(
       color: Colors.grey.withOpacity(0.3),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Expanded(
-              flex: 1,
-              child: Container(
-                  child: Center(
-                      child: Text('${(completedRatio * 100).floor()}' +
-                          NyaNyaLocalizations.of(context).completedLabel)))),
-          Expanded(
-            flex: 2,
-            child: CheckboxListTile(
-              value: showCompleted,
-              onChanged: onChanged,
-              title: Text(NyaNyaLocalizations.of(context)
-                  .showCompletedLabel
-                  .toUpperCase()),
-            ),
+          Text(
+            NyaNyaLocalizations.of(context)
+                .completedPercentLabel((completedRatio * 100).floor()),
+            textAlign: TextAlign.center,
+          ),
+          Row(
+            children: <Widget>[
+              Text(
+                  NyaNyaLocalizations.of(context)
+                      .showCompletedLabel
+                      .toUpperCase(),
+                  style: Theme.of(context).textTheme.button),
+              Checkbox(
+                value: showCompleted,
+                onChanged: onChanged,
+              ),
+            ],
           ),
         ],
       ),
