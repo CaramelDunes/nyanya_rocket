@@ -11,6 +11,19 @@ class Position {
   Position(this.x, this.y);
 }
 
+class PuzzleGameState {
+  final bool running;
+  final bool reset;
+  final bool spedUp;
+
+  PuzzleGameState(
+      {@required this.running, @required this.reset, @required this.spedUp});
+
+  PuzzleGameState.reset({@required this.spedUp})
+      : this.running = false,
+        this.reset = true;
+}
+
 class PuzzleGameController extends LocalGameController {
   final PuzzleData puzzle;
 
@@ -33,7 +46,9 @@ class PuzzleGameController extends LocalGameController {
 
   bool _pleaseReset = false;
 
-  ValueNotifier<BoardPosition> _mistake = ValueNotifier(null);
+  final ValueNotifier<BoardPosition> _mistake = ValueNotifier(null);
+  final ValueNotifier<PuzzleGameState> _gameStateNotifier =
+      ValueNotifier(PuzzleGameState.reset(spedUp: false));
 
   Iterable<Cat> _preMistakeCats;
   Iterable<Entity> _preMistakeMice;
@@ -50,7 +65,21 @@ class PuzzleGameController extends LocalGameController {
 
   ValueNotifier<BoardPosition> get mistake => _mistake;
 
+  ValueNotifier<PuzzleGameState> get state => _gameStateNotifier;
+
   get canPlaceArrow => _canPlaceArrow;
+
+  bool get spedUp => gameSimulator.speed == GameSpeed.Fast;
+  bool get madeMistake => _mistake.value != null;
+
+  void toggleSpeedUp() {
+    gameSimulator.speed = gameSimulator.speed == GameSpeed.Normal
+        ? GameSpeed.Fast
+        : GameSpeed.Normal;
+
+    _gameStateNotifier.value = PuzzleGameState(
+        spedUp: spedUp, running: running, reset: _canPlaceArrow);
+  }
 
   int remainingArrows(Direction direction) =>
       puzzle.availableArrows[direction.index] -
@@ -123,6 +152,11 @@ class PuzzleGameController extends LocalGameController {
     updateGame();
     _canPlaceArrow = true;
     _miceInRocket = 0;
+
+    _gameStateNotifier.value = PuzzleGameState(
+        spedUp: gameSimulator.speed == GameSpeed.Fast,
+        running: running,
+        reset: _canPlaceArrow);
   }
 
   @override
@@ -133,6 +167,9 @@ class PuzzleGameController extends LocalGameController {
 
     super.running = value;
     _canPlaceArrow = false;
+
+    _gameStateNotifier.value = PuzzleGameState(
+        spedUp: spedUp, running: running, reset: _canPlaceArrow);
   }
 
   @override

@@ -1,5 +1,12 @@
-import 'package:nyanya_rocket/screens/settings/boolean_parameter.dart';
+import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'boolean_parameter.dart';
 
 class DarkMode extends BooleanParameter {
-  DarkMode() : super(key: 'options.darkTheme', defaultValue: false);
+  DarkMode({@required SharedPreferences sharedPreferences})
+      : super(
+            sharedPreferences: sharedPreferences,
+            key: 'options.darkTheme',
+            defaultValue: false);
 }

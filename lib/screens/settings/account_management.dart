@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
@@ -252,10 +251,10 @@ class AccountManagement extends StatelessWidget {
                       _formKey.currentState.save();
                       Navigator.pop(context, true);
 
-                      auth.FirebaseAuth.instance
+                      Provider.of<User>(context, listen: false)
                           .signInAnonymously()
                           .then((user) {
-                        user.user.updateProfile(displayName: displayName);
+                        user.updateProfile(displayName: displayName);
                       });
                     }
                   }),

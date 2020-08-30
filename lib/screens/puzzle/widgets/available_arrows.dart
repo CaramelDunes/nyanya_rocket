@@ -7,7 +7,8 @@ class AvailableArrows extends StatelessWidget {
 
   const AvailableArrows({@required this.puzzleGameController});
 
-  Widget _buildArrowAndCount(int i, int count, Brightness brightness) {
+  static Widget _buildArrowAndCount(
+      int i, int count, Brightness brightness, bool canPlace) {
     return Stack(
       fit: StackFit.passthrough,
       children: <Widget>[
@@ -16,7 +17,7 @@ class AvailableArrows extends StatelessWidget {
           child: RotatedBox(
             quarterTurns: -i,
             child: Image.asset(
-              'assets/graphics/arrow_${count > 0 ? 'blue' : 'grey'}.png',
+              'assets/graphics/arrow_${count > 0 && canPlace ? 'blue' : 'grey'}.png',
               fit: BoxFit.contain,
             ),
           ),
@@ -49,25 +50,19 @@ class AvailableArrows extends StatelessWidget {
     return ValueListenableBuilder<int>(
         valueListenable: puzzleGameController.remainingArrowsStreams[i],
         builder: (BuildContext context, int count, Widget _) {
-          if (orientation == Orientation.landscape) {
-            return Draggable<Direction>(
-                maxSimultaneousDrags:
-                    puzzleGameController.canPlaceArrow ? count : 0,
-                feedback: const SizedBox.shrink(),
-                child: IntrinsicHeight(
-                    child: _buildArrowAndCount(
-                        i, count, Theme.of(context).brightness)),
-                data: Direction.values[i]);
-          } else {
-            return Draggable<Direction>(
-                maxSimultaneousDrags:
-                    puzzleGameController.canPlaceArrow ? count : 0,
-                feedback: const SizedBox.shrink(),
-                child: IntrinsicWidth(
-                    child: _buildArrowAndCount(
-                        i, count, Theme.of(context).brightness)),
-                data: Direction.values[i]);
-          }
+          final Widget arrowAndCount = _buildArrowAndCount(i, count,
+              Theme.of(context).brightness, puzzleGameController.canPlaceArrow);
+
+          final Widget intrinsicChild = orientation == Orientation.landscape
+              ? IntrinsicHeight(child: arrowAndCount)
+              : IntrinsicWidth(child: arrowAndCount);
+
+          return Draggable<Direction>(
+              maxSimultaneousDrags:
+                  puzzleGameController.canPlaceArrow ? count : 0,
+              feedback: const SizedBox.shrink(),
+              child: intrinsicChild,
+              data: Direction.values[i]);
         });
   }
 
@@ -75,18 +70,23 @@ class AvailableArrows extends StatelessWidget {
   Widget build(BuildContext context) {
     return OrientationBuilder(
       builder: (BuildContext context, Orientation orientation) {
-        return Flex(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            direction: orientation == Orientation.landscape
-                ? Axis.horizontal
-                : Axis.vertical,
-            children: List<Widget>.generate(
-                4,
-                (i) => Flexible(
-                        child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: _buildDraggableArrow(context, orientation, i),
-                    ))));
+        return ValueListenableBuilder(
+          valueListenable: puzzleGameController.state,
+          builder: (context, state, _) {
+            return Flex(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                direction: orientation == Orientation.landscape
+                    ? Axis.horizontal
+                    : Axis.vertical,
+                children: List<Widget>.generate(
+                    4,
+                    (i) => Flexible(
+                            child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: _buildDraggableArrow(context, orientation, i),
+                        ))));
+          },
+        );
       },
     );
   }

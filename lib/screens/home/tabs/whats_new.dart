@@ -7,6 +7,8 @@ import 'package:nyanya_rocket/screens/settings/first_run.dart';
 import 'package:provider/provider.dart';
 
 class WhatsNew extends StatelessWidget {
+  static Set<String> availableLocales = {'en', 'fr'};
+
   void _dismissWelcomeCard(BuildContext context) {
     Provider.of<FirstRun>(context, listen: false).enabled = false;
   }
@@ -73,7 +75,6 @@ class WhatsNew extends StatelessWidget {
     return Row(
       children: <Widget>[
         Expanded(
-          flex: 1,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 0),
             child: Column(
@@ -169,8 +170,7 @@ class WhatsNew extends StatelessWidget {
             children: <Widget>[
               FutureBuilder<QuerySnapshot>(
                 future: FirebaseFirestore.instance
-                    .collection(
-                        'articles_${Intl.shortLocale(Intl.getCurrentLocale())}')
+                    .collection('articles_${articleLocale()}')
                     .orderBy('date', descending: true)
                     .get(),
                 builder: (BuildContext context,
@@ -205,5 +205,15 @@ class WhatsNew extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  static String articleLocale() {
+    String shortLocale = Intl.shortLocale(Intl.getCurrentLocale());
+
+    if (availableLocales.contains(shortLocale)) {
+      return shortLocale;
+    } else {
+      return 'en';
+    }
   }
 }

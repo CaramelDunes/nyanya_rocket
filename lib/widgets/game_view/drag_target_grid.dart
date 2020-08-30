@@ -78,6 +78,7 @@ class _DragTargetTileState<T> extends State<DragTargetTile<T>> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+        behavior: HitTestBehavior.opaque,
         excludeFromSemantics: true,
         onTap: widget.swipeAcceptor != null
             ? () {

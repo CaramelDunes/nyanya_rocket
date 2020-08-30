@@ -2,17 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BooleanParameter with ChangeNotifier {
+  final SharedPreferences sharedPreferences;
   final String key;
 
-  SharedPreferences _prefs;
   bool _enabled;
 
-  BooleanParameter({this.key, bool defaultValue}) : _enabled = defaultValue;
-
-  set prefs(SharedPreferences prefs) {
-    _prefs = prefs;
-
-    enabled = prefs.getBool(key) ?? _enabled;
+  BooleanParameter(
+      {@required this.sharedPreferences,
+      @required this.key,
+      @required bool defaultValue}) {
+    enabled = sharedPreferences.getBool(key) ?? defaultValue;
   }
 
   bool get enabled => _enabled;
@@ -23,6 +22,6 @@ class BooleanParameter with ChangeNotifier {
       notifyListeners();
     }
 
-    if (_prefs != null) _prefs.setBool(key, value);
+    sharedPreferences.setBool(key, value);
   }
 }

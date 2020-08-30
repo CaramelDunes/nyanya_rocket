@@ -36,19 +36,26 @@ class App extends StatefulWidget {
       accentColor: Colors.orangeAccent,
       dividerTheme: DividerThemeData().copyWith(space: 8.0));
 
+  final SharedPreferences sharedPreferences;
+
+  const App({Key key, @required this.sharedPreferences}) : super(key: key);
+
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  final DarkMode _darkMode = DarkMode();
-  final Language _language = Language('auto');
-  final FirstRun _firstRun = FirstRun();
   final User _user = User();
-  final Region _region = Region(Region.automaticValue());
+
+  DarkMode _darkMode;
+  Language _language;
+  FirstRun _firstRun;
+  Region _region;
 
   @override
   void initState() {
+    super.initState();
+
     // Copied from https://github.com/2d-inc/developer_quest/blob/master/lib/main.dart
     // Schedule a micro-task that warms up the image cache with all the
     // board images.
@@ -61,25 +68,24 @@ class _AppState extends State<App> {
       precacheImage(AssetImage('assets/graphics/departed_rocket.png'), context);
     });
 
-    SharedPreferences.getInstance().then((SharedPreferences prefs) {
-      _darkMode.prefs = prefs;
-      _language.prefs = prefs;
-      _firstRun.prefs = prefs;
-      _region.prefs = prefs;
-    });
-
-    super.initState();
+    _darkMode = DarkMode(sharedPreferences: widget.sharedPreferences);
+    _language = Language(
+        sharedPreferences: widget.sharedPreferences, defaultValue: 'auto');
+    _firstRun = FirstRun(sharedPreferences: widget.sharedPreferences);
+    _region = Region(
+        sharedPreferences: widget.sharedPreferences,
+        defaultValue: Regions.auto);
   }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider.value(value: _user),
         ChangeNotifierProvider.value(value: _darkMode),
         ChangeNotifierProvider.value(value: _language),
         // TODO Move this to the What's New tab
         ChangeNotifierProvider.value(value: _firstRun),
-        ChangeNotifierProvider.value(value: _user),
         ChangeNotifierProvider.value(value: _region)
       ],
       child: Consumer2<DarkMode, Language>(

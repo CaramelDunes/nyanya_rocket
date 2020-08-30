@@ -9,11 +9,6 @@ import 'package:provider/provider.dart';
 import 'region.dart';
 
 class Settings extends StatelessWidget {
-  static const Map<Regions, String> _regionLabels = {
-    Regions.usEast: 'US East',
-    Regions.euWest: 'Europe West'
-  };
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,15 +58,15 @@ class Settings extends StatelessWidget {
                   items: <DropdownMenuItem<Regions>>[
                     DropdownMenuItem(
                       child: Text(
-                          'Auto (${_regionLabels[Region.automaticValue()]})'),
+                          'Auto (${Region.regionLabels[Region.automaticValue()]})'),
                       value: Regions.auto,
                     ),
                     DropdownMenuItem(
-                      child: Text(_regionLabels[Regions.euWest]),
+                      child: Text(Region.regionLabels[Regions.euWest]),
                       value: Regions.euWest,
                     ),
                     DropdownMenuItem(
-                      child: Text(_regionLabels[Regions.usEast]),
+                      child: Text(Region.regionLabels[Regions.usEast]),
                       value: Regions.usEast,
                     ),
                   ],

@@ -22,6 +22,7 @@ class ScoreBox extends StatelessWidget {
                 child: Text(
                   label ?? '',
                   textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.black),
                 ),
                 padding: const EdgeInsets.all(2.0),
                 constraints: const BoxConstraints(minWidth: 80),
