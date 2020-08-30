@@ -6,27 +6,19 @@ import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/screens/multiplayer/setup_widgets/leaderboard.dart';
 import 'package:nyanya_rocket/screens/multiplayer/setup_widgets/player_finder.dart';
 
-class QueueAndLeaderboard extends StatefulWidget {
+class QueueAndLeaderboard extends StatelessWidget {
   final QueueType queueType;
   final String displayName;
   final String idToken;
+  final String masterServerHostname;
 
   const QueueAndLeaderboard(
       {Key key,
       @required this.queueType,
       @required this.displayName,
-      @required this.idToken})
+      @required this.idToken,
+      @required this.masterServerHostname})
       : super(key: key);
-
-  @override
-  _QueueAndLeaderboardState createState() => _QueueAndLeaderboardState();
-}
-
-class _QueueAndLeaderboardState extends State<QueueAndLeaderboard> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,34 +27,34 @@ class _QueueAndLeaderboardState extends State<QueueAndLeaderboard> {
         child: OrientationBuilder(
           builder: (BuildContext context, Orientation orientation) {
             if (orientation == Orientation.portrait) {
-              return _buildPortrait();
+              return _buildPortrait(context);
             } else {
-              return _buildLandscape();
+              return _buildLandscape(context);
             }
           },
         ));
   }
 
-  Widget _buildPortrait() {
+  Widget _buildPortrait(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(flex: 2, child: _buildPlayerFinder()),
         Divider(),
-        Expanded(flex: 3, child: _buildLeaderboard())
+        Expanded(flex: 3, child: _buildLeaderboard(context))
       ],
     );
   }
 
-  Widget _buildLandscape() {
+  Widget _buildLandscape(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(child: _buildPlayerFinder()),
         VerticalDivider(),
-        Expanded(child: _buildLeaderboard())
+        Expanded(child: _buildLeaderboard(context))
       ],
     );
   }
@@ -71,13 +63,15 @@ class _QueueAndLeaderboardState extends State<QueueAndLeaderboard> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: PlayerFinder(
-          displayName: widget.displayName,
-          idToken: widget.idToken,
-          queueType: widget.queueType),
+        displayName: displayName,
+        idToken: idToken,
+        queueType: queueType,
+        masterServerHostname: masterServerHostname,
+      ),
     );
   }
 
-  Widget _buildLeaderboard() {
+  Widget _buildLeaderboard(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(

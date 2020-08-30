@@ -68,7 +68,7 @@ class PrivateQueue {
     }
   }
 
-  Future cancelSearch({@required String masterServerHostname}) async {
+  Future<void> cancelSearch({@required String masterServerHostname}) async {
     http.Response response = await client
         .get('http://$masterServerHostname/$apiVersion/private/cancel');
 

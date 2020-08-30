@@ -8,10 +8,15 @@ class User with ChangeNotifier {
   auth.User _user;
 
   User() {
-    _refreshCurrentUser();
-
     auth.FirebaseAuth.instance.userChanges().listen((user) {
       _user = user;
+
+      if (isConnected) {
+        print('User connected as `$user`');
+      } else {
+        print('User not connected');
+      }
+
       notifyListeners();
     });
   }
@@ -21,15 +26,7 @@ class User with ChangeNotifier {
   }
 
   String get displayName {
-    return isConnected ? _user.displayName : '';
-  }
-
-  Future<String> authToken() async {
-    if (isConnected) {
-      return await _user.getIdToken();
-    }
-
-    return null;
+    return _user?.displayName ?? '';
   }
 
   Future<StatusCode> setDisplayName(String newDisplayName) async {
@@ -55,8 +52,7 @@ class User with ChangeNotifier {
         return StatusCode.Failure;
       }
 
-      await _user.reload();
-      _refreshCurrentUser();
+      await _user.updateProfile(displayName: newDisplayName);
 
       return StatusCode.Success;
     }
@@ -64,38 +60,18 @@ class User with ChangeNotifier {
     return StatusCode.Success;
   }
 
-  String get uid {
-    return isConnected ? _user.uid : '';
-  }
-
-  bool get isAnonymous {
-    return !isConnected || _user.isAnonymous;
-  }
-
-  Future<User> signInAnonymously() async {
+  Future<auth.User> signInAnonymously() async {
     auth.UserCredential result =
         await auth.FirebaseAuth.instance.signInAnonymously();
     _user = result.user;
     notifyListeners();
 
-    return this;
+    return _user;
   }
 
-  Future signOut() async {
+  Future<void> signOut() async {
     await auth.FirebaseAuth.instance.signOut();
     _user = null;
     notifyListeners();
-  }
-
-  void _refreshCurrentUser() {
-    auth.User user = auth.FirebaseAuth.instance.currentUser;
-    _user = user;
-    notifyListeners();
-
-    if (isConnected) {
-      print('User connected as `$uid`');
-    } else {
-      print('User not connected');
-    }
   }
 }

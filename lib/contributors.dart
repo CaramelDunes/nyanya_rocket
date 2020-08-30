@@ -7,6 +7,9 @@ class Contributors extends StatelessWidget {
     'GuilloteauQ', // Early testing
     'chauvean', // Discovered null shared pref bug
     'Savony', // German translation
+    'Dread', // Out of sync puzzle controls
+    '424242', // Night mode multiplayer clock display bug
+    'ln(√π)', // Thumbs-up master clicker
   ];
 
   const Contributors({Key key}) : super(key: key);

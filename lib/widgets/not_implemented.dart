@@ -2,10 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 
-class NotImplemented extends StatelessWidget {
+class NotImplemented extends StatefulWidget {
   final String featureId;
 
   const NotImplemented({Key key, @required this.featureId}) : super(key: key);
+
+  @override
+  _NotImplementedState createState() => _NotImplementedState();
+}
+
+class _NotImplementedState extends State<NotImplemented> {
+  bool _thumbedUp = false;
+  int _thumbsUp;
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseFirestore.instance
+        .collection('feature_requests')
+        .doc(widget.featureId)
+        .get()
+        .then((value) {
+      if (mounted)
+        setState(() {
+          _thumbsUp = value.data()['thumbs_up'];
+        });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,40 +43,24 @@ class NotImplemented extends StatelessWidget {
         IconButton(
           icon: Icon(
             Icons.thumb_up,
-            color: Colors.green,
+            color: _thumbedUp ? Colors.green : null,
           ),
-          onPressed: () {
-            final DocumentReference postRef =
-                FirebaseFirestore.instance.doc('feature_requests/$featureId');
-            postRef.update({'thumbs_up': FieldValue.increment(1)});
-          },
+          onPressed: _thumbedUp
+              ? null
+              : () {
+                  final DocumentReference postRef = FirebaseFirestore.instance
+                      .doc('feature_requests/${widget.featureId}');
+                  postRef.update({'thumbs_up': FieldValue.increment(1)});
+                  setState(() {
+                    _thumbedUp = true;
+
+                    if (_thumbsUp != null) _thumbsUp++;
+                  });
+                },
         ),
-        StreamBuilder<DocumentSnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('feature_requests')
-              .doc(featureId)
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            }
-
-            switch (snapshot.connectionState) {
-              case ConnectionState.active:
-              case ConnectionState.done:
-                return Text(
-                  snapshot.data.get('thumbs_up').toString(),
-                  textAlign: TextAlign.center,
-                );
-                break;
-
-              default:
-                return Center(
-                    child: Text(NyaNyaLocalizations.of(context).loadingLabel));
-                break;
-            }
-          },
+        Text(
+          _thumbsUp?.toString() ?? '',
+          textAlign: TextAlign.center,
         )
       ],
     );

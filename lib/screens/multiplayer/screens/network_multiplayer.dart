@@ -209,7 +209,9 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Colors.black,
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[

@@ -11,18 +11,24 @@ class Region with ChangeNotifier {
     Regions.euWest: 'nyanya-eu-west.carameldunes.fr'
   };
 
-  SharedPreferences _prefs;
+  static const Map<Regions, String> regionLabels = {
+    Regions.usEast: 'US East',
+    Regions.euWest: 'Europe West'
+  };
+
+  final SharedPreferences sharedPreferences;
   Regions _value;
 
-  Region(this._value);
-
-  set prefs(SharedPreferences prefs) {
-    _prefs = prefs;
-
-    value = Regions.values[prefs.getInt(key) ?? _value.index];
+  Region({Regions defaultValue, @required this.sharedPreferences}) {
+    value = Regions.values[sharedPreferences.getInt(key) ?? defaultValue.index];
   }
 
   Regions get value => _value;
+
+  Regions get computedValue =>
+      _value == Regions.auto ? automaticValue() : _value;
+
+  String get label => regionLabels[computedValue];
 
   set value(Regions value) {
     if (value != _value) {
@@ -30,11 +36,10 @@ class Region with ChangeNotifier {
       notifyListeners();
     }
 
-    if (_prefs != null) _prefs.setInt(key, _value.index);
+    sharedPreferences.setInt(key, _value.index);
   }
 
-  String get masterServerHostname =>
-      _masterServers[_value == Regions.auto ? automaticValue() : _value];
+  String get masterServerHostname => _masterServers[computedValue];
 
   static Regions automaticValue() {
     Duration timezoneOffset = DateTime.now().timeZoneOffset;

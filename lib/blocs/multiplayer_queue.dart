@@ -18,12 +18,16 @@ class MultiplayerQueue {
 
   final QueueType type;
   final http.Client client;
+  final String masterServerHostname;
 
   int length;
   bool joined = false;
   int position = 0;
 
-  MultiplayerQueue({@required this.type, @required this.client});
+  MultiplayerQueue(
+      {@required this.type,
+      @required this.client,
+      @required this.masterServerHostname});
 
   static _queueTypeToString(QueueType queueType) {
     switch (queueType) {
@@ -36,7 +40,7 @@ class MultiplayerQueue {
     }
   }
 
-  Future queueLength({@required String masterServerHostname}) async {
+  Future<void> queueLength() async {
     http.Response response = await client.get(
         'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/info');
 
@@ -48,8 +52,7 @@ class MultiplayerQueue {
     }
   }
 
-  Future<QueueJoinStatus> updateQueueJoinStatus(
-      {@required String masterServerHostname}) async {
+  Future<QueueJoinStatus> updateQueueJoinStatus() async {
     http.Response response = await client.get(
         'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/search');
 
@@ -75,7 +78,7 @@ class MultiplayerQueue {
     return null;
   }
 
-  Future cancelSearch({@required String masterServerHostname}) async {
+  Future<void> cancelSearch() async {
     http.Response response = await client.get(
         'http://$masterServerHostname/$apiVersion/${_queueTypeToString(type)}/cancel');
 

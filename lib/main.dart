@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   // Copied from https://github.com/2d-inc/developer_quest/blob/master/lib/main.dart
@@ -10,5 +11,5 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(App());
+  runApp(App(sharedPreferences: await SharedPreferences.getInstance()));
 }

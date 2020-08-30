@@ -7,19 +7,19 @@ import 'package:nyanya_rocket/blocs/authenticated_client.dart';
 import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/screens/multiplayer/screens/network_multiplayer.dart';
-import 'package:nyanya_rocket/screens/settings/region.dart';
-import 'package:provider/provider.dart';
 
 class PlayerFinder extends StatefulWidget {
   final QueueType queueType;
   final String displayName;
   final String idToken;
+  final String masterServerHostname;
 
   const PlayerFinder(
       {Key key,
       @required this.queueType,
       @required this.displayName,
-      @required this.idToken})
+      @required this.idToken,
+      @required this.masterServerHostname})
       : super(key: key);
 
   @override
@@ -30,7 +30,6 @@ class _PlayerFinderState extends State<PlayerFinder> {
   bool _updatePending = false;
 
   MultiplayerQueue _queue;
-  String _masterServerHostname;
 
   Timer _queueJoinUpdateTimer;
 
@@ -42,10 +41,10 @@ class _PlayerFinderState extends State<PlayerFinder> {
 
     _client = AuthenticatedClient(authToken: widget.idToken);
 
-    _masterServerHostname =
-        Provider.of<Region>(context, listen: false).masterServerHostname;
-
-    _queue = MultiplayerQueue(type: widget.queueType, client: _client);
+    _queue = MultiplayerQueue(
+        type: widget.queueType,
+        client: _client,
+        masterServerHostname: widget.masterServerHostname);
     _updateQueueLength();
 
     _queueJoinUpdateTimer = Timer.periodic(Duration(seconds: 1), (_) {
@@ -58,7 +57,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
     _queueJoinUpdateTimer?.cancel();
 
     if (widget.idToken != null) {
-      _queue.cancelSearch(masterServerHostname: _masterServerHostname);
+      _queue.cancelSearch();
     }
 
     _client.close();
@@ -134,7 +133,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
     );
   }
 
-  Future _updateQueueJoinStatus() async {
+  Future<void> _updateQueueJoinStatus() async {
     if (widget.idToken == null) {
       return;
     }
@@ -143,8 +142,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
       QueueJoinStatus status;
 
       try {
-        status = await _queue.updateQueueJoinStatus(
-            masterServerHostname: _masterServerHostname);
+        status = await _queue.updateQueueJoinStatus();
       } catch (e) {
         print('Could not join queue: $e');
       }
@@ -170,7 +168,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
     }
   }
 
-  Future _updateQueueLength() async {
+  Future<void> _updateQueueLength() async {
     if (widget.idToken == null) {
       return;
     }
@@ -185,7 +183,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
     }
 
     try {
-      await _queue.queueLength(masterServerHostname: _masterServerHostname);
+      await _queue.queueLength();
     } catch (e) {
       print('Could not refresh queue size: $e');
     }

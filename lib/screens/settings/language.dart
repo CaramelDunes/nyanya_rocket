@@ -4,15 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Language with ChangeNotifier {
   static String key = 'options.language';
 
-  SharedPreferences _prefs;
+  final SharedPreferences sharedPreferences;
   String _value;
 
-  Language(this._value);
-
-  set prefs(SharedPreferences prefs) {
-    _prefs = prefs;
-
-    value = prefs.getString(key) ?? _value;
+  Language({String defaultValue, @required this.sharedPreferences}) {
+    value = sharedPreferences.getString(key) ?? defaultValue;
   }
 
   String get value => _value;
@@ -23,6 +19,6 @@ class Language with ChangeNotifier {
       notifyListeners();
     }
 
-    if (_prefs != null) _prefs.setString(key, _value);
+    sharedPreferences.setString(key, _value);
   }
 }
