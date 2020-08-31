@@ -3,67 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/privacy_policy_prompt/privacy_policy_prompt.dart';
+import 'package:nyanya_rocket/screens/settings/widgets/display_name_change_dialog.dart';
 import 'package:provider/provider.dart';
+
+import 'widgets/sign_up_dialog.dart';
 
 class AccountManagement extends StatelessWidget {
   static final RegExp displayNameRegExp = RegExp(r'^[!-~]{2,24}$');
 
   Future<String> _showNameDialog(BuildContext context, String initialValue) {
-    String displayName;
-    final _formKey = GlobalKey<FormState>();
-
     return showDialog<String>(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            contentPadding: const EdgeInsets.all(16.0),
-            title: Text(NyaNyaLocalizations.of(context).displayNameDialogTitle),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: TextFormField(
-                    autofocus: true,
-                    autovalidate: true,
-                    maxLength: 24,
-                    initialValue: initialValue,
-                    validator: (String value) {
-                      if (!AccountManagement.displayNameRegExp
-                          .hasMatch(value)) {
-                        return NyaNyaLocalizations.of(context)
-                            .displayNameFormatText;
-                      }
-
-                      return null;
-                    },
-                    onSaved: (String value) {
-                      displayName = value;
-                    },
-                  ),
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              FlatButton(
-                  child: Text(
-                      NyaNyaLocalizations.of(context).cancel.toUpperCase()),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-              FlatButton(
-                  child: Text(NyaNyaLocalizations.of(context)
-                      .confirmLabel
-                      .toUpperCase()),
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-
-                      Navigator.pop(context, displayName);
-                    }
-                  })
-            ],
-          );
+          return DisplayNameChangeDialog(
+              initialValue: initialValue,
+              user: Provider.of<User>(context, listen: false));
         });
   }
 
@@ -102,30 +56,7 @@ class AccountManagement extends StatelessWidget {
       subtitle:
           Text(NyaNyaLocalizations.of(context).tapToChangeDisplayNameLabel),
       onTap: () {
-        _showNameDialog(context, user.displayName).then((String displayName) {
-          if (displayName != null) {
-            user.setDisplayName(displayName).then((StatusCode status) {
-              if (status == StatusCode.Success) {
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text(NyaNyaLocalizations.of(context)
-                      .displayNameChangeSuccessText),
-                ));
-              } else {
-                if (status == StatusCode.InvalidArgument) {
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text(NyaNyaLocalizations.of(context)
-                        .invalidDisplayNameError),
-                  ));
-                } else if (status == StatusCode.Unauthenticated) {
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                        NyaNyaLocalizations.of(context).unauthenticatedError),
-                  ));
-                }
-              }
-            });
-          }
-        });
+        _showNameDialog(context, user.displayName);
       },
     );
   }
@@ -180,92 +111,10 @@ class AccountManagement extends StatelessWidget {
   }
 
   static Future<bool> promptSignUp(BuildContext context) {
-    String displayName;
-    final _formKey = GlobalKey<FormState>();
-
     return showDialog<bool>(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            contentPadding: const EdgeInsets.all(16.0),
-            title: Text(NyaNyaLocalizations.of(context).displayNameDialogTitle),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Form(
-                  key: _formKey,
-                  child: TextFormField(
-                    autofocus: true,
-                    autovalidate: true,
-                    maxLength: 24,
-                    validator: (String value) {
-                      if (!AccountManagement.displayNameRegExp
-                          .hasMatch(value)) {
-                        return NyaNyaLocalizations.of(context)
-                            .displayNameFormatText;
-                      }
-
-                      return null;
-                    },
-                    onSaved: (String value) {
-                      displayName = value;
-                    },
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: Theme.of(context).textTheme.bodyText1,
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: NyaNyaLocalizations.of(context)
-                              .privacyPolicySignUpText),
-                      TextSpan(
-                          text: NyaNyaLocalizations.of(context)
-                              .privacyPolicyLabel,
-                          style: TextStyle(
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const PrivacyPolicyPrompt(
-                                              askUser: false)));
-                            })
-                    ],
-                  ),
-                )
-              ],
-            ),
-            actions: <Widget>[
-              FlatButton(
-                  child: Text(NyaNyaLocalizations.of(context)
-                      .confirmLabel
-                      .toUpperCase()),
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-                      Navigator.pop(context, true);
-
-                      Provider.of<User>(context, listen: false)
-                          .signInAnonymously()
-                          .then((user) {
-                        user.updateProfile(displayName: displayName);
-                      });
-                    }
-                  }),
-              FlatButton(
-                  child: Text(
-                      NyaNyaLocalizations.of(context).cancel.toUpperCase()),
-                  onPressed: () {
-                    Navigator.pop(context, false);
-                  }),
-            ],
-          );
+          return SignUpDialog(user: Provider.of<User>(context, listen: false));
         });
   }
 }

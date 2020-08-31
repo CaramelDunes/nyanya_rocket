@@ -7,7 +7,7 @@ import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_store.dart';
 import 'package:nyanya_rocket/models/user.dart';
-import 'package:nyanya_rocket/screens/multiplayer/setup_widgets/signup_prompt.dart';
+import 'package:nyanya_rocket/screens/multiplayer/setup_widgets/sign_up_prompt.dart';
 import 'package:nyanya_rocket/screens/multiplayer/tabs/friend_duel.dart';
 import 'package:nyanya_rocket/screens/multiplayer/tabs/queue_and_leaderboard.dart';
 import 'package:nyanya_rocket/screens/settings/region.dart';
