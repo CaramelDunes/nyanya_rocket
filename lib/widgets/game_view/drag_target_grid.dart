@@ -80,12 +80,10 @@ class _DragTargetTileState<T> extends State<DragTargetTile<T>> {
     return GestureDetector(
         behavior: HitTestBehavior.opaque,
         excludeFromSemantics: true,
-        onTap: widget.swipeAcceptor != null
+        onTap: widget.tapAcceptor != null
             ? () {
-                if (widget.tapAcceptor != null) {
-                  widget.tapAcceptor(widget.x, widget.y);
-                  setState(() {});
-                }
+                widget.tapAcceptor(widget.x, widget.y);
+                setState(() {});
               }
             : null,
         onPanStart: widget.swipeAcceptor != null
