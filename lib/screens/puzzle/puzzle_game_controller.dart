@@ -70,6 +70,7 @@ class PuzzleGameController extends LocalGameController {
   get canPlaceArrow => _canPlaceArrow;
 
   bool get spedUp => gameSimulator.speed == GameSpeed.Fast;
+
   bool get madeMistake => _mistake.value != null;
 
   void toggleSpeedUp() {
@@ -166,7 +167,39 @@ class PuzzleGameController extends LocalGameController {
     }
 
     super.running = value;
-    _canPlaceArrow = false;
+
+    if (_canPlaceArrow) {
+      _canPlaceArrow = false;
+
+      List<Mouse> newMice = List();
+      List<BoardPosition> pendingArrowDeletions = List();
+
+      game.mice.forEach((Mouse e) {
+        if (e.position.step == BoardPosition.centerStep) {
+          e = gameSimulator.applyTileEffect(e, pendingArrowDeletions, game);
+        }
+
+        if (e != null) {
+          newMice.add(e);
+        }
+      });
+
+      game.mice = newMice;
+
+      List<Cat> newCats = List();
+
+      game.cats.forEach((Cat e) {
+        if (e.position.step == BoardPosition.centerStep) {
+          e = gameSimulator.applyTileEffect(e, pendingArrowDeletions, game);
+        }
+
+        if (e != null) {
+          newCats.add(e);
+        }
+      });
+
+      game.cats = newCats;
+    }
 
     _gameStateNotifier.value = PuzzleGameState(
         spedUp: spedUp, running: running, reset: _canPlaceArrow);
