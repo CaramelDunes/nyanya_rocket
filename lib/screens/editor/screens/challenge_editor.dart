@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
 import 'package:nyanya_rocket/screens/challenges/tabs/local_challenges.dart';
-import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
+import 'package:nyanya_rocket/screens/editor/edited_game.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
@@ -24,7 +24,7 @@ class ChallengeEditor extends StatefulWidget {
 }
 
 class _ChallengeEditorState extends State<ChallengeEditor> {
-  EditorGameController _editorGameController;
+  EditedGame _editorGameController;
   String _uuid;
   bool _saving = false;
 
@@ -32,9 +32,8 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController = EditorGameController(
-        game: widget.challenge.challengeData.getGame(),
-        gameSimulator: ChallengeGameSimulator());
+    _editorGameController =
+        EditedGame(game: widget.challenge.challengeData.getGame());
 
     _uuid = widget.uuid;
   }
@@ -123,7 +122,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
         children: <Widget>[
           Expanded(
               child: EditorPlacer(
-            editorGameController: _editorGameController,
+            editedGame: _editorGameController,
             menus: _menusForType(widget.challenge.challengeData.type),
             onPlay: () => _handlePlay(context),
             onSave: _handleSave,

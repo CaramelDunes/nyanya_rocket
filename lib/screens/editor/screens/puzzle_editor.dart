@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
+import 'package:nyanya_rocket/screens/editor/edited_game.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
@@ -23,7 +23,7 @@ class PuzzleEditor extends StatefulWidget {
 }
 
 class _PuzzleEditorState extends State<PuzzleEditor> {
-  EditorGameController _editorGameController;
+  EditedGame _editorGameController;
   String _uuid;
   bool _saving = false;
 
@@ -31,9 +31,8 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController = EditorGameController(
-        game: widget.puzzle.puzzleData.getGame(),
-        gameSimulator: PuzzleGameSimulator());
+    _editorGameController =
+        EditedGame(game: widget.puzzle.puzzleData.getGame());
 
     for (int direction = 0; direction < 4; direction++) {
       _initExistingArrows(Direction.values[direction],
@@ -132,6 +131,18 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.puzzle.name),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.undo),
+              onPressed: () {
+                _editorGameController.undo();
+              }),
+          IconButton(
+              icon: Icon(Icons.redo),
+              onPressed: () {
+                _editorGameController.redo();
+              })
+        ],
       ),
       resizeToAvoidBottomPadding: false,
       body: OrientationBuilder(
@@ -143,7 +154,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
             children: <Widget>[
               Expanded(
                   child: EditorPlacer(
-                      editorGameController: _editorGameController,
+                      editedGame: _editorGameController,
                       onPlay: () => _handlePlay(context),
                       onSave: _handleSave,
                       menus: [

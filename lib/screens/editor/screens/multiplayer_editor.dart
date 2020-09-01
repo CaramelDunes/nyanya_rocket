@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
-import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
+import 'package:nyanya_rocket/screens/editor/edited_game.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket/screens/multiplayer/picker_tabs/local_boards.dart';
@@ -22,7 +22,7 @@ class MultiplayerEditor extends StatefulWidget {
 }
 
 class _MultiplayerEditorState extends State<MultiplayerEditor> {
-  EditorGameController _editorGameController;
+  EditedGame _editorGameController;
   String _uuid;
 
   bool _saving = false;
@@ -31,9 +31,8 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController = EditorGameController(
-        game: GameState()..board = widget.board.board(),
-        gameSimulator: MultiplayerGameSimulator());
+    _editorGameController =
+        EditedGame(game: GameState()..board = widget.board.board());
 
     _uuid = widget.uuid;
   }
@@ -66,7 +65,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
         children: <Widget>[
           Expanded(
               child: EditorPlacer(
-                  editorGameController: _editorGameController,
+                  editedGame: _editorGameController,
                   onSave: _handleSave,
                   menus: [
                 EditorMenu(subMenu: <EditorTool>[
