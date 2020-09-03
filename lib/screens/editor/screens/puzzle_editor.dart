@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
+import 'package:nyanya_rocket/screens/editor/edited_game.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
@@ -23,7 +23,7 @@ class PuzzleEditor extends StatefulWidget {
 }
 
 class _PuzzleEditorState extends State<PuzzleEditor> {
-  EditorGameController _editorGameController;
+  EditedGame _editedGame;
   String _uuid;
   bool _saving = false;
 
@@ -31,9 +31,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController = EditorGameController(
-        game: widget.puzzle.puzzleData.getGame(),
-        gameSimulator: PuzzleGameSimulator());
+    _editedGame = EditedGame(game: widget.puzzle.puzzleData.getGame());
 
     for (int direction = 0; direction < 4; direction++) {
       _initExistingArrows(Direction.values[direction],
@@ -47,7 +45,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   void dispose() {
     super.dispose();
 
-    _editorGameController.dispose();
+    _editedGame.dispose();
   }
 
   void _initExistingArrows(Direction direction, int count) {
@@ -57,8 +55,8 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
 
     for (int x = 0; x < Board.width; x++) {
       for (int y = 0; y < Board.height; y++) {
-        if (_editorGameController.game.board.tiles[x][y] is Empty) {
-          _editorGameController.toggleTile(
+        if (_editedGame.game.board.tiles[x][y] is Empty) {
+          _editedGame.toggleTile(
               x, y, Arrow(direction: direction, player: PlayerColor.Blue));
 
           if (--count == 0) {
@@ -72,7 +70,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   NamedPuzzleData _buildPuzzleData() {
     List<int> availableArrows = List.filled(4, 0);
 
-    Board copy = Board.copy(_editorGameController.game.board);
+    Board copy = Board.copy(_editedGame.game.board);
 
     for (int x = 0; x < Board.width; x++) {
       for (int y = 0; y < Board.height; y++) {
@@ -84,7 +82,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
       }
     }
 
-    dynamic gameJson = _editorGameController.game.toJson(); // TODO Cleaner way
+    dynamic gameJson = _editedGame.game.toJson(); // TODO Cleaner way
     gameJson['board'] = copy.toJson();
 
     return NamedPuzzleData(
@@ -132,6 +130,18 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.puzzle.name),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.undo),
+              onPressed: () {
+                _editedGame.undo();
+              }),
+          IconButton(
+              icon: Icon(Icons.redo),
+              onPressed: () {
+                _editedGame.redo();
+              })
+        ],
       ),
       resizeToAvoidBottomPadding: false,
       body: OrientationBuilder(
@@ -143,7 +153,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
             children: <Widget>[
               Expanded(
                   child: EditorPlacer(
-                      editorGameController: _editorGameController,
+                      editedGame: _editedGame,
                       onPlay: () => _handlePlay(context),
                       onSave: _handleSave,
                       menus: [

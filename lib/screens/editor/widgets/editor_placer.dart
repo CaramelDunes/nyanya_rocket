@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/screens/editor/editor_game_controller.dart';
+import 'package:nyanya_rocket/screens/editor/edited_game.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/discard_confirmation_dialog.dart';
 import 'package:nyanya_rocket/widgets/game_view/entities_drawer.dart';
 import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
@@ -28,14 +28,14 @@ class EditorTool {
 }
 
 class EditorPlacer extends StatefulWidget {
-  final EditorGameController editorGameController;
+  final EditedGame editedGame;
   final List<EditorMenu> menus;
   final VoidCallback onPlay;
   final VoidCallback onSave;
 
   const EditorPlacer({
     Key key,
-    @required this.editorGameController,
+    @required this.editedGame,
     @required this.menus,
     @required this.onSave,
     this.onPlay,
@@ -53,6 +53,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
   @override
   void initState() {
     super.initState();
+
     _selected = 0;
     _subSelected = List.filled(widget.menus.length, 0);
   }
@@ -98,16 +99,18 @@ class _EditorPlacerState extends State<EditorPlacer> {
   void _handleDrop(int x, int y, EditorTool selected) {
     switch (selected.type) {
       case ToolType.Tile:
-        widget.editorGameController.toggleTile(x, y, selected.tile);
+        widget.editedGame.clearTile(x, y);
+        widget.editedGame.toggleTile(x, y, selected.tile);
         break;
 
       case ToolType.Entity:
-        widget.editorGameController
+        widget.editedGame.clearEntity(x, y);
+        widget.editedGame
             .toggleEntity(x, y, selected.entityType, selected.direction);
         break;
 
       case ToolType.Wall:
-        widget.editorGameController.toggleWall(x, y, selected.direction);
+        widget.editedGame.toggleWall(x, y, selected.direction);
         break;
 
       default:
@@ -122,16 +125,16 @@ class _EditorPlacerState extends State<EditorPlacer> {
 
     switch (selected.type) {
       case ToolType.Tile:
-        widget.editorGameController.toggleTile(x, y, selected.tile);
+        widget.editedGame.toggleTile(x, y, selected.tile);
         break;
 
       case ToolType.Entity:
-        widget.editorGameController
+        widget.editedGame
             .toggleEntity(x, y, selected.entityType, selected.direction);
         break;
 
       case ToolType.Wall:
-        widget.editorGameController.toggleWall(x, y, selected.direction);
+        widget.editedGame.toggleWall(x, y, selected.direction);
         break;
 
       default:
@@ -158,8 +161,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
                     aspectRatio: 12.0 / 9.0,
                     child: InputGridOverlay<EditorTool>(
                       child: ValueListenableBuilder<GameState>(
-                          valueListenable:
-                              widget.editorGameController.gameStream,
+                          valueListenable: widget.editedGame.gameStream,
                           builder: (context, value, child) {
                             return StaticGameView(
                               game: value,
