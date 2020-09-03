@@ -17,15 +17,23 @@ class EditedGame {
   }
 
   void clearTile(int x, int y) {
-    game.board.tiles[x][y] = const Empty();
-    _updateGame();
+    if (game.board.tiles[x][y] != const Empty()) {
+      _saveState();
+
+      game.board.tiles[x][y] = const Empty();
+      _updateGame();
+    }
   }
 
   void toggleTile(int x, int y, Tile tile) {
     if (game.board.tiles[x][y] is Empty) {
+      _saveState();
+
       game.board.tiles[x][y] = tile;
       _updateGame();
     } else if (game.board.tiles[x][y].runtimeType == tile.runtimeType) {
+      _saveState();
+
       game.board.tiles[x][y] = Empty();
       _updateGame();
     }
@@ -40,6 +48,8 @@ class EditedGame {
           (Entity entity) => entity.position.x == x && entity.position.y == y);
 
       if (miceThere.isEmpty && catsThere.isEmpty) {
+        _saveState();
+
         if (type == EntityType.Cat) {
           game.cats.add(Entity.fromEntityType(
               type, BoardPosition.centered(x, y, direction)));
@@ -51,9 +61,11 @@ class EditedGame {
         _updateGame();
         return true;
       } else if (miceThere.isNotEmpty && type == EntityType.Mouse) {
+        _saveState();
         game.mice.remove(miceThere.first);
         _updateGame();
       } else if (catsThere.isNotEmpty is Cat && type == EntityType.Cat) {
+        _saveState();
         game.cats.remove(catsThere.first);
         _updateGame();
       }
@@ -70,43 +82,51 @@ class EditedGame {
         (Entity entity) => entity.position.x == x && entity.position.y == y);
 
     if (miceThere.isNotEmpty) {
+      _saveState();
+
       game.mice.remove(miceThere.first);
       _updateGame();
     }
 
     if (catsThere.isNotEmpty) {
+      _saveState();
+
       game.cats.remove(catsThere.first);
       _updateGame();
     }
   }
 
   void toggleWall(int x, int y, Direction direction) {
+    _saveState();
+
     game.board.setWall(x, y, direction, !game.board.hasWall(direction, x, y));
     _updateGame();
   }
 
   void undo() {
-    print(_undoList.length);
     if (_undoList.isNotEmpty) {
       _redoList.add(game);
       game = _undoList.removeLast();
-      gameStream.value = game;
-    }
 
-    print(game.board.tiles[0][0]);
+      _updateGame();
+    }
   }
 
   void redo() {
     if (_redoList.isNotEmpty) {
-      _undoList.add(GameState);
+      _undoList.add(game);
       game = _redoList.removeLast();
-      gameStream.value = game;
+
+      _updateGame();
     }
   }
 
   void _updateGame() {
     gameStream.value = game;
-    _undoList.add(game);
+  }
+
+  void _saveState() {
+    _undoList.add(game.copy());
     _redoList.clear();
   }
 }
