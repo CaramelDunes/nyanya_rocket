@@ -22,7 +22,7 @@ class MultiplayerEditor extends StatefulWidget {
 }
 
 class _MultiplayerEditorState extends State<MultiplayerEditor> {
-  EditedGame _editorGameController;
+  EditedGame _editedGame;
   String _uuid;
 
   bool _saving = false;
@@ -31,8 +31,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   void initState() {
     super.initState();
 
-    _editorGameController =
-        EditedGame(game: GameState()..board = widget.board.board());
+    _editedGame = EditedGame(game: GameState()..board = widget.board.board());
 
     _uuid = widget.uuid;
   }
@@ -41,11 +40,11 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   void dispose() {
     super.dispose();
 
-    _editorGameController.dispose();
+    _editedGame.dispose();
   }
 
   MultiplayerBoard _buildMultiplayerBoard() {
-    dynamic boardJson = _editorGameController.game.board.toJson();
+    dynamic boardJson = _editedGame.game.board.toJson();
 
     return MultiplayerBoard(
       name: widget.board.name,
@@ -59,13 +58,25 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.board.name),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.undo),
+              onPressed: () {
+                _editedGame.undo();
+              }),
+          IconButton(
+              icon: Icon(Icons.redo),
+              onPressed: () {
+                _editedGame.redo();
+              })
+        ],
       ),
       resizeToAvoidBottomPadding: false,
       body: Column(
         children: <Widget>[
           Expanded(
               child: EditorPlacer(
-                  editedGame: _editorGameController,
+                  editedGame: _editedGame,
                   onSave: _handleSave,
                   menus: [
                 EditorMenu(subMenu: <EditorTool>[
