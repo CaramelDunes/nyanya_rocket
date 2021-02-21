@@ -7,3 +7,10 @@ android_build_task:
   build_script: flutter build apk
   apk_artifacts:
     path: "build/app/outputs/apk/release/app-release.apk"
+
+web_build_task:
+  pub_cache:
+    folder: ~/.pub-cache
+  build_script: flutter build web
+  apk_artifacts:
+    path: "build/web/*"
