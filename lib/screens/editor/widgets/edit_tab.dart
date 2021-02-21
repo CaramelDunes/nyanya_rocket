@@ -26,28 +26,34 @@ class _EditTabState extends State<EditTab> {
   Map<String, String> _puzzles = HashMap();
   Map<String, String> _challenges = HashMap();
   Map<String, String> _multiplayerBoards = HashMap();
-  String name;
+  String? name;
   EditorMode _mode = EditorMode.Puzzle;
 
   @override
   void initState() {
     super.initState();
 
-    LocalPuzzles.store.readRegistry().then((Map entries) => setState(() {
-          _puzzles = entries;
-        }));
+    LocalPuzzles.store
+        .readRegistry()
+        .then((Map<String, String> entries) => setState(() {
+              _puzzles = entries;
+            }));
 
-    LocalChallenges.store.readRegistry().then((Map entries) => setState(() {
-          _challenges = entries;
-        }));
+    LocalChallenges.store
+        .readRegistry()
+        .then((Map<String, String> entries) => setState(() {
+              _challenges = entries;
+            }));
 
-    Multiplayer.store.readRegistry().then((Map entries) => setState(() {
-          _multiplayerBoards = entries;
-        }));
+    Multiplayer.store
+        .readRegistry()
+        .then((Map<String, String> entries) => setState(() {
+              _multiplayerBoards = entries;
+            }));
   }
 
   void _showNameChangeDialog(BuildContext context, String uuid) {
-    String _name;
+    String? _name;
     final _formKey = GlobalKey<FormState>();
 
     showDialog<String>(
@@ -57,22 +63,22 @@ class _EditTabState extends State<EditTab> {
           content: Form(
             key: _formKey,
             child: NameFormField(
-              onSaved: (String newValue) {
+              onSaved: (String? newValue) {
                 _name = newValue;
               },
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text(NyaNyaLocalizations.of(context).accept.toUpperCase()),
               onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  _formKey.currentState.save();
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
                   Navigator.pop(context, _name);
                 }
               },
             ),
-            FlatButton(
+            TextButton(
               child: Text(NyaNyaLocalizations.of(context).cancel.toUpperCase()),
               onPressed: () {
                 Navigator.pop(context);
@@ -81,7 +87,7 @@ class _EditTabState extends State<EditTab> {
           ],
         );
       },
-    ).then((String newName) {
+    ).then((String? newName) {
       if (newName != null) {
         NamedDataStore activeStore;
         Map<String, String> activeRegistry;
@@ -121,7 +127,7 @@ class _EditTabState extends State<EditTab> {
         separatorBuilder: (context, int) => Divider(),
         itemCount: _puzzles.length,
         itemBuilder: (context, i) => ListTile(
-              title: Text(_puzzles[uuidList[i]]),
+              title: Text(_puzzles[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -171,7 +177,7 @@ class _EditTabState extends State<EditTab> {
         separatorBuilder: (context, int) => Divider(),
         itemCount: _challenges.length,
         itemBuilder: (context, i) => ListTile(
-              title: Text(_challenges[uuidList[i]]),
+              title: Text(_challenges[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -221,7 +227,7 @@ class _EditTabState extends State<EditTab> {
         separatorBuilder: (context, int) => Divider(),
         itemCount: _multiplayerBoards.length,
         itemBuilder: (context, i) => ListTile(
-              title: Text(_multiplayerBoards[uuidList[i]]),
+              title: Text(_multiplayerBoards[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -283,8 +289,8 @@ class _EditTabState extends State<EditTab> {
                 value: EditorMode.Multiplayer,
               ),
             ],
-            onChanged: (EditorMode value) => setState(() {
-              _mode = value;
+            onChanged: (EditorMode? value) => setState(() {
+              _mode = value ?? _mode;
             }),
           ),
         ),

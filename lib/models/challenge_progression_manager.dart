@@ -14,7 +14,8 @@ class ChallengeProgressionManager {
     SplayTreeSet<int> cleared = SplayTreeSet();
 
     for (int i = 0; i < OriginalChallenges.challenges.length; i += 1) {
-      if (prefs.getInt(_timeKeyOf(i)) > 0) {
+      int? time = prefs.getInt(_timeKeyOf(i));
+      if (time != null && time > 0) {
         cleared.add(i);
       }
     }
@@ -23,7 +24,8 @@ class ChallengeProgressionManager {
 
   static Future<List<Duration>> getTimes() async {
     SharedPreferences prefs = await ChallengeProgressionManager.prefs;
-    List<Duration> times = List(OriginalChallenges.challenges.length);
+    List<Duration> times =
+        List.filled(OriginalChallenges.challenges.length, Duration());
 
     for (int i = 0; i < OriginalChallenges.challenges.length; i += 1) {
       times[i] = Duration(milliseconds: prefs.getInt(_timeKeyOf(i)) ?? 0);

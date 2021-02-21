@@ -13,13 +13,13 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class Challenge extends StatefulWidget {
   final NamedChallengeData challenge;
-  final void Function(Duration time) onWin;
+  final void Function(Duration time)? onWin;
   final bool hasNext;
-  final Duration bestTime;
+  final Duration? bestTime;
 
   Challenge(
-      {@required this.challenge,
-      @required this.hasNext,
+      {required this.challenge,
+      required this.hasNext,
       this.onWin,
       this.bestTime});
 
@@ -28,7 +28,7 @@ class Challenge extends StatefulWidget {
 }
 
 class _ChallengeState extends State<Challenge> {
-  ChallengeGameController _challengeController;
+  late ChallengeGameController _challengeController;
   bool _ended = false;
 
   @override
@@ -55,17 +55,16 @@ class _ChallengeState extends State<Challenge> {
       _ended = true;
     });
 
-    if (widget.onWin != null) {
-      widget.onWin(Duration(seconds: 30) - _challengeController.remainingTime);
-    }
+    widget.onWin
+        ?.call(Duration(seconds: 30) - _challengeController.remainingTime);
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
+  Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,
       List rejectedData, int x, int y) {
     if (candidateData.isEmpty) return const SizedBox.expand();
 
     return ArrowImage(
-      direction: candidateData[0],
+      direction: candidateData[0]!,
       player: PlayerColor.Blue,
       opaque: false,
     );
@@ -75,23 +74,18 @@ class _ChallengeState extends State<Challenge> {
     switch (_challengeController.challenge.type) {
       case ChallengeType.GetMice:
         return NyaNyaLocalizations.of(context).getMiceObjectiveText;
-        break;
 
       case ChallengeType.RunAway:
         return NyaNyaLocalizations.of(context).runAwayObjectiveText;
-        break;
 
       case ChallengeType.LunchTime:
         return NyaNyaLocalizations.of(context).lunchTimeObjectiveText;
-        break;
 
       case ChallengeType.OneHundredMice:
         return NyaNyaLocalizations.of(context).oneHundredMiceObjectiveText;
-        break;
 
       default:
         return '';
-        break;
     }
   }
 
@@ -220,7 +214,7 @@ class _ChallengeState extends State<Challenge> {
   Widget _buildTargetCount() {
     return ValueListenableBuilder<int>(
         valueListenable: _challengeController.scoreStream,
-        builder: (BuildContext context, int value, Widget _) {
+        builder: (BuildContext context, int value, _) {
           return Text(
             '$value / ${_challengeController.targetScore}',
             style: Theme.of(context).textTheme.headline6,
@@ -231,10 +225,10 @@ class _ChallengeState extends State<Challenge> {
   Widget _buildBestTime() {
     return Text(
       (widget.bestTime != null && widget.bestTime != Duration.zero)
-          ? Countdown.formatDuration(widget.bestTime)
+          ? Countdown.formatDuration(widget.bestTime!)
           : '',
       style:
-          Theme.of(context).textTheme.headline6.copyWith(color: Colors.green),
+          Theme.of(context).textTheme.headline6!.copyWith(color: Colors.green),
     );
   }
 

@@ -7,9 +7,9 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class AnimatedGameView extends StatefulWidget {
   final ValueListenable<GameState> game;
-  final ValueListenable<BoardPosition> mistake;
+  final ValueListenable<BoardPosition?>? mistake;
 
-  AnimatedGameView({@required this.game, this.mistake});
+  AnimatedGameView({required this.game, this.mistake});
 
   @override
   _AnimatedGameViewState createState() => _AnimatedGameViewState();
@@ -17,8 +17,8 @@ class AnimatedGameView extends StatefulWidget {
 
 class _AnimatedGameViewState extends State<AnimatedGameView>
     with SingleTickerProviderStateMixin {
-  Animation<int> _animation;
-  AnimationController _controller;
+  late Animation<int> _animation;
+  late AnimationController _controller;
 
   @override
   void initState() {

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/blocs/multiplayer_game_controller.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
@@ -20,10 +19,10 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
   final ValueNotifier<Duration> timeStream = ValueNotifier(Duration.zero);
 
   Duration _remainingTime = Duration(minutes: 3);
-  final void Function(GameEvent event) onGameEvent;
+  final void Function(GameEvent event)? onGameEvent;
 
   LocalMultiplayerGameController({
-    @required this.board,
+    required this.board,
     this.onGameEvent,
   }) : super(MultiplayerGameState()..board = board.board()) {
     running = true;
@@ -67,8 +66,8 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
       scoreStreams[i].value = game.scoreOf(PlayerColor.values[i]);
     }
 
-    if (event != GameEvent.None && onGameEvent != null) {
-      onGameEvent(event);
+    if (event != GameEvent.None) {
+      onGameEvent?.call(event);
     }
   }
 }

@@ -16,7 +16,7 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
   List<FocusNode> _nicknameNodes = [FocusNode(), FocusNode()];
 
   Duration _duration = Duration(minutes: 3);
-  MultiplayerBoard _board;
+  MultiplayerBoard? _board;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
-            NyaNyaLocalizations.of(context).durationLabel,
+                  NyaNyaLocalizations.of(context).durationLabel,
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 DropdownButtonFormField<Duration>(
@@ -59,10 +59,10 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
                       value: Duration(minutes: 5),
                     ),
                   ],
-                  onChanged: (Duration value) => setState(() {
-                    _duration = value;
+                  onChanged: (Duration? value) => setState(() {
+                    _duration = value ?? _duration;
                   }),
-                  onSaved: (Duration value) => _duration = value,
+                  onSaved: (Duration? value) => _duration = value ?? _duration,
                 ),
                 Divider(),
                 Text(
@@ -99,8 +99,8 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
                   maxLength: 16,
                   textCapitalization: TextCapitalization.words,
                   textInputAction: TextInputAction.next,
-                  onSaved: (String text) {
-                    _playerNames[0] = text;
+                  onSaved: (String? text) {
+                    _playerNames[0] = text ?? _playerNames[0];
                   },
                 ),
                 TextFormField(
@@ -110,26 +110,24 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
                           '${NyaNyaLocalizations.of(context).nicknameLabel} 2'),
                   maxLength: 16,
                   textCapitalization: TextCapitalization.words,
-                  onSaved: (String text) {
-                    _playerNames[1] = text;
+                  onSaved: (String? text) {
+                    _playerNames[1] = text ?? _playerNames[1];
                   },
                 ),
                 Flexible(
-                  child: RaisedButton(
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
+                  child: ElevatedButton(
                     child: Text(NyaNyaLocalizations.of(context).playLabel),
-                    onPressed: _board == null
-                        ? null
-                        : () {
-                            _formState.currentState.save();
+                    onPressed: _board != null
+                        ? () {
+                            _formState.currentState!.save();
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) => LocalDuel(
-                                      board: _board,
+                                      board: _board!,
                                       players: _playerNames,
                                       duration: _duration,
                                     )));
-                          },
+                          }
+                        : null,
                   ),
                 )
               ],

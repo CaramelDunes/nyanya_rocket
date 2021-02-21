@@ -7,6 +7,7 @@ import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_progression_manager.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/widgets/completion_indicator.dart';
+import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
 class OriginalPuzzles extends StatefulWidget {
@@ -169,7 +170,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
                         _handlePuzzleWin(puzzleIndex, starred),
                     hasNext: (puzzleIndex + 1) < OriginalPuzzles.puzzles.length,
                   )))
-          .then((OverlayResult overlayResult) {
+          .then((OverlayResult? overlayResult) {
         if (overlayResult != null) {
           if (overlayResult == OverlayResult.PlayNext) {
             _openPuzzle(puzzleIndex + 1);
@@ -247,22 +248,91 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
     }
 
     return Column(
-      children: <Widget>[
+      children: [
         Expanded(
-            child: ListView.builder(
-                itemCount: puzzleIndices.length,
-                itemBuilder: (context, i) =>
-                    _buildPuzzleTile(puzzleIndices[i]))),
+          child: OrientationBuilder(
+            builder: (BuildContext context, Orientation orientation) {
+              if (orientation == Orientation.landscape ||
+                  MediaQuery.of(context).size.width >= 270 * 2.5)
+                return _buildLandscape(context, puzzleIndices);
+              else
+                return _buildPortrait(puzzleIndices);
+            },
+          ),
+        ),
         CompletionIndicator(
           showCompleted: _showCompleted,
           completedRatio: _cleared.length / OriginalPuzzles.puzzles.length,
-          onChanged: (bool value) {
-            setState(() {
-              _showCompleted = value;
-            });
+          onChanged: (bool? value) {
+            if (value != null) {
+              setState(() {
+                _showCompleted = value;
+              });
+            }
           },
         )
       ],
+    );
+  }
+
+  Widget _buildPortrait(List<int> puzzleIndices) {
+    return ListView.builder(
+        itemCount: puzzleIndices.length,
+        itemBuilder: (context, i) => _buildPuzzleTile(puzzleIndices[i]));
+  }
+
+  Widget _buildLandscape(BuildContext context, List<int> puzzleIndices) {
+    return GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 270,
+        ),
+        itemCount: puzzleIndices.length,
+        itemBuilder: (context, i) => _buildPuzzleCard(puzzleIndices[i]));
+  }
+
+  Widget _buildPuzzleCard(int i) {
+    return InkWell(
+      key: ValueKey(i),
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: AspectRatio(
+                  aspectRatio: 12 / 9,
+                  child: Stack(
+                    children: [
+                      StaticGameView(
+                        game: OriginalPuzzles.puzzles[i].puzzleData.getGame(),
+                      ),
+                      Visibility(
+                        visible: _cleared.contains(i),
+                        child: Container(
+                          color: Colors.black.withOpacity(0.5),
+                          child: Center(
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.green,
+                              size: 150,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )),
+            Text(
+              OriginalPuzzles.puzzles[i].name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(_difficultyFromIndex(context, i))
+          ],
+        ),
+      ),
+      onTap: () {
+        _openPuzzle(i);
+      },
     );
   }
 }

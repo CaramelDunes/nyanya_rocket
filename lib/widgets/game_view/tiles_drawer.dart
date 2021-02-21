@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
+import 'package:nyanya_rocket/widgets/rocket_image.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 const List<String> kColorSuffixes = ["blue", "red", "green", "yellow"];
@@ -15,14 +16,12 @@ class TilesDrawer extends StatelessWidget {
           'assets/graphics/pit.png',
           fit: BoxFit.contain,
         );
-        break;
 
       case Generator:
         return Image.asset(
           'assets/graphics/generator.png',
           fit: BoxFit.contain,
         );
-        break;
 
       case Arrow:
         Arrow arrow = tile as Arrow;
@@ -36,20 +35,16 @@ class TilesDrawer extends StatelessWidget {
         } else {
           return const SizedBox.expand();
         }
-        break;
 
       case Rocket:
         Rocket rocket = tile as Rocket;
 
         if (!rocket.departed) {
-          return Image.asset(
-              'assets/graphics/rocket_${kColorSuffixes[rocket.player.index]}.png',
-              fit: BoxFit.contain);
+          return RocketImage(player: rocket.player);
         } else {
           return Image.asset('assets/graphics/departed_rocket.png',
               fit: BoxFit.contain);
         }
-        break;
 
       default:
         return const SizedBox.shrink();
@@ -60,7 +55,7 @@ class TilesDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> overlay = List();
+    List<Widget> overlay = [];
 
     for (int x = 0; x < Board.width; x++) {
       for (int y = 0; y < Board.height; y++) {

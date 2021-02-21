@@ -8,11 +8,10 @@ class BooleanParameter with ChangeNotifier {
   bool _enabled;
 
   BooleanParameter(
-      {@required this.sharedPreferences,
-      @required this.key,
-      @required bool defaultValue}) {
-    enabled = sharedPreferences.getBool(key) ?? defaultValue;
-  }
+      {required this.sharedPreferences,
+      required this.key,
+      required bool defaultValue})
+      : _enabled = sharedPreferences.getBool(key) ?? defaultValue;
 
   bool get enabled => _enabled;
 

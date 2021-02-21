@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
+import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class AvailableArrows extends StatelessWidget {
   final PuzzleGameController puzzleGameController;
 
-  const AvailableArrows({@required this.puzzleGameController});
+  const AvailableArrows({required this.puzzleGameController});
 
   static Widget _buildArrowAndCount(
       int i, int count, Brightness brightness, bool canPlace) {
@@ -14,12 +15,9 @@ class AvailableArrows extends StatelessWidget {
       children: <Widget>[
         Material(
           elevation: 8,
-          child: RotatedBox(
-            quarterTurns: -i,
-            child: Image.asset(
-              'assets/graphics/arrow_${count > 0 && canPlace ? 'blue' : 'grey'}.png',
-              fit: BoxFit.contain,
-            ),
+          child: ArrowImage(
+            player: count > 0 && canPlace ? PlayerColor.Blue : null,
+            direction: Direction.values[i],
           ),
         ),
         Align(
@@ -49,7 +47,7 @@ class AvailableArrows extends StatelessWidget {
       BuildContext context, Orientation orientation, int i) {
     return ValueListenableBuilder<int>(
         valueListenable: puzzleGameController.remainingArrowsStreams[i],
-        builder: (BuildContext context, int count, Widget _) {
+        builder: (BuildContext context, int count, _) {
           final Widget arrowAndCount = _buildArrowAndCount(i, count,
               Theme.of(context).brightness, puzzleGameController.canPlaceArrow);
 

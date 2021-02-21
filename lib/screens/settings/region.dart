@@ -19,16 +19,16 @@ class Region with ChangeNotifier {
   final SharedPreferences sharedPreferences;
   Regions _value;
 
-  Region({Regions defaultValue, @required this.sharedPreferences}) {
-    value = Regions.values[sharedPreferences.getInt(key) ?? defaultValue.index];
-  }
+  Region({required Regions defaultValue, required this.sharedPreferences})
+      : _value =
+            Regions.values[sharedPreferences.getInt(key) ?? defaultValue.index];
 
   Regions get value => _value;
 
   Regions get computedValue =>
       _value == Regions.auto ? automaticValue() : _value;
 
-  String get label => regionLabels[computedValue];
+  String get label => regionLabels[computedValue]!; // FIXME Maybe
 
   set value(Regions value) {
     if (value != _value) {
@@ -39,7 +39,8 @@ class Region with ChangeNotifier {
     sharedPreferences.setInt(key, _value.index);
   }
 
-  String get masterServerHostname => _masterServers[computedValue];
+  String get masterServerHostname =>
+      _masterServers[computedValue]!; // FIXME Maybe
 
   static Regions automaticValue() {
     Duration timezoneOffset = DateTime.now().timeZoneOffset;

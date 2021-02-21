@@ -10,7 +10,7 @@ import 'widgets/sign_up_dialog.dart';
 class AccountManagement extends StatelessWidget {
   static final RegExp displayNameRegExp = RegExp(r'^[!-~]{2,24}$');
 
-  Future<String> _showNameDialog(BuildContext context, String initialValue) {
+  Future<String?> _showNameDialog(BuildContext context, String initialValue) {
     return showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -20,7 +20,7 @@ class AccountManagement extends StatelessWidget {
         });
   }
 
-  Future<bool> _showConfirmDialog(
+  Future<bool?> _showConfirmDialog(
       BuildContext context, String title, Widget content) {
     return showDialog<bool>(
         context: context,
@@ -29,13 +29,13 @@ class AccountManagement extends StatelessWidget {
             title: Text(title),
             content: content,
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                   child: Text(
                       NyaNyaLocalizations.of(context).cancel.toUpperCase()),
                   onPressed: () {
                     Navigator.pop(context, false);
                   }),
-              FlatButton(
+              TextButton(
                   child: Text(NyaNyaLocalizations.of(context)
                       .confirmLabel
                       .toUpperCase()),
@@ -51,7 +51,7 @@ class AccountManagement extends StatelessWidget {
     return ListTile(
       enabled: user.isConnected,
       title: Text(
-          '${NyaNyaLocalizations.of(context).displayNameLabel}: ${user.displayName ?? ''}'),
+          '${NyaNyaLocalizations.of(context).displayNameLabel}: ${user.displayName}'),
       subtitle:
           Text(NyaNyaLocalizations.of(context).tapToChangeDisplayNameLabel),
       onTap: () {
@@ -82,7 +82,7 @@ class AccountManagement extends StatelessWidget {
                           NyaNyaLocalizations.of(context).signOutDialogTitle,
                           Text(NyaNyaLocalizations.of(context)
                               .signOutDialogText))
-                      .then((bool confirmed) {
+                      .then((bool? confirmed) {
                     if (confirmed ?? false) {
                       user.signOut();
                     }
@@ -109,7 +109,7 @@ class AccountManagement extends StatelessWidget {
     );
   }
 
-  static Future<bool> promptSignUp(BuildContext context) {
+  static Future<bool?> promptSignUp(BuildContext context) {
     return showDialog<bool>(
         context: context,
         builder: (BuildContext context) {

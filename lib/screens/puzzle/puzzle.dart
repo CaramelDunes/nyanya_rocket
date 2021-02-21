@@ -11,13 +11,13 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class Puzzle extends StatefulWidget {
   final NamedPuzzleData puzzle;
-  final void Function(bool starred) onWin;
-  final String documentPath;
+  final void Function(bool starred)? onWin;
+  final String? documentPath;
   final bool hasNext;
 
   Puzzle(
-      {@required this.puzzle,
-      @required this.hasNext,
+      {required this.puzzle,
+      required this.hasNext,
       this.onWin,
       this.documentPath});
 
@@ -26,7 +26,7 @@ class Puzzle extends StatefulWidget {
 }
 
 class _PuzzleState extends State<Puzzle> {
-  PuzzleGameController _puzzleController;
+  late PuzzleGameController _puzzleController;
   bool _ended = false;
 
   @override
@@ -63,11 +63,11 @@ class _PuzzleState extends State<Puzzle> {
           _puzzleController.remainingArrows(Direction.Left) > 0 ||
           _puzzleController.remainingArrows(Direction.Down) > 0;
 
-      widget.onWin(starred);
+      widget.onWin!(starred);
     }
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
+  Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,
       List rejectedData, int x, int y) {
     if (_puzzleController.game.board.tiles[x][y] is Arrow) {
       return Draggable<Direction>(
@@ -85,7 +85,7 @@ class _PuzzleState extends State<Puzzle> {
     }
 
     return ArrowImage(
-      direction: candidateData[0],
+      direction: candidateData[0]!,
       player: PlayerColor.Blue,
       opaque: false,
     );

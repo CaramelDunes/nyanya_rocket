@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+
 import 'package:nyanya_rocket/blocs/local_game_controller.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/lunch_time_game_controller.dart';
@@ -17,43 +17,34 @@ class ArrowPosition {
 abstract class ChallengeGameController extends LocalGameController {
   final ChallengeData challenge;
 
-  final List<ArrowPosition> placedArrows = List();
+  final List<ArrowPosition> placedArrows = [];
   final void Function() onWin;
 
   Duration _remainingTime = Duration(seconds: 30);
   final ValueNotifier<Duration> timeStream = ValueNotifier(Duration.zero);
 
-  ValueNotifier<BoardPosition> _mistake = ValueNotifier(null);
+  ValueNotifier<BoardPosition?> _mistake = ValueNotifier(null);
 
-  Iterable<Cat> _preMistakeCats;
-  Iterable<Mouse> _preMistakeMice;
+  Iterable<Cat>? _preMistakeCats;
+  Iterable<Mouse>? _preMistakeMice;
 
-  ChallengeGameController({@required this.challenge, this.onWin})
+  ChallengeGameController({required this.challenge, required this.onWin})
       : super(challenge.getGame(), ChallengeGameSimulator());
 
   factory ChallengeGameController.proxy(
-      {@required ChallengeData challenge, void Function() onWin}) {
-    ChallengeGameController gameController;
-
+      {required ChallengeData challenge, required void Function() onWin}) {
     switch (challenge.type) {
       case ChallengeType.RunAway:
       case ChallengeType.GetMice:
-        gameController =
-            RunAwayGameController(challenge: challenge, onWin: onWin);
-        break;
+        return RunAwayGameController(challenge: challenge, onWin: onWin);
 
       case ChallengeType.LunchTime:
-        gameController =
-            LunchTimeGameController(challenge: challenge, onWin: onWin);
-        break;
+        return LunchTimeGameController(challenge: challenge, onWin: onWin);
 
       case ChallengeType.OneHundredMice:
-        gameController =
-            OneHundredMiceGameController(challenge: challenge, onWin: onWin);
-        break;
+      default: //FIXME Fix enum
+        return OneHundredMiceGameController(challenge: challenge, onWin: onWin);
     }
-
-    return gameController;
   }
 
   @override
@@ -63,7 +54,7 @@ abstract class ChallengeGameController extends LocalGameController {
     super.dispose();
   }
 
-  ValueNotifier<BoardPosition> get mistake => _mistake;
+  ValueNotifier<BoardPosition?> get mistake => _mistake;
 
   @protected
   void mistakeMade(BoardPosition position) {
@@ -77,7 +68,7 @@ abstract class ChallengeGameController extends LocalGameController {
     if (running && game.board.tiles[x][y] is Empty) {
       if (game.board.tiles[x][y] is Empty) {
         int count = 0;
-        ArrowPosition last;
+        ArrowPosition? last;
         int lastExpiration = Arrow.defaultExpiration;
 
         for (int i = 0; i < Board.width; i++) {
@@ -97,7 +88,7 @@ abstract class ChallengeGameController extends LocalGameController {
           }
         }
 
-        if (count >= 3) {
+        if (count >= 3 && last != null) {
           game.board.tiles[last.x][last.y] = Empty();
         }
 
@@ -129,8 +120,8 @@ abstract class ChallengeGameController extends LocalGameController {
   @override
   void afterUpdate() {
     if (_mistake.value != null) {
-      game.cats = _preMistakeCats;
-      game.mice = _preMistakeMice;
+      game.cats = _preMistakeCats!.toList();
+      game.mice = _preMistakeMice!.toList();
     }
 
     updateGame();

@@ -25,9 +25,11 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
   void initState() {
     super.initState();
 
-    LocalPuzzles.store.readRegistry().then((Map entries) => setState(() {
-          _puzzles = entries;
-        }));
+    LocalPuzzles.store
+        .readRegistry()
+        .then((Map<String, String> entries) => setState(() {
+              _puzzles = entries;
+            }));
   }
 
   void _verifyAndPublish(BuildContext context, NamedPuzzleData puzzle) {
@@ -37,10 +39,10 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
             builder: (BuildContext context) => Puzzle(
                   puzzle: puzzle,
                   hasNext: false,
-                ))).then((OverlayResult overlayResult) {
+                ))).then((OverlayResult? overlayResult) {
       if (overlayResult != null) {
-        CloudFunctions.instance
-            .getHttpsCallable(functionName: 'publishPuzzle')
+        FirebaseFunctions.instance
+            .httpsCallable('publishPuzzle')
             .call({
           'name': puzzle.name,
           'puzzle_data': jsonEncode(puzzle.puzzleData.toJson()),
@@ -74,7 +76,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
         separatorBuilder: (context, int) => Divider(),
         itemCount: _puzzles.length,
         itemBuilder: (context, i) => ListTile(
-              title: Text(_puzzles[uuidList[i]]),
+              title: Text(_puzzles[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[

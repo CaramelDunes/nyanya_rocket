@@ -4,7 +4,7 @@ import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/screens/privacy_policy_prompt/privacy_policy_prompt.dart';
 
 class DefaultDrawer extends StatelessWidget {
-  const DefaultDrawer({Key key}) : super(key: key);
+  const DefaultDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

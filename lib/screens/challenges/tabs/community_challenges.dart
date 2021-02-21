@@ -16,7 +16,7 @@ class CommunityChallenges extends StatefulWidget {
 enum _Sorting { ByDate, ByPopularity, ByName }
 
 class _CommunityChallengesState extends State<CommunityChallenges> {
-  List<CommunityChallengeData> challenges = List();
+  List<CommunityChallengeData> challenges = [];
   _Sorting _sorting = _Sorting.ByPopularity;
 
   @override
@@ -31,7 +31,9 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
         .orderBy(
             _sorting == _Sorting.ByDate
                 ? 'date'
-                : _sorting == _Sorting.ByPopularity ? 'likes' : 'name',
+                : _sorting == _Sorting.ByPopularity
+                    ? 'likes'
+                    : 'name',
             descending: _sorting != _Sorting.ByName)
         .limit(50)
         .get();
@@ -89,11 +91,13 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
                       value: _Sorting.ByPopularity,
                     )
                   ],
-                  onChanged: (_Sorting value) {
-                    setState(() {
-                      _sorting = value;
-                      _refreshList();
-                    });
+                  onChanged: (_Sorting? value) {
+                    if (value != null) {
+                      setState(() {
+                        _sorting = value;
+                        _refreshList();
+                      });
+                    }
                   },
                 ),
               ),
@@ -129,8 +133,7 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
                                 builder: (context) => Challenge(
                                       challenge: challenges[i],
                                       hasNext: false,
-                                    )))
-                            .then((OverlayResult popData) {});
+                                    )));
                       },
                     )),
           ),

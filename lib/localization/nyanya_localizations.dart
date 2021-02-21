@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nyanya_rocket/localization/messages_all.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NyaNyaLocalizations {
-  static Future<NyaNyaLocalizations> load(Locale locale) {
-    final String name =
-        locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
-    final String localeName = Intl.canonicalizedLocale(name);
-    return initializeMessages(localeName).then((_) {
-      Intl.defaultLocale = localeName;
-      return NyaNyaLocalizations();
-    });
-  }
-
-  static NyaNyaLocalizations of(BuildContext context) {
-    return Localizations.of<NyaNyaLocalizations>(context, NyaNyaLocalizations);
+  static AppLocalizations of(BuildContext context) {
+    return AppLocalizations.of(context)!;
   }
 
   String get puzzleType {

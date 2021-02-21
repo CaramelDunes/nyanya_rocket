@@ -16,7 +16,7 @@ class CommunityPuzzles extends StatefulWidget {
 enum _Sorting { ByDate, ByPopularity, ByName }
 
 class _CommunityPuzzlesState extends State<CommunityPuzzles> {
-  List<CommunityPuzzleData> puzzles = List();
+  List<CommunityPuzzleData> puzzles = [];
   _Sorting _sorting = _Sorting.ByPopularity;
 
   @override
@@ -31,7 +31,9 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
         .orderBy(
             _sorting == _Sorting.ByDate
                 ? 'date'
-                : _sorting == _Sorting.ByPopularity ? 'likes' : 'name',
+                : _sorting == _Sorting.ByPopularity
+                    ? 'likes'
+                    : 'name',
             descending: _sorting != _Sorting.ByName)
         .limit(50)
         .get();
@@ -93,9 +95,9 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                       value: _Sorting.ByPopularity,
                     )
                   ],
-                  onChanged: (_Sorting value) {
+                  onChanged: (_Sorting? value) {
                     setState(() {
-                      _sorting = value;
+                      _sorting = value ?? _sorting;
                       _refreshList();
                     });
                   },
@@ -137,7 +139,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                                       documentPath: 'puzzles/${puzzles[i].uid}',
                                       hasNext: false,
                                     )))
-                            .then((OverlayResult overlayResult) {});
+                            .then((OverlayResult? overlayResult) {});
                       },
                     )),
           ),

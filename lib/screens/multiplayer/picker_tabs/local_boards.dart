@@ -17,9 +17,11 @@ class _LocalBoardsState extends State<LocalBoards> {
   void initState() {
     super.initState();
 
-    LocalBoards.store.readRegistry().then((Map entries) => setState(() {
-          _boards = entries;
-        }));
+    LocalBoards.store
+        .readRegistry()
+        .then((Map<String, String> entries) => setState(() {
+              _boards = entries;
+            }));
   }
 
   @override
@@ -34,7 +36,7 @@ class _LocalBoardsState extends State<LocalBoards> {
         separatorBuilder: (context, int) => Divider(),
         itemCount: _boards.length,
         itemBuilder: (context, i) => ListTile(
-              title: Text(_boards[uuidList[i]]),
+              title: Text(_boards[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
               ),

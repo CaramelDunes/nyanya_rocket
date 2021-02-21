@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class LocalGameController extends GameTicker<GameState> {

@@ -1,11 +1,12 @@
 name: nyanya_rocket
 description: Save cute mice from dangerous cats!
 homepage: https://github.com/CaramelDunes/nyanya_rocket
+publish_to: none
 
 version: 2.0.5+55
 
 environment:
-  sdk: ">=2.5.0 <3.0.0"
+  sdk: ">=2.12.0-0 <3.0.0"
 
 dependencies:
   flutter:
@@ -14,43 +15,46 @@ dependencies:
   nyanya_rocket_base:
     git:
       url: git://github.com/CaramelDunes/nyanya_rocket_base.git
+      ref: feature/nnbd
 
   flutter_localizations:
     sdk: flutter
 
   intl: ^0.16.1
 
-  firebase_core: ^0.5.0
-  cloud_firestore: ^0.14.0+2
-  firebase_auth: ^0.18.0+1
-  cloud_functions: ^0.6.0
+  firebase_core: ^0.8.0-1.0.nullsafety.1
+  cloud_firestore: ^0.17.0-1.0.nullsafety.0
+  firebase_auth: ^0.21.0-1.1.nullsafety.1
+  cloud_functions: ^0.9.1-1.0.nullsafety.1
 
-  flare_flutter: ^2.0.1
+  rive: ^0.6.8
 
-  font_awesome_flutter: ^8.7.0
+  font_awesome_flutter: ^9.0.0-nullsafety
 
-  shared_preferences: ^0.5.10
+  shared_preferences: ^2.0.0-nullsafety
 
-  path_provider: ^1.6.14
+  path_provider: ^2.0.0-nullsafety
 
-  uuid: ^2.0.4
+  uuid: any
 
-  connectivity: ^0.4.9+2
+  wifi_info_flutter: ^2.0.0-nullsafety
 
-  url_launcher: ^5.4.2
+  url_launcher: ^5.0.0
 
-  share: ^0.6.4+5
+  share: ^2.0.0-nullsafety.2
 
-  provider: ^4.3.2+1
-  characters: ^1.0.0
+  provider: ^5.0.0-nullsafety.2
+  characters: ^1.1.0
+
+  http: ^0.13.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_launcher_icons: ^0.7.4
+  intl_translation: ^0.17.10+1
 
-  intl_translation: ^0.17.9
+#  flutter_launcher_icons: ^0.8.1
 
 flutter_icons:
   image_path: "assets/graphics/app_icon.png"
@@ -61,32 +65,27 @@ flutter_icons:
   adaptive_icon_foreground: "assets/graphics/adaptive_icon_foreground.png"
 
 flutter:
+  generate: true
   uses-material-design: true
 
   assets:
     - assets/graphics/adaptive_icon_foreground.png
     - assets/graphics/pit.png
     - assets/graphics/generator.png
-    - assets/graphics/rocket_blue.png
-    - assets/graphics/rocket_red.png
-    - assets/graphics/rocket_yellow.png
-    - assets/graphics/rocket_green.png
-    - assets/graphics/arrow_blue.png
-    - assets/graphics/arrow_red.png
-    - assets/graphics/arrow_yellow.png
-    - assets/graphics/arrow_green.png
-    - assets/graphics/arrow_grey.png
     - assets/graphics/wall.png
     - assets/graphics/wall_cross.png
     - assets/graphics/departed_rocket.png
-    - assets/animations/mouse_right.flr
-    - assets/animations/mouse_up.flr
-    - assets/animations/mouse_left.flr
-    - assets/animations/mouse_down.flr
-    - assets/animations/cat_down.flr
-    - assets/animations/cat_up.flr
-    - assets/animations/cat_right.flr
-    - assets/animations/cat_left.flr
+    - assets/animations/mouse_right.riv
+    - assets/animations/mouse_up.riv
+    - assets/animations/mouse_left.riv
+    - assets/animations/mouse_down.riv
+    - assets/animations/cat_down.riv
+    - assets/animations/cat_up.riv
+    - assets/animations/cat_right.riv
+    - assets/animations/cat_left.riv
     - assets/animations/drag_arrow.gif
     - assets/animations/swipe_arrow.gif
     - assets/animations/remove_arrow.gif
+
+dependency_overrides:
+  intl: 0.17.0

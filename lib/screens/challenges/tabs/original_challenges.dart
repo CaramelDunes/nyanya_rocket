@@ -175,7 +175,7 @@ class _OriginalChallengesState extends State<OriginalChallenges>
                     onWin: (Duration time) => _handleChallengeWin(i + 1, time),
                     bestTime: _times[i + 1],
                   )))
-          .then((OverlayResult overlayResult) {
+          .then((OverlayResult? overlayResult) {
         if (overlayResult != null) {
           if (overlayResult == OverlayResult.PlayNext) {
             _openNext(i + 1);
@@ -214,7 +214,7 @@ class _OriginalChallengesState extends State<OriginalChallenges>
                       onWin: (Duration time) => _handleChallengeWin(i, time),
                       bestTime: _times[i],
                     )))
-            .then((OverlayResult overlayResult) {
+            .then((OverlayResult? overlayResult) {
           if (overlayResult != null) {
             if (overlayResult == OverlayResult.PlayNext) {
               _openNext(i);
@@ -246,17 +246,18 @@ class _OriginalChallengesState extends State<OriginalChallenges>
         Expanded(
           child: ListView.builder(
               itemCount: challengeIndices.length,
-              itemBuilder: (_, i) =>
-                  _buildChallengeTile(challengeIndices[i])),
+              itemBuilder: (_, i) => _buildChallengeTile(challengeIndices[i])),
         ),
         CompletionIndicator(
           completedRatio:
               _cleared.length / OriginalChallenges.challenges.length,
           showCompleted: _showCompleted,
-          onChanged: (bool value) {
-            setState(() {
-              _showCompleted = value;
-            });
+          onChanged: (bool? value) {
+            if (value != null) {
+              setState(() {
+                _showCompleted = value;
+              });
+            }
           },
         )
       ],

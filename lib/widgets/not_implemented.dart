@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 class NotImplemented extends StatefulWidget {
   final String featureId;
 
-  const NotImplemented({Key key, @required this.featureId}) : super(key: key);
+  const NotImplemented({Key? key, required this.featureId}) : super(key: key);
 
   @override
   _NotImplementedState createState() => _NotImplementedState();
@@ -13,7 +13,7 @@ class NotImplemented extends StatefulWidget {
 
 class _NotImplementedState extends State<NotImplemented> {
   bool _thumbedUp = false;
-  int _thumbsUp;
+  int? _thumbsUp;
 
   @override
   void initState() {
@@ -24,10 +24,14 @@ class _NotImplementedState extends State<NotImplemented> {
         .doc(widget.featureId)
         .get()
         .then((value) {
-      if (mounted)
-        setState(() {
-          _thumbsUp = value.data()['thumbs_up'];
-        });
+      if (mounted) {
+        var data = value.data();
+        if (data != null) {
+          setState(() {
+            _thumbsUp = data['thumbs_up'];
+          });
+        }
+      }
     });
   }
 
@@ -54,7 +58,9 @@ class _NotImplementedState extends State<NotImplemented> {
                   setState(() {
                     _thumbedUp = true;
 
-                    if (_thumbsUp != null) _thumbsUp++;
+                    if (_thumbsUp != null) {
+                      _thumbsUp = _thumbsUp! + 1; //FIXME
+                    }
                   });
                 },
         ),

@@ -8,14 +8,14 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class BoardPicker extends StatefulWidget {
   final void Function(MultiplayerBoard value) onChanged;
 
-  const BoardPicker({Key key, @required this.onChanged}) : super(key: key);
+  const BoardPicker({Key? key, required this.onChanged}) : super(key: key);
 
   @override
   _BoardPickerState createState() => _BoardPickerState();
 }
 
 class _BoardPickerState extends State<BoardPicker> {
-  MultiplayerBoard _selectedBoard;
+  MultiplayerBoard? _selectedBoard;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class _BoardPickerState extends State<BoardPicker> {
                 : AspectRatio(
                     aspectRatio: 12 / 9,
                     child: StaticGameView(
-                      game: GameState()..board = _selectedBoard.board(),
+                      game: GameState()..board = _selectedBoard!.board(),
                     ),
                   ),
           ),
@@ -39,11 +39,9 @@ class _BoardPickerState extends State<BoardPicker> {
                   context,
                   MaterialPageRoute<MultiplayerBoard>(
                       builder: (context) => BoardPickerLists()))
-              .then((MultiplayerBoard board) {
+              .then((MultiplayerBoard? board) {
             if (board is MultiplayerBoard) {
-              if (widget.onChanged != null) {
-                widget.onChanged(board);
-              }
+              widget.onChanged(board);
 
               setState(() {
                 _selectedBoard = board;

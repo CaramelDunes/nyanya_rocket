@@ -21,19 +21,15 @@ class CreateTab extends StatefulWidget {
 
 class _CreateTabState extends State<CreateTab>
     with AutomaticKeepAliveClientMixin<CreateTab> {
-  String _name;
-  EditorMode _mode;
-  ChallengeType _challengeType;
+  String _name = '';
+  EditorMode _mode = EditorMode.Puzzle;
+  ChallengeType _challengeType = ChallengeType.GetMice;
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-
-    _name = '';
-    _mode = EditorMode.Puzzle;
-    _challengeType = ChallengeType.GetMice;
   }
 
   @override
@@ -50,8 +46,8 @@ class _CreateTabState extends State<CreateTab>
             child: Column(
               children: <Widget>[
                 NameFormField(
-                  onSaved: (String newValue) {
-                    _name = newValue;
+                  onSaved: (String? newValue) {
+                    _name = newValue ?? _name;
                   },
                 ),
                 DropdownButtonFormField<EditorMode>(
@@ -72,10 +68,13 @@ class _CreateTabState extends State<CreateTab>
                       value: EditorMode.Multiplayer,
                     ),
                   ],
-                  onChanged: (EditorMode value) => setState(() {
-                    _mode = value;
-                  }),
-                  onSaved: (EditorMode value) => _mode = value,
+                  onChanged: (EditorMode? value) {
+                    if (value != null)
+                      setState(() {
+                        _mode = value;
+                      });
+                  },
+                  onSaved: (EditorMode? value) => _mode = value ?? _mode,
                 ),
                 Visibility(
                   visible: _mode == EditorMode.Challenge,
@@ -104,21 +103,23 @@ class _CreateTabState extends State<CreateTab>
                         value: ChallengeType.OneHundredMice,
                       ),
                     ],
-                    onChanged: (ChallengeType value) => setState(() {
-                      _challengeType = value;
-                    }),
-                    onSaved: (ChallengeType value) => _challengeType = value,
+                    onChanged: (ChallengeType? value) {
+                      if (value != null)
+                        setState(() {
+                          _challengeType = value;
+                        });
+                    },
+                    onSaved: (ChallengeType? value) =>
+                        _challengeType = value ?? _challengeType,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: RaisedButton(
-                      color: Theme.of(context).primaryColor,
-                      textColor: Colors.white,
+                  child: ElevatedButton(
                       child: Text(NyaNyaLocalizations.of(context).createLabel),
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (BuildContext _) {
                             switch (_mode) {
@@ -127,7 +128,6 @@ class _CreateTabState extends State<CreateTab>
                                     puzzle: NamedPuzzleData.fromPuzzleData(
                                         name: _name,
                                         puzzleData: PuzzleData.withBorder()));
-                                break;
 
                               case EditorMode.Challenge:
                                 return ChallengeEditor(
@@ -138,18 +138,12 @@ class _CreateTabState extends State<CreateTab>
                                               ChallengeData.withBorder(
                                                   type: _challengeType)),
                                 );
-                                break;
 
                               case EditorMode.Multiplayer:
                                 return MultiplayerEditor(
                                   board: MultiplayerBoard.withBorder(
                                       name: _name, maxPlayer: 2),
                                 );
-                                break;
-
-                              default:
-                                return const SizedBox.shrink();
-                                break;
                             }
                           }));
                         }

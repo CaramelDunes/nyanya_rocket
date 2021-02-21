@@ -9,7 +9,7 @@ import '../../../models/user.dart';
 class SignUpDialog extends StatefulWidget {
   final User user;
 
-  const SignUpDialog({Key key, @required this.user}) : super(key: key);
+  const SignUpDialog({Key? key, required this.user}) : super(key: key);
 
   @override
   _SignUpDialogState createState() => _SignUpDialogState();
@@ -18,7 +18,7 @@ class SignUpDialog extends StatefulWidget {
 class _SignUpDialogState extends State<SignUpDialog> {
   final _formKey = GlobalKey<FormState>();
 
-  String _displayName;
+  String? _displayName;
   bool _loading = false;
 
   @override
@@ -39,18 +39,19 @@ class _SignUpDialogState extends State<SignUpDialog> {
                   key: _formKey,
                   child: TextFormField(
                     autofocus: true,
-                    autovalidate: true,
+                    autovalidateMode: AutovalidateMode.always,
                     maxLength: 24,
-                    validator: (String value) {
-                      if (!AccountManagement.displayNameRegExp
-                          .hasMatch(value)) {
+                    validator: (String? value) {
+                      if (value == null ||
+                          !AccountManagement.displayNameRegExp
+                              .hasMatch(value)) {
                         return NyaNyaLocalizations.of(context)
                             .displayNameFormatText;
                       }
 
                       return null;
                     },
-                    onSaved: (String value) {
+                    onSaved: (String? value) {
                       _displayName = value;
                     },
                   ),
@@ -85,19 +86,20 @@ class _SignUpDialogState extends State<SignUpDialog> {
               ],
             ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
             child: Text(
                 NyaNyaLocalizations.of(context).confirmLabel.toUpperCase()),
             onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
 
                 setState(() {
                   _loading = true;
                 });
 
                 widget.user.signInAnonymously().then((user) {
-                  user.updateProfile(displayName: _displayName);
+                  user?.updateProfile(
+                      displayName: _displayName!); // ! Because of validation.
                   Navigator.pop(context, true);
                 }).catchError((e) {
                   setState(() {
@@ -106,7 +108,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
                 });
               }
             }),
-        FlatButton(
+        TextButton(
             child: Text(NyaNyaLocalizations.of(context).cancel.toUpperCase()),
             onPressed: () {
               Navigator.pop(context, false);

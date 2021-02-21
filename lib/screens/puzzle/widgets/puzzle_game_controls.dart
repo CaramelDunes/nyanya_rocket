@@ -4,7 +4,7 @@ import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
 class PuzzleGameControls extends StatelessWidget {
   final PuzzleGameController puzzleController;
 
-  PuzzleGameControls({@required this.puzzleController});
+  PuzzleGameControls({required this.puzzleController});
 
   static final double iconSize = 70.0;
 

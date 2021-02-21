@@ -7,9 +7,8 @@ class Language with ChangeNotifier {
   final SharedPreferences sharedPreferences;
   String _value;
 
-  Language({String defaultValue, @required this.sharedPreferences}) {
-    value = sharedPreferences.getString(key) ?? defaultValue;
-  }
+  Language({required String defaultValue, required this.sharedPreferences})
+      : _value = sharedPreferences.getString(key) ?? defaultValue;
 
   String get value => _value;
 

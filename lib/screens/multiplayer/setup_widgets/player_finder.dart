@@ -15,11 +15,11 @@ class PlayerFinder extends StatefulWidget {
   final String masterServerHostname;
 
   const PlayerFinder(
-      {Key key,
-      @required this.queueType,
-      @required this.displayName,
-      @required this.idToken,
-      @required this.masterServerHostname})
+      {Key? key,
+      required this.queueType,
+      required this.displayName,
+      required this.idToken,
+      required this.masterServerHostname})
       : super(key: key);
 
   @override
@@ -29,11 +29,11 @@ class PlayerFinder extends StatefulWidget {
 class _PlayerFinderState extends State<PlayerFinder> {
   bool _updatePending = false;
 
-  MultiplayerQueue _queue;
+  late MultiplayerQueue _queue;
 
-  Timer _queueJoinUpdateTimer;
+  late Timer _queueJoinUpdateTimer;
 
-  AuthenticatedClient _client;
+  late AuthenticatedClient _client;
 
   @override
   void initState() {
@@ -54,11 +54,9 @@ class _PlayerFinderState extends State<PlayerFinder> {
 
   @override
   void dispose() {
-    _queueJoinUpdateTimer?.cancel();
+    _queueJoinUpdateTimer.cancel();
 
-    if (widget.idToken != null) {
-      _queue.cancelSearch();
-    }
+    _queue.cancelSearch();
 
     _client.close();
 
@@ -90,11 +88,11 @@ class _PlayerFinderState extends State<PlayerFinder> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Text(
                 _queue.joined
-                    ? NyaNyaLocalizations.of(context)
-                        .positionInQueueText(_queue.position, _queue.length)
+                    ? NyaNyaLocalizations.of(context).positionInQueueText(
+                        _queue.position, _queue.length ?? 0) // FIXME the 0
                     : (_queue.length != null
                         ? NyaNyaLocalizations.of(context)
-                            .playersInQueueText(_queue.length)
+                            .playersInQueueText(_queue.length ?? 0)
                         : _updatePending
                             ? ''
                             : NyaNyaLocalizations.of(context)
@@ -111,7 +109,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            RaisedButton(
+            ElevatedButton(
               child: Text(_queue.joined
                   ? NyaNyaLocalizations.of(context).cancel
                   : NyaNyaLocalizations.of(context).joinQueueLabel),
@@ -121,7 +119,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
                 });
               },
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text(NyaNyaLocalizations.of(context).refreshLabel),
               onPressed: () {
                 _updateQueueLength();
@@ -143,12 +141,9 @@ class _PlayerFinderState extends State<PlayerFinder> {
 
       try {
         status = await _queue.updateQueueJoinStatus();
-      } catch (e) {
-        print('Could not join queue: $e');
-      }
 
-      if (status != null) {
         if (mounted) {
+          // FIXME Wtf
           if (status.port == null) {
             setState(() {});
           } else {
@@ -157,13 +152,13 @@ class _PlayerFinderState extends State<PlayerFinder> {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => NetworkMultiplayer(
                     nickname: widget.displayName,
-                    serverAddress: InternetAddress(status.ipAddress),
-                    port: status.port,
+                    serverAddress: InternetAddress(status.ipAddress!),
+                    port: status.port!,
                     ticket: status.ticket)));
           }
         }
-      } else {
-        print('Error on queue info refresh.');
+      } catch (e) {
+        print('Could not join queue: $e');
       }
     }
   }

@@ -27,8 +27,8 @@ class Multiplayer extends StatefulWidget {
 
 class _MultiplayerState extends State<Multiplayer>
     with SingleTickerProviderStateMixin {
-  String _idToken;
-  StreamSubscription _idTokenSubscription;
+  String? _idToken;
+  late StreamSubscription _idTokenSubscription;
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _MultiplayerState extends State<Multiplayer>
     return DefaultTabController(
         length: 3,
         child: Consumer2<Region, User>(builder:
-            (BuildContext context, Region region, User user, Widget child) {
+            (BuildContext context, Region region, User user, Widget? child) {
           return Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: AppBar(
@@ -140,19 +140,19 @@ class _MultiplayerState extends State<Multiplayer>
                           children: [
                             QueueAndLeaderboard(
                               queueType: QueueType.Duels,
-                              displayName: user.displayName ?? '',
-                              idToken: _idToken,
+                              displayName: user.displayName,
+                              idToken: _idToken!,
                               masterServerHostname: region.masterServerHostname,
                             ),
                             QueueAndLeaderboard(
                               queueType: QueueType.FourPlayers,
-                              displayName: user.displayName ?? '',
-                              idToken: _idToken,
+                              displayName: user.displayName,
+                              idToken: _idToken!,
                               masterServerHostname: region.masterServerHostname,
                             ),
                             FriendDuel(
-                              displayName: user.displayName ?? '',
-                              idToken: _idToken,
+                              displayName: user.displayName,
+                              idToken: _idToken!,
                               masterServerHostname: region.masterServerHostname,
                             )
                           ],

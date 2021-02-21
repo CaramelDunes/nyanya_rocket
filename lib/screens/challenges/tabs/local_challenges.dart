@@ -25,9 +25,11 @@ class _LocalChallengesState extends State<LocalChallenges> {
   void initState() {
     super.initState();
 
-    LocalChallenges.store.readRegistry().then((Map entries) => setState(() {
-          _challenges = entries;
-        }));
+    LocalChallenges.store
+        .readRegistry()
+        .then((Map<String, String> entries) => setState(() {
+              _challenges = entries;
+            }));
   }
 
   void _verifyAndPublish(BuildContext context, NamedChallengeData challenge) {
@@ -37,11 +39,9 @@ class _LocalChallengesState extends State<LocalChallenges> {
             builder: (BuildContext context) => Challenge(
                   challenge: challenge,
                   hasNext: false,
-                ))).then((OverlayResult overlayResult) {
+                ))).then((OverlayResult? overlayResult) {
       if (overlayResult != null) {
-        CloudFunctions.instance
-            .getHttpsCallable(functionName: 'publishChallenge')
-            .call({
+        FirebaseFunctions.instance.httpsCallable('publishChallenge').call({
           'name': challenge.name,
           'challenge_data': jsonEncode(challenge.challengeData.toJson()),
         }).then((HttpsCallableResult result) {
@@ -74,7 +74,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
         separatorBuilder: (context, int) => Divider(),
         itemCount: _challenges.length,
         itemBuilder: (context, i) => ListTile(
-              title: Text(_challenges[uuidList[i]]),
+              title: Text(_challenges[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[

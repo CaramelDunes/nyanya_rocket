@@ -6,12 +6,12 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class AnimatedForegroundPainter extends CustomPainter {
   final ValueListenable<GameState> game;
-  final ValueListenable<BoardPosition> mistake;
+  final ValueListenable<BoardPosition?>? mistake;
 
   final Animation entityAnimation;
 
   AnimatedForegroundPainter(
-      {@required this.game, @required this.entityAnimation, this.mistake})
+      {required this.game, required this.entityAnimation, this.mistake})
       : super(repaint: entityAnimation);
 
   @override
@@ -33,10 +33,10 @@ class AnimatedForegroundPainter extends CustomPainter {
 
   void _paintMistake(Canvas canvas, Size size) {
     if (mistake != null &&
-        mistake.value != null &&
+        mistake!.value != null &&
         entityAnimation.value > 15) {
       canvas.drawCircle(
-          ForegroundPainter.centerOfPosition(mistake.value, size.width / 12),
+          ForegroundPainter.centerOfPosition(mistake!.value!, size.width / 12),
           size.width / 24,
           Paint()
             ..color = Colors.red

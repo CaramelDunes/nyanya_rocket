@@ -20,14 +20,14 @@ class NetworkMultiplayer extends StatefulWidget {
   final String nickname;
   final InternetAddress serverAddress;
   final int port;
-  final int ticket;
+  final int? ticket;
   final Duration gameDuration;
 
   const NetworkMultiplayer(
-      {Key key,
-      @required this.nickname,
-      @required this.serverAddress,
-      @required this.port,
+      {Key? key,
+      required this.nickname,
+      required this.serverAddress,
+      required this.port,
       this.gameDuration = const Duration(minutes: 3),
       this.ticket})
       : super(key: key);
@@ -40,10 +40,10 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   final FixedExtentScrollController _scrollController =
       FixedExtentScrollController();
 
-  NetworkClient _localMultiplayerController;
+  late NetworkClient _localMultiplayerController;
   bool _displayRoulette = false;
   bool _hasEnded = false;
-  PlayerColor _myColor;
+  PlayerColor? _myColor;
 
   @override
   void initState() {
@@ -116,7 +116,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
       // Possible fixes:
       // - make Wheel inherit ScrollView directly.
       // - make Wheel keep its ScrollView across builds.
-      SchedulerBinding.instance.addPostFrameCallback((_) {
+      SchedulerBinding.instance!.addPostFrameCallback((_) {
         _scrollController.animateToItem(
             // Not * 4 to have a card above and under on the wheel.
             (GameEvent.values.length - 1) * 3 + event.index - 1,
@@ -154,23 +154,18 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     switch (player) {
       case PlayerColor.Blue:
         return Colors.blue;
-        break;
 
       case PlayerColor.Red:
         return Colors.red;
-        break;
 
       case PlayerColor.Green:
         return Colors.green;
-        break;
 
       case PlayerColor.Yellow:
         return Colors.yellow;
-        break;
 
       default:
         return Colors.black;
-        break;
     }
   }
 
@@ -181,18 +176,18 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
         color: _playerColorToColor(player));
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
+  Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,
       List rejectedData, int x, int y) {
     if (candidateData.isEmpty) return const SizedBox.expand();
 
     return ArrowImage(
-      direction: candidateData[0],
+      direction: candidateData[0]!,
       player: _myColor,
       opaque: false,
     );
   }
 
-  Widget _draggableArrow(PlayerColor player, Direction direction) {
+  Widget _draggableArrow(PlayerColor? player, Direction direction) {
     return Material(
       elevation: 8.0,
       child: Draggable<Direction>(
@@ -302,7 +297,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
               builder: (_, status, widget) {
                 return Visibility(
                     visible: status != NetworkGameStatus.Playing,
-                    child: widget);
+                    child: widget!);
               }),
           if (_hasEnded) _buildEndOfGame()
         ],
@@ -314,19 +309,13 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     switch (status) {
       case NetworkGameStatus.ConnectingToServer:
         return NyaNyaLocalizations.of(context).connectingToServerText;
-        break;
       case NetworkGameStatus.WaitingForPlayers:
         return NyaNyaLocalizations.of(context).waitingForPlayersText;
-        break;
       case NetworkGameStatus.Playing:
         return 'Playing...';
-        break;
       case NetworkGameStatus.Ended:
         return 'Game Over';
-        break;
     }
-
-    return '';
   }
 
   Widget _buildWaitingCard() {
@@ -356,7 +345,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  (_localMultiplayerController.game.scoreOf(_myColor) ==
+                  (_localMultiplayerController.game.scoreOf(_myColor!) ==
                           maxScore)
                       ? NyaNyaLocalizations.of(context).victoryLabel
                       : NyaNyaLocalizations.of(context).defeatLabel,

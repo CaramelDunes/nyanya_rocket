@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/game_view/entities_drawer.dart';
 import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
@@ -41,7 +42,7 @@ class General extends StatelessWidget {
               height: 76,
               child: Row(
                 children: <Widget>[
-                  Expanded(
+                  Flexible(
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child:
@@ -63,11 +64,13 @@ class General extends StatelessWidget {
               height: 76,
               child: Row(
                 children: <Widget>[
-                  Expanded(
+                  Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TilesDrawer.tileView(Arrow(
-                          player: PlayerColor.Blue, direction: Direction.Up)),
+                      child: ArrowImage(
+                        player: PlayerColor.Blue,
+                        direction: Direction.Up,
+                      ),
                     ),
                   ),
                   Flexible(

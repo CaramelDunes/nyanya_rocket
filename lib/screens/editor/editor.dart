@@ -12,7 +12,7 @@ class Editor extends StatefulWidget {
 }
 
 class _EditorState extends State<Editor> with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  late TabController _tabController;
 
   @override
   void initState() {

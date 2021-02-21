@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -17,23 +17,18 @@ class ChallengeType {
     switch (index) {
       case 0:
         return NyaNyaLocalizations.of(context).challengeGetMiceType;
-        break;
 
       case 1:
         return NyaNyaLocalizations.of(context).challengeRunAwayType;
-        break;
 
       case 2:
         return NyaNyaLocalizations.of(context).challengeLunchTimeType;
-        break;
 
       case 3:
         return NyaNyaLocalizations.of(context).challengeOneHundredMiceType;
-        break;
 
       default:
         return '';
-        break;
     }
   }
 
@@ -65,10 +60,11 @@ class ChallengeData {
   final String gameData;
   final ChallengeType type;
 
-  ChallengeData({@required this.gameData, @required this.type});
+  ChallengeData({required this.gameData, required this.type});
 
-  ChallengeData.withBorder({@required this.type})
-      : gameData = jsonEncode((GameState()..board = Board.withBorder()).toJson());
+  ChallengeData.withBorder({required this.type})
+      : gameData =
+            jsonEncode((GameState()..board = Board.withBorder()).toJson());
 
   GameState getGame() => GameState.fromJson(jsonDecode(gameData));
 

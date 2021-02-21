@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 
 class EmptyList extends StatelessWidget {
-  const EmptyList({Key key}) : super(key: key);
+  const EmptyList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

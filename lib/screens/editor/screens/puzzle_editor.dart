@@ -11,10 +11,10 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class PuzzleEditor extends StatefulWidget {
   final NamedPuzzleData puzzle;
-  final String uuid;
+  final String? uuid;
 
   PuzzleEditor({
-    @required this.puzzle,
+    required this.puzzle,
     this.uuid,
   });
 
@@ -23,8 +23,8 @@ class PuzzleEditor extends StatefulWidget {
 }
 
 class _PuzzleEditorState extends State<PuzzleEditor> {
-  EditedGame _editedGame;
-  String _uuid;
+  late EditedGame _editedGame;
+  String? _uuid;
   bool _saving = false;
 
   @override
@@ -117,7 +117,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
       });
     } else {
       LocalPuzzles.store
-          .updatePuzzle(_uuid, _buildPuzzleData().puzzleData)
+          .updatePuzzle(_uuid!, _buildPuzzleData().puzzleData)
           .then((bool status) {
         print('Updated $_uuid');
         _saving = false;
@@ -143,7 +143,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
               })
         ],
       ),
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
           return Flex(

@@ -13,7 +13,7 @@ class CheckerboardPainter extends CustomPainter {
 
   final List<Paint> paints;
 
-  CheckerboardPainter({@required bool useDarkColors})
+  CheckerboardPainter({required bool useDarkColors})
       : paints = useDarkColors ? darkPaints : lightPaints;
 
   @override

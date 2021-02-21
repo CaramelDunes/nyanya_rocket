@@ -12,10 +12,10 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class ChallengeEditor extends StatefulWidget {
   final NamedChallengeData challenge;
-  final String uuid;
+  final String? uuid;
 
   ChallengeEditor({
-    @required this.challenge,
+    required this.challenge,
     this.uuid,
   });
 
@@ -24,8 +24,8 @@ class ChallengeEditor extends StatefulWidget {
 }
 
 class _ChallengeEditorState extends State<ChallengeEditor> {
-  EditedGame _editedGame;
-  String _uuid;
+  late EditedGame _editedGame;
+  String? _uuid;
   bool _saving = false;
 
   @override
@@ -66,7 +66,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           StandardMenus.mice,
           StandardMenus.walls,
         ];
-        break;
 
       case ChallengeType.RunAway:
         return [
@@ -79,7 +78,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           StandardMenus.cats,
           StandardMenus.walls,
         ];
-        break;
 
       case ChallengeType.LunchTime:
         return [
@@ -90,7 +88,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           StandardMenus.cats,
           StandardMenus.walls,
         ];
-        break;
 
       case ChallengeType.OneHundredMice:
         return [
@@ -102,11 +99,9 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           StandardMenus.generators,
           StandardMenus.walls,
         ];
-        break;
 
       default:
         return [];
-        break;
     }
   }
 
@@ -128,7 +123,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
               })
         ],
       ),
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset : false,
       body: Column(
         children: <Widget>[
           Expanded(
@@ -168,7 +163,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
       });
     } else {
       LocalChallenges.store
-          .updateChallenge(_uuid, _buildChallengeData())
+          .updateChallenge(_uuid!, _buildChallengeData())
           .then((bool status) {
         print('Updated $_uuid');
         _saving = false;

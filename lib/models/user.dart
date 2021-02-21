@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 enum StatusCode { Success, Failure, InvalidArgument, Unauthenticated }
 
 class User with ChangeNotifier {
-  auth.User _user;
+  auth.User? _user;
 
   User() {
     auth.FirebaseAuth.instance.userChanges().listen((user) {
@@ -32,27 +32,25 @@ class User with ChangeNotifier {
   Future<StatusCode> setDisplayName(String newDisplayName) async {
     if (isConnected) {
       try {
-        await CloudFunctions.instance
-            .getHttpsCallable(functionName: 'setDisplayName')
-            .call({'displayName': newDisplayName}).then(
-                (HttpsCallableResult result) {});
-      } catch (e) {
+        await FirebaseFunctions.instance
+            .httpsCallable('setDisplayName')
+            .call({'displayName': newDisplayName});
+      } on FirebaseFunctionsException catch (e) {
         print(e.code);
 
         switch (e.code) {
           case 'INVALID_ARGUMENT':
             return StatusCode.InvalidArgument;
-            break;
 
           case 'UNAUTHENTICATED':
             return StatusCode.Unauthenticated;
-            break;
         }
 
         return StatusCode.Failure;
       }
 
-      await _user.updateProfile(displayName: newDisplayName);
+      // TODO isConnected should remove the need for the ?
+      await _user?.updateProfile(displayName: newDisplayName);
 
       return StatusCode.Success;
     }
@@ -60,13 +58,13 @@ class User with ChangeNotifier {
     return StatusCode.Success;
   }
 
-  Future<auth.User> signInAnonymously() async {
+  Future<auth.User?> signInAnonymously() async {
     auth.UserCredential result =
         await auth.FirebaseAuth.instance.signInAnonymously();
     _user = result.user;
     notifyListeners();
 
-    return _user;
+    return result.user;
   }
 
   Future<void> signOut() async {

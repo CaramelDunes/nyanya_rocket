@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class MultiplayerBoard {
@@ -9,13 +9,13 @@ class MultiplayerBoard {
   final String boardData;
 
   MultiplayerBoard(
-      {@required this.name,
-      @required this.maxPlayer,
-      @required this.boardData});
+      {required this.name,
+      required this.maxPlayer,
+      required this.boardData});
 
   MultiplayerBoard.withBorder({
-    @required this.name,
-    @required this.maxPlayer,
+    required this.name,
+    required this.maxPlayer,
   }) : boardData = jsonEncode(Board.withBorder().toJson());
 
   Board board() => Board.fromJson(jsonDecode(boardData));

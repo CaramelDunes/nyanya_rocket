@@ -12,7 +12,7 @@ class Contributors extends StatelessWidget {
     'ln(√π)', // Thumbs-up master clicker
   ];
 
-  const Contributors({Key key}) : super(key: key);
+  const Contributors({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

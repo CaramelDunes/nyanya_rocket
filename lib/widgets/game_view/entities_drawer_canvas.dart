@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/cached_flare_animation.dart';
+import 'package:nyanya_rocket/widgets/game_view/canvas_rive_animation.dart';
 
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class EntitiesDrawerCanvas {
   static const List<String> _directions = ['right', 'up', 'left', 'down'];
-  static final List<CachedFlareAnimation> mouseAnimations = List.generate(
-      4,
-      (int i) => CachedFlareAnimation(
-          assetFilename: "assets/animations/mouse_${_directions[i]}.flr",
-          animationName: "Move"));
-
-  static final List<CachedFlareAnimation> catAnimations = List.generate(
-      4,
-      (int i) => CachedFlareAnimation(
-          assetFilename: "assets/animations/cat_${_directions[i]}.flr",
-          animationName: "Move"));
+  static List<CanvasRiveAnimation>? mouseAnimations;
+  static List<CanvasRiveAnimation>? catAnimations;
 
   static double topOfEntity(Entity entity, double tileSize) {
     double top = entity.position.y * tileSize;
@@ -64,7 +55,7 @@ class EntitiesDrawerCanvas {
 
     switch (entity.runtimeType) {
       case Cat:
-        catAnimations[entity.position.direction.index].draw(
+        catAnimations![entity.position.direction.index].draw(
             canvas,
             Size(tileSize, tileSize + catBonusSize),
             leftOfEntity(entity, tileSize),
@@ -73,7 +64,7 @@ class EntitiesDrawerCanvas {
         break;
 
       case GoldenMouse:
-        mouseAnimations[entity.position.direction.index].draw(
+        mouseAnimations![entity.position.direction.index].draw(
             canvas,
             Size(tileSize, tileSize),
             leftOfEntity(entity, tileSize),
@@ -85,7 +76,7 @@ class EntitiesDrawerCanvas {
         break;
 
       case SpecialMouse:
-        mouseAnimations[entity.position.direction.index].draw(
+        mouseAnimations![entity.position.direction.index].draw(
             canvas,
             Size(tileSize, tileSize),
             leftOfEntity(entity, tileSize),
@@ -97,7 +88,7 @@ class EntitiesDrawerCanvas {
         break;
 
       case Mouse:
-        mouseAnimations[entity.position.direction.index].draw(
+        mouseAnimations![entity.position.direction.index].draw(
             canvas,
             Size(tileSize, tileSize),
             leftOfEntity(entity, tileSize),

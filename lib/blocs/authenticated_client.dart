@@ -1,11 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class AuthenticatedClient extends http.BaseClient {
   final http.Client _client = http.Client();
   final String authToken;
 
-  AuthenticatedClient({@required this.authToken});
+  AuthenticatedClient({required this.authToken});
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) {

@@ -9,7 +9,7 @@ class DisplayNameChangeDialog extends StatefulWidget {
   final User user;
 
   const DisplayNameChangeDialog(
-      {Key key, @required this.initialValue, @required this.user})
+      {Key? key, required this.initialValue, required this.user})
       : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class DisplayNameChangeDialog extends StatefulWidget {
 
 class _DisplayNameChangeDialogState extends State<DisplayNameChangeDialog> {
   final _formKey = GlobalKey<FormState>();
-  String _displayName;
+  String? _displayName;
   bool _loading = false;
 
   @override
@@ -40,19 +40,20 @@ class _DisplayNameChangeDialogState extends State<DisplayNameChangeDialog> {
                   key: _formKey,
                   child: TextFormField(
                     autofocus: true,
-                    autovalidate: true,
+                    autovalidateMode: AutovalidateMode.always,
                     maxLength: 24,
                     initialValue: widget.initialValue,
-                    validator: (String value) {
-                      if (!AccountManagement.displayNameRegExp
-                          .hasMatch(value)) {
+                    validator: (String? value) {
+                      if (value == null ||
+                          !AccountManagement.displayNameRegExp
+                              .hasMatch(value)) {
                         return NyaNyaLocalizations.of(context)
                             .displayNameFormatText;
                       }
 
                       return null;
                     },
-                    onSaved: (String value) {
+                    onSaved: (String? value) {
                       _displayName = value;
                     },
                   ),
@@ -60,24 +61,25 @@ class _DisplayNameChangeDialogState extends State<DisplayNameChangeDialog> {
               ],
             ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
             child: Text(NyaNyaLocalizations.of(context).cancel.toUpperCase()),
             onPressed: () {
               Navigator.pop(context);
             }),
-        FlatButton(
+        TextButton(
             child: Text(
                 NyaNyaLocalizations.of(context).confirmLabel.toUpperCase()),
             onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
 
                 if (_displayName != null) {
                   setState(() {
                     _loading = true;
                   });
+
                   widget.user
-                      .setDisplayName(_displayName)
+                      .setDisplayName(_displayName!)
                       .then((StatusCode status) {
                     if (status == StatusCode.Success) {
                       Navigator.pop(context, _displayName);

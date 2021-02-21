@@ -10,10 +10,10 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class MultiplayerEditor extends StatefulWidget {
   final MultiplayerBoard board;
-  final String uuid;
+  final String? uuid;
 
   MultiplayerEditor({
-    @required this.board,
+    required this.board,
     this.uuid,
   });
 
@@ -22,8 +22,8 @@ class MultiplayerEditor extends StatefulWidget {
 }
 
 class _MultiplayerEditorState extends State<MultiplayerEditor> {
-  EditedGame _editedGame;
-  String _uuid;
+  late EditedGame _editedGame;
+  late String? _uuid;
 
   bool _saving = false;
 
@@ -71,7 +71,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
               })
         ],
       ),
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset : false,
       body: Column(
         children: <Widget>[
           Expanded(
@@ -108,7 +108,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
       });
     } else {
       LocalBoards.store
-          .updateBoard(_uuid, _buildMultiplayerBoard())
+          .updateBoard(_uuid!, _buildMultiplayerBoard())
           .then((bool status) {
         print('Updated $_uuid');
         _saving = false;

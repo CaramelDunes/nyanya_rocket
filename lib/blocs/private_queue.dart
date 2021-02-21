@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class QueueJoinStatus {
-  final String roomId;
-  final String ipAddress;
-  final int port;
-  final int ticket;
+  final String? roomId;
+  final String? ipAddress;
+  final int? port;
+  final int? ticket;
 
   QueueJoinStatus({this.roomId, this.ipAddress, this.port, this.ticket});
 }
@@ -17,16 +16,16 @@ class PrivateQueue {
 
   final http.Client client;
 
-  int length;
+  int? length;
   bool joined = false;
   int position = 0;
 
-  PrivateQueue({@required this.client});
+  PrivateQueue({required this.client});
 
   Future<QueueJoinStatus> updateQueueCreateStatus(
-      {@required String masterServerHostname}) async {
+      {required String masterServerHostname}) async {
     http.Response response = await client
-        .get('http://$masterServerHostname/$apiVersion/private/roomCode');
+        .get(Uri.http(masterServerHostname, '$apiVersion/private/roomCode'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -46,10 +45,9 @@ class PrivateQueue {
   }
 
   Future<QueueJoinStatus> updateQueueJoinStatus(
-      {@required String masterServerHostname,
-      @required String roomCode}) async {
-    http.Response response = await client.get(
-        'http://$masterServerHostname/$apiVersion/private/join?roomCode=$roomCode');
+      {required String masterServerHostname, required String roomCode}) async {
+    http.Response response = await client.get(Uri.http(
+        masterServerHostname, '$apiVersion/private/join?roomCode=$roomCode'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -68,9 +66,9 @@ class PrivateQueue {
     }
   }
 
-  Future<void> cancelSearch({@required String masterServerHostname}) async {
+  Future<void> cancelSearch({required String masterServerHostname}) async {
     http.Response response = await client
-        .get('http://$masterServerHostname/$apiVersion/private/cancel');
+        .get(Uri.http(masterServerHostname, '$apiVersion/private/cancel'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);

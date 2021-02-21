@@ -10,7 +10,7 @@ class EventWheel extends StatelessWidget {
         GameEvent.values[(index % (GameEvent.values.length - 1)) + 1]);
   });
 
-  const EventWheel({Key key, @required this.scrollController})
+  const EventWheel({Key? key, required this.scrollController})
       : super(key: key);
 
   @override
@@ -28,40 +28,30 @@ class EventWheel extends StatelessWidget {
     switch (event) {
       case GameEvent.CatMania:
         return 'Cat Mania';
-        break;
 
       case GameEvent.MouseMania:
         return 'Mouse Mania';
-        break;
 
       case GameEvent.SpeedUp:
         return 'Speed Up';
-        break;
 
       case GameEvent.SlowDown:
         return 'Slow Down';
-        break;
 
       case GameEvent.MouseMonopoly:
         return 'Mouse Monopoly';
-        break;
 
       case GameEvent.CatAttack:
         return 'Cat Attack';
-        break;
 
       case GameEvent.PlaceAgain:
         return 'Place Arrows Again';
-        break;
 
       case GameEvent.EverybodyMove:
         return 'Everybody Move!';
-        break;
 
       case GameEvent.None:
-      default:
         return 'None';
-        break;
     }
   }
 

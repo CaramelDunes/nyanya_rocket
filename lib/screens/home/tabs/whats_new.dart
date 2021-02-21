@@ -46,7 +46,7 @@ class WhatsNew extends StatelessWidget {
                     ),
                   ),
                   Text(NyaNyaLocalizations.of(context).firstTimeText),
-                  RaisedButton(
+                  ElevatedButton(
                     child: Text(
                         NyaNyaLocalizations.of(context).firstTimeButtonLabel),
                     onPressed: () {
@@ -122,11 +122,11 @@ class WhatsNew extends StatelessWidget {
   }
 
   Widget _buildShortcutCard(
-      {@required BuildContext context,
-      @required IconData faIcon,
-      @required String name,
-      @required String routeName,
-      @required Axis direction}) {
+      {required BuildContext context,
+      required IconData faIcon,
+      required String name,
+      required String routeName,
+      required Axis direction}) {
     return Card(
       child: InkWell(
         child: Padding(
@@ -188,7 +188,7 @@ class WhatsNew extends StatelessWidget {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children:
-                            snapshot.data.docs.map((DocumentSnapshot document) {
+                            snapshot.data!.docs.map((DocumentSnapshot document) {
                           return ListTile(
                             title: Text(document.get('title')),
                             trailing: Text(MaterialLocalizations.of(context)

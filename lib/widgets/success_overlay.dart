@@ -7,15 +7,15 @@ enum OverlayResult { PlayNext, PlayAgain }
 
 class SuccessOverlay extends StatefulWidget {
   final String succeededName;
-  final String succeededPath;
+  final String? succeededPath;
   final bool hasNext;
   final bool canPlayAgain;
 
   const SuccessOverlay(
-      {Key key,
-      @required this.succeededName,
-      @required this.hasNext,
-      @required this.canPlayAgain,
+      {Key? key,
+      required this.succeededName,
+      required this.hasNext,
+      required this.canPlayAgain,
       this.succeededPath})
       : super(key: key);
 
@@ -24,7 +24,7 @@ class SuccessOverlay extends StatefulWidget {
 }
 
 class _SuccessOverlayState extends State<SuccessOverlay> {
-  int _stars;
+  int? _stars;
   bool _plusOned = false;
 
   @override
@@ -33,7 +33,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
 
     if (widget.succeededPath != null) {
       FirebaseFirestore.instance
-          .doc(widget.succeededPath)
+          .doc(widget.succeededPath!)
           .get()
           .then((DocumentSnapshot snapshot) {
         setState(() {
@@ -55,12 +55,15 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
           onPressed: () {
             if (!_plusOned) {
               final DocumentReference postRef =
-                  FirebaseFirestore.instance.doc(widget.succeededPath);
+                  FirebaseFirestore.instance.doc(widget.succeededPath!);
               postRef.update({'likes': FieldValue.increment(1)});
 
               setState(() {
                 _plusOned = true;
-                _stars += 1;
+
+                if (_stars != null) {
+                  _stars = _stars! + 1;
+                }
               });
             }
           },
@@ -102,9 +105,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          RaisedButton(
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
+                          ElevatedButton(
                             child: Text(
                                 NyaNyaLocalizations.of(context).playAgainLabel),
                             onPressed: () {
@@ -112,9 +113,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                                   .pop(OverlayResult.PlayAgain);
                             },
                           ),
-                          RaisedButton(
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
+                          ElevatedButton(
                             child: Text(widget.hasNext
                                 ? NyaNyaLocalizations.of(context).nextLevelLabel
                                 : NyaNyaLocalizations.of(context).back),

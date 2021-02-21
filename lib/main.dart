@@ -1,16 +1,17 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flare_flutter/flare_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/app.dart';
+import 'package:nyanya_rocket/warm_up_flare.dart';
+import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
-  // Copied from https://github.com/2d-inc/developer_quest/blob/master/lib/main.dart
-  // Don't prune the Flare cache, keep loaded Flare files warm and ready
-  // to be re-displayed.
-  FlareCache.doesPrune = false;
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseFirestore.instance.settings = const Settings();
+  await warmUpFlare();
   runApp(App(sharedPreferences: await SharedPreferences.getInstance()));
 }
