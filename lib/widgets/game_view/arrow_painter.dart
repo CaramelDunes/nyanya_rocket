@@ -13,7 +13,7 @@ Path arrowPath(double bodyHeightRatio, double bodyWidthRatio) {
   p.lineTo(0.5 - bodyWidthRatio / 2, 1);
   p.lineTo(0.5 - bodyWidthRatio / 2, 1 - bodyHeightRatio);
   p.lineTo(0, 1 - bodyHeightRatio);
-  p.lineTo(0.5, 0);
+  p.close();
 
   return p;
 }
