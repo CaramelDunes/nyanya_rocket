@@ -4,7 +4,6 @@ import 'package:nyanya_rocket/widgets/game_view/canvas_rive_animation.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class EntitiesDrawerCanvas {
-  static const List<String> _directions = ['right', 'up', 'left', 'down'];
   static List<CanvasRiveAnimation>? mouseAnimations;
   static List<CanvasRiveAnimation>? catAnimations;
 
