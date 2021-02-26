@@ -20,12 +20,12 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  intl: ^0.16.1
+  intl: ^0.17.0
 
-  firebase_core: ^0.8.0-1.0.nullsafety.1
-  cloud_firestore: ^0.17.0-1.0.nullsafety.0
-  firebase_auth: ^0.21.0-1.1.nullsafety.1
-  cloud_functions: ^0.9.1-1.0.nullsafety.1
+  firebase_core: ^1.0.0
+  cloud_firestore: ^1.0.0
+  firebase_auth: ^1.0.0
+  cloud_functions: ^1.0.0
 
   rive: ^0.6.8
 
@@ -35,11 +35,11 @@ dependencies:
 
   path_provider: ^2.0.0-nullsafety
 
-  uuid: any
+  uuid: ^3.0.0-nullsafety.1
 
   wifi_info_flutter: ^2.0.0-nullsafety
 
-  url_launcher: ^5.0.0
+  url_launcher: ^6.0.0-nullsafety.7
 
   share: ^2.0.0-nullsafety.2
 
@@ -51,10 +51,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  intl_translation: ^0.17.10+1
-
-#  flutter_launcher_icons: ^0.8.1
 
 flutter_icons:
   image_path: "assets/graphics/app_icon.png"
@@ -85,6 +81,3 @@ flutter:
     - assets/animations/drag_arrow.gif
     - assets/animations/swipe_arrow.gif
     - assets/animations/remove_arrow.gif
-
-dependency_overrides:
-  intl: 0.17.0

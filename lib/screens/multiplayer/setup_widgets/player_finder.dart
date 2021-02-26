@@ -132,10 +132,6 @@ class _PlayerFinderState extends State<PlayerFinder> {
   }
 
   Future<void> _updateQueueJoinStatus() async {
-    if (widget.idToken == null) {
-      return;
-    }
-
     if (_queue.joined) {
       QueueJoinStatus status;
 
@@ -164,10 +160,6 @@ class _PlayerFinderState extends State<PlayerFinder> {
   }
 
   Future<void> _updateQueueLength() async {
-    if (widget.idToken == null) {
-      return;
-    }
-
     _updatePending = true;
     if (!_queue.joined) {
       _queue.length = null;

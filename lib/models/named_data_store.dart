@@ -16,36 +16,31 @@ class NamedDataStore {
   Future<Map<String, String>> readRegistry() async {
     _entries.clear();
 
-    Directory? directory = await getApplicationSupportDirectory();
+    Directory directory = await getApplicationSupportDirectory();
 
-    if (directory != null) {
-      File _registryFile = File('${directory.path}/$storeName/registry.txt');
+    File _registryFile = File('${directory.path}/$storeName/registry.txt');
 
-      if (!await _registryFile.exists()) {
-        await _registryFile.create(recursive: true);
-        return _entries;
-      }
-
-      String contents = await _registryFile.readAsString();
-
-      for (String entry in contents.split('\n')) {
-        int separator = entry.indexOf(';');
-
-        if (separator == -1) {
-          if (entry.isNotEmpty) {
-            print('Ignoring invalid entry: $entry');
-          }
-          continue;
-        }
-
-        _entries[entry.substring(0, separator)] =
-            entry.substring(separator + 1);
-      }
-
+    if (!await _registryFile.exists()) {
+      await _registryFile.create(recursive: true);
       return _entries;
     }
 
-    return Map();
+    String contents = await _registryFile.readAsString();
+
+    for (String entry in contents.split('\n')) {
+      int separator = entry.indexOf(';');
+
+      if (separator == -1) {
+        if (entry.isNotEmpty) {
+          print('Ignoring invalid entry: $entry');
+        }
+        continue;
+      }
+
+      _entries[entry.substring(0, separator)] = entry.substring(separator + 1);
+    }
+
+    return _entries;
   }
 
   Future<bool> _writeRegistry() async {
@@ -54,45 +49,37 @@ class NamedDataStore {
     _entries
         .forEach((String uuid, String name) => stringValue += '$uuid;$name\n');
 
-    Directory? directory = await getApplicationDocumentsDirectory();
+    Directory directory = await getApplicationDocumentsDirectory();
 
-    if (directory != null) {
-      File _registryFile = File('${directory.path}/$storeName/registry.txt');
+    File _registryFile = File('${directory.path}/$storeName/registry.txt');
+
+    if (!await _registryFile.exists()) {
+      await _registryFile.create(recursive: true);
 
       if (!await _registryFile.exists()) {
-        await _registryFile.create(recursive: true);
-
-        if (!await _registryFile.exists()) {
-          return false;
-        }
+        return false;
       }
-
-      await _registryFile.writeAsString(stringValue);
-      return true;
     }
 
-    return false;
+    await _registryFile.writeAsString(stringValue);
+    return true;
   }
 
   Future<bool> _writeData(String uuid, String data) async {
-    Directory? directory = await getApplicationDocumentsDirectory();
+    Directory directory = await getApplicationDocumentsDirectory();
 
-    if (directory != null) {
-      File dataFile = File('${directory.path}/$storeName/$uuid.txt');
+    File dataFile = File('${directory.path}/$storeName/$uuid.txt');
+
+    if (!await dataFile.exists()) {
+      await dataFile.create();
 
       if (!await dataFile.exists()) {
-        await dataFile.create();
-
-        if (!await dataFile.exists()) {
-          return false;
-        }
+        return false;
       }
-
-      await dataFile.writeAsString(data);
-      return true;
     }
 
-    return false;
+    await dataFile.writeAsString(data);
+    return true;
   }
 
   Future<String> saveNewData(String name, String data) async {
@@ -138,12 +125,10 @@ class NamedDataStore {
     if (_entries.containsKey(uuid)) {
       Directory? directory = await getApplicationDocumentsDirectory();
 
-      if (directory != null) {
-        File dataFile = File('${directory.path}/$storeName/$uuid.txt');
+      File dataFile = File('${directory.path}/$storeName/$uuid.txt');
 
-        if (await dataFile.exists()) {
-          return dataFile.readAsString();
-        }
+      if (await dataFile.exists()) {
+        return dataFile.readAsString();
       }
     }
 
@@ -152,15 +137,13 @@ class NamedDataStore {
 
   Future<bool> deleteData(String uuid) async {
     if (_entries.containsKey(uuid)) {
-      Directory? directory = await getApplicationDocumentsDirectory();
+      Directory directory = await getApplicationDocumentsDirectory();
 
-      if (directory != null) {
-        await File('${directory.path}/$storeName/$uuid.txt').delete();
+      await File('${directory.path}/$storeName/$uuid.txt').delete();
 
-        _entries.remove(uuid);
-        await _writeRegistry();
-        return true;
-      }
+      _entries.remove(uuid);
+      await _writeRegistry();
+      return true;
     }
 
     return false;
