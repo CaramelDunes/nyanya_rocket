@@ -57,7 +57,6 @@ class _AppState extends State<App> {
     scheduleMicrotask(() {
       precacheImage(AssetImage('assets/graphics/generator.png'), context);
       precacheImage(AssetImage('assets/graphics/pit.png'), context);
-      precacheImage(AssetImage('assets/graphics/departed_rocket.png'), context);
     });
   }
 

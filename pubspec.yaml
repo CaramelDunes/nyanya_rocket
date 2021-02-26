@@ -74,7 +74,6 @@ flutter:
     - assets/graphics/generator.png
     - assets/graphics/wall.png
     - assets/graphics/wall_cross.png
-    - assets/graphics/departed_rocket.png
     - assets/animations/mouse_right.riv
     - assets/animations/mouse_up.riv
     - assets/animations/mouse_left.riv

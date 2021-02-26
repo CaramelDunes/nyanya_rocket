@@ -39,12 +39,10 @@ class TilesDrawer extends StatelessWidget {
       case Rocket:
         Rocket rocket = tile as Rocket;
 
-        if (!rocket.departed) {
-          return RocketImage(player: rocket.player);
-        } else {
-          return Image.asset('assets/graphics/departed_rocket.png',
-              fit: BoxFit.contain);
-        }
+        return RocketImage(
+          player: rocket.player,
+          departed: rocket.departed,
+        );
 
       default:
         return const SizedBox.shrink();
