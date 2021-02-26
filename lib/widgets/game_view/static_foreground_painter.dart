@@ -11,8 +11,8 @@ class StaticForegroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     ForegroundPainter.paintWalls(canvas, size, game.board);
-    // EntitiesDrawerCanvas.drawEntities(canvas, size, game.cats, 0);
-    // EntitiesDrawerCanvas.drawEntities(canvas, size, game.mice, 0);
+    EntitiesDrawerCanvas.drawEntities(canvas, size, game.cats, 0);
+    EntitiesDrawerCanvas.drawEntities(canvas, size, game.mice, 0);
   }
 
   @override

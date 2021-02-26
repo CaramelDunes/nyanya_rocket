@@ -1,10 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nyanya_rocket/widgets/game_view/canvas_rive_animation.dart';
 import 'package:rive/rive.dart';
 
-class DrawableRiveAnimation implements CanvasRiveAnimation{
+import 'canvas_rive_animation.dart';
+
+class DrawableRiveAnimation implements CanvasRiveAnimation {
   int lastNb = 0;
   RuntimeArtboard artboard;
 
@@ -21,8 +22,10 @@ class DrawableRiveAnimation implements CanvasRiveAnimation{
       // Rive widget.
       final artboard = file.mainArtboard as RuntimeArtboard;
       artboard.addController(
-        SimpleAnimation('Move'),
+        SimpleAnimation(animationName),
       );
+
+      artboard.advance(0);
 
       return DrawableRiveAnimation._(artboard);
     }
@@ -45,10 +48,12 @@ class DrawableRiveAnimation implements CanvasRiveAnimation{
 
     canvas.translate(x, y);
     canvas.scale(scale);
+
     if (lastNb != frameNb) {
       artboard.advance(0.032);
       lastNb = frameNb;
     }
+
     artboard.draw(canvas);
 
     canvas.restore();
