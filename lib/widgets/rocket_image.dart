@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/rocket_painter.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+import 'game_view/tiles/rocket_painter.dart';
 
 class RocketImage extends StatelessWidget {
   final PlayerColor? player;

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/checkerboard_painter.dart';
-import 'package:nyanya_rocket/widgets/game_view/static_foreground_painter.dart';
-import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import 'static_foreground_painter.dart';
+import 'checkerboard_painter.dart';
+import 'tiles/tiles_drawer.dart';
 
 class StaticGameView extends StatelessWidget {
   final GameState game;

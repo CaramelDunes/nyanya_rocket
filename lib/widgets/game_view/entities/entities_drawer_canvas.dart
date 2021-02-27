@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/canvas_rive_animation.dart';
 
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+import 'canvas_rive_animation.dart';
 
 class EntitiesDrawerCanvas {
   static List<CanvasRiveAnimation>? mouseAnimations;

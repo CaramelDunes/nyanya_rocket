@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/entities_drawer_canvas.dart';
-import 'package:nyanya_rocket/widgets/game_view/foreground_painter.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import 'foreground_painter.dart';
+import 'entities/entities_drawer_canvas.dart';
 
 class AnimatedForegroundPainter extends CustomPainter {
   final ValueListenable<GameState> game;

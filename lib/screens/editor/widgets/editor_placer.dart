@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/screens/editor/edited_game.dart';
-import 'package:nyanya_rocket/screens/editor/widgets/discard_confirmation_dialog.dart';
-import 'package:nyanya_rocket/widgets/game_view/entities_drawer.dart';
-import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
-import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../localization/nyanya_localizations.dart';
+import '../edited_game.dart';
+import 'discard_confirmation_dialog.dart';
+import '../../../widgets/game_view/entities/entities_drawer.dart';
+import '../../../widgets/game_view/static_game_view.dart';
+import '../../../widgets/game_view/tiles/tiles_drawer.dart';
+import '../../../widgets/input_grid_overlay.dart';
 
 enum ToolType { Tile, Entity, Wall }
 

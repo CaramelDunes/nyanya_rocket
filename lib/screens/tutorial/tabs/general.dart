@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/widgets/arrow_image.dart';
-import 'package:nyanya_rocket/widgets/game_view/entities_drawer.dart';
-import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../localization/nyanya_localizations.dart';
+import '../../../widgets/arrow_image.dart';
+import '../../../widgets/game_view/entities/entities_drawer.dart';
+import '../../../widgets/game_view/tiles/tiles_drawer.dart';
 
 class General extends StatelessWidget {
   @override

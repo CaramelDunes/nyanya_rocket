@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-import 'widgets/game_view/entities_drawer_canvas.dart';
-import 'widgets/game_view/cached_rive_animation.dart';
-import 'widgets/game_view/drawable_rive_animation.dart';
+import 'widgets/game_view/entities/entities_drawer_canvas.dart';
+import 'widgets/game_view/entities/cached_rive_animation.dart';
+import 'widgets/game_view/entities/drawable_rive_animation.dart';
 
 /// Ensure all Rive assets used by this app are cached and ready to
 /// be displayed as quickly as possible.

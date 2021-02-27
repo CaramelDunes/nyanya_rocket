@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/entities_drawer.dart';
-import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../widgets/game_view/entities/entities_drawer.dart';
+import '../../../widgets/game_view/tiles/tiles_drawer.dart';
 
 class Multiplayer extends StatelessWidget {
   @override
