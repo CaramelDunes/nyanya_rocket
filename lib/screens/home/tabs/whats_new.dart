@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/settings/first_run.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +52,9 @@ class WhatsNew extends StatelessWidget {
                         NyaNyaLocalizations.of(context).firstTimeButtonLabel),
                     onPressed: () {
                       _dismissWelcomeCard(context);
-                      Navigator.pushNamed(context, '/tutorial');
+                      Router.of(context)
+                          .routerDelegate
+                          .setNewRoutePath(NyaNyaRoutePath.guide());
                     },
                   )
                 ],
@@ -102,21 +105,21 @@ class WhatsNew extends StatelessWidget {
               context: context,
               faIcon: FontAwesomeIcons.puzzlePiece,
               name: NyaNyaLocalizations.of(context).puzzlesTitle,
-              routeName: '/puzzles',
+              routePath: NyaNyaRoutePath.puzzles(),
               direction: direction)),
       Expanded(
           child: _buildShortcutCard(
               context: context,
               faIcon: FontAwesomeIcons.stopwatch,
               name: NyaNyaLocalizations.of(context).challengesTitle,
-              routeName: '/challenges',
+              routePath: NyaNyaRoutePath.challenges(),
               direction: direction)),
       Expanded(
           child: _buildShortcutCard(
               context: context,
               faIcon: FontAwesomeIcons.gamepad,
               name: NyaNyaLocalizations.of(context).multiplayerTitle,
-              routeName: '/multiplayer',
+              routePath: NyaNyaRoutePath.multiplayer(),
               direction: direction))
     ];
   }
@@ -125,7 +128,7 @@ class WhatsNew extends StatelessWidget {
       {required BuildContext context,
       required IconData faIcon,
       required String name,
-      required String routeName,
+      required NyaNyaRoutePath routePath,
       required Axis direction}) {
     return Card(
       child: InkWell(
@@ -145,7 +148,7 @@ class WhatsNew extends StatelessWidget {
           ),
         ),
         onTap: () {
-          Navigator.pushNamed(context, routeName);
+          Router.of(context).routerDelegate.setNewRoutePath(routePath);
         },
       ),
     );
@@ -187,8 +190,8 @@ class WhatsNew extends StatelessWidget {
                     default:
                       return Column(
                         mainAxisSize: MainAxisSize.min,
-                        children:
-                            snapshot.data!.docs.map((DocumentSnapshot document) {
+                        children: snapshot.data!.docs
+                            .map((DocumentSnapshot document) {
                           return ListTile(
                             title: Text(document.get('title')),
                             trailing: Text(MaterialLocalizations.of(context)

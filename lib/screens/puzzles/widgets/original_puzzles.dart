@@ -178,7 +178,15 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
             _openPuzzle(puzzleIndex);
           }
         }
+        Router.of(context)
+            .routeInformationProvider!
+            .routerReportsNewRouteInformation(
+                RouteInformation(location: '/puzzles'));
       });
+      Router.of(context)
+          .routeInformationProvider!
+          .routerReportsNewRouteInformation(
+              RouteInformation(location: '/puzzle/$puzzleIndex'));
     }
   }
 

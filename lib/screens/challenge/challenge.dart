@@ -4,6 +4,8 @@ import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
 import 'package:nyanya_rocket/screens/challenge/widgets/arrow_drawer.dart';
+import 'package:nyanya_rocket/screens/settings/settings.dart';
+import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
@@ -98,13 +100,19 @@ class _ChallengeState extends State<Challenge> {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              Navigator.pushNamed(context, '/settings');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Settings()));
             },
           ),
           IconButton(
             icon: Icon(Icons.help_outline),
             onPressed: () {
-              Navigator.pushNamed(context, '/tutorial');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Tutorial()));
             },
           )
         ],

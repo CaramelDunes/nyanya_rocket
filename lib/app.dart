@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nyanya_rocket/models/user.dart';
-import 'package:nyanya_rocket/routing.dart';
 import 'package:nyanya_rocket/screens/settings/dark_mode.dart';
 import 'package:nyanya_rocket/screens/settings/first_run.dart';
 import 'package:nyanya_rocket/screens/settings/language.dart';
@@ -11,6 +10,9 @@ import 'package:nyanya_rocket/screens/settings/region.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'routing/nyanya_route_information_parser.dart';
+import 'routing/nyanya_router.dart';
 
 class App extends StatefulWidget {
   static const String projectUrl =
@@ -46,6 +48,9 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final User _user = User();
+  NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
+  NyaNyaRouteInformationParser _routeInformationParser =
+      NyaNyaRouteInformationParser();
 
   @override
   void initState() {
@@ -83,7 +88,7 @@ class _AppState extends State<App> {
       ],
       child: Consumer2<DarkMode, Language>(
         builder: (_, darkMode, language, __) {
-          return MaterialApp(
+          return MaterialApp.router(
             localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -94,8 +99,8 @@ class _AppState extends State<App> {
             title: 'NyaNya Rocket!',
             theme: darkMode.enabled ? App.darkTheme : App.lightTheme,
             darkTheme: App.darkTheme,
-            initialRoute: Routing.initialRoute,
-            routes: Routing.routes,
+            routerDelegate: _routerDelegate,
+            routeInformationParser: _routeInformationParser,
           );
         },
       ),

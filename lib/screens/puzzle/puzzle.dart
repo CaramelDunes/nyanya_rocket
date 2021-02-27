@@ -3,6 +3,8 @@ import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
 import 'package:nyanya_rocket/screens/puzzle/widgets/available_arrows.dart';
 import 'package:nyanya_rocket/screens/puzzle/widgets/puzzle_game_controls.dart';
+import 'package:nyanya_rocket/screens/settings/settings.dart';
+import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
@@ -132,13 +134,19 @@ class _PuzzleState extends State<Puzzle> {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              Navigator.pushNamed(context, '/settings');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Settings()));
             },
           ),
           IconButton(
             icon: Icon(Icons.help_outline),
             onPressed: () {
-              Navigator.pushNamed(context, '/tutorial');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Tutorial()));
             },
           )
         ],

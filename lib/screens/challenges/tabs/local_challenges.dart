@@ -50,12 +50,12 @@ class _LocalChallengesState extends State<LocalChallenges> {
 
         final snackBar = SnackBar(
             content: Text(NyaNyaLocalizations.of(context).publishSuccessText));
-        Scaffold.of(context).showSnackBar(snackBar);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else {
         final snackBar = SnackBar(
             content: Text(
                 NyaNyaLocalizations.of(context).puzzleNotCompletedLocallyText));
-        Scaffold.of(context).showSnackBar(snackBar);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     });
   }
@@ -97,7 +97,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
                         final snackBar = SnackBar(
                             content: Text(NyaNyaLocalizations.of(context)
                                 .loginPromptText));
-                        Scaffold.of(context).showSnackBar(snackBar);
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                   ),

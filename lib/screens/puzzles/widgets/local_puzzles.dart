@@ -41,9 +41,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                   hasNext: false,
                 ))).then((OverlayResult? overlayResult) {
       if (overlayResult != null) {
-        FirebaseFunctions.instance
-            .httpsCallable('publishPuzzle')
-            .call({
+        FirebaseFunctions.instance.httpsCallable('publishPuzzle').call({
           'name': puzzle.name,
           'puzzle_data': jsonEncode(puzzle.puzzleData.toJson()),
         }).then((HttpsCallableResult result) {
@@ -52,12 +50,12 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
 
         final snackBar = SnackBar(
             content: Text(NyaNyaLocalizations.of(context).publishSuccessText));
-        Scaffold.of(context).showSnackBar(snackBar);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else {
         final snackBar = SnackBar(
             content: Text(
                 NyaNyaLocalizations.of(context).puzzleNotCompletedLocallyText));
-        Scaffold.of(context).showSnackBar(snackBar);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     });
   }
@@ -99,7 +97,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                         final snackBar = SnackBar(
                             content: Text(NyaNyaLocalizations.of(context)
                                 .loginPromptText));
-                        Scaffold.of(context).showSnackBar(snackBar);
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                   ),
