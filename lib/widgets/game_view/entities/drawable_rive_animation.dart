@@ -12,7 +12,9 @@ class DrawableRiveAnimation implements CanvasRiveAnimation {
   DrawableRiveAnimation._(this.artboard);
 
   static Future<DrawableRiveAnimation> load(
-      {required String assetFilename, required String animationName}) async {
+      {required String assetFilename,
+      required String animationName,
+      String? artboardName}) async {
     final data = await rootBundle.load(assetFilename);
     final file = RiveFile();
 
@@ -20,7 +22,9 @@ class DrawableRiveAnimation implements CanvasRiveAnimation {
     if (file.import(data)) {
       // The artboard is the root of the animation and gets drawn in the
       // Rive widget.
-      final artboard = file.mainArtboard as RuntimeArtboard;
+      final artboard = (artboardName != null
+          ? file.artboardByName(artboardName)
+          : file.mainArtboard) as RuntimeArtboard;
       artboard.addController(
         SimpleAnimation(animationName),
       );

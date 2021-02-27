@@ -72,14 +72,8 @@ flutter:
     - assets/graphics/generator.png
     - assets/graphics/wall.png
     - assets/graphics/wall_cross.png
-    - assets/animations/mouse_right.riv
-    - assets/animations/mouse_up.riv
-    - assets/animations/mouse_left.riv
-    - assets/animations/mouse_down.riv
-    - assets/animations/cat_down.riv
-    - assets/animations/cat_up.riv
-    - assets/animations/cat_right.riv
-    - assets/animations/cat_left.riv
+    - assets/animations/mouse.riv
+    - assets/animations/cat.riv
     - assets/animations/drag_arrow.gif
     - assets/animations/swipe_arrow.gif
     - assets/animations/remove_arrow.gif

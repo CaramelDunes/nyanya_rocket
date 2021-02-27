@@ -16,7 +16,9 @@ class CachedRiveAnimation implements CanvasRiveAnimation {
   CachedRiveAnimation._(this._size, this._cachedPictures);
 
   static Future<CachedRiveAnimation> load(
-      {required String assetFilename, required String animationName}) async {
+      {required String assetFilename,
+      required String animationName,
+      String? artboardName}) async {
     final data = await rootBundle.load(assetFilename);
     final file = RiveFile();
 
@@ -24,9 +26,11 @@ class CachedRiveAnimation implements CanvasRiveAnimation {
     if (file.import(data)) {
       // The artboard is the root of the animation and gets drawn in the
       // Rive widget.
-      final artboard = file.mainArtboard as RuntimeArtboard;
+      final artboard = (artboardName != null
+          ? file.artboardByName(artboardName)
+          : file.mainArtboard) as RuntimeArtboard;
       artboard.addController(
-        SimpleAnimation('Move'),
+        SimpleAnimation(animationName),
       );
       int numberOfFrames = 30;
       Size size = Size(artboard.width * 0.228, artboard.height * 0.228);
