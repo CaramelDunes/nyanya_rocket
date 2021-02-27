@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:nyanya_rocket/models/user.dart';
-import 'package:nyanya_rocket/screens/settings/dark_mode.dart';
-import 'package:nyanya_rocket/screens/settings/first_run.dart';
-import 'package:nyanya_rocket/screens/settings/language.dart';
-import 'package:nyanya_rocket/screens/settings/region.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'routing/nyanya_route_information_parser.dart';
-import 'routing/nyanya_router.dart';
+import 'routing/nyanya_router_delegate.dart';
+import 'models/user.dart';
+import 'screens/settings/dark_mode.dart';
+import 'screens/settings/first_run.dart';
+import 'screens/settings/language.dart';
+import 'screens/settings/region.dart';
 
 class App extends StatefulWidget {
   static const String projectUrl =

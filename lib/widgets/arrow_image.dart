@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/game_view/arrow_painter.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-const List<String> kColorSuffixes = ['blue', 'red', 'green', 'yellow', 'grey'];
-
 class ArrowImage extends StatelessWidget {
   final PlayerColor? player;
   final Direction direction;

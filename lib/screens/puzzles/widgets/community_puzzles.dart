@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
@@ -139,7 +140,19 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                                       documentPath: 'puzzles/${puzzles[i].uid}',
                                       hasNext: false,
                                     )))
-                            .then((OverlayResult? overlayResult) {});
+                            .then((OverlayResult? overlayResult) {
+                          Router.of(context)
+                              .routeInformationProvider!
+                              .routerReportsNewRouteInformation(RouteInformation(
+                                  location:
+                                      '/${PageKind.Puzzle.slug}/${TabKind.Community.slug}'));
+                        });
+
+                        Router.of(context)
+                            .routeInformationProvider!
+                            .routerReportsNewRouteInformation(RouteInformation(
+                                location:
+                                    '/${PageKind.Puzzle.slug}/${TabKind.Community.slug}/${puzzles[i].uid}'));
                       },
                     )),
           ),

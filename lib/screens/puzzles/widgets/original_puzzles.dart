@@ -2,6 +2,9 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
+import 'package:slugify/slugify.dart';
+
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_progression_manager.dart';
@@ -119,6 +122,10 @@ class OriginalPuzzles extends StatefulWidget {
     '{"name":"Panic!","gameData":"{\\"board\\":{\\"tiles\\":[[{\\"type\\":2},{\\"type\\":2},{\\"type\\":2},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":2},{\\"type\\":2},{\\"type\\":2}],[{\\"type\\":2},{\\"type\\":2},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":2},{\\"type\\":2}],[{\\"type\\":2},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":2}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":3,\\"player\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":3,\\"player\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}]],\\"walls\\":[[3,1,1,1,1,1,1,1,1],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,2,0,0,0,0,0,0],[3,0,0,0,0,0,1,0,0],[2,1,1,0,0,0,0,3,1],[2,2,0,0,0,0,0,1,2],[2,1,2,0,0,0,0,3,0],[2,0,1,2,0,0,3,2,1],[2,3,1,1,1,1,2,3,0],[2,0,1,1,1,2,2,2,1],[3,2,1,1,1,0,2,1,0]]},\\"entities\\":[{\\"type\\":0,\\"position\\":{\\"x\\":8,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":9,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":10,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":1,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":8,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":1,\\"y\\":2,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":1,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":5,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":5,\\"y\\":2,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":8,\\"y\\":3,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":6,\\"y\\":1,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":0,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":0,\\"y\\":3,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":5,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":7,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":5,\\"y\\":4,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":1,\\"y\\":4,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":2,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":3,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":6,\\"y\\":5,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":7,\\"y\\":6,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":7,\\"y\\":2,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":1,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":8,\\"y\\":5,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":6,\\"y\\":3,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":5,\\"y\\":6,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":7,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":0,\\"y\\":5,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":3,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":4,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":6,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":7,\\"y\\":4,\\"direction\\":0}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":2,\\"direction\\":3}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":3,\\"direction\\":3}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":4,\\"direction\\":3}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":5,\\"direction\\":2}},{\\"type\\":0,\\"position\\":{\\"x\\":10,\\"y\\":5,\\"direction\\":2}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":5,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":4,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":3,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":2,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":10,\\"y\\":1,\\"direction\\":0}}]}","arrows":[3,4,1,2]}'
   ];
 
+  static Map<String, int> slugs = puzzles
+      .asMap()
+      .map((index, value) => MapEntry(Slugify(value.name), index));
+
   @override
   _OriginalPuzzlesState createState() => _OriginalPuzzlesState();
 }
@@ -181,12 +188,13 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
         Router.of(context)
             .routeInformationProvider!
             .routerReportsNewRouteInformation(
-                RouteInformation(location: '/puzzles'));
+                RouteInformation(location: '/${PageKind.Puzzle.slug}'));
       });
       Router.of(context)
           .routeInformationProvider!
-          .routerReportsNewRouteInformation(
-              RouteInformation(location: '/puzzle/$puzzleIndex'));
+          .routerReportsNewRouteInformation(RouteInformation(
+              location:
+                  '/${PageKind.Puzzle.slug}/${TabKind.Original.slug}/${Slugify(OriginalPuzzles.puzzles[puzzleIndex].name)}'));
     }
   }
 

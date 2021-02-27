@@ -1,36 +1,106 @@
-enum PageKind { Home, Puzzle, Puzzles, Challenge, Editor, Multiplayer, Guide }
+enum PageKind { Home, Puzzle, Challenge, Editor, Multiplayer, Guide }
+enum TabKind { Original, Community, Local }
+
+extension PageKindSlug on PageKind {
+  String get slug {
+    switch (this) {
+      case PageKind.Home:
+        return '';
+      case PageKind.Puzzle:
+        return 'puzzles';
+      case PageKind.Challenge:
+        return 'challenges';
+      case PageKind.Editor:
+        return 'editor';
+      case PageKind.Multiplayer:
+        return 'multiplayer';
+      case PageKind.Guide:
+        return 'guide';
+    }
+  }
+
+  static PageKind? fromSlug(String? slug) {
+    switch (slug) {
+      case 'puzzles':
+        return PageKind.Puzzle;
+      case 'challenges':
+        return PageKind.Challenge;
+      case 'editor':
+        return PageKind.Editor;
+    }
+  }
+}
+
+extension TabKindSlug on TabKind {
+  String get slug {
+    switch (this) {
+      case TabKind.Original:
+        return 'original';
+      case TabKind.Community:
+        return 'community';
+      case TabKind.Local:
+        return 'local';
+    }
+  }
+
+  static TabKind? fromSlug(String? slug) {
+    switch (slug) {
+      case 'original':
+        return TabKind.Original;
+      case 'community':
+        return TabKind.Community;
+      case 'local':
+        return TabKind.Local;
+    }
+  }
+}
 
 class NyaNyaRoutePath {
   final PageKind kind;
+  final TabKind? tabKind;
   final String? id;
 
-  NyaNyaRoutePath(this.kind, this.id);
+  NyaNyaRoutePath(this.kind, this.tabKind, this.id);
 
   NyaNyaRoutePath.home()
       : id = null,
-        kind = PageKind.Home;
+        kind = PageKind.Home,
+        tabKind = null;
 
   NyaNyaRoutePath.puzzles()
-      : kind = PageKind.Puzzles,
-        this.id = null;
+      : kind = PageKind.Puzzle,
+        this.id = null,
+        tabKind = null;
 
   NyaNyaRoutePath.challenges()
       : kind = PageKind.Challenge,
-        this.id = null;
+        this.id = null,
+        tabKind = null;
 
   NyaNyaRoutePath.editor()
       : kind = PageKind.Editor,
-        this.id = null;
+        this.id = null,
+        tabKind = null;
 
   NyaNyaRoutePath.multiplayer()
       : kind = PageKind.Multiplayer,
-        this.id = null;
+        this.id = null,
+        tabKind = null;
 
   NyaNyaRoutePath.guide()
       : kind = PageKind.Guide,
-        this.id = null;
+        this.id = null,
+        tabKind = null;
 
-  NyaNyaRoutePath.puzzle(this.id) : kind = PageKind.Puzzle;
+  NyaNyaRoutePath.originalPuzzle(this.id)
+      : kind = PageKind.Puzzle,
+        tabKind = TabKind.Original;
 
-  NyaNyaRoutePath.challenge(this.id) : kind = PageKind.Challenge;
+  NyaNyaRoutePath.communityPuzzle(this.id)
+      : kind = PageKind.Puzzle,
+        tabKind = TabKind.Community;
+
+  NyaNyaRoutePath.originalChallenge(this.id)
+      : kind = PageKind.Challenge,
+        tabKind = TabKind.Original;
 }

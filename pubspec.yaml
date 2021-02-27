@@ -48,6 +48,8 @@ dependencies:
 
   http: ^0.13.0
 
+  slugify: ^1.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

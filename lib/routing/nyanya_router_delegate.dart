@@ -18,13 +18,14 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
   final GlobalKey<NavigatorState> navigatorKey;
 
   PageKind _pageKind = PageKind.Home;
+  TabKind? _tabKind;
   String? _id;
 
   NyaNyaRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   NyaNyaRoutePath get currentConfiguration {
-    return NyaNyaRoutePath(_pageKind, _id);
+    return NyaNyaRoutePath(_pageKind, _tabKind, _id);
   }
 
   MaterialPage _pageForKind(PageKind pageKind) {
@@ -33,12 +34,14 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
         return MaterialPage(key: ValueKey('HomePage'), child: Home());
 
       case PageKind.Puzzle:
-      case PageKind.Puzzles:
-        return MaterialPage(key: ValueKey('PuzzlesPage'), child: Puzzles());
+        return MaterialPage(
+            key: ValueKey('PuzzlesPage'),
+            child: Puzzles(initialTab: _tabKind ?? TabKind.Original));
 
       case PageKind.Challenge:
         return MaterialPage(
-            key: ValueKey('ChallengesPage'), child: Challenges());
+            key: ValueKey('ChallengesPage'),
+            child: Challenges(initialTab: _tabKind ?? TabKind.Original));
 
       case PageKind.Editor:
         return MaterialPage(key: ValueKey('EditorPage'), child: Editor());
@@ -58,11 +61,14 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
       key: navigatorKey,
       pages: [
         _pageForKind(_pageKind),
-        if (_pageKind == PageKind.Puzzle && _id != null)
+        if (_pageKind == PageKind.Puzzle &&
+            _id != null &&
+            _tabKind == TabKind.Original &&
+            OriginalPuzzles.slugs.containsKey(_id))
           MaterialPage(
               key: ValueKey('PuzzlePage$_id'),
               child: Puzzle(
-                puzzle: OriginalPuzzles.puzzles[int.parse(_id!)],
+                puzzle: OriginalPuzzles.puzzles[OriginalPuzzles.slugs[_id]!],
                 hasNext: false,
               ))
         else if (_pageKind == PageKind.Challenge && _id != null)
@@ -87,6 +93,7 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
   @override
   Future<void> setNewRoutePath(NyaNyaRoutePath path) async {
     _pageKind = path.kind;
+    _tabKind = path.tabKind;
     _id = path.id;
     notifyListeners();
     return SynchronousFuture(null);
