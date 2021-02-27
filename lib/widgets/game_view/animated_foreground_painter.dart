@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import 'foreground_painter.dart';
-import 'entities/entities_drawer_canvas.dart';
+import 'walls_painter.dart';
+import 'static_foreground_painter.dart';
 
 class AnimatedForegroundPainter extends CustomPainter {
   final ValueListenable<GameState> game;
@@ -17,14 +18,15 @@ class AnimatedForegroundPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    ForegroundPainter.paintWalls(canvas, size, game.value.board);
+    double tileWidth = size.width / 12;
+    double tileHeight = size.height / 9;
 
-    EntitiesDrawerCanvas.drawEntities(
-        canvas, size, game.value.cats, entityAnimation.value);
-    EntitiesDrawerCanvas.drawEntities(
-        canvas, size, game.value.mice, entityAnimation.value);
-
-    _paintMistake(canvas, size);
+    canvas.save();
+    canvas.scale(tileWidth, tileHeight);
+    StaticForegroundPainter.paintUnit(
+        canvas, game.value, entityAnimation.value);
+    _paintUnitMistake(canvas);
+    canvas.restore();
   }
 
   @override
@@ -32,17 +34,17 @@ class AnimatedForegroundPainter extends CustomPainter {
     return true;
   }
 
-  void _paintMistake(Canvas canvas, Size size) {
+  void _paintUnitMistake(Canvas canvas) {
     if (mistake != null &&
         mistake!.value != null &&
         entityAnimation.value > 15) {
       canvas.drawCircle(
-          ForegroundPainter.centerOfPosition(mistake!.value!, size.width / 12),
-          size.width / 24,
+          WallsPainter.centerOfPosition(mistake!.value!),
+          0.55,
           Paint()
             ..color = Colors.red
             ..style = PaintingStyle.stroke
-            ..strokeWidth = 4);
+            ..strokeWidth = 0.1);
     }
   }
 }

@@ -1,17 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/screens/puzzle/animation_ticker.dart';
 
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import 'animated_foreground_painter.dart';
 import 'checkerboard_painter.dart';
-import 'tiles/tiles_drawer.dart';
 
 class AnimatedGameView extends StatefulWidget {
   final ValueListenable<GameState> game;
   final ValueListenable<BoardPosition?>? mistake;
+  final AnimationTicker? animationTicker;
 
-  AnimatedGameView({required this.game, this.mistake});
+  AnimatedGameView({required this.game, this.mistake, this.animationTicker});
 
   @override
   _AnimatedGameViewState createState() => _AnimatedGameViewState();
@@ -29,6 +30,11 @@ class _AnimatedGameViewState extends State<AnimatedGameView>
     _controller = AnimationController(
         duration: const Duration(milliseconds: 350), vsync: this);
     _animation = IntTween(begin: 0, end: 29).animate(_controller);
+    if (widget.animationTicker != null) {
+      _controller.addListener(() {
+        widget.animationTicker!.update();
+      });
+    }
     _controller.repeat();
   }
 
@@ -44,13 +50,6 @@ class _AnimatedGameViewState extends State<AnimatedGameView>
     return CustomPaint(
       painter: CheckerboardPainter(
           useDarkColors: Theme.of(context).brightness == Brightness.dark),
-      child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) =>
-              ValueListenableBuilder<GameState>(
-                  valueListenable: widget.game,
-                  builder: (context, value, child) {
-                    return TilesDrawer(value.board, constraints);
-                  })),
       foregroundPainter: AnimatedForegroundPainter(
           game: widget.game,
           mistake: widget.mistake,

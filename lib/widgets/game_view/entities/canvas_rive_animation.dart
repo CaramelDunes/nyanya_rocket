@@ -1,6 +1,6 @@
 import 'package:flutter/painting.dart';
 
 abstract class CanvasRiveAnimation {
-  void draw(Canvas canvas, Size size, double x, double y, int frameNb,
+  void drawUnit(Canvas canvas, int frameNb,
       [Paint? paint]);
 }

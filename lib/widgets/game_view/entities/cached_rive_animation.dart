@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -55,20 +54,10 @@ class CachedRiveAnimation implements CanvasRiveAnimation {
     throw Exception("Could not cache rive animation");
   }
 
-  void draw(Canvas canvas, Size size, double x, double y, int frameNb,
-      [Paint? paint]) {
-    double scale = min(size.width / _size.width, size.height / _size.height);
-
-    if (scale * _size.height < size.height) {
-      y += (size.height - scale * _size.height) / 2;
-    } else if (scale * _size.width < size.width) {
-      x += (size.width - scale * _size.width) / 2;
-    }
-
+  void drawUnit(Canvas canvas, int frameNb, [Paint? paint]) {
     canvas.save();
 
-    canvas.translate(x, y);
-    canvas.scale(scale);
+    canvas.scale(1 / _size.width, 1 / _size.height);
     canvas.drawImage(_cachedPictures[frameNb], Offset.zero, paint ?? Paint());
 
     canvas.restore();

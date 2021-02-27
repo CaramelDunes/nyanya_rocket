@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
@@ -37,21 +36,8 @@ class DrawableRiveAnimation implements CanvasRiveAnimation {
     throw Exception("Could not load rive animation");
   }
 
-  void draw(Canvas canvas, Size size, double x, double y, int frameNb,
-      [Paint? paint]) {
-    double scale =
-        min(size.width / artboard.width, size.height / artboard.height);
-
-    if (scale * artboard.height < size.height) {
-      y += (size.height - scale * artboard.height) / 2;
-    } else if (scale * artboard.width < size.width) {
-      x += (size.width - scale * artboard.width) / 2;
-    }
-
-    canvas.save();
-
-    canvas.translate(x, y);
-    canvas.scale(scale);
+  void drawUnit(Canvas canvas, int frameNb, [Paint? paint]) {
+    canvas.scale(1 / artboard.width, 1 / artboard.height);
 
     if (lastNb != frameNb) {
       artboard.advance(0.032);
@@ -59,7 +45,5 @@ class DrawableRiveAnimation implements CanvasRiveAnimation {
     }
 
     artboard.draw(canvas);
-
-    canvas.restore();
   }
 }

@@ -3,7 +3,8 @@ import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/rocket_image.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-const List<String> kColorSuffixes = ["blue", "red", "green", "yellow"];
+import 'arrow_painter.dart';
+import 'rocket_painter.dart';
 
 class TilesDrawer extends StatelessWidget {
   final Board board;
@@ -69,5 +70,44 @@ class TilesDrawer extends StatelessWidget {
     }
 
     return Stack(children: overlay);
+  }
+
+  static drawUnitTiles(Board board, Canvas canvas) {
+    for (int x = 0; x < Board.width; x++) {
+      for (int y = 0; y < Board.height; y++) {
+        Tile tile = board.tiles[x][y];
+        canvas.save();
+        canvas.translate(x.toDouble(), y.toDouble());
+        drawUnitTile(tile, canvas);
+        canvas.restore();
+      }
+    }
+  }
+
+  static drawUnitTile(Tile tile, Canvas canvas) {
+    switch (tile.runtimeType) {
+      case Pit:
+        canvas.drawRect(
+            Rect.fromLTRB(0, 0, 1, 1), Paint()..color = Colors.black);
+        break;
+
+      case Arrow:
+        Arrow arrow = tile as Arrow;
+
+        // Make arrow blink 1 second (120 ticks) before expiration.
+        if (arrow.expiration > 120 || arrow.expiration % 20 < 10) {
+          ArrowPainter.drawUnit(canvas, Colors.blue, arrow.direction);
+          // return Transform.scale(
+          //   scale: arrow.halfTurnPower == ArrowHalfTurnPower.TwoCats ? 1 : 0.5,
+          //   child: ArrowImage(player: arrow.player, direction: arrow.direction),
+          // );
+        }
+        break;
+
+      case Rocket:
+        Rocket rocket = tile as Rocket;
+        RocketPainter.drawUnit(canvas, Colors.blue, rocket.departed);
+        break;
+    }
   }
 }

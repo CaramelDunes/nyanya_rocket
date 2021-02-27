@@ -16,6 +16,8 @@ import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
+import '../../../utils.dart';
+
 class NetworkMultiplayer extends StatefulWidget {
   final String nickname;
   final InternetAddress serverAddress;
@@ -150,30 +152,11 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
         });
   }
 
-  Color _playerColorToColor(PlayerColor player) {
-    switch (player) {
-      case PlayerColor.Blue:
-        return Colors.blue;
-
-      case PlayerColor.Red:
-        return Colors.red;
-
-      case PlayerColor.Green:
-        return Colors.green;
-
-      case PlayerColor.Yellow:
-        return Colors.yellow;
-
-      default:
-        return Colors.black;
-    }
-  }
-
   Widget _buildScoreBox(PlayerColor player) {
     return ScoreBox(
         label: _localMultiplayerController.players[player.index],
         score: _localMultiplayerController.game.scoreOf(player),
-        color: _playerColorToColor(player));
+        color: player.color);
   }
 
   Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,

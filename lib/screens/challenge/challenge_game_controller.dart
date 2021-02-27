@@ -42,7 +42,6 @@ abstract class ChallengeGameController extends LocalGameController {
         return LunchTimeGameController(challenge: challenge, onWin: onWin);
 
       case ChallengeType.OneHundredMice:
-      default: //FIXME Fix enum
         return OneHundredMiceGameController(challenge: challenge, onWin: onWin);
     }
   }

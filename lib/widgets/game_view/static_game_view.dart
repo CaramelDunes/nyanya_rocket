@@ -3,7 +3,6 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import 'static_foreground_painter.dart';
 import 'checkerboard_painter.dart';
-import 'tiles/tiles_drawer.dart';
 
 class StaticGameView extends StatelessWidget {
   final GameState game;
@@ -15,9 +14,7 @@ class StaticGameView extends StatelessWidget {
     return CustomPaint(
       painter: CheckerboardPainter(
           useDarkColors: Theme.of(context).brightness == Brightness.dark),
-      child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) =>
-              TilesDrawer(game.board, constraints)),
+      child: const SizedBox.expand(),
       foregroundPainter: StaticForegroundPainter(game: game),
       willChange: false,
     );

@@ -1,49 +1,34 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-Path arrowPath(double bodyHeightRatio, double bodyWidthRatio) {
-  Path p = Path();
-
-  // Draw up arrow, starting from top point.
-  p.moveTo(0.5, 0);
-  p.lineTo(1, 1 - bodyHeightRatio);
-  p.lineTo(0.5 + bodyWidthRatio / 2, 1 - bodyHeightRatio);
-  p.lineTo(0.5 + bodyWidthRatio / 2, 1);
-  p.lineTo(0.5 - bodyWidthRatio / 2, 1);
-  p.lineTo(0.5 - bodyWidthRatio / 2, 1 - bodyHeightRatio);
-  p.lineTo(0, 1 - bodyHeightRatio);
-  p.close();
-
-  return p;
-}
+import '../../../utils.dart';
 
 class ArrowPainter extends CustomPainter {
   const ArrowPainter(this.color);
 
   factory ArrowPainter.fromPlayerColor(PlayerColor? color) {
-    switch (color) {
-      case PlayerColor.Blue:
-        return ArrowPainter(Colors.blue);
-
-      case PlayerColor.Red:
-        return ArrowPainter(Colors.red);
-
-      case PlayerColor.Yellow:
-        return ArrowPainter(Colors.yellow);
-
-      case PlayerColor.Green:
-        return ArrowPainter(Colors.green);
-
-      default:
-        return ArrowPainter(Colors.grey);
-    }
+    return ArrowPainter(color?.color ?? Colors.grey);
   }
 
   final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.save();
+    canvas.scale(size.width, size.height);
+    drawUnit(canvas, color, Direction.Up);
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(ArrowPainter oldDelegate) {
+    return color != oldDelegate.color;
+  }
+
+  static void drawUnit(Canvas canvas, Color color, Direction direction) {
     final bodyHeightRatio = 0.6;
     final bodyWidthRatio = 0.5;
 
@@ -51,22 +36,37 @@ class ArrowPainter extends CustomPainter {
 
     final arrowHeightRatio = 0.75;
     final arrowWidthRatio = 0.65;
-    final rect = Offset.zero & size;
-    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(4.0));
+    final rect = Rect.fromLTRB(0, 0, 1, 1);
+    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(0.15));
+
+    canvas.save();
+
+    switch (direction) {
+      case Direction.Right:
+        canvas.translate(1, 0);
+        break;
+      case Direction.Up:
+        break;
+      case Direction.Left:
+        canvas.translate(0, 1);
+        break;
+      case Direction.Down:
+        canvas.translate(1, 1);
+        break;
+    }
+
+    canvas.rotate((1 - direction.index) * pi / 2);
 
     canvas.drawRRect(rrect, Paint()..color = color);
     canvas.drawRRect(
         rrect,
         Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 0.02 * size.shortestSide
+          ..strokeWidth = 0.02
           ..color = Colors.black);
 
-    canvas.save();
-
-    canvas.translate(size.width * (1 - arrowWidthRatio) / 2,
-        size.height * (1 - arrowHeightRatio) / 2);
-    canvas.scale(size.width * arrowWidthRatio, size.height * arrowHeightRatio);
+    canvas.translate((1 - arrowWidthRatio) / 2, (1 - arrowHeightRatio) / 2);
+    canvas.scale(arrowWidthRatio, arrowHeightRatio);
     canvas.drawPath(arrow, Paint()..color = Colors.white);
     canvas.drawPath(
         arrow,
@@ -77,8 +77,19 @@ class ArrowPainter extends CustomPainter {
     canvas.restore();
   }
 
-  @override
-  bool shouldRepaint(ArrowPainter oldDelegate) {
-    return color != oldDelegate.color;
+  static Path arrowPath(double bodyHeightRatio, double bodyWidthRatio) {
+    Path p = Path();
+
+    // Draw up arrow, starting from top point.
+    p.moveTo(0.5, 0);
+    p.lineTo(1, 1 - bodyHeightRatio);
+    p.lineTo(0.5 + bodyWidthRatio / 2, 1 - bodyHeightRatio);
+    p.lineTo(0.5 + bodyWidthRatio / 2, 1);
+    p.lineTo(0.5 - bodyWidthRatio / 2, 1);
+    p.lineTo(0.5 - bodyWidthRatio / 2, 1 - bodyHeightRatio);
+    p.lineTo(0, 1 - bodyHeightRatio);
+    p.close();
+
+    return p;
   }
 }

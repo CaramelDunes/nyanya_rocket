@@ -7,18 +7,18 @@ class EntitiesDrawerCanvas {
   static List<CanvasRiveAnimation>? mouseAnimations;
   static List<CanvasRiveAnimation>? catAnimations;
 
-  static double topOfEntity(Entity entity, double tileSize) {
-    double top = entity.position.y * tileSize;
+  static double topOfEntity(Entity entity) {
+    double top = entity.position.y.toDouble();
 
     switch (entity.position.direction) {
       case Direction.Up:
-        top -= (tileSize / BoardPosition.maxStep) * entity.position.step;
-        top += tileSize / 2;
+        top -= (1 / BoardPosition.maxStep) * entity.position.step;
+        top += 1 / 2;
         break;
 
       case Direction.Down:
-        top += (tileSize / BoardPosition.maxStep) * entity.position.step;
-        top -= tileSize / 2;
+        top += (1 / BoardPosition.maxStep) * entity.position.step;
+        top -= 1 / 2;
         break;
 
       default:
@@ -28,18 +28,18 @@ class EntitiesDrawerCanvas {
     return top;
   }
 
-  static double leftOfEntity(Entity entity, double tileSize) {
-    double left = entity.position.x * tileSize;
+  static double leftOfEntity(Entity entity) {
+    double left = entity.position.x.toDouble();
 
     switch (entity.position.direction) {
       case Direction.Right:
-        left += (tileSize / BoardPosition.maxStep) * entity.position.step;
-        left -= tileSize / 2;
+        left += (1 / BoardPosition.maxStep) * entity.position.step;
+        left -= 1 / 2;
         break;
 
       case Direction.Left:
-        left -= (tileSize / BoardPosition.maxStep) * entity.position.step;
-        left += tileSize / 2;
+        left -= (1 / BoardPosition.maxStep) * entity.position.step;
+        left += 1 / 2;
         break;
 
       default:
@@ -49,25 +49,23 @@ class EntitiesDrawerCanvas {
     return left;
   }
 
-  static void draw(Entity entity, double tileSize, Canvas canvas, int frameNb) {
-    final double catBonusSize = tileSize / 2;
+  static void drawUnit(Entity entity, Canvas canvas, int frameNb) {
+    canvas.save();
+    canvas.translate(leftOfEntity(entity), topOfEntity(entity));
+
+    final double catBonusSize = 1 / 2;
 
     switch (entity.runtimeType) {
       case Cat:
-        catAnimations![entity.position.direction.index].draw(
-            canvas,
-            Size(tileSize, tileSize + catBonusSize),
-            leftOfEntity(entity, tileSize),
-            topOfEntity(entity, tileSize) - catBonusSize,
-            frameNb);
+        canvas.translate(0.1, -catBonusSize);
+        canvas.scale(1 - 0.2, 1 + catBonusSize);
+        catAnimations![entity.position.direction.index]
+            .drawUnit(canvas, frameNb);
         break;
 
       case GoldenMouse:
-        mouseAnimations![entity.position.direction.index].draw(
+        mouseAnimations![entity.position.direction.index].drawUnit(
             canvas,
-            Size(tileSize, tileSize),
-            leftOfEntity(entity, tileSize),
-            topOfEntity(entity, tileSize),
             frameNb,
             Paint()
               ..colorFilter = ColorFilter.mode(
@@ -75,11 +73,8 @@ class EntitiesDrawerCanvas {
         break;
 
       case SpecialMouse:
-        mouseAnimations![entity.position.direction.index].draw(
+        mouseAnimations![entity.position.direction.index].drawUnit(
             canvas,
-            Size(tileSize, tileSize),
-            leftOfEntity(entity, tileSize),
-            topOfEntity(entity, tileSize),
             frameNb,
             Paint()
               ..colorFilter = ColorFilter.mode(
@@ -87,24 +82,21 @@ class EntitiesDrawerCanvas {
         break;
 
       case Mouse:
-        mouseAnimations![entity.position.direction.index].draw(
-            canvas,
-            Size(tileSize, tileSize),
-            leftOfEntity(entity, tileSize),
-            topOfEntity(entity, tileSize),
-            frameNb);
+        mouseAnimations![entity.position.direction.index]
+            .drawUnit(canvas, frameNb);
         break;
 
       default:
         break;
     }
+
+    canvas.restore();
   }
 
-  static void drawEntities(Canvas canvas, Size size, Iterable<Entity> entities,
+  static void drawUnitEntities(Canvas canvas, Iterable<Entity> entities,
       [int frameNb = 0]) {
-    double tileSize = size.width / 12;
     entities.forEach((Entity entity) {
-      draw(entity, tileSize, canvas, frameNb);
+      drawUnit(entity, canvas, frameNb);
     });
   }
 }

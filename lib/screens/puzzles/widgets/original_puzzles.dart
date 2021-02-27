@@ -184,11 +184,12 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
           } else if (overlayResult == OverlayResult.PlayAgain) {
             _openPuzzle(puzzleIndex);
           }
+        } else {
+          Router.of(context)
+              .routeInformationProvider!
+              .routerReportsNewRouteInformation(
+                  RouteInformation(location: '/${PageKind.Puzzle.slug}'));
         }
-        Router.of(context)
-            .routeInformationProvider!
-            .routerReportsNewRouteInformation(
-                RouteInformation(location: '/${PageKind.Puzzle.slug}'));
       });
       Router.of(context)
           .routeInformationProvider!

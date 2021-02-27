@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 
 import 'widgets/game_view/entities/entities_drawer_canvas.dart';
 import 'widgets/game_view/entities/cached_rive_animation.dart';
