@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/widgets/game_view/checkerboard_painter.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import 'walls_painter.dart';
@@ -22,6 +23,7 @@ class StaticForegroundPainter extends CustomPainter {
   }
 
   static void paintUnit(Canvas canvas, GameState game, int frameNumber) {
+    CheckerboardPainter.paintUnitCheckerboard(canvas);
     TilesDrawer.drawUnitTiles(game.board, canvas);
     WallsPainter.paintUnitWalls(canvas, game.board);
 

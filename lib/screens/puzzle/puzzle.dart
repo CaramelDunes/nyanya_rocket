@@ -185,7 +185,6 @@ class _PuzzleState extends State<Puzzle> {
             child: AnimatedGameView(
               game: _puzzleController.gameStream,
               mistake: _puzzleController.mistake,
-              animationTicker: _puzzleController,
             ),
             onDrop: _handleDropAndSwipe,
             onTap: _handleTap,

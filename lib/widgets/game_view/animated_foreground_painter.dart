@@ -14,7 +14,7 @@ class AnimatedForegroundPainter extends CustomPainter {
 
   AnimatedForegroundPainter(
       {required this.game, required this.entityAnimation, this.mistake})
-      : super(repaint: entityAnimation);
+      : super(repaint: game);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -31,7 +31,7 @@ class AnimatedForegroundPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+    return this != oldDelegate;
   }
 
   void _paintUnitMistake(Canvas canvas) {

@@ -15,17 +15,15 @@ Future<void> warmUpFlare() async {
   const loadFunction =
       kIsWeb ? DrawableRiveAnimation.load : CachedRiveAnimation.load;
 
-  EntitiesDrawerCanvas.mouseAnimations = await Future.wait(List.generate(
-      4,
-      (index) => loadFunction(
+  EntitiesDrawerCanvas.mouseAnimations = await Future.wait(directions.map(
+      (direction) => loadFunction(
           assetFilename: "assets/animations/mouse.riv",
           animationName: animationName,
-          artboardName: directions[index])));
+          artboardName: direction)));
 
-  EntitiesDrawerCanvas.catAnimations = await Future.wait(List.generate(
-      4,
-      (index) => loadFunction(
+  EntitiesDrawerCanvas.catAnimations = await Future.wait(directions.map(
+      (direction) => loadFunction(
           assetFilename: "assets/animations/cat.riv",
           animationName: animationName,
-          artboardName: directions[index])));
+          artboardName: direction)));
 }

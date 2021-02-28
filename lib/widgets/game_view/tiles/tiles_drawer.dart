@@ -76,6 +76,8 @@ class TilesDrawer extends StatelessWidget {
     for (int x = 0; x < Board.width; x++) {
       for (int y = 0; y < Board.height; y++) {
         Tile tile = board.tiles[x][y];
+        if (tile is Empty) continue;
+
         canvas.save();
         canvas.translate(x.toDouble(), y.toDouble());
         drawUnitTile(tile, canvas);
@@ -96,11 +98,8 @@ class TilesDrawer extends StatelessWidget {
 
         // Make arrow blink 1 second (120 ticks) before expiration.
         if (arrow.expiration > 120 || arrow.expiration % 20 < 10) {
-          ArrowPainter.drawUnit(canvas, Colors.blue, arrow.direction);
-          // return Transform.scale(
-          //   scale: arrow.halfTurnPower == ArrowHalfTurnPower.TwoCats ? 1 : 0.5,
-          //   child: ArrowImage(player: arrow.player, direction: arrow.direction),
-          // );
+          ArrowPainter.drawUnit(canvas, Colors.blue, arrow.direction,
+              arrow.halfTurnPower == ArrowHalfTurnPower.OneCat);
         }
         break;
 

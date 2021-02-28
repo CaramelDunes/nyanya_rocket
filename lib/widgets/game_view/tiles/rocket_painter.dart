@@ -30,13 +30,8 @@ class RocketPainter extends CustomPainter {
 
   static void drawUnit(Canvas canvas, Color color, bool departed) {
     final rect = Rect.fromLTRB(0, 0, 1, 1);
-    final gradient = RadialGradient(
-      radius: 0.3,
-      colors: [color, color.withAlpha(128)],
-    );
 
-    canvas.drawCircle(
-        rect.center, 0.45, Paint()..shader = gradient.createShader(rect));
+    canvas.drawCircle(rect.center, 0.45, Paint()..color = color);
     canvas.drawCircle(
         rect.center,
         0.45,
