@@ -25,8 +25,26 @@
 
   <title>NyaNya Rocket!</title>
   <link rel="manifest" href="manifest.json">
+  <style type="text/css">
+    html,
+    body {
+      background-color: #673AB7
+    }
+
+    .splash {
+      width: 128px;
+      height: 128px;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
 </head>
 <body>
+  <img src="icons/Icon-192.png" class="splash" />
   <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-firestore.js"></script>
