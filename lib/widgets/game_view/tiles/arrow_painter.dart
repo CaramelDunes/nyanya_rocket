@@ -7,19 +7,22 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 import '../../../utils.dart';
 
 class ArrowPainter extends CustomPainter {
-  const ArrowPainter(this.color);
+  const ArrowPainter(this.color, this.direction, this.damaged);
 
-  factory ArrowPainter.fromPlayerColor(PlayerColor? color) {
-    return ArrowPainter(color?.color ?? Colors.grey);
+  factory ArrowPainter.fromPlayerColor(PlayerColor? color, Direction direction,
+      [bool damaged = false]) {
+    return ArrowPainter(color?.color ?? Colors.grey, direction, damaged);
   }
 
   final Color color;
+  final Direction direction;
+  final bool damaged;
 
   @override
   void paint(Canvas canvas, Size size) {
     canvas.save();
     canvas.scale(size.width, size.height);
-    drawUnit(canvas, color, Direction.Up, false);
+    drawUnit(canvas, color, direction, false);
     canvas.restore();
   }
 

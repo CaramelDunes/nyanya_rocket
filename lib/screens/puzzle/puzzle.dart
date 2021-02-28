@@ -87,7 +87,7 @@ class _PuzzleState extends State<Puzzle> {
     }
 
     return ArrowImage(
-      direction: candidateData[0]!,
+      direction: candidateData.first!,
       player: PlayerColor.Blue,
       opaque: false,
     );

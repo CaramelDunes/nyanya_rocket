@@ -25,7 +25,7 @@ class General extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TilesDrawer.tileView(Pit()),
+                      child: TilesDrawer.tileWidget(Pit()),
                     ),
                   ),
                   Flexible(
@@ -48,7 +48,7 @@ class General extends StatelessWidget {
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child:
-                        TilesDrawer.tileView(Rocket(player: PlayerColor.Blue)),
+                        TilesDrawer.tileWidget(Rocket(player: PlayerColor.Blue)),
                   )),
                   Flexible(
                     flex: 3,

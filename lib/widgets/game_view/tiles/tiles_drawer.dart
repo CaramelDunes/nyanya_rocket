@@ -10,7 +10,7 @@ class TilesDrawer extends StatelessWidget {
   final Board board;
   final BoxConstraints constraints;
 
-  static Widget tileView(Tile tile) {
+  static Widget tileWidget(Tile tile) {
     switch (tile.runtimeType) {
       case Pit:
         return Image.asset(
@@ -26,16 +26,10 @@ class TilesDrawer extends StatelessWidget {
 
       case Arrow:
         Arrow arrow = tile as Arrow;
-
-        // Make arrow blink 1 second (120 ticks) before expiration.
-        if (arrow.expiration > 120 || arrow.expiration % 20 < 10) {
-          return Transform.scale(
-            scale: arrow.halfTurnPower == ArrowHalfTurnPower.TwoCats ? 1 : 0.5,
-            child: ArrowImage(player: arrow.player, direction: arrow.direction),
-          );
-        } else {
-          return const SizedBox.expand();
-        }
+        return ArrowImage(
+            player: arrow.player,
+            direction: arrow.direction,
+            damaged: arrow.halfTurnPower == ArrowHalfTurnPower.OneCat);
 
       case Rocket:
         Rocket rocket = tile as Rocket;
@@ -64,7 +58,7 @@ class TilesDrawer extends StatelessWidget {
               left: x * constraints.maxWidth / 12,
               width: constraints.maxWidth / 12,
               height: constraints.maxHeight / 9,
-              child: tileView(board.tiles[x][y])));
+              child: tileWidget(board.tiles[x][y])));
         }
       }
     }

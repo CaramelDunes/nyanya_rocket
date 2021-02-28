@@ -89,7 +89,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
     }
 
     if (tool.type == ToolType.Tile)
-      return TilesDrawer.tileView(tool.tile!);
+      return TilesDrawer.tileWidget(tool.tile!);
     else if (tool.type == ToolType.Entity)
       return EntitiesDrawer.entityView(tool.entityType!, tool.direction!);
     else if (tool.type == ToolType.Wall)
@@ -182,7 +182,6 @@ class _EditorPlacerState extends State<EditorPlacer> {
                 children: <Widget>[
                   Expanded(
                       child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children:
                         List<Widget>.generate(widget.menus.length, (int i) {
                       return Expanded(
@@ -244,7 +243,6 @@ class _EditorPlacerState extends State<EditorPlacer> {
 
   Widget _subModeBuilder() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: List<Widget>.generate(widget.menus[_selected].subMenu.length,
           (int i) {
         return Expanded(
