@@ -5,9 +5,9 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 import '../../../localization/nyanya_localizations.dart';
 import '../edited_game.dart';
 import 'discard_confirmation_dialog.dart';
-import '../../../widgets/game_view/entities/entities_drawer.dart';
+import '../../../widgets/game_view/entities/entity_painter.dart';
 import '../../../widgets/game_view/static_game_view.dart';
-import '../../../widgets/game_view/tiles/tiles_drawer.dart';
+import '../../../widgets/game_view/tiles/tile_painter.dart';
 import '../../../widgets/input_grid_overlay.dart';
 
 enum ToolType { Tile, Entity, Wall }
@@ -89,9 +89,9 @@ class _EditorPlacerState extends State<EditorPlacer> {
     }
 
     if (tool.type == ToolType.Tile)
-      return TilesDrawer.tileWidget(tool.tile!);
+      return TilePainter.widget(tool.tile!);
     else if (tool.type == ToolType.Entity)
-      return EntitiesDrawer.entityView(tool.entityType!, tool.direction!);
+      return EntityPainter.widget(tool.entityType!, tool.direction!);
     else if (tool.type == ToolType.Wall)
       return RotatedBox(
           quarterTurns: -tool.direction!.index,

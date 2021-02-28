@@ -19,7 +19,7 @@ class RocketPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.save();
     canvas.scale(size.width, size.height);
-    drawUnit(canvas, color, departed);
+    paintUnit(canvas, color, departed);
     canvas.restore();
   }
 
@@ -28,7 +28,7 @@ class RocketPainter extends CustomPainter {
     return color != oldDelegate.color;
   }
 
-  static void drawUnit(Canvas canvas, Color color, bool departed) {
+  static void paintUnit(Canvas canvas, Color color, bool departed) {
     final rect = Rect.fromLTRB(0, 0, 1, 1);
 
     canvas.drawCircle(rect.center, 0.45, Paint()..color = color);

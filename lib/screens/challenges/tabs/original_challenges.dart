@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/challenge_progression_manager.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
 import 'package:nyanya_rocket/widgets/completion_indicator.dart';
 import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
+import 'package:slugify/slugify.dart';
 
 class OriginalChallenges extends StatefulWidget {
   static final ChallengeProgressionManager progression =
@@ -116,6 +118,9 @@ class OriginalChallenges extends StatefulWidget {
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,3,1,1,1,0,2,2],[2,0,0,0,0,0,2,0,0],[2,0,0,0,0,0,0,2,2],[2,0,0,0,0,0,2,2,0],[3,1,1,1,1,1,2,0,2],[2,0,2,0,0,1,0,2,2],[3,1,1,1,1,1,2,0,0],[2,0,2,0,0,1,0,2,2],[3,1,1,1,1,1,2,0,2],[2,0,2,0,0,1,0,2,0],[3,1,1,1,1,1,2,2,2],[2,0,2,0,0,1,0,0,2]]},"entities":[]}'),
   ];
 
+  static Map<String, int> slugs = challenges.asMap().map((index, value) =>
+      MapEntry(Slugify(value.type.toPrettyString() + value.name), index));
+
   @override
   _OriginalChallengesState createState() => _OriginalChallengesState();
 }
@@ -183,9 +188,19 @@ class _OriginalChallengesState extends State<OriginalChallenges>
           } else if (overlayResult == OverlayResult.PlayAgain) {
             _openChallenge(i);
           }
+        } else {
+          Router.of(context)
+              .routeInformationProvider!
+              .routerReportsNewRouteInformation(
+                  RouteInformation(location: '/${PageKind.Challenge.slug}'));
         }
       });
     }
+    Router.of(context)
+        .routeInformationProvider!
+        .routerReportsNewRouteInformation(RouteInformation(
+            location:
+                '/${PageKind.Challenge.slug}/${TabKind.Original.slug}/${Slugify(OriginalChallenges.challenges[i].challengeData.type.toPrettyString() + OriginalChallenges.challenges[i].name)}'));
   }
 
   Widget _buildChallengeTile(int i) {

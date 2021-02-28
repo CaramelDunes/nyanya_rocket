@@ -22,7 +22,7 @@ class ArrowPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.save();
     canvas.scale(size.width, size.height);
-    drawUnit(canvas, color, direction, false);
+    paintUnit(canvas, color, direction, false);
     canvas.restore();
   }
 
@@ -31,7 +31,7 @@ class ArrowPainter extends CustomPainter {
     return color != oldDelegate.color;
   }
 
-  static void drawUnit(
+  static void paintUnit(
       Canvas canvas, Color color, Direction direction, bool damaged) {
     final bodyHeightRatio = 0.55;
     final bodyWidthRatio = 0.5;

@@ -4,8 +4,8 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import '../../../localization/nyanya_localizations.dart';
 import '../../../widgets/arrow_image.dart';
-import '../../../widgets/game_view/entities/entities_drawer.dart';
-import '../../../widgets/game_view/tiles/tiles_drawer.dart';
+import '../../../widgets/game_view/entities/entity_painter.dart';
+import '../../../widgets/game_view/tiles/tile_painter.dart';
 
 class General extends StatelessWidget {
   @override
@@ -25,7 +25,7 @@ class General extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TilesDrawer.tileWidget(Pit()),
+                      child: TilePainter.widget(Pit()),
                     ),
                   ),
                   Flexible(
@@ -47,8 +47,7 @@ class General extends StatelessWidget {
                   Flexible(
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child:
-                        TilesDrawer.tileWidget(Rocket(player: PlayerColor.Blue)),
+                    child: TilePainter.widget(Rocket(player: PlayerColor.Blue)),
                   )),
                   Flexible(
                     flex: 3,
@@ -96,12 +95,11 @@ class General extends StatelessWidget {
               height: 100,
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                      child: Padding(
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: EntitiesDrawer.entityView(
-                        EntityType.Mouse, Direction.Right),
-                  )),
+                    child:
+                        EntityPainter.widget(EntityType.Mouse, Direction.Right),
+                  ),
                   Flexible(
                     flex: 3,
                     child: Padding(
@@ -118,12 +116,10 @@ class General extends StatelessWidget {
             height: 100,
             child: Row(
               children: <Widget>[
-                Expanded(
-                    child: Padding(
+                Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child:
-                      EntitiesDrawer.entityView(EntityType.Cat, Direction.Down),
-                )),
+                  child: EntityPainter.widget(EntityType.Cat, Direction.Down),
+                ),
                 Flexible(
                   flex: 3,
                   child: Padding(

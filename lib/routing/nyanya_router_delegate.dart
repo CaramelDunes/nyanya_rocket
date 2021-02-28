@@ -4,6 +4,7 @@ import 'package:nyanya_rocket/screens/challenges/challenges.dart';
 import 'package:nyanya_rocket/screens/editor/editor.dart';
 import 'package:nyanya_rocket/screens/home/home.dart';
 import 'package:nyanya_rocket/screens/multiplayer/multiplayer.dart';
+import 'package:nyanya_rocket/screens/multiplayer/multiplayer_not_available.dart';
 import '../screens/puzzle/puzzle.dart';
 import '../screens/puzzles/widgets/original_puzzles.dart';
 import '../screens/tutorial/tutorial.dart';
@@ -47,8 +48,13 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
         return MaterialPage(key: ValueKey('EditorPage'), child: Editor());
 
       case PageKind.Multiplayer:
-        return MaterialPage(
-            key: ValueKey('MultiplayerPage'), child: Multiplayer());
+        if (!kIsWeb)
+          return MaterialPage(
+              key: ValueKey('MultiplayerPage'), child: Multiplayer());
+        else
+          return MaterialPage(
+              key: ValueKey('MultiplayerPage'),
+              child: MultiplayerNotAvailable());
 
       case PageKind.Guide:
         return MaterialPage(key: ValueKey('TutorialPage'), child: Tutorial());
@@ -60,6 +66,7 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
     return Navigator(
       key: navigatorKey,
       pages: [
+        if (_pageKind != PageKind.Home) _pageForKind(PageKind.Home),
         _pageForKind(_pageKind),
         if (_pageKind == PageKind.Puzzle &&
             _id != null &&
@@ -71,11 +78,15 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
                 puzzle: OriginalPuzzles.puzzles[OriginalPuzzles.slugs[_id]!],
                 hasNext: false,
               ))
-        else if (_pageKind == PageKind.Challenge && _id != null)
+        else if (_pageKind == PageKind.Challenge &&
+            _id != null &&
+            _tabKind == TabKind.Original &&
+            OriginalChallenges.slugs.containsKey(_id))
           MaterialPage(
               key: ValueKey('ChallengePage$_id'),
               child: Challenge(
-                challenge: OriginalChallenges.challenges[int.parse(_id!)],
+                challenge: OriginalChallenges
+                    .challenges[OriginalChallenges.slugs[_id]!],
                 hasNext: false,
               ))
       ],
@@ -83,6 +94,15 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
         if (!route.didPop(result)) {
           return false;
         }
+
+        if (_id != null) {
+          _id = null;
+        } else if (_tabKind != null) {
+          _tabKind = null;
+        } else {
+          _pageKind = PageKind.Home;
+        }
+
         notifyListeners();
 
         return true;

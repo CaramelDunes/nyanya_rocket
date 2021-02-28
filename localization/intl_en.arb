@@ -404,7 +404,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "movementTutorialText": "\nAn entity walks straight until it encounters an arrow or a wall.\nFor some reasons, mice and cats prefer turning right when hitting a wall...\n",
+  "movementTutorialText": "\nAn entity walks straight until it encounters an arrow or a wall.\nMice and cats prefer turning right when hitting a wall.\n",
   "@movementTutorialText": {
     "description": "Movement text of the tutorial screen.",
     "type": "text",
@@ -833,6 +833,11 @@
   },
   "refreshLabel": "Refresh",
   "@refreshLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "multiplayerNotAvailableText": "Sorry, multiplayer is not available in the browser version of NyaNya Rocket!\nConsider downloading the mobile phone version.",
+  "@multiplayerNotAvailableText": {
     "type": "text",
     "placeholders": {}
   }

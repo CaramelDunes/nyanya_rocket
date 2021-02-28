@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import '../../../widgets/game_view/entities/entities_drawer.dart';
-import '../../../widgets/game_view/tiles/tiles_drawer.dart';
+import '../../../widgets/game_view/entities/entity_painter.dart';
+import '../../../widgets/game_view/tiles/tile_painter.dart';
 
 class Multiplayer extends StatelessWidget {
   @override
@@ -18,7 +18,7 @@ class Multiplayer extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TilesDrawer.tileWidget(
+                      child: TilePainter.widget(
                           Generator(direction: Direction.Up)),
                     ),
                   ),
@@ -40,7 +40,7 @@ class Multiplayer extends StatelessWidget {
                   Expanded(
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: EntitiesDrawer.entityView(
+                    child: EntityPainter.widget(
                         EntityType.SpecialMouse, Direction.Right),
                   )),
                   Flexible(
@@ -61,7 +61,7 @@ class Multiplayer extends StatelessWidget {
                 Expanded(
                     child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: EntitiesDrawer.entityView(
+                  child: EntityPainter.widget(
                       EntityType.GoldenMouse, Direction.Down),
                 )),
                 Flexible(

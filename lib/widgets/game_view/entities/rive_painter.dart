@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 
-import 'canvas_rive_animation.dart';
+import 'unit_painter.dart';
 
-class DrawableRiveAnimation implements CanvasRiveAnimation {
-  int lastNb = 0;
+class RivePainter implements UnitPainter {
+  int _lastFrameNumber = 0;
   RuntimeArtboard artboard;
 
-  DrawableRiveAnimation._(this.artboard);
+  RivePainter._(this.artboard);
 
-  static Future<DrawableRiveAnimation> load(
+  static Future<RivePainter> load(
       {required String assetFilename,
       required String animationName,
       String? artboardName}) async {
@@ -30,18 +30,18 @@ class DrawableRiveAnimation implements CanvasRiveAnimation {
 
       artboard.advance(0);
 
-      return DrawableRiveAnimation._(artboard);
+      return RivePainter._(artboard);
     }
 
     throw Exception("Could not load rive animation");
   }
 
-  void drawUnit(Canvas canvas, int frameNb, [Paint? paint]) {
+  void paintUnit(Canvas canvas, int frameNumber, [Paint? paint]) {
     canvas.scale(1 / artboard.width, 1 / artboard.height);
 
-    if (lastNb != frameNb) {
+    if (_lastFrameNumber != frameNumber) {
       artboard.advance(0.032);
-      lastNb = frameNb;
+      _lastFrameNumber = frameNumber;
     }
 
     artboard.draw(canvas);

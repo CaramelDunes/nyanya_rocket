@@ -1,4 +1,3 @@
-
 import 'package:nyanya_rocket/models/challenge_data.dart';
 
 class NamedChallengeData {
@@ -21,4 +20,6 @@ class NamedChallengeData {
 
   Map<String, dynamic> toJson() =>
       {'name': name}..addAll(challengeData.toJson());
+
+  ChallengeType get type => challengeData.type;
 }

@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 
-import 'canvas_rive_animation.dart';
+import 'unit_painter.dart';
 
-class CachedRiveAnimation implements CanvasRiveAnimation {
+class CachedRivePainter implements UnitPainter {
   static const int fps = 60;
 
   Size _size;
   List<ui.Image> _cachedPictures;
 
-  CachedRiveAnimation._(this._size, this._cachedPictures);
+  CachedRivePainter._(this._size, this._cachedPictures);
 
-  static Future<CachedRiveAnimation> load(
+  static Future<CachedRivePainter> load(
       {required String assetFilename,
       required String animationName,
       String? artboardName}) async {
@@ -48,17 +48,17 @@ class CachedRiveAnimation implements CanvasRiveAnimation {
             (artboard.height * 0.228).floor());
       }));
 
-      return CachedRiveAnimation._(size, cache);
+      return CachedRivePainter._(size, cache);
     }
 
     throw Exception("Could not cache rive animation");
   }
 
-  void drawUnit(Canvas canvas, int frameNb, [Paint? paint]) {
+  void paintUnit(Canvas canvas, int frameNumber, [Paint? paint]) {
     canvas.save();
 
     canvas.scale(1 / _size.width, 1 / _size.height);
-    canvas.drawImage(_cachedPictures[frameNb], Offset.zero, paint ?? Paint());
+    canvas.drawImage(_cachedPictures[frameNumber], Offset.zero, paint ?? Paint());
 
     canvas.restore();
   }

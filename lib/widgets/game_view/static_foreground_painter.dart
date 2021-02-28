@@ -3,8 +3,8 @@ import 'package:nyanya_rocket/widgets/game_view/checkerboard_painter.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import 'walls_painter.dart';
-import 'entities/entities_drawer_canvas.dart';
-import 'tiles/tiles_drawer.dart';
+import 'entities/entity_painter.dart';
+import 'tiles/tile_painter.dart';
 
 class StaticForegroundPainter extends CustomPainter {
   final GameState game;
@@ -24,11 +24,11 @@ class StaticForegroundPainter extends CustomPainter {
 
   static void paintUnit(Canvas canvas, GameState game, int frameNumber) {
     CheckerboardPainter.paintUnitCheckerboard(canvas);
-    TilesDrawer.drawUnitTiles(game.board, canvas);
+    TilePainter.paintUnitTiles(game.board, canvas);
     WallsPainter.paintUnitWalls(canvas, game.board);
 
-    EntitiesDrawerCanvas.drawUnitEntities(canvas, game.cats, frameNumber);
-    EntitiesDrawerCanvas.drawUnitEntities(canvas, game.mice, frameNumber);
+    EntityPainter.paintUnitEntities(canvas, game.mice, frameNumber);
+    EntityPainter.paintUnitEntities(canvas, game.cats, frameNumber);
   }
 
   @override
