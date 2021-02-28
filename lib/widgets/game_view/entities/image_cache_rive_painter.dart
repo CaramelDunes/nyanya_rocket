@@ -6,15 +6,16 @@ import 'package:rive/rive.dart';
 
 import 'unit_painter.dart';
 
-class CachedRivePainter implements UnitPainter {
-  static const int fps = 60;
+class ImageCacheRivePainter implements UnitPainter {
+  static const int numberOfFrames = 30;
+  static const double rasterizeRatio = 0.228;
 
   Size _size;
   List<ui.Image> _cachedPictures;
 
-  CachedRivePainter._(this._size, this._cachedPictures);
+  ImageCacheRivePainter._(this._size, this._cachedPictures);
 
-  static Future<CachedRivePainter> load(
+  static Future<ImageCacheRivePainter> load(
       {required String assetFilename,
       required String animationName,
       String? artboardName}) async {
@@ -31,8 +32,9 @@ class CachedRivePainter implements UnitPainter {
       artboard.addController(
         SimpleAnimation(animationName),
       );
-      int numberOfFrames = 30;
-      Size size = Size(artboard.width * 0.228, artboard.height * 0.228);
+
+      Size size = Size(
+          artboard.width * rasterizeRatio, artboard.height * rasterizeRatio);
 
       List<ui.Image> cache =
           await Future.wait(List.generate(numberOfFrames, (i) {
@@ -40,15 +42,15 @@ class CachedRivePainter implements UnitPainter {
 
         final pictureRecorder = ui.PictureRecorder();
         ui.Canvas canvas = ui.Canvas(pictureRecorder);
-        canvas.scale(0.228);
+        canvas.scale(rasterizeRatio);
 
         artboard.draw(canvas);
         return pictureRecorder.endRecording().toImage(
-            (artboard.width * 0.228).floor(),
-            (artboard.height * 0.228).floor());
+            (artboard.width * rasterizeRatio).floor(),
+            (artboard.height * rasterizeRatio).floor());
       }));
 
-      return CachedRivePainter._(size, cache);
+      return ImageCacheRivePainter._(size, cache);
     }
 
     throw Exception("Could not cache rive animation");
@@ -58,7 +60,8 @@ class CachedRivePainter implements UnitPainter {
     canvas.save();
 
     canvas.scale(1 / _size.width, 1 / _size.height);
-    canvas.drawImage(_cachedPictures[frameNumber], Offset.zero, paint ?? Paint());
+    canvas.drawImage(
+        _cachedPictures[frameNumber], Offset.zero, paint ?? Paint());
 
     canvas.restore();
   }

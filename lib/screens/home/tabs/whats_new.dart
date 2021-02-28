@@ -9,6 +9,10 @@ import 'package:provider/provider.dart';
 
 class WhatsNew extends StatelessWidget {
   static Set<String> availableLocales = {'en', 'fr'};
+  static Future<QuerySnapshot> news = FirebaseFirestore.instance
+      .collection('articles_${articleLocale()}')
+      .orderBy('date', descending: true)
+      .get();
 
   void _dismissWelcomeCard(BuildContext context) {
     Provider.of<FirstRun>(context, listen: false).enabled = false;
@@ -172,10 +176,7 @@ class WhatsNew extends StatelessWidget {
           child: ListView(
             children: <Widget>[
               FutureBuilder<QuerySnapshot>(
-                future: FirebaseFirestore.instance
-                    .collection('articles_${articleLocale()}')
-                    .orderBy('date', descending: true)
-                    .get(),
+                future: news,
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {

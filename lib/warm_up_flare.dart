@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/widgets/game_view/entities/picture_cache_rive_painter.dart';
 
 import 'widgets/game_view/entities/entity_painter.dart';
-import 'widgets/game_view/entities/cached_rive_painter.dart';
+import 'widgets/game_view/entities/image_cache_rive_painter.dart';
 import 'widgets/game_view/entities/rive_painter.dart';
 import 'widgets/game_view/entities/simple_painter.dart';
 

@@ -113,13 +113,13 @@ class _PuzzleState extends State<Puzzle> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Flexible(
+        Expanded(
             child: PuzzleGameControls(puzzleController: _puzzleController)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: _buildGameView(),
         ),
-        Flexible(
+        Expanded(
             child: AvailableArrows(puzzleGameController: _puzzleController)),
       ],
     );

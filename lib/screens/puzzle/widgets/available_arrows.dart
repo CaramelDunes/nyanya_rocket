@@ -13,32 +13,30 @@ class AvailableArrows extends StatelessWidget {
     return Stack(
       fit: StackFit.passthrough,
       children: <Widget>[
-        Material(
-          elevation: 8,
-          child: ArrowImage(
-            player: count > 0 && canPlace ? PlayerColor.Blue : null,
-            direction: Direction.values[i],
-          ),
+        ArrowImage(
+          player: count > 0 && canPlace ? PlayerColor.Blue : null,
+          direction: Direction.values[i],
         ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Container(
-            decoration: BoxDecoration(
-              color:
-                  brightness == Brightness.dark ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
-            ),
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-              child: Text(
-                count.toString(),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+        if (count > 0)
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              decoration: BoxDecoration(
+                color:
+                    brightness == Brightness.dark ? Colors.black : Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+              ),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
+                child: Text(
+                  count.toString(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
               ),
             ),
-          ),
-        )
+          )
       ],
     );
   }
@@ -80,7 +78,7 @@ class AvailableArrows extends StatelessWidget {
                     4,
                     (i) => Flexible(
                             child: Padding(
-                          padding: const EdgeInsets.all(2.0),
+                          padding: const EdgeInsets.all(6.0),
                           child: _buildDraggableArrow(context, orientation, i),
                         ))));
           },
