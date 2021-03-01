@@ -59,16 +59,15 @@ class Settings extends StatelessWidget {
                   value: Provider.of<Region>(context).value,
                   items: <DropdownMenuItem<Regions>>[
                     DropdownMenuItem(
-                      child: Text(
-                          'Auto (${Region.regionLabels[Region.automaticValue()]})'),
+                      child: Text('Auto (${Region.automaticValue().label})'),
                       value: Regions.auto,
                     ),
                     DropdownMenuItem(
-                      child: Text(Region.regionLabels[Regions.euWest]!),
+                      child: Text(ComputedRegions.euWest.label),
                       value: Regions.euWest,
                     ),
                     DropdownMenuItem(
-                      child: Text(Region.regionLabels[Regions.usEast]!),
+                      child: Text(ComputedRegions.usEast.label),
                       value: Regions.usEast,
                     ),
                   ],

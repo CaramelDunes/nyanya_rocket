@@ -36,7 +36,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "multiplayerType": "Multiplayer",
+  "multiplayerType": "Multiplayer Board",
   "@multiplayerType": {
     "description": "Multiplayer type of game.",
     "type": "text",

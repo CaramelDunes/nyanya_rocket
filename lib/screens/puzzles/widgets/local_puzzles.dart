@@ -4,16 +4,15 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/models/puzzle_store.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/widgets/empty_list.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:provider/provider.dart';
 
-class LocalPuzzles extends StatefulWidget {
-  static final PuzzleStore store = PuzzleStore();
+import '../../../models/stores/puzzle_store.dart';
 
+class LocalPuzzles extends StatefulWidget {
   @override
   _LocalPuzzlesState createState() => _LocalPuzzlesState();
 }
@@ -25,11 +24,9 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
   void initState() {
     super.initState();
 
-    LocalPuzzles.store
-        .readRegistry()
-        .then((Map<String, String> entries) => setState(() {
-              _puzzles = entries;
-            }));
+    PuzzleStore.registry().then((Map<String, String> entries) => setState(() {
+          _puzzles = entries;
+        }));
   }
 
   void _verifyAndPublish(BuildContext context, NamedPuzzleData puzzle) {
@@ -90,9 +87,11 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                     tooltip: NyaNyaLocalizations.of(context).publishLabel,
                     onPressed: () {
                       if (user.isConnected) {
-                        LocalPuzzles.store.readPuzzle(uuidList[i]).then(
-                            (NamedPuzzleData puzzle) =>
-                                _verifyAndPublish(context, puzzle));
+                        PuzzleStore.readPuzzle(uuidList[i])
+                            .then((NamedPuzzleData? puzzle) {
+                          if (puzzle != null)
+                            _verifyAndPublish(context, puzzle);
+                        });
                       } else {
                         final snackBar = SnackBar(
                             content: Text(NyaNyaLocalizations.of(context)
@@ -104,13 +103,15 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                 ],
               ),
               onTap: () {
-                LocalPuzzles.store.readPuzzle(uuidList[i]).then(
-                    (NamedPuzzleData puzzle) =>
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Puzzle(
-                                  puzzle: puzzle,
-                                  hasNext: i != uuidList.length - 1,
-                                ))));
+                PuzzleStore.readPuzzle(uuidList[i])
+                    .then((NamedPuzzleData? puzzle) {
+                  if (puzzle != null)
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Puzzle(
+                              puzzle: puzzle,
+                              hasNext: i != uuidList.length - 1,
+                            )));
+                });
               },
             ));
   }

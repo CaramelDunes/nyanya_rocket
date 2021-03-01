@@ -9,7 +9,8 @@ enum ChallengeType {
   GetMice, // Like Puzzle, without cats
   RunAway, // Like Puzzle, with cats
   LunchTime, // Feed all Mice to Cat
-  OneHundredMice
+  OneHundredMice,
+  // CatSoccer // Needs an AI
 }
 
 extension LocalizedChallengeType on ChallengeType {
@@ -18,7 +19,7 @@ extension LocalizedChallengeType on ChallengeType {
     'Run Away', // Like Puzzle, with cats
     'Lunch Time', // Feed all Mice to Cat
     'One Hundred Mice',
-//    'Cat Soccer', // Needs an AI
+    // 'Cat Soccer', // Needs an AI
   ];
 
   String toPrettyString() => '${_names[this.index]}';

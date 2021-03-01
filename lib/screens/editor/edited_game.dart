@@ -50,13 +50,11 @@ class EditedGame {
       if (miceThere.isEmpty && catsThere.isEmpty) {
         _saveState();
 
-        // TODO Fix shitty types
+        BoardPosition position = BoardPosition.centered(x, y, direction);
         if (type == EntityType.Cat) {
-          game.cats.add(Entity.fromEntityType(
-              type, BoardPosition.centered(x, y, direction)) as Cat);
+          game.cats.add(Cat(position: position));
         } else {
-          game.mice.add(Entity.fromEntityType(
-              type, BoardPosition.centered(x, y, direction)) as Mouse);
+          game.mice.add(Mouse(position: position));
         }
 
         _updateGame();

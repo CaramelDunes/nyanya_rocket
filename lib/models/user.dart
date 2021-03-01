@@ -49,8 +49,7 @@ class User with ChangeNotifier {
         return StatusCode.Failure;
       }
 
-      // TODO isConnected should remove the need for the ?
-      await _user?.updateProfile(displayName: newDisplayName);
+      await _user!.updateProfile(displayName: newDisplayName);
 
       return StatusCode.Success;
     }

@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
-import 'package:nyanya_rocket/screens/challenges/tabs/local_challenges.dart';
 import 'package:nyanya_rocket/screens/editor/edited_game.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../models/stores/challenge_store.dart';
 
 class ChallengeEditor extends StatefulWidget {
   final NamedChallengeData challenge;
@@ -123,7 +124,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
               })
         ],
       ),
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: <Widget>[
           Expanded(
@@ -154,17 +155,17 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
     _saving = true;
 
     if (_uuid == null) {
-      LocalChallenges.store
-          .saveNewChallenge(_buildChallengeData())
-          .then((String uuid) {
-        this._uuid = uuid;
-        print('Saved $uuid');
-        _saving = false;
+      ChallengeStore.saveNew(_buildChallengeData()).then((String? uuid) {
+        if (uuid != null) {
+          this._uuid = uuid;
+          print('Saved $uuid');
+          _saving = false;
+        } // FIXME Handle failure.
       });
     } else {
-      LocalChallenges.store
-          .updateChallenge(_uuid!, _buildChallengeData())
+      ChallengeStore.updateChallenge(_uuid!, _buildChallengeData())
           .then((bool status) {
+        // FIXME Handle failure.
         print('Updated $_uuid');
         _saving = false;
       });

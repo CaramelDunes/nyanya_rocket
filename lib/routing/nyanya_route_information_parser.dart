@@ -8,7 +8,7 @@ class NyaNyaRouteInformationParser
   Future<NyaNyaRoutePath> parseRouteInformation(
       RouteInformation routeInformation) async {
     final uri = Uri.parse(routeInformation.location ?? '');
-    if (uri.pathSegments.length == 0) {
+    if (uri.pathSegments.isEmpty) {
       return NyaNyaRoutePath.home();
     } else if (uri.pathSegments.length >= 1) {
       return NyaNyaRoutePath(

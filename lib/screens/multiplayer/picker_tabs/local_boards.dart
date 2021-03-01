@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
-import 'package:nyanya_rocket/models/multiplayer_store.dart';
 import 'package:nyanya_rocket/widgets/empty_list.dart';
 
-class LocalBoards extends StatefulWidget {
-  static final MultiplayerStore store = MultiplayerStore();
+import '../../../models/stores/multiplayer_store.dart';
 
+class LocalBoards extends StatefulWidget {
   @override
   _LocalBoardsState createState() => _LocalBoardsState();
 }
@@ -17,8 +16,7 @@ class _LocalBoardsState extends State<LocalBoards> {
   void initState() {
     super.initState();
 
-    LocalBoards.store
-        .readRegistry()
+    MultiplayerStore.registry()
         .then((Map<String, String> entries) => setState(() {
               _boards = entries;
             }));
@@ -41,9 +39,11 @@ class _LocalBoardsState extends State<LocalBoards> {
                 mainAxisSize: MainAxisSize.min,
               ),
               onTap: () {
-                LocalBoards.store.readBoard(uuidList[i]).then(
-                    (MultiplayerBoard board) =>
-                        Navigator.of(context).pop(board));
+                MultiplayerStore.readBoard(uuidList[i])
+                    .then((MultiplayerBoard? board) {
+                  // FIXME
+                  Navigator.of(context).pop(board);
+                });
               },
             ));
   }

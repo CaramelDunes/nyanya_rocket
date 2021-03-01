@@ -139,7 +139,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
         status = await _queue.updateQueueJoinStatus();
 
         if (mounted) {
-          // FIXME Wtf
+          // FIXME
           if (status.port == null) {
             setState(() {});
           } else {

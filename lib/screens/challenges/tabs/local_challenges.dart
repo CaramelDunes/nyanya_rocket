@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/challenge_store.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
@@ -11,9 +10,9 @@ import 'package:nyanya_rocket/widgets/empty_list.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:provider/provider.dart';
 
-class LocalChallenges extends StatefulWidget {
-  static final ChallengeStore store = ChallengeStore();
+import '../../../models/stores/challenge_store.dart';
 
+class LocalChallenges extends StatefulWidget {
   @override
   _LocalChallengesState createState() => _LocalChallengesState();
 }
@@ -25,8 +24,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
   void initState() {
     super.initState();
 
-    LocalChallenges.store
-        .readRegistry()
+    ChallengeStore.registry()
         .then((Map<String, String> entries) => setState(() {
               _challenges = entries;
             }));
@@ -90,9 +88,14 @@ class _LocalChallengesState extends State<LocalChallenges> {
                     tooltip: NyaNyaLocalizations.of(context).publishLabel,
                     onPressed: () {
                       if (user.isConnected) {
-                        LocalChallenges.store.readChallenge(uuidList[i]).then(
-                            (NamedChallengeData puzzle) =>
-                                _verifyAndPublish(context, puzzle));
+                        ChallengeStore.readChallenge(uuidList[i])
+                            .then((NamedChallengeData? puzzle) {
+                          if (puzzle != null)
+                            _verifyAndPublish(context, puzzle);
+                          else
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text('Couldn\'t read puzzle data.')));
+                        });
                       } else {
                         final snackBar = SnackBar(
                             content: Text(NyaNyaLocalizations.of(context)
@@ -104,13 +107,18 @@ class _LocalChallengesState extends State<LocalChallenges> {
                 ],
               ),
               onTap: () {
-                LocalChallenges.store.readChallenge(uuidList[i]).then(
-                    (NamedChallengeData challenge) =>
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Challenge(
-                                  challenge: challenge,
-                                  hasNext: i != _challenges.length - 1,
-                                ))));
+                ChallengeStore.readChallenge(uuidList[i])
+                    .then((NamedChallengeData? challenge) {
+                  if (challenge != null)
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Challenge(
+                              challenge: challenge,
+                              hasNext: i != _challenges.length - 1,
+                            )));
+                  else
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Couldn\'t read challenge data.')));
+                });
               },
             ));
   }

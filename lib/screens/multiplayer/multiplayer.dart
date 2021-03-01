@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/multiplayer_store.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/multiplayer/setup_widgets/sign_up_prompt.dart';
 import 'package:nyanya_rocket/screens/multiplayer/tabs/friend_duel.dart';
@@ -19,8 +18,6 @@ import 'tabs/device_duel_setup.dart';
 import 'tabs/lan_multiplayer_setup.dart';
 
 class Multiplayer extends StatefulWidget {
-  static final MultiplayerStore store = MultiplayerStore();
-
   @override
   _MultiplayerState createState() => _MultiplayerState();
 }

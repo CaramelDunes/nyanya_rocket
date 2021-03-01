@@ -10,8 +10,6 @@ class PuzzleGameControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool darkMode = Theme.of(context).brightness == Brightness.dark;
-
     return OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
       return ValueListenableBuilder(
@@ -28,7 +26,6 @@ class PuzzleGameControls extends StatelessWidget {
                 color:
                     puzzleController.madeMistake ? Colors.grey : Colors.green,
                 child: InkWell(
-
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Icon(
