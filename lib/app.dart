@@ -61,7 +61,6 @@ class _AppState extends State<App> {
     // board images.
     scheduleMicrotask(() {
       precacheImage(AssetImage('assets/graphics/generator.png'), context);
-      precacheImage(AssetImage('assets/graphics/pit.png'), context);
     });
   }
 

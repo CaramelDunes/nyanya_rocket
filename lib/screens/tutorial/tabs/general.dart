@@ -6,6 +6,7 @@ import '../../../localization/nyanya_localizations.dart';
 import '../../../widgets/arrow_image.dart';
 import '../../../widgets/game_view/entities/entity_painter.dart';
 import '../../../widgets/game_view/tiles/tile_painter.dart';
+import '../../../widgets/pit_image.dart';
 
 class General extends StatelessWidget {
   @override
@@ -22,10 +23,10 @@ class General extends StatelessWidget {
               height: 76,
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                    child: Padding(
+                  Flexible(
+                    child: const Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TilePainter.widget(Pit()),
+                      child: const PitImage(),
                     ),
                   ),
                   Flexible(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
+import 'package:nyanya_rocket/widgets/game_view/tiles/pit_painter.dart';
+import 'package:nyanya_rocket/widgets/pit_image.dart';
 import 'package:nyanya_rocket/widgets/rocket_image.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -13,10 +15,7 @@ class TilePainter extends StatelessWidget {
   static Widget widget(Tile tile) {
     switch (tile.runtimeType) {
       case Pit:
-        return Image.asset(
-          'assets/graphics/pit.png',
-          fit: BoxFit.contain,
-        );
+        return PitImage();
 
       case Generator:
         return Image.asset(
@@ -83,8 +82,7 @@ class TilePainter extends StatelessWidget {
   static paintUnitTile(Tile tile, Canvas canvas) {
     switch (tile.runtimeType) {
       case Pit:
-        canvas.drawRect(
-            Rect.fromLTRB(0, 0, 1, 1), Paint()..color = Colors.black);
+        PitPainter.paintUnit(canvas);
         break;
 
       case Arrow:

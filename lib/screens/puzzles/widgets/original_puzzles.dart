@@ -7,11 +7,12 @@ import 'package:slugify/slugify.dart';
 
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/models/puzzle_progression_manager.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/widgets/completion_indicator.dart';
 import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
+
+import '../puzzle_progression_manager.dart';
 
 class OriginalPuzzles extends StatefulWidget {
   static final List<NamedPuzzleData> puzzles = jsons

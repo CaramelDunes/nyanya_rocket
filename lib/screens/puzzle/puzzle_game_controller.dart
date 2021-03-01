@@ -173,11 +173,10 @@ class PuzzleGameController extends LocalGameController {
       List<Mouse> newMice = [];
       List<BoardPosition> pendingArrowDeletions = [];
 
-      game.mice.forEach((Mouse e) {
-        if (e.position.step == BoardPosition.centerStep) {
+      game.mice.forEach((Mouse? e) {
+        if (e!.position.step == BoardPosition.centerStep) {
           // FIXME No comment...
-          e = gameSimulator.applyTileEffect(e, pendingArrowDeletions, game)
-              as Mouse;
+          e = gameSimulator.applyTileEffect(e, pendingArrowDeletions, game);
         }
 
         if (e != null) {
@@ -189,10 +188,9 @@ class PuzzleGameController extends LocalGameController {
 
       List<Cat> newCats = [];
 
-      game.cats.forEach((Cat e) {
-        if (e.position.step == BoardPosition.centerStep) {
-          e = gameSimulator.applyTileEffect(e, pendingArrowDeletions, game)
-              as Cat;
+      game.cats.forEach((Cat? e) {
+        if (e!.position.step == BoardPosition.centerStep) {
+          e = gameSimulator.applyTileEffect(e, pendingArrowDeletions, game);
         }
 
         if (e != null) {
