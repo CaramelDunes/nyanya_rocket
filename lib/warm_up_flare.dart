@@ -1,9 +1,10 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/entities/picture_cache_rive_painter.dart';
 
 import 'widgets/game_view/entities/entity_painter.dart';
 import 'widgets/game_view/entities/image_cache_rive_painter.dart';
+import 'widgets/game_view/entities/picture_cache_rive_painter.dart';
 import 'widgets/game_view/entities/simple_painter.dart';
 
 /// Ensure all Rive assets used by this app are cached and ready to
@@ -11,9 +12,21 @@ import 'widgets/game_view/entities/simple_painter.dart';
 Future<void> warmUpFlare() async {
   const String animationName = 'walk';
   const List<String> directions = ['right', 'up', 'left', 'down'];
+  const uglyButFastMode = false;
 
-  // On Web, do not cache frames for better performance.
-  const loadFunction = kIsWeb ? RivePainter.load : CachedRivePainter.load;
+  if (uglyButFastMode) {
+    EntityPainter.mouseAnimations =
+        List.generate(4, (index) => SimplePainter(Colors.white));
+
+    EntityPainter.catAnimations =
+        List.generate(4, (index) => SimplePainter(Colors.orange));
+    return;
+  }
+
+  // On mobile phones, cache Rive animations as images for better performance.
+  final loadFunction = Platform.isAndroid || Platform.isIOS
+      ? ImageCacheRivePainter.load
+      : PictureCacheRivePainter.load;
 
   EntityPainter.mouseAnimations = await Future.wait(directions.map(
       (direction) => loadFunction(
