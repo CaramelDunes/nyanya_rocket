@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 

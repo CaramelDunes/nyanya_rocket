@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -51,18 +49,6 @@ class _AppState extends State<App> {
   NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
   NyaNyaRouteInformationParser _routeInformationParser =
       NyaNyaRouteInformationParser();
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Copied from https://github.com/2d-inc/developer_quest/blob/master/lib/main.dart
-    // Schedule a micro-task that warms up the image cache with all the
-    // board images.
-    scheduleMicrotask(() {
-      precacheImage(AssetImage('assets/graphics/generator.png'), context);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

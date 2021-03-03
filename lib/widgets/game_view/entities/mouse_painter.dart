@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/game_view/entities/entity_painter.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';

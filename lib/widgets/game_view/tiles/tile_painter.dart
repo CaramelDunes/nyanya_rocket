@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
+import 'package:nyanya_rocket/widgets/game_view/tiles/spawner_painter.dart';
 import 'package:nyanya_rocket/widgets/game_view/tiles/pit_painter.dart';
 import 'package:nyanya_rocket/widgets/pit_image.dart';
 import 'package:nyanya_rocket/widgets/rocket_image.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
+import '../../spawner_image.dart';
 import 'arrow_painter.dart';
 import 'rocket_painter.dart';
 
@@ -15,13 +17,10 @@ class TilePainter extends StatelessWidget {
   static Widget widget(Tile tile) {
     switch (tile.runtimeType) {
       case Pit:
-        return PitImage();
+        return const PitImage();
 
       case Generator:
-        return Image.asset(
-          'assets/graphics/generator.png',
-          fit: BoxFit.contain,
-        );
+        return const SpawnerImage();
 
       case Arrow:
         Arrow arrow = tile as Arrow;
@@ -98,6 +97,10 @@ class TilePainter extends StatelessWidget {
       case Rocket:
         Rocket rocket = tile as Rocket;
         RocketPainter.paintUnit(canvas, Colors.blue, rocket.departed);
+        break;
+
+      case Generator:
+        SpawnerPainter.paintUnit(canvas);
         break;
     }
   }
