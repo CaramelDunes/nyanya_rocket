@@ -68,7 +68,6 @@ flutter:
 
   assets:
     - assets/graphics/adaptive_icon_foreground.png
-    - assets/graphics/generator.png
     - assets/graphics/wall.png
     - assets/graphics/wall_cross.png
     - assets/animations/mouse.riv
