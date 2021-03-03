@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
 import 'widgets/game_view/entities/entity_painter.dart';
@@ -24,7 +25,8 @@ Future<void> warmUpFlare() async {
   }
 
   // On mobile phones, cache Rive animations as images for better performance.
-  final loadFunction = Platform.isAndroid || Platform.isIOS
+  // Platform.operatingSystem is undefined on Web, shield its access.
+  final loadFunction = !kIsWeb && (Platform.isAndroid || Platform.isIOS)
       ? ImageCacheRivePainter.load
       : PictureCacheRivePainter.load;
 
