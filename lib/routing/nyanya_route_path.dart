@@ -60,34 +60,34 @@ class NyaNyaRoutePath {
   final TabKind? tabKind;
   final String? id;
 
-  NyaNyaRoutePath(this.kind, this.tabKind, this.id);
+  const NyaNyaRoutePath(this.kind, this.tabKind, this.id);
 
-  NyaNyaRoutePath.home()
+  const NyaNyaRoutePath.home()
       : id = null,
         kind = PageKind.Home,
         tabKind = null;
 
-  NyaNyaRoutePath.puzzles()
+  const NyaNyaRoutePath.puzzles()
       : kind = PageKind.Puzzle,
         this.id = null,
         tabKind = null;
 
-  NyaNyaRoutePath.challenges()
+  const NyaNyaRoutePath.challenges()
       : kind = PageKind.Challenge,
         this.id = null,
         tabKind = null;
 
-  NyaNyaRoutePath.editor()
+  const NyaNyaRoutePath.editor()
       : kind = PageKind.Editor,
         this.id = null,
         tabKind = null;
 
-  NyaNyaRoutePath.multiplayer()
+  const NyaNyaRoutePath.multiplayer()
       : kind = PageKind.Multiplayer,
         this.id = null,
         tabKind = null;
 
-  NyaNyaRoutePath.guide()
+  const NyaNyaRoutePath.guide()
       : kind = PageKind.Guide,
         this.id = null,
         tabKind = null;
@@ -103,4 +103,8 @@ class NyaNyaRoutePath {
   NyaNyaRoutePath.originalChallenge(this.id)
       : kind = PageKind.Challenge,
         tabKind = TabKind.Original;
+
+  NyaNyaRoutePath.communityChallenge(this.id)
+      : kind = PageKind.Challenge,
+        tabKind = TabKind.Community;
 }

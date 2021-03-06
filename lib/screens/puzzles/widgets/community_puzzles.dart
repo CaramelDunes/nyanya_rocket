@@ -131,28 +131,28 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                         ],
                       ),
                       onTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute<OverlayResult>(
-                                builder: (context) => Puzzle(
-                                      puzzle: puzzles[i],
-                                      onWin: (bool starred) =>
-                                          _handlePuzzleWin(i, starred),
-                                      documentPath: 'puzzles/${puzzles[i].uid}',
-                                      hasNext: false,
-                                    )))
-                            .then((OverlayResult? overlayResult) {
+                        Navigator.of(context).push(
+                            MaterialPageRoute<OverlayResult>(
+                                builder: (innerContext) {
+                          Router.of(innerContext)
+                              .routeInformationProvider!
+                              .routerReportsNewRouteInformation(RouteInformation(
+                                  location:
+                                      '/${PageKind.Puzzle.slug}/${TabKind.Community.slug}/${puzzles[i].uid}'));
+                          return Puzzle(
+                            puzzle: puzzles[i],
+                            onWin: (bool starred) =>
+                                _handlePuzzleWin(i, starred),
+                            documentPath: 'puzzles/${puzzles[i].uid}',
+                            hasNext: false,
+                          );
+                        })).then((_) {
                           Router.of(context)
                               .routeInformationProvider!
                               .routerReportsNewRouteInformation(RouteInformation(
                                   location:
                                       '/${PageKind.Puzzle.slug}/${TabKind.Community.slug}'));
                         });
-
-                        Router.of(context)
-                            .routeInformationProvider!
-                            .routerReportsNewRouteInformation(RouteInformation(
-                                location:
-                                    '/${PageKind.Puzzle.slug}/${TabKind.Community.slug}/${puzzles[i].uid}'));
                       },
                     )),
           ),

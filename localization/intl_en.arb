@@ -840,5 +840,17 @@
   "@multiplayerNotAvailableText": {
     "type": "text",
     "placeholders": {}
+  },
+  "couldNotLoadPuzzleText": "Could not load puzzle.",
+  "@couldNotLoadPuzzleText": {
+    "description": "When LoadingPuzzle cannot retrieve a community puzzle.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "couldNotLoadChallengeText": "Could not load challenge.",
+  "@couldNotLoadChallengeText": {
+    "description": "When LoadingChallenge cannot retrieve a community challenge.",
+    "type": "text",
+    "placeholders": {}
   }
 }

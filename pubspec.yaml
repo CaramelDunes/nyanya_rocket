@@ -31,24 +31,26 @@ dependencies:
 
   font_awesome_flutter: ^9.0.0-nullsafety
 
-  shared_preferences: ^2.0.0-nullsafety
+  shared_preferences: ^2.0.3
 
-  path_provider: ^2.0.0-nullsafety
+  path_provider: ^2.0.1
 
-  uuid: ^3.0.0-nullsafety.1
+  uuid: ^3.0.1
 
-  wifi_info_flutter: ^2.0.0-nullsafety
+  wifi_info_flutter: ^2.0.0
 
-  url_launcher: ^6.0.0-nullsafety.7
+  url_launcher: ^6.0.2
 
-  share: ^2.0.0-nullsafety.2
+  share: ^2.0.0
 
-  provider: ^5.0.0-nullsafety.2
+  provider: ^5.0.0
   characters: ^1.1.0
 
   http: ^0.13.0
 
-  slugify: ^1.0.0
+  slugify:
+    git:
+      url: git://github.com/shyndman/slugify.git
 
 dev_dependencies:
   flutter_test:

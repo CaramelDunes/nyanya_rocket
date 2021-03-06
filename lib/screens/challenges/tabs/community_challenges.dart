@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
@@ -128,12 +129,26 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
                         ],
                       ),
                       onTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute<OverlayResult>(
-                                builder: (context) => Challenge(
-                                      challenge: challenges[i],
-                                      hasNext: false,
-                                    )));
+                        Navigator.of(context).push(
+                            MaterialPageRoute<OverlayResult>(
+                                builder: (context) {
+                          Router.of(context)
+                              .routeInformationProvider!
+                              .routerReportsNewRouteInformation(RouteInformation(
+                                  location:
+                                      '/${PageKind.Challenge.slug}/${TabKind.Community.slug}/${challenges[i].uid}'));
+
+                          return Challenge(
+                            challenge: challenges[i],
+                            hasNext: false,
+                          );
+                        })).then((_) {
+                          Router.of(context)
+                              .routeInformationProvider!
+                              .routerReportsNewRouteInformation(RouteInformation(
+                                  location:
+                                      '/${PageKind.Challenge.slug}/${TabKind.Community.slug}'));
+                        });
                       },
                     )),
           ),
