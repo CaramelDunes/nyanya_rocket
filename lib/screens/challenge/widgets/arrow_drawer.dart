@@ -17,16 +17,13 @@ class ArrowDrawer extends StatelessWidget {
             4,
             (i) => Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(2.0),
+                    padding: const EdgeInsets.all(6.0),
                     child: Draggable<Direction>(
                         maxSimultaneousDrags: running ? null : 0,
                         feedback: const SizedBox.shrink(),
-                        child: Material(
-                          elevation: 8.0,
-                          child: ArrowImage(
-                              player: running ? PlayerColor.Blue : null,
-                              direction: Direction.values[i]),
-                        ),
+                        child: ArrowImage(
+                            player: running ? PlayerColor.Blue : null,
+                            direction: Direction.values[i]),
                         data: Direction.values[i]),
                   ),
                 )));

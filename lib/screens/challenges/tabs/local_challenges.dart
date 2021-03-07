@@ -7,7 +7,6 @@ import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
 import 'package:nyanya_rocket/widgets/empty_list.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/stores/challenge_store.dart';
@@ -31,30 +30,34 @@ class _LocalChallengesState extends State<LocalChallenges> {
   }
 
   void _verifyAndPublish(BuildContext context, NamedChallengeData challenge) {
-    Navigator.push<OverlayResult>(
+    Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => Challenge(
                   challenge: challenge,
-                ))).then((OverlayResult? overlayResult) {
-      if (overlayResult != null) {
-        FirebaseFunctions.instance.httpsCallable('publishChallenge').call({
-          'name': challenge.name,
-          'challenge_data': jsonEncode(challenge.challengeData.toJson()),
-        }).then((HttpsCallableResult result) {
-          print(result.data);
-        });
+                  onWin: (Duration time) {
+                    FirebaseFunctions.instance
+                        .httpsCallable('publishChallenge')
+                        .call({
+                      'name': challenge.name,
+                      'challenge_data':
+                          jsonEncode(challenge.challengeData.toJson()),
+                    }).then((HttpsCallableResult result) {
+                      print(result.data);
+                    });
 
-        final snackBar = SnackBar(
-            content: Text(NyaNyaLocalizations.of(context).publishSuccessText));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      } else {
-        final snackBar = SnackBar(
-            content: Text(
-                NyaNyaLocalizations.of(context).puzzleNotCompletedLocallyText));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    });
+                    final snackBar = SnackBar(
+                        content: Text(NyaNyaLocalizations.of(context)
+                            .publishSuccessText));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    // } else {
+                    //   final snackBar = SnackBar(
+                    //       content: Text(
+                    //           NyaNyaLocalizations.of(context).puzzleNotCompletedLocallyText));
+                    //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    // }
+                  },
+                ))).then((_) {});
   }
 
   @override

@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
 class CommunityPuzzles extends StatefulWidget {
   @override
@@ -56,10 +54,6 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
         puzzles = newPuzzles;
       });
     }
-  }
-
-  void _handlePuzzleWin(int i, bool starred) {
-    setState(() {});
   }
 
   @override
@@ -131,27 +125,8 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                         ],
                       ),
                       onTap: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute<OverlayResult>(
-                                builder: (innerContext) {
-                          Router.of(innerContext)
-                              .routeInformationProvider!
-                              .routerReportsNewRouteInformation(RouteInformation(
-                                  location:
-                                      '/${PageKind.Puzzle.slug}/${TabKind.Community.slug}/${puzzles[i].uid}'));
-                          return Puzzle(
-                            puzzle: puzzles[i],
-                            onWin: (bool starred) =>
-                                _handlePuzzleWin(i, starred),
-                            documentPath: 'puzzles/${puzzles[i].uid}',
-                          );
-                        })).then((_) {
-                          Router.of(context)
-                              .routeInformationProvider!
-                              .routerReportsNewRouteInformation(RouteInformation(
-                                  location:
-                                      '/${PageKind.Puzzle.slug}/${TabKind.Community.slug}'));
-                        });
+                        Router.of(context).routerDelegate.setNewRoutePath(
+                            NyaNyaRoutePath.communityPuzzle(puzzles[i].uid));
                       },
                     )),
           ),

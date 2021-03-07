@@ -4,19 +4,15 @@ import 'package:flutter/widgets.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 
-enum OverlayResult { PlayNext, PlayAgain }
-
 class SuccessOverlay extends StatefulWidget {
-  final String succeededName;
   final String? succeededPath;
   final NyaNyaRoutePath? nextRoutePath;
-  final bool canPlayAgain;
+  final VoidCallback? onPlayAgain;
 
   const SuccessOverlay(
       {Key? key,
-      required this.succeededName,
       this.nextRoutePath,
-      required this.canPlayAgain,
+      this.onPlayAgain,
       this.succeededPath})
       : super(key: key);
 
@@ -83,49 +79,53 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
         Material(
           color: Colors.black54,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Spacer(flex: 2),
-              Container(
+              Card(
                 color: Theme.of(context).brightness == Brightness.light
                     ? Colors.white
                     : Colors.black,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text(
                         NyaNyaLocalizations.of(context).stageClearedText,
-                        style: TextStyle(color: Colors.green, fontSize: 50),
+                        style: TextStyle(color: Colors.green, fontSize: 40),
+                        textAlign: TextAlign.center,
                       ),
-                      Visibility(
-                          visible:
-                              widget.succeededPath != null && _stars != null,
-                          child: _starAdder()),
+                      if (widget.succeededPath != null && _stars != null)
+                        _starAdder()
+                      else
+                        const SizedBox(height: 16),
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           ElevatedButton(
-                            child: Text(
-                                NyaNyaLocalizations.of(context).playAgainLabel),
+                            child: Text(NyaNyaLocalizations.of(context).back),
                             onPressed: () {
-                              Navigator.of(context)
-                                  .pop(OverlayResult.PlayAgain);
+                              Navigator.pop(context);
                             },
                           ),
+                          const SizedBox(width: 16),
                           ElevatedButton(
-                            child: Text(widget.nextRoutePath != null
-                                ? NyaNyaLocalizations.of(context).nextLevelLabel
-                                : NyaNyaLocalizations.of(context).back),
-                            onPressed: () {
-                              if (widget.nextRoutePath != null)
-                                Router.of(context)
-                                    .routerDelegate
-                                    .setNewRoutePath(widget.nextRoutePath);
-                              else
-                                Navigator.pop(context);
-                            },
+                            child: Text(
+                                NyaNyaLocalizations.of(context).playAgainLabel),
+                            onPressed: widget.onPlayAgain,
+                          ),
+                          const SizedBox(width: 16),
+                          ElevatedButton(
+                            child: Text(
+                                NyaNyaLocalizations.of(context).nextLevelLabel),
+                            onPressed: widget.nextRoutePath == null
+                                ? null
+                                : () {
+                                    Router.of(context)
+                                        .routerDelegate
+                                        .setNewRoutePath(widget.nextRoutePath);
+                                  },
                           ),
                         ],
                       ),

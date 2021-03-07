@@ -168,9 +168,13 @@ class _PuzzleState extends State<Puzzle> {
               visible: _ended,
               child: SuccessOverlay(
                 nextRoutePath: widget.nextRoutePath,
-                succeededName: widget.puzzle.name,
                 succeededPath: widget.documentPath,
-                canPlayAgain: true,
+                onPlayAgain: () {
+                  _puzzleController.reset();
+                  setState(() {
+                    _ended = false;
+                  });
+                },
               )),
         ],
       ),

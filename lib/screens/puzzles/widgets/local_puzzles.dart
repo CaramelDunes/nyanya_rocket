@@ -7,7 +7,6 @@ import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/widgets/empty_list.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/stores/puzzle_store.dart';
@@ -30,30 +29,32 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
   }
 
   void _verifyAndPublish(BuildContext context, NamedPuzzleData puzzle) {
-    Navigator.push<OverlayResult>(
+    Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => Puzzle(
                   puzzle: puzzle,
-                ))).then((OverlayResult? overlayResult) {
-      if (overlayResult != null) {
-        FirebaseFunctions.instance.httpsCallable('publishPuzzle').call({
-          'name': puzzle.name,
-          'puzzle_data': jsonEncode(puzzle.puzzleData.toJson()),
-        }).then((HttpsCallableResult result) {
-          print(result.data);
-        });
-
-        final snackBar = SnackBar(
-            content: Text(NyaNyaLocalizations.of(context).publishSuccessText));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      } else {
-        final snackBar = SnackBar(
-            content: Text(
-                NyaNyaLocalizations.of(context).puzzleNotCompletedLocallyText));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    });
+                  onWin: (_) {
+                    FirebaseFunctions.instance
+                        .httpsCallable('publishPuzzle')
+                        .call({
+                      'name': puzzle.name,
+                      'puzzle_data': jsonEncode(puzzle.puzzleData.toJson()),
+                    }).then((HttpsCallableResult result) {
+                      print(result.data);
+                    });
+                    final snackBar = SnackBar(
+                        content: Text(NyaNyaLocalizations.of(context)
+                            .publishSuccessText));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    // else {
+                    //   final snackBar = SnackBar(
+                    //       content: Text(
+                    //           NyaNyaLocalizations.of(context).puzzleNotCompletedLocallyText));
+                    //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    // }
+                  },
+                )));
   }
 
   @override
