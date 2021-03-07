@@ -144,7 +144,6 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                             onWin: (bool starred) =>
                                 _handlePuzzleWin(i, starred),
                             documentPath: 'puzzles/${puzzles[i].uid}',
-                            hasNext: false,
                           );
                         })).then((_) {
                           Router.of(context)

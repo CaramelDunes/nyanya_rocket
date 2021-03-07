@@ -50,7 +50,6 @@ class LoadingPuzzle extends StatelessWidget {
               if (!snapshot.hasError) {
                 return Puzzle(
                   puzzle: snapshot.data!,
-                  hasNext: false,
                 );
               } else {
                 return Scaffold(

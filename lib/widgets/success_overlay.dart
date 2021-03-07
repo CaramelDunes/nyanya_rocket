@@ -2,19 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 
 enum OverlayResult { PlayNext, PlayAgain }
 
 class SuccessOverlay extends StatefulWidget {
   final String succeededName;
   final String? succeededPath;
-  final bool hasNext;
+  final NyaNyaRoutePath? nextRoutePath;
   final bool canPlayAgain;
 
   const SuccessOverlay(
       {Key? key,
       required this.succeededName,
-      required this.hasNext,
+      this.nextRoutePath,
       required this.canPlayAgain,
       this.succeededPath})
       : super(key: key);
@@ -114,11 +115,16 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                             },
                           ),
                           ElevatedButton(
-                            child: Text(widget.hasNext
+                            child: Text(widget.nextRoutePath != null
                                 ? NyaNyaLocalizations.of(context).nextLevelLabel
                                 : NyaNyaLocalizations.of(context).back),
                             onPressed: () {
-                              Navigator.of(context).pop(OverlayResult.PlayNext);
+                              if (widget.nextRoutePath != null)
+                                Router.of(context)
+                                    .routerDelegate
+                                    .setNewRoutePath(widget.nextRoutePath);
+                              else
+                                Navigator.pop(context);
                             },
                           ),
                         ],

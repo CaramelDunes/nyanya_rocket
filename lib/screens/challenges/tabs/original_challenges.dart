@@ -2,14 +2,11 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
-import 'package:nyanya_rocket/models/challenge_progression_manager.dart';
+import '../challenge_progression_manager.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-import 'package:nyanya_rocket/screens/challenge/challenge.dart';
 import 'package:nyanya_rocket/widgets/completion_indicator.dart';
 import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
-import 'package:slugify/slugify.dart';
 
 class OriginalChallenges extends StatefulWidget {
   static final ChallengeProgressionManager progression =
@@ -118,19 +115,11 @@ class OriginalChallenges extends StatefulWidget {
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,3,1,1,1,0,2,2],[2,0,0,0,0,0,2,0,0],[2,0,0,0,0,0,0,2,2],[2,0,0,0,0,0,2,2,0],[3,1,1,1,1,1,2,0,2],[2,0,2,0,0,1,0,2,2],[3,1,1,1,1,1,2,0,0],[2,0,2,0,0,1,0,2,2],[3,1,1,1,1,1,2,0,2],[2,0,2,0,0,1,0,2,0],[3,1,1,1,1,1,2,2,2],[2,0,2,0,0,1,0,0,2]]},"entities":[]}'),
   ];
 
-  static Map<String, int> slugs = challenges.asMap().map((index, value) =>
-      MapEntry(Slugify(value.type.toPrettyString() + value.name), index));
+  static Map<String, int> slugs =
+      challenges.asMap().map((index, value) => MapEntry(value.slug, index));
 
   @override
   _OriginalChallengesState createState() => _OriginalChallengesState();
-}
-
-NamedChallengeData _buildChallengeData(BuildContext context, int i) {
-  return NamedChallengeData.fromChallengeData(
-      challengeData: OriginalChallenges.challenges[i].challengeData,
-      name: OriginalChallenges.challenges[i].challengeData.type
-              .toLocalizedString(context) +
-          OriginalChallenges.challenges[i].name);
 }
 
 class _OriginalChallengesState extends State<OriginalChallenges>
@@ -160,47 +149,12 @@ class _OriginalChallengesState extends State<OriginalChallenges>
   @override
   bool get wantKeepAlive => true;
 
-  void _handleChallengeWin(int i, Duration time) {
-    if (_times[i].inMilliseconds == 0 || time < _times[i]) {
-      setState(() {
-        _times[i] = time;
-        _cleared.add(i);
-      });
-
-      ChallengeProgressionManager.setTime(i, time);
-    }
-  }
-
   void _openChallenge(int i) {
     if (OriginalChallenges.challenges.length > i + 1) {
-      Navigator.of(context)
-          .push(MaterialPageRoute<OverlayResult>(
-              builder: (context) => Challenge(
-                    hasNext: i != OriginalChallenges.challenges.length - 1,
-                    challenge: _buildChallengeData(context, i),
-                    onWin: (Duration time) => _handleChallengeWin(i, time),
-                    bestTime: _times[i],
-                  )))
-          .then((OverlayResult? overlayResult) {
-        if (overlayResult != null) {
-          if (overlayResult == OverlayResult.PlayNext) {
-            _openChallenge(i + 1);
-          } else if (overlayResult == OverlayResult.PlayAgain) {
-            _openChallenge(i);
-          }
-        } else {
-          Router.of(context)
-              .routeInformationProvider!
-              .routerReportsNewRouteInformation(
-                  RouteInformation(location: '/${PageKind.Challenge.slug}'));
-        }
-      });
+      Router.of(context).routerDelegate.setNewRoutePath(
+          NyaNyaRoutePath.originalChallenge(
+              OriginalChallenges.challenges[i].slug));
     }
-    Router.of(context)
-        .routeInformationProvider!
-        .routerReportsNewRouteInformation(RouteInformation(
-            location:
-                '/${PageKind.Challenge.slug}/${TabKind.Original.slug}/${Slugify(OriginalChallenges.challenges[i].challengeData.type.toPrettyString() + OriginalChallenges.challenges[i].name)}'));
   }
 
   Widget _buildChallengeTile(int i) {

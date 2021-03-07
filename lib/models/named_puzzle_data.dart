@@ -1,8 +1,9 @@
 import 'package:nyanya_rocket/models/puzzle_data.dart';
+import 'package:slugify/slugify.dart';
 
 class NamedPuzzleData {
-  String name;
-  PuzzleData puzzleData;
+  final String name;
+  final PuzzleData puzzleData;
 
   NamedPuzzleData(
       {required this.name,
@@ -20,4 +21,6 @@ class NamedPuzzleData {
   }
 
   Map<String, dynamic> toJson() => {'name': name}..addAll(puzzleData.toJson());
+
+  String get slug => Slugify(name);
 }

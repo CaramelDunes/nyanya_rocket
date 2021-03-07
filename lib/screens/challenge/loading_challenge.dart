@@ -50,7 +50,6 @@ class LoadingChallenge extends StatelessWidget {
               if (!snapshot.hasError) {
                 return Challenge(
                   challenge: snapshot.data!,
-                  hasNext: false,
                 );
               } else {
                 return Scaffold(

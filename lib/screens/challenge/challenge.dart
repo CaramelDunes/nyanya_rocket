@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
 import 'package:nyanya_rocket/screens/challenge/widgets/arrow_drawer.dart';
 import 'package:nyanya_rocket/screens/settings/settings.dart';
@@ -16,12 +17,12 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class Challenge extends StatefulWidget {
   final NamedChallengeData challenge;
   final void Function(Duration time)? onWin;
-  final bool hasNext;
+  final NyaNyaRoutePath? nextRoutePath;
   final Duration? bestTime;
 
   Challenge(
       {required this.challenge,
-      required this.hasNext,
+      this.nextRoutePath,
       this.onWin,
       this.bestTime});
 
@@ -133,7 +134,7 @@ class _ChallengeState extends State<Challenge> {
               visible: _ended,
               child: SuccessOverlay(
                 succeededName: widget.challenge.name,
-                hasNext: widget.hasNext,
+                nextRoutePath: widget.nextRoutePath,
                 canPlayAgain: true,
               )),
         ],

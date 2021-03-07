@@ -3,14 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-import 'package:slugify/slugify.dart';
 
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/widgets/completion_indicator.dart';
 import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
 
 import '../puzzle_progression_manager.dart';
 
@@ -123,9 +120,8 @@ class OriginalPuzzles extends StatefulWidget {
     '{"name":"Panic!","gameData":"{\\"board\\":{\\"tiles\\":[[{\\"type\\":2},{\\"type\\":2},{\\"type\\":2},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":2},{\\"type\\":2},{\\"type\\":2}],[{\\"type\\":2},{\\"type\\":2},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":2},{\\"type\\":2}],[{\\"type\\":2},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":2}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":3,\\"player\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":3,\\"player\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}]],\\"walls\\":[[3,1,1,1,1,1,1,1,1],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,2,0,0,0,0,0,0],[3,0,0,0,0,0,1,0,0],[2,1,1,0,0,0,0,3,1],[2,2,0,0,0,0,0,1,2],[2,1,2,0,0,0,0,3,0],[2,0,1,2,0,0,3,2,1],[2,3,1,1,1,1,2,3,0],[2,0,1,1,1,2,2,2,1],[3,2,1,1,1,0,2,1,0]]},\\"entities\\":[{\\"type\\":0,\\"position\\":{\\"x\\":8,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":9,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":10,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":1,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":8,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":1,\\"y\\":2,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":1,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":5,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":5,\\"y\\":2,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":8,\\"y\\":3,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":6,\\"y\\":1,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":0,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":0,\\"y\\":3,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":5,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":7,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":5,\\"y\\":4,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":1,\\"y\\":4,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":2,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":3,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":6,\\"y\\":5,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":7,\\"y\\":6,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":7,\\"y\\":2,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":1,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":8,\\"y\\":5,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":6,\\"y\\":3,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":5,\\"y\\":6,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":7,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":0,\\"y\\":5,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":3,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":4,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":6,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":7,\\"y\\":4,\\"direction\\":0}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":2,\\"direction\\":3}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":3,\\"direction\\":3}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":4,\\"direction\\":3}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":5,\\"direction\\":2}},{\\"type\\":0,\\"position\\":{\\"x\\":10,\\"y\\":5,\\"direction\\":2}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":5,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":4,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":3,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":2,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":10,\\"y\\":1,\\"direction\\":0}}]}","arrows":[3,4,1,2]}'
   ];
 
-  static Map<String, int> slugs = puzzles
-      .asMap()
-      .map((index, value) => MapEntry(Slugify(value.name), index));
+  static Map<String, int> slugs =
+      puzzles.asMap().map((index, value) => MapEntry(value.slug, index));
 
   @override
   _OriginalPuzzlesState createState() => _OriginalPuzzlesState();
@@ -133,7 +129,7 @@ class OriginalPuzzles extends StatefulWidget {
 
 class _OriginalPuzzlesState extends State<OriginalPuzzles>
     with AutomaticKeepAliveClientMixin<OriginalPuzzles> {
-  bool _showCompleted = false;
+  bool _showCompleted = true;
   SplayTreeSet<int> _cleared = SplayTreeSet();
   SplayTreeSet<int> _starred = SplayTreeSet();
 
@@ -154,49 +150,11 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
     });
   }
 
-  void _handlePuzzleWin(int i, bool starred) {
-    setState(() {
-      if (!_cleared.contains(i)) {
-        _cleared.add(i);
-        PuzzleProgressionManager.setCleared(i);
-      }
-
-      if (starred && !_starred.contains(i)) {
-        _starred.add(i);
-        PuzzleProgressionManager.setStarred(i, starred);
-      }
-    });
-  }
-
   void _openPuzzle(int puzzleIndex) {
     if (puzzleIndex < OriginalPuzzles.puzzles.length) {
-      Navigator.of(context)
-          .push(MaterialPageRoute<OverlayResult>(
-              builder: (context) => Puzzle(
-                    puzzle: OriginalPuzzles.puzzles[puzzleIndex],
-                    onWin: (bool starred) =>
-                        _handlePuzzleWin(puzzleIndex, starred),
-                    hasNext: (puzzleIndex + 1) < OriginalPuzzles.puzzles.length,
-                  )))
-          .then((OverlayResult? overlayResult) {
-        if (overlayResult != null) {
-          if (overlayResult == OverlayResult.PlayNext) {
-            _openPuzzle(puzzleIndex + 1);
-          } else if (overlayResult == OverlayResult.PlayAgain) {
-            _openPuzzle(puzzleIndex);
-          }
-        } else {
-          Router.of(context)
-              .routeInformationProvider!
-              .routerReportsNewRouteInformation(
-                  RouteInformation(location: '/${PageKind.Puzzle.slug}'));
-        }
-      });
-      Router.of(context)
-          .routeInformationProvider!
-          .routerReportsNewRouteInformation(RouteInformation(
-              location:
-                  '/${PageKind.Puzzle.slug}/${TabKind.Original.slug}/${Slugify(OriginalPuzzles.puzzles[puzzleIndex].name)}'));
+      Router.of(context).routerDelegate.setNewRoutePath(
+          NyaNyaRoutePath.originalPuzzle(
+              OriginalPuzzles.puzzles[puzzleIndex].slug));
     }
   }
 

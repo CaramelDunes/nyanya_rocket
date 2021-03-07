@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
 import 'package:nyanya_rocket/screens/puzzle/widgets/available_arrows.dart';
 import 'package:nyanya_rocket/screens/puzzle/widgets/puzzle_game_controls.dart';
@@ -15,11 +16,11 @@ class Puzzle extends StatefulWidget {
   final NamedPuzzleData puzzle;
   final void Function(bool starred)? onWin;
   final String? documentPath;
-  final bool hasNext;
+  final NyaNyaRoutePath? nextRoutePath;
 
   Puzzle(
       {required this.puzzle,
-      required this.hasNext,
+      this.nextRoutePath,
       this.onWin,
       this.documentPath});
 
@@ -166,7 +167,7 @@ class _PuzzleState extends State<Puzzle> {
           Visibility(
               visible: _ended,
               child: SuccessOverlay(
-                hasNext: widget.hasNext,
+                nextRoutePath: widget.nextRoutePath,
                 succeededName: widget.puzzle.name,
                 succeededPath: widget.documentPath,
                 canPlayAgain: true,

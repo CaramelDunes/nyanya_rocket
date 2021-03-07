@@ -35,7 +35,6 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
         MaterialPageRoute(
             builder: (BuildContext context) => Puzzle(
                   puzzle: puzzle,
-                  hasNext: false,
                 ))).then((OverlayResult? overlayResult) {
       if (overlayResult != null) {
         FirebaseFunctions.instance.httpsCallable('publishPuzzle').call({
@@ -109,7 +108,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Puzzle(
                               puzzle: puzzle,
-                              hasNext: i != uuidList.length - 1,
+                              // hasNext: i != uuidList.length - 1, TODO
                             )));
                 });
               },

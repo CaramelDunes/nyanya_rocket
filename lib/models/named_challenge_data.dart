@@ -1,8 +1,9 @@
 import 'package:nyanya_rocket/models/challenge_data.dart';
+import 'package:slugify/slugify.dart';
 
 class NamedChallengeData {
-  String name;
-  ChallengeData challengeData;
+  final String name;
+  final ChallengeData challengeData;
 
   NamedChallengeData(
       {required this.name,
@@ -22,4 +23,6 @@ class NamedChallengeData {
       {'name': name}..addAll(challengeData.toJson());
 
   ChallengeType get type => challengeData.type;
+
+  String get slug => Slugify(type.toPrettyString() + name);
 }

@@ -36,7 +36,6 @@ class _LocalChallengesState extends State<LocalChallenges> {
         MaterialPageRoute(
             builder: (BuildContext context) => Challenge(
                   challenge: challenge,
-                  hasNext: false,
                 ))).then((OverlayResult? overlayResult) {
       if (overlayResult != null) {
         FirebaseFunctions.instance.httpsCallable('publishChallenge').call({
@@ -113,7 +112,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Challenge(
                               challenge: challenge,
-                              hasNext: i != _challenges.length - 1,
+                              // hasNext: i != _challenges.length - 1, TODO
                             )));
                   else
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -140,7 +140,6 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
 
                           return Challenge(
                             challenge: challenges[i],
-                            hasNext: false,
                           );
                         })).then((_) {
                           Router.of(context)

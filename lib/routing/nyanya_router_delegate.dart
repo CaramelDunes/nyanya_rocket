@@ -1,17 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/screens/challenge/loading_challenge.dart';
+import 'package:nyanya_rocket/screens/challenge/original_challenge.dart';
 import 'package:nyanya_rocket/screens/challenges/challenges.dart';
 import 'package:nyanya_rocket/screens/editor/editor.dart';
 import 'package:nyanya_rocket/screens/home/home.dart';
 import 'package:nyanya_rocket/screens/multiplayer/multiplayer.dart';
 import 'package:nyanya_rocket/screens/multiplayer/multiplayer_not_available.dart';
 import 'package:nyanya_rocket/screens/puzzle/loading_puzzle.dart';
-import '../screens/puzzle/puzzle.dart';
+import 'package:nyanya_rocket/screens/puzzle/original_puzzle.dart';
 import '../screens/puzzles/widgets/original_puzzles.dart';
 import '../screens/tutorial/tutorial.dart';
 
-import '../screens/challenge/challenge.dart';
 import '../screens/challenges/tabs/original_challenges.dart';
 import '../screens/puzzles/puzzles.dart';
 import 'nyanya_route_path.dart';
@@ -75,21 +75,18 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
             _tabKind == TabKind.Original &&
             OriginalPuzzles.slugs.containsKey(_id))
           MaterialPage(
-              key: ValueKey('PuzzlePage$_id'),
-              child: Puzzle(
-                puzzle: OriginalPuzzles.puzzles[OriginalPuzzles.slugs[_id]!],
-                hasNext: false,
+              key: ValueKey('OriginalPuzzle$_id'),
+              child: OriginalPuzzle(
+                id: OriginalPuzzles.slugs[_id]!,
               ))
         else if (_pageKind == PageKind.Challenge &&
             _id != null &&
             _tabKind == TabKind.Original &&
             OriginalChallenges.slugs.containsKey(_id))
           MaterialPage(
-              key: ValueKey('ChallengePage$_id'),
-              child: Challenge(
-                challenge: OriginalChallenges
-                    .challenges[OriginalChallenges.slugs[_id]!],
-                hasNext: false,
+              key: ValueKey('OriginalChallenge$_id'),
+              child: OriginalChallenge(
+                id: OriginalChallenges.slugs[_id]!,
               ))
         else if (_pageKind == PageKind.Puzzle &&
             _id != null &&
