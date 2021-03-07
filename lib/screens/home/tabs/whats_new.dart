@@ -5,14 +5,16 @@ import 'package:intl/intl.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/settings/first_run.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import 'package:provider/provider.dart';
 
 class WhatsNew extends StatelessWidget {
   static Set<String> availableLocales = {'en', 'fr'};
-  static Future<QuerySnapshot> news = FirebaseFirestore.instance
-      .collection('articles_${articleLocale()}')
-      .orderBy('date', descending: true)
-      .get();
+
+  // static Future<QuerySnapshot> news = FirebaseFirestore.instance
+  //     .collection('articles_${articleLocale()}')
+  //     .orderBy('date', descending: true)
+  //     .get();
 
   void _dismissWelcomeCard(BuildContext context) {
     Provider.of<FirstRun>(context, listen: false).enabled = false;
@@ -175,10 +177,12 @@ class WhatsNew extends StatelessWidget {
         Expanded(
           child: ListView(
             children: <Widget>[
-              FutureBuilder<QuerySnapshot>(
-                future: news,
+              FutureBuilder<List<Map<String, dynamic>?>>(
+                future: context
+                    .read<FirebaseService>()
+                    .getCollection(['articles_${articleLocale()}']),
                 builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                    AsyncSnapshot<List<Map<String, dynamic>?>> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
@@ -191,13 +195,12 @@ class WhatsNew extends StatelessWidget {
                     default:
                       return Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: snapshot.data!.docs
-                            .map((DocumentSnapshot document) {
+                        children: snapshot.data!
+                            .map((Map<String, dynamic>? document) {
                           return ListTile(
-                            title: Text(document.get('title')),
+                            title: Text(document!['title']),
                             trailing: Text(MaterialLocalizations.of(context)
-                                .formatShortDate(
-                                    document.get('date').toDate())),
+                                .formatShortDate(document['date'])),
                           );
                         }).toList(),
                       );

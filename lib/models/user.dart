@@ -1,6 +1,7 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/foundation.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 
 enum StatusCode { Success, Failure, InvalidArgument, Unauthenticated }
 
@@ -8,17 +9,18 @@ class User with ChangeNotifier {
   auth.User? _user;
 
   User() {
-    auth.FirebaseAuth.instance.userChanges().listen((user) {
-      _user = user;
+    if (FirebaseFactory.useNative)
+      auth.FirebaseAuth.instance.userChanges().listen((user) {
+        _user = user;
 
-      if (isConnected) {
-        print('User connected as `$user`');
-      } else {
-        print('User not connected');
-      }
+        if (isConnected) {
+          print('User connected as `$user`');
+        } else {
+          print('User not connected');
+        }
 
-      notifyListeners();
-    });
+        notifyListeners();
+      });
   }
 
   bool get isConnected {

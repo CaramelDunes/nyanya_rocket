@@ -52,6 +52,10 @@ dependencies:
     git:
       url: git://github.com/shyndman/slugify.git
 
+  firedart:
+    git:
+      url: git://github.com/CaramelDunes/firedart.git
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
