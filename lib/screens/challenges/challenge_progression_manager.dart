@@ -1,41 +1,33 @@
-import 'dart:collection';
-
-import 'package:nyanya_rocket/screens/challenges/tabs/original_challenges.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChallengeProgressionManager {
-  static final Future<SharedPreferences> prefs =
-      SharedPreferences.getInstance();
+import 'tabs/original_challenges.dart';
+
+class ChallengeProgressionManager with ChangeNotifier {
+  final SharedPreferences sharedPreferences;
+  final Map<int, Duration> _times = {};
+
+  ChallengeProgressionManager(this.sharedPreferences) {
+    _readTimes();
+  }
+
+  Map<int, Duration> getTimes() => _times;
+
+  Future<bool> setTime(int i, Duration time) {
+    _times[i] = time;
+    notifyListeners();
+    return sharedPreferences.setInt(_timeKeyOf(i), time.inMilliseconds);
+  }
 
   static String _timeKeyOf(int i) => "challenge.original.$i.time";
 
-  static Future<SplayTreeSet<int>> getCleared() async {
-    SharedPreferences prefs = await ChallengeProgressionManager.prefs;
-    SplayTreeSet<int> cleared = SplayTreeSet();
-
+  void _readTimes() {
     for (int i = 0; i < OriginalChallenges.challenges.length; i += 1) {
-      int? time = prefs.getInt(_timeKeyOf(i));
-      if (time != null && time > 0) {
-        cleared.add(i);
+      int? timeMilliseconds = sharedPreferences.getInt(_timeKeyOf(i));
+
+      if (timeMilliseconds != null && timeMilliseconds > 0) {
+        _times[i] = Duration(milliseconds: timeMilliseconds);
       }
     }
-    return cleared;
-  }
-
-  static Future<List<Duration>> getTimes() async {
-    SharedPreferences prefs = await ChallengeProgressionManager.prefs;
-    List<Duration> times =
-        List.filled(OriginalChallenges.challenges.length, Duration());
-
-    for (int i = 0; i < OriginalChallenges.challenges.length; i += 1) {
-      times[i] = Duration(milliseconds: prefs.getInt(_timeKeyOf(i)) ?? 0);
-    }
-
-    return times;
-  }
-
-  static Future<void> setTime(int i, Duration time) async {
-    SharedPreferences prefs = await ChallengeProgressionManager.prefs;
-    return prefs.setInt(_timeKeyOf(i), time.inMilliseconds).then((bool _) {});
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:nyanya_rocket/screens/challenges/challenge_progression_manager.dart';
+import 'package:nyanya_rocket/screens/puzzles/puzzle_progression_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -71,7 +73,12 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(
             create: (_) => Region(
                 sharedPreferences: widget.sharedPreferences,
-                defaultValue: Regions.auto))
+                defaultValue: Regions.auto)),
+        ChangeNotifierProvider(
+            create: (_) => PuzzleProgressionManager(widget.sharedPreferences)),
+        ChangeNotifierProvider(
+            create: (_) =>
+                ChallengeProgressionManager(widget.sharedPreferences))
       ],
       child: Consumer2<DarkMode, Language>(
         builder: (_, darkMode, language, __) {

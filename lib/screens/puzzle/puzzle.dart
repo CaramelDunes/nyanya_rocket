@@ -171,6 +171,7 @@ class _PuzzleState extends State<Puzzle> {
                 succeededPath: widget.documentPath,
                 onPlayAgain: () {
                   _puzzleController.reset();
+                  _puzzleController.removeAllArrows();
                   setState(() {
                     _ended = false;
                   });

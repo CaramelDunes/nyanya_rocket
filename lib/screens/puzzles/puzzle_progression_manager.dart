@@ -1,47 +1,49 @@
-import 'dart:collection';
-
+import 'package:flutter/foundation.dart';
 import 'package:nyanya_rocket/screens/puzzles/widgets/original_puzzles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PuzzleProgressionManager {
-  static final Future<SharedPreferences> prefs =
-      SharedPreferences.getInstance();
+class PuzzleProgressionManager with ChangeNotifier {
+  final SharedPreferences sharedPreferences;
+  final Set<int> _cleared = {};
+  final Set<int> _starred = {};
 
-  static String _clearedKeyOf(int i) => "puzzle.original.$i.cleared";
+  PuzzleProgressionManager(this.sharedPreferences) {
+    _readFromSharedPreferences();
+  }
 
-  static String _starredKeyOf(int i) => "puzzle.original.$i.starred";
+  String _clearedKeyOf(int i) => "puzzle.original.$i.cleared";
 
-  static Future<SplayTreeSet<int>> getCleared() async {
-    SharedPreferences prefs = await PuzzleProgressionManager.prefs;
-    SplayTreeSet<int> cleared = SplayTreeSet();
+  String _starredKeyOf(int i) => "puzzle.original.$i.starred";
 
+  void _readFromSharedPreferences() {
     for (int i = 0; i < OriginalPuzzles.puzzles.length; i += 1) {
-      if (prefs.getBool(_clearedKeyOf(i)) ?? false) {
-        cleared.add(i);
+      if (sharedPreferences.getBool(_clearedKeyOf(i)) ?? false) {
+        _cleared.add(i);
+      }
+
+      if (sharedPreferences.getBool(_starredKeyOf(i)) ?? false) {
+        _starred.add(i);
       }
     }
-    return cleared;
   }
 
-  static Future<SplayTreeSet<int>> getStarred() async {
-    SharedPreferences prefs = await PuzzleProgressionManager.prefs;
-    SplayTreeSet<int> starred = SplayTreeSet();
-
-    for (int i = 0; i < OriginalPuzzles.puzzles.length; i += 1) {
-      if (prefs.getBool(_starredKeyOf(i)) ?? false) {
-        starred.add(i);
-      }
-    }
-    return starred;
+  Set<int> getCleared() {
+    return _cleared;
   }
 
-  static Future<void> setCleared(int i, [bool cleared = true]) async {
-    SharedPreferences prefs = await PuzzleProgressionManager.prefs;
-    return prefs.setBool(_clearedKeyOf(i), cleared).then((bool _) {});
+  Set<int> getStarred() {
+    return _starred;
   }
 
-  static Future<void> setStarred(int i, [bool starred = true]) async {
-    SharedPreferences prefs = await PuzzleProgressionManager.prefs;
-    return prefs.setBool(_starredKeyOf(i), starred).then((bool _) {});
+  Future<bool> setCleared(int i, [bool cleared = true]) async {
+    _cleared.add(i);
+    notifyListeners();
+    return sharedPreferences.setBool(_clearedKeyOf(i), cleared);
+  }
+
+  Future<bool> setStarred(int i, [bool starred = true]) async {
+    _starred.add(i);
+    notifyListeners();
+    return sharedPreferences.setBool(_starredKeyOf(i), starred);
   }
 }

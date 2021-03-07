@@ -1,6 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import '../challenge_progression_manager.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
@@ -9,9 +11,6 @@ import 'package:nyanya_rocket/widgets/completion_indicator.dart';
 import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 
 class OriginalChallenges extends StatefulWidget {
-  static final ChallengeProgressionManager progression =
-      ChallengeProgressionManager();
-
   static final List<NamedChallengeData> challenges = [
     NamedChallengeData(
         type: ChallengeType.GetMice,
@@ -124,26 +123,11 @@ class OriginalChallenges extends StatefulWidget {
 
 class _OriginalChallengesState extends State<OriginalChallenges>
     with AutomaticKeepAliveClientMixin<OriginalChallenges> {
-  bool _showCompleted = false;
-  SplayTreeSet<int> _cleared = SplayTreeSet();
-  List<Duration> _times =
-      List.filled(OriginalChallenges.challenges.length, Duration.zero);
+  bool _showCompleted = true;
 
   @override
   void initState() {
     super.initState();
-
-    ChallengeProgressionManager.getTimes().then((List<Duration> times) {
-      _cleared = SplayTreeSet<int>.from(Map.fromEntries(times
-          .asMap()
-          .entries
-          .where((MapEntry<int, Duration> entry) =>
-              entry.value.inMilliseconds > 0)).keys);
-
-      setState(() {
-        _times = times;
-      });
-    });
   }
 
   @override
@@ -157,24 +141,23 @@ class _OriginalChallengesState extends State<OriginalChallenges>
     }
   }
 
-  Widget _buildChallengeTile(int i) {
+  Widget _buildChallengeTile(int i, Map<int, Duration> times) {
     return ListTile(
       title: Text(OriginalChallenges.challenges[i].challengeData.type
               .toLocalizedString(context) +
           OriginalChallenges.challenges[i].name),
       subtitle: Text(OriginalChallenges.challenges[i].challengeData.type
           .toLocalizedString(context)),
-      trailing: Visibility(
-        visible: _cleared.contains(i),
-        child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-          Text(
-              '${_times[i].inSeconds}.${_times[i].inMilliseconds % 1000 ~/ 10}s'),
-          Icon(
-            Icons.check,
-            color: Colors.green,
-          )
-        ]),
-      ),
+      trailing: times.containsKey(i)
+          ? Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              Text(
+                  '${times[i]!.inSeconds}.${times[i]!.inMilliseconds % 1000 ~/ 10}s'),
+              Icon(
+                Icons.check,
+                color: Colors.green,
+              )
+            ])
+          : null,
       onTap: () {
         _openChallenge(i);
       },
@@ -189,9 +172,13 @@ class _OriginalChallengesState extends State<OriginalChallenges>
         Iterable<int>.generate(OriginalChallenges.challenges.length)
             .toList(growable: false);
 
+    final progression = context.watch<ChallengeProgressionManager>();
+    final times = progression.getTimes();
+    final cleared = times.keys.toSet();
+
     if (!_showCompleted) {
       challengeIndices = SplayTreeSet<int>.from(challengeIndices)
-          .difference(_cleared)
+          .difference(cleared)
           .toList(growable: false);
     }
 
@@ -202,15 +189,14 @@ class _OriginalChallengesState extends State<OriginalChallenges>
             builder: (BuildContext context, Orientation orientation) {
               if (orientation == Orientation.landscape ||
                   MediaQuery.of(context).size.width >= 270 * 2.5)
-                return _buildLandscape(context, challengeIndices);
+                return _buildLandscape(challengeIndices, times);
               else
-                return _buildPortrait(challengeIndices);
+                return _buildPortrait(challengeIndices, times);
             },
           ),
         ),
         CompletionIndicator(
-          completedRatio:
-              _cleared.length / OriginalChallenges.challenges.length,
+          completedRatio: cleared.length / OriginalChallenges.challenges.length,
           showCompleted: _showCompleted,
           onChanged: (bool? value) {
             if (value != null) {
@@ -224,22 +210,24 @@ class _OriginalChallengesState extends State<OriginalChallenges>
     );
   }
 
-  Widget _buildPortrait(List<int> challengeIndices) {
+  Widget _buildPortrait(List<int> challengeIndices, Map<int, Duration> times) {
     return ListView.builder(
         itemCount: challengeIndices.length,
-        itemBuilder: (context, i) => _buildChallengeTile(challengeIndices[i]));
+        itemBuilder: (context, i) =>
+            _buildChallengeTile(challengeIndices[i], times));
   }
 
-  Widget _buildLandscape(BuildContext context, List<int> challengeIndices) {
+  Widget _buildLandscape(List<int> challengeIndices, Map<int, Duration> times) {
     return GridView.builder(
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 270,
         ),
         itemCount: challengeIndices.length,
-        itemBuilder: (context, i) => _buildChallengeCard(challengeIndices[i]));
+        itemBuilder: (context, i) =>
+            _buildChallengeCard(challengeIndices[i], times));
   }
 
-  Widget _buildChallengeCard(int i) {
+  Widget _buildChallengeCard(int i, Map<int, Duration> times) {
     return InkWell(
       key: ValueKey(i),
       child: Card(
@@ -257,7 +245,7 @@ class _OriginalChallengesState extends State<OriginalChallenges>
                             .getGame(),
                       ),
                       Visibility(
-                        visible: _cleared.contains(i),
+                        visible: times.containsKey(i),
                         child: Container(
                           color: Colors.black.withOpacity(0.5),
                           child: Center(

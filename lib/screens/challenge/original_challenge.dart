@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 
@@ -25,7 +27,7 @@ class OriginalChallenge extends StatelessWidget {
               OriginalChallenges.challenges[id + 1].slug)
           : null,
       onWin: (time) {
-        ChallengeProgressionManager.setTime(id, time);
+        context.read<ChallengeProgressionManager>().setTime(id, time);
       },
     );
   }

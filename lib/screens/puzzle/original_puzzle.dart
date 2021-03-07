@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
 import '../../routing/nyanya_route_path.dart';
 import '../puzzles/puzzle_progression_manager.dart';
 import '../puzzles/widgets/original_puzzles.dart';
@@ -18,10 +20,12 @@ class OriginalPuzzle extends StatelessWidget {
           ? NyaNyaRoutePath.originalPuzzle(OriginalPuzzles.puzzles[id + 1].slug)
           : null,
       onWin: (starred) {
-        PuzzleProgressionManager.setCleared(id);
+        final progression = context.read<PuzzleProgressionManager>();
+
+        progression.setCleared(id);
 
         if (starred) {
-          PuzzleProgressionManager.setStarred(id, starred);
+          progression.setStarred(id, starred);
         }
       },
     );
