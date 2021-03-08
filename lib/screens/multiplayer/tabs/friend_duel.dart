@@ -146,7 +146,9 @@ class _FriendDuelState extends State<FriendDuel> {
             maxLength: 4,
             expands: false,
             onChanged: (s) {
-              _destCode = s;
+              setState((){
+                _destCode = s;
+              });
             },
           ),
           ElevatedButton(

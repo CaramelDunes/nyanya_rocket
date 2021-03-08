@@ -47,6 +47,12 @@ class PictureCacheRivePainter implements UnitPainter {
   }
 
   void paintUnit(Canvas canvas, int frameNumber, [Paint? paint]) {
+    if (paint != null) {
+      canvas.saveLayer(Rect.fromLTRB(0, 0, 1, 1), paint);
+    }
     canvas.drawPicture(_cachedPictures[frameNumber]);
+    if (paint != null) {
+      canvas.restore();
+    }
   }
 }

@@ -40,6 +40,12 @@ abstract class FirebaseService {
 
   void init();
 
+  Future<void> signOut();
+  Future<bool> signInAnonymously();
+  Stream<bool> signInStatusStream();
+  Future<String?> idToken();
+  Future<String?> displayName();
+
   Stream<Map<String, dynamic>?> getDocStream(List<String> keys);
 
   Stream<List<Map<String, dynamic>>> getListStream(List<String> keys);

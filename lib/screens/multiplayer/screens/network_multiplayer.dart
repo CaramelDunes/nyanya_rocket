@@ -6,17 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/screens/multiplayer/game_widgets/event_wheel.dart';
-import 'package:nyanya_rocket/screens/multiplayer/network_client.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
-import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import '../../../utils.dart';
+import '../network_client.dart';
+import '../game_widgets/event_wheel.dart';
 
 class NetworkMultiplayer extends StatefulWidget {
   final String nickname;
@@ -234,19 +235,16 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
-                      child: Material(
-                        elevation: 8.0,
-                        child: AspectRatio(
-                            aspectRatio: 12.0 / 9.0,
-                            child: InputGridOverlay<Direction>(
-                              child: AnimatedGameView(
-                                game: _localMultiplayerController.gameStream,
-                              ),
-                              onSwipe: _handleSwipe,
-                              onDrop: _handleSwipe,
-                              previewBuilder: _dragTileBuilder,
-                            )),
-                      ),
+                      child: AspectRatio(
+                          aspectRatio: 12.0 / 9.0,
+                          child: InputGridOverlay<Direction>(
+                            child: AnimatedGameView(
+                              game: _localMultiplayerController.gameStream,
+                            ),
+                            onSwipe: _handleSwipe,
+                            onDrop: _handleSwipe,
+                            previewBuilder: _dragTileBuilder,
+                          )),
                     ),
                     Expanded(
                       child: Column(
@@ -351,7 +349,10 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                             ],
                           ),
                         )
-                        .toList())
+                        .toList()),
+                ElevatedButton(
+                    onPressed: Navigator.of(context).pop,
+                    child: Text(NyaNyaLocalizations.of(context).back))
               ],
             ),
           ),

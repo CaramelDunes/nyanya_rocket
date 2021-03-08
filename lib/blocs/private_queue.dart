@@ -25,7 +25,7 @@ class PrivateQueue {
   Future<QueueJoinStatus> updateQueueCreateStatus(
       {required String masterServerHostname}) async {
     http.Response response = await client
-        .get(Uri.http(masterServerHostname, '$apiVersion/private/roomCode'));
+        .get(Uri.http(masterServerHostname, '/$apiVersion/private/roomCode'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -46,11 +46,12 @@ class PrivateQueue {
 
   Future<QueueJoinStatus> updateQueueJoinStatus(
       {required String masterServerHostname, required String roomCode}) async {
-    http.Response response = await client.get(Uri.http(
-        masterServerHostname, '$apiVersion/private/join?roomCode=$roomCode'));
+    http.Response response = await client.get(Uri.http(masterServerHostname,
+        '/$apiVersion/private/join', {'roomCode': roomCode}));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
+      print(data);
 
       if (data.containsKey('port')) {
         return QueueJoinStatus(
@@ -68,7 +69,7 @@ class PrivateQueue {
 
   Future<void> cancelSearch({required String masterServerHostname}) async {
     http.Response response = await client
-        .get(Uri.http(masterServerHostname, '$apiVersion/private/cancel'));
+        .get(Uri.http(masterServerHostname, '/$apiVersion/private/cancel'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);

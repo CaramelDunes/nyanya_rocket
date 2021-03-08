@@ -13,6 +13,7 @@ class FiredartFirebaseService extends FirebaseService {
 
   Future<void> init() async {
     Firestore.initialize(projectId);
+    FirebaseAuth.initialize(apiKey, VolatileStore());
   }
 
   Future<Map<String, dynamic>?> getDoc(List<String> keys) async {
@@ -44,7 +45,7 @@ class FiredartFirebaseService extends FirebaseService {
     //print("getListStream: ${keys.toString()}");
     return _getCollection(keys)!.stream.map(
       (List<Document> docs) {
-        return (docs ?? []).map((d) => d.map..['documentId'] = d.id).toList();
+        return (docs).map((d) => d.map..['documentId'] = d.id).toList();
       },
     );
   }
@@ -95,5 +96,37 @@ class FiredartFirebaseService extends FirebaseService {
     final colRef = firestore.collection(getPathFromKeys(keys));
     //print("Got path: " + colRef.path);
     return colRef;
+  }
+
+  @override
+  Future<String?> displayName() async {
+    final user = await FirebaseAuth.instance.getUser();
+
+    return user.displayName;
+  }
+
+  @override
+  Future<String?> idToken() {
+    if (FirebaseAuth.instance.isSignedIn)
+      return FirebaseAuth.instance.tokenProvider.idToken;
+    else
+      return Future.value(null);
+  }
+
+  @override
+  Stream<bool> signInStatusStream() {
+    return FirebaseAuth.instance.signInState.asBroadcastStream();
+  }
+
+  @override
+  Future<bool> signInAnonymously() async {
+    final user = await FirebaseAuth.instance.signInAnonymously();
+    return user.id != null;
+  }
+
+  @override
+  Future<void> signOut() {
+    FirebaseAuth.instance.signOut();
+    return Future.value();
   }
 }

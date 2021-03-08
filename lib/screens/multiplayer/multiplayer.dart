@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
@@ -31,14 +30,18 @@ class _MultiplayerState extends State<Multiplayer>
   void initState() {
     super.initState();
 
-    _idTokenSubscription =
-        auth.FirebaseAuth.instance.idTokenChanges().listen((user) {
+    final user = context.read<User>();
+
+    _idTokenSubscription = user.signedInStream.listen((signedIn) {
       if (mounted) {
-        if (user != null) {
-          user.getIdToken().then((String token) {
-            setState(() {
-              _idToken = token;
-            });
+        print(signedIn);
+        if (signedIn) {
+          user.idToken().then((String? token) {
+            print(token);
+            if (token != null)
+              setState(() {
+                _idToken = token;
+              });
           });
         }
       }
@@ -129,31 +132,29 @@ class _MultiplayerState extends State<Multiplayer>
                 ],
               ),
               drawer: DefaultDrawer(),
-              body: !user.isConnected
+              body: _idToken == null
                   ? Center(child: SignUpPrompt())
-                  : _idToken == null
-                      ? Center(child: CircularProgressIndicator())
-                      : TabBarView(
-                          children: [
-                            QueueAndLeaderboard(
-                              queueType: QueueType.Duels,
-                              displayName: user.displayName,
-                              idToken: _idToken!,
-                              masterServerHostname: region.masterServerHostname,
-                            ),
-                            QueueAndLeaderboard(
-                              queueType: QueueType.FourPlayers,
-                              displayName: user.displayName,
-                              idToken: _idToken!,
-                              masterServerHostname: region.masterServerHostname,
-                            ),
-                            FriendDuel(
-                              displayName: user.displayName,
-                              idToken: _idToken!,
-                              masterServerHostname: region.masterServerHostname,
-                            )
-                          ],
-                        ));
+                  : TabBarView(
+                      children: [
+                        QueueAndLeaderboard(
+                          queueType: QueueType.Duels,
+                          displayName: user.displayName,
+                          idToken: _idToken!,
+                          masterServerHostname: region.masterServerHostname,
+                        ),
+                        QueueAndLeaderboard(
+                          queueType: QueueType.FourPlayers,
+                          displayName: user.displayName,
+                          idToken: _idToken!,
+                          masterServerHostname: region.masterServerHostname,
+                        ),
+                        FriendDuel(
+                          displayName: user.displayName,
+                          idToken: _idToken!,
+                          masterServerHostname: region.masterServerHostname,
+                        )
+                      ],
+                    ));
         }));
   }
 }

@@ -39,7 +39,7 @@ class MultiplayerQueue {
 
   Future<void> queueLength() async {
     http.Response response = await client.get(Uri.http(
-        masterServerHostname, '$apiVersion/${_queueTypeToString(type)}/info'));
+        masterServerHostname, '/$apiVersion/${_queueTypeToString(type)}/info'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -51,7 +51,7 @@ class MultiplayerQueue {
 
   Future<QueueJoinStatus> updateQueueJoinStatus() async {
     http.Response response = await client.get(Uri.http(masterServerHostname,
-        '$apiVersion/${_queueTypeToString(type)}/search'));
+        '/$apiVersion/${_queueTypeToString(type)}/search'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -77,7 +77,7 @@ class MultiplayerQueue {
 
   Future<void> cancelSearch() async {
     http.Response response = await client.get(Uri.http(masterServerHostname,
-        '$apiVersion/${_queueTypeToString(type)}/cancel'));
+        '/$apiVersion/${_queueTypeToString(type)}/cancel'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);

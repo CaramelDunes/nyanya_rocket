@@ -50,7 +50,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final User _user = User();
+  final FirebaseService firebaseService = FirebaseFactory.create();
+  late final User _user = User(firebaseService);
   NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
   NyaNyaRouteInformationParser _routeInformationParser =
       NyaNyaRouteInformationParser();
@@ -80,9 +81,7 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(
             create: (_) =>
                 ChallengeProgressionManager(widget.sharedPreferences)),
-        Provider(
-          create: (_) => FirebaseFactory.create(),
-        )
+        Provider.value(value: firebaseService)
       ],
       child: Consumer2<DarkMode, Language>(
         builder: (_, darkMode, language, __) {

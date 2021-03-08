@@ -92,4 +92,38 @@ class NativeFirebaseService extends FirebaseService {
     if (checkKeysForNull(keys) == false) return null;
     return firestore.collection(getPathFromKeys(keys));
   }
+
+  @override
+  Future<String?> displayName() {
+    return Future.value(FirebaseAuth.instance.currentUser?.displayName);
+  }
+
+  @override
+  Future<String?> idToken() {
+    return FirebaseAuth.instance.currentUser?.getIdToken() ??
+        Future.value(null);
+  }
+
+  @override
+  Stream<bool> signInStatusStream() {
+    return FirebaseAuth.instance
+        .authStateChanges()
+        .map((event) => event != null).asBroadcastStream();
+  }
+
+  @override
+  Future<bool> signInAnonymously() async {
+    try {
+      final user = await FirebaseAuth.instance.signInAnonymously();
+    } catch (FirebaseAuthException) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @override
+  Future<void> signOut() {
+    return FirebaseAuth.instance.signOut();
+  }
 }

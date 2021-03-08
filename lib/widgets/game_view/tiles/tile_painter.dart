@@ -9,6 +9,7 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 import '../../spawner_image.dart';
 import 'arrow_painter.dart';
 import 'rocket_painter.dart';
+import '../../../utils.dart';
 
 class TilePainter extends StatelessWidget {
   final Board board;
@@ -89,14 +90,14 @@ class TilePainter extends StatelessWidget {
 
         // Make arrow blink 1 second (120 ticks) before expiration.
         if (arrow.expiration > 120 || arrow.expiration % 20 < 10) {
-          ArrowPainter.paintUnit(canvas, Colors.blue, arrow.direction,
+          ArrowPainter.paintUnit(canvas, arrow.player.color, arrow.direction,
               arrow.halfTurnPower == ArrowHalfTurnPower.OneCat);
         }
         break;
 
       case Rocket:
         Rocket rocket = tile as Rocket;
-        RocketPainter.paintUnit(canvas, Colors.blue, rocket.departed);
+        RocketPainter.paintUnit(canvas, rocket.player.color, rocket.departed);
         break;
 
       case Generator:
