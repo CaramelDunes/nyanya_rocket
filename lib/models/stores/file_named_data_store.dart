@@ -1,13 +1,12 @@
 import 'dart:io';
+import 'package:path/path.dart' as p;
 
 import 'package:path_provider/path_provider.dart';
 import 'named_data_store.dart';
 
 class FileNamedDataStorage implements NamedDataStorage {
-  Future<Map<String, String>> readRegistry(String registry) async {
-    Directory directory = await getApplicationSupportDirectory();
-
-    File _registryFile = File('${directory.path}/$registry/registry.txt');
+  Future<Map<String, String>> readRegistry(String storeName) async {
+    File _registryFile = File(await _registryFilePath(storeName));
 
     if (!await _registryFile.exists()) {
       await _registryFile.create(recursive: true);
@@ -40,9 +39,7 @@ class FileNamedDataStorage implements NamedDataStorage {
 
     registry.forEach((String id, String name) => stringValue += '$id;$name\n');
 
-    Directory directory = await getApplicationDocumentsDirectory();
-
-    File _registryFile = File('${directory.path}/$storeName/registry.txt');
+    File _registryFile = File(await _registryFilePath(storeName));
 
     if (!await _registryFile.exists()) {
       await _registryFile.create(recursive: true);
@@ -52,36 +49,30 @@ class FileNamedDataStorage implements NamedDataStorage {
       }
     }
 
-    await _registryFile.writeAsString(stringValue);
+    await _registryFile.writeAsString(stringValue, flush: true);
     return true;
   }
 
-  Future<String?> readData(String storeName, String uuid) async {
-    Directory? directory = await getApplicationDocumentsDirectory();
-
-    File dataFile = File('${directory.path}/$storeName/$uuid.txt');
+  Future<String?> readData(String storeName, String dataId) async {
+    File dataFile = File(await _dataFilePath(storeName, dataId));
 
     if (await dataFile.exists()) {
       return dataFile.readAsString();
     }
   }
 
-  Future<bool> deleteData(String storeName, String uuid) async {
-    Directory directory = await getApplicationDocumentsDirectory();
-
+  Future<bool> deleteData(String storeName, String dataId) async {
     // TODO Handle exception.
-    await File('${directory.path}/$storeName/$uuid.txt').delete();
+    await File(await _dataFilePath(storeName, dataId)).delete();
     return true;
   }
 
   @override
   Future<bool> writeData(String storeName, String dataId, String data) async {
-    Directory directory = await getApplicationDocumentsDirectory();
-
-    File dataFile = File('${directory.path}/$storeName/$dataId.txt');
+    File dataFile = File(await _dataFilePath(storeName, dataId));
 
     if (!await dataFile.exists()) {
-      await dataFile.create();
+      await dataFile.create(recursive: true);
 
       if (!await dataFile.exists()) {
         return false;
@@ -90,5 +81,15 @@ class FileNamedDataStorage implements NamedDataStorage {
 
     await dataFile.writeAsString(data);
     return true;
+  }
+
+  static Future<String> _registryFilePath(String storeName) async {
+    Directory directory = await getApplicationSupportDirectory();
+    return p.join(directory.path, storeName, 'registry.txt');
+  }
+
+  static Future<String> _dataFilePath(String storeName, String dataId) async {
+    Directory directory = await getApplicationSupportDirectory();
+    return p.join(directory.path, storeName, '$dataId.txt');
   }
 }
