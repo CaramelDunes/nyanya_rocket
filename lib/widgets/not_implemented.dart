@@ -1,6 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 
 class NotImplemented extends StatefulWidget {
   final String featureId;
@@ -19,18 +21,14 @@ class _NotImplementedState extends State<NotImplemented> {
   void initState() {
     super.initState();
 
-    FirebaseFirestore.instance
-        .collection('feature_requests')
-        .doc(widget.featureId)
-        .get()
+    context
+        .read<FirebaseService>()
+        .getFeatureRequestThumbsUp(widget.featureId)
         .then((value) {
       if (mounted) {
-        var data = value.data();
-        if (data != null) {
-          setState(() {
-            _thumbsUp = data['thumbs_up'];
-          });
-        }
+        setState(() {
+          _thumbsUp = value;
+        });
       }
     });
   }
@@ -52,9 +50,9 @@ class _NotImplementedState extends State<NotImplemented> {
           onPressed: _thumbedUp
               ? null
               : () {
-                  final DocumentReference postRef = FirebaseFirestore.instance
-                      .doc('feature_requests/${widget.featureId}');
-                  postRef.update({'thumbs_up': FieldValue.increment(1)});
+                  context
+                      .read<FirebaseService>()
+                      .incrementFeatureRequestThumbsUp(widget.featureId);
                   setState(() {
                     _thumbedUp = true;
 

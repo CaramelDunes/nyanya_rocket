@@ -1,22 +1,19 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 
 class CommunityPuzzles extends StatefulWidget {
   @override
   _CommunityPuzzlesState createState() => _CommunityPuzzlesState();
 }
 
-enum _Sorting { ByDate, ByPopularity, ByName }
-
 class _CommunityPuzzlesState extends State<CommunityPuzzles> {
   List<CommunityPuzzleData> puzzles = [];
-  _Sorting _sorting = _Sorting.ByPopularity;
+  Sorting _sorting = Sorting.ByPopularity;
 
   @override
   void initState() {
@@ -25,31 +22,11 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
   }
 
   Future<void> _refreshList() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('puzzles')
-        .orderBy(
-            _sorting == _Sorting.ByDate
-                ? 'date'
-                : _sorting == _Sorting.ByPopularity
-                    ? 'likes'
-                    : 'name',
-            descending: _sorting != _Sorting.ByName)
-        .limit(50)
-        .get();
+    final List<CommunityPuzzleData>? newPuzzles = await context
+        .read<FirebaseService>()
+        .getCommunityPuzzles(sortBy: _sorting, limit: 50);
 
-    List<CommunityPuzzleData> newPuzzles =
-        snapshot.docs.map<CommunityPuzzleData>((DocumentSnapshot snapshot) {
-      return CommunityPuzzleData(
-          uid: snapshot.id,
-          puzzleData:
-              PuzzleData.fromJson(jsonDecode(snapshot.get('puzzle_data'))),
-          likes: snapshot.get('likes'),
-          author: snapshot.get('author_name'),
-          name: snapshot.get('name'),
-          date: snapshot.get('date').toDate());
-    }).toList();
-
-    if (mounted) {
+    if (newPuzzles != null && mounted) {
       setState(() {
         puzzles = newPuzzles;
       });
@@ -72,25 +49,25 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
               ),
               VerticalDivider(),
               Expanded(
-                child: DropdownButton<_Sorting>(
+                child: DropdownButton<Sorting>(
                   isExpanded: true,
                   value: _sorting,
-                  items: <DropdownMenuItem<_Sorting>>[
-                    DropdownMenuItem<_Sorting>(
+                  items: <DropdownMenuItem<Sorting>>[
+                    DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).dateLabel),
-                      value: _Sorting.ByDate,
+                      value: Sorting.ByDate,
                     ),
-                    DropdownMenuItem<_Sorting>(
+                    DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).nameLabel),
-                      value: _Sorting.ByName,
+                      value: Sorting.ByName,
                     ),
-                    DropdownMenuItem<_Sorting>(
+                    DropdownMenuItem<Sorting>(
                       child:
                           Text(NyaNyaLocalizations.of(context).popularityLabel),
-                      value: _Sorting.ByPopularity,
+                      value: Sorting.ByPopularity,
                     )
                   ],
-                  onChanged: (_Sorting? value) {
+                  onChanged: (Sorting? value) {
                     setState(() {
                       _sorting = value ?? _sorting;
                       _refreshList();

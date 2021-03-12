@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:nyanya_rocket/models/challenge_data.dart';
+import 'package:nyanya_rocket/models/puzzle_data.dart';
+import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
+import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
 
 import 'firebase_service.dart';
 
@@ -94,6 +100,11 @@ class NativeFirebaseService extends FirebaseService {
   }
 
   @override
+  bool isSignedIn() {
+    return FirebaseAuth.instance.currentUser != null;
+  }
+
+  @override
   Future<String?> displayName() {
     return Future.value(FirebaseAuth.instance.currentUser?.displayName);
   }
@@ -108,7 +119,8 @@ class NativeFirebaseService extends FirebaseService {
   Stream<bool> signInStatusStream() {
     return FirebaseAuth.instance
         .authStateChanges()
-        .map((event) => event != null).asBroadcastStream();
+        .map((event) => event != null)
+        .asBroadcastStream();
   }
 
   @override
@@ -125,5 +137,115 @@ class NativeFirebaseService extends FirebaseService {
   @override
   Future<void> signOut() {
     return FirebaseAuth.instance.signOut();
+  }
+
+  @override
+  Future<void> updateDisplayName(String newDisplayName) {
+    return FirebaseAuth.instance.currentUser
+            ?.updateProfile(displayName: newDisplayName) ??
+        Future.value();
+  }
+
+  @override
+  Future<List<CommunityChallengeData>?> getCommunityChallenges(
+      {required Sorting sortBy, required int limit}) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('challenges')
+        .orderBy(sortBy.fieldName, descending: sortBy != Sorting.ByName)
+        .limit(50)
+        .get();
+
+    return snapshot.docs
+        .map<CommunityChallengeData>((DocumentSnapshot snapshot) {
+      return CommunityChallengeData(
+          uid: snapshot.id,
+          challengeData: ChallengeData.fromJson(
+              jsonDecode(snapshot.get('challenge_data'))),
+          likes: snapshot.get('likes'),
+          author: snapshot.get('author_name'),
+          name: snapshot.get('name'),
+          date: snapshot.get('date').toDate());
+    }).toList();
+  }
+
+  @override
+  Future<List<CommunityPuzzleData>?> getCommunityPuzzles(
+      {required Sorting sortBy, required int limit}) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('puzzles')
+        .orderBy(sortBy.fieldName, descending: sortBy != Sorting.ByName)
+        .limit(50)
+        .get();
+
+    return snapshot.docs.map<CommunityPuzzleData>((DocumentSnapshot snapshot) {
+      return CommunityPuzzleData(
+          uid: snapshot.id,
+          puzzleData:
+              PuzzleData.fromJson(jsonDecode(snapshot.get('puzzle_data'))),
+          likes: snapshot.get('likes'),
+          author: snapshot.get('author_name'),
+          name: snapshot.get('name'),
+          date: snapshot.get('date').toDate());
+    }).toList();
+  }
+
+  @override
+  Future<CommunityPuzzleData> getCommunityPuzzle(String id) async {
+    DocumentSnapshot snapshot =
+        await FirebaseFirestore.instance.doc('puzzles/$id').get();
+    return CommunityPuzzleData(
+        uid: snapshot.id,
+        puzzleData:
+            PuzzleData.fromJson(jsonDecode(snapshot.get('puzzle_data'))),
+        likes: snapshot.get('likes'),
+        author: snapshot.get('author_name'),
+        name: snapshot.get('name'),
+        date: snapshot.get('date').toDate());
+  }
+
+  @override
+  Future<CommunityChallengeData> getCommunityChallenge(String id) async {
+    final snapshot =
+        await FirebaseFirestore.instance.collection('challenges').doc(id).get();
+
+    return CommunityChallengeData(
+        uid: snapshot.id,
+        challengeData:
+            ChallengeData.fromJson(jsonDecode(snapshot.get('challenge_data'))),
+        likes: snapshot.get('likes'),
+        author: snapshot.get('author_name'),
+        name: snapshot.get('name'),
+        date: snapshot.get('date').toDate());
+  }
+
+  @override
+  Future<int?> getFeatureRequestThumbsUp(String id) async {
+    final DocumentSnapshot document = await FirebaseFirestore.instance
+        .collection('feature_requests')
+        .doc(id)
+        .get();
+
+    return document.data()?['thumbs_up'];
+  }
+
+  @override
+  Future<void> incrementFeatureRequestThumbsUp(String id) {
+    final DocumentReference postRef =
+        FirebaseFirestore.instance.doc('feature_requests/$id');
+    return postRef.update({'thumbs_up': FieldValue.increment(1)});
+  }
+
+  @override
+  Future<int?> getCommunityStar(String path) async {
+    final DocumentSnapshot document =
+        await FirebaseFirestore.instance.doc(path).get();
+
+    return document.data()?['likes'];
+  }
+
+  @override
+  Future<void> incrementCommunityStar(String path) {
+    final DocumentReference postRef = FirebaseFirestore.instance.doc(path);
+    return postRef.update({'likes': FieldValue.increment(1)});
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:nyanya_rocket/screens/challenge/loading_challenge.dart';
 import 'package:nyanya_rocket/screens/challenge/original_challenge.dart';
 import 'package:nyanya_rocket/screens/challenges/challenges.dart';
@@ -9,6 +11,7 @@ import 'package:nyanya_rocket/screens/multiplayer/multiplayer.dart';
 import 'package:nyanya_rocket/screens/multiplayer/multiplayer_not_available.dart';
 import 'package:nyanya_rocket/screens/puzzle/loading_puzzle.dart';
 import 'package:nyanya_rocket/screens/puzzle/original_puzzle.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import '../screens/puzzles/widgets/original_puzzles.dart';
 import '../screens/tutorial/tutorial.dart';
 
@@ -93,13 +96,18 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
             _tabKind == TabKind.Community)
           MaterialPage(
               key: ValueKey('CommunityPuzzle$_id'),
-              child: LoadingPuzzle.fromPuzzleId(_id!))
+              child: LoadingPuzzle(
+                  futurePuzzle:
+                      context.read<FirebaseService>().getCommunityPuzzle(_id!)))
         else if (_pageKind == PageKind.Challenge &&
             _id != null &&
             _tabKind == TabKind.Community)
           MaterialPage(
               key: ValueKey('CommunityChallenge$_id'),
-              child: LoadingChallenge.fromChallengeId(_id!))
+              child: LoadingChallenge(
+                  futureChallenge: context
+                      .read<FirebaseService>()
+                      .getCommunityChallenge(_id!)))
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {

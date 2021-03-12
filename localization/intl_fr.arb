@@ -138,7 +138,7 @@
   "roomCodeLabel": "Code joueur",
   "findPlayersLabel": "Recherche de joueurs",
   "refreshLabel": "Actualiser",
-  "multiplayerNotAvailableText": "Le mode multijoueur n'est pas disponible dans la version web de NyaNya Rocket!\nMerci d'utiliser la version mobile du jeu.",
+  "multiplayerNotAvailableText": "Le mode multijoueur n'est pas disponible dans la version web de NyaNya Rocket!\nMerci d'utiliser la version mobile ou PC du jeu.",
   "deviceDuelLabel": "Duel local",
   "lanMultiplayerLabel": "Réseau local",
   "couldNotLoadPuzzleText": "Puzzle introuvable.",

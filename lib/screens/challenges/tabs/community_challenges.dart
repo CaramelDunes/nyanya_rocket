@@ -1,22 +1,18 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
+import '../../../services/firebase/firebase_service.dart';
 
 class CommunityChallenges extends StatefulWidget {
   @override
   _CommunityChallengesState createState() => _CommunityChallengesState();
 }
 
-enum _Sorting { ByDate, ByPopularity, ByName }
-
 class _CommunityChallengesState extends State<CommunityChallenges> {
   List<CommunityChallengeData> challenges = [];
-  _Sorting _sorting = _Sorting.ByPopularity;
+  Sorting _sorting = Sorting.ByPopularity;
 
   @override
   void initState() {
@@ -25,31 +21,11 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
   }
 
   Future<void> _refreshList() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('challenges')
-        .orderBy(
-            _sorting == _Sorting.ByDate
-                ? 'date'
-                : _sorting == _Sorting.ByPopularity
-                    ? 'likes'
-                    : 'name',
-            descending: _sorting != _Sorting.ByName)
-        .limit(50)
-        .get();
+    final List<CommunityChallengeData>? newChallenges = await context
+        .read<FirebaseService>()
+        .getCommunityChallenges(sortBy: _sorting, limit: 50);
 
-    List<CommunityChallengeData> newChallenges =
-        snapshot.docs.map<CommunityChallengeData>((DocumentSnapshot snapshot) {
-      return CommunityChallengeData(
-          uid: snapshot.id,
-          challengeData: ChallengeData.fromJson(
-              jsonDecode(snapshot.get('challenge_data'))),
-          likes: snapshot.get('likes'),
-          author: snapshot.get('author_name'),
-          name: snapshot.get('name'),
-          date: snapshot.get('date').toDate());
-    }).toList();
-
-    if (mounted) {
+    if (newChallenges != null && mounted) {
       setState(() {
         challenges = newChallenges;
       });
@@ -72,25 +48,25 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
               ),
               VerticalDivider(),
               Expanded(
-                child: DropdownButton<_Sorting>(
+                child: DropdownButton<Sorting>(
                   isExpanded: true,
                   value: _sorting,
-                  items: <DropdownMenuItem<_Sorting>>[
-                    DropdownMenuItem<_Sorting>(
+                  items: <DropdownMenuItem<Sorting>>[
+                    DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).dateLabel),
-                      value: _Sorting.ByDate,
+                      value: Sorting.ByDate,
                     ),
-                    DropdownMenuItem<_Sorting>(
+                    DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).nameLabel),
-                      value: _Sorting.ByName,
+                      value: Sorting.ByName,
                     ),
-                    DropdownMenuItem<_Sorting>(
+                    DropdownMenuItem<Sorting>(
                       child:
                           Text(NyaNyaLocalizations.of(context).popularityLabel),
-                      value: _Sorting.ByPopularity,
+                      value: Sorting.ByPopularity,
                     )
                   ],
-                  onChanged: (_Sorting? value) {
+                  onChanged: (Sorting? value) {
                     if (value != null) {
                       setState(() {
                         _sorting = value;

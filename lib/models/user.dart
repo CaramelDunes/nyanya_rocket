@@ -1,11 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
+import 'package:http/http.dart' as http;
 
 enum StatusCode { Success, Failure, InvalidArgument, Unauthenticated }
 
 class User with ChangeNotifier {
   String? _displayName;
-  bool _signedIn = false;
   final FirebaseService firebaseService;
 
   User(this.firebaseService) {
@@ -21,7 +23,7 @@ class User with ChangeNotifier {
   }
 
   bool get isConnected {
-    return _signedIn;
+    return firebaseService.isSignedIn();
   }
 
   String get displayName {
@@ -31,35 +33,28 @@ class User with ChangeNotifier {
   Future<String?> idToken() => firebaseService.idToken();
 
   Stream<bool> get signedInStream =>
-      firebaseService.signInStatusStream().asBroadcastStream();
+      firebaseService.signInStatusStream();
 
-  Future<StatusCode> setDisplayName(String newDisplayName) async {
-    if (isConnected) {
-      // TODO
-      // try {
-      //   await FirebaseFunctions.instance
-      //       .httpsCallable('setDisplayName')
-      //       .call({'displayName': newDisplayName});
-      // } on FirebaseFunctionsException catch (e) {
-      //   print(e.code);
-      //
-      //   switch (e.code) {
-      //     case 'INVALID_ARGUMENT':
-      //       return StatusCode.InvalidArgument;
-      //
-      //     case 'UNAUTHENTICATED':
-      //       return StatusCode.Unauthenticated;
-      //   }
-      //
-      //   return StatusCode.Failure;
-      // }
-      //
-      // await _user!.updateProfile(displayName: newDisplayName);
-      //
-      // return StatusCode.Success;
+  Future<bool> setDisplayName(String newDisplayName) async {
+    final token = await idToken();
+    if (token != null) {
+      // Some doc: https://github.com/firebase/firebase-functions/blob/master/src/providers/https.ts
+      http.Response response = await http.post(
+          Uri.https('us-central1-nyanya-rocket.cloudfunctions.net',
+              '/setDisplayName'),
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json'
+          },
+          body: jsonEncode({
+            'data': {'displayName': newDisplayName}
+          }));
+
+      await firebaseService.updateDisplayName(newDisplayName);
+      return response.statusCode == 200;
     }
 
-    return StatusCode.Success;
+    return false;
   }
 
   Future<bool> signInAnonymously() {

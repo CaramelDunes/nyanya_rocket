@@ -162,7 +162,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "deviceTab": "Device",
+  "deviceTab": "Yours",
   "@deviceTab": {
     "description": "Device tab of the Puzzles, Challenges screens.",
     "type": "text",
@@ -836,7 +836,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "multiplayerNotAvailableText": "Sorry, multiplayer is not available in the browser version of NyaNya Rocket!\nConsider downloading the mobile phone version.",
+  "multiplayerNotAvailableText": "Sorry, multiplayer is not available in the browser version of NyaNya Rocket!\nConsider downloading the mobile phone or desktop version.",
   "@multiplayerNotAvailableText": {
     "type": "text",
     "placeholders": {}

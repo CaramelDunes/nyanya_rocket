@@ -78,10 +78,8 @@ class _DisplayNameChangeDialogState extends State<DisplayNameChangeDialog> {
                     _loading = true;
                   });
 
-                  widget.user
-                      .setDisplayName(_displayName!)
-                      .then((StatusCode status) {
-                    if (status == StatusCode.Success) {
+                  widget.user.setDisplayName(_displayName!).then((success) {
+                    if (success) {
                       Navigator.pop(context, _displayName);
                     } else {
                       setState(() {

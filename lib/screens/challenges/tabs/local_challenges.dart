@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
@@ -8,6 +7,7 @@ import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
 import 'package:nyanya_rocket/widgets/empty_list.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../models/stores/challenge_store.dart';
 
@@ -36,20 +36,43 @@ class _LocalChallengesState extends State<LocalChallenges> {
             builder: (BuildContext context) => Challenge(
                   challenge: challenge,
                   onWin: (Duration time) {
-                    FirebaseFunctions.instance
-                        .httpsCallable('publishChallenge')
-                        .call({
-                      'name': challenge.name,
-                      'challenge_data':
-                          jsonEncode(challenge.challengeData.toJson()),
-                    }).then((HttpsCallableResult result) {
-                      print(result.data);
-                    });
+                    // FirebaseFunctions.instance
+                    //     .httpsCallable('publishChallenge')
+                    //     .call({
+                    //   'name': challenge.name,
+                    //   'challenge_data':
+                    //       jsonEncode(challenge.challengeData.toJson()),
+                    // }).then((HttpsCallableResult result) {
+                    //   print(result.data);
+                    // });
 
-                    final snackBar = SnackBar(
-                        content: Text(NyaNyaLocalizations.of(context)
-                            .publishSuccessText));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    context
+                        .read<User>()
+                        .idToken()
+                        .then((idToken) => http.post(
+                            Uri.https(
+                                'us-central1-nyanya-rocket.cloudfunctions.net',
+                                '/publishChallenge'),
+                            headers: {
+                              'Authorization': 'Bearer $idToken',
+                              'Content-Type': 'application/json'
+                            },
+                            body: jsonEncode({
+                              'data': {
+                                'name': challenge.name,
+                                'challenge_data': jsonEncode(
+                                    challenge.challengeData.toJson()),
+                              }
+                            })))
+                        .then((response) => response.statusCode == 200)
+                        .then((success) {
+                      if (success) {
+                        final snackBar = SnackBar(
+                            content: Text(NyaNyaLocalizations.of(context)
+                                .publishSuccessText));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    });
                     // } else {
                     //   final snackBar = SnackBar(
                     //       content: Text(

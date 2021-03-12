@@ -1,27 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
 import '../../localization/nyanya_localizations.dart';
-import '../../models/challenge_data.dart';
 import '../../models/named_challenge_data.dart';
 import 'challenge.dart';
 
 class LoadingChallenge extends StatelessWidget {
-  final Future<NamedChallengeData> futureChallenge;
-
-  factory LoadingChallenge.fromChallengeId(String challengeId) {
-    final futureChallenge = FirebaseFirestore.instance
-        .doc('/challenges/$challengeId')
-        .get()
-        .then((snapshot) => NamedChallengeData.fromChallengeData(
-            name: snapshot.get('name'),
-            challengeData: ChallengeData.fromJson(
-                jsonDecode(snapshot.get('challenge_data')))));
-
-    return LoadingChallenge(futureChallenge: futureChallenge);
-  }
+  final Future<CommunityChallengeData> futureChallenge;
 
   LoadingChallenge({Key? key, required this.futureChallenge}) : super(key: key);
 
@@ -35,12 +20,19 @@ class LoadingChallenge extends StatelessWidget {
             case ConnectionState.waiting:
               return Scaffold(
                 appBar: AppBar(
-                  title: Text(NyaNyaLocalizations.of(context).challengesTitle),
+                  title: Text(NyaNyaLocalizations
+                      .of(context)
+                      .challengesTitle),
                 ),
                 body: Center(
                   child: Text(
-                    NyaNyaLocalizations.of(context).loadingLabel,
-                    style: Theme.of(context).textTheme.headline2,
+                    NyaNyaLocalizations
+                        .of(context)
+                        .loadingLabel,
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .headline2,
                   ),
                 ),
               );
@@ -54,20 +46,28 @@ class LoadingChallenge extends StatelessWidget {
               } else {
                 return Scaffold(
                   appBar: AppBar(
-                    title: Text(NyaNyaLocalizations.of(context).challengesTitle),
+                    title: Text(NyaNyaLocalizations
+                        .of(context)
+                        .challengesTitle),
                   ),
                   body: Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          NyaNyaLocalizations.of(context)
+                          NyaNyaLocalizations
+                              .of(context)
                               .couldNotLoadChallengeText,
-                          style: Theme.of(context).textTheme.headline2,
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .headline2,
                         ),
                         ElevatedButton(
                             onPressed: () => Navigator.pop(context),
-                            child: Text(NyaNyaLocalizations.of(context).back))
+                            child: Text(NyaNyaLocalizations
+                                .of(context)
+                                .back))
                       ],
                     ),
                   ),

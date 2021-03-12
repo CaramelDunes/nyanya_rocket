@@ -1,9 +1,26 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
+import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
 import 'package:nyanya_rocket/services/firebase/firedart_firebase_service.dart';
 
 import 'native_firebase_service.dart';
+
+enum Sorting { ByDate, ByPopularity, ByName }
+
+extension FieldName on Sorting {
+  String get fieldName {
+    switch (this) {
+      case Sorting.ByDate:
+        return 'date';
+      case Sorting.ByPopularity:
+        return 'likes';
+      case Sorting.ByName:
+        return 'name';
+    }
+  }
+}
 
 // Returns the correct Firebase instance depending on platform
 class FirebaseFactory {
@@ -21,7 +38,7 @@ class FirebaseFactory {
             apiKey: 'AIzaSyBExG_dHwDwU9H2mEwawd0p5pzy2Atm-IY', //FIXME
             projectId: 'nyanya-rocket',
           );
-    if (_initComplete == false) {
+    if (!_initComplete) {
       _initComplete = true;
       service.init();
     }
@@ -40,11 +57,19 @@ abstract class FirebaseService {
 
   void init();
 
+  bool isSignedIn();
+
   Future<void> signOut();
+
   Future<bool> signInAnonymously();
+
   Stream<bool> signInStatusStream();
+
   Future<String?> idToken();
+
   Future<String?> displayName();
+
+  Future<void> updateDisplayName(String newDisplayName);
 
   Stream<Map<String, dynamic>?> getDocStream(List<String> keys);
 
@@ -60,6 +85,24 @@ abstract class FirebaseService {
   Future<void> updateDoc(List<String> keys, Map<String, dynamic> json);
 
   void deleteDoc(List<String> keys);
+
+  Future<List<CommunityChallengeData>?> getCommunityChallenges(
+      {required Sorting sortBy, required int limit});
+
+  Future<List<CommunityPuzzleData>?> getCommunityPuzzles(
+      {required Sorting sortBy, required int limit});
+
+  Future<CommunityPuzzleData> getCommunityPuzzle(String id);
+
+  Future<CommunityChallengeData> getCommunityChallenge(String id);
+
+  Future<int?> getFeatureRequestThumbsUp(String id);
+
+  Future<void> incrementFeatureRequestThumbsUp(String id);
+
+  Future<int?> getCommunityStar(String path);
+
+  Future<void> incrementCommunityStar(String path);
 }
 
 bool checkKeysForNull(List<String> keys) {

@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 
 class SuccessOverlay extends StatefulWidget {
   final String? succeededPath;
@@ -10,10 +11,7 @@ class SuccessOverlay extends StatefulWidget {
   final VoidCallback? onPlayAgain;
 
   const SuccessOverlay(
-      {Key? key,
-      this.nextRoutePath,
-      this.onPlayAgain,
-      this.succeededPath})
+      {Key? key, this.nextRoutePath, this.onPlayAgain, this.succeededPath})
       : super(key: key);
 
   @override
@@ -29,12 +27,12 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
     super.initState();
 
     if (widget.succeededPath != null) {
-      FirebaseFirestore.instance
-          .doc(widget.succeededPath!)
-          .get()
-          .then((DocumentSnapshot snapshot) {
+      context
+          .read<FirebaseService>()
+          .getCommunityStar(widget.succeededPath!)
+          .then((int? stars) {
         setState(() {
-          _stars = snapshot.get('likes');
+          _stars = stars;
         });
       });
     }
@@ -42,6 +40,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
 
   Widget _starAdder() {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         IconButton(
@@ -51,9 +50,9 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
           ),
           onPressed: () {
             if (!_plusOned) {
-              final DocumentReference postRef =
-                  FirebaseFirestore.instance.doc(widget.succeededPath!);
-              postRef.update({'likes': FieldValue.increment(1)});
+              context
+                  .read<FirebaseService>()
+                  .incrementCommunityStar(widget.succeededPath!);
 
               setState(() {
                 _plusOned = true;

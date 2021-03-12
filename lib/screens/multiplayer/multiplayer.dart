@@ -32,19 +32,26 @@ class _MultiplayerState extends State<Multiplayer>
 
     final user = context.read<User>();
 
-    _idTokenSubscription = user.signedInStream.listen((signedIn) {
-      if (mounted) {
-        print(signedIn);
-        if (signedIn) {
-          user.idToken().then((String? token) {
-            print(token);
-            if (token != null)
-              setState(() {
-                _idToken = token;
-              });
-          });
-        }
-      }
+    // FIXME
+    // _idTokenSubscription = user.signedInStream.listen((signedIn) {
+    //   if (mounted) {
+    //     print(signedIn);
+    //     if (signedIn) {
+    //       user.idToken().then((String? token) {
+    //         if (token != null)
+    //           setState(() {
+    //             _idToken = token;
+    //           });
+    //       });
+    //     }
+    //   }
+    // });
+
+    user.idToken().then((String? token) {
+      if (token != null)
+        setState(() {
+          _idToken = token;
+        });
     });
   }
 

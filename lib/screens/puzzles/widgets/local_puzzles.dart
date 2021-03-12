@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
@@ -8,6 +7,7 @@ import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/widgets/empty_list.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../models/stores/puzzle_store.dart';
 
@@ -25,6 +25,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
 
     PuzzleStore.registry().then((Map<String, String> entries) => setState(() {
           _puzzles = entries;
+          print(_puzzles);
         }));
   }
 
@@ -35,18 +36,42 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
             builder: (BuildContext context) => Puzzle(
                   puzzle: puzzle,
                   onWin: (_) {
-                    FirebaseFunctions.instance
-                        .httpsCallable('publishPuzzle')
-                        .call({
-                      'name': puzzle.name,
-                      'puzzle_data': jsonEncode(puzzle.puzzleData.toJson()),
-                    }).then((HttpsCallableResult result) {
-                      print(result.data);
+                    // FIXME
+                    // FirebaseFunctions.instance
+                    //     .httpsCallable('publishPuzzle')
+                    //     .call({
+                    //   'name': puzzle.name,
+                    //   'puzzle_data': jsonEncode(puzzle.puzzleData.toJson()),
+                    // }).then((HttpsCallableResult result) {
+                    //   print(result.data);
+                    // });
+                    context
+                        .read<User>()
+                        .idToken()
+                        .then((idToken) => http.post(
+                            Uri.https(
+                                'us-central1-nyanya-rocket.cloudfunctions.net',
+                                '/publishPuzzle'),
+                            headers: {
+                              'Authorization': 'Bearer $idToken',
+                              'Content-Type': 'application/json'
+                            },
+                            body: jsonEncode({
+                              'data': {
+                                'name': puzzle.name,
+                                'puzzle_data':
+                                    jsonEncode(puzzle.puzzleData.toJson()),
+                              }
+                            })))
+                        .then((response) => response.statusCode == 200)
+                        .then((success) {
+                      if (success) {
+                        final snackBar = SnackBar(
+                            content: Text(NyaNyaLocalizations.of(context)
+                                .publishSuccessText));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     });
-                    final snackBar = SnackBar(
-                        content: Text(NyaNyaLocalizations.of(context)
-                            .publishSuccessText));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     // else {
                     //   final snackBar = SnackBar(
                     //       content: Text(

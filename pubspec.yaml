@@ -25,7 +25,6 @@ dependencies:
   firebase_core: ^1.0.0
   cloud_firestore: ^1.0.0
   firebase_auth: ^1.0.0
-  cloud_functions: ^1.0.0
 
   rive: ^0.6.8
 
