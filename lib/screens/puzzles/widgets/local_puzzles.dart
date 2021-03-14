@@ -25,7 +25,6 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
 
     PuzzleStore.registry().then((Map<String, String> entries) => setState(() {
           _puzzles = entries;
-          print(_puzzles);
         }));
   }
 
@@ -36,15 +35,6 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
             builder: (BuildContext context) => Puzzle(
                   puzzle: puzzle,
                   onWin: (_) {
-                    // FIXME
-                    // FirebaseFunctions.instance
-                    //     .httpsCallable('publishPuzzle')
-                    //     .call({
-                    //   'name': puzzle.name,
-                    //   'puzzle_data': jsonEncode(puzzle.puzzleData.toJson()),
-                    // }).then((HttpsCallableResult result) {
-                    //   print(result.data);
-                    // });
                     context
                         .read<User>()
                         .idToken()

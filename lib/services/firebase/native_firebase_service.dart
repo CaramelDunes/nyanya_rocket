@@ -126,7 +126,7 @@ class NativeFirebaseService extends FirebaseService {
   @override
   Future<bool> signInAnonymously() async {
     try {
-      final user = await FirebaseAuth.instance.signInAnonymously();
+      await FirebaseAuth.instance.signInAnonymously();
     } catch (FirebaseAuthException) {
       return false;
     }

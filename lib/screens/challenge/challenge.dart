@@ -19,13 +19,14 @@ class Challenge extends StatefulWidget {
   final void Function(Duration time)? onWin;
   final NyaNyaRoutePath? nextRoutePath;
   final Duration? bestTime;
+  final String? documentPath;
 
-  Challenge({
-    required this.challenge,
-    this.nextRoutePath,
-    this.onWin,
-    this.bestTime,
-  });
+  Challenge(
+      {required this.challenge,
+      this.nextRoutePath,
+      this.onWin,
+      this.bestTime,
+      this.documentPath});
 
   @override
   _ChallengeState createState() => _ChallengeState();
@@ -135,6 +136,7 @@ class _ChallengeState extends State<Challenge> {
               visible: _ended,
               child: SuccessOverlay(
                 nextRoutePath: widget.nextRoutePath,
+                succeededPath: widget.documentPath,
                 onPlayAgain: () {
                   _challengeController.reset();
                   setState(() {

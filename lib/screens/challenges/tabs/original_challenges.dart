@@ -141,29 +141,6 @@ class _OriginalChallengesState extends State<OriginalChallenges>
     }
   }
 
-  Widget _buildChallengeTile(int i, Map<int, Duration> times) {
-    return ListTile(
-      title: Text(OriginalChallenges.challenges[i].challengeData.type
-              .toLocalizedString(context) +
-          OriginalChallenges.challenges[i].name),
-      subtitle: Text(OriginalChallenges.challenges[i].challengeData.type
-          .toLocalizedString(context)),
-      trailing: times.containsKey(i)
-          ? Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              Text(
-                  '${times[i]!.inSeconds}.${times[i]!.inMilliseconds % 1000 ~/ 10}s'),
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              )
-            ])
-          : null,
-      onTap: () {
-        _openChallenge(i);
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -227,6 +204,29 @@ class _OriginalChallengesState extends State<OriginalChallenges>
             _buildChallengeCard(challengeIndices[i], times));
   }
 
+  Widget _buildChallengeTile(int i, Map<int, Duration> times) {
+    return ListTile(
+      title: Text(OriginalChallenges.challenges[i].challengeData.type
+              .toLocalizedString(context) +
+          OriginalChallenges.challenges[i].name),
+      subtitle: Text(OriginalChallenges.challenges[i].challengeData.type
+          .toLocalizedString(context)),
+      trailing: times.containsKey(i)
+          ? Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              Text(
+                  '${times[i]!.inSeconds}.${times[i]!.inMilliseconds % 1000 ~/ 10}s'),
+              Icon(
+                Icons.check,
+                color: Colors.green,
+              )
+            ])
+          : null,
+      onTap: () {
+        _openChallenge(i);
+      },
+    );
+  }
+
   Widget _buildChallengeCard(int i, Map<int, Duration> times) {
     return InkWell(
       key: ValueKey(i),
@@ -266,6 +266,11 @@ class _OriginalChallengesState extends State<OriginalChallenges>
                   OriginalChallenges.challenges[i].name,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
+            if (times.containsKey(i))
+              Text(
+                  '${times[i]!.inSeconds}.${times[i]!.inMilliseconds % 1000 ~/ 10}s')
+            else
+              Text(''),
           ],
         ),
       ),
