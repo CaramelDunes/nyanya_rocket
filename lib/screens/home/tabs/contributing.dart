@@ -2,9 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:nyanya_rocket/app.dart';
 import 'package:nyanya_rocket/contributors.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+
+import '../../../config.dart';
 
 class Contributing extends StatelessWidget {
   @override
@@ -23,14 +24,14 @@ class Contributing extends StatelessWidget {
                 text: NyaNyaLocalizations.of(context).contributingText,
               ),
               TextSpan(
-                  text: App.projectUrl,
+                  text: kProjectUrl,
                   style: TextStyle(
                       color: Colors.blue,
                       decoration: TextDecoration.underline,
                       fontSize: 17),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      launch(App.projectUrl);
+                      launch(kProjectUrl);
                     })
             ],
           ),

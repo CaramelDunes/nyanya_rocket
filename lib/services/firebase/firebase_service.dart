@@ -5,6 +5,7 @@ import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
 import 'package:nyanya_rocket/services/firebase/firedart_firebase_service.dart';
 
+import '../../config.dart';
 import 'native_firebase_service.dart';
 
 enum Sorting { ByDate, ByPopularity, ByName }
@@ -35,8 +36,8 @@ class FirebaseFactory {
     FirebaseService service = useNative
         ? NativeFirebaseService()
         : FiredartFirebaseService(
-            apiKey: 'AIzaSyBExG_dHwDwU9H2mEwawd0p5pzy2Atm-IY', //FIXME
-            projectId: 'nyanya-rocket',
+            apiKey: kFirebaseApiKey, //FIXME
+            projectId: kFirebaseProjectId,
           );
     if (!_initComplete) {
       _initComplete = true;

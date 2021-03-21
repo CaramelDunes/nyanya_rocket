@@ -24,7 +24,7 @@ class Multiplayer extends StatefulWidget {
 class _MultiplayerState extends State<Multiplayer>
     with SingleTickerProviderStateMixin {
   String? _idToken;
-  late StreamSubscription _idTokenSubscription;
+  StreamSubscription? _idTokenSubscription;
 
   @override
   void initState() {
@@ -57,7 +57,7 @@ class _MultiplayerState extends State<Multiplayer>
 
   @override
   void dispose() {
-    _idTokenSubscription.cancel();
+    _idTokenSubscription?.cancel();
 
     super.dispose();
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../config.dart';
+
 enum Regions { auto, usEast, euWest }
 enum ComputedRegions { usEast, euWest }
 
@@ -55,9 +57,9 @@ class Region with ChangeNotifier {
   String get masterServerHostname {
     switch (computedValue) {
       case ComputedRegions.usEast:
-        return 'nyanya-us-east.carameldunes.fr';
+        return kMasterUsEast;
       case ComputedRegions.euWest:
-        return 'nyanya-eu-west.carameldunes.fr';
+        return kMasterEuWest;
     }
   }
 
