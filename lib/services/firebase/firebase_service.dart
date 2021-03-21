@@ -29,16 +29,16 @@ class FirebaseFactory {
 
   static bool get useNative =>
       kIsWeb ||
-      Platform.isAndroid ||
-      Platform.isIOS; // || UniversalPlatform.isMacOS;
+          Platform.isAndroid ||
+          Platform.isIOS; // || UniversalPlatform.isMacOS;
 
   static FirebaseService create() {
     FirebaseService service = useNative
         ? NativeFirebaseService()
         : FiredartFirebaseService(
-            apiKey: kFirebaseApiKey, //FIXME
-            projectId: kFirebaseProjectId,
-          );
+      apiKey: kFirebaseApiKey, //FIXME
+      projectId: kFirebaseProjectId,
+    );
     if (!_initComplete) {
       _initComplete = true;
       service.init();
@@ -78,7 +78,7 @@ abstract class FirebaseService {
 
   Future<Map<String, dynamic>?> getDoc(List<String> keys);
 
-  Future<List<Map<String, dynamic>?>> getCollection(List<String> keys);
+  Future<List<Map<String, dynamic>>?> getCollection(List<String> keys);
 
   Future<String> addDoc(List<String> keys, Map<String, dynamic> json,
       {String? documentId, bool addUserPath = true});
@@ -104,6 +104,8 @@ abstract class FirebaseService {
   Future<int?> getCommunityStar(String path);
 
   Future<void> incrementCommunityStar(String path);
+
+  Future<List<Map<String, dynamic>>?> getNews(String languageCode);
 }
 
 bool checkKeysForNull(List<String> keys) {

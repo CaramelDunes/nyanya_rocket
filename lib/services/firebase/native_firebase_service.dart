@@ -83,10 +83,12 @@ class NativeFirebaseService extends FirebaseService {
     return null;
   }
 
-  Future<List<Map<String, dynamic>?>> getCollection(List<String> keys) async {
-    //print("getDocStream: ${keys.toString()}");
+  Future<List<Map<String, dynamic>>?> getCollection(List<String> keys) async {
     QuerySnapshot snapshot = (await _getCollection(keys)!.get());
-    return snapshot.docs.map((d) => d.data()).toList();
+    return snapshot.docs
+        .where((d) => d.data() != null)
+        .map((d) => d.data()!)
+        .toList();
   }
 
   DocumentReference? _getDoc(List<String> keys) {
@@ -247,5 +249,15 @@ class NativeFirebaseService extends FirebaseService {
   Future<void> incrementCommunityStar(String path) {
     final DocumentReference postRef = FirebaseFirestore.instance.doc(path);
     return postRef.update({'likes': FieldValue.increment(1)});
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>?> getNews(String languageCode) async {
+    final List<Map<String, dynamic>>? rawNews =
+        await getCollection(['articles_$languageCode']);
+    rawNews?.forEach((element) {
+      element['date'] = element['date'].toDate();
+    });
+    return rawNews?.toList();
   }
 }

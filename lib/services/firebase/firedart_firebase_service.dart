@@ -249,6 +249,11 @@ class FiredartFirebaseService extends FirebaseService {
           .update({'likes': currentValue + 1});
     // FIXME Use 'atomic' increment when available.
   }
+
+  @override
+  Future<List<Map<String, dynamic>>> getNews(String languageCode) {
+    return getCollection(['articles_$languageCode']);
+  }
 }
 
 class PreferencesStore extends TokenStore {

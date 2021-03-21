@@ -176,12 +176,11 @@ class WhatsNew extends StatelessWidget {
         Expanded(
           child: ListView(
             children: <Widget>[
-              FutureBuilder<List<Map<String, dynamic>?>>(
-                future: context
-                    .read<FirebaseService>()
-                    .getCollection(['articles_${articleLocale()}']),
+              FutureBuilder<List<Map<String, dynamic>>?>(
+                future:
+                    context.read<FirebaseService>().getNews(articleLocale()),
                 builder: (BuildContext context,
-                    AsyncSnapshot<List<Map<String, dynamic>?>> snapshot) {
+                    AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
@@ -194,10 +193,10 @@ class WhatsNew extends StatelessWidget {
                     default:
                       return Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: snapshot.data!
-                            .map((Map<String, dynamic>? document) {
+                        children:
+                            snapshot.data!.map((Map<String, dynamic> document) {
                           return ListTile(
-                            title: Text(document!['title']),
+                            title: Text(document['title']),
                             trailing: Text(MaterialLocalizations.of(context)
                                 .formatShortDate(document['date'])),
                           );
