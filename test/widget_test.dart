@@ -8,13 +8,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nyanya_rocket/app.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(
-        App(sharedPreferences: await SharedPreferences.getInstance()));
+    await tester.pumpWidget(App(
+        sharedPreferences: await SharedPreferences.getInstance(),
+        firebaseService: await FirebaseFactory.create()));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

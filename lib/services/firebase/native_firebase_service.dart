@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
@@ -19,12 +20,16 @@ class NativeFirebaseService extends FirebaseService {
 
   @override
   Future<void> init() async {
-    await auth.setPersistence(Persistence.LOCAL);
     await Firebase.initializeApp().catchError((Object e) {
       print("$e");
     }).then((value) {
       print("InitComplete");
     });
+
+    // setPersistence() is only supported on web based platforms
+    if (kIsWeb) {
+      await auth.setPersistence(Persistence.LOCAL);
+    }
   }
 
   // Streams

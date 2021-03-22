@@ -32,7 +32,7 @@ class FirebaseFactory {
           Platform.isAndroid ||
           Platform.isIOS; // || UniversalPlatform.isMacOS;
 
-  static FirebaseService create() {
+  static Future<FirebaseService> create() async {
     FirebaseService service = useNative
         ? NativeFirebaseService()
         : FiredartFirebaseService(
@@ -41,7 +41,7 @@ class FirebaseFactory {
     );
     if (!_initComplete) {
       _initComplete = true;
-      service.init();
+      await service.init();
     }
     print("firestore-${useNative ? "NATIVE" : "DART"} Initialized");
     return service;
@@ -56,7 +56,7 @@ abstract class FirebaseService {
     return keys.join("/");
   }
 
-  void init();
+  Future<void> init();
 
   bool isSignedIn();
 

@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'models/stores/file_named_data_store.dart';
 import 'models/stores/prefs_named_data_store.dart';
 import 'models/stores/named_data_store.dart';
+import 'services/firebase/firebase_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,5 +21,8 @@ Future<void> main() async {
   else
     NamedDataStorage.active = FileNamedDataStorage();
 
-  runApp(App(sharedPreferences: sharedPreferences));
+  runApp(App(
+    sharedPreferences: sharedPreferences,
+    firebaseService: await FirebaseFactory.create(),
+  ));
 }

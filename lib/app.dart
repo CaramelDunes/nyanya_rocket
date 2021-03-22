@@ -37,16 +37,16 @@ class App extends StatefulWidget {
   );
 
   final SharedPreferences sharedPreferences;
+  final FirebaseService firebaseService;
 
-  const App({Key? key, required this.sharedPreferences}) : super(key: key);
+  const App({Key? key, required this.sharedPreferences, required this.firebaseService}) : super(key: key);
 
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  final FirebaseService firebaseService = FirebaseFactory.create();
-  late final User _user = User(firebaseService);
+  late final User _user = User(widget.firebaseService);
   NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
   NyaNyaRouteInformationParser _routeInformationParser =
       NyaNyaRouteInformationParser();
@@ -76,7 +76,7 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(
             create: (_) =>
                 ChallengeProgressionManager(widget.sharedPreferences)),
-        Provider.value(value: firebaseService)
+        Provider.value(value: widget.firebaseService)
       ],
       child: Consumer2<DarkMode, Language>(
         builder: (_, darkMode, language, __) {
