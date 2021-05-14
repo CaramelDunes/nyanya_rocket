@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class EditedGame {
@@ -8,7 +8,7 @@ class EditedGame {
   GameState game;
   final ValueNotifier<GameState> gameStream;
 
-  EditedGame({@required GameState game})
+  EditedGame({required GameState game})
       : game = game,
         gameStream = ValueNotifier(game);
 
@@ -50,12 +50,11 @@ class EditedGame {
       if (miceThere.isEmpty && catsThere.isEmpty) {
         _saveState();
 
+        BoardPosition position = BoardPosition.centered(x, y, direction);
         if (type == EntityType.Cat) {
-          game.cats.add(Entity.fromEntityType(
-              type, BoardPosition.centered(x, y, direction)));
+          game.cats.add(Cat(position: position));
         } else {
-          game.mice.add(Entity.fromEntityType(
-              type, BoardPosition.centered(x, y, direction)));
+          game.mice.add(Mouse(position: position));
         }
 
         _updateGame();

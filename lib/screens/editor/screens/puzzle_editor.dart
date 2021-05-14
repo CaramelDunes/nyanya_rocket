@@ -6,15 +6,16 @@ import 'package:nyanya_rocket/screens/editor/edited_game.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
-import 'package:nyanya_rocket/screens/puzzles/widgets/local_puzzles.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../models/stores/puzzle_store.dart';
 
 class PuzzleEditor extends StatefulWidget {
   final NamedPuzzleData puzzle;
-  final String uuid;
+  final String? uuid;
 
   PuzzleEditor({
-    @required this.puzzle,
+    required this.puzzle,
     this.uuid,
   });
 
@@ -23,8 +24,8 @@ class PuzzleEditor extends StatefulWidget {
 }
 
 class _PuzzleEditorState extends State<PuzzleEditor> {
-  EditedGame _editedGame;
-  String _uuid;
+  late EditedGame _editedGame;
+  String? _uuid;
   bool _saving = false;
 
   @override
@@ -94,7 +95,6 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   void _handlePlay(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext _) => Puzzle(
-              hasNext: false,
               puzzle: _buildPuzzleData(),
             )));
   }
@@ -110,17 +110,19 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     _saving = true;
 
     if (_uuid == null) {
-      LocalPuzzles.store.saveNewPuzzle(_buildPuzzleData()).then((String uuid) {
-        this._uuid = uuid;
-        print('Saved $uuid');
-        _saving = false;
+      PuzzleStore.saveNewPuzzle(_buildPuzzleData()).then((String? uuid) {
+        if (uuid != null) {
+          this._uuid = uuid;
+          print('Saved $uuid');
+          _saving = false;
+        } // TODO Handle failure.
       });
     } else {
-      LocalPuzzles.store
-          .updatePuzzle(_uuid, _buildPuzzleData().puzzleData)
+      PuzzleStore.updatePuzzle(_uuid!, _buildPuzzleData().puzzleData)
           .then((bool status) {
         print('Updated $_uuid');
         _saving = false;
+        // TODO Handle failure.
       });
     }
   }
@@ -143,7 +145,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
               })
         ],
       ),
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
           return Flex(

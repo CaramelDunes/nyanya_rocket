@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
-import 'package:nyanya_rocket/screens/challenges/tabs/local_challenges.dart';
 import 'package:nyanya_rocket/screens/editor/edited_game.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
+import '../../../models/stores/challenge_store.dart';
+
 class ChallengeEditor extends StatefulWidget {
   final NamedChallengeData challenge;
-  final String uuid;
+  final String? uuid;
 
   ChallengeEditor({
-    @required this.challenge,
+    required this.challenge,
     this.uuid,
   });
 
@@ -24,8 +25,8 @@ class ChallengeEditor extends StatefulWidget {
 }
 
 class _ChallengeEditorState extends State<ChallengeEditor> {
-  EditedGame _editedGame;
-  String _uuid;
+  late EditedGame _editedGame;
+  String? _uuid;
   bool _saving = false;
 
   @override
@@ -66,7 +67,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           StandardMenus.mice,
           StandardMenus.walls,
         ];
-        break;
 
       case ChallengeType.RunAway:
         return [
@@ -79,7 +79,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           StandardMenus.cats,
           StandardMenus.walls,
         ];
-        break;
 
       case ChallengeType.LunchTime:
         return [
@@ -90,7 +89,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           StandardMenus.cats,
           StandardMenus.walls,
         ];
-        break;
 
       case ChallengeType.OneHundredMice:
         return [
@@ -102,11 +100,9 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           StandardMenus.generators,
           StandardMenus.walls,
         ];
-        break;
 
       default:
         return [];
-        break;
     }
   }
 
@@ -128,7 +124,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
               })
         ],
       ),
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: <Widget>[
           Expanded(
@@ -146,7 +142,6 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   void _handlePlay(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext _) => Challenge(
-              hasNext: false,
               challenge: _buildChallengeData(),
             )));
   }
@@ -159,17 +154,17 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
     _saving = true;
 
     if (_uuid == null) {
-      LocalChallenges.store
-          .saveNewChallenge(_buildChallengeData())
-          .then((String uuid) {
-        this._uuid = uuid;
-        print('Saved $uuid');
-        _saving = false;
+      ChallengeStore.saveNew(_buildChallengeData()).then((String? uuid) {
+        if (uuid != null) {
+          this._uuid = uuid;
+          print('Saved $uuid');
+          _saving = false;
+        } // FIXME Handle failure.
       });
     } else {
-      LocalChallenges.store
-          .updateChallenge(_uuid, _buildChallengeData())
+      ChallengeStore.updateChallenge(_uuid!, _buildChallengeData())
           .then((bool status) {
+        // FIXME Handle failure.
         print('Updated $_uuid');
         _saving = false;
       });

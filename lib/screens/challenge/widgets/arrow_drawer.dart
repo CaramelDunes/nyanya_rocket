@@ -5,7 +5,7 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class ArrowDrawer extends StatelessWidget {
   final bool running;
 
-  const ArrowDrawer({Key key, @required this.running}) : super(key: key);
+  const ArrowDrawer({Key? key, required this.running}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,24 +17,13 @@ class ArrowDrawer extends StatelessWidget {
             4,
             (i) => Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(2.0),
+                    padding: const EdgeInsets.all(6.0),
                     child: Draggable<Direction>(
                         maxSimultaneousDrags: running ? null : 0,
                         feedback: const SizedBox.shrink(),
-                        child: Material(
-                          elevation: 8.0,
-                          child: running
-                              ? ArrowImage(
-                                  player: PlayerColor.Blue,
-                                  direction: Direction.values[i])
-                              : RotatedBox(
-                                  quarterTurns: -i,
-                                  child: Image.asset(
-                                    'assets/graphics/arrow_grey.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                        ),
+                        child: ArrowImage(
+                            player: running ? PlayerColor.Blue : null,
+                            direction: Direction.values[i]),
                         data: Direction.values[i]),
                   ),
                 )));

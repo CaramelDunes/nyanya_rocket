@@ -19,14 +19,14 @@ class LocalDuel extends StatefulWidget {
   final Duration duration;
 
   LocalDuel(
-      {@required this.board, @required this.players, @required this.duration});
+      {required this.board, required this.players, required this.duration});
 
   @override
   _LocalDuelState createState() => _LocalDuelState();
 }
 
 class _LocalDuelState extends State<LocalDuel> {
-  LocalMultiplayerGameController _localMultiplayerController;
+  late LocalMultiplayerGameController _localMultiplayerController;
   bool _displayRoulette = false;
   FixedExtentScrollController _scrollController = FixedExtentScrollController();
 
@@ -65,15 +65,20 @@ class _LocalDuelState extends State<LocalDuel> {
     }
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Arrow> candidateData,
+  Widget _dragTileBuilder(BuildContext context, List<Arrow?> candidateData,
       List rejectedData, int x, int y) {
     if (candidateData.isEmpty) return const SizedBox.expand();
 
-    return ArrowImage(
-      player: candidateData[0].player,
-      direction: candidateData[0].direction,
-      opaque: false,
-    );
+    final candidate = candidateData.first;
+    if (candidate != null) {
+      return ArrowImage(
+        player: candidate.player,
+        direction: candidate.direction,
+        opaque: false,
+      );
+    } else {
+      return const SizedBox.expand();
+    }
   }
 
   Widget _draggableArrow(PlayerColor player, Direction direction) {
@@ -106,7 +111,7 @@ class _LocalDuelState extends State<LocalDuel> {
       // Possible fixes:
       // - make Wheel inherit ScrollView directly.
       // - make Wheel keep its ScrollView across redraws.
-      SchedulerBinding.instance.addPostFrameCallback((_) {
+      SchedulerBinding.instance!.addPostFrameCallback((_) {
         _scrollController.animateToItem(
             // Not * 4 to have a card above and under on the wheel.
             (GameEvent.values.length - 1) * 3 + event.index - 1,

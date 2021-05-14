@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-const List<String> kColorSuffixes = ['blue', 'red', 'green', 'yellow', 'grey'];
+import 'game_view/tiles/arrow_painter.dart';
 
 class ArrowImage extends StatelessWidget {
-  final PlayerColor player;
+  final PlayerColor? player;
   final Direction direction;
+  final bool damaged;
   final bool opaque;
 
   const ArrowImage(
-      {Key key,
-      @required this.player,
-      @required this.direction,
+      {Key? key,
+      required this.player,
+      required this.direction,
+      this.damaged = false,
       this.opaque = true})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return RotatedBox(
-      quarterTurns: -direction.index,
-      child: Image.asset(
-        'assets/graphics/arrow_${player == null ? 'grey' : kColorSuffixes[player.index]}.png',
-        fit: BoxFit.contain,
-        color: opaque ? null : Colors.white.withOpacity(0.5),
-        colorBlendMode: BlendMode.modulate,
+    return AspectRatio(
+      aspectRatio: 1,
+      child: CustomPaint(
+        size: Size.infinite,
+        painter: ArrowPainter.fromPlayerColor(player, direction),
       ),
     );
   }

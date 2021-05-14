@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
+
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
@@ -11,7 +11,7 @@ class LunchTimeGameController extends ChallengeGameController {
   ValueNotifier<int> _scoreStream = ValueNotifier(0);
 
   LunchTimeGameController(
-      {@required void Function() onWin, @required ChallengeData challenge})
+      {required void Function() onWin, required ChallengeData challenge})
       : super(onWin: onWin, challenge: challenge) {
     _targetScore = game.mice.length;
   }

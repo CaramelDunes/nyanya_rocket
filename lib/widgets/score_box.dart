@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ScoreBox extends StatelessWidget {
-  final String label;
+  final String? label;
   final int score;
   final Color color;
 
-  const ScoreBox({Key key, this.label, this.score = 0, @required this.color})
+  const ScoreBox({Key? key, this.label, this.score = 0, required this.color})
       : super(key: key);
 
   @override

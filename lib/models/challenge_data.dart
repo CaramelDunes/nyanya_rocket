@@ -1,74 +1,52 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class ChallengeType {
-  final int index;
+enum ChallengeType {
+  GetMice, // Like Puzzle, without cats
+  RunAway, // Like Puzzle, with cats
+  LunchTime, // Feed all Mice to Cat
+  OneHundredMice,
+  // CatSoccer // Needs an AI
+}
 
-  const ChallengeType._internal(this.index);
-
-  @override
-  String toString() => '${_names[index]}';
-
-  String toLocalizedString(BuildContext context) {
-    switch (index) {
-      case 0:
-        return NyaNyaLocalizations.of(context).challengeGetMiceType;
-        break;
-
-      case 1:
-        return NyaNyaLocalizations.of(context).challengeRunAwayType;
-        break;
-
-      case 2:
-        return NyaNyaLocalizations.of(context).challengeLunchTimeType;
-        break;
-
-      case 3:
-        return NyaNyaLocalizations.of(context).challengeOneHundredMiceType;
-        break;
-
-      default:
-        return '';
-        break;
-    }
-  }
-
-  static const GetMice = const ChallengeType._internal(0);
-  static const RunAway = const ChallengeType._internal(1);
-  static const LunchTime = const ChallengeType._internal(2);
-  static const OneHundredMice = const ChallengeType._internal(3);
-
-//  static const CatSoccer = const ChallengeType._internal(4);
-
-  static const List<ChallengeType> values = const <ChallengeType>[
-    GetMice, // Like Puzzle, without cats
-    RunAway, // Like Puzzle, with cats
-    LunchTime, // Feed all Mice to Cat
-    OneHundredMice,
-//    CatSoccer, // Needs an AI
-  ];
-
+extension LocalizedChallengeType on ChallengeType {
   static const List<String> _names = const <String>[
     'Get Mice', // Like Puzzle, without cats
     'Run Away', // Like Puzzle, with cats
     'Lunch Time', // Feed all Mice to Cat
     'One Hundred Mice',
-//    'Cat Soccer', // Needs an AI
+    // 'Cat Soccer', // Needs an AI
   ];
+
+  String toPrettyString() => '${_names[this.index]}';
+
+  String toLocalizedString(BuildContext context) {
+    switch (this) {
+      case ChallengeType.GetMice:
+        return NyaNyaLocalizations.of(context).challengeGetMiceType;
+      case ChallengeType.RunAway:
+        return NyaNyaLocalizations.of(context).challengeRunAwayType;
+      case ChallengeType.LunchTime:
+        return NyaNyaLocalizations.of(context).challengeLunchTimeType;
+      case ChallengeType.OneHundredMice:
+        return NyaNyaLocalizations.of(context).challengeOneHundredMiceType;
+    }
+  }
 }
 
 class ChallengeData {
   final String gameData;
   final ChallengeType type;
 
-  ChallengeData({@required this.gameData, @required this.type});
+  ChallengeData({required this.gameData, required this.type});
 
-  ChallengeData.withBorder({@required this.type})
-      : gameData = jsonEncode((GameState()..board = Board.withBorder()).toJson());
+  ChallengeData.withBorder({required this.type})
+      : gameData =
+            jsonEncode((GameState()..board = Board.withBorder()).toJson());
 
   GameState getGame() => GameState.fromJson(jsonDecode(gameData));
 

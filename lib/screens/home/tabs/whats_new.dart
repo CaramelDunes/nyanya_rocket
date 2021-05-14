@@ -1,13 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/settings/first_run.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import 'package:provider/provider.dart';
 
 class WhatsNew extends StatelessWidget {
   static Set<String> availableLocales = {'en', 'fr'};
+
+  // static Future<QuerySnapshot> news = FirebaseFirestore.instance
+  //     .collection('articles_${articleLocale()}')
+  //     .orderBy('date', descending: true)
+  //     .get();
 
   void _dismissWelcomeCard(BuildContext context) {
     Provider.of<FirstRun>(context, listen: false).enabled = false;
@@ -46,12 +52,14 @@ class WhatsNew extends StatelessWidget {
                     ),
                   ),
                   Text(NyaNyaLocalizations.of(context).firstTimeText),
-                  RaisedButton(
+                  ElevatedButton(
                     child: Text(
                         NyaNyaLocalizations.of(context).firstTimeButtonLabel),
                     onPressed: () {
                       _dismissWelcomeCard(context);
-                      Navigator.pushNamed(context, '/tutorial');
+                      Router.of(context)
+                          .routerDelegate
+                          .setNewRoutePath(NyaNyaRoutePath.guide());
                     },
                   )
                 ],
@@ -102,31 +110,31 @@ class WhatsNew extends StatelessWidget {
               context: context,
               faIcon: FontAwesomeIcons.puzzlePiece,
               name: NyaNyaLocalizations.of(context).puzzlesTitle,
-              routeName: '/puzzles',
+              routePath: NyaNyaRoutePath.puzzles(),
               direction: direction)),
       Expanded(
           child: _buildShortcutCard(
               context: context,
               faIcon: FontAwesomeIcons.stopwatch,
               name: NyaNyaLocalizations.of(context).challengesTitle,
-              routeName: '/challenges',
+              routePath: NyaNyaRoutePath.challenges(),
               direction: direction)),
       Expanded(
           child: _buildShortcutCard(
               context: context,
               faIcon: FontAwesomeIcons.gamepad,
               name: NyaNyaLocalizations.of(context).multiplayerTitle,
-              routeName: '/multiplayer',
+              routePath: NyaNyaRoutePath.multiplayer(),
               direction: direction))
     ];
   }
 
   Widget _buildShortcutCard(
-      {@required BuildContext context,
-      @required IconData faIcon,
-      @required String name,
-      @required String routeName,
-      @required Axis direction}) {
+      {required BuildContext context,
+      required IconData faIcon,
+      required String name,
+      required NyaNyaRoutePath routePath,
+      required Axis direction}) {
     return Card(
       child: InkWell(
         child: Padding(
@@ -145,7 +153,7 @@ class WhatsNew extends StatelessWidget {
           ),
         ),
         onTap: () {
-          Navigator.pushNamed(context, routeName);
+          Router.of(context).routerDelegate.setNewRoutePath(routePath);
         },
       ),
     );
@@ -168,13 +176,11 @@ class WhatsNew extends StatelessWidget {
         Expanded(
           child: ListView(
             children: <Widget>[
-              FutureBuilder<QuerySnapshot>(
-                future: FirebaseFirestore.instance
-                    .collection('articles_${articleLocale()}')
-                    .orderBy('date', descending: true)
-                    .get(),
+              FutureBuilder<List<Map<String, dynamic>>?>(
+                future:
+                    context.read<FirebaseService>().getNews(articleLocale()),
                 builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                    AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   }
@@ -188,12 +194,11 @@ class WhatsNew extends StatelessWidget {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children:
-                            snapshot.data.docs.map((DocumentSnapshot document) {
+                            snapshot.data!.map((Map<String, dynamic> document) {
                           return ListTile(
-                            title: Text(document.get('title')),
+                            title: Text(document['title']),
                             trailing: Text(MaterialLocalizations.of(context)
-                                .formatShortDate(
-                                    document.get('date').toDate())),
+                                .formatShortDate(document['date'])),
                           );
                         }).toList(),
                       );

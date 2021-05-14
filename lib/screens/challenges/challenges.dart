@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenges/tabs/community_challenges.dart';
 import 'package:nyanya_rocket/screens/challenges/tabs/local_challenges.dart';
 import 'package:nyanya_rocket/screens/challenges/tabs/original_challenges.dart';
 import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
 
 class Challenges extends StatelessWidget {
+  final TabKind initialTab;
+
+  const Challenges({Key? key, this.initialTab = TabKind.Original})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final bool displayIcons =
@@ -14,6 +20,7 @@ class Challenges extends StatelessWidget {
 
     return DefaultTabController(
       length: 3,
+      initialIndex: initialTab.index,
       child: Scaffold(
         appBar: AppBar(
             title: Text(NyaNyaLocalizations.of(context).challengesTitle),

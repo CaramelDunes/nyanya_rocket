@@ -4,7 +4,7 @@ import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 class PrivacyPolicyPrompt extends StatelessWidget {
   final bool askUser;
 
-  const PrivacyPolicyPrompt({Key key, @required this.askUser})
+  const PrivacyPolicyPrompt({Key? key, required this.askUser})
       : super(key: key);
 
   @override
@@ -76,14 +76,14 @@ If you have any questions or suggestions about my Privacy Policy, do not hesitat
 ''')),
       persistentFooterButtons: askUser
           ? <Widget>[
-              FlatButton(
+              TextButton(
                 child:
                     Text(NyaNyaLocalizations.of(context).accept.toUpperCase()),
                 onPressed: () {
                   Navigator.pop(context, true);
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text(NyaNyaLocalizations.of(context).deny.toUpperCase()),
                 onPressed: () {
                   Navigator.pop(context, false);

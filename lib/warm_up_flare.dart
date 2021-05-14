@@ -1,31 +1,44 @@
-import 'package:flare_flutter/flare_cache.dart';
-import 'package:flare_flutter/provider/asset_flare.dart';
-import 'package:flutter/services.dart';
-import 'package:nyanya_rocket/widgets/game_view/entities_drawer_canvas.dart';
+import 'dart:io';
 
-// Copied from
-// https://github.com/2d-inc/developer_quest/blob/master/lib/src/widgets/flare/warmup_flare.dart
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 
-const _filesToWarmUp = [
-  "assets/animations/cat_right.flr",
-  "assets/animations/cat_up.flr",
-  "assets/animations/cat_left.flr",
-  "assets/animations/cat_down.flr",
-  "assets/animations/mouse_right.flr",
-  "assets/animations/mouse_up.flr",
-  "assets/animations/mouse_left.flr",
-  "assets/animations/mouse_down.flr",
-];
+import 'widgets/game_view/entities/entity_painter.dart';
+import 'widgets/game_view/entities/image_cache_rive_painter.dart';
+import 'widgets/game_view/entities/picture_cache_rive_painter.dart';
+import 'widgets/game_view/entities/simple_painter.dart';
 
-/// Ensure all Flare assets used by this app are cached and ready to
+/// Ensure all Rive assets used by this app are cached and ready to
 /// be displayed as quickly as possible.
 Future<void> warmUpFlare() async {
-  for (final filename in _filesToWarmUp) {
-    print('Warming up $filename');
-    await cachedActor(AssetFlare(bundle: rootBundle, name: filename));
+  const String animationName = 'walk';
+  const List<String> directions = ['right', 'up', 'left', 'down'];
+  const uglyButFastMode = false;
+
+  if (uglyButFastMode) {
+    EntityPainter.mouseAnimations =
+        List.generate(4, (index) => SimplePainter(Colors.white));
+
+    EntityPainter.catAnimations =
+        List.generate(4, (index) => SimplePainter(Colors.orange));
+    return;
   }
 
-  // ignore_for_file: unnecessary_statements
-  EntitiesDrawerCanvas.mouseAnimations;
-  EntitiesDrawerCanvas.catAnimations;
+  // On mobile phones, cache Rive animations as images for better performance.
+  // Platform.operatingSystem is undefined on Web, shield its access.
+  final loadFunction = !kIsWeb && (Platform.isAndroid || Platform.isIOS)
+      ? ImageCacheRivePainter.load
+      : PictureCacheRivePainter.load;
+
+  EntityPainter.mouseAnimations = await Future.wait(directions.map(
+      (direction) => loadFunction(
+          assetFilename: "assets/animations/mouse.riv",
+          animationName: animationName,
+          artboardName: direction)));
+
+  EntityPainter.catAnimations = await Future.wait(directions.map((direction) =>
+      loadFunction(
+          assetFilename: "assets/animations/cat.riv",
+          animationName: animationName,
+          artboardName: direction)));
 }

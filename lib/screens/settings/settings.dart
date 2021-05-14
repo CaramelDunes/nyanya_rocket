@@ -46,9 +46,11 @@ class Settings extends StatelessWidget {
                       value: 'de',
                     ),
                   ],
-                  onChanged: (String language) {
-                    Provider.of<Language>(context, listen: false).value =
-                        language;
+                  onChanged: (String? language) {
+                    if (language != null) {
+                      Provider.of<Language>(context, listen: false).value =
+                          language;
+                    }
                   }),
             ),
             ListTile(
@@ -57,21 +59,23 @@ class Settings extends StatelessWidget {
                   value: Provider.of<Region>(context).value,
                   items: <DropdownMenuItem<Regions>>[
                     DropdownMenuItem(
-                      child: Text(
-                          'Auto (${Region.regionLabels[Region.automaticValue()]})'),
+                      child: Text('Auto (${Region.automaticValue().label})'),
                       value: Regions.auto,
                     ),
                     DropdownMenuItem(
-                      child: Text(Region.regionLabels[Regions.euWest]),
+                      child: Text(ComputedRegions.euWest.label),
                       value: Regions.euWest,
                     ),
                     DropdownMenuItem(
-                      child: Text(Region.regionLabels[Regions.usEast]),
+                      child: Text(ComputedRegions.usEast.label),
                       value: Regions.usEast,
                     ),
                   ],
-                  onChanged: (Regions region) {
-                    Provider.of<Region>(context, listen: false).value = region;
+                  onChanged: (Regions? region) {
+                    if (region != null) {
+                      Provider.of<Region>(context, listen: false).value =
+                          region;
+                    }
                   }),
             ),
             Consumer<User>(

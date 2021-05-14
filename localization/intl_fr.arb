@@ -1,838 +1,146 @@
 {
   "puzzleType": "Puzzle",
-  "@puzzleType": {
-    "description": "Puzzle type of game.",
-    "type": "text",
-    "placeholders": {}
-  },
   "challengeType": "Défi",
-  "@challengeType": {
-    "description": "Challenge type of game.",
-    "type": "text",
-    "placeholders": {}
-  },
   "multiplayerType": "Multijoueur",
-  "@multiplayerType": {
-    "description": "Multiplayer type of game.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "challengesTitle": "Défis",
-  "@challengesTitle": {
-    "description": "Challenges title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
-  "challengeGetMiceType": "Attrapez-les toutes",
-  "@challengeGetMiceType": {
-    "description": "Get Mice type of challenge.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "challengeRunAwayType": "Aux abris !",
-  "@challengeRunAwayType": {
-    "description": "Run Away type of challenge.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "challengeLunchTimeType": "À table !",
-  "@challengeLunchTimeType": {
-    "description": "Lunch Time type of challenge.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "challengeOneHundredMiceType": "100 souris",
-  "@challengeOneHundredMiceType": {
-    "description": "One Hundred Mice type of challenge.",
-    "type": "text",
-    "placeholders": {}
-  },
+  "challengesTitle": "Défis", 
+  "challengeGetMiceType": "Attrapez-les toutes", 
+  "challengeRunAwayType": "Aux abris !", 
+  "challengeLunchTimeType": "À table !", 
+  "challengeOneHundredMiceType": "100 souris", 
   "puzzlesTitle": "Puzzles",
-  "@puzzlesTitle": {
-    "description": "Puzzles title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
-  "multiplayerTitle": "Multijoueur",
-  "@multiplayerTitle": {
-    "description": "Multiplayer title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
-  "editorTitle": "Éditeur",
-  "@editorTitle": {
-    "description": "Editor title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
-  "settingsTitle": "Paramètres",
-  "@settingsTitle": {
-    "description": "Settings title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
-  "homeTitle": "Accueil",
-  "@homeTitle": {
-    "description": "Home title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
-  "tutorialTitle": "Guide de jeu",
-  "@tutorialTitle": {
-    "description": "Tutorial title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
-  "whatsNewTab": "Quoi de neuf ?",
-  "@whatsNewTab": {
-    "description": "What's New tab of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "firstTimeWelcome": "Bienvenue !",
-  "@firstTimeWelcome": {
-    "description": "First time welcome label of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "firstTimeText": "Première visite ? Allez voir le guide de jeu !",
-  "@firstTimeText": {
-    "description": "First time welcome text of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "firstTimeButtonLabel": "C'est parti !",
-  "@firstTimeButtonLabel": {
-    "description": "First time, go to tutorial button of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "newsLabel": "Actualités",
-  "@newsLabel": {
-    "description": "News label of the What's New tab.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "contributingTab": "Participer",
-  "@contributingTab": {
-    "description": "Contributing tab of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "contributingText": "Vous aussi contribuez à NyaNya Rocket !\n\nPas besoin de savoir programmer ou d'être exposé au Louvre, toute contribution est la bienvenue. Vous pouvez:\n  • Signaler des bugs et proposer des améliorations\n  • Traduire l'application dans d'autres langues\n  • Améliorer le contenu artistique (images, animations)\n  • Programmer\n\nPour plus d'informations, rendez-vous sur ",
-  "@contributingText": {
-    "description": "Text of the Contributing tab of Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "contributorsLabel": "Contributeurs",
-  "@contributorsLabel": {
-    "description": "Contributors label in Contributing tab of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "originalTab": "Originaux",
-  "@originalTab": {
-    "description": "Original tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "communityTab": "Communauté",
-  "@communityTab": {
-    "description": "Community tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "sortByLabel": "Trier par",
-  "@sortByLabel": {
-    "description": "Community tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "dateLabel": "Date",
-  "@dateLabel": {
-    "description": "Community tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "popularityLabel": "Popularité",
-  "@popularityLabel": {
-    "description": "Community tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "deviceTab": "Local",
-  "@deviceTab": {
-    "description": "Device tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "loginPromptText": "Merci de vous connecter.",
-  "@loginPromptText": {
-    "description": "Login prompt of the Local Puzzles and Challenges tabs.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "loginButtonLabel": "Se connecter",
-  "@loginButtonLabel": {
-    "description": "Login button of the Sign-up prompt widget.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "publishLabel": "Publier",
-  "@publishLabel": {
-    "description": "Publish tooltip of the Local Puzzles and Challenges tabs.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "publishSuccessText": "Puzzle publié !",
-  "@publishSuccessText": {
-    "description": "Publish success text (snackbar) of the Local Puzzles and Challenges tabs.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "puzzleNotCompletedLocallyText": "Puzzle non publié car non résolu... :-(",
-  "@puzzleNotCompletedLocallyText": {
-    "description": "Local Puzzles and Challenges tabs.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "getMiceObjectiveText": "Guidez toutes les souris vers les fusées en 30 secondes.",
-  "@getMiceObjectiveText": {
-    "description": "Short explanation of the Get Mice challenge type.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "runAwayObjectiveText": "Guidez toutes les souris vers les fusées en évitant les chats !",
-  "@runAwayObjectiveText": {
-    "description": "Short explanation of the Run Away challenge type.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "lunchTimeObjectiveText": "Donnez toutes les souris à manger au(x) chat(s).",
-  "@lunchTimeObjectiveText": {
-    "description": "Short explanation of the Lunch Time challenge type.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "oneHundredMiceObjectiveText": "Sauvez 100 souris en 30 secondes !",
-  "@oneHundredMiceObjectiveText": {
-    "description": "Short explanation of the One Hundred Mice challenge type.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "matchmakingTab": "Monde",
-  "@matchmakingTab": {
-    "description": "Matchmaking tab of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "localDuelTab": "Duel Local",
-  "@localDuelTab": {
-    "description": "Local Duel tab of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "lanTab": "Réseau local",
-  "@lanTab": {
-    "description": "LAN tab of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "nicknameLabel": "Pseudo",
-  "@nicknameLabel": {
-    "description": "Nickname field label of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "invalidNicknameText": "Pseudo invalide.",
-  "@invalidNicknameText": {
-    "description": "When entered nickname is incorrect in the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "invalidHostnameText": "Adresse invalide",
-  "@invalidHostnameText": {
-    "description": "When entered hostname is incorrect in the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "hostnameLabel": "Adresse du serveur",
-  "@hostnameLabel": {
-    "description": "Server hostname field label of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
+  "multiplayerTitle": "Multijoueur", 
+  "editorTitle": "Éditeur", 
+  "settingsTitle": "Paramètres", 
+  "homeTitle": "Accueil", 
+  "tutorialTitle": "Guide de jeu", 
+  "whatsNewTab": "Quoi de neuf ?", 
+  "firstTimeWelcome": "Bienvenue !", 
+  "firstTimeText": "Première visite ? Allez voir le guide de jeu !", 
+  "firstTimeButtonLabel": "C'est parti !", 
+  "newsLabel": "Actualités", 
+  "contributingTab": "Participer", 
+  "contributingText": "Vous aussi contribuez à NyaNya Rocket !\n\nPas besoin de savoir programmer ou d'être exposé au Louvre, toute contribution est la bienvenue. Vous pouvez:\n  • Signaler des bugs et proposer des améliorations\n  • Traduire l'application dans d'autres langues\n  • Améliorer le contenu artistique (images, animations)\n  • Programmer\n\nPour plus d'informations, rendez-vous sur ", 
+  "contributorsLabel": "Contributeurs", 
+  "originalTab": "Originaux", 
+  "communityTab": "Communauté", 
+  "sortByLabel": "Trier par", 
+  "dateLabel": "Date", 
+  "popularityLabel": "Popularité", 
+  "deviceTab": "Local", 
+  "loginPromptText": "Merci de vous connecter.", 
+  "loginButtonLabel": "Se connecter", 
+  "publishLabel": "Publier", 
+  "publishSuccessText": "Puzzle publié !", 
+  "puzzleNotCompletedLocallyText": "Puzzle non publié car non résolu... :-(", 
+  "getMiceObjectiveText": "Guidez toutes les souris vers les fusées en 30 secondes.", 
+  "runAwayObjectiveText": "Guidez toutes les souris vers les fusées en évitant les chats !", 
+  "lunchTimeObjectiveText": "Donnez toutes les souris à manger au(x) chat(s).", 
+  "oneHundredMiceObjectiveText": "Sauvez 100 souris en 30 secondes !", 
+  "matchmakingTab": "Monde", 
+  "localDuelTab": "Duel Local", 
+  "lanTab": "Réseau local", 
+  "nicknameLabel": "Pseudo", 
+  "invalidNicknameText": "Pseudo invalide.", 
+  "invalidHostnameText": "Adresse invalide", 
+  "hostnameLabel": "Adresse du serveur", 
   "thisDeviceIpText": "Votre adresse IP: {localIp}",
-  "@thisDeviceIpText": {
-    "description": "This device's local IP, displayed in the LAN tab of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {
-      "localIp": {}
-    }
-  },
-  "createLabel": "Créer",
-  "@createLabel": {
-    "description": "Create button label of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "newTab": "Créer",
-  "@newTab": {
-    "description": "New tab of the Editor screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "nameLabel": "Nom",
-  "@nameLabel": {
-    "description": "Name field of the new tab of the Editor screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "invalidNameText": "Nom invalide (entrez entre 2 et 24 caractères alphanumériques).",
-  "@invalidNameText": {
-    "description": "When entered name is invalid in the new tab of the Editor screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "editTab": "Modifier",
-  "@editTab": {
-    "description": "Edit tab of the Editor screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "discardDialogTitle": "Confirmation",
-  "@discardDialogTitle": {
-    "description": "Discard confirmation dialog of editor.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "discardDialogMessage": "Êtes-vous sûr(e) de vouloir terminer l'édition ?\nToute modification non sauvegardée sera perdue.",
-  "@discardDialogMessage": {
-    "description": "Discard confirmation dialog of editor.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "saveLabel": "Sauvegarder",
-  "@saveLabel": {
-    "description": "Save button label of editor.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "enableAnimationsLabel": "Animations",
-  "@enableAnimationsLabel": {
-    "description": "Enable Animations setting of the Settings screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "darkModeLabel": "Mode nuit",
-  "@darkModeLabel": {
-    "description": "Dark Mode setting of the Settings screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "languageLabel": "Langue",
-  "@languageLabel": {
-    "description": "Language setting of the Settings screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "stageClearedText": "Niveau réussi !",
-  "@stageClearedText": {
-    "description": "Stage cleared text of success overlay.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "playAgainLabel": "Rejouer",
-  "@playAgainLabel": {
-    "description": "Play again button label of success overlay.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "nextLevelLabel": "Niveau suivant",
-  "@nextLevelLabel": {
-    "description": "Next level button label of success overlay.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "generalLabel": "Général",
-  "@generalLabel": {
-    "description": "General label of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "tilesTutorialLabel": "Cases",
-  "@tilesTutorialLabel": {
-    "description": "Tiles label of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "pitTutorialText": "Trou noir (un trou carré, certes...)",
-  "@pitTutorialText": {
-    "description": "Pit text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "rocketTutorialText": "Fusée",
-  "@rocketTutorialText": {
-    "description": "Rocket text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "arrowTutorialText": "Flèche",
-  "@arrowTutorialText": {
-    "description": "Arrow text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "entitiesTutorialLabel": "Personnages",
-  "@entitiesTutorialLabel": {
-    "description": "Entities label of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "mouseTutorialText": "Souris",
-  "@mouseTutorialText": {
-    "description": "Mouse text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "catTutorialText": "Les chats sont plus lents que les souris.\nQuand un chat rencontre une flèche de face, il l'endommage ou la détruit si elle a déjà été endommagée.",
-  "@catTutorialText": {
-    "description": "Cat text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "movementTutorialText": "\nLes entités avancent tout droit jusqu'à rencontrer un mur ou une flèche.\nPour une raison mystérieuse, les souris et les chats préfèrent tourner à droite lorsqu'ils rencontrent un mur.",
-  "@movementTutorialText": {
-    "description": "Movement text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "placementTutorialLabel": "Placement des flèches",
-  "@placementTutorialLabel": {
-    "description": "Arrow placement label of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "arrowDnDTutorialText": "Les flèches peuvent être glissées-déposées...",
-  "@arrowDnDTutorialText": {
-    "description": "Arrow drag n drop placement text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "arrowSwipeTutorialText": "...ou simplement glissées",
-  "@arrowSwipeTutorialText": {
-    "description": "Arrow swipe placement text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "arrowRemoveTutorialText": "En mode puzzle, les flèches peuvent être retirées en tappant dessus.",
-  "@arrowRemoveTutorialText": {
-    "description": "Arrow remove text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "puzzleTutorialText": "En mode puzzle, l'objectif est de sauver toutes les souris sans exception.\nPour ce faire, vous avez un nombre limité de flèches à disposition.\n\nCes flèches ne peuvent être placées et retirées qu'avant le lancement de la simulation.\n\nVous perdez si:\n  • Un chat entre dans une fusée avant que toutes les souris ne soient à l'abris.\n  • Une souris se fait dévorer par un chat.\n  • Une souris tombe dans un trou noir.\n\nCertains niveaux peuvent être terminés en utilisant moins de flèches que disponible, vous obtiendrez une étoile dans ce cas.\n",
-  "@puzzleTutorialText": {
-    "description": "Puzzle text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "challengeTutorialText": "Les Défis sont des mini-jeux de haute intensité ou vous n'avez que 30 secondes pour remplir un objectif.\n\nLe placement des flèches est différent de celui du mode Puzzle. En effet, vous pouvez placer autant de flèches que vous voulez mais seulement 3 peuvent être actives en même temps.",
-  "@challengeTutorialText": {
-    "description": "Challenge text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "challengeGetMiceText": "Mêmes règles que le mode Puzzle, sauvez toutes les souris mais le plus vite possible cette fois !",
-  "@challengeGetMiceText": {
-    "description": "Get Mice challenge text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "challengeLunchTimeText": "Aucune échappatoire possible, toutes les souris doivent finir dévorées par les chats.",
-  "@challengeLunchTimeText": {
-    "description": "Lunch Time challenge text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "challengeOneHundredMiceText": "Les chats et les souris apparaissent naturellement, tachez d'attraper 100 souris.",
-  "@challengeOneHundredMiceText": {
-    "description": "One Hundred Mice challenge text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "yes": "Oui",
-  "@yes": {
-    "description": "Yes string.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "no": "Non",
-  "@no": {
-    "description": "No string.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "cancel": "Annuler",
-  "@cancel": {
-    "description": "Cancel string.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "accept": "Accepter",
-  "@accept": {
-    "description": "Accept string.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "deny": "Refuser",
-  "@deny": {
-    "description": "Deny string.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "back": "Retour",
-  "@back": {
-    "description": "Back string.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "loadingLabel": "Chargement...",
-  "@loadingLabel": {
-    "description": "Loading... label of async loaded data.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "notImplementedText": "Pas encore disponible !\n...mais vous pouvez donner un coup de pouce :-)",
-  "@notImplementedText": {
-    "description": "Text of the NotImplementedWidget.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "emptyListText": "Il n'y a rien ici...",
-  "@emptyListText": {
-    "description": "Displayed when a list is empty.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "privacyPolicyLabel": "Politique de confidentialité",
-  "@privacyPolicyLabel": {
-    "description": "Displayed in the drawer.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "playLabel": "Jouer",
-  "@playLabel": {
-    "description": "Displayed in various buttons.",
-    "type": "text",
-    "placeholders": {}
-  },
+  "createLabel": "Créer", 
+  "newTab": "Créer", 
+  "nameLabel": "Nom", 
+  "invalidNameText": "Nom invalide (entrez entre 2 et 24 caractères alphanumériques).", 
+  "editTab": "Modifier", 
+  "discardDialogTitle": "Confirmation", 
+  "discardDialogMessage": "Êtes-vous sûr(e) de vouloir terminer l'édition ?\nToute modification non sauvegardée sera perdue.", 
+  "saveLabel": "Sauvegarder", 
+  "enableAnimationsLabel": "Animations", 
+  "darkModeLabel": "Mode nuit", 
+  "languageLabel": "Langue", 
+  "stageClearedText": "Niveau réussi !", 
+  "playAgainLabel": "Rejouer", 
+  "nextLevelLabel": "Niveau suivant", 
+  "generalLabel": "Général", 
+  "tilesTutorialLabel": "Cases", 
+  "pitTutorialText": "Trou noir (un trou carré, certes...)", 
+  "rocketTutorialText": "Fusée", 
+  "arrowTutorialText": "Flèche", 
+  "entitiesTutorialLabel": "Personnages", 
+  "mouseTutorialText": "Souris", 
+  "catTutorialText": "Les chats sont plus lents que les souris.\nQuand un chat rencontre une flèche de face, il l'endommage ou la détruit si elle a déjà été endommagée.", 
+  "movementTutorialText": "\nLes entités avancent tout droit jusqu'à rencontrer un mur ou une flèche.\nPour une raison mystérieuse, les souris et les chats préfèrent tourner à droite lorsqu'ils rencontrent un mur.", 
+  "placementTutorialLabel": "Placement des flèches", 
+  "arrowDnDTutorialText": "Les flèches peuvent être glissées-déposées...", 
+  "arrowSwipeTutorialText": "...ou simplement glissées", 
+  "arrowRemoveTutorialText": "En mode puzzle, les flèches peuvent être retirées en tappant dessus.", 
+  "puzzleTutorialText": "En mode puzzle, l'objectif est de sauver toutes les souris sans exception.\nPour ce faire, vous avez un nombre limité de flèches à disposition.\n\nCes flèches ne peuvent être placées et retirées qu'avant le lancement de la simulation.\n\nVous perdez si:\n  • Un chat entre dans une fusée avant que toutes les souris ne soient à l'abris.\n  • Une souris se fait dévorer par un chat.\n  • Une souris tombe dans un trou noir.\n\nCertains niveaux peuvent être terminés en utilisant moins de flèches que disponible, vous obtiendrez une étoile dans ce cas.\n", 
+  "challengeTutorialText": "Les Défis sont des mini-jeux de haute intensité ou vous n'avez que 30 secondes pour remplir un objectif.\n\nLe placement des flèches est différent de celui du mode Puzzle. En effet, vous pouvez placer autant de flèches que vous voulez mais seulement 3 peuvent être actives en même temps.", 
+  "challengeGetMiceText": "Mêmes règles que le mode Puzzle, sauvez toutes les souris mais le plus vite possible cette fois !", 
+  "challengeLunchTimeText": "Aucune échappatoire possible, toutes les souris doivent finir dévorées par les chats.", 
+  "challengeOneHundredMiceText": "Les chats et les souris apparaissent naturellement, tachez d'attraper 100 souris.", 
+  "yes": "Oui", 
+  "no": "Non", 
+  "cancel": "Annuler", 
+  "accept": "Accepter", 
+  "deny": "Refuser", 
+  "back": "Retour", 
+  "loadingLabel": "Chargement...", 
+  "notImplementedText": "Pas encore disponible !\n...mais vous pouvez donner un coup de pouce :-)", 
+  "emptyListText": "Il n'y a rien ici...", 
+  "privacyPolicyLabel": "Politique de confidentialité", 
+  "playLabel": "Jouer", 
   "playerCountLabel": "{playerCount} joueurs",
-  "@playerCountLabel": {
-    "description": "Displayed in various locations.",
-    "type": "text",
-    "placeholders": {
-      "playerCount": {}
-    }
-  },
   "minuteCountLabel": "{minuteCount} minutes",
-  "@minuteCountLabel": {
-    "description": "Displayed in various locations.",
-    "type": "text",
-    "placeholders": {
-      "minuteCount": {}
-    }
-  },
-  "boardSelectionText": "Toucher pour sélectionner un plateau de jeu",
-  "@boardSelectionText": {
-    "description": "Displayed in board picker.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "easyLabel": "Facile",
-  "@easyLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "intermediateLabel": "Moyen",
-  "@intermediateLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "hardLabel": "Difficile",
-  "@hardLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "veryHardLabel": "Très difficile",
-  "@veryHardLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {}
-  },
+  "boardSelectionText": "Toucher pour sélectionner un plateau de jeu", 
+  "easyLabel": "Facile", 
+  "intermediateLabel": "Moyen", 
+  "hardLabel": "Difficile", 
+  "veryHardLabel": "Très difficile", 
   "completedPercentLabel": "{percentCompleted}% réussis",
-  "@completedPercentLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {
-      "percentCompleted": {}
-    }
-  },
-  "showCompletedLabel": "Montrer réussis",
-  "@showCompletedLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "accountManagementLabel": "Gestion de compte",
-  "@accountManagementLabel": {
-    "description": "Displayed in the settings screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "loginStatusLabel": "Statut",
-  "@loginStatusLabel": {
-    "description": "Displayed in the settings and account management screens.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "connectedStatusLabel": "Connecté",
-  "@connectedStatusLabel": {
-    "description": "Displayed in the account management screens.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "disconnectedStatusLabel": "Déconnecté",
-  "@disconnectedStatusLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "signInLabel": "Taper pour se connecter",
-  "@signInLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "signInDialogTitle": "Politique de Confidentialité",
-  "@signInDialogTitle": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "signOutLabel": "Taper pour se déconnecter",
-  "@signOutLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "signOutDialogTitle": "Déconnexion",
-  "@signOutDialogTitle": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "signOutDialogText": "Êtes-vous sûr(e) de vouloir vous déconnecter ?\n\nVous ne pourrez plus publier de puzzles et défis.",
-  "@signOutDialogText": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "displayNameDialogTitle": "Choix du pseudo",
-  "@displayNameDialogTitle": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "privacyPolicySignUpText": "En vous connectant, vous acceptez les termes de la ",
-  "@privacyPolicySignUpText": {
-    "description": "Displayed in the sign-up dialog.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "unauthenticatedError": "Erreur: Vous n'êtes pas connecté",
-  "@unauthenticatedError": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "invalidDisplayNameError": "Erreur: Le pseudo fourni est invalide.",
-  "@invalidDisplayNameError": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "displayNameLabel": "Pseudo",
-  "@displayNameLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "tapToChangeDisplayNameLabel": "Taper pour changer",
-  "@tapToChangeDisplayNameLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "displayNameChangeSuccessText": "Changement de pseudo réussi !",
-  "@displayNameChangeSuccessText": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "confirmLabel": "Confirmer",
-  "@confirmLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "displayNameFormatText": "Entre 2 et 24 caractères (sans espace).",
-  "@displayNameFormatText": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "connectingToServerText": "Connexion au serveur...",
-  "@connectingToServerText": {
-    "description": "Displayed in the network multiplayer when initially connecting to the game server.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "waitingForPlayersText": "En attente d'autres joueurs...",
-  "@waitingForPlayersText": {
-    "description": "Displayed in the network multiplayer when waiting for other players to connect.",
-    "type": "text",
-    "placeholders": {}
-  },
+  "showCompletedLabel": "Montrer réussis", 
+  "accountManagementLabel": "Gestion de compte", 
+  "loginStatusLabel": "Statut", 
+  "connectedStatusLabel": "Connecté", 
+  "disconnectedStatusLabel": "Déconnecté", 
+  "signInLabel": "Taper pour se connecter", 
+  "signInDialogTitle": "Politique de Confidentialité", 
+  "signOutLabel": "Taper pour se déconnecter", 
+  "signOutDialogTitle": "Déconnexion", 
+  "signOutDialogText": "Êtes-vous sûr(e) de vouloir vous déconnecter ?\n\nVous ne pourrez plus publier de puzzles et défis.", 
+  "displayNameDialogTitle": "Choix du pseudo", 
+  "privacyPolicySignUpText": "En vous connectant, vous acceptez les termes de la ", 
+  "unauthenticatedError": "Erreur: Vous n'êtes pas connecté", 
+  "invalidDisplayNameError": "Erreur: Le pseudo fourni est invalide.", 
+  "displayNameLabel": "Pseudo", 
+  "tapToChangeDisplayNameLabel": "Taper pour changer", 
+  "displayNameChangeSuccessText": "Changement de pseudo réussi !", 
+  "confirmLabel": "Confirmer", 
+  "displayNameFormatText": "Entre 2 et 24 caractères (sans espace).", 
+  "connectingToServerText": "Connexion au serveur...", 
+  "waitingForPlayersText": "En attente d'autres joueurs...", 
   "positionInQueueText": "Position dans la file d'attente: {position} / {queueLength}",
-  "@positionInQueueText": {
-    "description": "Displayed in the world multiplayer when searching for a game.",
-    "type": "text",
-    "placeholders": {
-      "position": {},
-      "queueLength": {}
-    }
-  },
   "playersInQueueText": "{queueLength,plural, =0{Aucun joueur dans la file d'attente.}other{{queueLength} joueurs dans la file d'attente.}}",
-  "@playersInQueueText": {
-    "description": "Displayed in the world multiplayer setup.",
-    "type": "text",
-    "placeholders": {
-      "queueLength": {}
-    }
-  },
-  "queueRefreshErrorText": "Erreur lors du rafraîchissment\ndu nombre de joueurs dans la file.",
-  "@queueRefreshErrorText": {
-    "description": "Displayed in the world multiplayer setup.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "duelLabel": "Duel",
-  "@duelLabel": {
-    "description": "Displayed in the world multiplayer setup.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "fourPlayersLabel": "4 joueurs",
-  "@fourPlayersLabel": {
-    "description": "Displayed in the world multiplayer setup.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "regionLabel": "Région",
-  "@regionLabel": {
-    "description": "Displayed in the world multiplayer setup.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "joinQueueLabel": "Rejoindre",
-  "@joinQueueLabel": {
-    "description": "Displayed in the world multiplayer setup.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "friendDuelLabel": "Duel ami",
-  "@friendDuelLabel": {
-    "description": "Displayed on the multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "yourRoomCodeLabel": "Votre code joueur est",
-  "@yourRoomCodeLabel": {
-    "description": "Displayed in the friend duel tab of the multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "joinRoomLabel": "Rejoindre un ami",
-  "@joinRoomLabel": {
-    "description": "Displayed in the friend duel tab of the multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "roomCodeRetrievalErrorText": "Impossible de récupérer le code joueur",
-  "@roomCodeRetrievalErrorText": {
-    "description": "Displayed in the friend duel tab of the multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
+  "queueRefreshErrorText": "Erreur lors du rafraîchissment\ndu nombre de joueurs dans la file.", 
+  "duelLabel": "Duel", 
+  "fourPlayersLabel": "4 joueurs", 
+  "regionLabel": "Région", 
+  "joinQueueLabel": "Rejoindre", 
+  "friendDuelLabel": "Duel ami", 
+  "yourRoomCodeLabel": "Votre code joueur est", 
+  "joinRoomLabel": "Rejoindre un ami", 
+  "roomCodeRetrievalErrorText": "Impossible de récupérer le code joueur", 
   "awaitingForPlayersLabel": "En attente de joueurs...",
-  "@awaitingForPlayersLabel": {
-    "type": "text",
-    "placeholders": {}
-  },
   "victoryLabel": "Victoire !",
-  "@victoryLabel": {
-    "type": "text",
-    "placeholders": {}
-  },
   "defeatLabel": "Défaite...",
-  "@defeatLabel": {
-    "type": "text",
-    "placeholders": {}
-  },
   "winnerLabel": "Vainqueur !",
-  "@winnerLabel": {
-    "type": "text",
-    "placeholders": {}
-  },
   "boardLabel": "Plateau",
-  "@boardLabel": {
-    "type": "text",
-    "placeholders": {}
-  },
   "nicknamesLabel": "Pseudos",
-  "@nicknamesLabel": {
-    "type": "text",
-    "placeholders": {}
-  },
   "durationLabel": "Durée",
-  "@durationLabel": {
-    "type": "text",
-    "placeholders": {}
-  },
   "leaderBoardLabel": "Classement",
-  "@leaderBoardLabel": {
-    "type": "text",
-    "placeholders": {}
-  },
   "roomCodeLabel": "Code joueur",
-  "@roomCodeLabel": {
-    "type": "text",
-    "placeholders": {}
-  },
   "findPlayersLabel": "Recherche de joueurs",
-  "@findPlayersLabel": {
-    "type": "text",
-    "placeholders": {}
-  },
   "refreshLabel": "Actualiser",
-  "@refreshLabel": {
-    "type": "text",
-    "placeholders": {}
-  }
+  "multiplayerNotAvailableText": "Le mode multijoueur n'est pas disponible dans la version web de NyaNya Rocket!\nMerci d'utiliser la version mobile ou PC du jeu.",
+  "deviceDuelLabel": "Duel local",
+  "lanMultiplayerLabel": "Réseau local",
+  "couldNotLoadPuzzleText": "Puzzle introuvable.",
+  "couldNotLoadChallengeText": "Défi introuvable."
 }

@@ -7,22 +7,22 @@ typedef DropAcceptor<T> = void Function(int x, int y, T t);
 typedef TapAcceptor<T> = void Function(int x, int y);
 typedef SwipeAcceptor = void Function(int x, int y, Direction direction);
 typedef DragTargetTileBuilder<T> = Widget Function(BuildContext context,
-    List<T> candidateData, List<dynamic> rejectedData, int x, int y);
+    List<T?> candidateData, List<dynamic> rejectedData, int x, int y);
 
-class DragTargetGrid<T> extends StatelessWidget {
+class DragTargetGrid<T extends Object> extends StatelessWidget {
   final int width;
   final int height;
   final DragTargetTileBuilder<T> tileBuilder;
   final DropAcceptor<T> dropAcceptor;
-  final TapAcceptor<T> tapAcceptor;
-  final SwipeAcceptor swipeAcceptor;
+  final TapAcceptor<T>? tapAcceptor;
+  final SwipeAcceptor? swipeAcceptor;
 
   const DragTargetGrid(
-      {Key key,
-      @required this.width,
-      @required this.height,
-      @required this.tileBuilder,
-      @required this.dropAcceptor,
+      {Key? key,
+      required this.width,
+      required this.height,
+      required this.tileBuilder,
+      required this.dropAcceptor,
       this.tapAcceptor,
       this.swipeAcceptor})
       : super(key: key);
@@ -52,19 +52,19 @@ class DragTargetGrid<T> extends StatelessWidget {
   }
 }
 
-class DragTargetTile<T> extends StatefulWidget {
+class DragTargetTile<T extends Object> extends StatefulWidget {
   final int x;
   final int y;
   final DragTargetTileBuilder<T> builder;
   final DropAcceptor<T> dropAcceptor;
-  final SwipeAcceptor swipeAcceptor;
-  final TapAcceptor<T> tapAcceptor;
+  final SwipeAcceptor? swipeAcceptor;
+  final TapAcceptor<T>? tapAcceptor;
 
   DragTargetTile(
-      {@required this.x,
-      @required this.y,
-      @required this.builder,
-      @required this.dropAcceptor,
+      {required this.x,
+      required this.y,
+      required this.builder,
+      required this.dropAcceptor,
       this.swipeAcceptor,
       this.tapAcceptor});
 
@@ -72,7 +72,7 @@ class DragTargetTile<T> extends StatefulWidget {
   _DragTargetTileState<T> createState() => _DragTargetTileState<T>();
 }
 
-class _DragTargetTileState<T> extends State<DragTargetTile<T>> {
+class _DragTargetTileState<T extends Object> extends State<DragTargetTile<T>> {
   Offset _panOffset = Offset.zero;
 
   @override
@@ -82,7 +82,7 @@ class _DragTargetTileState<T> extends State<DragTargetTile<T>> {
         excludeFromSemantics: true,
         onTap: widget.tapAcceptor != null
             ? () {
-                widget.tapAcceptor(widget.x, widget.y);
+                widget.tapAcceptor!(widget.x, widget.y);
                 setState(() {});
               }
             : null,
@@ -101,20 +101,20 @@ class _DragTargetTileState<T> extends State<DragTargetTile<T>> {
                 double direction = _panOffset.direction;
 
                 if (-pi / 4 < direction && direction < pi / 4) {
-                  widget.swipeAcceptor(widget.x, widget.y, Direction.Right);
+                  widget.swipeAcceptor!(widget.x, widget.y, Direction.Right);
                 } else if (pi / 4 < direction && direction < 3 * pi / 4) {
-                  widget.swipeAcceptor(widget.x, widget.y, Direction.Down);
+                  widget.swipeAcceptor!(widget.x, widget.y, Direction.Down);
                 } else if (3 * pi / 4 < direction || direction < -3 * pi / 4) {
-                  widget.swipeAcceptor(widget.x, widget.y, Direction.Left);
+                  widget.swipeAcceptor!(widget.x, widget.y, Direction.Left);
                 } else if (-3 * pi / 4 < direction && direction < -pi / 4) {
-                  widget.swipeAcceptor(widget.x, widget.y, Direction.Up);
+                  widget.swipeAcceptor!(widget.x, widget.y, Direction.Up);
                 }
 
                 setState(() {});
               }
             : null,
         child: DragTarget<T>(
-          builder: (BuildContext context, List<T> candidateData,
+          builder: (BuildContext context, List<T?> candidateData,
                   List<dynamic> rejectedData) =>
               widget.builder(
                   context, candidateData, rejectedData, widget.x, widget.y),

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Language with ChangeNotifier {
@@ -7,8 +8,9 @@ class Language with ChangeNotifier {
   final SharedPreferences sharedPreferences;
   String _value;
 
-  Language({String defaultValue, @required this.sharedPreferences}) {
-    value = sharedPreferences.getString(key) ?? defaultValue;
+  Language({required String defaultValue, required this.sharedPreferences})
+      : _value = sharedPreferences.getString(key) ?? defaultValue {
+    Intl.defaultLocale = _value;
   }
 
   String get value => _value;
@@ -16,6 +18,7 @@ class Language with ChangeNotifier {
   set value(String value) {
     if (value != _value) {
       _value = value;
+      Intl.defaultLocale = value;
       notifyListeners();
     }
 

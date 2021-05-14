@@ -1,22 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:provider/provider.dart';
 
-enum OverlayResult { PlayNext, PlayAgain }
+import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 
 class SuccessOverlay extends StatefulWidget {
-  final String succeededName;
-  final String succeededPath;
-  final bool hasNext;
-  final bool canPlayAgain;
+  final String? succeededPath;
+  final NyaNyaRoutePath? nextRoutePath;
+  final VoidCallback? onPlayAgain;
 
   const SuccessOverlay(
-      {Key key,
-      @required this.succeededName,
-      @required this.hasNext,
-      @required this.canPlayAgain,
-      this.succeededPath})
+      {Key? key, this.nextRoutePath, this.onPlayAgain, this.succeededPath})
       : super(key: key);
 
   @override
@@ -24,7 +19,7 @@ class SuccessOverlay extends StatefulWidget {
 }
 
 class _SuccessOverlayState extends State<SuccessOverlay> {
-  int _stars;
+  int? _stars;
   bool _plusOned = false;
 
   @override
@@ -32,12 +27,12 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
     super.initState();
 
     if (widget.succeededPath != null) {
-      FirebaseFirestore.instance
-          .doc(widget.succeededPath)
-          .get()
-          .then((DocumentSnapshot snapshot) {
+      context
+          .read<FirebaseService>()
+          .getCommunityStar(widget.succeededPath!)
+          .then((int? stars) {
         setState(() {
-          _stars = snapshot.get('likes');
+          _stars = stars;
         });
       });
     }
@@ -45,6 +40,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
 
   Widget _starAdder() {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         IconButton(
@@ -54,13 +50,16 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
           ),
           onPressed: () {
             if (!_plusOned) {
-              final DocumentReference postRef =
-                  FirebaseFirestore.instance.doc(widget.succeededPath);
-              postRef.update({'likes': FieldValue.increment(1)});
+              context
+                  .read<FirebaseService>()
+                  .incrementCommunityStar(widget.succeededPath!);
 
               setState(() {
                 _plusOned = true;
-                _stars += 1;
+
+                if (_stars != null) {
+                  _stars = _stars! + 1;
+                }
               });
             }
           },
@@ -79,48 +78,53 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
         Material(
           color: Colors.black54,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Spacer(flex: 2),
-              Container(
+              Card(
                 color: Theme.of(context).brightness == Brightness.light
                     ? Colors.white
                     : Colors.black,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text(
                         NyaNyaLocalizations.of(context).stageClearedText,
-                        style: TextStyle(color: Colors.green, fontSize: 50),
+                        style: TextStyle(color: Colors.green, fontSize: 40),
+                        textAlign: TextAlign.center,
                       ),
-                      Visibility(
-                          visible:
-                              widget.succeededPath != null && _stars != null,
-                          child: _starAdder()),
+                      if (widget.succeededPath != null && _stars != null)
+                        _starAdder()
+                      else
+                        const SizedBox(height: 16),
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          RaisedButton(
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            child: Text(
-                                NyaNyaLocalizations.of(context).playAgainLabel),
+                          ElevatedButton(
+                            child: Text(NyaNyaLocalizations.of(context).back),
                             onPressed: () {
-                              Navigator.of(context)
-                                  .pop(OverlayResult.PlayAgain);
+                              Navigator.pop(context);
                             },
                           ),
-                          RaisedButton(
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            child: Text(widget.hasNext
-                                ? NyaNyaLocalizations.of(context).nextLevelLabel
-                                : NyaNyaLocalizations.of(context).back),
-                            onPressed: () {
-                              Navigator.of(context).pop(OverlayResult.PlayNext);
-                            },
+                          const SizedBox(width: 16),
+                          ElevatedButton(
+                            child: Text(
+                                NyaNyaLocalizations.of(context).playAgainLabel),
+                            onPressed: widget.onPlayAgain,
+                          ),
+                          const SizedBox(width: 16),
+                          ElevatedButton(
+                            child: Text(
+                                NyaNyaLocalizations.of(context).nextLevelLabel),
+                            onPressed: widget.nextRoutePath == null
+                                ? null
+                                : () {
+                                    Router.of(context)
+                                        .routerDelegate
+                                        .setNewRoutePath(widget.nextRoutePath);
+                                  },
                           ),
                         ],
                       ),

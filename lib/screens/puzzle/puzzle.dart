@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
 import 'package:nyanya_rocket/screens/puzzle/widgets/available_arrows.dart';
 import 'package:nyanya_rocket/screens/puzzle/widgets/puzzle_game_controls.dart';
+import 'package:nyanya_rocket/screens/settings/settings.dart';
+import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
@@ -11,13 +14,13 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class Puzzle extends StatefulWidget {
   final NamedPuzzleData puzzle;
-  final void Function(bool starred) onWin;
-  final String documentPath;
-  final bool hasNext;
+  final void Function(bool starred)? onWin;
+  final String? documentPath;
+  final NyaNyaRoutePath? nextRoutePath;
 
   Puzzle(
-      {@required this.puzzle,
-      @required this.hasNext,
+      {required this.puzzle,
+      this.nextRoutePath,
       this.onWin,
       this.documentPath});
 
@@ -26,7 +29,7 @@ class Puzzle extends StatefulWidget {
 }
 
 class _PuzzleState extends State<Puzzle> {
-  PuzzleGameController _puzzleController;
+  late PuzzleGameController _puzzleController;
   bool _ended = false;
 
   @override
@@ -63,11 +66,11 @@ class _PuzzleState extends State<Puzzle> {
           _puzzleController.remainingArrows(Direction.Left) > 0 ||
           _puzzleController.remainingArrows(Direction.Down) > 0;
 
-      widget.onWin(starred);
+      widget.onWin!(starred);
     }
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
+  Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,
       List rejectedData, int x, int y) {
     if (_puzzleController.game.board.tiles[x][y] is Arrow) {
       return Draggable<Direction>(
@@ -85,7 +88,7 @@ class _PuzzleState extends State<Puzzle> {
     }
 
     return ArrowImage(
-      direction: candidateData[0],
+      direction: candidateData.first!,
       player: PlayerColor.Blue,
       opaque: false,
     );
@@ -111,13 +114,13 @@ class _PuzzleState extends State<Puzzle> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Flexible(
+        Expanded(
             child: PuzzleGameControls(puzzleController: _puzzleController)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: _buildGameView(),
         ),
-        Flexible(
+        Expanded(
             child: AvailableArrows(puzzleGameController: _puzzleController)),
       ],
     );
@@ -132,13 +135,19 @@ class _PuzzleState extends State<Puzzle> {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              Navigator.pushNamed(context, '/settings');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Settings()));
             },
           ),
           IconButton(
             icon: Icon(Icons.help_outline),
             onPressed: () {
-              Navigator.pushNamed(context, '/tutorial');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Tutorial()));
             },
           )
         ],
@@ -158,10 +167,15 @@ class _PuzzleState extends State<Puzzle> {
           Visibility(
               visible: _ended,
               child: SuccessOverlay(
-                hasNext: widget.hasNext,
-                succeededName: widget.puzzle.name,
+                nextRoutePath: widget.nextRoutePath,
                 succeededPath: widget.documentPath,
-                canPlayAgain: true,
+                onPlayAgain: () {
+                  _puzzleController.reset();
+                  _puzzleController.removeAllArrows();
+                  setState(() {
+                    _ended = false;
+                  });
+                },
               )),
         ],
       ),

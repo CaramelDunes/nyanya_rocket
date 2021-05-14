@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 enum NetworkGameStatus { ConnectingToServer, WaitingForPlayers, Playing, Ended }
 
 class NetworkClient extends GameTicker<MultiplayerGameState> {
-  ClientSocket _socket;
+  late ClientSocket _socket;
   NetworkGameStatus _status = NetworkGameStatus.ConnectingToServer;
 
   final List<String> _playerNicknames = List.filled(4, '<empty>');
@@ -18,16 +18,16 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   final ValueNotifier<NetworkGameStatus> statusNotifier =
       ValueNotifier(NetworkGameStatus.ConnectingToServer);
 
-  final void Function(GameEvent event, Duration animationDuration) onGameEvent;
-  final void Function(PlayerColor assignedColor) onRegisterSuccess;
+  final void Function(GameEvent event, Duration animationDuration)? onGameEvent;
+  final void Function(PlayerColor assignedColor)? onRegisterSuccess;
 
-  PlayerColor assignedColor;
+  PlayerColor? assignedColor;
 
   NetworkClient(
-      {@required InternetAddress serverAddress,
-      @required String nickname,
+      {required InternetAddress serverAddress,
+      required String nickname,
       int port = 43122,
-      int ticket,
+      int? ticket,
       this.onGameEvent,
       this.onRegisterSuccess})
       : super(MultiplayerGameState(), MultiplayerGameSimulator()) {
@@ -38,7 +38,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
         serverAddress: serverAddress,
         serverPort: port,
         nickname: nickname,
-        ticket: ticket,
+        ticket: ticket ?? 0,
         onGameUpdate: _handleGame,
         onPlayerRegister: _handleRegisterSuccess,
         onPlayerNicknames: _handlePlayerNicknames);
@@ -47,7 +47,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   NetworkGameStatus get status => _status;
 
   void dispose() {
-    _socket?.dispose();
+    _socket.dispose();
     timeStream.dispose();
     scoreStreams.forEach((ValueNotifier stream) => stream.dispose());
 
@@ -57,9 +57,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   List<String> get players => _playerNicknames;
 
   bool placeArrow(int x, int y, Direction direction) {
-    if (_socket != null) {
-      _socket.sendArrowRequest(x, y, direction);
-    }
+    _socket.sendArrowRequest(x, y, direction);
 
     return true;
   }
@@ -69,43 +67,34 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     switch (event) {
       case GameEvent.SlowDown:
         return GameTicker.updatePeriod * (pauseUntil - tickCount);
-        break;
 
       case GameEvent.SpeedUp:
         return GameTicker.updatePeriod * ((pauseUntil - tickCount) / 4);
-        break;
 
       case GameEvent.CatMania:
       case GameEvent.MouseMania:
         return GameTicker.updatePeriod * ((pauseUntil - tickCount) / 2);
-        break;
 
       case GameEvent.PlaceAgain:
         return GameTicker.updatePeriod * ((pauseUntil - tickCount) / 2) -
             Duration(seconds: 3);
-        break;
 
       case GameEvent.CatAttack:
       case GameEvent.MouseMonopoly:
       case GameEvent.EverybodyMove:
         return GameTicker.updatePeriod * ((pauseUntil - tickCount) / 2) -
             Duration(seconds: 2);
-        break;
 
       case GameEvent.None:
         return Duration.zero;
-        break;
     }
-
-    return Duration.zero;
   }
 
   void _mixGameEvents(
       MultiplayerGameState newGame, MultiplayerGameState afterCatchup) {
-    if (onGameEvent != null &&
-        newGame.currentEvent != GameEvent.None &&
+    if (newGame.currentEvent != GameEvent.None &&
         newGame.eventEnd != afterCatchup.eventEnd) {
-      onGameEvent(
+      onGameEvent?.call(
           newGame.currentEvent,
           computeAnimationDuration(
               newGame.currentEvent, newGame.tickCount, newGame.pauseUntil));
@@ -185,9 +174,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
     this.assignedColor = assignedColor;
 
-    if (onRegisterSuccess != null) {
-      onRegisterSuccess(assignedColor);
-    }
+    onRegisterSuccess?.call(assignedColor);
   }
 
   void _handlePlayerNicknames(List<String> nicknames) {

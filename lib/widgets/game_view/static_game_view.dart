@@ -1,25 +1,20 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/checkerboard_painter.dart';
-import 'package:nyanya_rocket/widgets/game_view/static_foreground_painter.dart';
-import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import 'static_foreground_painter.dart';
 
 class StaticGameView extends StatelessWidget {
   final GameState game;
 
-  const StaticGameView({@required this.game});
+  const StaticGameView({required this.game});
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: CheckerboardPainter(
-          useDarkColors: Theme.of(context).brightness == Brightness.dark),
-      child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) =>
-              TilesDrawer(game.board, constraints)),
-      foregroundPainter: StaticForegroundPainter(game: game),
+      size: Size.infinite,
+      painter: StaticForegroundPainter(game: game),
       willChange: false,
+      isComplex: true,
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
@@ -13,11 +12,11 @@ class QueueAndLeaderboard extends StatelessWidget {
   final String masterServerHostname;
 
   const QueueAndLeaderboard(
-      {Key key,
-      @required this.queueType,
-      @required this.displayName,
-      @required this.idToken,
-      @required this.masterServerHostname})
+      {Key? key,
+      required this.queueType,
+      required this.displayName,
+      required this.idToken,
+      required this.masterServerHostname})
       : super(key: key);
 
   @override

@@ -1,16 +1,28 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flare_flutter/flare_cache.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+
 import 'package:nyanya_rocket/app.dart';
+import 'package:nyanya_rocket/warm_up_flare.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> main() async {
-  // Copied from https://github.com/2d-inc/developer_quest/blob/master/lib/main.dart
-  // Don't prune the Flare cache, keep loaded Flare files warm and ready
-  // to be re-displayed.
-  FlareCache.doesPrune = false;
+import 'models/stores/file_named_data_store.dart';
+import 'models/stores/prefs_named_data_store.dart';
+import 'models/stores/named_data_store.dart';
+import 'services/firebase/firebase_service.dart';
 
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(App(sharedPreferences: await SharedPreferences.getInstance()));
+  await warmUpFlare();
+
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+  if (kIsWeb)
+    NamedDataStorage.active = PrefsDataStore(sharedPreferences);
+  else
+    NamedDataStorage.active = FileNamedDataStorage();
+
+  runApp(App(
+    sharedPreferences: sharedPreferences,
+    firebaseService: await FirebaseFactory.create(),
+  ));
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+
 import 'package:nyanya_rocket/blocs/local_game_controller.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
@@ -17,9 +17,9 @@ class PuzzleGameState {
   final bool spedUp;
 
   PuzzleGameState(
-      {@required this.running, @required this.reset, @required this.spedUp});
+      {required this.running, required this.reset, required this.spedUp});
 
-  PuzzleGameState.reset({@required this.spedUp})
+  PuzzleGameState.reset({required this.spedUp})
       : this.running = false,
         this.reset = true;
 }
@@ -27,7 +27,7 @@ class PuzzleGameState {
 class PuzzleGameController extends LocalGameController {
   final PuzzleData puzzle;
 
-  final List<List<Position>> placedArrows = [List(), List(), List(), List()];
+  final List<List<Position>> placedArrows = [[], [], [], []];
 
   final List<ValueNotifier<int>> remainingArrowsStreams = [
     ValueNotifier(0),
@@ -36,8 +36,7 @@ class PuzzleGameController extends LocalGameController {
     ValueNotifier(0)
   ];
 
-  final void Function() onWin;
-  final void Function(int x, int y) onMistake;
+  final void Function()? onWin;
 
   bool _canPlaceArrow = true;
 
@@ -46,14 +45,14 @@ class PuzzleGameController extends LocalGameController {
 
   bool _pleaseReset = false;
 
-  final ValueNotifier<BoardPosition> _mistake = ValueNotifier(null);
+  final ValueNotifier<BoardPosition?> _mistake = ValueNotifier(null);
   final ValueNotifier<PuzzleGameState> _gameStateNotifier =
       ValueNotifier(PuzzleGameState.reset(spedUp: false));
 
-  Iterable<Cat> _preMistakeCats;
-  Iterable<Entity> _preMistakeMice;
+  Iterable<Cat>? _preMistakeCats;
+  Iterable<Mouse>? _preMistakeMice;
 
-  PuzzleGameController({this.onWin, this.onMistake, @required this.puzzle})
+  PuzzleGameController({this.onWin, required this.puzzle})
       : super(puzzle.getGame(), PuzzleGameSimulator()) {
     for (int direction = 0; direction < Direction.values.length; direction++) {
       remainingArrowsStreams[direction].value =
@@ -63,7 +62,7 @@ class PuzzleGameController extends LocalGameController {
     _miceCount = game.mice.length;
   }
 
-  ValueNotifier<BoardPosition> get mistake => _mistake;
+  ValueNotifier<BoardPosition?> get mistake => _mistake;
 
   ValueNotifier<PuzzleGameState> get state => _gameStateNotifier;
 
@@ -171,11 +170,12 @@ class PuzzleGameController extends LocalGameController {
     if (_canPlaceArrow) {
       _canPlaceArrow = false;
 
-      List<Mouse> newMice = List();
-      List<BoardPosition> pendingArrowDeletions = List();
+      List<Mouse> newMice = [];
+      List<BoardPosition> pendingArrowDeletions = [];
 
-      game.mice.forEach((Mouse e) {
-        if (e.position.step == BoardPosition.centerStep) {
+      game.mice.forEach((Mouse? e) {
+        if (e!.position.step == BoardPosition.centerStep) {
+          // FIXME No comment...
           e = gameSimulator.applyTileEffect(e, pendingArrowDeletions, game);
         }
 
@@ -186,10 +186,10 @@ class PuzzleGameController extends LocalGameController {
 
       game.mice = newMice;
 
-      List<Cat> newCats = List();
+      List<Cat> newCats = [];
 
-      game.cats.forEach((Cat e) {
-        if (e.position.step == BoardPosition.centerStep) {
+      game.cats.forEach((Cat? e) {
+        if (e!.position.step == BoardPosition.centerStep) {
           e = gameSimulator.applyTileEffect(e, pendingArrowDeletions, game);
         }
 
@@ -242,18 +242,18 @@ class PuzzleGameController extends LocalGameController {
           }
         }
 
-        if (onWin != null) {
-          onWin();
-        }
+        onWin?.call();
       }
     }
   }
 
   @override
   void afterUpdate() {
-    if (_mistake.value != null) {
-      game.cats = _preMistakeCats;
-      game.mice = _preMistakeMice;
+    if (_mistake.value != null &&
+        _preMistakeCats != null &&
+        _preMistakeMice != null) {
+      game.cats = _preMistakeCats!.toList();
+      game.mice = _preMistakeMice!.toList();
     }
 
     if (_pleaseReset) {

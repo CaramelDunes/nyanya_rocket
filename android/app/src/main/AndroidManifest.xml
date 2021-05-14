@@ -1,27 +1,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fr.carameldunes.nyanyarocket">
+          package="fr.carameldunes.nyanyarocket">
 
-    <!-- The INTERNET permission is required for development. Specifically,
-         flutter needs it to communicate with the running application
-         to allow setting breakpoints, to provide hot reload, etc.
-    -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="NyaNya Rocket!"
-        android:icon="@mipmap/ic_launcher">
+            android:label="NyaNya Rocket!"
+            android:icon="@mipmap/ic_launcher">
 
         <meta-data
                 android:name="flutterEmbedding"
-                android:value="2" />
+                android:value="2"/>
 
         <activity
-            android:name="io.flutter.embedding.android.FlutterActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/LaunchTheme"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
+                android:name="io.flutter.embedding.android.FlutterActivity"
+                android:launchMode="singleTop"
+                android:theme="@style/LaunchTheme"
+                android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
+                android:hardwareAccelerated="true"
+                android:windowSoftInputMode="adjustResize">
             <!-- This keeps the window background of the activity showing
                  until Flutter renders its first frame. It can be removed if
                  there is no splash screen (such as the default splash screen
@@ -30,7 +26,7 @@
             <!-- until Flutter renders its first frame. -->
             <meta-data
                     android:name="io.flutter.embedding.android.SplashScreenDrawable"
-                    android:resource="@drawable/launch_background" />
+                    android:resource="@drawable/launch_background"/>
 
             <!-- Theme to apply as soon as Flutter begins rendering frames -->
             <meta-data
@@ -40,6 +36,15 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="true"/>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https"
+                      android:host="nyanya-rocket.carameldunes.fr"
+                      android:pathPrefix="/"/>
             </intent-filter>
         </activity>
     </application>

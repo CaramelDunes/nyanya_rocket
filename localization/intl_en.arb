@@ -36,7 +36,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "multiplayerType": "Multiplayer",
+  "multiplayerType": "Multiplayer Board",
   "@multiplayerType": {
     "description": "Multiplayer type of game.",
     "type": "text",
@@ -162,7 +162,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "deviceTab": "Device",
+  "deviceTab": "Yours",
   "@deviceTab": {
     "description": "Device tab of the Puzzles, Challenges screens.",
     "type": "text",
@@ -404,7 +404,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "movementTutorialText": "\nAn entity walks straight until it encounters an arrow or a wall.\nFor some reasons, mice and cats prefer turning right when hitting a wall...\n",
+  "movementTutorialText": "\nAn entity walks straight until it encounters an arrow or a wall.\nMice and cats prefer turning right when hitting a wall.\n",
   "@movementTutorialText": {
     "description": "Movement text of the tutorial screen.",
     "type": "text",
@@ -833,6 +833,23 @@
   },
   "refreshLabel": "Refresh",
   "@refreshLabel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "multiplayerNotAvailableText": "Sorry, multiplayer is not available in the browser version of NyaNya Rocket!\nConsider downloading the mobile phone or desktop version.",
+  "@multiplayerNotAvailableText": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "couldNotLoadPuzzleText": "Could not load puzzle.",
+  "@couldNotLoadPuzzleText": {
+    "description": "When LoadingPuzzle cannot retrieve a community puzzle.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "couldNotLoadChallengeText": "Could not load challenge.",
+  "@couldNotLoadChallengeText": {
+    "description": "When LoadingChallenge cannot retrieve a community challenge.",
     "type": "text",
     "placeholders": {}
   }

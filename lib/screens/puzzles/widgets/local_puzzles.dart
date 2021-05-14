@@ -1,19 +1,17 @@
 import 'dart:convert';
 
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/models/puzzle_store.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/widgets/empty_list.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+
+import '../../../models/stores/puzzle_store.dart';
 
 class LocalPuzzles extends StatefulWidget {
-  static final PuzzleStore store = PuzzleStore();
-
   @override
   _LocalPuzzlesState createState() => _LocalPuzzlesState();
 }
@@ -25,39 +23,53 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
   void initState() {
     super.initState();
 
-    LocalPuzzles.store.readRegistry().then((Map entries) => setState(() {
+    PuzzleStore.registry().then((Map<String, String> entries) => setState(() {
           _puzzles = entries;
         }));
   }
 
   void _verifyAndPublish(BuildContext context, NamedPuzzleData puzzle) {
-    Navigator.push<OverlayResult>(
+    Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => Puzzle(
                   puzzle: puzzle,
-                  hasNext: false,
-                ))).then((OverlayResult overlayResult) {
-      if (overlayResult != null) {
-        CloudFunctions.instance
-            .getHttpsCallable(functionName: 'publishPuzzle')
-            .call({
-          'name': puzzle.name,
-          'puzzle_data': jsonEncode(puzzle.puzzleData.toJson()),
-        }).then((HttpsCallableResult result) {
-          print(result.data);
-        });
-
-        final snackBar = SnackBar(
-            content: Text(NyaNyaLocalizations.of(context).publishSuccessText));
-        Scaffold.of(context).showSnackBar(snackBar);
-      } else {
-        final snackBar = SnackBar(
-            content: Text(
-                NyaNyaLocalizations.of(context).puzzleNotCompletedLocallyText));
-        Scaffold.of(context).showSnackBar(snackBar);
-      }
-    });
+                  onWin: (_) {
+                    context
+                        .read<User>()
+                        .idToken()
+                        .then((idToken) => http.post(
+                            Uri.https(
+                                'us-central1-nyanya-rocket.cloudfunctions.net',
+                                '/publishPuzzle'),
+                            headers: {
+                              'Authorization': 'Bearer $idToken',
+                              'Content-Type': 'application/json'
+                            },
+                            body: jsonEncode({
+                              'data': {
+                                'name': puzzle.name,
+                                'puzzle_data':
+                                    jsonEncode(puzzle.puzzleData.toJson()),
+                              }
+                            })))
+                        .then((response) => response.statusCode == 200)
+                        .then((success) {
+                      if (success) {
+                        final snackBar = SnackBar(
+                            content: Text(NyaNyaLocalizations.of(context)
+                                .publishSuccessText));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    });
+                    // else {
+                    //   final snackBar = SnackBar(
+                    //       content: Text(
+                    //           NyaNyaLocalizations.of(context).puzzleNotCompletedLocallyText));
+                    //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    // }
+                  },
+                )));
   }
 
   @override
@@ -74,7 +86,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
         separatorBuilder: (context, int) => Divider(),
         itemCount: _puzzles.length,
         itemBuilder: (context, i) => ListTile(
-              title: Text(_puzzles[uuidList[i]]),
+              title: Text(_puzzles[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -90,27 +102,31 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                     tooltip: NyaNyaLocalizations.of(context).publishLabel,
                     onPressed: () {
                       if (user.isConnected) {
-                        LocalPuzzles.store.readPuzzle(uuidList[i]).then(
-                            (NamedPuzzleData puzzle) =>
-                                _verifyAndPublish(context, puzzle));
+                        PuzzleStore.readPuzzle(uuidList[i])
+                            .then((NamedPuzzleData? puzzle) {
+                          if (puzzle != null)
+                            _verifyAndPublish(context, puzzle);
+                        });
                       } else {
                         final snackBar = SnackBar(
                             content: Text(NyaNyaLocalizations.of(context)
                                 .loginPromptText));
-                        Scaffold.of(context).showSnackBar(snackBar);
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                   ),
                 ],
               ),
               onTap: () {
-                LocalPuzzles.store.readPuzzle(uuidList[i]).then(
-                    (NamedPuzzleData puzzle) =>
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Puzzle(
-                                  puzzle: puzzle,
-                                  hasNext: i != uuidList.length - 1,
-                                ))));
+                PuzzleStore.readPuzzle(uuidList[i])
+                    .then((NamedPuzzleData? puzzle) {
+                  if (puzzle != null)
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Puzzle(
+                              puzzle: puzzle,
+                              // hasNext: i != uuidList.length - 1, TODO
+                            )));
+                });
               },
             ));
   }

@@ -21,19 +21,15 @@ class CreateTab extends StatefulWidget {
 
 class _CreateTabState extends State<CreateTab>
     with AutomaticKeepAliveClientMixin<CreateTab> {
-  String _name;
-  EditorMode _mode;
-  ChallengeType _challengeType;
+  String _name = '';
+  EditorMode _mode = EditorMode.Puzzle;
+  ChallengeType _challengeType = ChallengeType.GetMice;
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-
-    _name = '';
-    _mode = EditorMode.Puzzle;
-    _challengeType = ChallengeType.GetMice;
   }
 
   @override
@@ -45,117 +41,119 @@ class _CreateTabState extends State<CreateTab>
       child: Column(
         children: <Widget>[
           Spacer(flex: 2),
-          Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                NameFormField(
-                  onSaved: (String newValue) {
-                    _name = newValue;
-                  },
-                ),
-                DropdownButtonFormField<EditorMode>(
-                  value: _mode,
-                  items: <DropdownMenuItem<EditorMode>>[
-                    DropdownMenuItem(
-                      child: Text(NyaNyaLocalizations.of(context).puzzleType),
-                      value: EditorMode.Puzzle,
-                    ),
-                    DropdownMenuItem(
-                      child:
-                          Text(NyaNyaLocalizations.of(context).challengeType),
-                      value: EditorMode.Challenge,
-                    ),
-                    DropdownMenuItem(
-                      child:
-                          Text(NyaNyaLocalizations.of(context).multiplayerType),
-                      value: EditorMode.Multiplayer,
-                    ),
-                  ],
-                  onChanged: (EditorMode value) => setState(() {
-                    _mode = value;
-                  }),
-                  onSaved: (EditorMode value) => _mode = value,
-                ),
-                Visibility(
-                  visible: _mode == EditorMode.Challenge,
-                  child: DropdownButtonFormField<ChallengeType>(
-                    value: _challengeType,
-                    items: <DropdownMenuItem<ChallengeType>>[
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 400),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  NameFormField(
+                    onSaved: (String? newValue) {
+                      _name = newValue ?? _name;
+                    },
+                  ),
+                  DropdownButtonFormField<EditorMode>(
+                    value: _mode,
+                    items: <DropdownMenuItem<EditorMode>>[
                       DropdownMenuItem(
-                        child: Text(
-                            ChallengeType.GetMice.toLocalizedString(context)),
-                        value: ChallengeType.GetMice,
+                        child: Text(NyaNyaLocalizations.of(context).puzzleType),
+                        value: EditorMode.Puzzle,
+                      ),
+                      DropdownMenuItem(
+                        child:
+                            Text(NyaNyaLocalizations.of(context).challengeType),
+                        value: EditorMode.Challenge,
                       ),
                       DropdownMenuItem(
                         child: Text(
-                            ChallengeType.RunAway.toLocalizedString(context)),
-                        value: ChallengeType.RunAway,
-                      ),
-                      DropdownMenuItem(
-                        child: Text(
-                            ChallengeType.LunchTime.toLocalizedString(context)),
-                        value: ChallengeType.LunchTime,
-                      ),
-                      DropdownMenuItem(
-                        child: Text(
-                            ChallengeType.OneHundredMice.toLocalizedString(
-                                context)),
-                        value: ChallengeType.OneHundredMice,
+                            NyaNyaLocalizations.of(context).multiplayerType),
+                        value: EditorMode.Multiplayer,
                       ),
                     ],
-                    onChanged: (ChallengeType value) => setState(() {
-                      _challengeType = value;
-                    }),
-                    onSaved: (ChallengeType value) => _challengeType = value,
+                    onChanged: (EditorMode? value) {
+                      if (value != null)
+                        setState(() {
+                          _mode = value;
+                        });
+                    },
+                    onSaved: (EditorMode? value) => _mode = value ?? _mode,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RaisedButton(
-                      color: Theme.of(context).primaryColor,
-                      textColor: Colors.white,
-                      child: Text(NyaNyaLocalizations.of(context).createLabel),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (BuildContext _) {
-                            switch (_mode) {
-                              case EditorMode.Puzzle:
-                                return PuzzleEditor(
-                                    puzzle: NamedPuzzleData.fromPuzzleData(
-                                        name: _name,
-                                        puzzleData: PuzzleData.withBorder()));
-                                break;
-
-                              case EditorMode.Challenge:
-                                return ChallengeEditor(
-                                  challenge:
-                                      NamedChallengeData.fromChallengeData(
+                  Visibility(
+                    visible: _mode == EditorMode.Challenge,
+                    child: DropdownButtonFormField<ChallengeType>(
+                      value: _challengeType,
+                      items: <DropdownMenuItem<ChallengeType>>[
+                        DropdownMenuItem(
+                          child: Text(
+                              ChallengeType.GetMice.toLocalizedString(context)),
+                          value: ChallengeType.GetMice,
+                        ),
+                        DropdownMenuItem(
+                          child: Text(
+                              ChallengeType.RunAway.toLocalizedString(context)),
+                          value: ChallengeType.RunAway,
+                        ),
+                        DropdownMenuItem(
+                          child: Text(ChallengeType.LunchTime.toLocalizedString(
+                              context)),
+                          value: ChallengeType.LunchTime,
+                        ),
+                        DropdownMenuItem(
+                          child: Text(
+                              ChallengeType.OneHundredMice.toLocalizedString(
+                                  context)),
+                          value: ChallengeType.OneHundredMice,
+                        ),
+                      ],
+                      onChanged: (ChallengeType? value) {
+                        if (value != null)
+                          setState(() {
+                            _challengeType = value;
+                          });
+                      },
+                      onSaved: (ChallengeType? value) =>
+                          _challengeType = value ?? _challengeType,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                        child:
+                            Text(NyaNyaLocalizations.of(context).createLabel),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (BuildContext _) {
+                              switch (_mode) {
+                                case EditorMode.Puzzle:
+                                  return PuzzleEditor(
+                                      puzzle: NamedPuzzleData.fromPuzzleData(
                                           name: _name,
-                                          challengeData:
-                                              ChallengeData.withBorder(
-                                                  type: _challengeType)),
-                                );
-                                break;
+                                          puzzleData: PuzzleData.withBorder()));
 
-                              case EditorMode.Multiplayer:
-                                return MultiplayerEditor(
-                                  board: MultiplayerBoard.withBorder(
-                                      name: _name, maxPlayer: 2),
-                                );
-                                break;
+                                case EditorMode.Challenge:
+                                  return ChallengeEditor(
+                                    challenge:
+                                        NamedChallengeData.fromChallengeData(
+                                            name: _name,
+                                            challengeData:
+                                                ChallengeData.withBorder(
+                                                    type: _challengeType)),
+                                  );
 
-                              default:
-                                return const SizedBox.shrink();
-                                break;
-                            }
-                          }));
-                        }
-                      }),
-                ),
-              ],
+                                case EditorMode.Multiplayer:
+                                  return MultiplayerEditor(
+                                    board: MultiplayerBoard.withBorder(
+                                        name: _name, maxPlayer: 2),
+                                  );
+                              }
+                            }));
+                          }
+                        }),
+                  ),
+                ],
+              ),
             ),
           ),
           Spacer(flex: 3),

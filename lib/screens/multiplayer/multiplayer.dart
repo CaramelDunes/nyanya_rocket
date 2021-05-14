@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/multiplayer_store.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/multiplayer/setup_widgets/sign_up_prompt.dart';
 import 'package:nyanya_rocket/screens/multiplayer/tabs/friend_duel.dart';
@@ -19,38 +17,47 @@ import 'tabs/device_duel_setup.dart';
 import 'tabs/lan_multiplayer_setup.dart';
 
 class Multiplayer extends StatefulWidget {
-  static final MultiplayerStore store = MultiplayerStore();
-
   @override
   _MultiplayerState createState() => _MultiplayerState();
 }
 
 class _MultiplayerState extends State<Multiplayer>
     with SingleTickerProviderStateMixin {
-  String _idToken;
-  StreamSubscription _idTokenSubscription;
+  String? _idToken;
+  StreamSubscription? _idTokenSubscription;
 
   @override
   void initState() {
     super.initState();
 
-    _idTokenSubscription =
-        auth.FirebaseAuth.instance.idTokenChanges().listen((user) {
-      if (mounted) {
-        if (user != null) {
-          user.getIdToken().then((String token) {
-            setState(() {
-              _idToken = token;
-            });
-          });
-        }
-      }
+    final user = context.read<User>();
+
+    // FIXME
+    // _idTokenSubscription = user.signedInStream.listen((signedIn) {
+    //   if (mounted) {
+    //     print(signedIn);
+    //     if (signedIn) {
+    //       user.idToken().then((String? token) {
+    //         if (token != null)
+    //           setState(() {
+    //             _idToken = token;
+    //           });
+    //       });
+    //     }
+    //   }
+    // });
+
+    user.idToken().then((String? token) {
+      if (token != null)
+        setState(() {
+          _idToken = token;
+        });
     });
   }
 
   @override
   void dispose() {
-    _idTokenSubscription.cancel();
+    _idTokenSubscription?.cancel();
 
     super.dispose();
   }
@@ -63,7 +70,7 @@ class _MultiplayerState extends State<Multiplayer>
     return DefaultTabController(
         length: 3,
         child: Consumer2<Region, User>(builder:
-            (BuildContext context, Region region, User user, Widget child) {
+            (BuildContext context, Region region, User user, Widget? child) {
           return Scaffold(
               resizeToAvoidBottomInset: false,
               appBar: AppBar(
@@ -132,31 +139,29 @@ class _MultiplayerState extends State<Multiplayer>
                 ],
               ),
               drawer: DefaultDrawer(),
-              body: !user.isConnected
+              body: _idToken == null
                   ? Center(child: SignUpPrompt())
-                  : _idToken == null
-                      ? Center(child: CircularProgressIndicator())
-                      : TabBarView(
-                          children: [
-                            QueueAndLeaderboard(
-                              queueType: QueueType.Duels,
-                              displayName: user.displayName ?? '',
-                              idToken: _idToken,
-                              masterServerHostname: region.masterServerHostname,
-                            ),
-                            QueueAndLeaderboard(
-                              queueType: QueueType.FourPlayers,
-                              displayName: user.displayName ?? '',
-                              idToken: _idToken,
-                              masterServerHostname: region.masterServerHostname,
-                            ),
-                            FriendDuel(
-                              displayName: user.displayName ?? '',
-                              idToken: _idToken,
-                              masterServerHostname: region.masterServerHostname,
-                            )
-                          ],
-                        ));
+                  : TabBarView(
+                      children: [
+                        QueueAndLeaderboard(
+                          queueType: QueueType.Duels,
+                          displayName: user.displayName,
+                          idToken: _idToken!,
+                          masterServerHostname: region.masterServerHostname,
+                        ),
+                        QueueAndLeaderboard(
+                          queueType: QueueType.FourPlayers,
+                          displayName: user.displayName,
+                          idToken: _idToken!,
+                          masterServerHostname: region.masterServerHostname,
+                        ),
+                        FriendDuel(
+                          displayName: user.displayName,
+                          idToken: _idToken!,
+                          masterServerHostname: region.masterServerHostname,
+                        )
+                      ],
+                    ));
         }));
   }
 }

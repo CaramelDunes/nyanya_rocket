@@ -2,12 +2,15 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/models/puzzle_progression_manager.dart';
-import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
 import 'package:nyanya_rocket/widgets/completion_indicator.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
+import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
+
+import '../puzzle_progression_manager.dart';
 
 class OriginalPuzzles extends StatefulWidget {
   static final List<NamedPuzzleData> puzzles = jsons
@@ -118,66 +121,27 @@ class OriginalPuzzles extends StatefulWidget {
     '{"name":"Panic!","gameData":"{\\"board\\":{\\"tiles\\":[[{\\"type\\":2},{\\"type\\":2},{\\"type\\":2},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":2},{\\"type\\":2},{\\"type\\":2}],[{\\"type\\":2},{\\"type\\":2},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":2},{\\"type\\":2}],[{\\"type\\":2},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":2}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":3,\\"player\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":3,\\"player\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}],[{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0},{\\"type\\":0}]],\\"walls\\":[[3,1,1,1,1,1,1,1,1],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,2,0,0,0,0,0,0],[3,0,0,0,0,0,1,0,0],[2,1,1,0,0,0,0,3,1],[2,2,0,0,0,0,0,1,2],[2,1,2,0,0,0,0,3,0],[2,0,1,2,0,0,3,2,1],[2,3,1,1,1,1,2,3,0],[2,0,1,1,1,2,2,2,1],[3,2,1,1,1,0,2,1,0]]},\\"entities\\":[{\\"type\\":0,\\"position\\":{\\"x\\":8,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":9,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":10,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":1,\\"y\\":6,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":8,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":1,\\"y\\":2,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":1,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":5,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":5,\\"y\\":2,\\"direction\\":0}},{\\"type\\":1,\\"position\\":{\\"x\\":8,\\"y\\":3,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":6,\\"y\\":1,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":0,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":0,\\"y\\":3,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":5,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":7,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":5,\\"y\\":4,\\"direction\\":3}},{\\"type\\":1,\\"position\\":{\\"x\\":1,\\"y\\":4,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":2,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":3,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":6,\\"y\\":5,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":7,\\"y\\":6,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":7,\\"y\\":2,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":4,\\"y\\":1,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":8,\\"y\\":5,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":6,\\"y\\":3,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":5,\\"y\\":6,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":7,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":0,\\"y\\":5,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":2,\\"y\\":3,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":4,\\"direction\\":1}},{\\"type\\":1,\\"position\\":{\\"x\\":3,\\"y\\":6,\\"direction\\":2}},{\\"type\\":1,\\"position\\":{\\"x\\":7,\\"y\\":4,\\"direction\\":0}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":2,\\"direction\\":3}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":3,\\"direction\\":3}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":4,\\"direction\\":3}},{\\"type\\":0,\\"position\\":{\\"x\\":11,\\"y\\":5,\\"direction\\":2}},{\\"type\\":0,\\"position\\":{\\"x\\":10,\\"y\\":5,\\"direction\\":2}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":5,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":4,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":3,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":9,\\"y\\":2,\\"direction\\":1}},{\\"type\\":0,\\"position\\":{\\"x\\":10,\\"y\\":1,\\"direction\\":0}}]}","arrows":[3,4,1,2]}'
   ];
 
+  static Map<String, int> slugs =
+      puzzles.asMap().map((index, value) => MapEntry(value.slug, index));
+
   @override
   _OriginalPuzzlesState createState() => _OriginalPuzzlesState();
 }
 
 class _OriginalPuzzlesState extends State<OriginalPuzzles>
     with AutomaticKeepAliveClientMixin<OriginalPuzzles> {
-  bool _showCompleted = false;
-  SplayTreeSet<int> _cleared = SplayTreeSet();
-  SplayTreeSet<int> _starred = SplayTreeSet();
+  bool _showCompleted = true;
 
   @override
   void initState() {
     super.initState();
-
-    PuzzleProgressionManager.getCleared().then((SplayTreeSet<int> cleared) {
-      setState(() {
-        _cleared = cleared;
-      });
-    });
-
-    PuzzleProgressionManager.getStarred().then((SplayTreeSet<int> starred) {
-      setState(() {
-        _starred = starred;
-      });
-    });
-  }
-
-  void _handlePuzzleWin(int i, bool starred) {
-    setState(() {
-      if (!_cleared.contains(i)) {
-        _cleared.add(i);
-        PuzzleProgressionManager.setCleared(i);
-      }
-
-      if (starred && !_starred.contains(i)) {
-        _starred.add(i);
-        PuzzleProgressionManager.setStarred(i, starred);
-      }
-    });
   }
 
   void _openPuzzle(int puzzleIndex) {
     if (puzzleIndex < OriginalPuzzles.puzzles.length) {
-      Navigator.of(context)
-          .push(MaterialPageRoute<OverlayResult>(
-              builder: (context) => Puzzle(
-                    puzzle: OriginalPuzzles.puzzles[puzzleIndex],
-                    onWin: (bool starred) =>
-                        _handlePuzzleWin(puzzleIndex, starred),
-                    hasNext: (puzzleIndex + 1) < OriginalPuzzles.puzzles.length,
-                  )))
-          .then((OverlayResult overlayResult) {
-        if (overlayResult != null) {
-          if (overlayResult == OverlayResult.PlayNext) {
-            _openPuzzle(puzzleIndex + 1);
-          } else if (overlayResult == OverlayResult.PlayAgain) {
-            _openPuzzle(puzzleIndex);
-          }
-        }
-      });
+      Router.of(context).routerDelegate.setNewRoutePath(
+          NyaNyaRoutePath.originalPuzzle(
+              OriginalPuzzles.puzzles[puzzleIndex].slug));
     }
   }
 
@@ -195,7 +159,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
     }
   }
 
-  Widget _buildPuzzleTile(int i) {
+  Widget _buildPuzzleTile(int i, Set<int> cleared, Set<int> starred) {
     return ListTile(
       key: ValueKey(i),
       leading: Padding(
@@ -210,14 +174,14 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
       subtitle: Text(_difficultyFromIndex(context, i)),
       trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
         Visibility(
-          visible: _starred.contains(i),
+          visible: starred.contains(i),
           child: Icon(
             Icons.star,
             color: Theme.of(context).accentColor,
           ),
         ),
         Visibility(
-          visible: _cleared.contains(i),
+          visible: cleared.contains(i),
           child: Icon(
             Icons.check,
             color: Colors.green,
@@ -240,29 +204,106 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
     List<int> puzzleIndices =
         Iterable<int>.generate(OriginalPuzzles.puzzles.length).toList();
 
+    final progression = context.watch<PuzzleProgressionManager>();
+    final cleared = progression.getCleared();
+    final starred = progression.getStarred();
+
     if (!_showCompleted) {
       puzzleIndices = SplayTreeSet<int>.from(puzzleIndices)
-          .difference(_cleared)
+          .difference(cleared)
           .toList(growable: false);
     }
 
     return Column(
-      children: <Widget>[
+      children: [
         Expanded(
-            child: ListView.builder(
-                itemCount: puzzleIndices.length,
-                itemBuilder: (context, i) =>
-                    _buildPuzzleTile(puzzleIndices[i]))),
+          child: OrientationBuilder(
+            builder: (BuildContext context, Orientation orientation) {
+              if (orientation == Orientation.landscape ||
+                  MediaQuery.of(context).size.width >= 270 * 2.5)
+                return _buildLandscape(context, puzzleIndices, cleared);
+              else
+                return _buildPortrait(puzzleIndices, cleared, starred);
+            },
+          ),
+        ),
         CompletionIndicator(
           showCompleted: _showCompleted,
-          completedRatio: _cleared.length / OriginalPuzzles.puzzles.length,
-          onChanged: (bool value) {
-            setState(() {
-              _showCompleted = value;
-            });
+          completedRatio: cleared.length / OriginalPuzzles.puzzles.length,
+          onChanged: (bool? value) {
+            if (value != null) {
+              setState(() {
+                _showCompleted = value;
+              });
+            }
           },
         )
       ],
+    );
+  }
+
+  Widget _buildPortrait(
+      List<int> puzzleIndices, Set<int> cleared, Set<int> starred) {
+    return ListView.builder(
+        itemCount: puzzleIndices.length,
+        itemBuilder: (context, i) =>
+            _buildPuzzleTile(puzzleIndices[i], cleared, starred));
+  }
+
+  Widget _buildLandscape(
+      BuildContext context, List<int> puzzleIndices, Set<int> cleared) {
+    return GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 270,
+        ),
+        itemCount: puzzleIndices.length,
+        itemBuilder: (context, i) =>
+            _buildPuzzleCard(puzzleIndices[i], cleared));
+  }
+
+  Widget _buildPuzzleCard(int i, Set<int> cleared) {
+    return InkWell(
+      key: ValueKey(i),
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: AspectRatio(
+                  aspectRatio: 12 / 9,
+                  child: Stack(
+                    children: [
+                      StaticGameView(
+                        game: OriginalPuzzles.puzzles[i].puzzleData.getGame(),
+                      ),
+                      Visibility(
+                        visible: cleared.contains(i),
+                        child: Container(
+                          color: Colors.black.withOpacity(0.5),
+                          child: Center(
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.green,
+                              size: 150,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )),
+            Text(
+              OriginalPuzzles.puzzles[i].name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(_difficultyFromIndex(context, i))
+          ],
+        ),
+      ),
+      onTap: () {
+        _openPuzzle(i);
+      },
     );
   }
 }

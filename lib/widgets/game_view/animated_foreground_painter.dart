@@ -1,47 +1,67 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/entities_drawer_canvas.dart';
-import 'package:nyanya_rocket/widgets/game_view/foreground_painter.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import 'checkerboard_painter.dart';
+import 'entities/entity_painter.dart';
+import 'tiles/tile_painter.dart';
+import 'walls_painter.dart';
 
 class AnimatedForegroundPainter extends CustomPainter {
   final ValueListenable<GameState> game;
-  final ValueListenable<BoardPosition> mistake;
+  final ValueListenable<BoardPosition?>? mistake;
 
   final Animation entityAnimation;
 
+  late final Picture checkerboardPicture;
+
   AnimatedForegroundPainter(
-      {@required this.game, @required this.entityAnimation, this.mistake})
-      : super(repaint: entityAnimation);
+      {required this.game, required this.entityAnimation, this.mistake})
+      : super(repaint: entityAnimation) {
+    final recorder = PictureRecorder();
+    final canvas = Canvas(recorder);
+    CheckerboardPainter.paintUnitCheckerboard(canvas);
+    checkerboardPicture = recorder.endRecording();
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    ForegroundPainter.paintWalls(canvas, size, game.value.board);
+    double tileWidth = size.width / 12;
+    double tileHeight = size.height / 9;
 
-    EntitiesDrawerCanvas.drawEntities(
-        canvas, size, game.value.cats, entityAnimation.value);
-    EntitiesDrawerCanvas.drawEntities(
-        canvas, size, game.value.mice, entityAnimation.value);
+    canvas.save();
+    canvas.scale(tileWidth, tileHeight);
+    canvas.drawPicture(checkerboardPicture);
+    TilePainter.paintUnitTiles(game.value.board, canvas);
+    WallsPainter.paintUnitWalls(canvas, game.value.board);
 
-    _paintMistake(canvas, size);
+    EntityPainter.paintUnitEntities(
+        canvas, game.value.mice, entityAnimation.value);
+    EntityPainter.paintUnitEntities(
+        canvas, game.value.cats, entityAnimation.value);
+    _paintUnitMistake(canvas);
+    canvas.restore();
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+    return this != oldDelegate;
   }
 
-  void _paintMistake(Canvas canvas, Size size) {
+  void _paintUnitMistake(Canvas canvas) {
     if (mistake != null &&
-        mistake.value != null &&
+        mistake!.value != null &&
         entityAnimation.value > 15) {
       canvas.drawCircle(
-          ForegroundPainter.centerOfPosition(mistake.value, size.width / 12),
-          size.width / 24,
+          WallsPainter.centerOfPosition(mistake!.value!),
+          0.55,
           Paint()
             ..color = Colors.red
             ..style = PaintingStyle.stroke
-            ..strokeWidth = 4);
+            ..strokeWidth = 0.1);
     }
   }
 }

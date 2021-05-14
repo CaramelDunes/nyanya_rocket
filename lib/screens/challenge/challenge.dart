@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
 import 'package:nyanya_rocket/screens/challenge/widgets/arrow_drawer.dart';
+import 'package:nyanya_rocket/screens/settings/settings.dart';
+import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
@@ -13,22 +16,24 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class Challenge extends StatefulWidget {
   final NamedChallengeData challenge;
-  final void Function(Duration time) onWin;
-  final bool hasNext;
-  final Duration bestTime;
+  final void Function(Duration time)? onWin;
+  final NyaNyaRoutePath? nextRoutePath;
+  final Duration? bestTime;
+  final String? documentPath;
 
   Challenge(
-      {@required this.challenge,
-      @required this.hasNext,
+      {required this.challenge,
+      this.nextRoutePath,
       this.onWin,
-      this.bestTime});
+      this.bestTime,
+      this.documentPath});
 
   @override
   _ChallengeState createState() => _ChallengeState();
 }
 
 class _ChallengeState extends State<Challenge> {
-  ChallengeGameController _challengeController;
+  late ChallengeGameController _challengeController;
   bool _ended = false;
 
   @override
@@ -55,17 +60,16 @@ class _ChallengeState extends State<Challenge> {
       _ended = true;
     });
 
-    if (widget.onWin != null) {
-      widget.onWin(Duration(seconds: 30) - _challengeController.remainingTime);
-    }
+    widget.onWin
+        ?.call(Duration(seconds: 30) - _challengeController.remainingTime);
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
+  Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,
       List rejectedData, int x, int y) {
     if (candidateData.isEmpty) return const SizedBox.expand();
 
     return ArrowImage(
-      direction: candidateData[0],
+      direction: candidateData[0]!,
       player: PlayerColor.Blue,
       opaque: false,
     );
@@ -75,23 +79,18 @@ class _ChallengeState extends State<Challenge> {
     switch (_challengeController.challenge.type) {
       case ChallengeType.GetMice:
         return NyaNyaLocalizations.of(context).getMiceObjectiveText;
-        break;
 
       case ChallengeType.RunAway:
         return NyaNyaLocalizations.of(context).runAwayObjectiveText;
-        break;
 
       case ChallengeType.LunchTime:
         return NyaNyaLocalizations.of(context).lunchTimeObjectiveText;
-        break;
 
       case ChallengeType.OneHundredMice:
         return NyaNyaLocalizations.of(context).oneHundredMiceObjectiveText;
-        break;
 
       default:
         return '';
-        break;
     }
   }
 
@@ -104,13 +103,19 @@ class _ChallengeState extends State<Challenge> {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              Navigator.pushNamed(context, '/settings');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Settings()));
             },
           ),
           IconButton(
             icon: Icon(Icons.help_outline),
             onPressed: () {
-              Navigator.pushNamed(context, '/tutorial');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Tutorial()));
             },
           )
         ],
@@ -130,9 +135,14 @@ class _ChallengeState extends State<Challenge> {
           Visibility(
               visible: _ended,
               child: SuccessOverlay(
-                succeededName: widget.challenge.name,
-                hasNext: widget.hasNext,
-                canPlayAgain: true,
+                nextRoutePath: widget.nextRoutePath,
+                succeededPath: widget.documentPath,
+                onPlayAgain: () {
+                  _challengeController.reset();
+                  setState(() {
+                    _ended = false;
+                  });
+                },
               )),
         ],
       ),
@@ -220,7 +230,7 @@ class _ChallengeState extends State<Challenge> {
   Widget _buildTargetCount() {
     return ValueListenableBuilder<int>(
         valueListenable: _challengeController.scoreStream,
-        builder: (BuildContext context, int value, Widget _) {
+        builder: (BuildContext context, int value, _) {
           return Text(
             '$value / ${_challengeController.targetScore}',
             style: Theme.of(context).textTheme.headline6,
@@ -231,10 +241,10 @@ class _ChallengeState extends State<Challenge> {
   Widget _buildBestTime() {
     return Text(
       (widget.bestTime != null && widget.bestTime != Duration.zero)
-          ? Countdown.formatDuration(widget.bestTime)
+          ? Countdown.formatDuration(widget.bestTime!)
           : '',
       style:
-          Theme.of(context).textTheme.headline6.copyWith(color: Colors.green),
+          Theme.of(context).textTheme.headline6!.copyWith(color: Colors.green),
     );
   }
 

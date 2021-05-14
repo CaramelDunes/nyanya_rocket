@@ -1,98 +1,92 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations_delegate.dart';
-import 'package:nyanya_rocket/models/user.dart';
-import 'package:nyanya_rocket/routing.dart';
-import 'package:nyanya_rocket/screens/settings/dark_mode.dart';
-import 'package:nyanya_rocket/screens/settings/first_run.dart';
-import 'package:nyanya_rocket/screens/settings/language.dart';
-import 'package:nyanya_rocket/screens/settings/region.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:nyanya_rocket/screens/challenges/challenge_progression_manager.dart';
+import 'package:nyanya_rocket/screens/puzzles/puzzle_progression_manager.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class App extends StatefulWidget {
-  static const String projectUrl =
-      'https://github.com/CaramelDunes/nyanya_rocket';
-  static const String privacyPolicyUrl =
-      'https://carameldunes.fr/NyaNyaPrivacyPolicy.html';
+import 'routing/nyanya_route_information_parser.dart';
+import 'routing/nyanya_router_delegate.dart';
+import 'models/user.dart';
+import 'screens/settings/dark_mode.dart';
+import 'screens/settings/first_run.dart';
+import 'screens/settings/language.dart';
+import 'screens/settings/region.dart';
 
+class App extends StatefulWidget {
   static const List<Locale> supportedLocales = [
-    const Locale('en', 'US'),
-    const Locale('fr', 'FR'),
-    const Locale('de', 'DE'),
+    const Locale('en', ''),
+    const Locale('fr', ''),
+    const Locale('de', ''),
   ];
 
   static ThemeData darkTheme = ThemeData(
-      brightness: Brightness.dark,
-      primarySwatch: Colors.deepPurple,
-      accentColor: Colors.orangeAccent,
-      dividerTheme: DividerThemeData().copyWith(space: 8.0));
+    brightness: Brightness.dark,
+    primarySwatch: Colors.deepPurple,
+    accentColor: Colors.orangeAccent,
+    dividerTheme: DividerThemeData().copyWith(space: 8.0),
+  );
 
   static ThemeData lightTheme = ThemeData(
-      brightness: Brightness.light,
-      primarySwatch: Colors.deepPurple,
-      accentColor: Colors.orangeAccent,
-      dividerTheme: DividerThemeData().copyWith(space: 8.0));
+    brightness: Brightness.light,
+    primarySwatch: Colors.deepPurple,
+    accentColor: Colors.orangeAccent,
+    dividerTheme: DividerThemeData().copyWith(space: 8.0),
+  );
 
   final SharedPreferences sharedPreferences;
+  final FirebaseService firebaseService;
 
-  const App({Key key, @required this.sharedPreferences}) : super(key: key);
+  const App(
+      {Key? key,
+      required this.sharedPreferences,
+      required this.firebaseService})
+      : super(key: key);
 
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  final User _user = User();
-
-  DarkMode _darkMode;
-  Language _language;
-  FirstRun _firstRun;
-  Region _region;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Copied from https://github.com/2d-inc/developer_quest/blob/master/lib/main.dart
-    // Schedule a micro-task that warms up the image cache with all the
-    // board images.
-    scheduleMicrotask(() {
-      precacheImage(AssetImage('assets/graphics/generator.png'), context);
-      precacheImage(AssetImage('assets/graphics/rocket_blue.png'), context);
-      precacheImage(AssetImage('assets/graphics/arrow_blue.png'), context);
-      precacheImage(AssetImage('assets/graphics/pit.png'), context);
-      precacheImage(AssetImage('assets/graphics/arrow_grey.png'), context);
-      precacheImage(AssetImage('assets/graphics/departed_rocket.png'), context);
-    });
-
-    _darkMode = DarkMode(sharedPreferences: widget.sharedPreferences);
-    _language = Language(
-        sharedPreferences: widget.sharedPreferences, defaultValue: 'auto');
-    _firstRun = FirstRun(sharedPreferences: widget.sharedPreferences);
-    _region = Region(
-        sharedPreferences: widget.sharedPreferences,
-        defaultValue: Regions.auto);
-  }
+  late final User _user = User(widget.firebaseService);
+  NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
+  NyaNyaRouteInformationParser _routeInformationParser =
+      NyaNyaRouteInformationParser();
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: _user),
-        ChangeNotifierProvider.value(value: _darkMode),
-        ChangeNotifierProvider.value(value: _language),
+        ChangeNotifierProvider(
+            create: (_) =>
+                DarkMode(sharedPreferences: (widget.sharedPreferences))),
+        ChangeNotifierProvider(
+            create: (_) => Language(
+                sharedPreferences: widget.sharedPreferences,
+                defaultValue: 'auto')),
         // TODO Move this to the What's New tab
-        ChangeNotifierProvider.value(value: _firstRun),
-        ChangeNotifierProvider.value(value: _region)
+        ChangeNotifierProvider(
+            create: (_) =>
+                FirstRun(sharedPreferences: widget.sharedPreferences)),
+        ChangeNotifierProvider(
+            create: (_) => Region(
+                sharedPreferences: widget.sharedPreferences,
+                defaultValue: Regions.auto)),
+        ChangeNotifierProvider(
+            create: (_) => PuzzleProgressionManager(widget.sharedPreferences)),
+        ChangeNotifierProvider(
+            create: (_) =>
+                ChallengeProgressionManager(widget.sharedPreferences)),
+        Provider.value(value: widget.firebaseService)
       ],
       child: Consumer2<DarkMode, Language>(
         builder: (_, darkMode, language, __) {
-          return MaterialApp(
+          return MaterialApp.router(
             localizationsDelegates: [
-              const NyaNyaLocalizationsDelegate(),
+              AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
             ],
@@ -101,8 +95,8 @@ class _AppState extends State<App> {
             title: 'NyaNya Rocket!',
             theme: darkMode.enabled ? App.darkTheme : App.lightTheme,
             darkTheme: App.darkTheme,
-            initialRoute: Routing.initialRoute,
-            routes: Routing.routes,
+            routerDelegate: _routerDelegate,
+            routeInformationParser: _routeInformationParser,
           );
         },
       ),

@@ -1,17 +1,16 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:nyanya_rocket/models/challenge_data.dart';
-import 'package:nyanya_rocket/models/challenge_progression_manager.dart';
+import '../challenge_progression_manager.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
-import 'package:nyanya_rocket/screens/challenge/challenge.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/widgets/completion_indicator.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
+import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 
 class OriginalChallenges extends StatefulWidget {
-  static final ChallengeProgressionManager progression =
-      ChallengeProgressionManager();
-
   static final List<NamedChallengeData> challenges = [
     NamedChallengeData(
         type: ChallengeType.GetMice,
@@ -115,116 +114,31 @@ class OriginalChallenges extends StatefulWidget {
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,3,1,1,1,0,2,2],[2,0,0,0,0,0,2,0,0],[2,0,0,0,0,0,0,2,2],[2,0,0,0,0,0,2,2,0],[3,1,1,1,1,1,2,0,2],[2,0,2,0,0,1,0,2,2],[3,1,1,1,1,1,2,0,0],[2,0,2,0,0,1,0,2,2],[3,1,1,1,1,1,2,0,2],[2,0,2,0,0,1,0,2,0],[3,1,1,1,1,1,2,2,2],[2,0,2,0,0,1,0,0,2]]},"entities":[]}'),
   ];
 
+  static Map<String, int> slugs =
+      challenges.asMap().map((index, value) => MapEntry(value.slug, index));
+
   @override
   _OriginalChallengesState createState() => _OriginalChallengesState();
 }
 
-NamedChallengeData _buildChallengeData(BuildContext context, int i) {
-  return NamedChallengeData.fromChallengeData(
-      challengeData: OriginalChallenges.challenges[i].challengeData,
-      name: OriginalChallenges.challenges[i].challengeData.type
-              .toLocalizedString(context) +
-          OriginalChallenges.challenges[i].name);
-}
-
 class _OriginalChallengesState extends State<OriginalChallenges>
     with AutomaticKeepAliveClientMixin<OriginalChallenges> {
-  bool _showCompleted = false;
-  SplayTreeSet<int> _cleared = SplayTreeSet();
-  List<Duration> _times =
-      List.filled(OriginalChallenges.challenges.length, Duration.zero);
+  bool _showCompleted = true;
 
   @override
   void initState() {
     super.initState();
-
-    ChallengeProgressionManager.getTimes().then((List<Duration> times) {
-      _cleared = SplayTreeSet<int>.from(Map.fromEntries(times
-          .asMap()
-          .entries
-          .where((MapEntry<int, Duration> entry) =>
-              entry.value.inMilliseconds > 0)).keys);
-
-      setState(() {
-        _times = times;
-      });
-    });
   }
 
   @override
   bool get wantKeepAlive => true;
 
-  void _handleChallengeWin(int i, Duration time) {
-    if (_times[i].inMilliseconds == 0 || time < _times[i]) {
-      setState(() {
-        _times[i] = time;
-        _cleared.add(i);
-      });
-
-      ChallengeProgressionManager.setTime(i, time);
-    }
-  }
-
-  void _openNext(int i) {
+  void _openChallenge(int i) {
     if (OriginalChallenges.challenges.length > i + 1) {
-      Navigator.of(context)
-          .push(MaterialPageRoute<OverlayResult>(
-              builder: (context) => Challenge(
-                    hasNext: i + 1 != OriginalChallenges.challenges.length - 1,
-                    challenge: _buildChallengeData(context, i + 1),
-                    onWin: (Duration time) => _handleChallengeWin(i + 1, time),
-                    bestTime: _times[i + 1],
-                  )))
-          .then((OverlayResult overlayResult) {
-        if (overlayResult != null) {
-          if (overlayResult == OverlayResult.PlayNext) {
-            _openNext(i + 1);
-          } else if (overlayResult == OverlayResult.PlayAgain) {
-            _openNext(i);
-          }
-        }
-      });
+      Router.of(context).routerDelegate.setNewRoutePath(
+          NyaNyaRoutePath.originalChallenge(
+              OriginalChallenges.challenges[i].slug));
     }
-  }
-
-  Widget _buildChallengeTile(int i) {
-    return ListTile(
-      title: Text(OriginalChallenges.challenges[i].challengeData.type
-              .toLocalizedString(context) +
-          OriginalChallenges.challenges[i].name),
-      subtitle: Text(OriginalChallenges.challenges[i].challengeData.type
-          .toLocalizedString(context)),
-      trailing: Visibility(
-        visible: _cleared.contains(i),
-        child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-          Text(
-              '${_times[i].inSeconds}.${_times[i].inMilliseconds % 1000 ~/ 10}s'),
-          Icon(
-            Icons.check,
-            color: Colors.green,
-          )
-        ]),
-      ),
-      onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute<OverlayResult>(
-                builder: (context) => Challenge(
-                      hasNext: i != OriginalChallenges.challenges.length - 1,
-                      challenge: _buildChallengeData(context, i),
-                      onWin: (Duration time) => _handleChallengeWin(i, time),
-                      bestTime: _times[i],
-                    )))
-            .then((OverlayResult overlayResult) {
-          if (overlayResult != null) {
-            if (overlayResult == OverlayResult.PlayNext) {
-              _openNext(i);
-            } else if (overlayResult == OverlayResult.PlayAgain) {
-              _openNext(i - 1);
-            }
-          }
-        });
-      },
-    );
   }
 
   @override
@@ -235,31 +149,134 @@ class _OriginalChallengesState extends State<OriginalChallenges>
         Iterable<int>.generate(OriginalChallenges.challenges.length)
             .toList(growable: false);
 
+    final progression = context.watch<ChallengeProgressionManager>();
+    final times = progression.getTimes();
+    final cleared = times.keys.toSet();
+
     if (!_showCompleted) {
       challengeIndices = SplayTreeSet<int>.from(challengeIndices)
-          .difference(_cleared)
+          .difference(cleared)
           .toList(growable: false);
     }
 
     return Column(
       children: <Widget>[
         Expanded(
-          child: ListView.builder(
-              itemCount: challengeIndices.length,
-              itemBuilder: (_, i) =>
-                  _buildChallengeTile(challengeIndices[i])),
+          child: OrientationBuilder(
+            builder: (BuildContext context, Orientation orientation) {
+              if (orientation == Orientation.landscape ||
+                  MediaQuery.of(context).size.width >= 270 * 2.5)
+                return _buildLandscape(challengeIndices, times);
+              else
+                return _buildPortrait(challengeIndices, times);
+            },
+          ),
         ),
         CompletionIndicator(
-          completedRatio:
-              _cleared.length / OriginalChallenges.challenges.length,
+          completedRatio: cleared.length / OriginalChallenges.challenges.length,
           showCompleted: _showCompleted,
-          onChanged: (bool value) {
-            setState(() {
-              _showCompleted = value;
-            });
+          onChanged: (bool? value) {
+            if (value != null) {
+              setState(() {
+                _showCompleted = value;
+              });
+            }
           },
         )
       ],
+    );
+  }
+
+  Widget _buildPortrait(List<int> challengeIndices, Map<int, Duration> times) {
+    return ListView.builder(
+        itemCount: challengeIndices.length,
+        itemBuilder: (context, i) =>
+            _buildChallengeTile(challengeIndices[i], times));
+  }
+
+  Widget _buildLandscape(List<int> challengeIndices, Map<int, Duration> times) {
+    return GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 270,
+        ),
+        itemCount: challengeIndices.length,
+        itemBuilder: (context, i) =>
+            _buildChallengeCard(challengeIndices[i], times));
+  }
+
+  Widget _buildChallengeTile(int i, Map<int, Duration> times) {
+    return ListTile(
+      title: Text(OriginalChallenges.challenges[i].challengeData.type
+              .toLocalizedString(context) +
+          OriginalChallenges.challenges[i].name),
+      subtitle: Text(OriginalChallenges.challenges[i].challengeData.type
+          .toLocalizedString(context)),
+      trailing: times.containsKey(i)
+          ? Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              Text(
+                  '${times[i]!.inSeconds}.${times[i]!.inMilliseconds % 1000 ~/ 10}s'),
+              Icon(
+                Icons.check,
+                color: Colors.green,
+              )
+            ])
+          : null,
+      onTap: () {
+        _openChallenge(i);
+      },
+    );
+  }
+
+  Widget _buildChallengeCard(int i, Map<int, Duration> times) {
+    return InkWell(
+      key: ValueKey(i),
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: AspectRatio(
+                  aspectRatio: 12 / 9,
+                  child: Stack(
+                    children: [
+                      StaticGameView(
+                        game: OriginalChallenges.challenges[i].challengeData
+                            .getGame(),
+                      ),
+                      Visibility(
+                        visible: times.containsKey(i),
+                        child: Container(
+                          color: Colors.black.withOpacity(0.5),
+                          child: Center(
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.green,
+                              size: 150,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )),
+            Text(
+              OriginalChallenges.challenges[i].challengeData.type
+                      .toLocalizedString(context) +
+                  OriginalChallenges.challenges[i].name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            if (times.containsKey(i))
+              Text(
+                  '${times[i]!.inSeconds}.${times[i]!.inMilliseconds % 1000 ~/ 10}s')
+            else
+              Text(''),
+          ],
+        ),
+      ),
+      onTap: () {
+        _openChallenge(i);
+      },
     );
   }
 }

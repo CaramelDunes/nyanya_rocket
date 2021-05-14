@@ -6,28 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/screens/multiplayer/game_widgets/event_wheel.dart';
-import 'package:nyanya_rocket/screens/multiplayer/network_client.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
-import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../utils.dart';
+import '../network_client.dart';
+import '../game_widgets/event_wheel.dart';
 
 class NetworkMultiplayer extends StatefulWidget {
   final String nickname;
   final InternetAddress serverAddress;
   final int port;
-  final int ticket;
+  final int? ticket;
   final Duration gameDuration;
 
   const NetworkMultiplayer(
-      {Key key,
-      @required this.nickname,
-      @required this.serverAddress,
-      @required this.port,
+      {Key? key,
+      required this.nickname,
+      required this.serverAddress,
+      required this.port,
       this.gameDuration = const Duration(minutes: 3),
       this.ticket})
       : super(key: key);
@@ -40,10 +43,10 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   final FixedExtentScrollController _scrollController =
       FixedExtentScrollController();
 
-  NetworkClient _localMultiplayerController;
+  late NetworkClient _localMultiplayerController;
   bool _displayRoulette = false;
   bool _hasEnded = false;
-  PlayerColor _myColor;
+  PlayerColor? _myColor;
 
   @override
   void initState() {
@@ -116,7 +119,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
       // Possible fixes:
       // - make Wheel inherit ScrollView directly.
       // - make Wheel keep its ScrollView across builds.
-      SchedulerBinding.instance.addPostFrameCallback((_) {
+      SchedulerBinding.instance!.addPostFrameCallback((_) {
         _scrollController.animateToItem(
             // Not * 4 to have a card above and under on the wheel.
             (GameEvent.values.length - 1) * 3 + event.index - 1,
@@ -150,49 +153,25 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
         });
   }
 
-  Color _playerColorToColor(PlayerColor player) {
-    switch (player) {
-      case PlayerColor.Blue:
-        return Colors.blue;
-        break;
-
-      case PlayerColor.Red:
-        return Colors.red;
-        break;
-
-      case PlayerColor.Green:
-        return Colors.green;
-        break;
-
-      case PlayerColor.Yellow:
-        return Colors.yellow;
-        break;
-
-      default:
-        return Colors.black;
-        break;
-    }
-  }
-
   Widget _buildScoreBox(PlayerColor player) {
     return ScoreBox(
         label: _localMultiplayerController.players[player.index],
         score: _localMultiplayerController.game.scoreOf(player),
-        color: _playerColorToColor(player));
+        color: player.color);
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Direction> candidateData,
+  Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,
       List rejectedData, int x, int y) {
     if (candidateData.isEmpty) return const SizedBox.expand();
 
     return ArrowImage(
-      direction: candidateData[0],
+      direction: candidateData[0]!,
       player: _myColor,
       opaque: false,
     );
   }
 
-  Widget _draggableArrow(PlayerColor player, Direction direction) {
+  Widget _draggableArrow(PlayerColor? player, Direction direction) {
     return Material(
       elevation: 8.0,
       child: Draggable<Direction>(
@@ -256,19 +235,16 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
-                      child: Material(
-                        elevation: 8.0,
-                        child: AspectRatio(
-                            aspectRatio: 12.0 / 9.0,
-                            child: InputGridOverlay<Direction>(
-                              child: AnimatedGameView(
-                                game: _localMultiplayerController.gameStream,
-                              ),
-                              onSwipe: _handleSwipe,
-                              onDrop: _handleSwipe,
-                              previewBuilder: _dragTileBuilder,
-                            )),
-                      ),
+                      child: AspectRatio(
+                          aspectRatio: 12.0 / 9.0,
+                          child: InputGridOverlay<Direction>(
+                            child: AnimatedGameView(
+                              game: _localMultiplayerController.gameStream,
+                            ),
+                            onSwipe: _handleSwipe,
+                            onDrop: _handleSwipe,
+                            previewBuilder: _dragTileBuilder,
+                          )),
                     ),
                     Expanded(
                       child: Column(
@@ -302,7 +278,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
               builder: (_, status, widget) {
                 return Visibility(
                     visible: status != NetworkGameStatus.Playing,
-                    child: widget);
+                    child: widget!);
               }),
           if (_hasEnded) _buildEndOfGame()
         ],
@@ -314,19 +290,13 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     switch (status) {
       case NetworkGameStatus.ConnectingToServer:
         return NyaNyaLocalizations.of(context).connectingToServerText;
-        break;
       case NetworkGameStatus.WaitingForPlayers:
         return NyaNyaLocalizations.of(context).waitingForPlayersText;
-        break;
       case NetworkGameStatus.Playing:
         return 'Playing...';
-        break;
       case NetworkGameStatus.Ended:
         return 'Game Over';
-        break;
     }
-
-    return '';
   }
 
   Widget _buildWaitingCard() {
@@ -356,7 +326,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  (_localMultiplayerController.game.scoreOf(_myColor) ==
+                  (_localMultiplayerController.game.scoreOf(_myColor!) ==
                           maxScore)
                       ? NyaNyaLocalizations.of(context).victoryLabel
                       : NyaNyaLocalizations.of(context).defeatLabel,
@@ -379,7 +349,10 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                             ],
                           ),
                         )
-                        .toList())
+                        .toList()),
+                ElevatedButton(
+                    onPressed: Navigator.of(context).pop,
+                    child: Text(NyaNyaLocalizations.of(context).back))
               ],
             ),
           ),

@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 
 class NotImplemented extends StatefulWidget {
   final String featureId;
 
-  const NotImplemented({Key key, @required this.featureId}) : super(key: key);
+  const NotImplemented({Key? key, required this.featureId}) : super(key: key);
 
   @override
   _NotImplementedState createState() => _NotImplementedState();
@@ -13,21 +15,21 @@ class NotImplemented extends StatefulWidget {
 
 class _NotImplementedState extends State<NotImplemented> {
   bool _thumbedUp = false;
-  int _thumbsUp;
+  int? _thumbsUp;
 
   @override
   void initState() {
     super.initState();
 
-    FirebaseFirestore.instance
-        .collection('feature_requests')
-        .doc(widget.featureId)
-        .get()
+    context
+        .read<FirebaseService>()
+        .getFeatureRequestThumbsUp(widget.featureId)
         .then((value) {
-      if (mounted)
+      if (mounted) {
         setState(() {
-          _thumbsUp = value.data()['thumbs_up'];
+          _thumbsUp = value;
         });
+      }
     });
   }
 
@@ -48,13 +50,15 @@ class _NotImplementedState extends State<NotImplemented> {
           onPressed: _thumbedUp
               ? null
               : () {
-                  final DocumentReference postRef = FirebaseFirestore.instance
-                      .doc('feature_requests/${widget.featureId}');
-                  postRef.update({'thumbs_up': FieldValue.increment(1)});
+                  context
+                      .read<FirebaseService>()
+                      .incrementFeatureRequestThumbsUp(widget.featureId);
                   setState(() {
                     _thumbedUp = true;
 
-                    if (_thumbsUp != null) _thumbsUp++;
+                    if (_thumbsUp != null) {
+                      _thumbsUp = _thumbsUp! + 1; //FIXME
+                    }
                   });
                 },
         ),

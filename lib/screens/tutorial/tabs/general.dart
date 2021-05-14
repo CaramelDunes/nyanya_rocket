@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/widgets/game_view/entities_drawer.dart';
-import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../localization/nyanya_localizations.dart';
+import '../../../widgets/arrow_image.dart';
+import '../../../widgets/game_view/entities/entity_painter.dart';
+import '../../../widgets/game_view/tiles/tile_painter.dart';
+import '../../../widgets/pit_image.dart';
 
 class General extends StatelessWidget {
   @override
@@ -19,10 +23,10 @@ class General extends StatelessWidget {
               height: 76,
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                    child: Padding(
+                  Flexible(
+                    child: const Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TilesDrawer.tileView(Pit()),
+                      child: const PitImage(),
                     ),
                   ),
                   Flexible(
@@ -41,11 +45,10 @@ class General extends StatelessWidget {
               height: 76,
               child: Row(
                 children: <Widget>[
-                  Expanded(
+                  Flexible(
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child:
-                        TilesDrawer.tileView(Rocket(player: PlayerColor.Blue)),
+                    child: TilePainter.widget(Rocket(player: PlayerColor.Blue)),
                   )),
                   Flexible(
                     flex: 3,
@@ -63,11 +66,13 @@ class General extends StatelessWidget {
               height: 76,
               child: Row(
                 children: <Widget>[
-                  Expanded(
+                  Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TilesDrawer.tileView(Arrow(
-                          player: PlayerColor.Blue, direction: Direction.Up)),
+                      child: ArrowImage(
+                        player: PlayerColor.Blue,
+                        direction: Direction.Up,
+                      ),
                     ),
                   ),
                   Flexible(
@@ -91,12 +96,11 @@ class General extends StatelessWidget {
               height: 100,
               child: Row(
                 children: <Widget>[
-                  Expanded(
-                      child: Padding(
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: EntitiesDrawer.entityView(
-                        EntityType.Mouse, Direction.Right),
-                  )),
+                    child:
+                        EntityPainter.widget(EntityType.Mouse, Direction.Right),
+                  ),
                   Flexible(
                     flex: 3,
                     child: Padding(
@@ -113,12 +117,10 @@ class General extends StatelessWidget {
             height: 100,
             child: Row(
               children: <Widget>[
-                Expanded(
-                    child: Padding(
+                Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child:
-                      EntitiesDrawer.entityView(EntityType.Cat, Direction.Down),
-                )),
+                  child: EntityPainter.widget(EntityType.Cat, Direction.Down),
+                ),
                 Flexible(
                   flex: 3,
                   child: Padding(

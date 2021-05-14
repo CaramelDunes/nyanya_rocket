@@ -1,43 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/screens/editor/edited_game.dart';
-import 'package:nyanya_rocket/screens/editor/widgets/discard_confirmation_dialog.dart';
-import 'package:nyanya_rocket/widgets/game_view/entities_drawer.dart';
-import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
-import 'package:nyanya_rocket/widgets/game_view/tiles_drawer.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../localization/nyanya_localizations.dart';
+import '../edited_game.dart';
+import 'discard_confirmation_dialog.dart';
+import '../../../widgets/game_view/entities/entity_painter.dart';
+import '../../../widgets/game_view/static_game_view.dart';
+import '../../../widgets/game_view/tiles/tile_painter.dart';
+import '../../../widgets/input_grid_overlay.dart';
 
 enum ToolType { Tile, Entity, Wall }
 
 class EditorMenu {
   final List<EditorTool> subMenu;
-  final Widget representative;
+  final Widget? representative;
 
-  const EditorMenu({@required this.subMenu, this.representative});
+  const EditorMenu({required this.subMenu, this.representative});
 }
 
 class EditorTool {
   final ToolType type;
-  final EntityType entityType;
-  final Tile tile;
-  final Direction direction;
+  final EntityType? entityType;
+  final Tile? tile;
+  final Direction? direction;
 
   const EditorTool(
-      {@required this.type, this.tile, this.entityType, this.direction});
+      {required this.type, this.tile, this.entityType, this.direction});
 }
 
 class EditorPlacer extends StatefulWidget {
   final EditedGame editedGame;
   final List<EditorMenu> menus;
-  final VoidCallback onPlay;
   final VoidCallback onSave;
+  final VoidCallback? onPlay;
 
   const EditorPlacer({
-    Key key,
-    @required this.editedGame,
-    @required this.menus,
-    @required this.onSave,
+    Key? key,
+    required this.editedGame,
+    required this.menus,
+    required this.onSave,
     this.onPlay,
   }) : super(key: key);
 
@@ -46,15 +48,14 @@ class EditorPlacer extends StatefulWidget {
 }
 
 class _EditorPlacerState extends State<EditorPlacer> {
-  int _selected;
-  List<int> _subSelected;
+  int _selected = 0;
+  late List<int> _subSelected;
   bool _saved = false;
 
   @override
   void initState() {
     super.initState();
 
-    _selected = 0;
     _subSelected = List.filled(widget.menus.length, 0);
   }
 
@@ -72,24 +73,28 @@ class _EditorPlacerState extends State<EditorPlacer> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return const DiscardConfirmationDialog();
-        });
+        }).then((b) => b ?? false);
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<EditorTool> candidateData,
+  Widget _dragTileBuilder(BuildContext context, List<EditorTool?> candidateData,
       List rejectedData, int x, int y) {
     if (candidateData.isEmpty) return const SizedBox.expand();
 
     return _toolView(candidateData[0]);
   }
 
-  Widget _toolView(EditorTool tool) {
+  Widget _toolView(EditorTool? tool) {
+    if (tool == null) {
+      return const SizedBox.shrink();
+    }
+
     if (tool.type == ToolType.Tile)
-      return TilesDrawer.tileView(tool.tile);
+      return TilePainter.widget(tool.tile!);
     else if (tool.type == ToolType.Entity)
-      return EntitiesDrawer.entityView(tool.entityType, tool.direction);
+      return EntityPainter.widget(tool.entityType!, tool.direction!);
     else if (tool.type == ToolType.Wall)
       return RotatedBox(
-          quarterTurns: -tool.direction.index,
+          quarterTurns: -tool.direction!.index,
           child: Image.asset('assets/graphics/wall.png'));
     else {
       return const SizedBox.shrink();
@@ -100,17 +105,17 @@ class _EditorPlacerState extends State<EditorPlacer> {
     switch (selected.type) {
       case ToolType.Tile:
         widget.editedGame.clearTile(x, y);
-        widget.editedGame.toggleTile(x, y, selected.tile);
+        widget.editedGame.toggleTile(x, y, selected.tile!);
         break;
 
       case ToolType.Entity:
         widget.editedGame.clearEntity(x, y);
         widget.editedGame
-            .toggleEntity(x, y, selected.entityType, selected.direction);
+            .toggleEntity(x, y, selected.entityType!, selected.direction!);
         break;
 
       case ToolType.Wall:
-        widget.editedGame.toggleWall(x, y, selected.direction);
+        widget.editedGame.toggleWall(x, y, selected.direction!);
         break;
 
       default:
@@ -125,16 +130,16 @@ class _EditorPlacerState extends State<EditorPlacer> {
 
     switch (selected.type) {
       case ToolType.Tile:
-        widget.editedGame.toggleTile(x, y, selected.tile);
+        widget.editedGame.toggleTile(x, y, selected.tile!);
         break;
 
       case ToolType.Entity:
         widget.editedGame
-            .toggleEntity(x, y, selected.entityType, selected.direction);
+            .toggleEntity(x, y, selected.entityType!, selected.direction!);
         break;
 
       case ToolType.Wall:
-        widget.editedGame.toggleWall(x, y, selected.direction);
+        widget.editedGame.toggleWall(x, y, selected.direction!);
         break;
 
       default:
@@ -177,7 +182,6 @@ class _EditorPlacerState extends State<EditorPlacer> {
                 children: <Widget>[
                   Expanded(
                       child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children:
                         List<Widget>.generate(widget.menus.length, (int i) {
                       return Expanded(
@@ -206,9 +210,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
                           child: Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: RaisedButton(
-                                  color: Theme.of(context).primaryColor,
-                                  textColor: Colors.white,
+                              child: ElevatedButton(
                                   child: Text(NyaNyaLocalizations.of(context)
                                       .playLabel),
                                   onPressed: widget.onPlay),
@@ -218,9 +220,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: RaisedButton(
-                                color: Theme.of(context).primaryColor,
-                                textColor: Colors.white,
+                            child: ElevatedButton(
                                 child: Text(
                                     NyaNyaLocalizations.of(context).saveLabel),
                                 onPressed: () {
@@ -243,7 +243,6 @@ class _EditorPlacerState extends State<EditorPlacer> {
 
   Widget _subModeBuilder() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: List<Widget>.generate(widget.menus[_selected].subMenu.length,
           (int i) {
         return Expanded(

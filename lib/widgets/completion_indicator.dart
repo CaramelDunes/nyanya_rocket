@@ -4,13 +4,13 @@ import '../localization/nyanya_localizations.dart';
 class CompletionIndicator extends StatelessWidget {
   final double completedRatio;
   final bool showCompleted;
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool?> onChanged;
 
   const CompletionIndicator(
-      {Key key,
-      @required this.completedRatio,
-      @required this.showCompleted,
-      @required this.onChanged})
+      {Key? key,
+      required this.completedRatio,
+      required this.showCompleted,
+      required this.onChanged})
       : super(key: key);
 
   @override

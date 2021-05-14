@@ -1,23 +1,21 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
+import 'package:nyanya_rocket/widgets/star_count.dart';
+import 'package:provider/provider.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/challenge_data.dart';
-import 'package:nyanya_rocket/screens/challenge/challenge.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
+import '../../../services/firebase/firebase_service.dart';
+import '../../../models/challenge_data.dart';
 
 class CommunityChallenges extends StatefulWidget {
   @override
   _CommunityChallengesState createState() => _CommunityChallengesState();
 }
 
-enum _Sorting { ByDate, ByPopularity, ByName }
-
 class _CommunityChallengesState extends State<CommunityChallenges> {
-  List<CommunityChallengeData> challenges = List();
-  _Sorting _sorting = _Sorting.ByPopularity;
+  List<CommunityChallengeData> challenges = [];
+  Sorting _sorting = Sorting.ByPopularity;
 
   @override
   void initState() {
@@ -26,29 +24,11 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
   }
 
   Future<void> _refreshList() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('challenges')
-        .orderBy(
-            _sorting == _Sorting.ByDate
-                ? 'date'
-                : _sorting == _Sorting.ByPopularity ? 'likes' : 'name',
-            descending: _sorting != _Sorting.ByName)
-        .limit(50)
-        .get();
+    final List<CommunityChallengeData>? newChallenges = await context
+        .read<FirebaseService>()
+        .getCommunityChallenges(sortBy: _sorting, limit: 50);
 
-    List<CommunityChallengeData> newChallenges =
-        snapshot.docs.map<CommunityChallengeData>((DocumentSnapshot snapshot) {
-      return CommunityChallengeData(
-          uid: snapshot.id,
-          challengeData: ChallengeData.fromJson(
-              jsonDecode(snapshot.get('challenge_data'))),
-          likes: snapshot.get('likes'),
-          author: snapshot.get('author_name'),
-          name: snapshot.get('name'),
-          date: snapshot.get('date').toDate());
-    }).toList();
-
-    if (mounted) {
+    if (newChallenges != null && mounted) {
       setState(() {
         challenges = newChallenges;
       });
@@ -71,29 +51,31 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
               ),
               VerticalDivider(),
               Expanded(
-                child: DropdownButton<_Sorting>(
+                child: DropdownButton<Sorting>(
                   isExpanded: true,
                   value: _sorting,
-                  items: <DropdownMenuItem<_Sorting>>[
-                    DropdownMenuItem<_Sorting>(
+                  items: <DropdownMenuItem<Sorting>>[
+                    DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).dateLabel),
-                      value: _Sorting.ByDate,
+                      value: Sorting.ByDate,
                     ),
-                    DropdownMenuItem<_Sorting>(
+                    DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).nameLabel),
-                      value: _Sorting.ByName,
+                      value: Sorting.ByName,
                     ),
-                    DropdownMenuItem<_Sorting>(
+                    DropdownMenuItem<Sorting>(
                       child:
                           Text(NyaNyaLocalizations.of(context).popularityLabel),
-                      value: _Sorting.ByPopularity,
+                      value: Sorting.ByPopularity,
                     )
                   ],
-                  onChanged: (_Sorting value) {
-                    setState(() {
-                      _sorting = value;
-                      _refreshList();
-                    });
+                  onChanged: (Sorting? value) {
+                    if (value != null) {
+                      setState(() {
+                        _sorting = value;
+                        _refreshList();
+                      });
+                    }
                   },
                 ),
               ),
@@ -104,38 +86,82 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
         Expanded(
           child: RefreshIndicator(
             onRefresh: _refreshList,
-            child: ListView.separated(
-                separatorBuilder: (context, int) => Divider(),
-                itemCount: challenges.length,
-                itemBuilder: (context, i) => ListTile(
-                      title: Text(challenges[i].name),
-                      subtitle: Text(
-                          '${challenges[i].author}\n${MaterialLocalizations.of(context).formatMediumDate(challenges[i].date)}'),
-                      isThreeLine: true,
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text('${challenges[i].likes}'),
-                          ),
-                          Icon(Icons.star),
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute<OverlayResult>(
-                                builder: (context) => Challenge(
-                                      challenge: challenges[i],
-                                      hasNext: false,
-                                    )))
-                            .then((OverlayResult popData) {});
-                      },
-                    )),
+            child: OrientationBuilder(
+              builder: (BuildContext context, Orientation orientation) {
+                if (orientation == Orientation.landscape ||
+                    MediaQuery.of(context).size.width >= 270 * 2.5)
+                  return _buildLandscape();
+                else
+                  return _buildPortrait();
+              },
+            ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildPortrait() {
+    return ListView.separated(
+        separatorBuilder: (context, int) => Divider(),
+        itemCount: challenges.length,
+        itemBuilder: (context, i) => ListTile(
+              title: Text(challenges[i].name),
+              subtitle: Text(
+                  '${challenges[i].author}\n${MaterialLocalizations.of(context).formatMediumDate(challenges[i].date)}'),
+              isThreeLine: true,
+              trailing: StarCount(
+                count: challenges[i].likes,
+              ),
+              onTap: () {
+                Router.of(context).routerDelegate.setNewRoutePath(
+                    NyaNyaRoutePath.communityChallenge(challenges[i].uid));
+              },
+            ));
+  }
+
+  Widget _buildLandscape() {
+    return GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 270,
+        ),
+        itemCount: challenges.length,
+        itemBuilder: (context, i) => _buildChallengeCard(i));
+  }
+
+  Widget _buildChallengeCard(int i) {
+    return InkWell(
+      key: ValueKey(i),
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: AspectRatio(
+                  aspectRatio: 12 / 9,
+                  child: StaticGameView(
+                    game: challenges[i].challengeData.getGame(),
+                  ),
+                )),
+            Text(
+              '${challenges[i].name} (${challenges[i].challengeData.type.toLocalizedString(context)})',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(challenges[i].author),
+                StarCount(count: challenges[i].likes),
+              ],
+            )
+          ],
+        ),
+      ),
+      onTap: () {
+        Router.of(context).routerDelegate.setNewRoutePath(
+            NyaNyaRoutePath.communityChallenge(challenges[i].uid));
+      },
     );
   }
 }

@@ -1,23 +1,21 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
+import 'package:nyanya_rocket/widgets/star_count.dart';
+import 'package:provider/provider.dart';
+
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/puzzle_data.dart';
-import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
+import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
+import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 
 class CommunityPuzzles extends StatefulWidget {
   @override
   _CommunityPuzzlesState createState() => _CommunityPuzzlesState();
 }
 
-enum _Sorting { ByDate, ByPopularity, ByName }
-
 class _CommunityPuzzlesState extends State<CommunityPuzzles> {
-  List<CommunityPuzzleData> puzzles = List();
-  _Sorting _sorting = _Sorting.ByPopularity;
+  List<CommunityPuzzleData> puzzles = [];
+  Sorting _sorting = Sorting.ByPopularity;
 
   @override
   void initState() {
@@ -26,37 +24,15 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
   }
 
   Future<void> _refreshList() async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('puzzles')
-        .orderBy(
-            _sorting == _Sorting.ByDate
-                ? 'date'
-                : _sorting == _Sorting.ByPopularity ? 'likes' : 'name',
-            descending: _sorting != _Sorting.ByName)
-        .limit(50)
-        .get();
+    final List<CommunityPuzzleData>? newPuzzles = await context
+        .read<FirebaseService>()
+        .getCommunityPuzzles(sortBy: _sorting, limit: 50);
 
-    List<CommunityPuzzleData> newPuzzles =
-        snapshot.docs.map<CommunityPuzzleData>((DocumentSnapshot snapshot) {
-      return CommunityPuzzleData(
-          uid: snapshot.id,
-          puzzleData:
-              PuzzleData.fromJson(jsonDecode(snapshot.get('puzzle_data'))),
-          likes: snapshot.get('likes'),
-          author: snapshot.get('author_name'),
-          name: snapshot.get('name'),
-          date: snapshot.get('date').toDate());
-    }).toList();
-
-    if (mounted) {
+    if (newPuzzles != null && mounted) {
       setState(() {
         puzzles = newPuzzles;
       });
     }
-  }
-
-  void _handlePuzzleWin(int i, bool starred) {
-    setState(() {});
   }
 
   @override
@@ -75,27 +51,27 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
               ),
               VerticalDivider(),
               Expanded(
-                child: DropdownButton<_Sorting>(
+                child: DropdownButton<Sorting>(
                   isExpanded: true,
                   value: _sorting,
-                  items: <DropdownMenuItem<_Sorting>>[
-                    DropdownMenuItem<_Sorting>(
+                  items: <DropdownMenuItem<Sorting>>[
+                    DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).dateLabel),
-                      value: _Sorting.ByDate,
+                      value: Sorting.ByDate,
                     ),
-                    DropdownMenuItem<_Sorting>(
+                    DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).nameLabel),
-                      value: _Sorting.ByName,
+                      value: Sorting.ByName,
                     ),
-                    DropdownMenuItem<_Sorting>(
+                    DropdownMenuItem<Sorting>(
                       child:
                           Text(NyaNyaLocalizations.of(context).popularityLabel),
-                      value: _Sorting.ByPopularity,
+                      value: Sorting.ByPopularity,
                     )
                   ],
-                  onChanged: (_Sorting value) {
+                  onChanged: (Sorting? value) {
                     setState(() {
-                      _sorting = value;
+                      _sorting = value ?? _sorting;
                       _refreshList();
                     });
                   },
@@ -108,41 +84,81 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
         Expanded(
           child: RefreshIndicator(
             onRefresh: _refreshList,
-            child: ListView.separated(
-                separatorBuilder: (context, int) => Divider(),
-                itemCount: puzzles.length,
-                itemBuilder: (context, i) => ListTile(
-                      title: Text(puzzles[i].name),
-                      subtitle: Text(
-                          '${puzzles[i].author}\n${MaterialLocalizations.of(context).formatMediumDate(puzzles[i].date)}'),
-                      isThreeLine: true,
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text('${puzzles[i].likes}'),
-                          ),
-                          Icon(Icons.star),
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute<OverlayResult>(
-                                builder: (context) => Puzzle(
-                                      puzzle: puzzles[i],
-                                      onWin: (bool starred) =>
-                                          _handlePuzzleWin(i, starred),
-                                      documentPath: 'puzzles/${puzzles[i].uid}',
-                                      hasNext: false,
-                                    )))
-                            .then((OverlayResult overlayResult) {});
-                      },
-                    )),
+            child: OrientationBuilder(
+              builder: (BuildContext context, Orientation orientation) {
+                if (orientation == Orientation.landscape ||
+                    MediaQuery.of(context).size.width >= 270 * 2.5)
+                  return _buildLandscape();
+                else
+                  return _buildPortrait();
+              },
+            ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildPortrait() {
+    return ListView.separated(
+        separatorBuilder: (context, int) => Divider(),
+        itemCount: puzzles.length,
+        itemBuilder: (context, i) => ListTile(
+              title: Text(puzzles[i].name),
+              subtitle: Text(
+                  '${puzzles[i].author}\n${MaterialLocalizations.of(context).formatMediumDate(puzzles[i].date)}'),
+              isThreeLine: true,
+              trailing: StarCount(count: puzzles[i].likes),
+              onTap: () {
+                Router.of(context).routerDelegate.setNewRoutePath(
+                    NyaNyaRoutePath.communityPuzzle(puzzles[i].uid));
+              },
+            ));
+  }
+
+  Widget _buildLandscape() {
+    return GridView.builder(
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 270,
+        ),
+        itemCount: puzzles.length,
+        itemBuilder: (context, i) => _buildPuzzleCard(i));
+  }
+
+  Widget _buildPuzzleCard(int i) {
+    return InkWell(
+      key: ValueKey(i),
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: AspectRatio(
+                  aspectRatio: 12 / 9,
+                  child: StaticGameView(
+                    game: puzzles[i].puzzleData.getGame(),
+                  ),
+                )),
+            Text(
+              puzzles[i].name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(puzzles[i].author),
+                StarCount(count: puzzles[i].likes)
+              ],
+            )
+          ],
+        ),
+      ),
+      onTap: () {
+        Router.of(context)
+            .routerDelegate
+            .setNewRoutePath(NyaNyaRoutePath.communityPuzzle(puzzles[i].uid));
+      },
     );
   }
 }

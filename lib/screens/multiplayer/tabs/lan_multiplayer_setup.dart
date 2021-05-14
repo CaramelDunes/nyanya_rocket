@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:wifi_info_flutter/wifi_info_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
@@ -13,7 +13,7 @@ class LanMultiplayerSetup extends StatefulWidget {
   static final RegExp hostnameMatcher = RegExp(
       r'^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$');
 
-  LanMultiplayerSetup({Key key}) : super(key: key);
+  LanMultiplayerSetup({Key? key}) : super(key: key);
 
   @override
   _LanMultiplayerSetupState createState() => _LanMultiplayerSetupState();
@@ -27,10 +27,10 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   int _playerCount = 2;
   Duration _duration = Duration(minutes: 3);
 
-  static Isolate _serverIsolate;
+  static Isolate? _serverIsolate;
   final _formKey = GlobalKey<FormState>();
 
-  MultiplayerBoard _board;
+  MultiplayerBoard? _board;
 
   FocusNode _nicknameFocusNode = FocusNode();
   FocusNode _hostnameFocusNode = FocusNode();
@@ -39,7 +39,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   void initState() {
     super.initState();
 
-    Connectivity().getWifiIP().then((String ip) {
+    WifiInfo().getWifiIP().then((String? ip) {
       if (mounted) {
         setState(() {
           if (ip != null)
@@ -77,13 +77,13 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                   maxLength: 16,
                   textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
-                  onSaved: (String value) => _nickname = value,
+                  onSaved: (String? value) => _nickname = value ?? _nickname,
                   onFieldSubmitted: (term) {
                     _nicknameFocusNode.unfocus();
                     FocusScope.of(context).requestFocus(_hostnameFocusNode);
                   },
-                  validator: (String value) {
-                    if (value.isEmpty) {
+                  validator: (String? value) {
+                    if (value != null && value.isEmpty) {
                       return NyaNyaLocalizations.of(context)
                           .invalidNicknameText;
                     }
@@ -97,9 +97,10 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                   decoration: InputDecoration(
                     labelText: NyaNyaLocalizations.of(context).hostnameLabel,
                   ),
-                  onSaved: (String value) => _hostname = value,
-                  validator: (String value) {
-                    if (!LanMultiplayerSetup.hostnameMatcher.hasMatch(value)) {
+                  onSaved: (String? value) => _hostname = value ?? _hostname,
+                  validator: (String? value) {
+                    if (value == null ||
+                        !LanMultiplayerSetup.hostnameMatcher.hasMatch(value)) {
                       return NyaNyaLocalizations.of(context)
                           .invalidHostnameText;
                     }
@@ -109,13 +110,11 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: RaisedButton(
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
+                  child: ElevatedButton(
                     child: Text(NyaNyaLocalizations.of(context).playLabel),
                     onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
 
                         InternetAddress.lookup(_hostname,
                                 type: InternetAddressType.IPv4)
@@ -173,8 +172,8 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                       value: Duration(minutes: 5),
                     ),
                   ],
-                  onChanged: (Duration value) => setState(() {
-                    _duration = value;
+                  onChanged: (Duration? value) => setState(() {
+                    _duration = value ?? _duration;
                   }),
                 ),
               ),
@@ -204,8 +203,8 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                       value: 4,
                     ),
                   ],
-                  onChanged: (int value) => setState(() {
-                    _playerCount = value;
+                  onChanged: (int? value) => setState(() {
+                    _playerCount = value ?? _playerCount;
                   }),
                 ),
               ),
@@ -223,10 +222,8 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
           ),
           Container(
             child: Center(
-              child: RaisedButton(
+              child: ElevatedButton(
                 child: Text(NyaNyaLocalizations.of(context).createLabel),
-                color: Theme.of(context).primaryColor,
-                textColor: Colors.white,
                 onPressed: _board == null
                     ? null
                     : () {
@@ -234,7 +231,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
 
                         Isolate.spawn<_ArgumentBundle>(
                                 _LanMultiplayerSetupState.serverEntryPoint,
-                                _ArgumentBundle(_board.board(), _playerCount))
+                                _ArgumentBundle(_board!.board(), _playerCount))
                             .then((Isolate isolate) => _LanMultiplayerSetupState
                                 ._serverIsolate = isolate);
 

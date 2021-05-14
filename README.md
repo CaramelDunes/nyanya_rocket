@@ -1,6 +1,8 @@
 # NyaNya Rocket! <img src="https://github.com/CaramelDunes/nyanya_rocket/raw/master/assets/graphics/app_icon.png?raw=1" width="64" height="64" alt="Logo">
 
-NyaNya Rocket! is a mobile game where you have to guide mice away from cats.
+NyaNya Rocket! is a game where you have to guide mice away from cats.
+
+[Play in your browser! (WIP)](https://nyanya-rocket.carameldunes.fr)
 
 <a href='https://play.google.com/store/apps/details?id=fr.carameldunes.nyanyarocket'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height=100/></a>
 

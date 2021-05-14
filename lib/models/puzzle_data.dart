@@ -1,14 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class PuzzleData {
   final String gameData;
   final List<int> availableArrows;
 
-  PuzzleData({@required this.gameData, @required this.availableArrows});
+  PuzzleData({required this.gameData, required this.availableArrows});
 
   PuzzleData.withBorder()
       : gameData = jsonEncode((GameState()..board = Board.withBorder()).toJson()),

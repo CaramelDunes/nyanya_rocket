@@ -1,18 +1,18 @@
-import 'package:meta/meta.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
+import 'package:slugify/slugify.dart';
 
 class NamedChallengeData {
-  String name;
-  ChallengeData challengeData;
+  final String name;
+  final ChallengeData challengeData;
 
   NamedChallengeData(
-      {@required this.name,
-      @required String gameData,
-      @required ChallengeType type})
+      {required this.name,
+      required String gameData,
+      required ChallengeType type})
       : challengeData = ChallengeData(gameData: gameData, type: type);
 
   NamedChallengeData.fromChallengeData(
-      {@required this.name, @required this.challengeData});
+      {required this.name, required this.challengeData});
 
   static NamedChallengeData fromJson(Map<String, dynamic> json) {
     return NamedChallengeData.fromChallengeData(
@@ -21,4 +21,8 @@ class NamedChallengeData {
 
   Map<String, dynamic> toJson() =>
       {'name': name}..addAll(challengeData.toJson());
+
+  ChallengeType get type => challengeData.type;
+
+  String get slug => slugify(type.toPrettyString() + name);
 }

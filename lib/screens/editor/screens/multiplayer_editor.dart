@@ -5,15 +5,16 @@ import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/editor/edited_game.dart';
 import 'package:nyanya_rocket/screens/editor/menus/standard_menus.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
-import 'package:nyanya_rocket/screens/multiplayer/picker_tabs/local_boards.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../models/stores/multiplayer_store.dart';
 
 class MultiplayerEditor extends StatefulWidget {
   final MultiplayerBoard board;
-  final String uuid;
+  final String? uuid;
 
   MultiplayerEditor({
-    @required this.board,
+    required this.board,
     this.uuid,
   });
 
@@ -22,8 +23,8 @@ class MultiplayerEditor extends StatefulWidget {
 }
 
 class _MultiplayerEditorState extends State<MultiplayerEditor> {
-  EditedGame _editedGame;
-  String _uuid;
+  late EditedGame _editedGame;
+  late String? _uuid;
 
   bool _saving = false;
 
@@ -71,7 +72,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
               })
         ],
       ),
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: <Widget>[
           Expanded(
@@ -99,19 +100,20 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
     _saving = true;
 
     if (_uuid == null) {
-      LocalBoards.store
-          .saveNewBoard(_buildMultiplayerBoard())
-          .then((String uuid) {
-        _uuid = uuid;
-        print('Saved $uuid');
-        _saving = false;
+      MultiplayerStore.saveNewBoard(_buildMultiplayerBoard())
+          .then((String? uuid) {
+        if (uuid != null) {
+          _uuid = uuid;
+          print('Saved $uuid');
+          _saving = false;
+        } // FIXME Handle failure.
       });
     } else {
-      LocalBoards.store
-          .updateBoard(_uuid, _buildMultiplayerBoard())
+      MultiplayerStore.updateBoard(_uuid!, _buildMultiplayerBoard())
           .then((bool status) {
         print('Updated $_uuid');
         _saving = false;
+        // FIXME Handle failure.
       });
     }
   }
