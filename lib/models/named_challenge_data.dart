@@ -24,5 +24,5 @@ class NamedChallengeData {
 
   ChallengeType get type => challengeData.type;
 
-  String get slug => Slugify(type.toPrettyString() + name);
+  String get slug => slugify(type.toPrettyString() + name);
 }

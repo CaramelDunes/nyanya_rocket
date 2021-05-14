@@ -22,5 +22,5 @@ class NamedPuzzleData {
 
   Map<String, dynamic> toJson() => {'name': name}..addAll(puzzleData.toJson());
 
-  String get slug => Slugify(name);
+  String get slug => slugify(name);
 }

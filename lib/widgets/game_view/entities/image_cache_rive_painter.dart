@@ -20,40 +20,36 @@ class ImageCacheRivePainter implements UnitPainter {
       required String animationName,
       String? artboardName}) async {
     final data = await rootBundle.load(assetFilename);
-    final file = RiveFile();
 
     // Load the RiveFile from the binary data.
-    if (file.import(data)) {
-      // The artboard is the root of the animation and gets drawn in the
-      // Rive widget.
-      final artboard = (artboardName != null
-          ? file.artboardByName(artboardName)
-          : file.mainArtboard) as RuntimeArtboard;
-      artboard.addController(
-        SimpleAnimation(animationName),
-      );
+    final file = RiveFile.import(data);
 
-      Size size = Size(
-          artboard.width * rasterizeRatio, artboard.height * rasterizeRatio);
+    // The artboard is the root of the animation and gets drawn in the
+    // Rive widget.
+    final artboard = (artboardName != null
+        ? file.artboardByName(artboardName)
+        : file.mainArtboard) as RuntimeArtboard;
+    artboard.addController(
+      SimpleAnimation(animationName),
+    );
 
-      List<ui.Image> cache =
-          await Future.wait(List.generate(numberOfFrames, (i) {
-        artboard.advance(0.016);
+    Size size =
+        Size(artboard.width * rasterizeRatio, artboard.height * rasterizeRatio);
 
-        final pictureRecorder = ui.PictureRecorder();
-        ui.Canvas canvas = ui.Canvas(pictureRecorder);
-        canvas.scale(rasterizeRatio);
+    List<ui.Image> cache = await Future.wait(List.generate(numberOfFrames, (i) {
+      artboard.advance(0.016);
 
-        artboard.draw(canvas);
-        return pictureRecorder.endRecording().toImage(
-            (artboard.width * rasterizeRatio).floor(),
-            (artboard.height * rasterizeRatio).floor());
-      }));
+      final pictureRecorder = ui.PictureRecorder();
+      ui.Canvas canvas = ui.Canvas(pictureRecorder);
+      canvas.scale(rasterizeRatio);
 
-      return ImageCacheRivePainter._(size, cache);
-    }
+      artboard.draw(canvas);
+      return pictureRecorder.endRecording().toImage(
+          (artboard.width * rasterizeRatio).floor(),
+          (artboard.height * rasterizeRatio).floor());
+    }));
 
-    throw Exception("Could not cache rive animation");
+    return ImageCacheRivePainter._(size, cache);
   }
 
   void paintUnit(Canvas canvas, int frameNumber, [Paint? paint]) {

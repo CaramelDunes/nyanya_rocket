@@ -3,7 +3,7 @@ description: Save cute mice from dangerous cats!
 homepage: https://github.com/CaramelDunes/nyanya_rocket
 publish_to: none
 
-version: 2.0.5+55
+version: 2.0.5+57
 
 environment:
   sdk: ">=2.12.0-0 <3.0.0"
@@ -23,12 +23,12 @@ dependencies:
   intl: ^0.17.0
 
   firebase_core: ^1.0.0
-  cloud_firestore: ^1.0.0
+  cloud_firestore: ^2.1.0
   firebase_auth: ^1.0.0
 
-  rive: ^0.6.8
+  rive: ^0.7.0
 
-  font_awesome_flutter: ^9.0.0-nullsafety
+  font_awesome_flutter: ^9.0.0
 
   shared_preferences: ^2.0.3
 
@@ -47,13 +47,9 @@ dependencies:
 
   http: ^0.13.0
 
-  slugify:
-    git:
-      url: git://github.com/shyndman/slugify.git
+  slugify: ^2.0.0
 
-  firedart:
-    git:
-      url: git://github.com/CaramelDunes/firedart.git
+  firedart: ^0.9.0+1
 
 dev_dependencies:
   flutter_test:

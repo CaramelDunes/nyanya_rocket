@@ -132,8 +132,14 @@ class FiredartFirebaseService extends FirebaseService {
 
   @override
   Future<bool> signInAnonymously() async {
-    final user = await FirebaseAuth.instance.signInAnonymously();
-    return user.id != null;
+    try {
+      await FirebaseAuth.instance.signInAnonymously();
+    } catch (e) {
+      print(e);
+      return false;
+    }
+
+    return true;
   }
 
   @override
@@ -273,8 +279,10 @@ class PreferencesStore extends TokenStore {
       : null;
 
   @override
-  void write(Token token) {
-    _prefs.setString(keyToken, jsonEncode(token.toMap()));
+  void write(Token? token) {
+    if (token != null) {
+      _prefs.setString(keyToken, jsonEncode(token.toMap()));
+    }
   }
 
   @override

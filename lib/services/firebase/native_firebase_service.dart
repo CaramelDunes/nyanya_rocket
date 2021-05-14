@@ -34,17 +34,13 @@ class NativeFirebaseService extends FirebaseService {
 
   // Streams
   Stream<Map<String, dynamic>> getDocStream(List<String> keys) {
-    return _getDoc(keys)!
-        .snapshots()
-        .map((doc) => doc.data()!..['documentId'] = doc.id);
+    return _getDoc(keys)!.snapshots().map((doc) => doc.data()!);
   }
 
   Stream<List<Map<String, dynamic>>> getListStream(List<String> keys) {
     return _getCollection(keys)!.snapshots().map(
-      (QuerySnapshot snapshot) {
-        return snapshot.docs
-            .map((d) => d.data()!..['documentId'] = d.id)
-            .toList();
+      (QuerySnapshot<Map<String, dynamic>> snapshot) {
+        return snapshot.docs.map((d) => d.data()).toList();
       },
     );
   }
@@ -81,7 +77,7 @@ class NativeFirebaseService extends FirebaseService {
   Future<Map<String, dynamic>?> getDoc(List<String> keys) async {
     try {
       DocumentSnapshot d = (await _getDoc(keys)!.get());
-      return d.data();
+      return d.data() as Map<String, dynamic>?;
     } catch (e) {
       print(e);
     }
@@ -89,19 +85,20 @@ class NativeFirebaseService extends FirebaseService {
   }
 
   Future<List<Map<String, dynamic>>?> getCollection(List<String> keys) async {
-    QuerySnapshot snapshot = (await _getCollection(keys)!.get());
+    QuerySnapshot<Map<String, dynamic>?> snapshot = (await _getCollection(keys)!
+        .get() as QuerySnapshot<Map<String, dynamic>?>);
     return snapshot.docs
         .where((d) => d.data() != null)
         .map((d) => d.data()!)
         .toList();
   }
 
-  DocumentReference? _getDoc(List<String> keys) {
+  DocumentReference<Map<String, dynamic>>? _getDoc(List<String> keys) {
     if (checkKeysForNull(keys) == false) return null;
     return firestore.doc(getPathFromKeys(keys));
   }
 
-  CollectionReference? _getCollection(List<String> keys) {
+  CollectionReference<Map<String, dynamic>>? _getCollection(List<String> keys) {
     if (checkKeysForNull(keys) == false) return null;
     return firestore.collection(getPathFromKeys(keys));
   }
@@ -134,7 +131,8 @@ class NativeFirebaseService extends FirebaseService {
   Future<bool> signInAnonymously() async {
     try {
       await FirebaseAuth.instance.signInAnonymously();
-    } catch (FirebaseAuthException) {
+    } catch (e) {
+      print(e);
       return false;
     }
 
@@ -232,7 +230,7 @@ class NativeFirebaseService extends FirebaseService {
         .doc(id)
         .get();
 
-    return document.data()?['thumbs_up'];
+    return document['thumbs_up'];
   }
 
   @override
@@ -247,7 +245,7 @@ class NativeFirebaseService extends FirebaseService {
     final DocumentSnapshot document =
         await FirebaseFirestore.instance.doc(path).get();
 
-    return document.data()?['likes'];
+    return document['likes'];
   }
 
   @override

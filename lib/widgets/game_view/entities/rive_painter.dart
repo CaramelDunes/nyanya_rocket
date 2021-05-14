@@ -15,25 +15,22 @@ class RivePainter implements UnitPainter {
       required String animationName,
       String? artboardName}) async {
     final data = await rootBundle.load(assetFilename);
-    final file = RiveFile();
 
     // Load the RiveFile from the binary data.
-    if (file.import(data)) {
-      // The artboard is the root of the animation and gets drawn in the
-      // Rive widget.
-      final artboard = (artboardName != null
-          ? file.artboardByName(artboardName)
-          : file.mainArtboard) as RuntimeArtboard;
-      artboard.addController(
-        SimpleAnimation(animationName),
-      );
+    final file = RiveFile.import(data);
 
-      artboard.advance(0);
+    // The artboard is the root of the animation and gets drawn in the
+    // Rive widget.
+    final artboard = (artboardName != null
+        ? file.artboardByName(artboardName)
+        : file.mainArtboard) as RuntimeArtboard;
+    artboard.addController(
+      SimpleAnimation(animationName),
+    );
 
-      return RivePainter._(artboard);
-    }
+    artboard.advance(0);
 
-    throw Exception("Could not load rive animation");
+    return RivePainter._(artboard);
   }
 
   void paintUnit(Canvas canvas, int frameNumber, [Paint? paint]) {

@@ -16,34 +16,31 @@ class PictureCacheRivePainter implements UnitPainter {
       required String animationName,
       String? artboardName}) async {
     final data = await rootBundle.load(assetFilename);
-    final file = RiveFile();
 
     // Load the RiveFile from the binary data.
-    if (file.import(data)) {
-      // The artboard is the root of the animation and gets drawn in the
-      // Rive widget.
-      final artboard = (artboardName != null
-          ? file.artboardByName(artboardName)
-          : file.mainArtboard) as RuntimeArtboard;
-      artboard.addController(
-        SimpleAnimation(animationName),
-      );
-      int numberOfFrames = 30;
+    final file = RiveFile.import(data);
 
-      List<ui.Picture> cache = List.generate(numberOfFrames, (i) {
-        artboard.advance(0.016);
+    // The artboard is the root of the animation and gets drawn in the
+    // Rive widget.
+    final artboard = (artboardName != null
+        ? file.artboardByName(artboardName)
+        : file.mainArtboard) as RuntimeArtboard;
+    artboard.addController(
+      SimpleAnimation(animationName),
+    );
+    int numberOfFrames = 30;
 
-        final pictureRecorder = ui.PictureRecorder();
-        ui.Canvas canvas = ui.Canvas(pictureRecorder);
-        canvas.scale(1 / artboard.width, 1 / artboard.height);
-        artboard.draw(canvas);
-        return pictureRecorder.endRecording();
-      });
+    List<ui.Picture> cache = List.generate(numberOfFrames, (i) {
+      artboard.advance(0.016);
 
-      return PictureCacheRivePainter._(cache);
-    }
+      final pictureRecorder = ui.PictureRecorder();
+      ui.Canvas canvas = ui.Canvas(pictureRecorder);
+      canvas.scale(1 / artboard.width, 1 / artboard.height);
+      artboard.draw(canvas);
+      return pictureRecorder.endRecording();
+    });
 
-    throw Exception("Could not cache rive animation");
+    return PictureCacheRivePainter._(cache);
   }
 
   void paintUnit(Canvas canvas, int frameNumber, [Paint? paint]) {

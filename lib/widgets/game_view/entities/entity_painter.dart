@@ -54,7 +54,7 @@ class EntityPainter {
     canvas.restore();
   }
 
-  static void paintUnitEntities(Canvas canvas, Iterable<Entity> entities,
+  static void paintUnitEntities(Canvas canvas, List<Entity> entities,
       [int frameNumber = 0]) {
     entities.forEach((Entity entity) {
       paintUnit(entity, canvas, frameNumber);

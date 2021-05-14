@@ -39,7 +39,11 @@ class App extends StatefulWidget {
   final SharedPreferences sharedPreferences;
   final FirebaseService firebaseService;
 
-  const App({Key? key, required this.sharedPreferences, required this.firebaseService}) : super(key: key);
+  const App(
+      {Key? key,
+      required this.sharedPreferences,
+      required this.firebaseService})
+      : super(key: key);
 
   @override
   _AppState createState() => _AppState();
