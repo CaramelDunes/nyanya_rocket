@@ -19,7 +19,9 @@ linux_build_task:
   pub_cache:
     folder: ~/.pub-cache
   build_script:
-    - apt-get update && apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libgcrypt20-dev
+    - apt-get update && apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev
+    - flutter channel beta
+    - flutter upgrade
     - flutter config --enable-linux-desktop
     - flutter build linux
   linux_artifacts:
