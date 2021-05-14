@@ -29,21 +29,21 @@ class FirebaseFactory {
 
   static bool get useNative =>
       kIsWeb ||
-          Platform.isAndroid ||
-          Platform.isIOS; // || UniversalPlatform.isMacOS;
+      Platform.isAndroid ||
+      Platform.isIOS; // || UniversalPlatform.isMacOS;
 
   static Future<FirebaseService> create() async {
     FirebaseService service = useNative
         ? NativeFirebaseService()
         : FiredartFirebaseService(
-      apiKey: kFirebaseApiKey, //FIXME
-      projectId: kFirebaseProjectId,
-    );
+            apiKey: kFirebaseApiKey,
+            projectId: kFirebaseProjectId,
+          );
     if (!_initComplete) {
       _initComplete = true;
       await service.init();
     }
-    print("firestore-${useNative ? "NATIVE" : "DART"} Initialized");
+    print('Using Firestore ${useNative ? 'NATIVE' : 'DART'}.');
     return service;
   }
 }

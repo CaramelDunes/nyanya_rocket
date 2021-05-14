@@ -6,19 +6,17 @@ publish_to: none
 version: 2.0.5+57
 
 environment:
-  sdk: ">=2.12.0-0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  nyanya_rocket_base:
-    git:
-      url: git://github.com/CaramelDunes/nyanya_rocket_base.git
-      ref: feature/nnbd
-
   flutter_localizations:
     sdk: flutter
+
+  nyanya_rocket_base:
+    git: https://github.com/CaramelDunes/nyanya_rocket_base.git
 
   intl: ^0.17.0
 

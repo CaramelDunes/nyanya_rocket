@@ -89,7 +89,8 @@ class _PlayerFinderState extends State<PlayerFinder> {
               child: Text(
                 _queue.joined
                     ? NyaNyaLocalizations.of(context).positionInQueueText(
-                        _queue.position, _queue.length ?? 0) // FIXME the 0
+                        _queue.position,
+                        _queue.length ?? 0) // FIXME length==0 after joining
                     : (_queue.length != null
                         ? NyaNyaLocalizations.of(context)
                             .playersInQueueText(_queue.length ?? 0)

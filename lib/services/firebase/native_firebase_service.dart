@@ -86,7 +86,7 @@ class NativeFirebaseService extends FirebaseService {
 
   Future<List<Map<String, dynamic>>?> getCollection(List<String> keys) async {
     QuerySnapshot<Map<String, dynamic>?> snapshot = (await _getCollection(keys)!
-        .get() as QuerySnapshot<Map<String, dynamic>?>);
+        .get());
     return snapshot.docs
         .where((d) => d.data() != null)
         .map((d) => d.data()!)
