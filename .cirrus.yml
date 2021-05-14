@@ -15,12 +15,12 @@ web_build_task:
   web_artifacts:
     path: "build/web/*"
 
-linux_build_task:
-  pub_cache:
-    folder: ~/.pub-cache
-  build_script:
-    - apt-get update && apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libgcrypt20-dev
-    - flutter config --enable-linux-desktop
-    - flutter build linux
-  linux_artifacts:
-    path: "build/linux/*"
+#linux_build_task:
+#  pub_cache:
+#    folder: ~/.pub-cache
+#  build_script:
+#    - apt-get update && apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libgcrypt20-dev
+#    - flutter config --enable-linux-desktop
+#    - flutter build linux
+#  linux_artifacts:
+#    path: "build/linux/*"
