@@ -9,6 +9,8 @@ import '../../../widgets/game_view/tiles/tile_painter.dart';
 import '../../../widgets/pit_image.dart';
 
 class General extends StatelessWidget {
+  const General({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -19,14 +21,14 @@ class General extends StatelessWidget {
           style: Theme.of(context).textTheme.headline5,
         ),
         Card(
-          child: Container(
+          child: SizedBox(
               height: 76,
               child: Row(
                 children: <Widget>[
-                  Flexible(
-                    child: const Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: const PitImage(),
+                  const Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: PitImage(),
                     ),
                   ),
                   Flexible(
@@ -41,14 +43,15 @@ class General extends StatelessWidget {
               )),
         ),
         Card(
-          child: Container(
+          child: SizedBox(
               height: 76,
               child: Row(
                 children: <Widget>[
                   Flexible(
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TilePainter.widget(Rocket(player: PlayerColor.Blue)),
+                    child: TilePainter.widget(
+                        const Rocket(player: PlayerColor.Blue)),
                   )),
                   Flexible(
                     flex: 3,
@@ -62,13 +65,13 @@ class General extends StatelessWidget {
               )),
         ),
         Card(
-          child: Container(
+          child: SizedBox(
               height: 76,
               child: Row(
                 children: <Widget>[
-                  Flexible(
+                  const Flexible(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: ArrowImage(
                         player: PlayerColor.Blue,
                         direction: Direction.Up,
@@ -86,13 +89,13 @@ class General extends StatelessWidget {
                 ],
               )),
         ),
-        Divider(),
+        const Divider(),
         Text(
           NyaNyaLocalizations.of(context).entitiesTutorialLabel,
           style: Theme.of(context).textTheme.headline5,
         ),
         Card(
-          child: Container(
+          child: SizedBox(
               height: 100,
               child: Row(
                 children: <Widget>[
@@ -113,7 +116,7 @@ class General extends StatelessWidget {
               )),
         ),
         Card(
-          child: Container(
+          child: SizedBox(
             height: 100,
             child: Row(
               children: <Widget>[
@@ -137,7 +140,7 @@ class General extends StatelessWidget {
           NyaNyaLocalizations.of(context).movementTutorialText,
           textAlign: TextAlign.center,
         ),
-        Divider(),
+        const Divider(),
         Text(
           NyaNyaLocalizations.of(context).placementTutorialLabel,
           style: Theme.of(context).textTheme.headline5,

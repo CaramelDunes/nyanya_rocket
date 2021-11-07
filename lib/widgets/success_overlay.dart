@@ -74,12 +74,12 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
     return Stack(
       fit: StackFit.expand,
       children: [
-        AbsorbPointer(),
+        const AbsorbPointer(),
         Material(
           color: Colors.black54,
           child: Column(
             children: <Widget>[
-              Spacer(flex: 2),
+              const Spacer(flex: 2),
               Card(
                 color: Theme.of(context).brightness == Brightness.light
                     ? Colors.white
@@ -91,7 +91,8 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                     children: <Widget>[
                       Text(
                         NyaNyaLocalizations.of(context).stageClearedText,
-                        style: TextStyle(color: Colors.green, fontSize: 40),
+                        style:
+                            const TextStyle(color: Colors.green, fontSize: 40),
                         textAlign: TextAlign.center,
                       ),
                       if (widget.succeededPath != null && _stars != null)
@@ -132,7 +133,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                   ),
                 ),
               ),
-              Spacer(flex: 3),
+              const Spacer(flex: 3),
             ],
           ),
         )

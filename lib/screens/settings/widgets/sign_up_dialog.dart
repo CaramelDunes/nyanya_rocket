@@ -27,7 +27,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
       contentPadding: const EdgeInsets.all(16.0),
       title: Text(NyaNyaLocalizations.of(context).displayNameDialogTitle),
       content: _loading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
               widthFactor: 1,
               heightFactor: 1,
@@ -68,7 +68,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
                       TextSpan(
                           text: NyaNyaLocalizations.of(context)
                               .privacyPolicyLabel,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.blue,
                               decoration: TextDecoration.underline),
                           recognizer: TapGestureRecognizer()

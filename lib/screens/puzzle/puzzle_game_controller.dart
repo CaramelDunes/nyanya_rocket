@@ -20,8 +20,8 @@ class PuzzleGameState {
       {required this.running, required this.reset, required this.spedUp});
 
   PuzzleGameState.reset({required this.spedUp})
-      : this.running = false,
-        this.reset = true;
+      : running = false,
+        reset = true;
 }
 
 class PuzzleGameController extends LocalGameController {
@@ -111,7 +111,7 @@ class PuzzleGameController extends LocalGameController {
 
       if (index > -1) {
         placedArrows[direction].removeAt(index);
-        game.board.tiles[x][y] = Empty();
+        game.board.tiles[x][y] = const Empty();
         updateGame();
         remainingArrowsStreams[direction].value =
             remainingArrows(Direction.values[direction]);
@@ -127,7 +127,7 @@ class PuzzleGameController extends LocalGameController {
 
     for (int direction = 0; direction < Direction.values.length; direction++) {
       for (Position position in placedArrows[direction]) {
-        game.board.tiles[position.x][position.y] = Empty();
+        game.board.tiles[position.x][position.y] = const Empty();
       }
 
       placedArrows[direction].clear();
@@ -143,10 +143,10 @@ class PuzzleGameController extends LocalGameController {
     gameState = puzzle.getGame();
 
     for (int direction = 0; direction < Direction.values.length; direction++) {
-      placedArrows[direction].forEach((Position position) {
+      for (Position position in placedArrows[direction]) {
         game.board.tiles[position.x][position.y] = Arrow.notExpiring(
             player: PlayerColor.Blue, direction: Direction.values[direction]);
-      });
+      }
     }
 
     updateGame();
@@ -173,7 +173,7 @@ class PuzzleGameController extends LocalGameController {
       List<Mouse> newMice = [];
       List<BoardPosition> pendingArrowDeletions = [];
 
-      game.mice.forEach((Mouse? e) {
+      for (Mouse? e in game.mice) {
         if (e!.position.step == BoardPosition.centerStep) {
           // FIXME No comment...
           e = gameSimulator.applyTileEffect(e, pendingArrowDeletions, game);
@@ -182,13 +182,13 @@ class PuzzleGameController extends LocalGameController {
         if (e != null) {
           newMice.add(e);
         }
-      });
+      }
 
       game.mice = newMice;
 
       List<Cat> newCats = [];
 
-      game.cats.forEach((Cat? e) {
+      for (Cat? e in game.cats) {
         if (e!.position.step == BoardPosition.centerStep) {
           e = gameSimulator.applyTileEffect(e, pendingArrowDeletions, game);
         }
@@ -196,7 +196,7 @@ class PuzzleGameController extends LocalGameController {
         if (e != null) {
           newCats.add(e);
         }
-      });
+      }
 
       game.cats = newCats;
     }

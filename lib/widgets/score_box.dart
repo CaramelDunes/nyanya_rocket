@@ -22,11 +22,11 @@ class ScoreBox extends StatelessWidget {
                 child: Text(
                   label ?? '',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                 ),
                 padding: const EdgeInsets.all(2.0),
                 constraints: const BoxConstraints(minWidth: 80),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(4.0)))),
           ),
@@ -36,12 +36,12 @@ class ScoreBox extends StatelessWidget {
               child: Center(
                 child: Text(
                   score.toString(),
-                  style: TextStyle(color: Colors.white, fontSize: 30),
+                  style: const TextStyle(color: Colors.white, fontSize: 30),
                 ),
               ),
               padding: const EdgeInsets.all(8.0),
               constraints: const BoxConstraints(minWidth: 80),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.all(Radius.circular(4.0))),
             ),

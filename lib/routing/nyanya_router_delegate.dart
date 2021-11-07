@@ -21,13 +21,12 @@ import 'nyanya_route_path.dart';
 
 class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<NyaNyaRoutePath> {
-  final GlobalKey<NavigatorState> navigatorKey;
+  @override
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  PageKind _pageKind = PageKind.Home;
+  PageKind _pageKind = PageKind.home;
   TabKind? _tabKind;
   String? _id;
-
-  NyaNyaRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   NyaNyaRoutePath get currentConfiguration {
@@ -36,33 +35,35 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
 
   MaterialPage _pageForKind(PageKind pageKind) {
     switch (pageKind) {
-      case PageKind.Home:
-        return MaterialPage(key: ValueKey('HomePage'), child: Home());
+      case PageKind.home:
+        return const MaterialPage(key: ValueKey('HomePage'), child: Home());
 
-      case PageKind.Puzzle:
+      case PageKind.puzzle:
         return MaterialPage(
-            key: ValueKey('PuzzlesPage'),
-            child: Puzzles(initialTab: _tabKind ?? TabKind.Original));
+            key: const ValueKey('PuzzlesPage'),
+            child: Puzzles(initialTab: _tabKind ?? TabKind.original));
 
-      case PageKind.Challenge:
+      case PageKind.challenge:
         return MaterialPage(
-            key: ValueKey('ChallengesPage'),
-            child: Challenges(initialTab: _tabKind ?? TabKind.Original));
+            key: const ValueKey('ChallengesPage'),
+            child: Challenges(initialTab: _tabKind ?? TabKind.original));
 
-      case PageKind.Editor:
-        return MaterialPage(key: ValueKey('EditorPage'), child: Editor());
+      case PageKind.editor:
+        return const MaterialPage(key: ValueKey('EditorPage'), child: Editor());
 
-      case PageKind.Multiplayer:
-        if (!kIsWeb)
-          return MaterialPage(
+      case PageKind.multiplayer:
+        if (!kIsWeb) {
+          return const MaterialPage(
               key: ValueKey('MultiplayerPage'), child: Multiplayer());
-        else
-          return MaterialPage(
+        } else {
+          return const MaterialPage(
               key: ValueKey('MultiplayerPage'),
               child: MultiplayerNotAvailable());
+        }
 
-      case PageKind.Guide:
-        return MaterialPage(key: ValueKey('TutorialPage'), child: Tutorial());
+      case PageKind.guide:
+        return const MaterialPage(
+            key: ValueKey('TutorialPage'), child: Tutorial());
     }
   }
 
@@ -71,37 +72,37 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
     return Navigator(
       key: navigatorKey,
       pages: [
-        if (_pageKind != PageKind.Home) _pageForKind(PageKind.Home),
+        if (_pageKind != PageKind.home) _pageForKind(PageKind.home),
         _pageForKind(_pageKind),
-        if (_pageKind == PageKind.Puzzle &&
+        if (_pageKind == PageKind.puzzle &&
             _id != null &&
-            _tabKind == TabKind.Original &&
+            _tabKind == TabKind.original &&
             OriginalPuzzles.slugs.containsKey(_id))
           MaterialPage(
               key: ValueKey('OriginalPuzzle$_id'),
               child: OriginalPuzzle(
                 id: OriginalPuzzles.slugs[_id]!,
               ))
-        else if (_pageKind == PageKind.Challenge &&
+        else if (_pageKind == PageKind.challenge &&
             _id != null &&
-            _tabKind == TabKind.Original &&
+            _tabKind == TabKind.original &&
             OriginalChallenges.slugs.containsKey(_id))
           MaterialPage(
               key: ValueKey('OriginalChallenge$_id'),
               child: OriginalChallenge(
                 id: OriginalChallenges.slugs[_id]!,
               ))
-        else if (_pageKind == PageKind.Puzzle &&
+        else if (_pageKind == PageKind.puzzle &&
             _id != null &&
-            _tabKind == TabKind.Community)
+            _tabKind == TabKind.community)
           MaterialPage(
               key: ValueKey('CommunityPuzzle$_id'),
               child: LoadingPuzzle(
                   futurePuzzle:
                       context.read<FirebaseService>().getCommunityPuzzle(_id!)))
-        else if (_pageKind == PageKind.Challenge &&
+        else if (_pageKind == PageKind.challenge &&
             _id != null &&
-            _tabKind == TabKind.Community)
+            _tabKind == TabKind.community)
           MaterialPage(
               key: ValueKey('CommunityChallenge$_id'),
               child: LoadingChallenge(
@@ -119,7 +120,7 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
         } else if (_tabKind != null) {
           _tabKind = null;
         } else {
-          _pageKind = PageKind.Home;
+          _pageKind = PageKind.home;
         }
 
         notifyListeners();
@@ -130,10 +131,10 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
   }
 
   @override
-  Future<void> setNewRoutePath(NyaNyaRoutePath path) async {
-    _pageKind = path.kind;
-    _tabKind = path.tabKind;
-    _id = path.id;
+  Future<void> setNewRoutePath(NyaNyaRoutePath configuration) async {
+    _pageKind = configuration.kind;
+    _tabKind = configuration.tabKind;
+    _id = configuration.id;
     notifyListeners();
     return SynchronousFuture(null);
   }

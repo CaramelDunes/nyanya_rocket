@@ -43,7 +43,7 @@ class TilePainter extends StatelessWidget {
     }
   }
 
-  TilePainter(this.board, this.constraints);
+  const TilePainter(this.board, this.constraints, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

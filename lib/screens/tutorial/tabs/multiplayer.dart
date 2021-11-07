@@ -5,13 +5,15 @@ import '../../../widgets/game_view/entities/entity_painter.dart';
 import '../../../widgets/game_view/tiles/tile_painter.dart';
 
 class Multiplayer extends StatelessWidget {
+  const Multiplayer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.all(8.0),
       children: <Widget>[
         Card(
-          child: Container(
+          child: SizedBox(
               height: 76,
               child: Row(
                 children: <Widget>[
@@ -19,13 +21,13 @@ class Multiplayer extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TilePainter.widget(
-                          Generator(direction: Direction.Up)),
+                          const Generator(direction: Direction.Up)),
                     ),
                   ),
-                  Flexible(
+                  const Flexible(
                     flex: 3,
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(''),
                     ),
                   )
@@ -33,7 +35,7 @@ class Multiplayer extends StatelessWidget {
               )),
         ),
         Card(
-          child: Container(
+          child: SizedBox(
               height: 100,
               child: Row(
                 children: <Widget>[
@@ -43,10 +45,10 @@ class Multiplayer extends StatelessWidget {
                     child: EntityPainter.widget(
                         EntityType.SpecialMouse, Direction.Right),
                   )),
-                  Flexible(
+                  const Flexible(
                     flex: 3,
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(''),
                     ),
                   ),
@@ -54,7 +56,7 @@ class Multiplayer extends StatelessWidget {
               )),
         ),
         Card(
-          child: Container(
+          child: SizedBox(
             height: 100,
             child: Row(
               children: <Widget>[
@@ -64,10 +66,10 @@ class Multiplayer extends StatelessWidget {
                   child: EntityPainter.widget(
                       EntityType.GoldenMouse, Direction.Down),
                 )),
-                Flexible(
+                const Flexible(
                   flex: 3,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(''),
                   ),
                 ),

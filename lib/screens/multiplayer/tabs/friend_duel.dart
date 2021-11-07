@@ -39,7 +39,8 @@ class _FriendDuelState extends State<FriendDuel> {
 
     _client = AuthenticatedClient(authToken: widget.idToken);
     _queue = PrivateQueue(client: _client);
-    _roomCreationUpdateTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _roomCreationUpdateTimer =
+        Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_inQueue) {
         _updateRoomCode();
       }
@@ -78,7 +79,7 @@ class _FriendDuelState extends State<FriendDuel> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(flex: 2, child: _buildCodePart()),
-          Divider(),
+          const Divider(),
           Expanded(flex: 3, child: _buildJoinPart()),
         ]);
   }
@@ -89,7 +90,7 @@ class _FriendDuelState extends State<FriendDuel> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(child: _buildCodePart()),
-          VerticalDivider(),
+          const VerticalDivider(),
           Expanded(child: _buildJoinPart()),
         ]);
   }
@@ -110,12 +111,12 @@ class _FriendDuelState extends State<FriendDuel> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(NyaNyaLocalizations.of(context).awaitingForPlayersLabel),
-                CircularProgressIndicator(),
+                const CircularProgressIndicator(),
               ],
             )
           else if (!_inQueue)
             IconButton(
-              icon: Icon(Icons.refresh),
+              icon: const Icon(Icons.refresh),
               onPressed: () {
                 setState(() {
                   _inQueue = true;
@@ -123,7 +124,7 @@ class _FriendDuelState extends State<FriendDuel> {
               },
             )
           else
-            SizedBox.shrink()
+            const SizedBox.shrink()
         ],
       ),
     );
@@ -146,7 +147,7 @@ class _FriendDuelState extends State<FriendDuel> {
             maxLength: 4,
             expands: false,
             onChanged: (s) {
-              setState((){
+              setState(() {
                 _destCode = s;
               });
             },
@@ -201,9 +202,9 @@ class _FriendDuelState extends State<FriendDuel> {
   }
 
   Widget _codeBox() {
-    if (_inQueue && _myRoomCode == null)
-      return CircularProgressIndicator();
-    else if (_myRoomCode != null)
+    if (_inQueue && _myRoomCode == null) {
+      return const CircularProgressIndicator();
+    } else if (_myRoomCode != null) {
       return SelectableText(
         _myRoomCode!,
         showCursor: true,
@@ -212,8 +213,9 @@ class _FriendDuelState extends State<FriendDuel> {
             .headline3!
             .copyWith(color: Colors.black),
       );
-    else
+    } else {
       return Text(NyaNyaLocalizations.of(context).roomCodeRetrievalErrorText);
+    }
   }
 
   Widget _buildRoomCode() {

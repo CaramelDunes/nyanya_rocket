@@ -9,7 +9,8 @@ class PuzzleData {
   PuzzleData({required this.gameData, required this.availableArrows});
 
   PuzzleData.withBorder()
-      : gameData = jsonEncode((GameState()..board = Board.withBorder()).toJson()),
+      : gameData =
+            jsonEncode((GameState()..board = Board.withBorder()).toJson()),
         availableArrows = List.filled(4, 0);
 
   GameState getGame() => GameState.fromJson(jsonDecode(gameData));

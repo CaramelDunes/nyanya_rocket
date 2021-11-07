@@ -41,8 +41,9 @@ abstract class MultiplayerStore {
     String? jsonEncoded =
         await NamedDataStorage.active.readData(storeName, uuid);
 
-    if (registry.containsKey(uuid) && jsonEncoded != null)
+    if (registry.containsKey(uuid) && jsonEncoded != null) {
       return MultiplayerBoard.fromJson(jsonDecode(jsonEncoded));
+    }
   }
 
   static Future<bool> deleteBoard(String uuid) async {

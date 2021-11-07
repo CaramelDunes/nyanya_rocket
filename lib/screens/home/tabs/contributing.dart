@@ -8,6 +8,8 @@ import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import '../../../config.dart';
 
 class Contributing extends StatelessWidget {
+  const Contributing({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -25,7 +27,7 @@ class Contributing extends StatelessWidget {
               ),
               TextSpan(
                   text: kProjectUrl,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.blue,
                       decoration: TextDecoration.underline,
                       fontSize: 17),
@@ -36,12 +38,12 @@ class Contributing extends StatelessWidget {
             ],
           ),
         ),
-        Divider(),
+        const Divider(),
         Text('${NyaNyaLocalizations.of(context).contributorsLabel}:',
             style: Theme.of(context).textTheme.subtitle1),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: const Contributors(),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Contributors(),
         )
       ],
     );

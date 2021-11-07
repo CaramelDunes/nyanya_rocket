@@ -6,11 +6,11 @@ class SpawnerImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
+    return const AspectRatio(
       aspectRatio: 1,
       child: CustomPaint(
         size: Size.infinite,
-        painter: const SpawnerPainter(),
+        painter: SpawnerPainter(),
       ),
     );
   }

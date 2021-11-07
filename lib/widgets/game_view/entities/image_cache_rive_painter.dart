@@ -10,8 +10,8 @@ class ImageCacheRivePainter implements UnitPainter {
   static const int numberOfFrames = 30;
   static const double rasterizeRatio = 0.228;
 
-  Size _size;
-  List<ui.Image> _cachedPictures;
+  final Size _size;
+  final List<ui.Image> _cachedPictures;
 
   ImageCacheRivePainter._(this._size, this._cachedPictures);
 
@@ -52,6 +52,7 @@ class ImageCacheRivePainter implements UnitPainter {
     return ImageCacheRivePainter._(size, cache);
   }
 
+  @override
   void paintUnit(Canvas canvas, int frameNumber, [Paint? paint]) {
     canvas.save();
 

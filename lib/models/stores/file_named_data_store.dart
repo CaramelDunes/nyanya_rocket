@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'named_data_store.dart';
 
 class FileNamedDataStorage implements NamedDataStorage {
+  @override
   Future<Map<String, String>> readRegistry(String storeName) async {
     File _registryFile = File(await _registryFilePath(storeName));
 
@@ -15,7 +16,7 @@ class FileNamedDataStorage implements NamedDataStorage {
 
     String contents = await _registryFile.readAsString();
 
-    Map<String, String> entries = Map();
+    Map<String, String> entries = {};
 
     for (String entry in contents.split('\n')) {
       int separator = entry.indexOf(';');
@@ -33,6 +34,7 @@ class FileNamedDataStorage implements NamedDataStorage {
     return entries;
   }
 
+  @override
   Future<bool> writeRegistry(
       String storeName, Map<String, String> registry) async {
     String stringValue = '';
@@ -53,6 +55,7 @@ class FileNamedDataStorage implements NamedDataStorage {
     return true;
   }
 
+  @override
   Future<String?> readData(String storeName, String dataId) async {
     File dataFile = File(await _dataFilePath(storeName, dataId));
 
@@ -61,6 +64,7 @@ class FileNamedDataStorage implements NamedDataStorage {
     }
   }
 
+  @override
   Future<bool> deleteData(String storeName, String dataId) async {
     // TODO Handle exception.
     await File(await _dataFilePath(storeName, dataId)).delete();

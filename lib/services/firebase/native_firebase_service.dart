@@ -33,10 +33,12 @@ class NativeFirebaseService extends FirebaseService {
   }
 
   // Streams
+  @override
   Stream<Map<String, dynamic>> getDocStream(List<String> keys) {
     return _getDoc(keys)!.snapshots().map((doc) => doc.data()!);
   }
 
+  @override
   Stream<List<Map<String, dynamic>>> getListStream(List<String> keys) {
     return _getCollection(keys)!.snapshots().map(
       (QuerySnapshot<Map<String, dynamic>> snapshot) {
@@ -74,6 +76,7 @@ class NativeFirebaseService extends FirebaseService {
     await firestore.doc(getPathFromKeys(keys)).update(json);
   }
 
+  @override
   Future<Map<String, dynamic>?> getDoc(List<String> keys) async {
     try {
       DocumentSnapshot d = (await _getDoc(keys)!.get());
@@ -84,9 +87,10 @@ class NativeFirebaseService extends FirebaseService {
     return null;
   }
 
+  @override
   Future<List<Map<String, dynamic>>?> getCollection(List<String> keys) async {
-    QuerySnapshot<Map<String, dynamic>?> snapshot = (await _getCollection(keys)!
-        .get());
+    QuerySnapshot<Map<String, dynamic>?> snapshot =
+        (await _getCollection(keys)!.get());
     return snapshot.docs
         .where((d) => d.data() != null)
         .map((d) => d.data()!)
@@ -147,7 +151,7 @@ class NativeFirebaseService extends FirebaseService {
   @override
   Future<void> updateDisplayName(String newDisplayName) {
     return FirebaseAuth.instance.currentUser
-            ?.updateProfile(displayName: newDisplayName) ??
+            ?.updateDisplayName(newDisplayName) ??
         Future.value();
   }
 
@@ -156,7 +160,7 @@ class NativeFirebaseService extends FirebaseService {
       {required Sorting sortBy, required int limit}) async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('challenges')
-        .orderBy(sortBy.fieldName, descending: sortBy != Sorting.ByName)
+        .orderBy(sortBy.fieldName, descending: sortBy != Sorting.byName)
         .limit(50)
         .get();
 
@@ -178,7 +182,7 @@ class NativeFirebaseService extends FirebaseService {
       {required Sorting sortBy, required int limit}) async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('puzzles')
-        .orderBy(sortBy.fieldName, descending: sortBy != Sorting.ByName)
+        .orderBy(sortBy.fieldName, descending: sortBy != Sorting.byName)
         .limit(50)
         .get();
 

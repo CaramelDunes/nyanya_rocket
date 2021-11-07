@@ -17,7 +17,7 @@ class EventWheel extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListWheelScrollView(
       controller: scrollController,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: cards,
       itemExtent: 100,
       squeeze: 1.1,
@@ -102,7 +102,7 @@ class EventWheel extends StatelessWidget {
       child: Center(
           child: Text(
         name,
-        style: TextStyle(
+        style: const TextStyle(
           decoration: TextDecoration.none,
           fontSize: 35,
           color: Colors.white,

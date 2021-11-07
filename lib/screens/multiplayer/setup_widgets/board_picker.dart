@@ -38,7 +38,7 @@ class _BoardPickerState extends State<BoardPicker> {
           Navigator.push(
                   context,
                   MaterialPageRoute<MultiplayerBoard>(
-                      builder: (context) => BoardPickerLists()))
+                      builder: (context) => const BoardPickerLists()))
               .then((MultiplayerBoard? board) {
             if (board is MultiplayerBoard) {
               widget.onChanged(board);

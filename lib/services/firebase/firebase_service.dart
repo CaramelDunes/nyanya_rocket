@@ -8,16 +8,16 @@ import 'package:nyanya_rocket/services/firebase/firedart_firebase_service.dart';
 import '../../config.dart';
 import 'native_firebase_service.dart';
 
-enum Sorting { ByDate, ByPopularity, ByName }
+enum Sorting { byDate, byPopularity, byName }
 
 extension FieldName on Sorting {
   String get fieldName {
     switch (this) {
-      case Sorting.ByDate:
+      case Sorting.byDate:
         return 'date';
-      case Sorting.ByPopularity:
+      case Sorting.byPopularity:
         return 'likes';
-      case Sorting.ByName:
+      case Sorting.byName:
         return 'name';
     }
   }

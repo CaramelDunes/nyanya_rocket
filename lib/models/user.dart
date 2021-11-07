@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import 'package:http/http.dart' as http;
 
-enum StatusCode { Success, Failure, InvalidArgument, Unauthenticated }
+enum StatusCode { success, failure, invalidArgument, unauthenticated }
 
 class User with ChangeNotifier {
   String? _displayName;
@@ -32,8 +32,7 @@ class User with ChangeNotifier {
 
   Future<String?> idToken() => firebaseService.idToken();
 
-  Stream<bool> get signedInStream =>
-      firebaseService.signInStatusStream();
+  Stream<bool> get signedInStream => firebaseService.signInStatusStream();
 
   Future<bool> setDisplayName(String newDisplayName) async {
     final token = await idToken();

@@ -13,10 +13,11 @@ class MultiplayerEditor extends StatefulWidget {
   final MultiplayerBoard board;
   final String? uuid;
 
-  MultiplayerEditor({
+  const MultiplayerEditor({
+    Key? key,
     required this.board,
     this.uuid,
-  });
+  }) : super(key: key);
 
   @override
   _MultiplayerEditorState createState() => _MultiplayerEditorState();
@@ -61,12 +62,12 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
         title: Text(widget.board.name),
         actions: [
           IconButton(
-              icon: Icon(Icons.undo),
+              icon: const Icon(Icons.undo),
               onPressed: () {
                 _editedGame.undo();
               }),
           IconButton(
-              icon: Icon(Icons.redo),
+              icon: const Icon(Icons.redo),
               onPressed: () {
                 _editedGame.redo();
               })
@@ -79,9 +80,9 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
               child: EditorPlacer(
                   editedGame: _editedGame,
                   onSave: _handleSave,
-                  menus: [
+                  menus: const [
                 EditorMenu(subMenu: <EditorTool>[
-                  EditorTool(type: ToolType.Tile, tile: Pit())
+                  EditorTool(type: ToolType.tile, tile: Pit())
                 ]),
                 StandardMenus.rockets,
                 StandardMenus.generators,

@@ -22,78 +22,78 @@ class DefaultDrawer extends StatelessWidget {
               child:
                   Image.asset('assets/graphics/adaptive_icon_foreground.png')),
           ListTile(
-            leading: Icon(Icons.home),
+            leading: const Icon(Icons.home),
             title: Text(NyaNyaLocalizations.of(context).homeTitle),
             onTap: () {
               Navigator.pop(context);
               Router.of(context)
                   .routerDelegate
-                  .setNewRoutePath(NyaNyaRoutePath.home());
+                  .setNewRoutePath(const NyaNyaRoutePath.home());
             },
           ),
           ListTile(
-            leading: FaIcon(FontAwesomeIcons.puzzlePiece),
+            leading: const FaIcon(FontAwesomeIcons.puzzlePiece),
             title: Text(NyaNyaLocalizations.of(context).puzzlesTitle),
             onTap: () {
               Navigator.pop(context);
               Router.of(context)
                   .routerDelegate
-                  .setNewRoutePath(NyaNyaRoutePath.puzzles());
+                  .setNewRoutePath(const NyaNyaRoutePath.puzzles());
             },
           ),
           ListTile(
-            leading: FaIcon(FontAwesomeIcons.stopwatch),
+            leading: const FaIcon(FontAwesomeIcons.stopwatch),
             title: Text(NyaNyaLocalizations.of(context).challengesTitle),
             onTap: () {
               Navigator.pop(context);
               Router.of(context)
                   .routerDelegate
-                  .setNewRoutePath(NyaNyaRoutePath.challenges());
+                  .setNewRoutePath(const NyaNyaRoutePath.challenges());
             },
           ),
           ListTile(
-            leading: FaIcon(FontAwesomeIcons.gamepad),
+            leading: const FaIcon(FontAwesomeIcons.gamepad),
             title: Text(NyaNyaLocalizations.of(context).multiplayerTitle),
             onTap: () {
               Navigator.pop(context);
               Router.of(context)
                   .routerDelegate
-                  .setNewRoutePath(NyaNyaRoutePath.multiplayer());
+                  .setNewRoutePath(const NyaNyaRoutePath.multiplayer());
             },
           ),
           ListTile(
-            leading: Icon(Icons.mode_edit),
+            leading: const Icon(Icons.mode_edit),
             title: Text(NyaNyaLocalizations.of(context).editorTitle),
             onTap: () {
               Navigator.pop(context);
               Router.of(context)
                   .routerDelegate
-                  .setNewRoutePath(NyaNyaRoutePath.editor());
+                  .setNewRoutePath(const NyaNyaRoutePath.editor());
             },
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: FaIcon(FontAwesomeIcons.book),
+            leading: const FaIcon(FontAwesomeIcons.book),
             title: Text(NyaNyaLocalizations.of(context).tutorialTitle),
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => Tutorial()));
+                      builder: (BuildContext context) => const Tutorial()));
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings),
+            leading: const Icon(Icons.settings),
             title: Text(NyaNyaLocalizations.of(context).settingsTitle),
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => Settings()));
+                      builder: (BuildContext context) => const Settings()));
             },
           ),
           ListTile(
-            leading: Icon(Icons.library_books),
+            leading: const Icon(Icons.library_books),
             title: Text(NyaNyaLocalizations.of(context).privacyPolicyLabel),
             onTap: () {
               Navigator.push(
@@ -103,7 +103,7 @@ class DefaultDrawer extends StatelessWidget {
                           const PrivacyPolicyPrompt(askUser: false)));
             },
           ),
-          AboutListTile(
+          const AboutListTile(
             icon: FaIcon(FontAwesomeIcons.questionCircle),
             applicationLegalese:
                 'Made with ❤ by CaramelDunes️\n\n\nPowered by Flutter',

@@ -10,7 +10,7 @@ import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
 class Puzzles extends StatelessWidget {
   final TabKind initialTab;
 
-  const Puzzles({Key? key, this.initialTab = TabKind.Original})
+  const Puzzles({Key? key, this.initialTab = TabKind.original})
       : super(key: key);
 
   @override
@@ -28,23 +28,26 @@ class Puzzles extends StatelessWidget {
               tabs: [
                 Tab(
                   icon: displayIcons
-                      ? FaIcon(FontAwesomeIcons.puzzlePiece)
+                      ? const FaIcon(FontAwesomeIcons.puzzlePiece)
                       : null,
                   text: NyaNyaLocalizations.of(context).originalTab,
                 ),
                 Tab(
-                  icon: displayIcons ? FaIcon(FontAwesomeIcons.globe) : null,
+                  icon: displayIcons
+                      ? const FaIcon(FontAwesomeIcons.globe)
+                      : null,
                   text: NyaNyaLocalizations.of(context).communityTab,
                 ),
                 Tab(
-                  icon:
-                      displayIcons ? FaIcon(FontAwesomeIcons.mobileAlt) : null,
+                  icon: displayIcons
+                      ? const FaIcon(FontAwesomeIcons.mobileAlt)
+                      : null,
                   text: NyaNyaLocalizations.of(context).deviceTab,
                 ),
               ],
             )),
-        drawer: DefaultDrawer(),
-        body: TabBarView(
+        drawer: const DefaultDrawer(),
+        body: const TabBarView(
           children: [OriginalPuzzles(), CommunityPuzzles(), LocalPuzzles()],
         ),
       ),

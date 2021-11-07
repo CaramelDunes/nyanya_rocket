@@ -9,13 +9,15 @@ import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
 import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 
 class CommunityPuzzles extends StatefulWidget {
+  const CommunityPuzzles({Key? key}) : super(key: key);
+
   @override
   _CommunityPuzzlesState createState() => _CommunityPuzzlesState();
 }
 
 class _CommunityPuzzlesState extends State<CommunityPuzzles> {
   List<CommunityPuzzleData> puzzles = [];
-  Sorting _sorting = Sorting.ByPopularity;
+  Sorting _sorting = Sorting.byPopularity;
 
   @override
   void initState() {
@@ -49,7 +51,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                 NyaNyaLocalizations.of(context).sortByLabel,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
-              VerticalDivider(),
+              const VerticalDivider(),
               Expanded(
                 child: DropdownButton<Sorting>(
                   isExpanded: true,
@@ -57,16 +59,16 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                   items: <DropdownMenuItem<Sorting>>[
                     DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).dateLabel),
-                      value: Sorting.ByDate,
+                      value: Sorting.byDate,
                     ),
                     DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).nameLabel),
-                      value: Sorting.ByName,
+                      value: Sorting.byName,
                     ),
                     DropdownMenuItem<Sorting>(
                       child:
                           Text(NyaNyaLocalizations.of(context).popularityLabel),
-                      value: Sorting.ByPopularity,
+                      value: Sorting.byPopularity,
                     )
                   ],
                   onChanged: (Sorting? value) {
@@ -80,17 +82,18 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
             ],
           ),
         ),
-        Divider(),
+        const Divider(),
         Expanded(
           child: RefreshIndicator(
             onRefresh: _refreshList,
             child: OrientationBuilder(
               builder: (BuildContext context, Orientation orientation) {
                 if (orientation == Orientation.landscape ||
-                    MediaQuery.of(context).size.width >= 270 * 2.5)
+                    MediaQuery.of(context).size.width >= 270 * 2.5) {
                   return _buildLandscape();
-                else
+                } else {
                   return _buildPortrait();
+                }
               },
             ),
           ),
@@ -101,7 +104,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
 
   Widget _buildPortrait() {
     return ListView.separated(
-        separatorBuilder: (context, int) => Divider(),
+        separatorBuilder: (context, index) => const Divider(),
         itemCount: puzzles.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(puzzles[i].name),
@@ -118,7 +121,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
 
   Widget _buildLandscape() {
     return GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 270,
         ),
         itemCount: puzzles.length,
@@ -142,7 +145,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                 )),
             Text(
               puzzles[i].name,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,

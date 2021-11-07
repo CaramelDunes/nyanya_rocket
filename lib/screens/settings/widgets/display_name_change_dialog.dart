@@ -28,7 +28,7 @@ class _DisplayNameChangeDialogState extends State<DisplayNameChangeDialog> {
       contentPadding: const EdgeInsets.all(16.0),
       title: Text(NyaNyaLocalizations.of(context).displayNameDialogTitle),
       content: _loading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
               widthFactor: 1,
               heightFactor: 1,

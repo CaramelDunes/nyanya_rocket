@@ -21,12 +21,14 @@ class Challenge extends StatefulWidget {
   final Duration? bestTime;
   final String? documentPath;
 
-  Challenge(
-      {required this.challenge,
+  const Challenge(
+      {Key? key,
+      required this.challenge,
       this.nextRoutePath,
       this.onWin,
       this.bestTime,
-      this.documentPath});
+      this.documentPath})
+      : super(key: key);
 
   @override
   _ChallengeState createState() => _ChallengeState();
@@ -60,8 +62,8 @@ class _ChallengeState extends State<Challenge> {
       _ended = true;
     });
 
-    widget.onWin
-        ?.call(Duration(seconds: 30) - _challengeController.remainingTime);
+    widget.onWin?.call(
+        const Duration(seconds: 30) - _challengeController.remainingTime);
   }
 
   Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,
@@ -77,16 +79,16 @@ class _ChallengeState extends State<Challenge> {
 
   String _objectiveText(BuildContext context) {
     switch (_challengeController.challenge.type) {
-      case ChallengeType.GetMice:
+      case ChallengeType.getMice:
         return NyaNyaLocalizations.of(context).getMiceObjectiveText;
 
-      case ChallengeType.RunAway:
+      case ChallengeType.runAway:
         return NyaNyaLocalizations.of(context).runAwayObjectiveText;
 
-      case ChallengeType.LunchTime:
+      case ChallengeType.lunchTime:
         return NyaNyaLocalizations.of(context).lunchTimeObjectiveText;
 
-      case ChallengeType.OneHundredMice:
+      case ChallengeType.oneHundredMice:
         return NyaNyaLocalizations.of(context).oneHundredMiceObjectiveText;
 
       default:
@@ -101,21 +103,21 @@ class _ChallengeState extends State<Challenge> {
         title: Text(widget.challenge.name),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => Settings()));
+                      builder: (BuildContext context) => const Settings()));
             },
           ),
           IconButton(
-            icon: Icon(Icons.help_outline),
+            icon: const Icon(Icons.help_outline),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => Tutorial()));
+                      builder: (BuildContext context) => const Tutorial()));
             },
           )
         ],
@@ -230,7 +232,7 @@ class _ChallengeState extends State<Challenge> {
   Widget _buildTargetCount() {
     return ValueListenableBuilder<int>(
         valueListenable: _challengeController.scoreStream,
-        builder: (BuildContext context, int value, _) {
+        builder: (BuildContext context, int value, Widget? child) {
           return Text(
             '$value / ${_challengeController.targetScore}',
             style: Theme.of(context).textTheme.headline6,

@@ -4,9 +4,11 @@ import 'package:nyanya_rocket/screens/editor/widgets/create_tab.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/edit_tab.dart';
 import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
 
-enum EditorMode { Puzzle, Challenge, Multiplayer }
+enum EditorMode { puzzle, challenge, multiplayer }
 
 class Editor extends StatefulWidget {
+  const Editor({Key? key}) : super(key: key);
+
   @override
   _EditorState createState() => _EditorState();
 }
@@ -43,18 +45,18 @@ class _EditorState extends State<Editor> with SingleTickerProviderStateMixin {
           controller: _tabController,
           tabs: [
             Tab(
-                icon: displayIcons ? Icon(Icons.add) : null,
+                icon: displayIcons ? const Icon(Icons.add) : null,
                 text: NyaNyaLocalizations.of(context).newTab),
             Tab(
-                icon: displayIcons ? Icon(Icons.edit) : null,
+                icon: displayIcons ? const Icon(Icons.edit) : null,
                 text: NyaNyaLocalizations.of(context).editTab),
           ],
         ),
       ),
-      drawer: DefaultDrawer(),
+      drawer: const DefaultDrawer(),
       body: TabBarView(
         controller: _tabController,
-        children: [
+        children: const [
           CreateTab(),
           EditTab(),
         ],

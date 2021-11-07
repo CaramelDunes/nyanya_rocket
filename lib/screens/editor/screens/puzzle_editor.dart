@@ -14,10 +14,11 @@ class PuzzleEditor extends StatefulWidget {
   final NamedPuzzleData puzzle;
   final String? uuid;
 
-  PuzzleEditor({
+  const PuzzleEditor({
+    Key? key,
     required this.puzzle,
     this.uuid,
-  });
+  }) : super(key: key);
 
   @override
   _PuzzleEditorState createState() => _PuzzleEditorState();
@@ -78,7 +79,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
         if (copy.tiles[x][y] is Arrow) {
           Arrow arrow = copy.tiles[x][y] as Arrow;
           availableArrows[arrow.direction.index]++;
-          copy.tiles[x][y] = Empty();
+          copy.tiles[x][y] = const Empty();
         }
       }
     }
@@ -112,7 +113,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     if (_uuid == null) {
       PuzzleStore.saveNewPuzzle(_buildPuzzleData()).then((String? uuid) {
         if (uuid != null) {
-          this._uuid = uuid;
+          _uuid = uuid;
           print('Saved $uuid');
           _saving = false;
         } // TODO Handle failure.
@@ -134,12 +135,12 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
         title: Text(widget.puzzle.name),
         actions: [
           IconButton(
-              icon: Icon(Icons.undo),
+              icon: const Icon(Icons.undo),
               onPressed: () {
                 _editedGame.undo();
               }),
           IconButton(
-              icon: Icon(Icons.redo),
+              icon: const Icon(Icons.redo),
               onPressed: () {
                 _editedGame.redo();
               })
@@ -158,12 +159,12 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
                       editedGame: _editedGame,
                       onPlay: () => _handlePlay(context),
                       onSave: _handleSave,
-                      menus: [
+                      menus: const [
                     EditorMenu(subMenu: <EditorTool>[
                       EditorTool(
-                          type: ToolType.Tile,
+                          type: ToolType.tile,
                           tile: Rocket(player: PlayerColor.Blue)),
-                      EditorTool(type: ToolType.Tile, tile: Pit())
+                      EditorTool(type: ToolType.tile, tile: Pit())
                     ]),
                     StandardMenus.arrows,
                     StandardMenus.mice,

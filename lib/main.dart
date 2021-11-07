@@ -16,10 +16,11 @@ Future<void> main() async {
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-  if (kIsWeb)
+  if (kIsWeb) {
     NamedDataStorage.active = PrefsDataStore(sharedPreferences);
-  else
+  } else {
     NamedDataStorage.active = FileNamedDataStorage();
+  }
 
   runApp(App(
     sharedPreferences: sharedPreferences,

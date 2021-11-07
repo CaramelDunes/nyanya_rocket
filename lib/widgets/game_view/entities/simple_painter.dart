@@ -7,8 +7,9 @@ class SimplePainter implements UnitPainter {
 
   SimplePainter(this.color);
 
+  @override
   void paintUnit(Canvas canvas, int frameNumber, [Paint? paint]) {
-    canvas.drawOval(Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
+    canvas.drawOval(const Rect.fromLTRB(0.1, 0.1, 0.9, 0.9),
         Paint()..color = color.withOpacity(0.7));
   }
 }

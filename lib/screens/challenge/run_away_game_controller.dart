@@ -7,7 +7,7 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class RunAwayGameController extends ChallengeGameController {
   int _targetScore = 0;
 
-  ValueNotifier<int> _scoreStream = ValueNotifier(0);
+  final ValueNotifier<int> _scoreStream = ValueNotifier(0);
 
   RunAwayGameController(
       {required void Function() onWin, required ChallengeData challenge})

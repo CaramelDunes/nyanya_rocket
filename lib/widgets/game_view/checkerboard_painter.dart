@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class CheckerboardPainter extends CustomPainter {
   static final List<Paint> lightPaints = [
-    Paint()..color = Color(0xFFFBE0C2),
-    Paint()..color = Color(0xFFC3B1F5)
+    Paint()..color = const Color(0xFFFBE0C2),
+    Paint()..color = const Color(0xFFC3B1F5)
   ];
 
   static final List<Paint> darkPaints = [
@@ -27,7 +27,7 @@ class CheckerboardPainter extends CustomPainter {
   }
 
   static void paintUnitCheckerboard(Canvas canvas) {
-    canvas.drawRect(Rect.fromLTRB(0, 0, 12, 9), lightPaints[0]);
+    canvas.drawRect(const Rect.fromLTRB(0, 0, 12, 9), lightPaints[0]);
     for (int x = 0; x < 12; x++) {
       for (int y = x.isEven ? 1 : 0; y < 9; y += 2) {
         canvas.drawRect(

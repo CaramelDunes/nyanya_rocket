@@ -8,7 +8,7 @@ class LunchTimeGameController extends ChallengeGameController {
   int _score = 0;
   int _targetScore = 0;
 
-  ValueNotifier<int> _scoreStream = ValueNotifier(0);
+  final ValueNotifier<int> _scoreStream = ValueNotifier(0);
 
   LunchTimeGameController(
       {required void Function() onWin, required ChallengeData challenge})

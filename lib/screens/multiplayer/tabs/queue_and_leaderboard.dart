@@ -40,7 +40,7 @@ class QueueAndLeaderboard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(flex: 2, child: _buildPlayerFinder()),
-        Divider(),
+        const Divider(),
         Expanded(flex: 3, child: _buildLeaderboard(context))
       ],
     );
@@ -52,7 +52,7 @@ class QueueAndLeaderboard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(child: _buildPlayerFinder()),
-        VerticalDivider(),
+        const VerticalDivider(),
         Expanded(child: _buildLeaderboard(context))
       ],
     );
@@ -81,17 +81,17 @@ class QueueAndLeaderboard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FaIcon(FontAwesomeIcons.crown),
-                SizedBox(width: 8.0),
+                const FaIcon(FontAwesomeIcons.crown),
+                const SizedBox(width: 8.0),
                 Text(
                   NyaNyaLocalizations.of(context).leaderBoardLabel,
                   style: Theme.of(context).textTheme.headline6,
                 ),
               ],
             ),
-            Expanded(
+            const Expanded(
                 child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Leaderboard(),
             )),
           ]),

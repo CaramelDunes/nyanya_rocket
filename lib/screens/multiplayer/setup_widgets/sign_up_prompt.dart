@@ -3,6 +3,8 @@ import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/screens/settings/account_management.dart';
 
 class SignUpPrompt extends StatelessWidget {
+  const SignUpPrompt({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(

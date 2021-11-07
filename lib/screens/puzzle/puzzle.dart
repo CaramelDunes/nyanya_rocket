@@ -18,11 +18,13 @@ class Puzzle extends StatefulWidget {
   final String? documentPath;
   final NyaNyaRoutePath? nextRoutePath;
 
-  Puzzle(
-      {required this.puzzle,
+  const Puzzle(
+      {Key? key,
+      required this.puzzle,
       this.nextRoutePath,
       this.onWin,
-      this.documentPath});
+      this.documentPath})
+      : super(key: key);
 
   @override
   _PuzzleState createState() => _PuzzleState();
@@ -133,21 +135,21 @@ class _PuzzleState extends State<Puzzle> {
         title: Text(widget.puzzle.name),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => Settings()));
+                      builder: (BuildContext context) => const Settings()));
             },
           ),
           IconButton(
-            icon: Icon(Icons.help_outline),
+            icon: const Icon(Icons.help_outline),
             onPressed: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext context) => Tutorial()));
+                      builder: (BuildContext context) => const Tutorial()));
             },
           )
         ],

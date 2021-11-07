@@ -6,7 +6,7 @@ import 'static_foreground_painter.dart';
 class StaticGameView extends StatelessWidget {
   final GameState game;
 
-  const StaticGameView({required this.game});
+  const StaticGameView({Key? key, required this.game}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

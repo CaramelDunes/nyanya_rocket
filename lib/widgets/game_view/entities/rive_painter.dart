@@ -33,6 +33,7 @@ class RivePainter implements UnitPainter {
     return RivePainter._(artboard);
   }
 
+  @override
   void paintUnit(Canvas canvas, int frameNumber, [Paint? paint]) {
     canvas.scale(1 / artboard.width, 1 / artboard.height);
 

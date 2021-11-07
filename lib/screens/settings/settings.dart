@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'region.dart';
 
 class Settings extends StatelessWidget {
+  const Settings({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +30,7 @@ class Settings extends StatelessWidget {
               title: Text(NyaNyaLocalizations.of(context).languageLabel),
               trailing: DropdownButton<String>(
                   value: Provider.of<Language>(context).value,
-                  items: <DropdownMenuItem<String>>[
+                  items: const <DropdownMenuItem<String>>[
                     DropdownMenuItem(
                       child: Text('Auto'),
                       value: 'auto',
@@ -87,7 +89,7 @@ class Settings extends StatelessWidget {
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (BuildContext context) {
-                    return AccountManagement();
+                    return const AccountManagement();
                   }));
                 },
               ),

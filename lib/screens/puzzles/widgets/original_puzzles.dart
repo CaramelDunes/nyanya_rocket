@@ -124,6 +124,8 @@ class OriginalPuzzles extends StatefulWidget {
   static Map<String, int> slugs =
       puzzles.asMap().map((index, value) => MapEntry(value.slug, index));
 
+  const OriginalPuzzles({Key? key}) : super(key: key);
+
   @override
   _OriginalPuzzlesState createState() => _OriginalPuzzlesState();
 }
@@ -166,7 +168,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Text(
           '${i + 1}',
-          style: TextStyle(fontSize: 15),
+          style: const TextStyle(fontSize: 15),
           textAlign: TextAlign.center,
         ),
       ),
@@ -177,12 +179,12 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
           visible: starred.contains(i),
           child: Icon(
             Icons.star,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
           ),
         ),
         Visibility(
           visible: cleared.contains(i),
-          child: Icon(
+          child: const Icon(
             Icons.check,
             color: Colors.green,
           ),
@@ -220,10 +222,11 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
           child: OrientationBuilder(
             builder: (BuildContext context, Orientation orientation) {
               if (orientation == Orientation.landscape ||
-                  MediaQuery.of(context).size.width >= 270 * 2.5)
+                  MediaQuery.of(context).size.width >= 270 * 2.5) {
                 return _buildLandscape(context, puzzleIndices, cleared);
-              else
+              } else {
                 return _buildPortrait(puzzleIndices, cleared, starred);
+              }
             },
           ),
         ),
@@ -253,7 +256,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
   Widget _buildLandscape(
       BuildContext context, List<int> puzzleIndices, Set<int> cleared) {
     return GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 270,
         ),
         itemCount: puzzleIndices.length,
@@ -281,7 +284,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
                         visible: cleared.contains(i),
                         child: Container(
                           color: Colors.black.withOpacity(0.5),
-                          child: Center(
+                          child: const Center(
                             child: Icon(
                               Icons.check,
                               color: Colors.green,
@@ -295,7 +298,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
                 )),
             Text(
               OriginalPuzzles.puzzles[i].name,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(_difficultyFromIndex(context, i))
           ],

@@ -6,7 +6,8 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class AvailableArrows extends StatelessWidget {
   final PuzzleGameController puzzleGameController;
 
-  const AvailableArrows({required this.puzzleGameController});
+  const AvailableArrows({Key? key, required this.puzzleGameController})
+      : super(key: key);
 
   static Widget _buildArrowAndCount(
       int i, int count, Brightness brightness, bool canPlace) {
@@ -24,7 +25,7 @@ class AvailableArrows extends StatelessWidget {
               decoration: BoxDecoration(
                 color:
                     brightness == Brightness.dark ? Colors.black : Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(4.0)),
               ),
               child: Padding(
                 padding:
@@ -32,7 +33,8 @@ class AvailableArrows extends StatelessWidget {
                 child: Text(
                   count.toString(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
             ),
@@ -68,7 +70,8 @@ class AvailableArrows extends StatelessWidget {
       builder: (BuildContext context, Orientation orientation) {
         return ValueListenableBuilder(
           valueListenable: puzzleGameController.state,
-          builder: (context, state, _) {
+          builder:
+              (BuildContext context, PuzzleGameState state, Widget? child) {
             return Flex(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 direction: orientation == Orientation.landscape

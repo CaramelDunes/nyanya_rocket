@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:firedart/firedart.dart';
-import 'package:firedart/firestore/models.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
@@ -18,11 +17,13 @@ class FiredartFirebaseService extends FirebaseService {
 
   Firestore get firestore => Firestore.instance;
 
+  @override
   Future<void> init() async {
     Firestore.initialize(projectId);
     FirebaseAuth.initialize(apiKey, await PreferencesStore.create());
   }
 
+  @override
   Future<Map<String, dynamic>?> getDoc(List<String> keys) async {
     //print("getDocData: ${keys.toString()}");
     try {
@@ -34,20 +35,23 @@ class FiredartFirebaseService extends FirebaseService {
     return null;
   }
 
+  @override
   Future<List<Map<String, dynamic>>> getCollection(List<String> keys) async {
     //print("getDocStream: ${keys.toString()}");
     Page<Document> docs = (await _getCollection(keys)!.get());
-    docs.forEach((d) {
-      d.map..['documentId'] = d.id;
-    });
+    for (Document d in docs) {
+      d.map['documentId'] = d.id;
+    }
     return docs.map((d) => d.map).toList();
   }
 
+  @override
   Stream<Map<String, dynamic>> getDocStream(List<String> keys) {
     //print("getDocStream: ${keys.toString()}");
     return _getDoc(keys)!.stream.map((d) => d!.map..['documentId'] = d.id);
   }
 
+  @override
   Stream<List<Map<String, dynamic>>> getListStream(List<String> keys) {
     //print("getListStream: ${keys.toString()}");
     return _getCollection(keys)!.stream.map(
@@ -119,10 +123,11 @@ class FiredartFirebaseService extends FirebaseService {
 
   @override
   Future<String?> idToken() {
-    if (FirebaseAuth.instance.isSignedIn)
+    if (FirebaseAuth.instance.isSignedIn) {
       return FirebaseAuth.instance.tokenProvider.idToken;
-    else
+    } else {
       return Future.value(null);
+    }
   }
 
   @override
@@ -158,7 +163,7 @@ class FiredartFirebaseService extends FirebaseService {
       {required Sorting sortBy, required int limit}) async {
     final snapshot = await Firestore.instance
         .collection('challenges')
-        .orderBy(sortBy.fieldName, descending: sortBy != Sorting.ByName)
+        .orderBy(sortBy.fieldName, descending: sortBy != Sorting.byName)
         .limit(50)
         .get();
 
@@ -179,7 +184,7 @@ class FiredartFirebaseService extends FirebaseService {
       {required Sorting sortBy, required int limit}) async {
     final snapshot = await Firestore.instance
         .collection('puzzles')
-        .orderBy(sortBy.fieldName, descending: sortBy != Sorting.ByName)
+        .orderBy(sortBy.fieldName, descending: sortBy != Sorting.byName)
         .limit(50)
         .get();
 
@@ -232,10 +237,11 @@ class FiredartFirebaseService extends FirebaseService {
   Future<void> incrementFeatureRequestThumbsUp(String id) async {
     final currentValue = await getFeatureRequestThumbsUp(id);
 
-    if (currentValue != null)
+    if (currentValue != null) {
       return Firestore.instance
           .document('feature_requests/$id')
           .update({'thumbs_up': currentValue + 1});
+    }
     // FIXME Use 'atomic' increment once available.
   }
 
@@ -249,10 +255,11 @@ class FiredartFirebaseService extends FirebaseService {
   Future<void> incrementCommunityStar(String path) async {
     final currentValue = await getCommunityStar(path);
 
-    if (currentValue != null)
+    if (currentValue != null) {
       return Firestore.instance
           .document(path)
           .update({'likes': currentValue + 1});
+    }
     // FIXME Use 'atomic' increment when available.
   }
 
@@ -268,7 +275,7 @@ class PreferencesStore extends TokenStore {
   static Future<PreferencesStore> create() async =>
       PreferencesStore._internal(await SharedPreferences.getInstance());
 
-  SharedPreferences _prefs;
+  final SharedPreferences _prefs;
 
   PreferencesStore._internal(this._prefs);
 

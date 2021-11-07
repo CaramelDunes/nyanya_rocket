@@ -17,6 +17,8 @@ import 'tabs/device_duel_setup.dart';
 import 'tabs/lan_multiplayer_setup.dart';
 
 class Multiplayer extends StatefulWidget {
+  const Multiplayer({Key? key}) : super(key: key);
+
   @override
   _MultiplayerState createState() => _MultiplayerState();
 }
@@ -48,10 +50,11 @@ class _MultiplayerState extends State<Multiplayer>
     // });
 
     user.idToken().then((String? token) {
-      if (token != null)
+      if (token != null) {
         setState(() {
           _idToken = token;
         });
+      }
     });
   }
 
@@ -80,18 +83,19 @@ class _MultiplayerState extends State<Multiplayer>
                   tabs: [
                     Tab(
                       icon: displayIcons
-                          ? FaIcon(FontAwesomeIcons.userFriends)
+                          ? const FaIcon(FontAwesomeIcons.userFriends)
                           : null,
                       text: NyaNyaLocalizations.of(context).duelLabel,
                     ),
                     Tab(
-                      icon:
-                          displayIcons ? FaIcon(FontAwesomeIcons.users) : null,
+                      icon: displayIcons
+                          ? const FaIcon(FontAwesomeIcons.users)
+                          : null,
                       text: NyaNyaLocalizations.of(context).fourPlayersLabel,
                     ),
                     Tab(
                       icon: displayIcons
-                          ? FaIcon(FontAwesomeIcons.peopleArrows)
+                          ? const FaIcon(FontAwesomeIcons.peopleArrows)
                           : null,
                       text: NyaNyaLocalizations.of(context).friendDuelLabel,
                     ),
@@ -99,11 +103,11 @@ class _MultiplayerState extends State<Multiplayer>
                 ),
                 actions: [
                   IconButton(
-                    icon: Icon(Icons.settings),
+                    icon: const Icon(Icons.settings),
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return Settings();
+                        return const Settings();
                       }));
                     },
                   ),
@@ -126,31 +130,31 @@ class _MultiplayerState extends State<Multiplayer>
                       if (value == 'lan') {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return LanMultiplayerSetup();
+                          return const LanMultiplayerSetup();
                         }));
                       } else if (value == 'device') {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return DeviceDuelSetup();
+                          return const DeviceDuelSetup();
                         }));
                       }
                     },
                   ),
                 ],
               ),
-              drawer: DefaultDrawer(),
+              drawer: const DefaultDrawer(),
               body: _idToken == null
-                  ? Center(child: SignUpPrompt())
+                  ? const Center(child: SignUpPrompt())
                   : TabBarView(
                       children: [
                         QueueAndLeaderboard(
-                          queueType: QueueType.Duels,
+                          queueType: QueueType.duels,
                           displayName: user.displayName,
                           idToken: _idToken!,
                           masterServerHostname: region.masterServerHostname,
                         ),
                         QueueAndLeaderboard(
-                          queueType: QueueType.FourPlayers,
+                          queueType: QueueType.fourPlayers,
                           displayName: user.displayName,
                           idToken: _idToken!,
                           masterServerHostname: region.masterServerHostname,

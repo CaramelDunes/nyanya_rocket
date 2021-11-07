@@ -18,7 +18,7 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
 
   final ValueNotifier<Duration> timeStream = ValueNotifier(Duration.zero);
 
-  Duration _remainingTime = Duration(minutes: 3);
+  Duration _remainingTime = const Duration(minutes: 3);
   final void Function(GameEvent event)? onGameEvent;
 
   LocalMultiplayerGameController({
@@ -33,8 +33,9 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
 
   @override
   void dispose() {
-    scoreStreams
-        .forEach((ValueNotifier valueNotifier) => valueNotifier.dispose());
+    for (ValueNotifier valueNotifier in scoreStreams) {
+      valueNotifier.dispose();
+    }
     timeStream.dispose();
 
     super.dispose();
@@ -44,7 +45,7 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
   void afterUpdate() {
     super.afterUpdate();
 
-    _remainingTime -= Duration(milliseconds: 16);
+    _remainingTime -= const Duration(milliseconds: 16);
 
     timeStream.value = _remainingTime;
   }

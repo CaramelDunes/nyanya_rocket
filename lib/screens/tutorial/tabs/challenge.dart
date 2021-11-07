@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 
 class Challenge extends StatelessWidget {
+  const Challenge({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView(

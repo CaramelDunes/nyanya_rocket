@@ -14,7 +14,7 @@ class StarCount extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(count.toString()),
         ),
-        Icon(Icons.star),
+        const Icon(Icons.star),
       ],
     );
   }

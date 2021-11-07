@@ -17,6 +17,7 @@ class PitPainter extends CustomPainter {
   }
 
   static void paintUnit(Canvas canvas) {
-    canvas.drawRect(Rect.fromLTRB(0, 0, 1, 1), Paint()..color = Colors.black);
+    canvas.drawRect(
+        const Rect.fromLTRB(0, 0, 1, 1), Paint()..color = Colors.black);
   }
 }

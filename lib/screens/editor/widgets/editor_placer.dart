@@ -10,7 +10,7 @@ import '../../../widgets/game_view/static_game_view.dart';
 import '../../../widgets/game_view/tiles/tile_painter.dart';
 import '../../../widgets/input_grid_overlay.dart';
 
-enum ToolType { Tile, Entity, Wall }
+enum ToolType { tile, entity, wall }
 
 class EditorMenu {
   final List<EditorTool> subMenu;
@@ -88,33 +88,33 @@ class _EditorPlacerState extends State<EditorPlacer> {
       return const SizedBox.shrink();
     }
 
-    if (tool.type == ToolType.Tile)
+    if (tool.type == ToolType.tile) {
       return TilePainter.widget(tool.tile!);
-    else if (tool.type == ToolType.Entity)
+    } else if (tool.type == ToolType.entity) {
       return EntityPainter.widget(tool.entityType!, tool.direction!);
-    else if (tool.type == ToolType.Wall)
+    } else if (tool.type == ToolType.wall) {
       return RotatedBox(
           quarterTurns: -tool.direction!.index,
           child: Image.asset('assets/graphics/wall.png'));
-    else {
+    } else {
       return const SizedBox.shrink();
     }
   }
 
   void _handleDrop(int x, int y, EditorTool selected) {
     switch (selected.type) {
-      case ToolType.Tile:
+      case ToolType.tile:
         widget.editedGame.clearTile(x, y);
         widget.editedGame.toggleTile(x, y, selected.tile!);
         break;
 
-      case ToolType.Entity:
+      case ToolType.entity:
         widget.editedGame.clearEntity(x, y);
         widget.editedGame
             .toggleEntity(x, y, selected.entityType!, selected.direction!);
         break;
 
-      case ToolType.Wall:
+      case ToolType.wall:
         widget.editedGame.toggleWall(x, y, selected.direction!);
         break;
 
@@ -129,16 +129,16 @@ class _EditorPlacerState extends State<EditorPlacer> {
     EditorTool selected = _currentTool();
 
     switch (selected.type) {
-      case ToolType.Tile:
+      case ToolType.tile:
         widget.editedGame.toggleTile(x, y, selected.tile!);
         break;
 
-      case ToolType.Entity:
+      case ToolType.entity:
         widget.editedGame
             .toggleEntity(x, y, selected.entityType!, selected.direction!);
         break;
 
-      case ToolType.Wall:
+      case ToolType.wall:
         widget.editedGame.toggleWall(x, y, selected.direction!);
         break;
 

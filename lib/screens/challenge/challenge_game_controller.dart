@@ -20,10 +20,10 @@ abstract class ChallengeGameController extends LocalGameController {
   final List<ArrowPosition> placedArrows = [];
   final void Function() onWin;
 
-  Duration _remainingTime = Duration(seconds: 30);
+  Duration _remainingTime = const Duration(seconds: 30);
   final ValueNotifier<Duration> timeStream = ValueNotifier(Duration.zero);
 
-  ValueNotifier<BoardPosition?> _mistake = ValueNotifier(null);
+  final ValueNotifier<BoardPosition?> _mistake = ValueNotifier(null);
 
   Iterable<Cat>? _preMistakeCats;
   Iterable<Mouse>? _preMistakeMice;
@@ -34,14 +34,14 @@ abstract class ChallengeGameController extends LocalGameController {
   factory ChallengeGameController.proxy(
       {required ChallengeData challenge, required void Function() onWin}) {
     switch (challenge.type) {
-      case ChallengeType.RunAway:
-      case ChallengeType.GetMice:
+      case ChallengeType.runAway:
+      case ChallengeType.getMice:
         return RunAwayGameController(challenge: challenge, onWin: onWin);
 
-      case ChallengeType.LunchTime:
+      case ChallengeType.lunchTime:
         return LunchTimeGameController(challenge: challenge, onWin: onWin);
 
-      case ChallengeType.OneHundredMice:
+      case ChallengeType.oneHundredMice:
         return OneHundredMiceGameController(challenge: challenge, onWin: onWin);
     }
   }
@@ -88,7 +88,7 @@ abstract class ChallengeGameController extends LocalGameController {
         }
 
         if (count >= 3 && last != null) {
-          game.board.tiles[last.x][last.y] = Empty();
+          game.board.tiles[last.x][last.y] = const Empty();
         }
 
         game.board.tiles[x][y] =
@@ -113,7 +113,7 @@ abstract class ChallengeGameController extends LocalGameController {
       _remainingTime = Duration.zero;
     }
 
-    timeStream.value = Duration(seconds: 30) - _remainingTime;
+    timeStream.value = const Duration(seconds: 30) - _remainingTime;
   }
 
   @override
@@ -134,7 +134,7 @@ abstract class ChallengeGameController extends LocalGameController {
   void reset() {
     running = false;
     _mistake.value = null;
-    _remainingTime = Duration(seconds: 30);
+    _remainingTime = const Duration(seconds: 30);
     timeStream.value = Duration.zero;
     gameState = challenge.getGame();
     onReset();

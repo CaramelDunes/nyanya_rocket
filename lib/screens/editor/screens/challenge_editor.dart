@@ -15,10 +15,11 @@ class ChallengeEditor extends StatefulWidget {
   final NamedChallengeData challenge;
   final String? uuid;
 
-  ChallengeEditor({
+  const ChallengeEditor({
+    Key? key,
     required this.challenge,
     this.uuid,
-  });
+  }) : super(key: key);
 
   @override
   _ChallengeEditorState createState() => _ChallengeEditorState();
@@ -57,45 +58,45 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
 
   List<EditorMenu> _menusForType(ChallengeType type) {
     switch (type) {
-      case ChallengeType.GetMice:
+      case ChallengeType.getMice:
         return [
-          EditorMenu(subMenu: <EditorTool>[
+          const EditorMenu(subMenu: <EditorTool>[
             EditorTool(
-                type: ToolType.Tile, tile: Rocket(player: PlayerColor.Blue)),
-            EditorTool(type: ToolType.Tile, tile: Pit())
+                type: ToolType.tile, tile: Rocket(player: PlayerColor.Blue)),
+            EditorTool(type: ToolType.tile, tile: Pit())
           ]),
           StandardMenus.mice,
           StandardMenus.walls,
         ];
 
-      case ChallengeType.RunAway:
+      case ChallengeType.runAway:
         return [
-          EditorMenu(subMenu: <EditorTool>[
+          const EditorMenu(subMenu: <EditorTool>[
             EditorTool(
-                type: ToolType.Tile, tile: Rocket(player: PlayerColor.Blue)),
-            EditorTool(type: ToolType.Tile, tile: Pit())
-          ]),
-          StandardMenus.mice,
-          StandardMenus.cats,
-          StandardMenus.walls,
-        ];
-
-      case ChallengeType.LunchTime:
-        return [
-          EditorMenu(subMenu: <EditorTool>[
-            EditorTool(type: ToolType.Tile, tile: Pit())
+                type: ToolType.tile, tile: Rocket(player: PlayerColor.Blue)),
+            EditorTool(type: ToolType.tile, tile: Pit())
           ]),
           StandardMenus.mice,
           StandardMenus.cats,
           StandardMenus.walls,
         ];
 
-      case ChallengeType.OneHundredMice:
+      case ChallengeType.lunchTime:
         return [
-          EditorMenu(subMenu: <EditorTool>[
+          const EditorMenu(subMenu: <EditorTool>[
+            EditorTool(type: ToolType.tile, tile: Pit())
+          ]),
+          StandardMenus.mice,
+          StandardMenus.cats,
+          StandardMenus.walls,
+        ];
+
+      case ChallengeType.oneHundredMice:
+        return [
+          const EditorMenu(subMenu: <EditorTool>[
             EditorTool(
-                type: ToolType.Tile, tile: Rocket(player: PlayerColor.Blue)),
-            EditorTool(type: ToolType.Tile, tile: Pit())
+                type: ToolType.tile, tile: Rocket(player: PlayerColor.Blue)),
+            EditorTool(type: ToolType.tile, tile: Pit())
           ]),
           StandardMenus.generators,
           StandardMenus.walls,
@@ -113,12 +114,12 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
         title: Text(widget.challenge.name),
         actions: [
           IconButton(
-              icon: Icon(Icons.undo),
+              icon: const Icon(Icons.undo),
               onPressed: () {
                 _editedGame.undo();
               }),
           IconButton(
-              icon: Icon(Icons.redo),
+              icon: const Icon(Icons.redo),
               onPressed: () {
                 _editedGame.redo();
               })
@@ -156,7 +157,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
     if (_uuid == null) {
       ChallengeStore.saveNew(_buildChallengeData()).then((String? uuid) {
         if (uuid != null) {
-          this._uuid = uuid;
+          _uuid = uuid;
           print('Saved $uuid');
           _saving = false;
         } // FIXME Handle failure.

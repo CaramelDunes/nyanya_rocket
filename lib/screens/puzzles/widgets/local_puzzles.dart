@@ -12,12 +12,14 @@ import 'package:http/http.dart' as http;
 import '../../../models/stores/puzzle_store.dart';
 
 class LocalPuzzles extends StatefulWidget {
+  const LocalPuzzles({Key? key}) : super(key: key);
+
   @override
   _LocalPuzzlesState createState() => _LocalPuzzlesState();
 }
 
 class _LocalPuzzlesState extends State<LocalPuzzles> {
-  Map<String, String> _puzzles = Map();
+  Map<String, String> _puzzles = {};
 
   @override
   void initState() {
@@ -79,11 +81,11 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
     List<String> uuidList = _puzzles.keys.toList().reversed.toList();
 
     if (uuidList.isEmpty) {
-      return Center(child: EmptyList());
+      return const Center(child: EmptyList());
     }
 
     return ListView.separated(
-        separatorBuilder: (context, int) => Divider(),
+        separatorBuilder: (context, index) => const Divider(),
         itemCount: _puzzles.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(_puzzles[uuidList[i]]!),
@@ -98,14 +100,15 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
 //                    },
 //                  ),
                   IconButton(
-                    icon: Icon(Icons.publish),
+                    icon: const Icon(Icons.publish),
                     tooltip: NyaNyaLocalizations.of(context).publishLabel,
                     onPressed: () {
                       if (user.isConnected) {
                         PuzzleStore.readPuzzle(uuidList[i])
                             .then((NamedPuzzleData? puzzle) {
-                          if (puzzle != null)
+                          if (puzzle != null) {
                             _verifyAndPublish(context, puzzle);
+                          }
                         });
                       } else {
                         final snackBar = SnackBar(
@@ -120,12 +123,13 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
               onTap: () {
                 PuzzleStore.readPuzzle(uuidList[i])
                     .then((NamedPuzzleData? puzzle) {
-                  if (puzzle != null)
+                  if (puzzle != null) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Puzzle(
                               puzzle: puzzle,
                               // hasNext: i != uuidList.length - 1, TODO
                             )));
+                  }
                 });
               },
             ));

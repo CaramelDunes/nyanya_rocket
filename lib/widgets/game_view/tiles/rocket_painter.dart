@@ -28,7 +28,7 @@ class RocketPainter extends CustomPainter {
   }
 
   static void paintUnit(Canvas canvas, Color color, bool departed) {
-    final rect = Rect.fromLTRB(0, 0, 1, 1);
+    const rect = Rect.fromLTRB(0, 0, 1, 1);
 
     canvas.drawCircle(rect.center, 0.45, Paint()..color = color);
     canvas.drawCircle(

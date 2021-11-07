@@ -7,7 +7,7 @@ import 'package:rive/rive.dart';
 import 'unit_painter.dart';
 
 class PictureCacheRivePainter implements UnitPainter {
-  List<ui.Picture> _cachedPictures;
+  final List<ui.Picture> _cachedPictures;
 
   PictureCacheRivePainter._(this._cachedPictures);
 
@@ -43,9 +43,10 @@ class PictureCacheRivePainter implements UnitPainter {
     return PictureCacheRivePainter._(cache);
   }
 
+  @override
   void paintUnit(Canvas canvas, int frameNumber, [Paint? paint]) {
     if (paint != null) {
-      canvas.saveLayer(Rect.fromLTRB(0, 0, 1, 1), paint);
+      canvas.saveLayer(const Rect.fromLTRB(0, 0, 1, 1), paint);
     }
     canvas.drawPicture(_cachedPictures[frameNumber]);
     if (paint != null) {

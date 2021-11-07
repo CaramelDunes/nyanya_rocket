@@ -60,13 +60,15 @@ class DragTargetTile<T extends Object> extends StatefulWidget {
   final SwipeAcceptor? swipeAcceptor;
   final TapAcceptor<T>? tapAcceptor;
 
-  DragTargetTile(
-      {required this.x,
+  const DragTargetTile(
+      {Key? key,
+      required this.x,
       required this.y,
       required this.builder,
       required this.dropAcceptor,
       this.swipeAcceptor,
-      this.tapAcceptor});
+      this.tapAcceptor})
+      : super(key: key);
 
   @override
   _DragTargetTileState<T> createState() => _DragTargetTileState<T>();

@@ -32,15 +32,16 @@ class ArrowPainter extends CustomPainter {
 
   static void paintUnit(
       Canvas canvas, Color color, Direction direction, bool damaged) {
-    final bodyHeightRatio = 0.55;
-    final bodyWidthRatio = 0.5;
+    const bodyHeightRatio = 0.55;
+    const bodyWidthRatio = 0.5;
 
     final arrow = arrowPath(bodyHeightRatio, bodyWidthRatio);
 
-    final arrowHeightRatio = 0.75;
-    final arrowWidthRatio = 0.65;
-    final rect = Rect.fromLTRB(-0.5, -0.5, 0.5, 0.5);
-    final roundedRect = RRect.fromRectAndRadius(rect, Radius.circular(0.15));
+    const arrowHeightRatio = 0.75;
+    const arrowWidthRatio = 0.65;
+    const rect = Rect.fromLTRB(-0.5, -0.5, 0.5, 0.5);
+    final roundedRect =
+        RRect.fromRectAndRadius(rect, const Radius.circular(0.15));
 
     canvas.save();
     canvas.translate(0.5, 0.5);

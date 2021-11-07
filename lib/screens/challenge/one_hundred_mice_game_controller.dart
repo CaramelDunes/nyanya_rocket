@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class OneHundredMiceGameController extends ChallengeGameController {
-  ValueNotifier<int> _scoreStream = ValueNotifier(0);
+  final ValueNotifier<int> _scoreStream = ValueNotifier(0);
 
   OneHundredMiceGameController(
       {required void Function() onWin, required ChallengeData challenge})

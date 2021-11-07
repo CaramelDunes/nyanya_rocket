@@ -18,8 +18,12 @@ class LocalDuel extends StatefulWidget {
   final List<String> players;
   final Duration duration;
 
-  LocalDuel(
-      {required this.board, required this.players, required this.duration});
+  const LocalDuel(
+      {Key? key,
+      required this.board,
+      required this.players,
+      required this.duration})
+      : super(key: key);
 
   @override
   _LocalDuelState createState() => _LocalDuelState();
@@ -28,7 +32,8 @@ class LocalDuel extends StatefulWidget {
 class _LocalDuelState extends State<LocalDuel> {
   late LocalMultiplayerGameController _localMultiplayerController;
   bool _displayRoulette = false;
-  FixedExtentScrollController _scrollController = FixedExtentScrollController();
+  final FixedExtentScrollController _scrollController =
+      FixedExtentScrollController();
 
   @override
   void initState() {
@@ -42,7 +47,7 @@ class _LocalDuelState extends State<LocalDuel> {
       DeviceOrientation.landscapeRight,
     ]).catchError((Object error) {});
 
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
   @override
@@ -51,8 +56,8 @@ class _LocalDuelState extends State<LocalDuel> {
 
     SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
 
-    SystemChrome.setEnabledSystemUIOverlays(
-        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
 
     super.dispose();
   }
@@ -115,11 +120,11 @@ class _LocalDuelState extends State<LocalDuel> {
         _scrollController.animateToItem(
             // Not * 4 to have a card above and under on the wheel.
             (GameEvent.values.length - 1) * 3 + event.index - 1,
-            duration: Duration(milliseconds: 1500),
+            duration: const Duration(milliseconds: 1500),
             curve: Curves.decelerate);
       });
 
-      Timer(Duration(seconds: 3), () {
+      Timer(const Duration(seconds: 3), () {
         setState(() {
           _displayRoulette = false;
         });
@@ -149,17 +154,16 @@ class _LocalDuelState extends State<LocalDuel> {
                           child:
                               _draggableArrow(PlayerColor.Blue, Direction.Up)),
                       Expanded(
-                          child: Container(
-                              child: ValueListenableBuilder<int>(
-                                  valueListenable: _localMultiplayerController
-                                      .scoreStreams[PlayerColor.Blue.index],
-                                  builder: (context, score, snapshot) {
-                                    return ScoreBox(
-                                      score: score,
-                                      label: widget.players[0],
-                                      color: Colors.blue,
-                                    );
-                                  }))),
+                          child: ValueListenableBuilder<int>(
+                              valueListenable: _localMultiplayerController
+                                  .scoreStreams[PlayerColor.Blue.index],
+                              builder: (context, score, snapshot) {
+                                return ScoreBox(
+                                  score: score,
+                                  label: widget.players[0],
+                                  color: Colors.blue,
+                                );
+                              })),
                       Expanded(
                           child: _draggableArrow(
                               PlayerColor.Blue, Direction.Left)),
@@ -220,17 +224,16 @@ class _LocalDuelState extends State<LocalDuel> {
                           child:
                               _draggableArrow(PlayerColor.Red, Direction.Up)),
                       Expanded(
-                          child: Container(
-                              child: ValueListenableBuilder<int>(
-                                  valueListenable: _localMultiplayerController
-                                      .scoreStreams[PlayerColor.Red.index],
-                                  builder: (context, score, snapshot) {
-                                    return ScoreBox(
-                                      score: score,
-                                      label: widget.players[1],
-                                      color: Colors.red,
-                                    );
-                                  }))),
+                          child: ValueListenableBuilder<int>(
+                              valueListenable: _localMultiplayerController
+                                  .scoreStreams[PlayerColor.Red.index],
+                              builder: (context, score, snapshot) {
+                                return ScoreBox(
+                                  score: score,
+                                  label: widget.players[1],
+                                  color: Colors.red,
+                                );
+                              })),
                       Expanded(
                           child:
                               _draggableArrow(PlayerColor.Red, Direction.Left)),
@@ -246,7 +249,7 @@ class _LocalDuelState extends State<LocalDuel> {
           Visibility(
             visible: _displayRoulette,
             child: Center(
-                child: Container(
+                child: SizedBox(
               width: 450,
               height: 200,
               child: EventWheel(

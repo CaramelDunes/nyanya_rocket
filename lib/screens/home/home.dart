@@ -6,6 +6,8 @@ import 'package:nyanya_rocket/screens/home/tabs/whats_new.dart';
 import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
 
 class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -24,20 +26,21 @@ class _HomeState extends State<Home> {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  icon:
-                      displayIcons ? FaIcon(FontAwesomeIcons.newspaper) : null,
+                  icon: displayIcons
+                      ? const FaIcon(FontAwesomeIcons.newspaper)
+                      : null,
                   text: NyaNyaLocalizations.of(context).whatsNewTab,
                 ),
                 Tab(
                   icon: displayIcons
-                      ? FaIcon(FontAwesomeIcons.handsHelping)
+                      ? const FaIcon(FontAwesomeIcons.handsHelping)
                       : null,
                   text: NyaNyaLocalizations.of(context).contributingTab,
                 ),
               ],
             )),
-        drawer: DefaultDrawer(),
-        body: TabBarView(
+        drawer: const DefaultDrawer(),
+        body: const TabBarView(
           children: [WhatsNew(), Contributing()],
         ),
       ),

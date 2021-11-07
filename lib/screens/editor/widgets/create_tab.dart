@@ -10,10 +10,12 @@ import 'package:nyanya_rocket/screens/editor/screens/multiplayer_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/puzzle_editor.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/name_field.dart';
 
-enum EditorMode { Puzzle, Challenge, Multiplayer }
+enum EditorMode { puzzle, challenge, multiplayer }
 
 class CreateTab extends StatefulWidget {
   static final RegExp nameRegExp = RegExp(r'^[ -~]{2,24}$');
+
+  const CreateTab({Key? key}) : super(key: key);
 
   @override
   _CreateTabState createState() => _CreateTabState();
@@ -22,8 +24,8 @@ class CreateTab extends StatefulWidget {
 class _CreateTabState extends State<CreateTab>
     with AutomaticKeepAliveClientMixin<CreateTab> {
   String _name = '';
-  EditorMode _mode = EditorMode.Puzzle;
-  ChallengeType _challengeType = ChallengeType.GetMice;
+  EditorMode _mode = EditorMode.puzzle;
+  ChallengeType _challengeType = ChallengeType.getMice;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -40,9 +42,9 @@ class _CreateTabState extends State<CreateTab>
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: <Widget>[
-          Spacer(flex: 2),
+          const Spacer(flex: 2),
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 400),
+            constraints: const BoxConstraints(maxWidth: 400),
             child: Form(
               key: _formKey,
               child: Column(
@@ -57,59 +59,60 @@ class _CreateTabState extends State<CreateTab>
                     items: <DropdownMenuItem<EditorMode>>[
                       DropdownMenuItem(
                         child: Text(NyaNyaLocalizations.of(context).puzzleType),
-                        value: EditorMode.Puzzle,
+                        value: EditorMode.puzzle,
                       ),
                       DropdownMenuItem(
                         child:
                             Text(NyaNyaLocalizations.of(context).challengeType),
-                        value: EditorMode.Challenge,
+                        value: EditorMode.challenge,
                       ),
                       DropdownMenuItem(
                         child: Text(
                             NyaNyaLocalizations.of(context).multiplayerType),
-                        value: EditorMode.Multiplayer,
+                        value: EditorMode.multiplayer,
                       ),
                     ],
                     onChanged: (EditorMode? value) {
-                      if (value != null)
+                      if (value != null) {
                         setState(() {
                           _mode = value;
                         });
+                      }
                     },
                     onSaved: (EditorMode? value) => _mode = value ?? _mode,
                   ),
                   Visibility(
-                    visible: _mode == EditorMode.Challenge,
+                    visible: _mode == EditorMode.challenge,
                     child: DropdownButtonFormField<ChallengeType>(
                       value: _challengeType,
                       items: <DropdownMenuItem<ChallengeType>>[
                         DropdownMenuItem(
                           child: Text(
-                              ChallengeType.GetMice.toLocalizedString(context)),
-                          value: ChallengeType.GetMice,
+                              ChallengeType.getMice.toLocalizedString(context)),
+                          value: ChallengeType.getMice,
                         ),
                         DropdownMenuItem(
                           child: Text(
-                              ChallengeType.RunAway.toLocalizedString(context)),
-                          value: ChallengeType.RunAway,
+                              ChallengeType.runAway.toLocalizedString(context)),
+                          value: ChallengeType.runAway,
                         ),
                         DropdownMenuItem(
-                          child: Text(ChallengeType.LunchTime.toLocalizedString(
-                              context)),
-                          value: ChallengeType.LunchTime,
+                          child: Text(ChallengeType.lunchTime
+                              .toLocalizedString(context)),
+                          value: ChallengeType.lunchTime,
                         ),
                         DropdownMenuItem(
-                          child: Text(
-                              ChallengeType.OneHundredMice.toLocalizedString(
-                                  context)),
-                          value: ChallengeType.OneHundredMice,
+                          child: Text(ChallengeType.oneHundredMice
+                              .toLocalizedString(context)),
+                          value: ChallengeType.oneHundredMice,
                         ),
                       ],
                       onChanged: (ChallengeType? value) {
-                        if (value != null)
+                        if (value != null) {
                           setState(() {
                             _challengeType = value;
                           });
+                        }
                       },
                       onSaved: (ChallengeType? value) =>
                           _challengeType = value ?? _challengeType,
@@ -126,13 +129,13 @@ class _CreateTabState extends State<CreateTab>
                             Navigator.of(context).push(
                                 MaterialPageRoute(builder: (BuildContext _) {
                               switch (_mode) {
-                                case EditorMode.Puzzle:
+                                case EditorMode.puzzle:
                                   return PuzzleEditor(
                                       puzzle: NamedPuzzleData.fromPuzzleData(
                                           name: _name,
                                           puzzleData: PuzzleData.withBorder()));
 
-                                case EditorMode.Challenge:
+                                case EditorMode.challenge:
                                   return ChallengeEditor(
                                     challenge:
                                         NamedChallengeData.fromChallengeData(
@@ -142,7 +145,7 @@ class _CreateTabState extends State<CreateTab>
                                                     type: _challengeType)),
                                   );
 
-                                case EditorMode.Multiplayer:
+                                case EditorMode.multiplayer:
                                   return MultiplayerEditor(
                                     board: MultiplayerBoard.withBorder(
                                         name: _name, maxPlayer: 2),
@@ -156,7 +159,7 @@ class _CreateTabState extends State<CreateTab>
               ),
             ),
           ),
-          Spacer(flex: 3),
+          const Spacer(flex: 3),
         ],
       ),
     );

@@ -12,12 +12,14 @@ import 'package:http/http.dart' as http;
 import '../../../models/stores/challenge_store.dart';
 
 class LocalChallenges extends StatefulWidget {
+  const LocalChallenges({Key? key}) : super(key: key);
+
   @override
   _LocalChallengesState createState() => _LocalChallengesState();
 }
 
 class _LocalChallengesState extends State<LocalChallenges> {
-  Map<String, String> _challenges = Map();
+  Map<String, String> _challenges = {};
 
   @override
   void initState() {
@@ -90,11 +92,11 @@ class _LocalChallengesState extends State<LocalChallenges> {
     List<String> uuidList = _challenges.keys.toList().reversed.toList();
 
     if (uuidList.isEmpty) {
-      return Center(child: EmptyList());
+      return const Center(child: EmptyList());
     }
 
     return ListView.separated(
-        separatorBuilder: (context, int) => Divider(),
+        separatorBuilder: (context, index) => const Divider(),
         itemCount: _challenges.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(_challenges[uuidList[i]]!),
@@ -109,17 +111,20 @@ class _LocalChallengesState extends State<LocalChallenges> {
 //                    },
 //                  ),
                   IconButton(
-                    icon: Icon(Icons.publish),
+                    icon: const Icon(Icons.publish),
                     tooltip: NyaNyaLocalizations.of(context).publishLabel,
                     onPressed: () {
                       if (user.isConnected) {
                         ChallengeStore.readChallenge(uuidList[i])
                             .then((NamedChallengeData? puzzle) {
-                          if (puzzle != null)
+                          if (puzzle != null) {
                             _verifyAndPublish(context, puzzle);
-                          else
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('Couldn\'t read puzzle data.')));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text('Couldn\'t read puzzle data.')));
+                          }
                         });
                       } else {
                         final snackBar = SnackBar(
@@ -134,15 +139,16 @@ class _LocalChallengesState extends State<LocalChallenges> {
               onTap: () {
                 ChallengeStore.readChallenge(uuidList[i])
                     .then((NamedChallengeData? challenge) {
-                  if (challenge != null)
+                  if (challenge != null) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Challenge(
                               challenge: challenge,
                               // hasNext: i != _challenges.length - 1, TODO
                             )));
-                  else
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Couldn\'t read challenge data.')));
+                  }
                 });
               },
             ));

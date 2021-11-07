@@ -9,13 +9,15 @@ import '../../../services/firebase/firebase_service.dart';
 import '../../../models/challenge_data.dart';
 
 class CommunityChallenges extends StatefulWidget {
+  const CommunityChallenges({Key? key}) : super(key: key);
+
   @override
   _CommunityChallengesState createState() => _CommunityChallengesState();
 }
 
 class _CommunityChallengesState extends State<CommunityChallenges> {
   List<CommunityChallengeData> challenges = [];
-  Sorting _sorting = Sorting.ByPopularity;
+  Sorting _sorting = Sorting.byPopularity;
 
   @override
   void initState() {
@@ -49,7 +51,7 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
                 NyaNyaLocalizations.of(context).sortByLabel,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
-              VerticalDivider(),
+              const VerticalDivider(),
               Expanded(
                 child: DropdownButton<Sorting>(
                   isExpanded: true,
@@ -57,16 +59,16 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
                   items: <DropdownMenuItem<Sorting>>[
                     DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).dateLabel),
-                      value: Sorting.ByDate,
+                      value: Sorting.byDate,
                     ),
                     DropdownMenuItem<Sorting>(
                       child: Text(NyaNyaLocalizations.of(context).nameLabel),
-                      value: Sorting.ByName,
+                      value: Sorting.byName,
                     ),
                     DropdownMenuItem<Sorting>(
                       child:
                           Text(NyaNyaLocalizations.of(context).popularityLabel),
-                      value: Sorting.ByPopularity,
+                      value: Sorting.byPopularity,
                     )
                   ],
                   onChanged: (Sorting? value) {
@@ -82,17 +84,18 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
             ],
           ),
         ),
-        Divider(),
+        const Divider(),
         Expanded(
           child: RefreshIndicator(
             onRefresh: _refreshList,
             child: OrientationBuilder(
               builder: (BuildContext context, Orientation orientation) {
                 if (orientation == Orientation.landscape ||
-                    MediaQuery.of(context).size.width >= 270 * 2.5)
+                    MediaQuery.of(context).size.width >= 270 * 2.5) {
                   return _buildLandscape();
-                else
+                } else {
                   return _buildPortrait();
+                }
               },
             ),
           ),
@@ -103,7 +106,7 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
 
   Widget _buildPortrait() {
     return ListView.separated(
-        separatorBuilder: (context, int) => Divider(),
+        separatorBuilder: (context, index) => const Divider(),
         itemCount: challenges.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(challenges[i].name),
@@ -122,7 +125,7 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
 
   Widget _buildLandscape() {
     return GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 270,
         ),
         itemCount: challenges.length,
@@ -146,7 +149,7 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
                 )),
             Text(
               '${challenges[i].name} (${challenges[i].challengeData.type.toLocalizedString(context)})',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,

@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 class WhatsNew extends StatelessWidget {
   static Set<String> availableLocales = {'en', 'fr'};
 
+  const WhatsNew({Key? key}) : super(key: key);
+
   // static Future<QuerySnapshot> news = FirebaseFirestore.instance
   //     .collection('articles_${articleLocale()}')
   //     .orderBy('date', descending: true)
@@ -59,7 +61,7 @@ class WhatsNew extends StatelessWidget {
                       _dismissWelcomeCard(context);
                       Router.of(context)
                           .routerDelegate
-                          .setNewRoutePath(NyaNyaRoutePath.guide());
+                          .setNewRoutePath(const NyaNyaRoutePath.guide());
                     },
                   )
                 ],
@@ -73,7 +75,7 @@ class WhatsNew extends StatelessWidget {
             children: _buildShortcutList(context, Axis.vertical),
           ),
         ),
-        Divider(),
+        const Divider(),
         Expanded(child: _buildNews(context)),
       ],
     );
@@ -91,7 +93,7 @@ class WhatsNew extends StatelessWidget {
             ),
           ),
         ),
-        VerticalDivider(),
+        const VerticalDivider(),
         Expanded(
           flex: 2,
           child: Padding(
@@ -110,21 +112,21 @@ class WhatsNew extends StatelessWidget {
               context: context,
               faIcon: FontAwesomeIcons.puzzlePiece,
               name: NyaNyaLocalizations.of(context).puzzlesTitle,
-              routePath: NyaNyaRoutePath.puzzles(),
+              routePath: const NyaNyaRoutePath.puzzles(),
               direction: direction)),
       Expanded(
           child: _buildShortcutCard(
               context: context,
               faIcon: FontAwesomeIcons.stopwatch,
               name: NyaNyaLocalizations.of(context).challengesTitle,
-              routePath: NyaNyaRoutePath.challenges(),
+              routePath: const NyaNyaRoutePath.challenges(),
               direction: direction)),
       Expanded(
           child: _buildShortcutCard(
               context: context,
               faIcon: FontAwesomeIcons.gamepad,
               name: NyaNyaLocalizations.of(context).multiplayerTitle,
-              routePath: NyaNyaRoutePath.multiplayer(),
+              routePath: const NyaNyaRoutePath.multiplayer(),
               direction: direction))
     ];
   }
@@ -164,9 +166,9 @@ class WhatsNew extends StatelessWidget {
       children: [
         Row(
           children: [
-            SizedBox(width: 8.0),
-            Icon(Icons.new_releases),
-            SizedBox(width: 8.0),
+            const SizedBox(width: 8.0),
+            const Icon(Icons.new_releases),
+            const SizedBox(width: 8.0),
             Text(
               NyaNyaLocalizations.of(context).newsLabel,
               style: Theme.of(context).textTheme.headline5,

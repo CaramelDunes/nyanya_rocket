@@ -4,9 +4,10 @@ import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
 class PuzzleGameControls extends StatelessWidget {
   final PuzzleGameController puzzleController;
 
-  PuzzleGameControls({required this.puzzleController});
+  const PuzzleGameControls({Key? key, required this.puzzleController})
+      : super(key: key);
 
-  static final double iconSize = 50.0;
+  static const double iconSize = 50.0;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class PuzzleGameControls extends StatelessWidget {
         builder: (BuildContext context, Orientation orientation) {
       return ValueListenableBuilder(
         valueListenable: puzzleController.state,
-        builder: (context, PuzzleGameState state, _) {
+        builder: (context, PuzzleGameState state, Widget? child) {
           return Flex(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             direction: orientation == Orientation.landscape
@@ -46,8 +47,8 @@ class PuzzleGameControls extends StatelessWidget {
                 elevation: 8.0,
                 color: state.reset ? Colors.grey : Colors.red,
                 child: InkWell(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Icon(Icons.replay,
                           size: iconSize, color: Colors.black),
                     ),

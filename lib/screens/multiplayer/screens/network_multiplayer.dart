@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
@@ -65,10 +64,12 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
       DeviceOrientation.landscapeRight,
     ]).catchError((Object error) {});
 
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    // Enter fullscreen mode.
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
     _localMultiplayerController.timeStream.addListener(() {
-      if (_localMultiplayerController.timeStream.value > Duration(minutes: 3)) {
+      if (_localMultiplayerController.timeStream.value >
+          const Duration(minutes: 3)) {
         setState(() {
           _hasEnded = true;
           _localMultiplayerController.running = false;
@@ -87,8 +88,9 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
 
     SystemChrome.setPreferredOrientations([]).catchError((Object error) {});
 
-    SystemChrome.setEnabledSystemUIOverlays(
-        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    // Leave fullscreen mode.
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
 
     super.dispose();
   }
@@ -123,7 +125,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
         _scrollController.animateToItem(
             // Not * 4 to have a card above and under on the wheel.
             (GameEvent.values.length - 1) * 3 + event.index - 1,
-            duration: Duration(milliseconds: 1500),
+            duration: const Duration(milliseconds: 1500),
             curve: Curves.decelerate);
       });
 
@@ -143,7 +145,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     if (_localMultiplayerController.players[player.index] == '<empty>' ||
         (!_localMultiplayerController.running &&
             _localMultiplayerController.game.scoreOf(player) == 0)) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     return ValueListenableBuilder<int>(
@@ -264,7 +266,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
           Visibility(
             visible: _displayRoulette,
             child: Center(
-                child: Container(
+                child: SizedBox(
               width: 450,
               height: 200,
               child: EventWheel(
@@ -277,7 +279,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
               child: _buildWaitingCard(),
               builder: (_, status, widget) {
                 return Visibility(
-                    visible: status != NetworkGameStatus.Playing,
+                    visible: status != NetworkGameStatus.playing,
                     child: widget!);
               }),
           if (_hasEnded) _buildEndOfGame()
@@ -288,13 +290,13 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
 
   String _networkGameStatusToString(NetworkGameStatus status) {
     switch (status) {
-      case NetworkGameStatus.ConnectingToServer:
+      case NetworkGameStatus.connectingToServer:
         return NyaNyaLocalizations.of(context).connectingToServerText;
-      case NetworkGameStatus.WaitingForPlayers:
+      case NetworkGameStatus.waitingForPlayers:
         return NyaNyaLocalizations.of(context).waitingForPlayersText;
-      case NetworkGameStatus.Playing:
+      case NetworkGameStatus.playing:
         return 'Playing...';
-      case NetworkGameStatus.Ended:
+      case NetworkGameStatus.ended:
         return 'Game Over';
     }
   }

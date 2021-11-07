@@ -13,7 +13,7 @@ class LanMultiplayerSetup extends StatefulWidget {
   static final RegExp hostnameMatcher = RegExp(
       r'^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$');
 
-  LanMultiplayerSetup({Key? key}) : super(key: key);
+  const LanMultiplayerSetup({Key? key}) : super(key: key);
 
   @override
   _LanMultiplayerSetupState createState() => _LanMultiplayerSetupState();
@@ -25,15 +25,15 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   String _hostname = '10.0.2.2';
 
   int _playerCount = 2;
-  Duration _duration = Duration(minutes: 3);
+  Duration _duration = const Duration(minutes: 3);
 
   static Isolate? _serverIsolate;
   final _formKey = GlobalKey<FormState>();
 
   MultiplayerBoard? _board;
 
-  FocusNode _nicknameFocusNode = FocusNode();
-  FocusNode _hostnameFocusNode = FocusNode();
+  final FocusNode _nicknameFocusNode = FocusNode();
+  final FocusNode _hostnameFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -42,8 +42,9 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
     WifiInfo().getWifiIP().then((String? ip) {
       if (mounted) {
         setState(() {
-          if (ip != null)
+          if (ip != null) {
             _localIpText = NyaNyaLocalizations.of(context).thisDeviceIpText(ip);
+          }
         });
       }
     });
@@ -61,7 +62,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('LAN Multiplayer'),
+        title: const Text('LAN Multiplayer'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(8.0),
@@ -119,7 +120,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                         InternetAddress.lookup(_hostname,
                                 type: InternetAddressType.IPv4)
                             .then((List<InternetAddress> result) {
-                          if (result.length > 0) {
+                          if (result.isNotEmpty) {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(
                                     builder: (BuildContext context) =>
@@ -142,9 +143,9 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
           Text(
             _localIpText,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 25),
+            style: const TextStyle(fontSize: 25),
           ),
-          Divider(),
+          const Divider(),
           Row(
             children: <Widget>[
               Expanded(
@@ -154,22 +155,22 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                     DropdownMenuItem(
                       child: Text(
                           NyaNyaLocalizations.of(context).minuteCountLabel(2)),
-                      value: Duration(minutes: 2),
+                      value: const Duration(minutes: 2),
                     ),
                     DropdownMenuItem(
                       child: Text(
                           NyaNyaLocalizations.of(context).minuteCountLabel(3)),
-                      value: Duration(minutes: 3),
+                      value: const Duration(minutes: 3),
                     ),
                     DropdownMenuItem(
                       child: Text(
                           NyaNyaLocalizations.of(context).minuteCountLabel(4)),
-                      value: Duration(minutes: 4),
+                      value: const Duration(minutes: 4),
                     ),
                     DropdownMenuItem(
                       child: Text(
                           NyaNyaLocalizations.of(context).minuteCountLabel(5)),
-                      value: Duration(minutes: 5),
+                      value: const Duration(minutes: 5),
                     ),
                   ],
                   onChanged: (Duration? value) => setState(() {
@@ -177,7 +178,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                   }),
                 ),
               ),
-              VerticalDivider(),
+              const VerticalDivider(),
               Expanded(
                 child: DropdownButton<int>(
                   value: _playerCount,
@@ -210,7 +211,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
               ),
             ],
           ),
-          Container(
+          SizedBox(
             height: 150,
             child: BoardPicker(
               onChanged: (MultiplayerBoard board) {
@@ -220,24 +221,22 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
               },
             ),
           ),
-          Container(
-            child: Center(
-              child: ElevatedButton(
-                child: Text(NyaNyaLocalizations.of(context).createLabel),
-                onPressed: _board == null
-                    ? null
-                    : () {
-                        _LanMultiplayerSetupState._serverIsolate?.kill();
+          Center(
+            child: ElevatedButton(
+              child: Text(NyaNyaLocalizations.of(context).createLabel),
+              onPressed: _board == null
+                  ? null
+                  : () {
+                      _LanMultiplayerSetupState._serverIsolate?.kill();
 
-                        Isolate.spawn<_ArgumentBundle>(
-                                _LanMultiplayerSetupState.serverEntryPoint,
-                                _ArgumentBundle(_board!.board(), _playerCount))
-                            .then((Isolate isolate) => _LanMultiplayerSetupState
-                                ._serverIsolate = isolate);
+                      Isolate.spawn<_ArgumentBundle>(
+                              _LanMultiplayerSetupState.serverEntryPoint,
+                              _ArgumentBundle(_board!.board(), _playerCount))
+                          .then((Isolate isolate) => _LanMultiplayerSetupState
+                              ._serverIsolate = isolate);
 
-                        _hostname = '10.0.2.2';
-                      },
-              ),
+                      _hostname = '10.0.2.2';
+                    },
             ),
           ),
         ],

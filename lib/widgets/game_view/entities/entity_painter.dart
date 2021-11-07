@@ -14,7 +14,7 @@ class EntityPainter {
     canvas.save();
     canvas.translate(leftOfEntity(entity), topOfEntity(entity));
 
-    final double catBonusSize = 1 / 2;
+    const double catBonusSize = 1 / 2;
 
     switch (entity.runtimeType) {
       case Cat:
@@ -56,9 +56,9 @@ class EntityPainter {
 
   static void paintUnitEntities(Canvas canvas, List<Entity> entities,
       [int frameNumber = 0]) {
-    entities.forEach((Entity entity) {
+    for (Entity entity in entities) {
       paintUnit(entity, canvas, frameNumber);
-    });
+    }
   }
 
   static Widget widget(EntityType entityType, Direction direction) {

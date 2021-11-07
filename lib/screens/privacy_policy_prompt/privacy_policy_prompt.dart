@@ -12,8 +12,8 @@ class PrivacyPolicyPrompt extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           title: Text(NyaNyaLocalizations.of(context).privacyPolicyLabel)),
-      body: SingleChildScrollView(
-          padding: const EdgeInsets.all(8.0), child: Text('''
+      body: const SingleChildScrollView(
+          padding: EdgeInsets.all(8.0), child: Text('''
 Caramel Dunes built the NyaNya Rocket! app as an Open Source app. This SERVICE is provided by Caramel Dunes at no cost and is intended for use as is.
 
 This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.

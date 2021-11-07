@@ -27,6 +27,8 @@ class OriginalBoards extends StatelessWidget {
         maxPlayer: 4),
   ];
 
+  const OriginalBoards({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(

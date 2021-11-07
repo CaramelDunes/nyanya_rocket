@@ -17,23 +17,27 @@ import 'screens/settings/region.dart';
 
 class App extends StatefulWidget {
   static const List<Locale> supportedLocales = [
-    const Locale('en', ''),
-    const Locale('fr', ''),
-    const Locale('de', ''),
+    Locale('en', ''),
+    Locale('fr', ''),
+    Locale('de', ''),
   ];
 
   static ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
     primarySwatch: Colors.deepPurple,
-    accentColor: Colors.orangeAccent,
-    dividerTheme: DividerThemeData().copyWith(space: 8.0),
+    colorScheme: ColorScheme.fromSwatch(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.deepPurple,
+        accentColor: Colors.orangeAccent),
+    dividerTheme: const DividerThemeData().copyWith(space: 8.0),
   );
 
   static ThemeData lightTheme = ThemeData(
-    brightness: Brightness.light,
     primarySwatch: Colors.deepPurple,
-    accentColor: Colors.orangeAccent,
-    dividerTheme: DividerThemeData().copyWith(space: 8.0),
+    colorScheme: ColorScheme.fromSwatch(
+        brightness: Brightness.light,
+        primarySwatch: Colors.deepPurple,
+        accentColor: Colors.orangeAccent),
+    dividerTheme: const DividerThemeData().copyWith(space: 8.0),
   );
 
   final SharedPreferences sharedPreferences;
@@ -51,8 +55,8 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late final User _user = User(widget.firebaseService);
-  NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
-  NyaNyaRouteInformationParser _routeInformationParser =
+  final NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
+  final NyaNyaRouteInformationParser _routeInformationParser =
       NyaNyaRouteInformationParser();
 
   @override
@@ -85,7 +89,7 @@ class _AppState extends State<App> {
       child: Consumer2<DarkMode, Language>(
         builder: (_, darkMode, language, __) {
           return MaterialApp.router(
-            localizationsDelegates: [
+            localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,

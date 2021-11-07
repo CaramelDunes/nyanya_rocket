@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class EditedGame {
-  List<GameState> _undoList = [];
-  List<GameState> _redoList = [];
+  final List<GameState> _undoList = [];
+  final List<GameState> _redoList = [];
   GameState game;
   final ValueNotifier<GameState> gameStream;
 
-  EditedGame({required GameState game})
-      : game = game,
-        gameStream = ValueNotifier(game);
+  EditedGame({required this.game}) : gameStream = ValueNotifier(game);
 
   void dispose() {
     gameStream.dispose();
@@ -34,7 +32,7 @@ class EditedGame {
     } else if (game.board.tiles[x][y].runtimeType == tile.runtimeType) {
       _saveState();
 
-      game.board.tiles[x][y] = Empty();
+      game.board.tiles[x][y] = const Empty();
       _updateGame();
     }
   }

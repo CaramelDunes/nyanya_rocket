@@ -42,10 +42,11 @@ abstract class PuzzleStore {
     String? jsonEncoded =
         await NamedDataStorage.active.readData(storeName, uuid);
 
-    if (registry.containsKey(uuid) && jsonEncoded != null)
+    if (registry.containsKey(uuid) && jsonEncoded != null) {
       return NamedPuzzleData.fromPuzzleData(
           name: registry[uuid]!,
           puzzleData: PuzzleData.fromJson(jsonDecode(jsonEncoded)));
+    }
   }
 
   static Future<bool> deletePuzzle(String uuid) async {
@@ -56,8 +57,9 @@ abstract class PuzzleStore {
         await NamedDataStorage.active.writeRegistry(storeName, registry)) {
       await NamedDataStorage.active.deleteData(storeName, uuid);
       return true;
-    } else
+    } else {
       return false;
+    }
   }
 
   static Future<bool> rename(String uuid, String name) async {

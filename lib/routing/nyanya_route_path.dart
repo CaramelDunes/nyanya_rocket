@@ -1,20 +1,20 @@
-enum PageKind { Home, Puzzle, Challenge, Editor, Multiplayer, Guide }
-enum TabKind { Original, Community, Local }
+enum PageKind { home, puzzle, challenge, editor, multiplayer, guide }
+enum TabKind { original, community, local }
 
 extension PageKindSlug on PageKind {
   String get slug {
     switch (this) {
-      case PageKind.Home:
+      case PageKind.home:
         return '';
-      case PageKind.Puzzle:
+      case PageKind.puzzle:
         return 'puzzles';
-      case PageKind.Challenge:
+      case PageKind.challenge:
         return 'challenges';
-      case PageKind.Editor:
+      case PageKind.editor:
         return 'editor';
-      case PageKind.Multiplayer:
+      case PageKind.multiplayer:
         return 'multiplayer';
-      case PageKind.Guide:
+      case PageKind.guide:
         return 'guide';
     }
   }
@@ -22,11 +22,11 @@ extension PageKindSlug on PageKind {
   static PageKind? fromSlug(String? slug) {
     switch (slug) {
       case 'puzzles':
-        return PageKind.Puzzle;
+        return PageKind.puzzle;
       case 'challenges':
-        return PageKind.Challenge;
+        return PageKind.challenge;
       case 'editor':
-        return PageKind.Editor;
+        return PageKind.editor;
     }
   }
 }
@@ -34,11 +34,11 @@ extension PageKindSlug on PageKind {
 extension TabKindSlug on TabKind {
   String get slug {
     switch (this) {
-      case TabKind.Original:
+      case TabKind.original:
         return 'original';
-      case TabKind.Community:
+      case TabKind.community:
         return 'community';
-      case TabKind.Local:
+      case TabKind.local:
         return 'local';
     }
   }
@@ -46,11 +46,11 @@ extension TabKindSlug on TabKind {
   static TabKind? fromSlug(String? slug) {
     switch (slug) {
       case 'original':
-        return TabKind.Original;
+        return TabKind.original;
       case 'community':
-        return TabKind.Community;
+        return TabKind.community;
       case 'local':
-        return TabKind.Local;
+        return TabKind.local;
     }
   }
 }
@@ -64,47 +64,47 @@ class NyaNyaRoutePath {
 
   const NyaNyaRoutePath.home()
       : id = null,
-        kind = PageKind.Home,
+        kind = PageKind.home,
         tabKind = null;
 
   const NyaNyaRoutePath.puzzles()
-      : kind = PageKind.Puzzle,
-        this.id = null,
+      : kind = PageKind.puzzle,
+        id = null,
         tabKind = null;
 
   const NyaNyaRoutePath.challenges()
-      : kind = PageKind.Challenge,
-        this.id = null,
+      : kind = PageKind.challenge,
+        id = null,
         tabKind = null;
 
   const NyaNyaRoutePath.editor()
-      : kind = PageKind.Editor,
-        this.id = null,
+      : kind = PageKind.editor,
+        id = null,
         tabKind = null;
 
   const NyaNyaRoutePath.multiplayer()
-      : kind = PageKind.Multiplayer,
-        this.id = null,
+      : kind = PageKind.multiplayer,
+        id = null,
         tabKind = null;
 
   const NyaNyaRoutePath.guide()
-      : kind = PageKind.Guide,
-        this.id = null,
+      : kind = PageKind.guide,
+        id = null,
         tabKind = null;
 
   NyaNyaRoutePath.originalPuzzle(this.id)
-      : kind = PageKind.Puzzle,
-        tabKind = TabKind.Original;
+      : kind = PageKind.puzzle,
+        tabKind = TabKind.original;
 
   NyaNyaRoutePath.communityPuzzle(this.id)
-      : kind = PageKind.Puzzle,
-        tabKind = TabKind.Community;
+      : kind = PageKind.puzzle,
+        tabKind = TabKind.community;
 
   NyaNyaRoutePath.originalChallenge(this.id)
-      : kind = PageKind.Challenge,
-        tabKind = TabKind.Original;
+      : kind = PageKind.challenge,
+        tabKind = TabKind.original;
 
   NyaNyaRoutePath.communityChallenge(this.id)
-      : kind = PageKind.Challenge,
-        tabKind = TabKind.Community;
+      : kind = PageKind.challenge,
+        tabKind = TabKind.community;
 }

@@ -10,6 +10,8 @@ import 'widgets/sign_up_dialog.dart';
 class AccountManagement extends StatelessWidget {
   static final RegExp displayNameRegExp = RegExp(r'^[!-~]{2,24}$');
 
+  const AccountManagement({Key? key}) : super(key: key);
+
   Future<String?> _showNameDialog(BuildContext context, String initialValue) {
     return showDialog<String>(
         context: context,
@@ -100,7 +102,7 @@ class AccountManagement extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            PrivacyPolicyPrompt(askUser: false)));
+                            const PrivacyPolicyPrompt(askUser: false)));
               },
             ),
           ],

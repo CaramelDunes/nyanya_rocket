@@ -8,7 +8,7 @@ class EmptyList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       NyaNyaLocalizations.of(context).emptyListText,
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.grey,
         fontSize: 16,
       ),

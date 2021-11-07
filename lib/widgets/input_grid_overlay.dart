@@ -11,11 +11,13 @@ class InputGridOverlay<T extends Object> extends StatelessWidget {
   final DragTargetTileBuilder<T>? previewBuilder;
 
   const InputGridOverlay(
-      {required this.child,
+      {Key? key,
+      required this.child,
       required this.onDrop,
       this.onTap,
       this.onSwipe,
-      this.previewBuilder});
+      this.previewBuilder})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

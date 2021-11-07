@@ -10,7 +10,7 @@ import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
 class Challenges extends StatelessWidget {
   final TabKind initialTab;
 
-  const Challenges({Key? key, this.initialTab = TabKind.Original})
+  const Challenges({Key? key, this.initialTab = TabKind.original})
       : super(key: key);
 
   @override
@@ -27,23 +27,27 @@ class Challenges extends StatelessWidget {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  icon:
-                      displayIcons ? FaIcon(FontAwesomeIcons.stopwatch) : null,
+                  icon: displayIcons
+                      ? const FaIcon(FontAwesomeIcons.stopwatch)
+                      : null,
                   text: NyaNyaLocalizations.of(context).originalTab,
                 ),
                 Tab(
-                  icon: displayIcons ? FaIcon(FontAwesomeIcons.globe) : null,
+                  icon: displayIcons
+                      ? const FaIcon(FontAwesomeIcons.globe)
+                      : null,
                   text: NyaNyaLocalizations.of(context).communityTab,
                 ),
                 Tab(
-                  icon:
-                      displayIcons ? FaIcon(FontAwesomeIcons.mobileAlt) : null,
+                  icon: displayIcons
+                      ? const FaIcon(FontAwesomeIcons.mobileAlt)
+                      : null,
                   text: NyaNyaLocalizations.of(context).deviceTab,
                 ),
               ],
             )),
-        drawer: DefaultDrawer(),
-        body: TabBarView(
+        drawer: const DefaultDrawer(),
+        body: const TabBarView(
           children: [
             OriginalChallenges(),
             CommunityChallenges(),

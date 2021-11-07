@@ -43,10 +43,11 @@ abstract class ChallengeStore {
     String? jsonEncoded =
         await NamedDataStorage.active.readData(storeName, uuid);
 
-    if (registry.containsKey(uuid) && jsonEncoded != null)
+    if (registry.containsKey(uuid) && jsonEncoded != null) {
       return NamedChallengeData.fromChallengeData(
           name: registry[uuid]!,
           challengeData: ChallengeData.fromJson(jsonDecode(jsonEncoded)));
+    }
   }
 
   static Future<bool> deleteChallenge(String uuid) async {

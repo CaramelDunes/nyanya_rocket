@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 
 class Puzzle extends StatelessWidget {
+  const Puzzle({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView(
