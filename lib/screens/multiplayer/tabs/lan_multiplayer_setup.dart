@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:wifi_info_flutter/wifi_info_flutter.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
@@ -39,7 +39,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   void initState() {
     super.initState();
 
-    WifiInfo().getWifiIP().then((String? ip) {
+    NetworkInfo().getWifiIP().then((String? ip) {
       if (mounted) {
         setState(() {
           if (ip != null) {
