@@ -5,6 +5,22 @@ const String kMasterUsEast = 'nyanya-us-east.carameldunes.fr';
 const String kMasterEuWest = 'nyanya-eu-west.carameldunes.fr';
 const double kMaxWidthForBigScreens = 600;
 
+const List<String> kContributorsList = [
+  'brouxco', // Early testing
+  'GuilloteauQ', // Early testing
+  'chauvean', // Discovered null shared pref bug
+  'Savony', // German translation
+  'Dread', // Out of sync puzzle controls
+  '424242', // Night mode multiplayer clock display bug
+  'ln(√π)', // Thumbs-up master clicker
+];
+
+final kContributors =
+    kContributorsList.map((String contributor) => ' - $contributor').join('\n');
+final kAboutText =
+    'Made with ❤ by CaramelDunes️\n\nMany thanks to:\n$kContributors';
+const kAboutVersion = '2.0.5+57';
+
 const String kPrivacyPolicyUrl =
     'https://carameldunes.fr/NyaNyaPrivacyPolicy.html';
 const String kPrivacyPolicyText = '''

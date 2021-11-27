@@ -69,14 +69,13 @@ class WhatsNew extends StatelessWidget {
             ),
           ),
         ),
+        Expanded(child: _buildNews(context)),
         Padding(
           padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 0),
           child: Row(
             children: _buildShortcutList(context, Axis.vertical),
           ),
         ),
-        const Divider(),
-        Expanded(child: _buildNews(context)),
       ],
     );
   }
@@ -162,55 +161,58 @@ class WhatsNew extends StatelessWidget {
   }
 
   Widget _buildNews(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            const SizedBox(width: 8.0),
-            const Icon(Icons.new_releases),
-            const SizedBox(width: 8.0),
-            Text(
-              NyaNyaLocalizations.of(context).newsLabel,
-              style: Theme.of(context).textTheme.headline5,
-            ),
-          ],
-        ),
-        Expanded(
-          child: ListView(
-            children: <Widget>[
-              FutureBuilder<List<Map<String, dynamic>>?>(
-                future:
-                    context.read<FirebaseService>().getNews(articleLocale()),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  }
-
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return Center(
-                          child: Text(
-                              NyaNyaLocalizations.of(context).loadingLabel));
-                    default:
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children:
-                            snapshot.data!.map((Map<String, dynamic> document) {
-                          return ListTile(
-                            title: Text(document['title']),
-                            trailing: Text(MaterialLocalizations.of(context)
-                                .formatShortDate(document['date'])),
-                          );
-                        }).toList(),
-                      );
-                  }
-                },
-              )
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              const SizedBox(width: 8.0),
+              const Icon(Icons.new_releases),
+              const SizedBox(width: 8.0),
+              Text(
+                NyaNyaLocalizations.of(context).newsLabel,
+                style: Theme.of(context).textTheme.headline5,
+              ),
             ],
           ),
-        ),
-      ],
+          Expanded(
+            child: ListView(
+              children: <Widget>[
+                FutureBuilder<List<Map<String, dynamic>>?>(
+                  future:
+                      context.read<FirebaseService>().getNews(articleLocale()),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    }
+
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return Center(
+                            child: Text(
+                                NyaNyaLocalizations.of(context).loadingLabel));
+                      default:
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: snapshot.data!
+                              .map((Map<String, dynamic> document) {
+                            return ListTile(
+                              title: Text(document['title']),
+                              trailing: Text(MaterialLocalizations.of(context)
+                                  .formatShortDate(document['date'])),
+                            );
+                          }).toList(),
+                        );
+                    }
+                  },
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

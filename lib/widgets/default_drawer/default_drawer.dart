@@ -6,6 +6,8 @@ import 'package:nyanya_rocket/screens/privacy_policy_prompt/privacy_policy_promp
 import 'package:nyanya_rocket/screens/settings/settings.dart';
 import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
 
+import '../../config.dart';
+
 class DefaultDrawer extends StatelessWidget {
   const DefaultDrawer({Key? key}) : super(key: key);
 
@@ -103,11 +105,10 @@ class DefaultDrawer extends StatelessWidget {
                           const PrivacyPolicyPrompt(askUser: false)));
             },
           ),
-          const AboutListTile(
-            icon: FaIcon(FontAwesomeIcons.questionCircle),
-            applicationLegalese:
-                'Made with ❤ by CaramelDunes️\n\n\nPowered by Flutter',
-            applicationVersion: '1.0',
+          AboutListTile(
+            icon: const FaIcon(FontAwesomeIcons.questionCircle),
+            applicationLegalese: kAboutText,
+            applicationVersion: kAboutVersion,
           )
         ],
       ),
