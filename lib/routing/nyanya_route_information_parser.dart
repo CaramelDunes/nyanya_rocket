@@ -7,7 +7,15 @@ class NyaNyaRouteInformationParser
   @override
   Future<NyaNyaRoutePath> parseRouteInformation(
       RouteInformation routeInformation) async {
-    final uri = Uri.parse(routeInformation.location ?? '');
+    String location = routeInformation.location ?? '';
+
+    // Strip URL # on mobile.
+    if (location.startsWith('/#')) {
+      location = location.substring(2);
+    }
+
+    final uri = Uri.parse(location);
+
     if (uri.pathSegments.isEmpty) {
       return const NyaNyaRoutePath.home();
     } else {
