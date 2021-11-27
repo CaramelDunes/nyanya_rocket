@@ -49,7 +49,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   NamedChallengeData _buildChallengeData() {
     dynamic gameJson = _editedGame.game.toJson();
 
-    return NamedChallengeData(
+    return NamedChallengeData.fromGameData(
       name: widget.challenge.name,
       type: widget.challenge.challengeData.type,
       gameData: jsonEncode(gameJson),

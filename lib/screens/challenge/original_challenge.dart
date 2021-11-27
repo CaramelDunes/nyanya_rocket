@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:nyanya_rocket/models/named_challenge_data.dart';
-import 'package:nyanya_rocket/models/challenge_data.dart';
 
+import '../../../models/challenge_data.dart';
+import '../../models/named_challenge_data.dart';
 import '../../routing/nyanya_route_path.dart';
 import '../challenges/challenge_progression_manager.dart';
 import '../challenges/tabs/original_challenges.dart';
@@ -17,7 +17,7 @@ class OriginalChallenge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Challenge(
-      challenge: NamedChallengeData.fromChallengeData(
+      challenge: NamedChallengeData(
           challengeData: OriginalChallenges.challenges[id].challengeData,
           name: OriginalChallenges.challenges[id].challengeData.type
                   .toLocalizedString(context) +

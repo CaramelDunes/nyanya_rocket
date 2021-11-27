@@ -137,12 +137,10 @@ class _CreateTabState extends State<CreateTab>
 
                                 case EditorMode.challenge:
                                   return ChallengeEditor(
-                                    challenge:
-                                        NamedChallengeData.fromChallengeData(
-                                            name: _name,
-                                            challengeData:
-                                                ChallengeData.withBorder(
-                                                    type: _challengeType)),
+                                    challenge: NamedChallengeData(
+                                        name: _name,
+                                        challengeData: ChallengeData.withBorder(
+                                            type: _challengeType)),
                                   );
 
                                 case EditorMode.multiplayer:

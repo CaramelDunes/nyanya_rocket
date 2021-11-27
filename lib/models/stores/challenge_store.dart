@@ -44,7 +44,7 @@ abstract class ChallengeStore {
         await NamedDataStorage.active.readData(storeName, uuid);
 
     if (registry.containsKey(uuid) && jsonEncoded != null) {
-      return NamedChallengeData.fromChallengeData(
+      return NamedChallengeData(
           name: registry[uuid]!,
           challengeData: ChallengeData.fromJson(jsonDecode(jsonEncoded)));
     }

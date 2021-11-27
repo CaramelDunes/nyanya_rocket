@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 
+import '../../localization/nyanya_localizations.dart';
+import '../../routing/nyanya_route_path.dart';
 import '../../widgets/bar_rail_tabs.dart';
 import 'tabs/community_challenges.dart';
 import 'tabs/local_challenges.dart';
@@ -18,7 +18,7 @@ class Challenges extends StatelessWidget {
   Widget build(BuildContext context) {
     return BarRailTabs(
         initialTab: initialTab.index,
-        title: NyaNyaLocalizations.of(context).puzzlesTitle,
+        title: NyaNyaLocalizations.of(context).challengesTitle,
         tabs: [
           BarRailTab(
             content: const OriginalChallenges(),

@@ -1,5 +1,5 @@
-import 'package:nyanya_rocket/models/challenge_data.dart';
-import 'package:nyanya_rocket/models/named_challenge_data.dart';
+import '../../models/challenge_data.dart';
+import '../../models/named_challenge_data.dart';
 
 class CommunityChallengeData extends NamedChallengeData {
   final String uid;
@@ -14,5 +14,5 @@ class CommunityChallengeData extends NamedChallengeData {
     required this.likes,
     required ChallengeData challengeData,
     required this.date,
-  }) : super.fromChallengeData(name: name, challengeData: challengeData);
+  }) : super(name: name, challengeData: challengeData);
 }

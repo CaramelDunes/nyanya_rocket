@@ -4,18 +4,22 @@ import 'package:slugify/slugify.dart';
 class NamedChallengeData {
   final String name;
   final ChallengeData challengeData;
+  final String slug;
 
-  NamedChallengeData(
-      {required this.name,
+  NamedChallengeData({required this.name, required this.challengeData})
+      : slug = slugify(challengeData.type.toPrettyString() + name);
+
+  factory NamedChallengeData.fromGameData(
+      {required String name,
       required String gameData,
-      required ChallengeType type})
-      : challengeData = ChallengeData(gameData: gameData, type: type);
+      required ChallengeType type}) {
+    return NamedChallengeData(
+        name: name,
+        challengeData: ChallengeData(gameData: gameData, type: type));
+  }
 
-  NamedChallengeData.fromChallengeData(
-      {required this.name, required this.challengeData});
-
-  static NamedChallengeData fromJson(Map<String, dynamic> json) {
-    return NamedChallengeData.fromChallengeData(
+  factory NamedChallengeData.fromJson(Map<String, dynamic> json) {
+    return NamedChallengeData(
         name: json['name'], challengeData: ChallengeData.fromJson(json));
   }
 
@@ -23,6 +27,4 @@ class NamedChallengeData {
       {'name': name}..addAll(challengeData.toJson());
 
   ChallengeType get type => challengeData.type;
-
-  String get slug => slugify(type.toPrettyString() + name);
 }
