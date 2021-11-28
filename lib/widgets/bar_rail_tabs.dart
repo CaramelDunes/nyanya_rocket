@@ -84,6 +84,7 @@ class _BarRailTabsState extends State<BarRailTabs> {
                       {required icon, required label}) =>
                   NavigationRailDestination(icon: icon, label: Text(label))),
             ),
+            const VerticalDivider(width: 1.0),
             Expanded(child: widget.tabs[_selectedTab].content)
           ],
         ));
