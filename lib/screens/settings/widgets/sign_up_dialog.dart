@@ -98,9 +98,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
                 });
 
                 widget.user.signInAnonymously().then((success) {
-                  // FIXME
-                  // user?.updateProfile(
-                  //     displayName: _displayName!); // ! Because of validation.
+                  widget.user.setDisplayName(_displayName!);
                   Navigator.pop(context, true);
                 }).catchError((e) {
                   setState(() {
