@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 import 'package:nyanya_rocket/widgets/star_count.dart';
 import 'package:provider/provider.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
 import '../../../models/challenge_data.dart';
 import '../../../services/firestore/firestore_service.dart';
+import '../../../widgets/community_filter_bar.dart';
 
 class CommunityChallenges extends StatefulWidget {
   const CommunityChallenges({Key? key}) : super(key: key);
@@ -42,49 +42,6 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                NyaNyaLocalizations.of(context).sortByLabel,
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              const VerticalDivider(),
-              Expanded(
-                child: DropdownButton<Sorting>(
-                  isExpanded: true,
-                  value: _sorting,
-                  items: <DropdownMenuItem<Sorting>>[
-                    DropdownMenuItem<Sorting>(
-                      child: Text(NyaNyaLocalizations.of(context).dateLabel),
-                      value: Sorting.byDate,
-                    ),
-                    DropdownMenuItem<Sorting>(
-                      child: Text(NyaNyaLocalizations.of(context).nameLabel),
-                      value: Sorting.byName,
-                    ),
-                    DropdownMenuItem<Sorting>(
-                      child:
-                          Text(NyaNyaLocalizations.of(context).popularityLabel),
-                      value: Sorting.byPopularity,
-                    )
-                  ],
-                  onChanged: (Sorting? value) {
-                    if (value != null) {
-                      setState(() {
-                        _sorting = value;
-                        _refreshList();
-                      });
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        const Divider(),
         Expanded(
           child: RefreshIndicator(
             onRefresh: _refreshList,
@@ -100,22 +57,30 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
             ),
           ),
         ),
+        const Divider(height: 1.0),
+        CommunityFilterBar(
+          value: _sorting,
+          onRefresh: _refreshList,
+          onSortingChanged: (Sorting? value) {
+            setState(() {
+              _sorting = value ?? _sorting;
+              _refreshList();
+            });
+          },
+        ),
       ],
     );
   }
 
   Widget _buildPortrait() {
-    return ListView.separated(
-        separatorBuilder: (context, index) => const Divider(),
+    return ListView.builder(
         itemCount: challenges.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(challenges[i].name),
               subtitle: Text(
                   '${challenges[i].author}\n${MaterialLocalizations.of(context).formatMediumDate(challenges[i].date)}'),
               isThreeLine: true,
-              trailing: StarCount(
-                count: challenges[i].likes,
-              ),
+              trailing: StarCount(count: challenges[i].likes),
               onTap: () {
                 Router.of(context).routerDelegate.setNewRoutePath(
                     NyaNyaRoutePath.communityChallenge(challenges[i].uid));

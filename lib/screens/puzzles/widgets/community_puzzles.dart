@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/star_count.dart';
 import 'package:provider/provider.dart';
 
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
 
 import '../../../services/firestore/firestore_service.dart';
 import '../../../widgets/board_card.dart';
 import '../../../widgets/board_list.dart';
+import '../../../widgets/community_filter_bar.dart';
 
 class CommunityPuzzles extends StatefulWidget {
   final Future<List<CommunityPuzzleData>?>? puzzles;
@@ -76,10 +76,16 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles>
                 );
               }),
         ),
-        const Divider(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: _buildFilters(),
+        const Divider(height: 1.0),
+        CommunityFilterBar(
+          value: _sorting,
+          onRefresh: _refreshList,
+          onSortingChanged: (Sorting? value) {
+            setState(() {
+              _sorting = value ?? _sorting;
+              _refreshList();
+            });
+          },
         ),
       ],
     );
@@ -118,49 +124,6 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles>
             .routerDelegate
             .setNewRoutePath(NyaNyaRoutePath.communityPuzzle(puzzle.uid));
       },
-    );
-  }
-
-  Widget _buildFilters() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Text(
-          NyaNyaLocalizations.of(context).sortByLabel,
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        const VerticalDivider(),
-        Expanded(
-          child: DropdownButton<Sorting>(
-            isExpanded: true,
-            value: _sorting,
-            items: <DropdownMenuItem<Sorting>>[
-              DropdownMenuItem<Sorting>(
-                child: Text(NyaNyaLocalizations.of(context).dateLabel),
-                value: Sorting.byDate,
-              ),
-              DropdownMenuItem<Sorting>(
-                child: Text(NyaNyaLocalizations.of(context).nameLabel),
-                value: Sorting.byName,
-              ),
-              DropdownMenuItem<Sorting>(
-                child: Text(NyaNyaLocalizations.of(context).popularityLabel),
-                value: Sorting.byPopularity,
-              )
-            ],
-            onChanged: (Sorting? value) {
-              setState(() {
-                _sorting = value ?? _sorting;
-                _refreshList();
-              });
-            },
-          ),
-        ),
-        IconButton(
-            onPressed: _refreshList,
-            icon: const Icon(Icons.refresh),
-            tooltip: NyaNyaLocalizations.of(context).refreshLabel)
-      ],
     );
   }
 
