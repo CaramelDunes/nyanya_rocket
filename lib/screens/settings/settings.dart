@@ -23,9 +23,15 @@ class Settings extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: kMaxWidthForBigScreens),
             child: ListView(
               children: <Widget>[
-                _buildDarkModeTile(context),
-                _buildLanguageTile(context),
-                _buildRegionTile(context),
+                Consumer<DarkMode>(
+                    builder: (context, darkMode, _) =>
+                        _buildDarkModeTile(context, darkMode)),
+                Consumer<Language>(
+                    builder: (context, language, _) =>
+                        _buildLanguageTile(context, language)),
+                Consumer<Region>(
+                    builder: (context, region, _) =>
+                        _buildRegionTile(context, region)),
                 Consumer<User>(
                   builder: (context, user, _) =>
                       _buildAccountManagementTile(context, user),
@@ -36,21 +42,21 @@ class Settings extends StatelessWidget {
         ));
   }
 
-  Widget _buildDarkModeTile(BuildContext context) {
+  Widget _buildDarkModeTile(BuildContext context, DarkMode darkMode) {
     return SwitchListTile(
       title: Text(NyaNyaLocalizations.of(context).darkModeLabel),
       onChanged: (bool value) {
-        Provider.of<DarkMode>(context, listen: false).enabled = value;
+        darkMode.enabled = value;
       },
-      value: Provider.of<DarkMode>(context).enabled,
+      value: darkMode.enabled,
     );
   }
 
-  Widget _buildLanguageTile(BuildContext context) {
+  Widget _buildLanguageTile(BuildContext context, Language language) {
     return ListTile(
       title: Text(NyaNyaLocalizations.of(context).languageLabel),
       trailing: DropdownButton<String>(
-          value: Provider.of<Language>(context).value,
+          value: language.value,
           items: const <DropdownMenuItem<String>>[
             DropdownMenuItem(
               child: Text('Auto'),
@@ -69,19 +75,19 @@ class Settings extends StatelessWidget {
               value: 'de',
             ),
           ],
-          onChanged: (String? language) {
-            if (language != null) {
-              Provider.of<Language>(context, listen: false).value = language;
+          onChanged: (String? newLanguage) {
+            if (newLanguage != null) {
+              language.value = newLanguage;
             }
           }),
     );
   }
 
-  Widget _buildRegionTile(BuildContext context) {
+  Widget _buildRegionTile(BuildContext context, Region region) {
     return ListTile(
       title: Text(NyaNyaLocalizations.of(context).regionLabel),
       trailing: DropdownButton<Regions>(
-          value: Provider.of<Region>(context).value,
+          value: region.value,
           items: <DropdownMenuItem<Regions>>[
             DropdownMenuItem(
               child: Text('Auto (${Region.automaticValue().label})'),
@@ -96,9 +102,9 @@ class Settings extends StatelessWidget {
               value: Regions.usEast,
             ),
           ],
-          onChanged: (Regions? region) {
-            if (region != null) {
-              Provider.of<Region>(context, listen: false).value = region;
+          onChanged: (Regions? newRegion) {
+            if (newRegion != null) {
+              region.value = newRegion;
             }
           }),
     );
