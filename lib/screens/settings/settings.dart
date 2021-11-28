@@ -4,16 +4,24 @@ import 'package:provider/provider.dart';
 import '../../config.dart';
 import '../../localization/nyanya_localizations.dart';
 import '../../models/user.dart';
+import '../privacy_policy_prompt/privacy_policy_prompt.dart';
 import 'account_management.dart';
 import 'dark_mode.dart';
 import 'language.dart';
 import 'region.dart';
+import 'widgets/display_name_change_dialog.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    const EdgeInsets sectionInsets = EdgeInsets.only(top: 8.0, left: 8.0);
+    final TextStyle sectionStyle = Theme.of(context)
+        .textTheme
+        .subtitle1!
+        .copyWith(fontWeight: FontWeight.bold);
+
     return Scaffold(
         appBar: AppBar(
           title: Text(NyaNyaLocalizations.of(context).settingsTitle),
@@ -23,6 +31,13 @@ class Settings extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: kMaxWidthForBigScreens),
             child: ListView(
               children: <Widget>[
+                Padding(
+                  padding: sectionInsets,
+                  child: Text(
+                    NyaNyaLocalizations.of(context).generalLabel,
+                    style: sectionStyle,
+                  ),
+                ),
                 Consumer<DarkMode>(
                     builder: (context, darkMode, _) =>
                         _buildDarkModeTile(context, darkMode)),
@@ -32,10 +47,18 @@ class Settings extends StatelessWidget {
                 Consumer<Region>(
                     builder: (context, region, _) =>
                         _buildRegionTile(context, region)),
+                const Divider(height: 1.0),
+                Padding(
+                  padding: sectionInsets,
+                  child: Text(
+                    NyaNyaLocalizations.of(context).accountManagementLabel,
+                    style: sectionStyle,
+                  ),
+                ),
                 Consumer<User>(
                   builder: (context, user, _) =>
                       _buildAccountManagementTile(context, user),
-                ),
+                )
               ],
             ),
           ),
@@ -111,15 +134,89 @@ class Settings extends StatelessWidget {
   }
 
   Widget _buildAccountManagementTile(BuildContext context, User user) {
+    return Column(children: [
+      ListTile(
+        title: Text(
+            '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
+        subtitle: Text(user.isConnected
+            ? NyaNyaLocalizations.of(context).signOutLabel
+            : NyaNyaLocalizations.of(context).signInLabel),
+        onTap: () {
+          if (user.isConnected) {
+            _showConfirmDialog(
+                    context,
+                    NyaNyaLocalizations.of(context).signOutDialogTitle,
+                    Text(NyaNyaLocalizations.of(context).signOutDialogText))
+                .then((bool? confirmed) {
+              if (confirmed ?? false) {
+                user.signOut();
+              }
+            });
+          } else {
+            AccountManagement.promptSignUp(context);
+          }
+        },
+      ),
+      _buildDisplayNameTile(context, user),
+      ListTile(
+        title: Text(NyaNyaLocalizations.of(context).privacyPolicyLabel),
+        onTap: () {
+          Navigator.push<bool>(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      const PrivacyPolicyPrompt(askUser: false)));
+        },
+      ),
+    ]);
+  }
+
+  Future<String?> _showNameDialog(
+      BuildContext context, String? initialValue, User user) {
+    return showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return DisplayNameChangeDialog(
+              initialValue: initialValue, user: user);
+        });
+  }
+
+  Future<bool?> _showConfirmDialog(
+      BuildContext context, String title, Widget content) {
+    return showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            content: content,
+            actions: <Widget>[
+              TextButton(
+                  child: Text(
+                      NyaNyaLocalizations.of(context).cancel.toUpperCase()),
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  }),
+              TextButton(
+                  child: Text(NyaNyaLocalizations.of(context)
+                      .confirmLabel
+                      .toUpperCase()),
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  })
+            ],
+          );
+        });
+  }
+
+  Widget _buildDisplayNameTile(BuildContext context, User user) {
     return ListTile(
-      title: Text(NyaNyaLocalizations.of(context).accountManagementLabel),
-      subtitle: Text(
-          '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
+      enabled: user.isConnected,
+      title: Text(
+          '${NyaNyaLocalizations.of(context).displayNameLabel}: ${user.displayName}'),
+      subtitle:
+          Text(NyaNyaLocalizations.of(context).tapToChangeDisplayNameLabel),
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (BuildContext context) {
-          return const AccountManagement();
-        }));
+        _showNameDialog(context, user.displayName, user);
       },
     );
   }
