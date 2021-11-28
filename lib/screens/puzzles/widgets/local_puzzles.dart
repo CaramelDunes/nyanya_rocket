@@ -5,29 +5,134 @@ import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
+import 'package:nyanya_rocket/widgets/board_list.dart';
 import 'package:nyanya_rocket/widgets/empty_list.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../config.dart';
 import '../../../models/stores/puzzle_store.dart';
+import '../../../widgets/game_view/static_game_view.dart';
 
-class LocalPuzzles extends StatefulWidget {
+class LocalPuzzles extends StatelessWidget {
   const LocalPuzzles({Key? key}) : super(key: key);
 
   @override
-  _LocalPuzzlesState createState() => _LocalPuzzlesState();
-}
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: PuzzleStore.registry(),
+        builder: (context, AsyncSnapshot<Map<String, String>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              !snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-class _LocalPuzzlesState extends State<LocalPuzzles> {
-  Map<String, String> _puzzles = {};
+          final Map<String, String> puzzles = snapshot.data!;
 
-  @override
-  void initState() {
-    super.initState();
+          final List<String> uuidList = puzzles.keys.toList().reversed.toList();
+          if (uuidList.isEmpty) {
+            return const Center(child: EmptyList());
+          }
 
-    PuzzleStore.registry().then((Map<String, String> entries) => setState(() {
-          _puzzles = entries;
-        }));
+          return Consumer<User>(builder: (context, User user, _) {
+            return BoardList(
+                itemCount: uuidList.length,
+                tileBuilder: (context, i) => _buildPuzzleTile(
+                    context, uuidList[i], puzzles[uuidList[i]]!, user),
+                cardBuilder: (context, i) => _buildPuzzleCard(
+                    context, uuidList[i], puzzles[uuidList[i]]!, user));
+          });
+        });
+  }
+
+  Widget _buildPuzzleTile(
+      BuildContext context, String uuid, String name, User user) {
+    return ListTile(
+      title: Text(name),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+//                  IconButton(
+//                    icon: Icon(Icons.share),
+//                    onPressed: () {
+//                      Share.share(
+//                          'Check out this new puzzle I made! nyanya://puzzle/superjsonbase64');
+//                    },
+//                  ),
+          IconButton(
+            icon: const Icon(Icons.publish),
+            tooltip: NyaNyaLocalizations.of(context).publishLabel,
+            onPressed: () {
+              _handlePublishTapped(context, uuid, user);
+            },
+          ),
+        ],
+      ),
+      onTap: () {
+        _openPuzzle(context, uuid);
+      },
+    );
+  }
+
+  Widget _buildPuzzleCard(
+      BuildContext context, String uuid, String name, User user) {
+    return InkWell(
+      key: ValueKey(uuid),
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: AspectRatio(
+                  aspectRatio: 12 / 9,
+                  child: FutureBuilder(
+                    future: PuzzleStore.readPuzzle(uuid),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<NamedPuzzleData?> snapshot) {
+                      if (snapshot.hasData) {
+                        return StaticGameView(
+                            game: snapshot.data!.data.getGame());
+                      } else {
+                        return const Text('Loading...');
+                      }
+                    },
+                  ),
+                )),
+            Stack(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        name,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.publish),
+                      tooltip: NyaNyaLocalizations.of(context).publishLabel,
+                      onPressed: () {
+                        _handlePublishTapped(context, uuid, user);
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+      onTap: () {
+        _openPuzzle(context, uuid);
+      },
+    );
   }
 
   void _verifyAndPublish(BuildContext context, NamedPuzzleData puzzle) {
@@ -41,9 +146,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                         .read<User>()
                         .idToken()
                         .then((idToken) => http.post(
-                            Uri.https(
-                                'us-central1-nyanya-rocket.cloudfunctions.net',
-                                '/publishPuzzle'),
+                            Uri.https(kCloudFunctionsHost, '/publishPuzzle'),
                             headers: {
                               'Authorization': 'Bearer $idToken',
                               'Content-Type': 'application/json'
@@ -51,8 +154,7 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                             body: jsonEncode({
                               'data': {
                                 'name': puzzle.name,
-                                'puzzle_data':
-                                    jsonEncode(puzzle.puzzleData.toJson()),
+                                'puzzle_data': jsonEncode(puzzle.data.toJson()),
                               }
                             })))
                         .then((response) => response.statusCode == 200)
@@ -74,64 +176,29 @@ class _LocalPuzzlesState extends State<LocalPuzzles> {
                 )));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    User user = Provider.of<User>(context, listen: false);
+  void _openPuzzle(BuildContext context, String uuid) {
+    PuzzleStore.readPuzzle(uuid).then((NamedPuzzleData? puzzle) {
+      if (puzzle != null) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => Puzzle(
+                  puzzle: puzzle,
+                  // hasNext: i != uuidList.length - 1, TODO
+                )));
+      }
+    });
+  }
 
-    List<String> uuidList = _puzzles.keys.toList().reversed.toList();
-
-    if (uuidList.isEmpty) {
-      return const Center(child: EmptyList());
+  void _handlePublishTapped(BuildContext context, String uuid, User user) {
+    if (user.isConnected) {
+      PuzzleStore.readPuzzle(uuid).then((NamedPuzzleData? puzzle) {
+        if (puzzle != null) {
+          _verifyAndPublish(context, puzzle);
+        }
+      });
+    } else {
+      final snackBar = SnackBar(
+          content: Text(NyaNyaLocalizations.of(context).loginPromptText));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
-
-    return ListView.separated(
-        separatorBuilder: (context, index) => const Divider(),
-        itemCount: _puzzles.length,
-        itemBuilder: (context, i) => ListTile(
-              title: Text(_puzzles[uuidList[i]]!),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-//                  IconButton(
-//                    icon: Icon(Icons.share),
-//                    onPressed: () {
-//                      Share.share(
-//                          'Check out this new puzzle I made! nyanya://puzzle/superjsonbase64');
-//                    },
-//                  ),
-                  IconButton(
-                    icon: const Icon(Icons.publish),
-                    tooltip: NyaNyaLocalizations.of(context).publishLabel,
-                    onPressed: () {
-                      if (user.isConnected) {
-                        PuzzleStore.readPuzzle(uuidList[i])
-                            .then((NamedPuzzleData? puzzle) {
-                          if (puzzle != null) {
-                            _verifyAndPublish(context, puzzle);
-                          }
-                        });
-                      } else {
-                        final snackBar = SnackBar(
-                            content: Text(NyaNyaLocalizations.of(context)
-                                .loginPromptText));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                    },
-                  ),
-                ],
-              ),
-              onTap: () {
-                PuzzleStore.readPuzzle(uuidList[i])
-                    .then((NamedPuzzleData? puzzle) {
-                  if (puzzle != null) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Puzzle(
-                              puzzle: puzzle,
-                              // hasNext: i != uuidList.length - 1, TODO
-                            )));
-                  }
-                });
-              },
-            ));
   }
 }

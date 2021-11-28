@@ -131,8 +131,54 @@ class OriginalPuzzles extends StatefulWidget {
   _OriginalPuzzlesState createState() => _OriginalPuzzlesState();
 }
 
-class _OriginalPuzzlesState extends State<OriginalPuzzles> {
+class _OriginalPuzzlesState extends State<OriginalPuzzles>
+    with AutomaticKeepAliveClientMixin<OriginalPuzzles> {
   bool _showCompleted = true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    List<int> puzzleIndices =
+        Iterable<int>.generate(OriginalPuzzles.puzzles.length).toList();
+
+    final progression = context.watch<PuzzleProgressionManager>();
+    final cleared = progression.getCleared();
+    final starred = progression.getStarred();
+
+    if (!_showCompleted) {
+      puzzleIndices = SplayTreeSet<int>.from(puzzleIndices)
+          .difference(cleared)
+          .toList(growable: false);
+    }
+
+    return Column(
+      children: [
+        Expanded(
+          child: BoardList(
+            itemCount: puzzleIndices.length,
+            tileBuilder: (BuildContext context, int i) => _buildPuzzleTile(
+                puzzleIndices[i],
+                cleared.contains(puzzleIndices[i]),
+                starred.contains(puzzleIndices[i])),
+            cardBuilder: (BuildContext context, int i) => _buildPuzzleCard(
+                puzzleIndices[i], cleared.contains(puzzleIndices[i])),
+          ),
+        ),
+        CompletionIndicator(
+          showCompleted: _showCompleted,
+          completedRatio: cleared.length / OriginalPuzzles.puzzles.length,
+          onChanged: (bool? value) {
+            if (value != null) {
+              setState(() {
+                _showCompleted = value;
+              });
+            }
+          },
+        )
+      ],
+    );
+  }
 
   void _openPuzzle(int puzzleIndex) {
     if (puzzleIndex < OriginalPuzzles.puzzles.length) {
@@ -191,55 +237,12 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    List<int> puzzleIndices =
-        Iterable<int>.generate(OriginalPuzzles.puzzles.length).toList();
-
-    final progression = context.watch<PuzzleProgressionManager>();
-    final cleared = progression.getCleared();
-    final starred = progression.getStarred();
-
-    if (!_showCompleted) {
-      puzzleIndices = SplayTreeSet<int>.from(puzzleIndices)
-          .difference(cleared)
-          .toList(growable: false);
-    }
-
-    return Column(
-      children: [
-        Expanded(
-          child: BoardList(
-            itemCount: puzzleIndices.length,
-            tileBuilder: (BuildContext context, int i) => _buildPuzzleTile(
-                puzzleIndices[i],
-                cleared.contains(puzzleIndices[i]),
-                starred.contains(puzzleIndices[i])),
-            cardBuilder: (BuildContext context, int i) => _buildPuzzleCard(
-                puzzleIndices[i], cleared.contains(puzzleIndices[i])),
-          ),
-        ),
-        CompletionIndicator(
-          showCompleted: _showCompleted,
-          completedRatio: cleared.length / OriginalPuzzles.puzzles.length,
-          onChanged: (bool? value) {
-            if (value != null) {
-              setState(() {
-                _showCompleted = value;
-              });
-            }
-          },
-        )
-      ],
-    );
-  }
-
   Widget _buildPuzzleCard(int i, bool cleared) {
     return InkWell(
       key: ValueKey(i),
       child: BoardCard(
         cleared: cleared,
-        game: OriginalPuzzles.puzzles[i].puzzleData.getGame(),
+        game: OriginalPuzzles.puzzles[i].data.getGame(),
         description: [
           Text(
             OriginalPuzzles.puzzles[i].name,
@@ -253,4 +256,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

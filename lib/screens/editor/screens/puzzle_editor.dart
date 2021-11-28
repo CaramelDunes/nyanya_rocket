@@ -33,11 +33,11 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   void initState() {
     super.initState();
 
-    _editedGame = EditedGame(game: widget.puzzle.puzzleData.getGame());
+    _editedGame = EditedGame(game: widget.puzzle.data.getGame());
 
     for (int direction = 0; direction < 4; direction++) {
       _initExistingArrows(Direction.values[direction],
-          widget.puzzle.puzzleData.availableArrows[direction]);
+          widget.puzzle.data.availableArrows[direction]);
     }
 
     _uuid = widget.uuid;
@@ -87,7 +87,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     dynamic gameJson = _editedGame.game.toJson(); // TODO Cleaner way
     gameJson['board'] = copy.toJson();
 
-    return NamedPuzzleData(
+    return NamedPuzzleData.fromGameData(
         name: widget.puzzle.name,
         gameData: jsonEncode(gameJson),
         availableArrows: availableArrows);
@@ -119,7 +119,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
         } // TODO Handle failure.
       });
     } else {
-      PuzzleStore.updatePuzzle(_uuid!, _buildPuzzleData().puzzleData)
+      PuzzleStore.updatePuzzle(_uuid!, _buildPuzzleData().data)
           .then((bool status) {
         print('Updated $_uuid');
         _saving = false;

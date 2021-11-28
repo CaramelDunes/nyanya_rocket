@@ -20,7 +20,7 @@ abstract class PuzzleStore {
         _uuid.v4(); // Assume that the registry doesn't contain the new uuid.
 
     bool dataWritten = await NamedDataStorage.active
-        .writeData(storeName, uuid, jsonEncode(puzzleData.puzzleData.toJson()));
+        .writeData(storeName, uuid, jsonEncode(puzzleData.data.toJson()));
 
     if (dataWritten) {
       registry[uuid] = puzzleData.name;
@@ -43,7 +43,7 @@ abstract class PuzzleStore {
         await NamedDataStorage.active.readData(storeName, uuid);
 
     if (registry.containsKey(uuid) && jsonEncoded != null) {
-      return NamedPuzzleData.fromPuzzleData(
+      return NamedPuzzleData(
           name: registry[uuid]!,
           puzzleData: PuzzleData.fromJson(jsonDecode(jsonEncoded)));
     }

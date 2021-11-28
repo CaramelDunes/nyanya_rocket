@@ -109,7 +109,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles>
   Widget _buildPuzzleCard(CommunityPuzzleData puzzle) {
     return InkWell(
       key: ValueKey(puzzle.uid),
-      child: BoardCard(game: puzzle.puzzleData.getGame(), description: [
+      child: BoardCard(game: puzzle.data.getGame(), description: [
         Text(
           puzzle.name,
           style: const TextStyle(fontWeight: FontWeight.bold),

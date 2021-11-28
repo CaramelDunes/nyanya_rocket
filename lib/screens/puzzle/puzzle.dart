@@ -38,8 +38,8 @@ class _PuzzleState extends State<Puzzle> {
   void initState() {
     super.initState();
 
-    _puzzleController = PuzzleGameController(
-        puzzle: widget.puzzle.puzzleData, onWin: _handleWin);
+    _puzzleController =
+        PuzzleGameController(puzzle: widget.puzzle.data, onWin: _handleWin);
   }
 
   @override

@@ -131,7 +131,7 @@ class _CreateTabState extends State<CreateTab>
                               switch (_mode) {
                                 case EditorMode.puzzle:
                                   return PuzzleEditor(
-                                      puzzle: NamedPuzzleData.fromPuzzleData(
+                                      puzzle: NamedPuzzleData(
                                           name: _name,
                                           puzzleData: PuzzleData.withBorder()));
 
