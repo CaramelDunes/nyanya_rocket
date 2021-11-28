@@ -43,7 +43,7 @@ class _ChallengeState extends State<Challenge> {
     super.initState();
 
     _challengeController = ChallengeGameController.proxy(
-        challenge: widget.challenge.challengeData, onWin: _handleWin);
+        challenge: widget.challenge.data, onWin: _handleWin);
   }
 
   @override

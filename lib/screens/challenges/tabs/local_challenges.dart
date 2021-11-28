@@ -61,8 +61,8 @@ class _LocalChallengesState extends State<LocalChallenges> {
                             body: jsonEncode({
                               'data': {
                                 'name': challenge.name,
-                                'challenge_data': jsonEncode(
-                                    challenge.challengeData.toJson()),
+                                'challenge_data':
+                                    jsonEncode(challenge.data.toJson()),
                               }
                             })))
                         .then((response) => response.statusCode == 200)

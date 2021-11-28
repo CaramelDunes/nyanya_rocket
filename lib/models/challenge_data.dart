@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+import 'package:slugify/slugify.dart';
 
 enum ChallengeType {
   getMice, // Like Puzzle, without cats
@@ -22,7 +23,11 @@ extension LocalizedChallengeType on ChallengeType {
     // 'Cat Soccer', // Needs an AI
   ];
 
+  static final List<String> _slugs = _names.map(slugify).toList();
+
   String toPrettyString() => _names[index];
+
+  String toSlug() => _slugs[index];
 
   String toLocalizedString(BuildContext context) {
     switch (this) {

@@ -18,8 +18,8 @@ class OriginalChallenge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Challenge(
       challenge: NamedChallengeData(
-          challengeData: OriginalChallenges.challenges[id].challengeData,
-          name: OriginalChallenges.challenges[id].challengeData.type
+          challengeData: OriginalChallenges.challenges[id].data,
+          name: OriginalChallenges.challenges[id].data.type
                   .toLocalizedString(context) +
               OriginalChallenges.challenges[id].name),
       nextRoutePath: id + 1 < OriginalChallenges.challenges.length

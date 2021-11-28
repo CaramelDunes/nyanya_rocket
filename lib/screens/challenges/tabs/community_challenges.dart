@@ -109,11 +109,11 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
                 child: AspectRatio(
                   aspectRatio: 12 / 9,
                   child: StaticGameView(
-                    game: challenges[i].challengeData.getGame(),
+                    game: challenges[i].data.getGame(),
                   ),
                 )),
             Text(
-              '${challenges[i].name} (${challenges[i].challengeData.type.toLocalizedString(context)})',
+              '${challenges[i].name} (${challenges[i].data.type.toLocalizedString(context)})',
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             Row(

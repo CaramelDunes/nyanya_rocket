@@ -34,7 +34,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   void initState() {
     super.initState();
 
-    _editedGame = EditedGame(game: widget.challenge.challengeData.getGame());
+    _editedGame = EditedGame(game: widget.challenge.data.getGame());
 
     _uuid = widget.uuid;
   }
@@ -51,7 +51,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
 
     return NamedChallengeData.fromGameData(
       name: widget.challenge.name,
-      type: widget.challenge.challengeData.type,
+      type: widget.challenge.data.type,
       gameData: jsonEncode(gameJson),
     );
   }
@@ -131,7 +131,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
           Expanded(
               child: EditorPlacer(
             editedGame: _editedGame,
-            menus: _menusForType(widget.challenge.challengeData.type),
+            menus: _menusForType(widget.challenge.data.type),
             onPlay: () => _handlePlay(context),
             onSave: _handleSave,
           )),

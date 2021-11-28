@@ -115,8 +115,12 @@ class OriginalChallenges extends StatefulWidget {
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,3,1,1,1,0,2,2],[2,0,0,0,0,0,2,0,0],[2,0,0,0,0,0,0,2,2],[2,0,0,0,0,0,2,2,0],[3,1,1,1,1,1,2,0,2],[2,0,2,0,0,1,0,2,2],[3,1,1,1,1,1,2,0,0],[2,0,2,0,0,1,0,2,2],[3,1,1,1,1,1,2,0,2],[2,0,2,0,0,1,0,2,0],[3,1,1,1,1,1,2,2,2],[2,0,2,0,0,1,0,0,2]]},"entities":[]}'),
   ];
 
-  static Map<String, int> slugs =
-      challenges.asMap().map((index, value) => MapEntry(value.slug, index));
+  static Map<String, int> slugs = challenges.asMap().map(
+      (index, challengeData) => MapEntry(originalSlug(challengeData), index));
+
+  static String originalSlug(NamedChallengeData challengeData) {
+    return challengeData.type.toSlug() + '-' + challengeData.slug;
+  }
 
   const OriginalChallenges({Key? key}) : super(key: key);
 
@@ -193,11 +197,9 @@ class _OriginalChallengesState extends State<OriginalChallenges>
   Widget _buildChallengeTile(
       NamedChallengeData namedChallengeData, Duration? time) {
     return ListTile(
-      title: Text(
-          namedChallengeData.challengeData.type.toLocalizedString(context) +
-              namedChallengeData.name),
-      subtitle: Text(
-          namedChallengeData.challengeData.type.toLocalizedString(context)),
+      title: Text(namedChallengeData.data.type.toLocalizedString(context) +
+          namedChallengeData.name),
+      subtitle: Text(namedChallengeData.data.type.toLocalizedString(context)),
       trailing: time != null
           ? Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
               Text('${time.inSeconds}.${time.inMilliseconds % 1000 ~/ 10}s'),
@@ -208,7 +210,7 @@ class _OriginalChallengesState extends State<OriginalChallenges>
             ])
           : null,
       onTap: () {
-        _openChallenge(namedChallengeData.slug);
+        _openChallenge(OriginalChallenges.originalSlug(namedChallengeData));
       },
     );
   }
@@ -217,21 +219,19 @@ class _OriginalChallengesState extends State<OriginalChallenges>
       NamedChallengeData namedChallengeData, Duration? time) {
     return InkWell(
       key: ValueKey(namedChallengeData.slug),
-      child: BoardCard(
-          game: namedChallengeData.challengeData.getGame(),
-          description: [
-            Text(
-              namedChallengeData.challengeData.type.toLocalizedString(context) +
-                  namedChallengeData.name,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            if (time != null)
-              Text('${time.inSeconds}.${time.inMilliseconds % 1000 ~/ 10}s')
-            else
-              const Text('')
-          ]),
+      child: BoardCard(game: namedChallengeData.data.getGame(), description: [
+        Text(
+          namedChallengeData.data.type.toLocalizedString(context) +
+              namedChallengeData.name,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        if (time != null)
+          Text('${time.inSeconds}.${time.inMilliseconds % 1000 ~/ 10}s')
+        else
+          const Text('')
+      ]),
       onTap: () {
-        _openChallenge(namedChallengeData.slug);
+        _openChallenge(OriginalChallenges.originalSlug(namedChallengeData));
       },
     );
   }
