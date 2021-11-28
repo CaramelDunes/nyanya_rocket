@@ -10,7 +10,6 @@ class NameFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      autofocus: true,
       autovalidateMode: AutovalidateMode.always,
       textCapitalization: TextCapitalization.words,
       maxLength: 24,
