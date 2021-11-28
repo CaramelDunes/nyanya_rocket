@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:nyanya_rocket/screens/challenges/challenge_progression_manager.dart';
-import 'package:nyanya_rocket/screens/puzzles/puzzle_progression_manager.dart';
-import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'routing/nyanya_route_information_parser.dart';
 import 'routing/nyanya_router_delegate.dart';
 import 'models/user.dart';
+import 'screens/challenges/challenge_progression_manager.dart';
+import 'screens/puzzles/puzzle_progression_manager.dart';
 import 'screens/settings/dark_mode.dart';
 import 'screens/settings/first_run.dart';
 import 'screens/settings/language.dart';
 import 'screens/settings/region.dart';
+import 'services/firebase/firebase_service.dart';
 
 class App extends StatefulWidget {
   static const List<Locale> supportedLocales = [
@@ -22,22 +22,14 @@ class App extends StatefulWidget {
     Locale('de', ''),
   ];
 
-  static ThemeData darkTheme = ThemeData(
-    primarySwatch: Colors.deepPurple,
-    colorScheme: ColorScheme.fromSwatch(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.deepPurple,
-        accentColor: Colors.orangeAccent),
-    dividerTheme: const DividerThemeData().copyWith(space: 8.0),
+  static ThemeData lightTheme = ThemeData.from(
+    colorScheme: const ColorScheme.light(
+        primary: Colors.deepPurple, secondary: Colors.orangeAccent),
   );
 
-  static ThemeData lightTheme = ThemeData(
-    primarySwatch: Colors.deepPurple,
-    colorScheme: ColorScheme.fromSwatch(
-        brightness: Brightness.light,
-        primarySwatch: Colors.deepPurple,
-        accentColor: Colors.orangeAccent),
-    dividerTheme: const DividerThemeData().copyWith(space: 8.0),
+  static ThemeData darkTheme = ThemeData.from(
+    colorScheme: const ColorScheme.dark(
+        primary: Colors.orange, secondary: Colors.deepPurpleAccent),
   );
 
   final SharedPreferences sharedPreferences;
