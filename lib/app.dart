@@ -17,17 +17,17 @@ import 'services/firebase/firebase_service.dart';
 
 class App extends StatefulWidget {
   static const List<Locale> supportedLocales = [
-    Locale('en', ''),
-    Locale('fr', ''),
-    Locale('de', ''),
+    Locale('en'),
+    Locale('fr'),
+    Locale('de'),
   ];
 
-  static ThemeData lightTheme = ThemeData.from(
+  static final ThemeData lightTheme = ThemeData.from(
     colorScheme: const ColorScheme.light(
         primary: Colors.deepPurple, secondary: Colors.orangeAccent),
   );
 
-  static ThemeData darkTheme = ThemeData.from(
+  static final ThemeData darkTheme = ThemeData.from(
     colorScheme: const ColorScheme.dark(
         primary: Colors.orange, secondary: Colors.deepPurpleAccent),
   );
@@ -89,7 +89,8 @@ class _AppState extends State<App> {
             supportedLocales: App.supportedLocales,
             locale: language.value == 'auto' ? null : Locale(language.value),
             title: 'NyaNya Rocket!',
-            theme: darkMode.enabled ? App.darkTheme : App.lightTheme,
+            themeMode: darkMode.enabled ? ThemeMode.dark : ThemeMode.system,
+            theme: App.lightTheme,
             darkTheme: App.darkTheme,
             routerDelegate: _routerDelegate,
             routeInformationParser: _routeInformationParser,
