@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
-import '../../../services/firebase/firebase_service.dart';
 import '../../../models/challenge_data.dart';
+import '../../../services/firestore/firestore_service.dart';
 
 class CommunityChallenges extends StatefulWidget {
   const CommunityChallenges({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
 
   Future<void> _refreshList() async {
     final List<CommunityChallengeData>? newChallenges = await context
-        .read<FirebaseService>()
+        .read<FirestoreService>()
         .getCommunityChallenges(sortBy: _sorting, limit: 50);
 
     if (newChallenges != null && mounted) {

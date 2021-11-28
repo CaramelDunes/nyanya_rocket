@@ -7,9 +7,9 @@ import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'firebase_service.dart';
+import 'firestore_service.dart';
 
-class FiredartFirebaseService extends FirebaseService {
+class FiredartFirebaseService extends FirestoreService {
   FiredartFirebaseService({required this.apiKey, required this.projectId});
 
   final String apiKey;
@@ -20,7 +20,6 @@ class FiredartFirebaseService extends FirebaseService {
   @override
   Future<void> init() async {
     Firestore.initialize(projectId);
-    FirebaseAuth.initialize(apiKey, await PreferencesStore.create());
   }
 
   @override
@@ -107,55 +106,6 @@ class FiredartFirebaseService extends FirebaseService {
     final colRef = firestore.collection(getPathFromKeys(keys));
     //print("Got path: " + colRef.path);
     return colRef;
-  }
-
-  @override
-  bool isSignedIn() {
-    return FirebaseAuth.instance.isSignedIn;
-  }
-
-  @override
-  Future<String?> displayName() async {
-    final user = await FirebaseAuth.instance.getUser();
-
-    return user.displayName;
-  }
-
-  @override
-  Future<String?> idToken() {
-    if (FirebaseAuth.instance.isSignedIn) {
-      return FirebaseAuth.instance.tokenProvider.idToken;
-    } else {
-      return Future.value(null);
-    }
-  }
-
-  @override
-  Stream<bool> signInStatusStream() {
-    return FirebaseAuth.instance.signInState.asBroadcastStream();
-  }
-
-  @override
-  Future<bool> signInAnonymously() async {
-    try {
-      await FirebaseAuth.instance.signInAnonymously();
-    } catch (e) {
-      print(e);
-      return false;
-    }
-
-    return true;
-  }
-
-  @override
-  Future<void> signOut() {
-    FirebaseAuth.instance.signOut();
-    return Future.value();
-  }
-
-  @override
-  Future<void> updateDisplayName(String newDisplayName) {
-    return FirebaseAuth.instance.updateProfile(displayName: newDisplayName);
   }
 
   @override
@@ -267,31 +217,4 @@ class FiredartFirebaseService extends FirebaseService {
   Future<List<Map<String, dynamic>>> getNews(String languageCode) {
     return getCollection(['articles_$languageCode']);
   }
-}
-
-class PreferencesStore extends TokenStore {
-  static const keyToken = "auth_token";
-
-  static Future<PreferencesStore> create() async =>
-      PreferencesStore._internal(await SharedPreferences.getInstance());
-
-  final SharedPreferences _prefs;
-
-  PreferencesStore._internal(this._prefs);
-
-  @override
-  Token? read() => _prefs.containsKey(keyToken)
-      ? Token.fromMap(
-          jsonDecode(_prefs.getString(keyToken)!) as Map<String, dynamic>)
-      : null;
-
-  @override
-  void write(Token? token) {
-    if (token != null) {
-      _prefs.setString(keyToken, jsonEncode(token.toMap()));
-    }
-  }
-
-  @override
-  void delete() => _prefs.remove(keyToken);
 }

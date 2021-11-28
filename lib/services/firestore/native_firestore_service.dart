@@ -1,35 +1,19 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
 
-import 'firebase_service.dart';
+import 'firestore_service.dart';
 
-class NativeFirebaseService extends FirebaseService {
-  String? userId;
-
+class NativeFirestoreService extends FirestoreService {
   FirebaseFirestore get firestore => FirebaseFirestore.instance;
-
-  FirebaseAuth get auth => FirebaseAuth.instance;
 
   @override
   Future<void> init() async {
-    await Firebase.initializeApp().catchError((Object e) {
-      print("$e");
-    }).then((value) {
-      print("InitComplete");
-    });
-
-    // setPersistence() is only supported on web based platforms
-    if (kIsWeb) {
-      await auth.setPersistence(Persistence.LOCAL);
-    }
+    // Initialized in main.
   }
 
   // Streams
@@ -105,54 +89,6 @@ class NativeFirebaseService extends FirebaseService {
   CollectionReference<Map<String, dynamic>>? _getCollection(List<String> keys) {
     if (checkKeysForNull(keys) == false) return null;
     return firestore.collection(getPathFromKeys(keys));
-  }
-
-  @override
-  bool isSignedIn() {
-    return FirebaseAuth.instance.currentUser != null;
-  }
-
-  @override
-  Future<String?> displayName() {
-    return Future.value(FirebaseAuth.instance.currentUser?.displayName);
-  }
-
-  @override
-  Future<String?> idToken() {
-    return FirebaseAuth.instance.currentUser?.getIdToken() ??
-        Future.value(null);
-  }
-
-  @override
-  Stream<bool> signInStatusStream() {
-    return FirebaseAuth.instance
-        .authStateChanges()
-        .map((event) => event != null)
-        .asBroadcastStream();
-  }
-
-  @override
-  Future<bool> signInAnonymously() async {
-    try {
-      await FirebaseAuth.instance.signInAnonymously();
-    } catch (e) {
-      print(e);
-      return false;
-    }
-
-    return true;
-  }
-
-  @override
-  Future<void> signOut() {
-    return FirebaseAuth.instance.signOut();
-  }
-
-  @override
-  Future<void> updateDisplayName(String newDisplayName) {
-    return FirebaseAuth.instance.currentUser
-            ?.updateDisplayName(newDisplayName) ??
-        Future.value();
   }
 
   @override

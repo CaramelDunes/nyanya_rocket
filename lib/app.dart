@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,7 +14,7 @@ import 'screens/settings/dark_mode.dart';
 import 'screens/settings/first_run.dart';
 import 'screens/settings/language.dart';
 import 'screens/settings/region.dart';
-import 'services/firebase/firebase_service.dart';
+import 'services/firestore/firestore_service.dart';
 
 class App extends StatefulWidget {
   static const List<Locale> supportedLocales = [
@@ -33,12 +34,12 @@ class App extends StatefulWidget {
   );
 
   final SharedPreferences sharedPreferences;
-  final FirebaseService firebaseService;
+  final FirestoreService firestoreService;
 
   const App(
       {Key? key,
       required this.sharedPreferences,
-      required this.firebaseService})
+      required this.firestoreService})
       : super(key: key);
 
   @override
@@ -46,7 +47,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late final User _user = User(widget.firebaseService);
+  late final User _user = User(auth.FirebaseAuth.instance);
   final NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
   final NyaNyaRouteInformationParser _routeInformationParser =
       NyaNyaRouteInformationParser();
@@ -76,7 +77,7 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(
             create: (_) =>
                 ChallengeProgressionManager(widget.sharedPreferences)),
-        Provider.value(value: widget.firebaseService)
+        Provider.value(value: widget.firestoreService)
       ],
       child: Consumer2<DarkMode, Language>(
         builder: (_, darkMode, language, __) {

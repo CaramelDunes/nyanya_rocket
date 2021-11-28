@@ -1,5 +1,7 @@
 const String kProjectUrl = 'https://github.com/CaramelDunes/nyanya_rocket';
 const String kFirebaseApiKey = 'AIzaSyBExG_dHwDwU9H2mEwawd0p5pzy2Atm-IY';
+const String kFirebaseAppId = '1:199775224910:android:8fb13b62d02bca4f';
+const String kFirebaseMessagingSenderId = '199775224910';
 const String kFirebaseProjectId = 'nyanya-rocket';
 const String kMasterUsEast = 'nyanya-us-east.carameldunes.fr';
 const String kMasterEuWest = 'nyanya-eu-west.carameldunes.fr';

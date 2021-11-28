@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
+
+import '../services/firestore/firestore_service.dart';
 
 class SuccessOverlay extends StatefulWidget {
   final String? succeededPath;
@@ -28,7 +29,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
 
     if (widget.succeededPath != null) {
       context
-          .read<FirebaseService>()
+          .read<FirestoreService>()
           .getCommunityStar(widget.succeededPath!)
           .then((int? stars) {
         setState(() {
@@ -51,7 +52,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
           onPressed: () {
             if (!_plusOned) {
               context
-                  .read<FirebaseService>()
+                  .read<FirestoreService>()
                   .incrementCommunityStar(widget.succeededPath!);
 
               setState(() {

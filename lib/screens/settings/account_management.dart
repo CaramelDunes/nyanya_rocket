@@ -5,6 +5,7 @@ import 'package:nyanya_rocket/screens/privacy_policy_prompt/privacy_policy_promp
 import 'package:nyanya_rocket/screens/settings/widgets/display_name_change_dialog.dart';
 import 'package:provider/provider.dart';
 
+import '../../config.dart';
 import 'widgets/sign_up_dialog.dart';
 
 class AccountManagement extends StatelessWidget {
@@ -12,7 +13,7 @@ class AccountManagement extends StatelessWidget {
 
   const AccountManagement({Key? key}) : super(key: key);
 
-  Future<String?> _showNameDialog(BuildContext context, String initialValue) {
+  Future<String?> _showNameDialog(BuildContext context, String? initialValue) {
     return showDialog<String>(
         context: context,
         builder: (BuildContext context) {
@@ -68,44 +69,51 @@ class AccountManagement extends StatelessWidget {
       appBar: AppBar(
         title: Text(NyaNyaLocalizations.of(context).accountManagementLabel),
       ),
-      body: Consumer<User>(
-        builder: (innerContext, user, _) => ListView(
-          children: <Widget>[
-            ListTile(
-              title: Text(
-                  '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
-              subtitle: Text(user.isConnected
-                  ? NyaNyaLocalizations.of(context).signOutLabel
-                  : NyaNyaLocalizations.of(context).signInLabel),
-              onTap: () {
-                if (user.isConnected) {
-                  _showConfirmDialog(
-                          context,
-                          NyaNyaLocalizations.of(context).signOutDialogTitle,
-                          Text(NyaNyaLocalizations.of(context)
-                              .signOutDialogText))
-                      .then((bool? confirmed) {
-                    if (confirmed ?? false) {
-                      user.signOut();
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: kMaxWidthForBigScreens),
+          child: Consumer<User>(
+            builder: (innerContext, user, _) => ListView(
+              children: <Widget>[
+                ListTile(
+                  title: Text(
+                      '${NyaNyaLocalizations.of(context).loginStatusLabel}: ${user.isConnected ? NyaNyaLocalizations.of(context).connectedStatusLabel : NyaNyaLocalizations.of(context).disconnectedStatusLabel}'),
+                  subtitle: Text(user.isConnected
+                      ? NyaNyaLocalizations.of(context).signOutLabel
+                      : NyaNyaLocalizations.of(context).signInLabel),
+                  onTap: () {
+                    if (user.isConnected) {
+                      _showConfirmDialog(
+                              context,
+                              NyaNyaLocalizations.of(context)
+                                  .signOutDialogTitle,
+                              Text(NyaNyaLocalizations.of(context)
+                                  .signOutDialogText))
+                          .then((bool? confirmed) {
+                        if (confirmed ?? false) {
+                          user.signOut();
+                        }
+                      });
+                    } else {
+                      promptSignUp(context);
                     }
-                  });
-                } else {
-                  promptSignUp(context);
-                }
-              },
+                  },
+                ),
+                _buildDisplayNameTile(innerContext, user),
+                ListTile(
+                  title:
+                      Text(NyaNyaLocalizations.of(context).privacyPolicyLabel),
+                  onTap: () {
+                    Navigator.push<bool>(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const PrivacyPolicyPrompt(askUser: false)));
+                  },
+                ),
+              ],
             ),
-            _buildDisplayNameTile(innerContext, user),
-            ListTile(
-              title: Text(NyaNyaLocalizations.of(context).privacyPolicyLabel),
-              onTap: () {
-                Navigator.push<bool>(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const PrivacyPolicyPrompt(askUser: false)));
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );

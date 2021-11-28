@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
-import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 
+import '../../../services/firestore/firestore_service.dart';
 import '../../../widgets/board_card.dart';
 import '../../../widgets/board_list.dart';
 
@@ -19,7 +19,8 @@ class CommunityPuzzles extends StatefulWidget {
   _CommunityPuzzlesState createState() => _CommunityPuzzlesState();
 }
 
-class _CommunityPuzzlesState extends State<CommunityPuzzles> {
+class _CommunityPuzzlesState extends State<CommunityPuzzles>
+    with AutomaticKeepAliveClientMixin<CommunityPuzzles> {
   late Future<List<CommunityPuzzleData>?> puzzles;
   Sorting _sorting = Sorting.byPopularity;
 
@@ -29,34 +30,39 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
 
     puzzles = widget.puzzles ??
         context
-            .read<FirebaseService>()
+            .read<FirestoreService>()
             .getCommunityPuzzles(sortBy: _sorting, limit: 50);
   }
 
   Future<void> _refreshList() async {
     setState(() {
       puzzles = context
-          .read<FirebaseService>()
+          .read<FirestoreService>()
           .getCommunityPuzzles(sortBy: _sorting, limit: 50);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<CommunityPuzzleData>?>(
-        future: puzzles,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
+    super.build(context);
 
-          final List<CommunityPuzzleData> puzzleList = snapshot.data!;
+    return Column(
+      children: [
+        Expanded(
+          child: FutureBuilder<List<CommunityPuzzleData>?>(
+              future: puzzles,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Expanded(
-                child: Center(
+                if (!snapshot.hasData) {
+                  return const Center(child: Text('An error occured...'));
+                }
+
+                final List<CommunityPuzzleData> puzzleList = snapshot.data!;
+
+                return Center(
                   child: RefreshIndicator(
                     onRefresh: _refreshList,
                     child: BoardList(
@@ -67,16 +73,16 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
                           _buildPuzzleCard(puzzleList[i]),
                     ),
                   ),
-                ),
-              ),
-              const Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: _buildFilters(),
-              ),
-            ],
-          );
-        });
+                );
+              }),
+        ),
+        const Divider(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: _buildFilters(),
+        ),
+      ],
+    );
   }
 
   Widget _buildPuzzleTile(CommunityPuzzleData puzzle) {
@@ -157,4 +163,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

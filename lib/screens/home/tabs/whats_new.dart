@@ -4,8 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/settings/first_run.dart';
-import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import 'package:provider/provider.dart';
+
+import '../../../services/firestore/firestore_service.dart';
 
 class WhatsNew extends StatelessWidget {
   static Set<String> availableLocales = {'en', 'fr'};
@@ -181,7 +182,7 @@ class WhatsNew extends StatelessWidget {
               children: <Widget>[
                 FutureBuilder<List<Map<String, dynamic>>?>(
                   future:
-                      context.read<FirebaseService>().getNews(articleLocale()),
+                      context.read<FirestoreService>().getNews(articleLocale()),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
                     if (snapshot.hasError) {

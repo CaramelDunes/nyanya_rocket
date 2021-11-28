@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
+
+import '../services/firestore/firestore_service.dart';
 
 class NotImplemented extends StatefulWidget {
   final String featureId;
@@ -22,7 +23,7 @@ class _NotImplementedState extends State<NotImplemented> {
     super.initState();
 
     context
-        .read<FirebaseService>()
+        .read<FirestoreService>()
         .getFeatureRequestThumbsUp(widget.featureId)
         .then((value) {
       if (mounted) {
@@ -51,7 +52,7 @@ class _NotImplementedState extends State<NotImplemented> {
               ? null
               : () {
                   context
-                      .read<FirebaseService>()
+                      .read<FirestoreService>()
                       .incrementFeatureRequestThumbsUp(widget.featureId);
                   setState(() {
                     _thumbedUp = true;

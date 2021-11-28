@@ -24,43 +24,13 @@ class Multiplayer extends StatefulWidget {
 
 class _MultiplayerState extends State<Multiplayer>
     with SingleTickerProviderStateMixin {
-  String? _idToken;
-  StreamSubscription? _idTokenSubscription;
-
   @override
   void initState() {
     super.initState();
-
-    final user = context.read<User>();
-
-    // FIXME
-    // _idTokenSubscription = user.signedInStream.listen((signedIn) {
-    //   if (mounted) {
-    //     print(signedIn);
-    //     if (signedIn) {
-    //       user.idToken().then((String? token) {
-    //         if (token != null)
-    //           setState(() {
-    //             _idToken = token;
-    //           });
-    //       });
-    //     }
-    //   }
-    // });
-
-    user.idToken().then((String? token) {
-      if (token != null) {
-        setState(() {
-          _idToken = token;
-        });
-      }
-    });
   }
 
   @override
   void dispose() {
-    _idTokenSubscription?.cancel();
-
     super.dispose();
   }
 
@@ -113,30 +83,65 @@ class _MultiplayerState extends State<Multiplayer>
             BarRailTab(
               icon: const FaIcon(FontAwesomeIcons.userFriends),
               label: NyaNyaLocalizations.of(context).duelLabel,
-              content: QueueAndLeaderboard(
-                queueType: QueueType.duels,
-                displayName: user.displayName,
-                idToken: _idToken!,
-                masterServerHostname: region.masterServerHostname,
-              ),
+              content: FutureBuilder(
+                  future: user.idToken(),
+                  builder: (context, AsyncSnapshot<String?> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (!snapshot.hasData) {
+                      return Center(
+                          child: Text(NyaNyaLocalizations.of(context)
+                              .unauthenticatedError));
+                    }
+
+                    return QueueAndLeaderboard(
+                      queueType: QueueType.duels,
+                      displayName: user.displayName ?? '',
+                      idToken: snapshot.data!,
+                      masterServerHostname: region.masterServerHostname,
+                    );
+                  }),
             ),
             BarRailTab(
                 icon: const FaIcon(FontAwesomeIcons.users),
                 label: NyaNyaLocalizations.of(context).fourPlayersLabel,
-                content: QueueAndLeaderboard(
-                  queueType: QueueType.fourPlayers,
-                  displayName: user.displayName,
-                  idToken: _idToken!,
-                  masterServerHostname: region.masterServerHostname,
-                )),
+                content: FutureBuilder(
+                    future: user.idToken(),
+                    builder: (context, AsyncSnapshot<String?> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (!snapshot.hasData) {
+                        return Center(
+                            child: Text(NyaNyaLocalizations.of(context)
+                                .unauthenticatedError));
+                      }
+
+                      return QueueAndLeaderboard(
+                        queueType: QueueType.fourPlayers,
+                        displayName: user.displayName ?? '',
+                        idToken: snapshot.data!,
+                        masterServerHostname: region.masterServerHostname,
+                      );
+                    })),
             BarRailTab(
                 icon: const FaIcon(FontAwesomeIcons.peopleArrows),
                 label: NyaNyaLocalizations.of(context).friendDuelLabel,
-                content: FriendDuel(
-                  displayName: user.displayName,
-                  idToken: _idToken!,
-                  masterServerHostname: region.masterServerHostname,
-                ))
+                content: FutureBuilder(
+                    builder: (context, AsyncSnapshot<String?> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (!snapshot.hasData) {
+                    return Center(
+                        child: Text(NyaNyaLocalizations.of(context)
+                            .unauthenticatedError));
+                  }
+
+                  return FriendDuel(
+                    displayName: user.displayName ?? '',
+                    idToken: snapshot.data!,
+                    masterServerHostname: region.masterServerHostname,
+                  );
+                }))
           ]);
     });
   }

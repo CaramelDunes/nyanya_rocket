@@ -11,12 +11,12 @@ import 'package:nyanya_rocket/screens/multiplayer/multiplayer.dart';
 import 'package:nyanya_rocket/screens/multiplayer/multiplayer_not_available.dart';
 import 'package:nyanya_rocket/screens/puzzle/loading_puzzle.dart';
 import 'package:nyanya_rocket/screens/puzzle/original_puzzle.dart';
-import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import '../screens/puzzles/widgets/original_puzzles.dart';
 import '../screens/tutorial/tutorial.dart';
 
 import '../screens/challenges/tabs/original_challenges.dart';
 import '../screens/puzzles/puzzles.dart';
+import '../services/firestore/firestore_service.dart';
 import 'nyanya_route_path.dart';
 
 class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
@@ -98,8 +98,9 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
           MaterialPage(
               key: ValueKey('CommunityPuzzle$_id'),
               child: LoadingPuzzle(
-                  futurePuzzle:
-                      context.read<FirebaseService>().getCommunityPuzzle(_id!)))
+                  futurePuzzle: context
+                      .read<FirestoreService>()
+                      .getCommunityPuzzle(_id!)))
         else if (_pageKind == PageKind.challenge &&
             _id != null &&
             _tabKind == TabKind.community)
@@ -107,7 +108,7 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
               key: ValueKey('CommunityChallenge$_id'),
               child: LoadingChallenge(
                   futureChallenge: context
-                      .read<FirebaseService>()
+                      .read<FirestoreService>()
                       .getCommunityChallenge(_id!)))
       ],
       onPopPage: (route, result) {

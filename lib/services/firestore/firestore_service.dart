@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
-import 'package:nyanya_rocket/services/firebase/firedart_firebase_service.dart';
 
 import '../../config.dart';
-import 'native_firebase_service.dart';
+import 'firedart_firestore_service.dart';
+import 'native_firestore_service.dart';
 
 enum Sorting { byDate, byPopularity, byName }
 
@@ -24,7 +24,7 @@ extension FieldName on Sorting {
 }
 
 // Returns the correct Firebase instance depending on platform
-class FirebaseFactory {
+class FirestoreFactory {
   static bool _initComplete = false;
 
   static bool get useNative =>
@@ -32,9 +32,9 @@ class FirebaseFactory {
       Platform.isAndroid ||
       Platform.isIOS; // || UniversalPlatform.isMacOS;
 
-  static Future<FirebaseService> create() async {
-    FirebaseService service = useNative
-        ? NativeFirebaseService()
+  static Future<FirestoreService> create() async {
+    FirestoreService service = useNative
+        ? NativeFirestoreService()
         : FiredartFirebaseService(
             apiKey: kFirebaseApiKey,
             projectId: kFirebaseProjectId,
@@ -50,27 +50,13 @@ class FirebaseFactory {
 
 // Interface / Base class
 // Combination of abstract methods that must be implemented, and concrete methods that are shared.
-abstract class FirebaseService {
+abstract class FirestoreService {
   // Helper method for getting a path from keys, and optionally prepending the scope (users/email)
   String getPathFromKeys(List<String> keys, {bool addUserPath = true}) {
     return keys.join("/");
   }
 
   Future<void> init();
-
-  bool isSignedIn();
-
-  Future<void> signOut();
-
-  Future<bool> signInAnonymously();
-
-  Stream<bool> signInStatusStream();
-
-  Future<String?> idToken();
-
-  Future<String?> displayName();
-
-  Future<void> updateDisplayName(String newDisplayName);
 
   Stream<Map<String, dynamic>?> getDocStream(List<String> keys);
 

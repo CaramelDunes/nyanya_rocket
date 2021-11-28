@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/models/user.dart';
 import '../account_management.dart';
 
 class DisplayNameChangeDialog extends StatefulWidget {
-  final String initialValue;
+  final String? initialValue;
   final User user;
 
   const DisplayNameChangeDialog(
@@ -66,30 +66,31 @@ class _DisplayNameChangeDialogState extends State<DisplayNameChangeDialog> {
             onPressed: () {
               Navigator.pop(context);
             }),
-        TextButton(
-            child: Text(
-                NyaNyaLocalizations.of(context).confirmLabel.toUpperCase()),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
+        if (!_loading)
+          TextButton(
+              child: Text(
+                  NyaNyaLocalizations.of(context).confirmLabel.toUpperCase()),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
 
-                if (_displayName != null) {
-                  setState(() {
-                    _loading = true;
-                  });
+                  if (_displayName != null) {
+                    setState(() {
+                      _loading = true;
+                    });
 
-                  widget.user.setDisplayName(_displayName!).then((success) {
-                    if (success) {
-                      Navigator.pop(context, _displayName);
-                    } else {
-                      setState(() {
-                        _loading = false;
-                      });
-                    }
-                  });
+                    widget.user.setDisplayName(_displayName!).then((success) {
+                      if (success) {
+                        Navigator.pop(context, _displayName);
+                      } else {
+                        setState(() {
+                          _loading = false;
+                        });
+                      }
+                    });
+                  }
                 }
-              }
-            })
+              })
       ],
     );
   }
