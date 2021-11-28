@@ -41,7 +41,7 @@ class _LocalBoardsState extends State<LocalBoards> {
                 mainAxisSize: MainAxisSize.min,
               ),
               onTap: () {
-                MultiplayerStore.readBoard(uuidList[i])
+                MultiplayerStore.read(uuidList[i])
                     .then((MultiplayerBoard? board) {
                   // FIXME
                   Navigator.of(context).pop(board);

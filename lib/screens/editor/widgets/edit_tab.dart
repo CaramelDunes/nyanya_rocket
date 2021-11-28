@@ -147,7 +147,7 @@ class _EditTabState extends State<EditTab> {
                   IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
-                      PuzzleStore.deletePuzzle(uuidList[i]).then((bool result) {
+                      PuzzleStore.delete(uuidList[i]).then((bool result) {
                         if (result) {
                           setState(() {
                             _puzzles.remove(uuidList[i]);
@@ -159,8 +159,7 @@ class _EditTabState extends State<EditTab> {
                 ],
               ),
               onTap: () {
-                PuzzleStore.readPuzzle(uuidList[i])
-                    .then((NamedPuzzleData? puzzle) {
+                PuzzleStore.read(uuidList[i]).then((NamedPuzzleData? puzzle) {
                   if (puzzle != null) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
@@ -207,14 +206,14 @@ class _EditTabState extends State<EditTab> {
                   IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
-                      ChallengeStore.deleteChallenge(uuidList[i])
+                      ChallengeStore.delete(uuidList[i])
                           .then((bool result) => setState(() {}));
                     },
                   ),
                 ],
               ),
               onTap: () {
-                ChallengeStore.readChallenge(uuidList[i])
+                ChallengeStore.read(uuidList[i])
                     .then((NamedChallengeData? challenge) {
                   if (challenge != null) {
                     Navigator.of(context).push(MaterialPageRoute(
@@ -259,14 +258,14 @@ class _EditTabState extends State<EditTab> {
                   IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
-                      MultiplayerStore.deleteBoard(uuidList[i])
+                      MultiplayerStore.delete(uuidList[i])
                           .then((bool result) => setState(() {}));
                     },
                   ),
                 ],
               ),
               onTap: () {
-                MultiplayerStore.readBoard(uuidList[i])
+                MultiplayerStore.read(uuidList[i])
                     .then((MultiplayerBoard? board) {
                   if (board != null) {
                     Navigator.of(context).push(MaterialPageRoute(

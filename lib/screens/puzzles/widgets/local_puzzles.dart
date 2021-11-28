@@ -87,7 +87,7 @@ class LocalPuzzles extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 12 / 9,
                   child: FutureBuilder(
-                    future: PuzzleStore.readPuzzle(uuid),
+                    future: PuzzleStore.read(uuid),
                     builder: (BuildContext context,
                         AsyncSnapshot<NamedPuzzleData?> snapshot) {
                       if (snapshot.hasData) {
@@ -177,7 +177,7 @@ class LocalPuzzles extends StatelessWidget {
   }
 
   void _openPuzzle(BuildContext context, String uuid) {
-    PuzzleStore.readPuzzle(uuid).then((NamedPuzzleData? puzzle) {
+    PuzzleStore.read(uuid).then((NamedPuzzleData? puzzle) {
       if (puzzle != null) {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => Puzzle(
@@ -190,7 +190,7 @@ class LocalPuzzles extends StatelessWidget {
 
   void _handlePublishTapped(BuildContext context, String uuid, User user) {
     if (user.isConnected) {
-      PuzzleStore.readPuzzle(uuid).then((NamedPuzzleData? puzzle) {
+      PuzzleStore.read(uuid).then((NamedPuzzleData? puzzle) {
         if (puzzle != null) {
           _verifyAndPublish(context, puzzle);
         }

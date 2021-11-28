@@ -111,7 +111,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     _saving = true;
 
     if (_uuid == null) {
-      PuzzleStore.saveNewPuzzle(_buildPuzzleData()).then((String? uuid) {
+      PuzzleStore.saveNew(_buildPuzzleData()).then((String? uuid) {
         if (uuid != null) {
           _uuid = uuid;
           print('Saved $uuid');
@@ -119,8 +119,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
         } // TODO Handle failure.
       });
     } else {
-      PuzzleStore.updatePuzzle(_uuid!, _buildPuzzleData().data)
-          .then((bool status) {
+      PuzzleStore.update(_uuid!, _buildPuzzleData().data).then((bool status) {
         print('Updated $_uuid');
         _saving = false;
         // TODO Handle failure.

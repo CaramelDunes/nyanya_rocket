@@ -31,13 +31,13 @@ abstract class ChallengeStore {
     }
   }
 
-  static Future<bool> updateChallenge(
+  static Future<bool> update(
       String uuid, NamedChallengeData challengeData) async {
     return NamedDataStorage.active
         .writeData(storeName, uuid, jsonEncode(challengeData.toJson()));
   }
 
-  static Future<NamedChallengeData?> readChallenge(String uuid) async {
+  static Future<NamedChallengeData?> read(String uuid) async {
     final Map<String, String> registry =
         await NamedDataStorage.active.readRegistry(storeName);
     String? jsonEncoded =
@@ -50,7 +50,7 @@ abstract class ChallengeStore {
     }
   }
 
-  static Future<bool> deleteChallenge(String uuid) async {
+  static Future<bool> delete(String uuid) async {
     return NamedDataStorage.active.deleteData(storeName, uuid);
   }
 

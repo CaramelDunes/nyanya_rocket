@@ -114,7 +114,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
                     tooltip: NyaNyaLocalizations.of(context).publishLabel,
                     onPressed: () {
                       if (user.isConnected) {
-                        ChallengeStore.readChallenge(uuidList[i])
+                        ChallengeStore.read(uuidList[i])
                             .then((NamedChallengeData? puzzle) {
                           if (puzzle != null) {
                             _verifyAndPublish(context, puzzle);
@@ -136,7 +136,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
                 ],
               ),
               onTap: () {
-                ChallengeStore.readChallenge(uuidList[i])
+                ChallengeStore.read(uuidList[i])
                     .then((NamedChallengeData? challenge) {
                   if (challenge != null) {
                     Navigator.of(context).push(MaterialPageRoute(

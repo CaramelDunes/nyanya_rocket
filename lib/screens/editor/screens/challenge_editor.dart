@@ -163,8 +163,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
         } // FIXME Handle failure.
       });
     } else {
-      ChallengeStore.updateChallenge(_uuid!, _buildChallengeData())
-          .then((bool status) {
+      ChallengeStore.update(_uuid!, _buildChallengeData()).then((bool status) {
         // FIXME Handle failure.
         print('Updated $_uuid');
         _saving = false;
