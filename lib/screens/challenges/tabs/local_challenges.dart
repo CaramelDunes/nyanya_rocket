@@ -9,6 +9,7 @@ import 'package:nyanya_rocket/widgets/empty_list.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../config.dart';
 import '../../../models/stores/challenge_store.dart';
 
 class LocalChallenges extends StatefulWidget {
@@ -52,9 +53,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
                         .read<User>()
                         .idToken()
                         .then((idToken) => http.post(
-                            Uri.https(
-                                'us-central1-nyanya-rocket.cloudfunctions.net',
-                                '/publishChallenge'),
+                            Uri.https(kCloudFunctionsHost, '/publishChallenge'),
                             headers: {
                               'Authorization': 'Bearer $idToken',
                               'Content-Type': 'application/json'

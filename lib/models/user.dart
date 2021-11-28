@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../config.dart';
+
 enum StatusCode { success, failure, invalidArgument, unauthenticated }
 
 class User with ChangeNotifier {
@@ -35,8 +37,7 @@ class User with ChangeNotifier {
     if (token != null) {
       // https://github.com/firebase/firebase-functions/blob/master/src/providers/https.ts
       http.Response response = await http.post(
-          Uri.https('us-central1-nyanya-rocket.cloudfunctions.net',
-              '/setDisplayName'),
+          Uri.https(kCloudFunctionsHost, '/setDisplayName'),
           headers: {
             'Authorization': 'Bearer $token',
             'Content-Type': 'application/json'

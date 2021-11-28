@@ -5,6 +5,8 @@ const String kFirebaseMessagingSenderId = '199775224910';
 const String kFirebaseProjectId = 'nyanya-rocket';
 const String kMasterUsEast = 'nyanya-us-east.carameldunes.fr';
 const String kMasterEuWest = 'nyanya-eu-west.carameldunes.fr';
+const String kCloudFunctionsHost =
+    'us-central1-nyanya-rocket.cloudfunctions.net';
 const double kMaxWidthForBigScreens = 600;
 
 const List<String> kContributorsList = [
