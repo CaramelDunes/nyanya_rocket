@@ -36,7 +36,7 @@ class BoardCard extends StatelessWidget {
                           child: Icon(
                             Icons.check,
                             color: Colors.green,
-                            size: 150,
+                            size: 120,
                           ),
                         ),
                       ),

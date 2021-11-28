@@ -18,6 +18,8 @@ class BoardList extends StatefulWidget {
 
 class _BoardListState extends State<BoardList>
     with AutomaticKeepAliveClientMixin<BoardList> {
+  static const double maxCrossAxisExtent = 248.0;
+
   @override
   bool get wantKeepAlive => true;
 
@@ -28,7 +30,7 @@ class _BoardListState extends State<BoardList>
     return OrientationBuilder(
       builder: (BuildContext context, Orientation orientation) {
         if (orientation == Orientation.landscape ||
-            MediaQuery.of(context).size.width >= 270 * 2.5) {
+            MediaQuery.of(context).size.width >= maxCrossAxisExtent * 2.0) {
           return _buildLandscape();
         } else {
           return _buildPortrait();
@@ -45,7 +47,7 @@ class _BoardListState extends State<BoardList>
   Widget _buildLandscape() {
     return GridView.builder(
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 270,
+          maxCrossAxisExtent: maxCrossAxisExtent,
         ),
         itemCount: widget.itemCount,
         itemBuilder: widget.cardBuilder);
