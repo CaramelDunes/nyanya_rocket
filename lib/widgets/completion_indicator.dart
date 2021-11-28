@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../localization/nyanya_localizations.dart';
 
 class CompletionIndicator extends StatelessWidget {
@@ -15,24 +16,22 @@ class CompletionIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localized = NyaNyaLocalizations.of(context);
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      color: Colors.grey.withOpacity(0.3),
+      // Use same color as NavigationBar.
+      color: ElevationOverlay.colorWithOverlay(
+          colorScheme.surface, colorScheme.onSurface, 3.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Text(
-            NyaNyaLocalizations.of(context)
-                .completedPercentLabel((completedRatio * 100).floor()),
-            textAlign: TextAlign.center,
-          ),
+          Text(localized.completedPercentLabel((completedRatio * 100).floor()),
+              textAlign: TextAlign.center),
           Row(
             children: <Widget>[
-              Text(
-                  NyaNyaLocalizations.of(context)
-                      .showCompletedLabel
-                      .toUpperCase(),
-                  style: Theme.of(context).textTheme.button),
-              Checkbox(
+              Text(localized.showCompletedLabel.toUpperCase()),
+              Switch(
                 value: showCompleted,
                 onChanged: onChanged,
               ),
