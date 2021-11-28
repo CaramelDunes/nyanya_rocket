@@ -14,9 +14,14 @@ class BarRailTabs extends StatefulWidget {
   final String title;
   final int initialTab;
   final List<BarRailTab> tabs;
+  final List<Widget>? appBarActions;
 
   const BarRailTabs(
-      {Key? key, required this.title, required this.tabs, this.initialTab = 0})
+      {Key? key,
+      required this.title,
+      required this.tabs,
+      this.initialTab = 0,
+      this.appBarActions})
       : super(key: key);
 
   @override
@@ -85,7 +90,10 @@ class _BarRailTabsState extends State<BarRailTabs> {
   }
 
   PreferredSizeWidget _buildAppBar() {
-    return AppBar(title: Text(widget.title));
+    return AppBar(
+      title: Text(widget.title),
+      actions: widget.appBarActions,
+    );
   }
 
   List<T> _makeNavigationList<T>(
