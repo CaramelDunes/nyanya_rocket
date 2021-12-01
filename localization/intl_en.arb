@@ -652,34 +652,15 @@
   },
   "displayNameLabel": "Display name",
   "@displayNameLabel": {
-    "description": "Displayed in the account management screen.",
+    "description": "Displayed in the settings screen.",
     "type": "text",
     "placeholders": {}
   },
+  "noDisplayNameLabel": "No display name set",
   "tapToChangeDisplayNameLabel": "Tap to change",
-  "@tapToChangeDisplayNameLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "displayNameChangeSuccessText": "Display name successfully changed!",
-  "@displayNameChangeSuccessText": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "confirmLabel": "Confirm",
-  "@confirmLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "displayNameFormatText": "Between 2 and 24 characters (no space).",
-  "@displayNameFormatText": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "connectingToServerText": "Connecting to server...",
   "@connectingToServerText": {
     "description": "Displayed in the network multiplayer when initially connecting to the game server.",
@@ -721,7 +702,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "fourPlayersLabel": "4-players Battle",
+  "fourPlayersLabel": "4 Players",
   "@fourPlayersLabel": {
     "description": "Displayed in the world multiplayer setup.",
     "type": "text",

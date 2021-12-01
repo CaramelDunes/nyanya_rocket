@@ -30,7 +30,7 @@ class Settings extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: kMaxWidthForBigScreens),
             child: ListView(
-              children: <Widget>[
+              children: [
                 Padding(
                   padding: sectionInsets,
                   child: Text(
@@ -189,7 +189,7 @@ class Settings extends StatelessWidget {
           return AlertDialog(
             title: Text(title),
             content: content,
-            actions: <Widget>[
+            actions: [
               TextButton(
                   child: Text(
                       NyaNyaLocalizations.of(context).cancel.toUpperCase()),
@@ -211,8 +211,9 @@ class Settings extends StatelessWidget {
   Widget _buildDisplayNameTile(BuildContext context, User user) {
     return ListTile(
       enabled: user.isConnected,
-      title: Text(
-          '${NyaNyaLocalizations.of(context).displayNameLabel}: ${user.displayName}'),
+      title: Text(user.displayName != null
+          ? '${NyaNyaLocalizations.of(context).displayNameLabel}: ${user.displayName}'
+          : NyaNyaLocalizations.of(context).noDisplayNameLabel),
       subtitle:
           Text(NyaNyaLocalizations.of(context).tapToChangeDisplayNameLabel),
       onTap: () {
