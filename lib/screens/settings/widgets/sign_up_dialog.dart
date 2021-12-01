@@ -34,7 +34,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
             )
           : Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: [
                 Form(
                   key: _formKey,
                   child: TextFormField(
@@ -60,8 +60,8 @@ class _SignUpDialogState extends State<SignUpDialog> {
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    style: Theme.of(context).textTheme.bodyText1,
-                    children: <TextSpan>[
+                    style: Theme.of(context).textTheme.bodyText2,
+                    children: [
                       TextSpan(
                           text: NyaNyaLocalizations.of(context)
                               .privacyPolicySignUpText),
@@ -85,28 +85,29 @@ class _SignUpDialogState extends State<SignUpDialog> {
                 )
               ],
             ),
-      actions: <Widget>[
-        TextButton(
-            child: Text(
-                NyaNyaLocalizations.of(context).confirmLabel.toUpperCase()),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
+      actions: [
+        if (!_loading)
+          TextButton(
+              child: Text(
+                  NyaNyaLocalizations.of(context).confirmLabel.toUpperCase()),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
 
-                setState(() {
-                  _loading = true;
-                });
-
-                widget.user.signInAnonymously().then((success) {
-                  widget.user.setDisplayName(_displayName!);
-                  Navigator.pop(context, true);
-                }).catchError((e) {
                   setState(() {
-                    _loading = false;
+                    _loading = true;
                   });
-                });
-              }
-            }),
+
+                  widget.user.signInAnonymously().then((success) {
+                    widget.user.setDisplayName(_displayName!);
+                    Navigator.pop(context, true);
+                  }).catchError((e) {
+                    setState(() {
+                      _loading = false;
+                    });
+                  });
+                }
+              }),
         TextButton(
             child: Text(NyaNyaLocalizations.of(context).cancel.toUpperCase()),
             onPressed: () {
