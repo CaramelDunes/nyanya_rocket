@@ -152,14 +152,14 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
             direction: orientation == Orientation.portrait
                 ? Axis.vertical
                 : Axis.horizontal,
-            children: <Widget>[
+            children: [
               Expanded(
                   child: EditorPlacer(
                       editedGame: _editedGame,
                       onPlay: () => _handlePlay(context),
                       onSave: _handleSave,
                       menus: const [
-                    EditorMenu(subMenu: <EditorTool>[
+                    EditorMenu(subMenu: [
                       EditorTool(
                           type: ToolType.tile,
                           tile: Rocket(player: PlayerColor.Blue)),

@@ -101,7 +101,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
               title: Text(_challenges[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                children: [
 //                  IconButton(
 //                    icon: Icon(Icons.share),
 //                    onPressed: () {

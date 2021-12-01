@@ -9,7 +9,7 @@ class StarCount extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
+      children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(count.toString()),

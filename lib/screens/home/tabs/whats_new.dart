@@ -36,7 +36,7 @@ class WhatsNew extends StatelessWidget {
 
   Widget _buildPortrait(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         Visibility(
           visible: Provider.of<FirstRun>(context).enabled,
           child: Dismissible(
@@ -46,7 +46,7 @@ class WhatsNew extends StatelessWidget {
             },
             child: Card(
               child: Column(
-                children: <Widget>[
+                children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -83,7 +83,7 @@ class WhatsNew extends StatelessWidget {
 
   Widget _buildLandscape(BuildContext context) {
     return Row(
-      children: <Widget>[
+      children: [
         Expanded(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 0),
@@ -144,7 +144,7 @@ class WhatsNew extends StatelessWidget {
           child: Flex(
             direction: direction,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
+            children: [
               FaIcon(faIcon, size: 48),
               const SizedBox(height: 4.0),
               Text(
@@ -179,7 +179,7 @@ class WhatsNew extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              children: <Widget>[
+              children: [
                 FutureBuilder<List<Map<String, dynamic>>?>(
                   future:
                       context.read<FirestoreService>().getNews(articleLocale()),

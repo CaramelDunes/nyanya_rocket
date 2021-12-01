@@ -22,7 +22,7 @@ class PrivacyPolicyPrompt extends StatelessWidget {
         ),
       ),
       persistentFooterButtons: askUser
-          ? <Widget>[
+          ? [
               TextButton(
                 child:
                     Text(NyaNyaLocalizations.of(context).accept.toUpperCase()),

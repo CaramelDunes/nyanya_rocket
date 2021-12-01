@@ -11,12 +11,12 @@ class Multiplayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.all(8.0),
-      children: <Widget>[
+      children: [
         Card(
           child: SizedBox(
               height: 76,
               child: Row(
-                children: <Widget>[
+                children: [
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -38,7 +38,7 @@ class Multiplayer extends StatelessWidget {
           child: SizedBox(
               height: 100,
               child: Row(
-                children: <Widget>[
+                children: [
                   Expanded(
                       child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -59,7 +59,7 @@ class Multiplayer extends StatelessWidget {
           child: SizedBox(
             height: 100,
             child: Row(
-              children: <Widget>[
+              children: [
                 Expanded(
                     child: Padding(
                   padding: const EdgeInsets.all(8.0),

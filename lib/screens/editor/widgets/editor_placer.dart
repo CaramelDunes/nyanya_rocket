@@ -159,7 +159,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
             direction: orientation == Orientation.portrait
                 ? Axis.vertical
                 : Axis.horizontal,
-            children: <Widget>[
+            children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AspectRatio(
@@ -179,7 +179,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
               ),
               Flexible(
                   child: Column(
-                children: <Widget>[
+                children: [
                   Expanded(
                       child: Row(
                     children:
@@ -204,7 +204,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Row(
-                      children: <Widget>[
+                      children: [
                         Visibility(
                           visible: widget.onPlay != null,
                           child: Expanded(

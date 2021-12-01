@@ -41,7 +41,7 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
+      children: [
         Expanded(
           child: RefreshIndicator(
             onRefresh: _refreshList,

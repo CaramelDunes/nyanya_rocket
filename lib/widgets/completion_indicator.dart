@@ -25,11 +25,11 @@ class CompletionIndicator extends StatelessWidget {
           colorScheme.surface, colorScheme.onSurface, 3.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
+        children: [
           Text(localized.completedPercentLabel((completedRatio * 100).floor()),
               textAlign: TextAlign.center),
           Row(
-            children: <Widget>[
+            children: [
               Text(localized.showCompletedLabel.toUpperCase()),
               Switch(
                 value: showCompleted,

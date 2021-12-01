@@ -21,7 +21,7 @@ class PuzzleGameControls extends StatelessWidget {
             direction: orientation == Orientation.landscape
                 ? Axis.horizontal
                 : Axis.vertical,
-            children: <Widget>[
+            children: [
               Card(
                 elevation: 8.0,
                 color:

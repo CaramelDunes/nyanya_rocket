@@ -83,7 +83,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Text(

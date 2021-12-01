@@ -101,7 +101,7 @@ class _ChallengeState extends State<Challenge> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.challenge.name),
-        actions: <Widget>[
+        actions: [
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
@@ -124,7 +124,7 @@ class _ChallengeState extends State<Challenge> {
       ),
       body: Stack(
         fit: StackFit.expand,
-        children: <Widget>[
+        children: [
           OrientationBuilder(
             builder: (BuildContext _, Orientation orientation) {
               if (orientation == Orientation.portrait) {
@@ -154,7 +154,7 @@ class _ChallengeState extends State<Challenge> {
   Widget _buildPortrait() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
+      children: [
         Text(
           _objectiveText(context),
           textAlign: TextAlign.center,
@@ -162,7 +162,7 @@ class _ChallengeState extends State<Challenge> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
+          children: [
             _buildElapsedTime(),
             _buildBestTime(),
             _buildTargetCount(),
@@ -178,10 +178,10 @@ class _ChallengeState extends State<Challenge> {
   Widget _buildLandscape() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
+      children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
+          children: [
             _buildElapsedTime(),
             _buildBestTime(),
             _buildTargetCount(),

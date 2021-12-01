@@ -26,13 +26,13 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
       appBar: AppBar(
         title: Text(NyaNyaLocalizations.of(context).deviceDuelLabel),
       ),
-      body: ListView(padding: const EdgeInsets.all(8.0), children: <Widget>[
+      body: ListView(padding: const EdgeInsets.all(8.0), children: [
         Form(
             key: _formState,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
+              children: [
                 Text(
                   NyaNyaLocalizations.of(context).durationLabel,
                   style: Theme.of(context).textTheme.headline6,

@@ -13,7 +13,7 @@ class AvailableArrows extends StatelessWidget {
       int i, int count, Brightness brightness, bool canPlace) {
     return Stack(
       fit: StackFit.passthrough,
-      children: <Widget>[
+      children: [
         ArrowImage(
           player: count > 0 && canPlace ? PlayerColor.Blue : null,
           direction: Direction.values[i],

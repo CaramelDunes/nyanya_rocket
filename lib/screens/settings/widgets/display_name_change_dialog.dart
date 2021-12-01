@@ -35,7 +35,7 @@ class _DisplayNameChangeDialogState extends State<DisplayNameChangeDialog> {
             )
           : Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: [
                 Form(
                   key: _formKey,
                   child: TextFormField(
@@ -60,7 +60,7 @@ class _DisplayNameChangeDialogState extends State<DisplayNameChangeDialog> {
                 ),
               ],
             ),
-      actions: <Widget>[
+      actions: [
         TextButton(
             child: Text(NyaNyaLocalizations.of(context).cancel.toUpperCase()),
             onPressed: () {

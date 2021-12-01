@@ -66,11 +66,11 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
       ),
       body: ListView(
         padding: const EdgeInsets.all(8.0),
-        children: <Widget>[
+        children: [
           Form(
             key: _formKey,
             child: Column(
-              children: <Widget>[
+              children: [
                 TextFormField(
                   focusNode: _nicknameFocusNode,
                   decoration: InputDecoration(
@@ -147,7 +147,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
           ),
           const Divider(),
           Row(
-            children: <Widget>[
+            children: [
               Expanded(
                 child: DropdownButton<Duration>(
                   value: _duration,

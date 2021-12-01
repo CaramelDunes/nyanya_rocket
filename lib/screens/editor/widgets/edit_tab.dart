@@ -66,7 +66,7 @@ class _EditTabState extends State<EditTab> {
               },
             ),
           ),
-          actions: <Widget>[
+          actions: [
             TextButton(
               child: Text(NyaNyaLocalizations.of(context).accept.toUpperCase()),
               onPressed: () {
@@ -128,7 +128,7 @@ class _EditTabState extends State<EditTab> {
               title: Text(_puzzles[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                children: [
                   IconButton(
                     icon: const Icon(Icons.text_format),
                     onPressed: () {
@@ -187,7 +187,7 @@ class _EditTabState extends State<EditTab> {
               title: Text(_challenges[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                children: [
                   IconButton(
                     icon: const Icon(Icons.text_format),
                     onPressed: () {
@@ -239,7 +239,7 @@ class _EditTabState extends State<EditTab> {
               title: Text(_multiplayerBoards[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                children: [
                   IconButton(
                     icon: const Icon(Icons.text_format),
                     onPressed: () {
@@ -280,7 +280,7 @@ class _EditTabState extends State<EditTab> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: DropdownButton<EditorMode>(

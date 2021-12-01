@@ -75,15 +75,14 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
       ),
       resizeToAvoidBottomInset: false,
       body: Column(
-        children: <Widget>[
+        children: [
           Expanded(
               child: EditorPlacer(
                   editedGame: _editedGame,
                   onSave: _handleSave,
                   menus: const [
-                EditorMenu(subMenu: <EditorTool>[
-                  EditorTool(type: ToolType.tile, tile: Pit())
-                ]),
+                EditorMenu(
+                    subMenu: [EditorTool(type: ToolType.tile, tile: Pit())]),
                 StandardMenus.rockets,
                 StandardMenus.generators,
                 StandardMenus.walls,

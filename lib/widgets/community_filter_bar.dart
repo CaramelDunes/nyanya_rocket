@@ -21,7 +21,7 @@ class CommunityFilterBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+        children: [
           Text(
             NyaNyaLocalizations.of(context).sortByLabel,
             style: Theme.of(context).textTheme.subtitle1,

@@ -19,7 +19,7 @@ class General extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: kMaxWidthForBigScreens),
         child: ListView(
           padding: const EdgeInsets.all(8.0),
-          children: <Widget>[
+          children: [
             Text(
               NyaNyaLocalizations.of(context).tilesTutorialLabel,
               style: Theme.of(context).textTheme.headline5,
@@ -28,7 +28,7 @@ class General extends StatelessWidget {
               child: SizedBox(
                   height: 76,
                   child: Row(
-                    children: <Widget>[
+                    children: [
                       const Flexible(
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
@@ -50,7 +50,7 @@ class General extends StatelessWidget {
               child: SizedBox(
                   height: 76,
                   child: Row(
-                    children: <Widget>[
+                    children: [
                       Flexible(
                           child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -72,7 +72,7 @@ class General extends StatelessWidget {
               child: SizedBox(
                   height: 76,
                   child: Row(
-                    children: <Widget>[
+                    children: [
                       const Flexible(
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
@@ -102,7 +102,7 @@ class General extends StatelessWidget {
               child: SizedBox(
                   height: 100,
                   child: Row(
-                    children: <Widget>[
+                    children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: EntityPainter.widget(
@@ -123,7 +123,7 @@ class General extends StatelessWidget {
               child: SizedBox(
                 height: 100,
                 child: Row(
-                  children: <Widget>[
+                  children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child:
@@ -155,7 +155,7 @@ class General extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
+                children: [
                   Expanded(
                       child: Text(
                     NyaNyaLocalizations.of(context).arrowDnDTutorialText,
@@ -173,7 +173,7 @@ class General extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
+                children: [
                   Expanded(
                       child: Text(
                     NyaNyaLocalizations.of(context).arrowSwipeTutorialText,

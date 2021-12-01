@@ -38,7 +38,7 @@ class _NotImplementedState extends State<NotImplemented> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+      children: [
         Text(
           NyaNyaLocalizations.of(context).notImplementedText,
           textAlign: TextAlign.center,

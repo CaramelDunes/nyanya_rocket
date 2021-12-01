@@ -165,7 +165,7 @@ class _OriginalChallengesState extends State<OriginalChallenges>
     }
 
     return Column(
-      children: <Widget>[
+      children: [
         Expanded(
           child: BoardList(
               itemCount: challengeIndices.length,
@@ -201,7 +201,7 @@ class _OriginalChallengesState extends State<OriginalChallenges>
           namedChallengeData.name),
       subtitle: Text(namedChallengeData.data.type.toLocalizedString(context)),
       trailing: time != null
-          ? Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+          ? Row(mainAxisSize: MainAxisSize.min, children: [
               Text('${time.inSeconds}.${time.inMilliseconds % 1000 ~/ 10}s'),
               const Icon(
                 Icons.check,

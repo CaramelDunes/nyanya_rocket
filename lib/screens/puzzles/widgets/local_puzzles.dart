@@ -51,7 +51,7 @@ class LocalPuzzles extends StatelessWidget {
       title: Text(name),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+        children: [
 //                  IconButton(
 //                    icon: Icon(Icons.share),
 //                    onPressed: () {

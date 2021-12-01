@@ -43,7 +43,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+      children: [
         IconButton(
           icon: Icon(
             Icons.star,
@@ -79,7 +79,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
         Material(
           color: Colors.black54,
           child: Column(
-            children: <Widget>[
+            children: [
               const Spacer(flex: 2),
               Card(
                 color: Theme.of(context).brightness == Brightness.light
@@ -89,7 +89,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
+                    children: [
                       Text(
                         NyaNyaLocalizations.of(context).stageClearedText,
                         style:
@@ -103,7 +103,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
+                        children: [
                           ElevatedButton(
                             child: Text(NyaNyaLocalizations.of(context).back),
                             onPressed: () {

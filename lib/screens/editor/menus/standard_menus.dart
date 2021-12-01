@@ -3,7 +3,7 @@ import 'package:nyanya_rocket/screens/editor/widgets/editor_placer.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class StandardMenus {
-  static const EditorMenu mice = EditorMenu(subMenu: <EditorTool>[
+  static const EditorMenu mice = EditorMenu(subMenu: [
     EditorTool(
         type: ToolType.entity,
         entityType: EntityType.Mouse,
@@ -22,7 +22,7 @@ class StandardMenus {
         direction: Direction.Down),
   ]);
 
-  static const EditorMenu cats = EditorMenu(subMenu: <EditorTool>[
+  static const EditorMenu cats = EditorMenu(subMenu: [
     EditorTool(
         type: ToolType.entity,
         entityType: EntityType.Cat,
@@ -46,14 +46,14 @@ class StandardMenus {
         padding: EdgeInsets.all(8.0),
         child: Image(image: AssetImage('assets/graphics/wall_cross.png')),
       ),
-      subMenu: <EditorTool>[
+      subMenu: [
         EditorTool(type: ToolType.wall, direction: Direction.Right),
         EditorTool(type: ToolType.wall, direction: Direction.Up),
         EditorTool(type: ToolType.wall, direction: Direction.Left),
         EditorTool(type: ToolType.wall, direction: Direction.Down),
       ]);
 
-  static const EditorMenu arrows = EditorMenu(subMenu: <EditorTool>[
+  static const EditorMenu arrows = EditorMenu(subMenu: [
     EditorTool(
         type: ToolType.tile,
         tile: Arrow(player: PlayerColor.Blue, direction: Direction.Right)),
@@ -68,7 +68,7 @@ class StandardMenus {
         tile: Arrow(player: PlayerColor.Blue, direction: Direction.Down)),
   ]);
 
-  static const EditorMenu generators = EditorMenu(subMenu: <EditorTool>[
+  static const EditorMenu generators = EditorMenu(subMenu: [
     EditorTool(
         type: ToolType.tile, tile: Generator(direction: Direction.Right)),
     EditorTool(type: ToolType.tile, tile: Generator(direction: Direction.Up)),
@@ -76,7 +76,7 @@ class StandardMenus {
     EditorTool(type: ToolType.tile, tile: Generator(direction: Direction.Down)),
   ]);
 
-  static const EditorMenu rockets = EditorMenu(subMenu: <EditorTool>[
+  static const EditorMenu rockets = EditorMenu(subMenu: [
     EditorTool(type: ToolType.tile, tile: Rocket(player: PlayerColor.Blue)),
     EditorTool(type: ToolType.tile, tile: Rocket(player: PlayerColor.Yellow)),
     EditorTool(type: ToolType.tile, tile: Rocket(player: PlayerColor.Red)),

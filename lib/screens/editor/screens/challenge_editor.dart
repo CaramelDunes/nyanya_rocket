@@ -60,7 +60,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
     switch (type) {
       case ChallengeType.getMice:
         return [
-          const EditorMenu(subMenu: <EditorTool>[
+          const EditorMenu(subMenu: [
             EditorTool(
                 type: ToolType.tile, tile: Rocket(player: PlayerColor.Blue)),
             EditorTool(type: ToolType.tile, tile: Pit())
@@ -71,7 +71,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
 
       case ChallengeType.runAway:
         return [
-          const EditorMenu(subMenu: <EditorTool>[
+          const EditorMenu(subMenu: [
             EditorTool(
                 type: ToolType.tile, tile: Rocket(player: PlayerColor.Blue)),
             EditorTool(type: ToolType.tile, tile: Pit())
@@ -83,9 +83,8 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
 
       case ChallengeType.lunchTime:
         return [
-          const EditorMenu(subMenu: <EditorTool>[
-            EditorTool(type: ToolType.tile, tile: Pit())
-          ]),
+          const EditorMenu(
+              subMenu: [EditorTool(type: ToolType.tile, tile: Pit())]),
           StandardMenus.mice,
           StandardMenus.cats,
           StandardMenus.walls,
@@ -93,7 +92,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
 
       case ChallengeType.oneHundredMice:
         return [
-          const EditorMenu(subMenu: <EditorTool>[
+          const EditorMenu(subMenu: [
             EditorTool(
                 type: ToolType.tile, tile: Rocket(player: PlayerColor.Blue)),
             EditorTool(type: ToolType.tile, tile: Pit())
@@ -127,7 +126,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
       ),
       resizeToAvoidBottomInset: false,
       body: Column(
-        children: <Widget>[
+        children: [
           Expanded(
               child: EditorPlacer(
             editedGame: _editedGame,

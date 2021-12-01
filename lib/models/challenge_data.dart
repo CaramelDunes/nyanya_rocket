@@ -15,7 +15,7 @@ enum ChallengeType {
 }
 
 extension LocalizedChallengeType on ChallengeType {
-  static const List<String> _names = <String>[
+  static const List<String> _names = [
     'Get Mice', // Like Puzzle, without cats
     'Run Away', // Like Puzzle, with cats
     'Lunch Time', // Feed all Mice to Cat

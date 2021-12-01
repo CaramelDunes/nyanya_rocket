@@ -41,14 +41,14 @@ class _CreateTabState extends State<CreateTab>
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
-        children: <Widget>[
+        children: [
           const Spacer(flex: 2),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 400),
             child: Form(
               key: _formKey,
               child: Column(
-                children: <Widget>[
+                children: [
                   NameFormField(
                     onSaved: (String? newValue) {
                       _name = newValue ?? _name;

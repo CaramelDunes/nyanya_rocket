@@ -13,14 +13,14 @@ class Puzzle extends StatelessWidget {
         constraints: const BoxConstraints(maxWidth: kMaxWidthForBigScreens),
         child: ListView(
           padding: const EdgeInsets.all(8.0),
-          children: <Widget>[
+          children: [
             Text(NyaNyaLocalizations.of(context).puzzleTutorialText),
             Card(
                 child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
+                children: [
                   Expanded(
                       child: Text(
                     NyaNyaLocalizations.of(context).arrowRemoveTutorialText,

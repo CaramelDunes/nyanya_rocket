@@ -215,7 +215,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
       ),
       title: Text(OriginalPuzzles.puzzles[i].name),
       subtitle: Text(_difficultyFromIndex(context, i)),
-      trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+      trailing: Row(mainAxisSize: MainAxisSize.min, children: [
         Visibility(
           visible: starred,
           child: Icon(

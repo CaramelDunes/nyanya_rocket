@@ -100,7 +100,7 @@ class _PuzzleState extends State<Puzzle> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
+      children: [
         _buildGameView(),
         Flexible(
             child: AvailableArrows(puzzleGameController: _puzzleController)),
@@ -115,7 +115,7 @@ class _PuzzleState extends State<Puzzle> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
+      children: [
         Expanded(
             child: PuzzleGameControls(puzzleController: _puzzleController)),
         Padding(
@@ -133,7 +133,7 @@ class _PuzzleState extends State<Puzzle> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.puzzle.name),
-        actions: <Widget>[
+        actions: [
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
@@ -156,7 +156,7 @@ class _PuzzleState extends State<Puzzle> {
       ),
       body: Stack(
         fit: StackFit.passthrough,
-        children: <Widget>[
+        children: [
           OrientationBuilder(
             builder: (BuildContext context, Orientation orientation) {
               if (orientation == Orientation.portrait) {
