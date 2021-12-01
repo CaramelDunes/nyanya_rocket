@@ -24,40 +24,9 @@ class EventWheel extends StatelessWidget {
     );
   }
 
-  static String eventName(GameEvent event) {
-    switch (event) {
-      case GameEvent.CatMania:
-        return 'Cat Mania';
-
-      case GameEvent.MouseMania:
-        return 'Mouse Mania';
-
-      case GameEvent.SpeedUp:
-        return 'Speed Up';
-
-      case GameEvent.SlowDown:
-        return 'Slow Down';
-
-      case GameEvent.MouseMonopoly:
-        return 'Mouse Monopoly';
-
-      case GameEvent.CatAttack:
-        return 'Cat Attack';
-
-      case GameEvent.PlaceAgain:
-        return 'Place Arrows Again';
-
-      case GameEvent.EverybodyMove:
-        return 'Everybody Move!';
-
-      case GameEvent.None:
-        return 'None';
-    }
-  }
-
   static Widget _cardForEvent(GameEvent event) {
     Color cardColor = Colors.black;
-    String name = eventName(event);
+    final String name = event.name;
 
     switch (event) {
       case GameEvent.CatMania:
@@ -93,7 +62,6 @@ class EventWheel extends StatelessWidget {
         break;
 
       case GameEvent.None:
-      default:
         break;
     }
 
@@ -109,5 +77,38 @@ class EventWheel extends StatelessWidget {
         ),
       )),
     );
+  }
+}
+
+extension EventName on GameEvent {
+  String get name {
+    switch (this) {
+      case GameEvent.CatMania:
+        return 'Cat Mania';
+
+      case GameEvent.MouseMania:
+        return 'Mouse Mania';
+
+      case GameEvent.SpeedUp:
+        return 'Speed Up';
+
+      case GameEvent.SlowDown:
+        return 'Slow Down';
+
+      case GameEvent.MouseMonopoly:
+        return 'Mouse Monopoly';
+
+      case GameEvent.CatAttack:
+        return 'Cat Attack';
+
+      case GameEvent.PlaceAgain:
+        return 'Place Arrows Again';
+
+      case GameEvent.EverybodyMove:
+        return 'Everybody Move!';
+
+      case GameEvent.None:
+        return 'None';
+    }
   }
 }

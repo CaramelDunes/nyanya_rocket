@@ -13,40 +13,41 @@ class ScoreBox extends StatelessWidget {
     return Card(
       elevation: 8.0,
       color: color,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Container(
-                child: Text(
-                  label ?? '',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.black),
-                ),
-                padding: const EdgeInsets.all(2.0),
-                constraints: const BoxConstraints(minWidth: 80),
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(4.0)))),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(4.0, 0, 4.0, 4.0),
-            child: Container(
-              child: Center(
-                child: Text(
-                  score.toString(),
-                  style: const TextStyle(color: Colors.white, fontSize: 30),
-                ),
-              ),
-              padding: const EdgeInsets.all(8.0),
-              constraints: const BoxConstraints(minWidth: 80),
-              decoration: const BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.all(Radius.circular(4.0))),
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                  child: FittedBox(
+                    child: Text(
+                      label ?? '',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ),
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(4.0)))),
             ),
-          )
-        ],
+            Expanded(
+              flex: 3,
+              child: Container(
+                child: FittedBox(
+                  child: Text(
+                    score.toString(),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+                decoration: const BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.all(Radius.circular(4.0))),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

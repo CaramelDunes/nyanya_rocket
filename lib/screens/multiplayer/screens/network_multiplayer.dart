@@ -9,12 +9,12 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
-import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
 
 import '../../../utils.dart';
+import '../game_widgets/multiplayer_status_row.dart';
 import '../network_client.dart';
 import '../game_widgets/event_wheel.dart';
 
@@ -142,9 +142,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   }
 
   Widget _streamBuiltScoreBox(PlayerColor player) {
-    if (_localMultiplayerController.players[player.index] == '<empty>' ||
-        (!_localMultiplayerController.running &&
-            _localMultiplayerController.game.scoreOf(player) == 0)) {
+    if (_localMultiplayerController.players[player.index] == '<empty>') {
       return const SizedBox.shrink();
     }
 
@@ -174,69 +172,49 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   }
 
   Widget _draggableArrow(PlayerColor? player, Direction direction) {
-    return Material(
-      elevation: 8.0,
-      child: Draggable<Direction>(
-          maxSimultaneousDrags: 1,
-          feedback: const SizedBox.shrink(),
-          child: ArrowImage(
-            player: player,
-            direction: direction,
-          ),
-          data: direction),
-    );
+    return Draggable<Direction>(
+        maxSimultaneousDrags: 1,
+        feedback: const SizedBox.shrink(),
+        child: ArrowImage(
+          player: player,
+          direction: direction,
+        ),
+        data: direction);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).brightness == Brightness.light
-          ? Colors.white
-          : Colors.black,
+    return Material(
       child: Stack(
         fit: StackFit.expand,
-        children: <Widget>[
+        children: [
           Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    _displayRoulette
-                        ? ''
-                        : EventWheel.eventName(
-                            _localMultiplayerController.game.currentEvent),
-                    style: Theme.of(context).textTheme.subtitle2,
-                  ),
-                  ValueListenableBuilder<Duration>(
-                      valueListenable: _localMultiplayerController.timeStream,
-                      builder: (_, remaining, __) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Countdown(
-                            remaining: remaining,
-                          ),
-                        );
-                      }),
-                ],
+            children: [
+              MultiplayerStatusRow(
+                // Do not show the current game event when roulette is up
+                // to avoid 'spoiling' the players.
+                displayGameEvent: !_displayRoulette,
+                countdown: _localMultiplayerController.timeStream,
+                currentEvent: _localMultiplayerController.game.currentEvent,
               ),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
+                  children: [
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: Column(
                             children: PlayerColor.values
-                                .map((e) =>
-                                    Expanded(child: _streamBuiltScoreBox(e)))
+                                .map((e) => Expanded(
+                                    child:
+                                        Center(child: _streamBuiltScoreBox(e))))
                                 .toList()),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: AspectRatio(
                           aspectRatio: 12.0 / 9.0,
                           child: InputGridOverlay<Direction>(
@@ -276,7 +254,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
           ),
           ValueListenableBuilder<NetworkGameStatus>(
               valueListenable: _localMultiplayerController.statusNotifier,
-              child: _buildWaitingCard(),
+              child: Center(child: _buildWaitingCard()),
               builder: (_, status, widget) {
                 return Visibility(
                     visible: status != NetworkGameStatus.playing,
@@ -302,14 +280,12 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   }
 
   Widget _buildWaitingCard() {
-    return Center(
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            _networkGameStatusToString(_localMultiplayerController.status),
-            style: Theme.of(context).textTheme.headline6,
-          ),
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          _networkGameStatusToString(_localMultiplayerController.status),
+          style: Theme.of(context).textTheme.headline6,
         ),
       ),
     );
@@ -321,41 +297,50 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     return Container(
       color: Colors.black.withAlpha(128),
       child: Center(
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  (_localMultiplayerController.game.scoreOf(_myColor!) ==
-                          maxScore)
-                      ? NyaNyaLocalizations.of(context).victoryLabel
-                      : NyaNyaLocalizations.of(context).defeatLabel,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                const SizedBox(height: 8.0),
-                Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: PlayerColor.values
-                        .map(
-                          (e) => Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text((maxScore ==
-                                      _localMultiplayerController.game
-                                          .scoreOf(e))
-                                  ? NyaNyaLocalizations.of(context).winnerLabel
-                                  : ''),
-                              _buildScoreBox(e),
-                            ],
-                          ),
-                        )
-                        .toList()),
-                ElevatedButton(
-                    onPressed: Navigator.of(context).pop,
-                    child: Text(NyaNyaLocalizations.of(context).back))
-              ],
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 220, maxWidth: 490),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(
+                    (_localMultiplayerController.game.scoreOf(_myColor!) ==
+                            maxScore)
+                        ? NyaNyaLocalizations.of(context).victoryLabel
+                        : NyaNyaLocalizations.of(context).defeatLabel,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: PlayerColor.values
+                              .map(
+                                (e) => Expanded(
+                                  child: Column(
+                                    children: [
+                                      Text((maxScore ==
+                                              _localMultiplayerController.game
+                                                  .scoreOf(e))
+                                          ? NyaNyaLocalizations.of(context)
+                                              .winnerLabel
+                                          : ''),
+                                      const SizedBox(height: 4.0),
+                                      Expanded(child: _buildScoreBox(e)),
+                                    ],
+                                  ),
+                                ),
+                              )
+                              .toList()),
+                    ),
+                  ),
+                  ElevatedButton(
+                      onPressed: Navigator.of(context).pop,
+                      child: Text(NyaNyaLocalizations.of(context).back))
+                ],
+              ),
             ),
           ),
         ),

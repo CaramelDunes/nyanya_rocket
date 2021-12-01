@@ -7,11 +7,13 @@ import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket/screens/multiplayer/device_multiplayer_game_controller.dart';
 import 'package:nyanya_rocket/screens/multiplayer/game_widgets/event_wheel.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
-import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../game_widgets/multiplayer_status_row.dart';
+import '../../../utils.dart';
 
 class LocalDuel extends StatefulWidget {
   final MultiplayerBoard board;
@@ -87,17 +89,14 @@ class _LocalDuelState extends State<LocalDuel> {
   }
 
   Widget _draggableArrow(PlayerColor player, Direction direction) {
-    return Material(
-      elevation: 8.0,
-      child: Draggable<Arrow>(
-          maxSimultaneousDrags: 1,
-          feedback: const SizedBox.shrink(),
-          child: ArrowImage(
-            player: player,
-            direction: direction,
-          ),
-          data: Arrow(player: player, direction: direction)),
-    );
+    return Draggable<Arrow>(
+        maxSimultaneousDrags: 1,
+        feedback: const SizedBox.shrink(),
+        child: ArrowImage(
+          player: player,
+          direction: direction,
+        ),
+        data: Arrow(player: player, direction: direction));
   }
 
   void _handleGameEvent(GameEvent event) {
@@ -134,112 +133,55 @@ class _LocalDuelState extends State<LocalDuel> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
+    return Material(
       child: Stack(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
+        children: [
+          Column(
+            children: [
+              MultiplayerStatusRow(
+                // Do not show the current game event when roulette is up
+                // to avoid 'spoiling' the players.
+                displayGameEvent: !_displayRoulette,
+                countdown: _localMultiplayerController.timeStream,
+                currentEvent: _localMultiplayerController.game.currentEvent,
+              ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
                       Expanded(
-                          child: _draggableArrow(
-                              PlayerColor.Blue, Direction.Right)),
-                      Expanded(
-                          child:
-                              _draggableArrow(PlayerColor.Blue, Direction.Up)),
-                      Expanded(
-                          child: ValueListenableBuilder<int>(
-                              valueListenable: _localMultiplayerController
-                                  .scoreStreams[PlayerColor.Blue.index],
-                              builder: (context, score, snapshot) {
-                                return ScoreBox(
-                                  score: score,
-                                  label: widget.players[0],
-                                  color: Colors.blue,
-                                );
-                              })),
-                      Expanded(
-                          child: _draggableArrow(
-                              PlayerColor.Blue, Direction.Left)),
-                      Expanded(
-                          child: _draggableArrow(
-                              PlayerColor.Blue, Direction.Down)),
-                    ],
-                  ),
-                ),
-              ),
-              Flexible(
-                  flex: 4,
-                  child: Column(
-                    children: <Widget>[
-                      ValueListenableBuilder<Duration>(
-                          valueListenable:
-                              _localMultiplayerController.timeStream,
-                          builder: (context, remaining, snapshot) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Countdown(
-                                remaining: remaining,
-                              ),
-                            );
-                          }),
-                      Flexible(
                         child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
-                          child: Material(
-                            elevation: 8.0,
-                            child: AspectRatio(
-                                aspectRatio: 12.0 / 9.0,
-                                child: InputGridOverlay<Arrow>(
-                                  child: AnimatedGameView(
-                                    game:
-                                        _localMultiplayerController.gameStream,
-                                  ),
-                                  onDrop: _handleDrop,
-                                  previewBuilder: _dragTileBuilder,
-                                )),
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: _buildArrowScoreColumn(PlayerColor.Blue),
                         ),
                       ),
-                    ],
-                  )),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
+                      Flexible(
+                          flex: 5,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Material(
+                              elevation: 8.0,
+                              child: AspectRatio(
+                                  aspectRatio: 12.0 / 9.0,
+                                  child: InputGridOverlay<Arrow>(
+                                    child: AnimatedGameView(
+                                      game: _localMultiplayerController
+                                          .gameStream,
+                                    ),
+                                    onDrop: _handleDrop,
+                                    previewBuilder: _dragTileBuilder,
+                                  )),
+                            ),
+                          )),
                       Expanded(
-                          child: _draggableArrow(
-                              PlayerColor.Red, Direction.Right)),
-                      Expanded(
-                          child:
-                              _draggableArrow(PlayerColor.Red, Direction.Up)),
-                      Expanded(
-                          child: ValueListenableBuilder<int>(
-                              valueListenable: _localMultiplayerController
-                                  .scoreStreams[PlayerColor.Red.index],
-                              builder: (context, score, snapshot) {
-                                return ScoreBox(
-                                  score: score,
-                                  label: widget.players[1],
-                                  color: Colors.red,
-                                );
-                              })),
-                      Expanded(
-                          child:
-                              _draggableArrow(PlayerColor.Red, Direction.Left)),
-                      Expanded(
-                          child:
-                              _draggableArrow(PlayerColor.Red, Direction.Down)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: _buildArrowScoreColumn(PlayerColor.Red),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -259,6 +201,33 @@ class _LocalDuelState extends State<LocalDuel> {
           )
         ],
       ),
+    );
+  }
+
+  Widget _buildArrowScoreColumn(PlayerColor player) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Expanded(child: _draggableArrow(player, Direction.Right)),
+        const SizedBox(height: 4.0),
+        Expanded(child: _draggableArrow(player, Direction.Up)),
+        const SizedBox(height: 4.0),
+        Expanded(
+            child: ValueListenableBuilder<int>(
+                valueListenable:
+                    _localMultiplayerController.scoreStreams[player.index],
+                builder: (context, score, snapshot) {
+                  return ScoreBox(
+                    score: score,
+                    label: widget.players[player.index],
+                    color: player.color,
+                  );
+                })),
+        const SizedBox(height: 4.0),
+        Expanded(child: _draggableArrow(player, Direction.Left)),
+        const SizedBox(height: 4.0),
+        Expanded(child: _draggableArrow(player, Direction.Down)),
+      ],
     );
   }
 }

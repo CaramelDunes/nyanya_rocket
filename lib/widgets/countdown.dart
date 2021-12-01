@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class Countdown extends StatelessWidget {
   final Duration remaining;
   final Color? color;
+  final TextAlign? textAlign;
 
-  const Countdown({Key? key, required this.remaining, this.color})
+  const Countdown(
+      {Key? key, required this.remaining, this.color, this.textAlign})
       : super(key: key);
 
   static String formatDuration(Duration duration) {
@@ -22,6 +24,7 @@ class Countdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       formatDuration(remaining),
+      textAlign: textAlign,
       style: Theme.of(context).textTheme.headline6!.copyWith(color: color),
     );
   }
