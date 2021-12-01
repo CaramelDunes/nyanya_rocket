@@ -84,8 +84,7 @@ class _AppState extends State<App> {
           return MaterialApp.router(
             localizationsDelegates: const [
               AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
+              ...GlobalMaterialLocalizations.delegates,
             ],
             supportedLocales: App.supportedLocales,
             locale: language.value == 'auto' ? null : Locale(language.value),
