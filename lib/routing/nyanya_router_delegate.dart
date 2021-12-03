@@ -118,9 +118,8 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
 
         if (_id != null) {
           _id = null;
-        } else if (_tabKind != null) {
-          _tabKind = null;
         } else {
+          _tabKind = null;
           _pageKind = PageKind.home;
         }
 
