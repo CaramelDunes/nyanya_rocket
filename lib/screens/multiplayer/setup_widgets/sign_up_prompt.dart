@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/screens/settings/account_management.dart';
+
+import '../../../localization/nyanya_localizations.dart';
+import '../../settings/account_management.dart';
 
 class SignUpPrompt extends StatelessWidget {
   const SignUpPrompt({Key? key}) : super(key: key);

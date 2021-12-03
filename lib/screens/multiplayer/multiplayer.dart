@@ -10,6 +10,7 @@ import 'package:nyanya_rocket/screens/settings/settings.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/bar_rail_tabs.dart';
+import 'setup_widgets/sign_up_prompt.dart';
 import 'tabs/device_duel_setup.dart';
 import 'tabs/lan_multiplayer_setup.dart';
 
@@ -19,6 +20,8 @@ class Multiplayer extends StatefulWidget {
   @override
   _MultiplayerState createState() => _MultiplayerState();
 }
+
+typedef IdTokenBuilder = Widget Function(String idToken);
 
 class _MultiplayerState extends State<Multiplayer>
     with SingleTickerProviderStateMixin {
@@ -86,66 +89,50 @@ class _MultiplayerState extends State<Multiplayer>
                   BarRailTab(
                     icon: const FaIcon(FontAwesomeIcons.userFriends),
                     label: NyaNyaLocalizations.of(context).duelLabel,
-                    content: Builder(builder: (context) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (!snapshot.hasData) {
-                        return Center(
-                            child: Text(NyaNyaLocalizations.of(context)
-                                .unauthenticatedError));
-                      }
-
-                      return QueueAndLeaderboard(
-                        queueType: QueueType.duels,
-                        displayName: user.displayName ?? '',
-                        idToken: snapshot.data!,
-                        masterServerHostname: region.masterServerHostname,
-                      );
-                    }),
+                    content: _wrapWithSignupPrompt(
+                        snapshot,
+                        (idToken) => QueueAndLeaderboard(
+                              queueType: QueueType.duels,
+                              displayName: user.displayName ?? '',
+                              idToken: snapshot.data!,
+                              masterServerHostname: region.masterServerHostname,
+                            )),
                   ),
                   BarRailTab(
                       icon: const FaIcon(FontAwesomeIcons.users),
                       label: NyaNyaLocalizations.of(context).fourPlayersLabel,
-                      content: Builder(builder: (context) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (!snapshot.hasData) {
-                          return Center(
-                              child: Text(NyaNyaLocalizations.of(context)
-                                  .unauthenticatedError));
-                        }
-
-                        return QueueAndLeaderboard(
-                          queueType: QueueType.fourPlayers,
-                          displayName: user.displayName ?? '',
-                          idToken: snapshot.data!,
-                          masterServerHostname: region.masterServerHostname,
-                        );
-                      })),
+                      content: _wrapWithSignupPrompt(
+                          snapshot,
+                          (idToken) => QueueAndLeaderboard(
+                                queueType: QueueType.fourPlayers,
+                                displayName: user.displayName ?? '',
+                                idToken: snapshot.data!,
+                                masterServerHostname:
+                                    region.masterServerHostname,
+                              ))),
                   BarRailTab(
                       icon: const FaIcon(FontAwesomeIcons.peopleArrows),
                       label: NyaNyaLocalizations.of(context).friendDuelLabel,
-                      content: Builder(builder: (context) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (!snapshot.hasData) {
-                          return Center(
-                              child: Text(NyaNyaLocalizations.of(context)
-                                  .unauthenticatedError));
-                        }
-
-                        return FriendDuel(
-                          displayName: user.displayName ?? '',
-                          idToken: snapshot.data!,
-                          masterServerHostname: region.masterServerHostname,
-                        );
-                      }))
+                      content: _wrapWithSignupPrompt(
+                          snapshot,
+                          (idToken) => FriendDuel(
+                              displayName: user.displayName ?? '',
+                              idToken: idToken,
+                              masterServerHostname:
+                                  region.masterServerHostname)))
                 ]);
           });
     });
+  }
+
+  Widget _wrapWithSignupPrompt(
+      AsyncSnapshot<String?> idTokenSnapshot, IdTokenBuilder idTokenBuilder) {
+    if (idTokenSnapshot.connectionState == ConnectionState.waiting) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (!idTokenSnapshot.hasData) {
+      return const Center(child: SignUpPrompt());
+    }
+
+    return idTokenBuilder(idTokenSnapshot.data!);
   }
 }
