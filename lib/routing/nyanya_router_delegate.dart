@@ -34,19 +34,21 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
   }
 
   MaterialPage _pageForKind(PageKind pageKind) {
+    final TabKind effectiveTabKind = _tabKind ?? TabKind.original;
+
     switch (pageKind) {
       case PageKind.home:
         return const MaterialPage(key: ValueKey('HomePage'), child: Home());
 
       case PageKind.puzzle:
         return MaterialPage(
-            key: const ValueKey('PuzzlesPage'),
-            child: Puzzles(initialTab: _tabKind ?? TabKind.original));
+            key: ValueKey('PuzzlesPage${effectiveTabKind.index}'),
+            child: Puzzles(initialTab: effectiveTabKind));
 
       case PageKind.challenge:
         return MaterialPage(
-            key: const ValueKey('ChallengesPage'),
-            child: Challenges(initialTab: _tabKind ?? TabKind.original));
+            key: ValueKey('ChallengesPage${effectiveTabKind.index}'),
+            child: Challenges(initialTab: effectiveTabKind));
 
       case PageKind.editor:
         return const MaterialPage(key: ValueKey('EditorPage'), child: Editor());
@@ -137,5 +139,11 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
     _id = configuration.id;
     notifyListeners();
     return SynchronousFuture(null);
+  }
+
+  void setVirtualNewRoutePath(NyaNyaRoutePath configuration) {
+    _pageKind = configuration.kind;
+    _tabKind = configuration.tabKind;
+    _id = configuration.id;
   }
 }

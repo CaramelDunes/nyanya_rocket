@@ -11,11 +11,12 @@ import 'tabs/original_challenges.dart';
 class Challenges extends StatelessWidget {
   final TabKind initialTab;
 
-  const Challenges({Key? key, this.initialTab = TabKind.original})
-      : super(key: key);
+  const Challenges({Key? key, required this.initialTab}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final localized = NyaNyaLocalizations.of(context);
+
     return BarRailTabs(
         initialTab: initialTab.index,
         title: NyaNyaLocalizations.of(context).challengesTitle,
@@ -23,17 +24,20 @@ class Challenges extends StatelessWidget {
           BarRailTab(
             content: const OriginalChallenges(),
             icon: const FaIcon(FontAwesomeIcons.stopwatch),
-            label: NyaNyaLocalizations.of(context).originalTab,
+            label: localized.originalTab,
+            route: const NyaNyaRoutePath.originalChallenges(),
           ),
           BarRailTab(
             content: const CommunityChallenges(),
             icon: const FaIcon(FontAwesomeIcons.globe),
-            label: NyaNyaLocalizations.of(context).communityTab,
+            label: localized.communityTab,
+            route: const NyaNyaRoutePath.communityChallenges(),
           ),
           BarRailTab(
             content: const LocalChallenges(),
             icon: const FaIcon(FontAwesomeIcons.mobileAlt),
-            label: NyaNyaLocalizations.of(context).deviceTab,
+            label: localized.deviceTab,
+            route: const NyaNyaRoutePath.localChallenges(),
           )
         ]);
   }

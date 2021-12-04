@@ -67,16 +67,6 @@ class NyaNyaRoutePath {
         kind = PageKind.home,
         tabKind = null;
 
-  const NyaNyaRoutePath.puzzles()
-      : kind = PageKind.puzzle,
-        id = null,
-        tabKind = null;
-
-  const NyaNyaRoutePath.challenges()
-      : kind = PageKind.challenge,
-        id = null,
-        tabKind = null;
-
   const NyaNyaRoutePath.editor()
       : kind = PageKind.editor,
         id = null,
@@ -91,6 +81,36 @@ class NyaNyaRoutePath {
       : kind = PageKind.guide,
         id = null,
         tabKind = null;
+
+  const NyaNyaRoutePath.originalPuzzles()
+      : kind = PageKind.puzzle,
+        tabKind = TabKind.original,
+        id = null;
+
+  const NyaNyaRoutePath.communityPuzzles()
+      : kind = PageKind.puzzle,
+        tabKind = TabKind.community,
+        id = null;
+
+  const NyaNyaRoutePath.localPuzzles()
+      : kind = PageKind.puzzle,
+        tabKind = TabKind.local,
+        id = null;
+
+  const NyaNyaRoutePath.originalChallenges()
+      : kind = PageKind.challenge,
+        tabKind = TabKind.original,
+        id = null;
+
+  const NyaNyaRoutePath.communityChallenges()
+      : kind = PageKind.challenge,
+        tabKind = TabKind.community,
+        id = null;
+
+  const NyaNyaRoutePath.localChallenges()
+      : kind = PageKind.challenge,
+        tabKind = TabKind.local,
+        id = null;
 
   NyaNyaRoutePath.originalPuzzle(this.id)
       : kind = PageKind.puzzle,

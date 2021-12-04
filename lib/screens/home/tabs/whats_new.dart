@@ -112,14 +112,14 @@ class WhatsNew extends StatelessWidget {
               context: context,
               faIcon: FontAwesomeIcons.puzzlePiece,
               name: NyaNyaLocalizations.of(context).puzzlesTitle,
-              routePath: const NyaNyaRoutePath.puzzles(),
+              routePath: const NyaNyaRoutePath.originalPuzzles(),
               direction: direction)),
       Expanded(
           child: _buildShortcutCard(
               context: context,
               faIcon: FontAwesomeIcons.stopwatch,
               name: NyaNyaLocalizations.of(context).challengesTitle,
-              routePath: const NyaNyaRoutePath.challenges(),
+              routePath: const NyaNyaRoutePath.originalChallenges(),
               direction: direction)),
       Expanded(
           child: _buildShortcutCard(

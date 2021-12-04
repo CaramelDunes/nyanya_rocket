@@ -40,7 +40,7 @@ class DefaultDrawer extends StatelessWidget {
               Navigator.pop(context);
               Router.of(context)
                   .routerDelegate
-                  .setNewRoutePath(const NyaNyaRoutePath.puzzles());
+                  .setNewRoutePath(const NyaNyaRoutePath.originalPuzzles());
             },
           ),
           ListTile(
@@ -50,7 +50,7 @@ class DefaultDrawer extends StatelessWidget {
               Navigator.pop(context);
               Router.of(context)
                   .routerDelegate
-                  .setNewRoutePath(const NyaNyaRoutePath.challenges());
+                  .setNewRoutePath(const NyaNyaRoutePath.originalChallenges());
             },
           ),
           ListTile(

@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
+import '../routing/nyanya_route_path.dart';
+import '../utils.dart';
 import 'default_drawer/default_drawer.dart';
 
 class BarRailTab {
   final Widget content;
   final String label;
   final Widget icon;
+  final NyaNyaRoutePath? route;
 
-  BarRailTab({required this.content, required this.label, required this.icon});
+  BarRailTab(
+      {required this.content,
+      required this.label,
+      required this.icon,
+      this.route});
 }
 
 class BarRailTabs extends StatefulWidget {
@@ -60,9 +67,7 @@ class _BarRailTabsState extends State<BarRailTabs> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedTab,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        onDestinationSelected: (i) => setState(() {
-          _selectedTab = i;
-        }),
+        onDestinationSelected: _onTabChanged,
         destinations: _makeNavigationList(NavigationDestination.new),
       ),
     );
@@ -77,9 +82,7 @@ class _BarRailTabsState extends State<BarRailTabs> {
             NavigationRail(
               selectedIndex: _selectedTab,
               labelType: NavigationRailLabelType.all,
-              onDestinationSelected: (i) => setState(() {
-                _selectedTab = i;
-              }),
+              onDestinationSelected: _onTabChanged,
               destinations: _makeNavigationList((
                       {required icon, required label}) =>
                   NavigationRailDestination(icon: icon, label: Text(label))),
@@ -102,5 +105,14 @@ class _BarRailTabsState extends State<BarRailTabs> {
     return widget.tabs
         .map((BarRailTab tab) => f(icon: tab.icon, label: tab.label))
         .toList();
+  }
+
+  void _onTabChanged(int i) {
+    setState(() {
+      _selectedTab = i;
+      if (widget.tabs[i].route != null) {
+        softNavigate(context, widget.tabs[i].route!);
+      }
+    });
   }
 }
