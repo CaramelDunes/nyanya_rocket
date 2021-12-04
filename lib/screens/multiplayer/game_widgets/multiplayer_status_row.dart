@@ -19,8 +19,11 @@ class MultiplayerStatusRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      color: Colors.grey.shade200,
+      color: ElevationOverlay.colorWithOverlay(
+          colorScheme.surface, colorScheme.onSurface, 3.0),
       child: Row(
         children: [
           const Expanded(
