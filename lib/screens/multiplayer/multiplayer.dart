@@ -10,9 +10,8 @@ import 'package:nyanya_rocket/screens/settings/settings.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/bar_rail_tabs.dart';
+import 'setup_widgets/extra_multiplayer_menu.dart';
 import 'setup_widgets/sign_up_prompt.dart';
-import 'tabs/device_duel_setup.dart';
-import 'tabs/lan_multiplayer_setup.dart';
 
 class Multiplayer extends StatefulWidget {
   const Multiplayer({Key? key}) : super(key: key);
@@ -55,35 +54,7 @@ class _MultiplayerState extends State<Multiplayer>
                       }));
                     },
                   ),
-                  PopupMenuButton<String>(
-                    itemBuilder: (BuildContext context) {
-                      return [
-                        PopupMenuItem(
-                          child: Text(
-                              NyaNyaLocalizations.of(context).deviceDuelLabel),
-                          value: 'device',
-                        ),
-                        PopupMenuItem(
-                          child: Text(NyaNyaLocalizations.of(context)
-                              .lanMultiplayerLabel),
-                          value: 'lan',
-                        )
-                      ];
-                    },
-                    onSelected: (value) {
-                      if (value == 'lan') {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const LanMultiplayerSetup();
-                        }));
-                      } else if (value == 'device') {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const DeviceDuelSetup();
-                        }));
-                      }
-                    },
-                  )
+                  const ExtraMultiplayerMenu()
                 ],
                 tabs: [
                   BarRailTab(
