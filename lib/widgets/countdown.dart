@@ -10,14 +10,14 @@ class Countdown extends StatelessWidget {
       : super(key: key);
 
   static String formatDuration(Duration duration) {
-    final String paddedMinutes = duration.inMinutes.toString().padLeft(2, '0');
+    final String paddedMinutes =
+        duration.inMinutes.abs().toString().padLeft(2, '0');
     final String paddedSeconds =
         (duration.inSeconds % 60).toString().padLeft(2, '0');
-    final String paddedMilliseconds =
-        (duration.inMilliseconds % 1000).toString().padLeft(3, '0');
+    final int tenthOfASecond = duration.inMilliseconds % 1000 ~/ 100;
     final String minus = duration.isNegative ? '-' : '';
 
-    return '$minus$paddedMinutes:$paddedSeconds.$paddedMilliseconds';
+    return '$minus$paddedMinutes:$paddedSeconds.$tenthOfASecond';
   }
 
   @override

@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:nyanya_rocket/blocs/multiplayer_game_controller.dart';
-import 'package:nyanya_rocket/models/multiplayer_board.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../blocs/multiplayer_game_controller.dart';
+import '../../models/multiplayer_board.dart';
+import '../../utils.dart';
 
 class ArrowPosition {
   final int x;
@@ -46,8 +48,7 @@ class LocalMultiplayerGameController extends MultiplayerGameController {
     super.afterUpdate();
 
     _remainingTime -= const Duration(milliseconds: 16);
-
-    timeStream.value = _remainingTime;
+    timeStream.value = floorDurationToTenthOfASecond(_remainingTime);
   }
 
   @override

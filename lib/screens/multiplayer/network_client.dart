@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
+import '../../utils.dart';
+
 enum NetworkGameStatus { connectingToServer, waitingForPlayers, playing, ended }
 
 class NetworkClient extends GameTicker<MultiplayerGameState> {
@@ -165,7 +167,8 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     }
 
     gameStream.value = game;
-    timeStream.value = GameTicker.updatePeriod * (game.tickCount / 2);
+    timeStream.value = floorDurationToTenthOfASecond(
+        GameTicker.updatePeriod * (game.tickCount / 2));
   }
 
   void _handleRegisterSuccess(PlayerColor assignedColor) {

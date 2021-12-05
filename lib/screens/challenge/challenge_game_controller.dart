@@ -7,6 +7,8 @@ import 'package:nyanya_rocket/screens/challenge/one_hundred_mice_game_controller
 import 'package:nyanya_rocket/screens/challenge/run_away_game_controller.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
+import '../../utils.dart';
+
 class ArrowPosition {
   final int x;
   final int y;
@@ -113,7 +115,8 @@ abstract class ChallengeGameController extends LocalGameController {
       _remainingTime = Duration.zero;
     }
 
-    timeStream.value = const Duration(seconds: 30) - _remainingTime;
+    timeStream.value = const Duration(seconds: 30) -
+        floorDurationToTenthOfASecond(_remainingTime);
   }
 
   @override

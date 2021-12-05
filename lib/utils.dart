@@ -37,3 +37,7 @@ Picture createPicture(void Function(Canvas) callback) {
   callback(canvas);
   return recorder.endRecording();
 }
+
+Duration floorDurationToTenthOfASecond(Duration duration) {
+  return Duration(milliseconds: (duration.inMilliseconds ~/ 100) * 100);
+}
