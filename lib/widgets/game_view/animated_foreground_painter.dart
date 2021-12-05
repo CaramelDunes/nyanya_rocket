@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import 'checkerboard_painter.dart';
+import '../../utils.dart';
 import 'entities/entity_painter.dart';
 import 'tiles/tile_painter.dart';
 import 'walls_painter.dart';
@@ -16,15 +16,13 @@ class AnimatedForegroundPainter extends CustomPainter {
 
   final Animation entityAnimation;
 
-  late final Picture checkerboardPicture;
+  late final Picture _wallsPicture;
 
   AnimatedForegroundPainter(
       {required this.game, required this.entityAnimation, this.mistake})
       : super(repaint: entityAnimation) {
-    final recorder = PictureRecorder();
-    final canvas = Canvas(recorder);
-    CheckerboardPainter.paintUnitCheckerboard(canvas);
-    checkerboardPicture = recorder.endRecording();
+    _wallsPicture = createPicture(
+        (canvas) => WallsPainter.paintUnitWalls(canvas, game.value.board));
   }
 
   @override
@@ -34,15 +32,15 @@ class AnimatedForegroundPainter extends CustomPainter {
 
     canvas.save();
     canvas.scale(tileWidth, tileHeight);
-    canvas.drawPicture(checkerboardPicture);
-    TilePainter.paintUnitTiles(game.value.board, canvas);
-    WallsPainter.paintUnitWalls(canvas, game.value.board);
 
+    TilePainter.paintUnitArrowTiles(game.value.board, canvas);
+    canvas.drawPicture(_wallsPicture);
     EntityPainter.paintUnitEntities(
         canvas, game.value.mice, entityAnimation.value);
     EntityPainter.paintUnitEntities(
         canvas, game.value.cats, entityAnimation.value);
     _paintUnitMistake(canvas);
+
     canvas.restore();
   }
 

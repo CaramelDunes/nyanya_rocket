@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 
+import '../../../utils.dart';
 import 'unit_painter.dart';
 
 class ImageCacheRivePainter implements UnitPainter {
@@ -33,19 +34,19 @@ class ImageCacheRivePainter implements UnitPainter {
       SimpleAnimation(animationName),
     );
 
-    Size size =
+    final Size size =
         Size(artboard.width * rasterizeRatio, artboard.height * rasterizeRatio);
 
-    List<ui.Image> cache = await Future.wait(List.generate(numberOfFrames, (i) {
+    final List<ui.Image> cache =
+        await Future.wait(List.generate(numberOfFrames, (i) {
       artboard.advance(0.016);
 
-      final pictureRecorder = ui.PictureRecorder();
-      ui.Canvas canvas = ui.Canvas(pictureRecorder);
-      canvas.scale(rasterizeRatio);
+      final ui.Picture picture = createPicture((canvas) {
+        canvas.scale(rasterizeRatio);
+        artboard.draw(canvas);
+      });
 
-      artboard.draw(canvas);
-      return pictureRecorder.endRecording().toImage(
-          (artboard.width * rasterizeRatio).floor(),
+      return picture.toImage((artboard.width * rasterizeRatio).floor(),
           (artboard.height * rasterizeRatio).floor());
     }));
 

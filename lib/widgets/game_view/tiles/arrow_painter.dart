@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
@@ -6,16 +7,17 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 import '../../../utils.dart';
 
 class ArrowPainter extends CustomPainter {
-  const ArrowPainter(this.color, this.direction, this.damaged);
+  static final Map<Color, Picture> _cache = {};
 
-  factory ArrowPainter.fromPlayerColor(PlayerColor? color, Direction direction,
-      [bool damaged = false]) {
-    return ArrowPainter(color?.color ?? Colors.grey, direction, damaged);
+  const ArrowPainter(this.color, this.direction);
+
+  factory ArrowPainter.fromPlayerColor(
+      PlayerColor? color, Direction direction) {
+    return ArrowPainter(color?.color ?? Colors.grey, direction);
   }
 
   final Color color;
   final Direction direction;
-  final bool damaged;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -32,6 +34,22 @@ class ArrowPainter extends CustomPainter {
 
   static void paintUnit(
       Canvas canvas, Color color, Direction direction, bool damaged) {
+    if (!_cache.containsKey(color)) {
+      _cache[color] =
+          createPicture((canvas) => _actuallyPaintUnit(canvas, color));
+    }
+
+    canvas.save();
+    canvas.translate(0.5, 0.5);
+    if (damaged) canvas.scale(0.6);
+    canvas.rotate((1 - direction.index) * pi / 2);
+
+    canvas.drawPicture(_cache[color]!);
+
+    canvas.restore();
+  }
+
+  static void _actuallyPaintUnit(Canvas canvas, Color color) {
     const bodyHeightRatio = 0.55;
     const bodyWidthRatio = 0.5;
 
@@ -43,10 +61,6 @@ class ArrowPainter extends CustomPainter {
     final roundedRect =
         RRect.fromRectAndRadius(rect, const Radius.circular(0.15));
 
-    canvas.save();
-    canvas.translate(0.5, 0.5);
-    if (damaged) canvas.scale(0.6);
-
     canvas.drawRRect(roundedRect, Paint()..color = color);
     canvas.drawRRect(
         roundedRect,
@@ -55,8 +69,6 @@ class ArrowPainter extends CustomPainter {
           ..strokeWidth = 0.02
           ..color = Colors.black);
 
-    canvas.rotate((1 - direction.index) * pi / 2);
-
     canvas.scale(arrowWidthRatio, arrowHeightRatio);
     canvas.drawPath(arrow, Paint()..color = Colors.white);
     canvas.drawPath(
@@ -64,8 +76,6 @@ class ArrowPainter extends CustomPainter {
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 0.05);
-
-    canvas.restore();
   }
 
   static Path arrowPath(double bodyHeightRatio, double bodyWidthRatio) {

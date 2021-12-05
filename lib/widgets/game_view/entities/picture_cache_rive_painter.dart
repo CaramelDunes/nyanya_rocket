@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 
+import '../../../utils.dart';
 import 'unit_painter.dart';
 
 class PictureCacheRivePainter implements UnitPainter {
@@ -33,11 +34,10 @@ class PictureCacheRivePainter implements UnitPainter {
     List<ui.Picture> cache = List.generate(numberOfFrames, (i) {
       artboard.advance(0.016);
 
-      final pictureRecorder = ui.PictureRecorder();
-      ui.Canvas canvas = ui.Canvas(pictureRecorder);
-      canvas.scale(1 / artboard.width, 1 / artboard.height);
-      artboard.draw(canvas);
-      return pictureRecorder.endRecording();
+      return createPicture((canvas) {
+        canvas.scale(1 / artboard.width, 1 / artboard.height);
+        artboard.draw(canvas);
+      });
     });
 
     return PictureCacheRivePainter._(cache);

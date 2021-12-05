@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -27,4 +29,11 @@ void softNavigate(BuildContext context, NyaNyaRoutePath routePath) {
       type: RouteInformationReportingType.none);
   (Router.of(context).routerDelegate as NyaNyaRouterDelegate)
       .setVirtualNewRoutePath(routePath);
+}
+
+Picture createPicture(void Function(Canvas) callback) {
+  final PictureRecorder recorder = PictureRecorder();
+  final Canvas canvas = Canvas(recorder);
+  callback(canvas);
+  return recorder.endRecording();
 }

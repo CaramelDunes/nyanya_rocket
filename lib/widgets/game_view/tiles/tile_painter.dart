@@ -79,6 +79,34 @@ class TilePainter extends StatelessWidget {
     }
   }
 
+  static paintUnitNonArrowTiles(Board board, Canvas canvas) {
+    for (int x = 0; x < Board.width; x++) {
+      for (int y = 0; y < Board.height; y++) {
+        Tile tile = board.tiles[x][y];
+        if (tile is Empty || tile is Arrow) continue;
+
+        canvas.save();
+        canvas.translate(x.toDouble(), y.toDouble());
+        paintUnitTile(tile, canvas);
+        canvas.restore();
+      }
+    }
+  }
+
+  static paintUnitArrowTiles(Board board, Canvas canvas) {
+    for (int x = 0; x < Board.width; x++) {
+      for (int y = 0; y < Board.height; y++) {
+        Tile tile = board.tiles[x][y];
+        if (tile is! Arrow) continue;
+
+        canvas.save();
+        canvas.translate(x.toDouble(), y.toDouble());
+        paintUnitTile(tile, canvas);
+        canvas.restore();
+      }
+    }
+  }
+
   static paintUnitTile(Tile tile, Canvas canvas) {
     switch (tile.runtimeType) {
       case Pit:
