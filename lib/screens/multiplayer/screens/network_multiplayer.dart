@@ -304,13 +304,14 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Text(
-                    (_localMultiplayerController.game.scoreOf(_myColor!) ==
-                            maxScore)
-                        ? NyaNyaLocalizations.of(context).victoryLabel
-                        : NyaNyaLocalizations.of(context).defeatLabel,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
+                  if (_myColor != null)
+                    Text(
+                      (_localMultiplayerController.game.scoreOf(_myColor!) ==
+                              maxScore)
+                          ? NyaNyaLocalizations.of(context).victoryLabel
+                          : NyaNyaLocalizations.of(context).defeatLabel,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
