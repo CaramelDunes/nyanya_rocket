@@ -5,6 +5,7 @@ import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
 import 'package:nyanya_rocket/screens/challenge/widgets/arrow_drawer.dart';
+import 'package:nyanya_rocket/screens/puzzle/widgets/draggable_arrow.dart';
 import 'package:nyanya_rocket/screens/settings/settings.dart';
 import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
@@ -53,7 +54,11 @@ class _ChallengeState extends State<Challenge> {
     super.dispose();
   }
 
-  void _handleSwipeAndDrop(int x, int y, Direction direction) {
+  void _handleDrop(int x, int y, DraggedArrowData draggedArrow) {
+    _challengeController.placeArrow(x, y, draggedArrow.direction);
+  }
+
+  void _handleSwipe(int x, int y, Direction direction) {
     _challengeController.placeArrow(x, y, direction);
   }
 
@@ -66,12 +71,12 @@ class _ChallengeState extends State<Challenge> {
         const Duration(seconds: 30) - _challengeController.remainingTime);
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,
-      List rejectedData, int x, int y) {
+  Widget _dragTileBuilder(BuildContext context,
+      List<DraggedArrowData?> candidateData, List rejectedData, int x, int y) {
     if (candidateData.isEmpty) return const SizedBox.expand();
 
     return ArrowImage(
-      direction: candidateData[0]!,
+      direction: candidateData[0]!.direction,
       player: PlayerColor.Blue,
       isHalfTransparent: true,
     );
@@ -202,14 +207,16 @@ class _ChallengeState extends State<Challenge> {
       elevation: 8.0,
       child: AspectRatio(
           aspectRatio: 12.0 / 9.0,
-          child: InputGridOverlay<Direction>(
+          child: InputGridOverlay<DraggedArrowData>(
             child: AnimatedGameView(
               game: _challengeController.gameStream,
               mistake: _challengeController.mistake,
             ),
-            onDrop: _handleSwipeAndDrop,
-            onSwipe: _handleSwipeAndDrop,
+            onDrop: _handleDrop,
+            onSwipe: _handleSwipe,
             previewBuilder: _dragTileBuilder,
+            onWillAccept: _handleOnWillAccept,
+            onLeave: _handleOnLeave,
           )),
     );
   }
@@ -283,5 +290,19 @@ class _ChallengeState extends State<Challenge> {
             });
           }),
     );
+  }
+
+  bool _handleOnWillAccept(int x, int y, DraggedArrowData? draggedArrow) {
+    if (draggedArrow != null) {
+      draggedArrow.isOverBoard.value = true;
+    }
+
+    return _challengeController.game.board.tiles[x][y] is Empty;
+  }
+
+  void _handleOnLeave(int x, int y, DraggedArrowData? draggedArrow) {
+    if (draggedArrow != null) {
+      draggedArrow.isOverBoard.value = false;
+    }
   }
 }

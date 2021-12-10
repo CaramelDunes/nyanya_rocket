@@ -13,17 +13,17 @@ class DraggedArrowData {
 
 class DraggableArrow extends StatelessWidget {
   final DraggedArrowData draggedData;
-  final ValueNotifier<int> draggedCount;
+  final ValueNotifier<int>? draggedCount;
   final Widget child;
-  final int maxSimultaneousDrags;
+  final int? maxSimultaneousDrags;
   final VoidCallback? onDragStarted;
 
   const DraggableArrow(
       {Key? key,
       required this.draggedData,
-      required this.draggedCount,
       required this.child,
-      required this.maxSimultaneousDrags,
+      this.draggedCount,
+      this.maxSimultaneousDrags,
       this.onDragStarted})
       : super(key: key);
 
@@ -33,14 +33,14 @@ class DraggableArrow extends StatelessWidget {
         dragAnchorStrategy: childDragAnchorStrategy,
         maxSimultaneousDrags: maxSimultaneousDrags,
         onDragStarted: () {
-          draggedCount.value += 1;
+          draggedCount?.value += 1;
           onDragStarted?.call();
         },
         onDragCompleted: () {
-          draggedCount.value -= 1;
+          draggedCount?.value -= 1;
         },
         onDraggableCanceled: (_, __) {
-          draggedCount.value -= 1;
+          draggedCount?.value -= 1;
         },
         feedback: ValueListenableBuilder<bool>(
             valueListenable: draggedData.isOverBoard,
