@@ -9,6 +9,9 @@ typedef SwipeAcceptor = void Function(int x, int y, Direction direction);
 typedef DragTargetTileBuilder<T> = Widget Function(BuildContext context,
     List<T?> candidateData, List<dynamic> rejectedData, int x, int y);
 
+typedef OnWillAccept<T> = bool Function(int x, int y, T? t);
+typedef LeaveAcceptor<T> = void Function(int x, int y, T? t);
+
 class DragTargetGrid<T extends Object> extends StatelessWidget {
   final int width;
   final int height;
@@ -16,6 +19,8 @@ class DragTargetGrid<T extends Object> extends StatelessWidget {
   final DropAcceptor<T> dropAcceptor;
   final TapAcceptor<T>? tapAcceptor;
   final SwipeAcceptor? swipeAcceptor;
+  final OnWillAccept<T>? onWillAccept;
+  final LeaveAcceptor<T>? onLeave;
 
   const DragTargetGrid(
       {Key? key,
@@ -24,17 +29,22 @@ class DragTargetGrid<T extends Object> extends StatelessWidget {
       required this.tileBuilder,
       required this.dropAcceptor,
       this.tapAcceptor,
-      this.swipeAcceptor})
+      this.swipeAcceptor,
+      this.onWillAccept,
+      this.onLeave})
       : super(key: key);
 
   Widget _dragTargetBuilder(int x, int y) {
     return DragTargetTile<T>(
-        x: x,
-        y: y,
-        builder: tileBuilder,
-        dropAcceptor: dropAcceptor,
-        swipeAcceptor: swipeAcceptor,
-        tapAcceptor: tapAcceptor);
+      x: x,
+      y: y,
+      builder: tileBuilder,
+      dropAcceptor: dropAcceptor,
+      swipeAcceptor: swipeAcceptor,
+      tapAcceptor: tapAcceptor,
+      onWillAccept: onWillAccept,
+      onLeave: onLeave,
+    );
   }
 
   @override
@@ -59,6 +69,8 @@ class DragTargetTile<T extends Object> extends StatefulWidget {
   final DropAcceptor<T> dropAcceptor;
   final SwipeAcceptor? swipeAcceptor;
   final TapAcceptor<T>? tapAcceptor;
+  final OnWillAccept<T>? onWillAccept;
+  final LeaveAcceptor<T>? onLeave;
 
   const DragTargetTile(
       {Key? key,
@@ -67,7 +79,9 @@ class DragTargetTile<T extends Object> extends StatefulWidget {
       required this.builder,
       required this.dropAcceptor,
       this.swipeAcceptor,
-      this.tapAcceptor})
+      this.tapAcceptor,
+      this.onWillAccept,
+      this.onLeave})
       : super(key: key);
 
   @override
@@ -116,14 +130,23 @@ class _DragTargetTileState<T extends Object> extends State<DragTargetTile<T>> {
               }
             : null,
         child: DragTarget<T>(
-          builder: (BuildContext context, List<T?> candidateData,
-                  List<dynamic> rejectedData) =>
-              widget.builder(
-                  context, candidateData, rejectedData, widget.x, widget.y),
-          onAccept: (T t) {
-            widget.dropAcceptor(widget.x, widget.y, t);
-            setState(() {});
-          },
-        ));
+            builder: (BuildContext context, List<T?> candidateData,
+                    List<dynamic> rejectedData) =>
+                widget.builder(
+                    context, candidateData, rejectedData, widget.x, widget.y),
+            onWillAccept: widget.onWillAccept != null
+                ? (T? t) {
+                    return widget.onWillAccept!(widget.x, widget.y, t);
+                  }
+                : null,
+            onAccept: (T t) {
+              widget.dropAcceptor(widget.x, widget.y, t);
+              setState(() {});
+            },
+            onLeave: widget.onLeave != null
+                ? (T? t) {
+                    widget.onLeave!(widget.x, widget.y, t);
+                  }
+                : null));
   }
 }

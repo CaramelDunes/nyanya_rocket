@@ -81,7 +81,7 @@ class _LocalDuelState extends State<LocalDuel> {
       return ArrowImage(
         player: candidate.player,
         direction: candidate.direction,
-        opaque: false,
+        isHalfTransparent: true,
       );
     } else {
       return const SizedBox.expand();

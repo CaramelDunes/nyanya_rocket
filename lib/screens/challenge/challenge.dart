@@ -73,7 +73,7 @@ class _ChallengeState extends State<Challenge> {
     return ArrowImage(
       direction: candidateData[0]!,
       player: PlayerColor.Blue,
-      opaque: false,
+      isHalfTransparent: true,
     );
   }
 
@@ -215,18 +215,20 @@ class _ChallengeState extends State<Challenge> {
   }
 
   Widget _buildElapsedTime() {
-    return ValueListenableBuilder<Duration>(
-        valueListenable: _challengeController.timeStream,
-        builder: (context, remaining, snapshot) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Countdown(
-                remaining: remaining,
-                color: _challengeController.remainingTime == Duration.zero
-                    ? Colors.red
-                    : null),
-          );
-        });
+    return RepaintBoundary(
+      child: ValueListenableBuilder<Duration>(
+          valueListenable: _challengeController.timeStream,
+          builder: (context, remaining, snapshot) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Countdown(
+                  remaining: remaining,
+                  color: _challengeController.remainingTime == Duration.zero
+                      ? Colors.red
+                      : null),
+            );
+          }),
+    );
   }
 
   Widget _buildTargetCount() {

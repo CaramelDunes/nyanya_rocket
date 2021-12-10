@@ -9,6 +9,8 @@ class InputGridOverlay<T extends Object> extends StatelessWidget {
   final TapAcceptor<T>? onTap;
   final SwipeAcceptor? onSwipe;
   final DragTargetTileBuilder<T>? previewBuilder;
+  final OnWillAccept<T>? onWillAccept;
+  final LeaveAcceptor<T>? onLeave;
 
   const InputGridOverlay(
       {Key? key,
@@ -16,7 +18,9 @@ class InputGridOverlay<T extends Object> extends StatelessWidget {
       required this.onDrop,
       this.onTap,
       this.onSwipe,
-      this.previewBuilder})
+      this.previewBuilder,
+      this.onWillAccept,
+      this.onLeave})
       : super(key: key);
 
   @override
@@ -32,6 +36,8 @@ class InputGridOverlay<T extends Object> extends StatelessWidget {
         dropAcceptor: onDrop,
         tapAcceptor: onTap,
         swipeAcceptor: onSwipe,
+        onWillAccept: onWillAccept,
+        onLeave: onLeave,
       )
     ]);
   }

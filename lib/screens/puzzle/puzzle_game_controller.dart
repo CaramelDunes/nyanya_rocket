@@ -53,7 +53,7 @@ class PuzzleGameController extends LocalGameController {
   Iterable<Mouse>? _preMistakeMice;
 
   PuzzleGameController({this.onWin, required this.puzzle})
-      : super(puzzle.getGame(), PuzzleGameSimulator()) {
+      : super(puzzle.getGame().copy(), PuzzleGameSimulator()) {
     for (int direction = 0; direction < Direction.values.length; direction++) {
       remainingArrowsStreams[direction].value =
           remainingArrows(Direction.values[direction]);
@@ -66,7 +66,7 @@ class PuzzleGameController extends LocalGameController {
 
   ValueNotifier<PuzzleGameState> get state => _gameStateNotifier;
 
-  get canPlaceArrow => _canPlaceArrow;
+  bool get canPlaceArrow => _canPlaceArrow;
 
   bool get spedUp => gameSimulator.speed == GameSpeed.Fast;
 
@@ -140,7 +140,7 @@ class PuzzleGameController extends LocalGameController {
     running = false;
     _mistake.value = null;
 
-    gameState = puzzle.getGame();
+    gameState = puzzle.getGame().copy();
 
     for (int direction = 0; direction < Direction.values.length; direction++) {
       for (Position position in placedArrows[direction]) {

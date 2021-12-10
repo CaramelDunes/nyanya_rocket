@@ -167,7 +167,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     return ArrowImage(
       direction: candidateData[0]!,
       player: _myColor,
-      opaque: false,
+      isHalfTransparent: true,
     );
   }
 

@@ -17,6 +17,7 @@ const List<String> kContributorsList = [
   'Dread', // Out of sync puzzle controls
   '424242', // Night mode multiplayer clock display bug
   'ln(√π)', // Thumbs-up master clicker
+  'Ma Biche'
 ];
 
 final kContributors =
