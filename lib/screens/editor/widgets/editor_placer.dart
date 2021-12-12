@@ -240,9 +240,6 @@ class _EditorPlacerState extends State<EditorPlacer> {
                                 }),
                           ),
                         ),
-                        ElevatedButton(
-                            child: const Icon(Icons.save),
-                            onPressed: widget.onUndo),
                         IconButton(
                             icon: const Icon(Icons.undo),
                             onPressed: widget.onUndo),
