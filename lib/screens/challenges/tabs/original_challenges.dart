@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 import '../../../models/challenge_data.dart';
 import '../../../models/named_challenge_data.dart';
 import '../../../routing/nyanya_route_path.dart';
-import '../../../widgets/board_card.dart';
-import '../../../widgets/board_list.dart';
-import '../../../widgets/completion_indicator.dart';
+import '../../../widgets/layout/board_card.dart';
+import '../../../widgets/layout/board_list.dart';
+import '../../../widgets/navigation/completion_indicator.dart';
 import '../challenge_progression_manager.dart';
 
 class OriginalChallenges extends StatefulWidget {

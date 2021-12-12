@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:nyanya_rocket/models/multiplayer_board.dart';
-import 'package:nyanya_rocket/screens/multiplayer/device_multiplayer_game_controller.dart';
-import 'package:nyanya_rocket/screens/multiplayer/game_widgets/event_wheel.dart';
-import 'package:nyanya_rocket/widgets/arrow_image.dart';
-import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
-import 'package:nyanya_rocket/widgets/score_box.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import '../../../widgets/draggable_arrow_grid.dart';
+import '../../../models/multiplayer_board.dart';
+import '../../../widgets/input/draggable_arrow_grid.dart';
+import '../../../widgets/board/animated_game_view.dart';
+import '../../../widgets/board/tiles/arrow_image.dart';
+import '../../../widgets/game/score_box.dart';
 import '../../puzzle/widgets/draggable_arrow.dart';
+import '../device_multiplayer_game_controller.dart';
+import '../game_widgets/event_wheel.dart';
 import '../game_widgets/multiplayer_status_row.dart';
 import '../../../utils.dart';
 

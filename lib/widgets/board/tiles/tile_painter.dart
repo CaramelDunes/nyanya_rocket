@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/arrow_image.dart';
-import 'package:nyanya_rocket/widgets/game_view/tiles/spawner_painter.dart';
-import 'package:nyanya_rocket/widgets/game_view/tiles/pit_painter.dart';
-import 'package:nyanya_rocket/widgets/pit_image.dart';
-import 'package:nyanya_rocket/widgets/rocket_image.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import '../../spawner_image.dart';
+import 'arrow_image.dart';
+import 'rocket_image.dart';
+import 'pit_image.dart';
+import 'spawner_image.dart';
 import 'arrow_painter.dart';
+import 'pit_painter.dart';
 import 'rocket_painter.dart';
 import '../../../utils.dart';
+import 'spawner_painter.dart';
 
 class TilePainter extends StatelessWidget {
   final Board board;

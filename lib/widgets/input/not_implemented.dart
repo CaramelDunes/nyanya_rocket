@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 
-import '../services/firestore/firestore_service.dart';
+import '../../services/firestore/firestore_service.dart';
 
 class NotImplemented extends StatefulWidget {
   final String featureId;

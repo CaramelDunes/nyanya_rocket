@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
-import 'package:nyanya_rocket/widgets/star_count.dart';
+import 'package:nyanya_rocket/widgets/board/static_game_view.dart';
+import 'package:nyanya_rocket/widgets/navigation/star_count.dart';
 import 'package:provider/provider.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
 import '../../../models/challenge_data.dart';
 import '../../../services/firestore/firestore_service.dart';
-import '../../../widgets/community_filter_bar.dart';
+import '../../../widgets/navigation/community_filter_bar.dart';
 
 class CommunityChallenges extends StatefulWidget {
   const CommunityChallenges({Key? key}) : super(key: key);

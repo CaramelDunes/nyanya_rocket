@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/challenge_data.dart';
-import 'package:nyanya_rocket/models/named_challenge_data.dart';
-import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
-import 'package:nyanya_rocket/screens/challenge/widgets/arrow_drawer.dart';
-import 'package:nyanya_rocket/screens/puzzle/widgets/draggable_arrow.dart';
-import 'package:nyanya_rocket/screens/settings/settings.dart';
-import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
-import 'package:nyanya_rocket/widgets/arrow_image.dart';
-import 'package:nyanya_rocket/widgets/countdown.dart';
-import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import '../../widgets/draggable_arrow_grid.dart';
+import '../../localization/nyanya_localizations.dart';
+import '../../models/challenge_data.dart';
+import '../../models/named_challenge_data.dart';
+import '../../routing/nyanya_route_path.dart';
+import '../../widgets/countdown.dart';
+import '../../widgets/input/draggable_arrow_grid.dart';
+import '../../widgets/board/animated_game_view.dart';
+import '../../widgets/board/tiles/arrow_image.dart';
+import '../../widgets/game/success_overlay.dart';
+import '../puzzle/widgets/draggable_arrow.dart';
+import '../settings/settings.dart';
+import '../tutorial/tutorial.dart';
+import 'challenge_game_controller.dart';
+import 'widgets/arrow_drawer.dart';
 
 class Challenge extends StatefulWidget {
   final NamedChallengeData challenge;

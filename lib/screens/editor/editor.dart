@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../localization/nyanya_localizations.dart';
-import '../../widgets/bar_rail_tabs.dart';
+import '../../widgets/navigation/bar_rail_tabs.dart';
 import 'widgets/create_tab.dart';
 import 'widgets/edit_tab.dart';
 

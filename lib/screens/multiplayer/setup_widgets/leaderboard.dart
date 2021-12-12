@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:nyanya_rocket/widgets/not_implemented.dart';
+import 'package:nyanya_rocket/widgets/input/not_implemented.dart';
 
 class Leaderboard extends NotImplemented {
   const Leaderboard({Key? key})

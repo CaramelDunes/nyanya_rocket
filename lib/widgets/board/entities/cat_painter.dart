@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/entities/entity_painter.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-class MousePainter extends CustomPainter {
-  const MousePainter(this.direction);
+import 'entity_painter.dart';
+
+class CatPainter extends CustomPainter {
+  const CatPainter(this.direction);
 
   final Direction direction;
 
@@ -16,11 +17,11 @@ class MousePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(MousePainter oldDelegate) {
+  bool shouldRepaint(CatPainter oldDelegate) {
     return direction != oldDelegate.direction;
   }
 
   static void paintUnit(Canvas canvas, Direction direction) {
-    EntityPainter.mouseAnimations![direction.index].paintUnit(canvas, 0);
+    EntityPainter.catAnimations![direction.index].paintUnit(canvas, 0);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
-import 'package:nyanya_rocket/widgets/empty_list.dart';
+import 'package:nyanya_rocket/widgets/layout/empty_list.dart';
 
 import '../../../models/stores/multiplayer_store.dart';
 

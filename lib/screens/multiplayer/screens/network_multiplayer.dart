@@ -7,13 +7,12 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/widgets/arrow_image.dart';
-import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
-import 'package:nyanya_rocket/widgets/score_box.dart';
-
+import '../../../localization/nyanya_localizations.dart';
 import '../../../utils.dart';
+import '../../../widgets/board/animated_game_view.dart';
+import '../../../widgets/board/tiles/arrow_image.dart';
+import '../../../widgets/input/input_grid_overlay.dart';
+import '../../../widgets/game/score_box.dart';
 import '../game_widgets/multiplayer_status_row.dart';
 import '../network_client.dart';
 import '../game_widgets/event_wheel.dart';

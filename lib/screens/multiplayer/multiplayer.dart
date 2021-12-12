@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../blocs/multiplayer_queue.dart';
 import '../../localization/nyanya_localizations.dart';
 import '../../models/user.dart';
-import '../../widgets/bar_rail_tabs.dart';
+import '../../widgets/navigation/bar_rail_tabs.dart';
 import '../settings/region.dart';
 import '../settings/settings.dart';
 import 'setup_widgets/extra_multiplayer_menu.dart';

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/models/multiplayer_board.dart';
-import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../models/multiplayer_board.dart';
+import '../../../widgets/board/static_game_view.dart';
 
 class OriginalBoards extends StatelessWidget {
   static final List<MultiplayerBoard> boards = [

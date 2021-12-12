@@ -4,10 +4,10 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import '../../../config.dart';
 import '../../../localization/nyanya_localizations.dart';
-import '../../../widgets/arrow_image.dart';
-import '../../../widgets/game_view/entities/entity_painter.dart';
-import '../../../widgets/game_view/tiles/tile_painter.dart';
-import '../../../widgets/pit_image.dart';
+import '../../../widgets/board/entities/entity_painter.dart';
+import '../../../widgets/board/tiles/arrow_image.dart';
+import '../../../widgets/board/tiles/pit_image.dart';
+import '../../../widgets/board/tiles/tile_painter.dart';
 
 class General extends StatelessWidget {
   const General({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import '../../../widgets/arrow_image.dart';
+import '../../../widgets/board/tiles/arrow_image.dart';
 import '../../puzzle/widgets/draggable_arrow.dart';
 
 class ArrowDrawer extends StatelessWidget {

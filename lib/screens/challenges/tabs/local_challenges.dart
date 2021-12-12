@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_challenge_data.dart';
 import 'package:nyanya_rocket/models/user.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge.dart';
-import 'package:nyanya_rocket/widgets/empty_list.dart';
+import 'package:nyanya_rocket/widgets/layout/empty_list.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 

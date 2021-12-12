@@ -1,18 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/models/user.dart';
-import 'package:nyanya_rocket/screens/puzzle/puzzle.dart';
-import 'package:nyanya_rocket/widgets/board_list.dart';
-import 'package:nyanya_rocket/widgets/empty_list.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../config.dart';
+import '../../../localization/nyanya_localizations.dart';
+import '../../../models/named_puzzle_data.dart';
 import '../../../models/stores/puzzle_store.dart';
-import '../../../widgets/game_view/static_game_view.dart';
+import '../../../models/user.dart';
+import '../../../widgets/board/static_game_view.dart';
+import '../../../widgets/layout/board_list.dart';
+import '../../../widgets/layout/empty_list.dart';
+import '../../puzzle/puzzle.dart';
 
 class LocalPuzzles extends StatelessWidget {
   const LocalPuzzles({Key? key}) : super(key: key);

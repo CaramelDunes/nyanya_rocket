@@ -9,7 +9,7 @@ import 'package:nyanya_rocket/screens/editor/screens/challenge_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/multiplayer_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/puzzle_editor.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/name_field.dart';
-import 'package:nyanya_rocket/widgets/empty_list.dart';
+import 'package:nyanya_rocket/widgets/layout/empty_list.dart';
 
 import '../../../models/stores/puzzle_store.dart';
 import '../../../models/stores/multiplayer_store.dart';

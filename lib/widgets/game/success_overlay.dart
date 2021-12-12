@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-
-import '../services/firestore/firestore_service.dart';
+import '../../localization/nyanya_localizations.dart';
+import '../../routing/nyanya_route_path.dart';
+import '../../services/firestore/firestore_service.dart';
 
 class SuccessOverlay extends StatefulWidget {
   final String? succeededPath;

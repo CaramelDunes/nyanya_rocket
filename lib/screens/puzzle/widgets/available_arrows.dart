@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
-import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
+import '../../../widgets/board/tiles/arrow_image.dart';
+import '../puzzle_game_controller.dart';
 import 'draggable_arrow.dart';
 
 class AvailableArrows extends StatelessWidget {

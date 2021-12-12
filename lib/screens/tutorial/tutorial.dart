@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../localization/nyanya_localizations.dart';
-import '../../widgets/bar_rail_tabs.dart';
+import '../../widgets/navigation/bar_rail_tabs.dart';
 import 'tabs/challenge.dart';
 import 'tabs/general.dart';
 import 'tabs/puzzle.dart';

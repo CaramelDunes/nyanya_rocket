@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../localization/nyanya_localizations.dart';
-import '../services/firestore/firestore_service.dart';
+import '../../localization/nyanya_localizations.dart';
+import '../../services/firestore/firestore_service.dart';
 
 class CommunityFilterBar extends StatelessWidget {
   final Sorting value;

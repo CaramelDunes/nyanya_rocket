@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
-import 'package:nyanya_rocket/screens/puzzle/widgets/available_arrows.dart';
-import 'package:nyanya_rocket/screens/puzzle/widgets/puzzle_game_controls.dart';
-import 'package:nyanya_rocket/screens/settings/settings.dart';
-import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
-import 'package:nyanya_rocket/widgets/arrow_image.dart';
-import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import '../../localization/nyanya_localizations.dart';
-import '../../widgets/draggable_arrow_grid.dart';
+import '../../models/named_puzzle_data.dart';
+import '../../routing/nyanya_route_path.dart';
+import '../../widgets/input/draggable_arrow_grid.dart';
+import '../../widgets/board/animated_game_view.dart';
+import '../../widgets/board/tiles/arrow_image.dart';
+import '../../widgets/game/success_overlay.dart';
+import '../settings/settings.dart';
+import '../tutorial/tutorial.dart';
+import 'puzzle_game_controller.dart';
+import 'widgets/available_arrows.dart';
 import 'widgets/draggable_arrow.dart';
+import 'widgets/puzzle_game_controls.dart';
 
 class Puzzle extends StatefulWidget {
   final NamedPuzzleData puzzle;

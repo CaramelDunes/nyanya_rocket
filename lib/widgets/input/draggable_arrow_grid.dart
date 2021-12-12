@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import '../screens/puzzle/widgets/draggable_arrow.dart';
-import 'game_view/drag_target_grid.dart';
+import '../../screens/puzzle/widgets/draggable_arrow.dart';
+import '../board/drag_target_grid.dart';
 
 class DraggableArrowGrid<T extends DraggedArrowData> extends StatelessWidget {
   final Widget child;

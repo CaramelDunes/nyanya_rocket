@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import 'game_view/tiles/arrow_painter.dart';
+import 'arrow_painter.dart';
 
 class ArrowImage extends StatelessWidget {
   final PlayerColor? player;

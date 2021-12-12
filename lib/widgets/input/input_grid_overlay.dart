@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import 'game_view/drag_target_grid.dart';
+import '../board/drag_target_grid.dart';
 
 class InputGridOverlay<T extends Object> extends StatelessWidget {
   final Widget child;

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/star_count.dart';
+import 'package:nyanya_rocket/widgets/navigation/star_count.dart';
 import 'package:provider/provider.dart';
 
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
 
 import '../../../services/firestore/firestore_service.dart';
-import '../../../widgets/board_card.dart';
-import '../../../widgets/board_list.dart';
-import '../../../widgets/community_filter_bar.dart';
+import '../../../widgets/navigation/community_filter_bar.dart';
+import '../../../widgets/layout/board_card.dart';
+import '../../../widgets/layout/board_list.dart';
 
 class CommunityPuzzles extends StatefulWidget {
   final Future<List<CommunityPuzzleData>?>? puzzles;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import '../../../widgets/game_view/entities/entity_painter.dart';
-import '../../../widgets/game_view/tiles/tile_painter.dart';
+import '../../../widgets/board/entities/entity_painter.dart';
+import '../../../widgets/board/tiles/tile_painter.dart';
 
 class Multiplayer extends StatelessWidget {
   const Multiplayer({Key? key}) : super(key: key);

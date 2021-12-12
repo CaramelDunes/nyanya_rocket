@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import 'game_view/static_game_view.dart';
+import '../board/static_game_view.dart';
 
 class BoardCard extends StatelessWidget {
   final GameState game;

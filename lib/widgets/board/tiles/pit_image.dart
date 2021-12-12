@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'game_view/tiles/spawner_painter.dart';
 
-class SpawnerImage extends StatelessWidget {
-  const SpawnerImage({Key? key}) : super(key: key);
+import 'pit_painter.dart';
+
+class PitImage extends StatelessWidget {
+  const PitImage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +11,7 @@ class SpawnerImage extends StatelessWidget {
       aspectRatio: 1,
       child: CustomPaint(
         size: Size.infinite,
-        painter: SpawnerPainter(),
+        painter: PitPainter(),
       ),
     );
   }

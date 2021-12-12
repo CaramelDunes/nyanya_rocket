@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/widgets/completion_indicator.dart';
+import 'package:nyanya_rocket/widgets/navigation/completion_indicator.dart';
 
-import '../../../widgets/board_card.dart';
-import '../../../widgets/board_list.dart';
+import '../../../widgets/layout/board_card.dart';
+import '../../../widgets/layout/board_list.dart';
 import '../puzzle_progression_manager.dart';
 
 class OriginalPuzzles extends StatefulWidget {

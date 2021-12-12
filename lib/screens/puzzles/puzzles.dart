@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../localization/nyanya_localizations.dart';
 import '../../routing/nyanya_route_path.dart';
-import '../../widgets/bar_rail_tabs.dart';
+import '../../widgets/navigation/bar_rail_tabs.dart';
 import 'widgets/community_puzzles.dart';
 import 'widgets/local_puzzles.dart';
 import 'widgets/original_puzzles.dart';

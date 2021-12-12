@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../localization/nyanya_localizations.dart';
+import '../../localization/nyanya_localizations.dart';
 
 class CompletionIndicator extends StatelessWidget {
   final double completedRatio;
