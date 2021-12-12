@@ -19,41 +19,40 @@ class AvailableArrows extends StatelessWidget {
 
   static Widget _buildArrowAndCount(
       Direction direction, int count, Brightness brightness, bool canPlace) {
-    return Center(
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 1.0, top: 8.0, right: 8.0, bottom: 1.0),
-            child: ArrowImage(
-              player: count > 0 && canPlace ? PlayerColor.Blue : null,
-              direction: direction,
-            ),
+    const double bubbleFactor = 0.33;
+
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        FractionallySizedBox(
+          alignment: Alignment.bottomLeft,
+          widthFactor: 1 - bubbleFactor / 4,
+          heightFactor: 1 - bubbleFactor / 4,
+          child: ArrowImage(
+            player: count > 0 && canPlace ? PlayerColor.Blue : null,
+            direction: direction,
           ),
-          AspectRatio(
-            aspectRatio: 1.0,
-            child: FractionallySizedBox(
-              alignment: Alignment.topRight,
-              widthFactor: 0.33,
-              heightFactor: 0.33,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.red.shade600,
-                    borderRadius: BorderRadius.circular(8.0)),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                  child: FittedBox(
-                    child: Text(count.toString(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
-                  ),
-                ),
+        ),
+        FractionallySizedBox(
+          alignment: Alignment.topRight,
+          widthFactor: bubbleFactor,
+          heightFactor: bubbleFactor,
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.red.shade600,
+                borderRadius: BorderRadius.circular(8.0)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+              child: FittedBox(
+                child: Text(count.toString(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
               ),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 
@@ -92,12 +91,17 @@ class AvailableArrows extends StatelessWidget {
             children: List.generate(
                 4,
                 (i) => Expanded(
+                        child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(1.0),
                         child: AspectRatio(
-                      aspectRatio: 1.0,
-                      child: _buildDraggableArrow(
-                          Direction.values[i],
-                          puzzleGameController.remainingArrowsStreams[i],
-                          draggedArrowCounts[i]),
+                          aspectRatio: 1.0,
+                          child: _buildDraggableArrow(
+                              Direction.values[i],
+                              puzzleGameController.remainingArrowsStreams[i],
+                              draggedArrowCounts[i]),
+                        ),
+                      ),
                     ))));
       },
     );
