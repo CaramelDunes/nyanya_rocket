@@ -21,7 +21,7 @@ web_build_task:
     folder: ~/.pub-cache
   build_script: flutter build web
   web_artifacts:
-    path: "build/web/*"
+    path: "build/web/**"
 
 linux_build_task:
   pub_cache:
@@ -31,4 +31,4 @@ linux_build_task:
     - flutter config --enable-linux-desktop
     - flutter build linux
   linux_artifacts:
-    path: "build/linux/*"
+    path: "build/linux/**"
