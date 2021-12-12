@@ -15,6 +15,8 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   final List<String> _playerNicknames = List.filled(4, '<empty>');
   final ValueNotifier<GameState> gameStream = ValueNotifier(GameState());
   final ValueNotifier<Duration> timeStream = ValueNotifier(Duration.zero);
+  final ValueNotifier<GameEvent> gameEventListenable =
+      ValueNotifier(GameEvent.None);
   final List<ValueNotifier<int>> scoreStreams =
       List.generate(4, (_) => ValueNotifier(0), growable: false);
   final ValueNotifier<NetworkGameStatus> statusNotifier =
@@ -97,12 +99,15 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
   void _mixGameEvents(
       MultiplayerGameState newGame, MultiplayerGameState afterCatchup) {
-    if (newGame.currentEvent != GameEvent.None &&
-        newGame.eventEnd != afterCatchup.eventEnd) {
-      onGameEvent?.call(
-          newGame.currentEvent,
-          computeAnimationDuration(
-              newGame.currentEvent, newGame.tickCount, newGame.pauseUntil));
+    if (newGame.eventEnd != afterCatchup.eventEnd) {
+      if (newGame.currentEvent != GameEvent.None) {
+        onGameEvent?.call(
+            newGame.currentEvent,
+            computeAnimationDuration(
+                newGame.currentEvent, newGame.tickCount, newGame.pauseUntil));
+      }
+
+      gameEventListenable.value = newGame.currentEvent;
     }
   }
 
@@ -164,6 +169,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     if (game.currentEvent != GameEvent.None &&
         game.eventEnd <= game.tickCount) {
       game.currentEvent = GameEvent.None;
+      gameEventListenable.value = game.currentEvent;
     }
 
     gameStream.value = game;

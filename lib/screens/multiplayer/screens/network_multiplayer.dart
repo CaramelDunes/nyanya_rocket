@@ -189,13 +189,18 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
         children: [
           Column(
             children: [
-              MultiplayerStatusRow(
-                // Do not show the current game event when roulette is up
-                // to avoid 'spoiling' the players.
-                displayGameEvent: !_displayRoulette,
-                countdown: _localMultiplayerController.timeStream,
-                currentEvent: _localMultiplayerController.game.currentEvent,
-              ),
+              ValueListenableBuilder(
+                  valueListenable:
+                      _localMultiplayerController.gameEventListenable,
+                  builder: (context, GameEvent gameEvent, _) {
+                    return MultiplayerStatusRow(
+                      // Do not show the current game event when roulette is up
+                      // to avoid 'spoiling' the players.
+                      displayGameEvent: !_displayRoulette,
+                      countdown: _localMultiplayerController.timeStream,
+                      currentEvent: gameEvent,
+                    );
+                  }),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
