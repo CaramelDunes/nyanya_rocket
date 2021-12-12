@@ -122,6 +122,9 @@ class _EditorPlacerState extends State<EditorPlacer> {
         break;
     }
 
+    // TODO Use ValueListenableBuilder on the board.
+    setState(() {});
+
     _saved = false;
   }
 
@@ -145,6 +148,9 @@ class _EditorPlacerState extends State<EditorPlacer> {
       default:
         break;
     }
+
+    // TODO Use ValueListenableBuilder on the board.
+    setState(() {});
 
     _saved = false;
   }
