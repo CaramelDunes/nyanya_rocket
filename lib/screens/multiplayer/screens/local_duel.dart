@@ -8,12 +8,21 @@ import 'package:nyanya_rocket/screens/multiplayer/device_multiplayer_game_contro
 import 'package:nyanya_rocket/screens/multiplayer/game_widgets/event_wheel.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/score_box.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
+import '../../../widgets/draggable_arrow_grid.dart';
+import '../../puzzle/widgets/draggable_arrow.dart';
 import '../game_widgets/multiplayer_status_row.dart';
 import '../../../utils.dart';
+
+class DraggedArrowDataWithPlayer extends DraggedArrowData {
+  final PlayerColor player;
+
+  DraggedArrowDataWithPlayer(
+      {required this.player, required Direction direction})
+      : super(direction: direction);
+}
 
 class LocalDuel extends StatefulWidget {
   final MultiplayerBoard board;
@@ -64,16 +73,16 @@ class _LocalDuelState extends State<LocalDuel> {
     super.dispose();
   }
 
-  void _handleDrop(int x, int y, Tile tile) {
-    if (tile is Arrow) {
-      Arrow arrow = tile;
-      _localMultiplayerController.placeArrow(
-          x, y, arrow.player, arrow.direction);
-    }
+  void _handleDrop(int x, int y, DraggedArrowDataWithPlayer arrow) {
+    _localMultiplayerController.placeArrow(x, y, arrow.player, arrow.direction);
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Arrow?> candidateData,
-      List rejectedData, int x, int y) {
+  Widget _dragTileBuilder(
+      BuildContext context,
+      List<DraggedArrowDataWithPlayer?> candidateData,
+      List rejectedData,
+      int x,
+      int y) {
     if (candidateData.isEmpty) return const SizedBox.expand();
 
     final candidate = candidateData.first;
@@ -166,7 +175,8 @@ class _LocalDuelState extends State<LocalDuel> {
                               elevation: 8.0,
                               child: AspectRatio(
                                   aspectRatio: 12.0 / 9.0,
-                                  child: InputGridOverlay<Arrow>(
+                                  child: DraggableArrowGrid<
+                                      DraggedArrowDataWithPlayer>(
                                     child: AnimatedGameView(
                                       game: _localMultiplayerController
                                           .gameStream,

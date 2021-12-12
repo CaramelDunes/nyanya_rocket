@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/drag_target_grid.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import 'game_view/drag_target_grid.dart';
 
 class InputGridOverlay<T extends Object> extends StatelessWidget {
   final Widget child;
 
   final DropAcceptor<T> onDrop;
-  final TapAcceptor<T>? onTap;
+  final TapAcceptor? onTap;
   final SwipeAcceptor? onSwipe;
   final DragTargetTileBuilder<T>? previewBuilder;
   final OnWillAccept<T>? onWillAccept;

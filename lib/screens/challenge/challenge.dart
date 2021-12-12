@@ -11,9 +11,10 @@ import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/countdown.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../widgets/draggable_arrow_grid.dart';
 
 class Challenge extends StatefulWidget {
   final NamedChallengeData challenge;
@@ -54,12 +55,12 @@ class _ChallengeState extends State<Challenge> {
     super.dispose();
   }
 
-  void _handleDrop(int x, int y, DraggedArrowData draggedArrow) {
-    _challengeController.placeArrow(x, y, draggedArrow.direction);
-  }
-
   void _handleSwipe(int x, int y, Direction direction) {
     _challengeController.placeArrow(x, y, direction);
+  }
+
+  void _handleDrop(int x, int y, DraggedArrowData arrow) {
+    _challengeController.placeArrow(x, y, arrow.direction);
   }
 
   void _handleWin() {
@@ -207,7 +208,7 @@ class _ChallengeState extends State<Challenge> {
       elevation: 8.0,
       child: AspectRatio(
           aspectRatio: 12.0 / 9.0,
-          child: InputGridOverlay<DraggedArrowData>(
+          child: DraggableArrowGrid<DraggedArrowData>(
             child: AnimatedGameView(
               game: _challengeController.gameStream,
               mistake: _challengeController.mistake,
@@ -216,7 +217,6 @@ class _ChallengeState extends State<Challenge> {
             onSwipe: _handleSwipe,
             previewBuilder: _dragTileBuilder,
             onWillAccept: _handleOnWillAccept,
-            onLeave: _handleOnLeave,
           )),
     );
   }
@@ -292,17 +292,7 @@ class _ChallengeState extends State<Challenge> {
     );
   }
 
-  bool _handleOnWillAccept(int x, int y, DraggedArrowData? draggedArrow) {
-    if (draggedArrow != null) {
-      draggedArrow.isOverBoard.value = true;
-    }
-
+  bool _handleOnWillAccept(int x, int y, Direction? arrowDirection) {
     return _challengeController.game.board.tiles[x][y] is Empty;
-  }
-
-  void _handleOnLeave(int x, int y, DraggedArrowData? draggedArrow) {
-    if (draggedArrow != null) {
-      draggedArrow.isOverBoard.value = false;
-    }
   }
 }

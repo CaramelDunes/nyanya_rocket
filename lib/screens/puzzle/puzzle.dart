@@ -8,10 +8,10 @@ import 'package:nyanya_rocket/screens/settings/settings.dart';
 import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
 import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
+import '../../widgets/draggable_arrow_grid.dart';
 import 'widgets/draggable_arrow.dart';
 
 class Puzzle extends StatefulWidget {
@@ -57,8 +57,8 @@ class _PuzzleState extends State<Puzzle> {
     _puzzleController.removeArrow(x, y);
   }
 
-  void _handleDrop(int x, int y, DraggedArrowData draggedArrow) {
-    _puzzleController.placeArrow(x, y, draggedArrow.direction);
+  void _handleDrop(int x, int y, DraggedArrowData arrow) {
+    _puzzleController.placeArrow(x, y, arrow.direction);
   }
 
   void _handleSwipe(int x, int y, Direction direction) {
@@ -85,14 +85,13 @@ class _PuzzleState extends State<Puzzle> {
     if (_puzzleController.game.board.tiles[x][y] is Arrow) {
       final Direction arrowDirection =
           (_puzzleController.game.board.tiles[x][y] as Arrow).direction;
-      final DraggedArrowData draggedArrowState =
-          DraggedArrowData(direction: arrowDirection, isOverBoard: true);
       return ValueListenableBuilder<PuzzleGameState>(
           valueListenable: _puzzleController.state,
           builder: (context, value, __) {
             return DraggableArrow(
               maxSimultaneousDrags: value.reset ? 1 : 0,
-              draggedData: draggedArrowState,
+              data: DraggedArrowData(
+                  direction: arrowDirection, isOverBoard: true),
               draggedCount: _draggedArrowCount[arrowDirection.index],
               child: Container(color: Colors.transparent),
               onDragStarted: () {
@@ -211,32 +210,22 @@ class _PuzzleState extends State<Puzzle> {
       elevation: 8.0,
       child: AspectRatio(
           aspectRatio: 12.0 / 9.0,
-          child: InputGridOverlay<DraggedArrowData>(
-              child: AnimatedGameView(
-                game: _puzzleController.gameStream,
-                mistake: _puzzleController.mistake,
-              ),
-              onDrop: _handleDrop,
-              onTap: _handleTap,
-              onSwipe: _handleSwipe,
-              previewBuilder: _dragTileBuilder,
-              onWillAccept: _handleOnWillAccept,
-              onLeave: _handleOnLeave)),
+          child: DraggableArrowGrid<DraggedArrowData>(
+            child: AnimatedGameView(
+              game: _puzzleController.gameStream,
+              mistake: _puzzleController.mistake,
+            ),
+            onDrop: _handleDrop,
+            onSwipe: _handleSwipe,
+            onTap: _handleTap,
+            previewBuilder: _dragTileBuilder,
+            onWillAccept: _handleOnWillAccept,
+          )),
     );
   }
 
-  bool _handleOnWillAccept(int x, int y, DraggedArrowData? draggedArrow) {
-    if (draggedArrow != null) {
-      draggedArrow.isOverBoard.value = true;
-    }
-
+  bool _handleOnWillAccept(int x, int y, Direction? draggedArrow) {
     return _puzzleController.game.board.tiles[x][y] is Empty ||
         _puzzleController.game.board.tiles[x][y] is Arrow;
-  }
-
-  void _handleOnLeave(int x, int y, DraggedArrowData? draggedArrow) {
-    if (draggedArrow != null) {
-      draggedArrow.isOverBoard.value = false;
-    }
   }
 }

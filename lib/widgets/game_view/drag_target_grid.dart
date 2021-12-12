@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 typedef DropAcceptor<T> = void Function(int x, int y, T t);
-typedef TapAcceptor<T> = void Function(int x, int y);
+typedef TapAcceptor = void Function(int x, int y);
 typedef SwipeAcceptor = void Function(int x, int y, Direction direction);
 typedef DragTargetTileBuilder<T> = Widget Function(BuildContext context,
     List<T?> candidateData, List<dynamic> rejectedData, int x, int y);
@@ -17,7 +17,7 @@ class DragTargetGrid<T extends Object> extends StatelessWidget {
   final int height;
   final DragTargetTileBuilder<T> tileBuilder;
   final DropAcceptor<T> dropAcceptor;
-  final TapAcceptor<T>? tapAcceptor;
+  final TapAcceptor? tapAcceptor;
   final SwipeAcceptor? swipeAcceptor;
   final OnWillAccept<T>? onWillAccept;
   final LeaveAcceptor<T>? onLeave;
@@ -68,7 +68,7 @@ class DragTargetTile<T extends Object> extends StatefulWidget {
   final DragTargetTileBuilder<T> builder;
   final DropAcceptor<T> dropAcceptor;
   final SwipeAcceptor? swipeAcceptor;
-  final TapAcceptor<T>? tapAcceptor;
+  final TapAcceptor? tapAcceptor;
   final OnWillAccept<T>? onWillAccept;
   final LeaveAcceptor<T>? onLeave;
 

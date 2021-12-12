@@ -58,11 +58,8 @@ class AvailableArrows extends StatelessWidget {
                     puzzleGameController.canPlaceArrow);
               });
 
-          final DraggedArrowData draggedArrowState =
-              DraggedArrowData(direction: direction);
-
           return DraggableArrow(
-              draggedData: draggedArrowState,
+              data: DraggedArrowData(direction: direction),
               draggedCount: draggedCount,
               child: arrowAndCount,
               maxSimultaneousDrags:

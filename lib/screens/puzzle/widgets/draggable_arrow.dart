@@ -11,8 +11,8 @@ class DraggedArrowData {
       : isOverBoard = ValueNotifier(isOverBoard);
 }
 
-class DraggableArrow extends StatelessWidget {
-  final DraggedArrowData draggedData;
+class DraggableArrow<T extends DraggedArrowData> extends StatelessWidget {
+  final DraggedArrowData data;
   final ValueNotifier<int>? draggedCount;
   final Widget child;
   final int? maxSimultaneousDrags;
@@ -20,7 +20,7 @@ class DraggableArrow extends StatelessWidget {
 
   const DraggableArrow(
       {Key? key,
-      required this.draggedData,
+      required this.data,
       required this.child,
       this.draggedCount,
       this.maxSimultaneousDrags,
@@ -43,7 +43,7 @@ class DraggableArrow extends StatelessWidget {
           draggedCount?.value -= 1;
         },
         feedback: ValueListenableBuilder<bool>(
-            valueListenable: draggedData.isOverBoard,
+            valueListenable: data.isOverBoard,
             builder: (context, value, _) {
               if (!value) {
                 return SizedBox(
@@ -51,7 +51,7 @@ class DraggableArrow extends StatelessWidget {
                   height: 75,
                   child: ArrowImage(
                     player: PlayerColor.Blue,
-                    direction: draggedData.direction,
+                    direction: data.direction,
                   ),
                 );
               } else {
@@ -62,6 +62,6 @@ class DraggableArrow extends StatelessWidget {
               }
             }),
         child: child,
-        data: draggedData);
+        data: data);
   }
 }
