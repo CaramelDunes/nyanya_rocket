@@ -11,6 +11,7 @@ import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
 import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
+import '../../localization/nyanya_localizations.dart';
 import '../../widgets/draggable_arrow_grid.dart';
 import 'widgets/draggable_arrow.dart';
 
@@ -117,7 +118,10 @@ class _PuzzleState extends State<Puzzle> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildGameView(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: _buildGameView(),
+        ),
         Flexible(
             child: AvailableArrows(
           direction: Axis.horizontal,
@@ -160,12 +164,14 @@ class _PuzzleState extends State<Puzzle> {
 
   @override
   Widget build(BuildContext context) {
+    final localized = NyaNyaLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.puzzle.name),
         actions: [
           IconButton(
-            tooltip: 'Settings',
+            tooltip: localized.settingsTitle,
             icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.push(
@@ -175,6 +181,7 @@ class _PuzzleState extends State<Puzzle> {
             },
           ),
           IconButton(
+            tooltip: localized.tutorialTitle,
             icon: const Icon(Icons.help_outline),
             onPressed: () {
               Navigator.push(
