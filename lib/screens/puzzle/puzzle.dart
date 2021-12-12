@@ -118,7 +118,7 @@ class _PuzzleState extends State<Puzzle> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          padding: const EdgeInsets.all(4.0),
           child: _buildGameView(),
         ),
         Flexible(
@@ -139,7 +139,6 @@ class _PuzzleState extends State<Puzzle> {
 
   Widget _buildLandscape() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Expanded(
@@ -148,7 +147,7 @@ class _PuzzleState extends State<Puzzle> {
           puzzleController: _puzzleController,
         )),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.all(8.0),
           child: _buildGameView(),
         ),
         Expanded(
