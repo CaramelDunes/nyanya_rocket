@@ -47,8 +47,8 @@ class DraggableArrow<T extends DraggedArrowData> extends StatelessWidget {
             builder: (context, value, _) {
               if (!value) {
                 return SizedBox(
-                  width: 75,
-                  height: 75,
+                  width: 80,
+                  height: 80,
                   child: ArrowImage(
                     player: PlayerColor.Blue,
                     direction: data.direction,

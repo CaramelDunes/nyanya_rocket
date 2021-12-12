@@ -92,10 +92,13 @@ class AvailableArrows extends StatelessWidget {
             children: List.generate(
                 4,
                 (i) => Expanded(
-                    child: _buildDraggableArrow(
-                        Direction.values[i],
-                        puzzleGameController.remainingArrowsStreams[i],
-                        draggedArrowCounts[i]))));
+                        child: AspectRatio(
+                      aspectRatio: 1.0,
+                      child: _buildDraggableArrow(
+                          Direction.values[i],
+                          puzzleGameController.remainingArrowsStreams[i],
+                          draggedArrowCounts[i]),
+                    ))));
       },
     );
   }
