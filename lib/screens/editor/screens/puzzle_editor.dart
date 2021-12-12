@@ -130,21 +130,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.puzzle.name),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.undo),
-              onPressed: () {
-                _editedGame.undo();
-              }),
-          IconButton(
-              icon: const Icon(Icons.redo),
-              onPressed: () {
-                _editedGame.redo();
-              })
-        ],
-      ),
+      appBar: AppBar(title: Text(widget.puzzle.name)),
       resizeToAvoidBottomInset: false,
       body: OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
@@ -158,6 +144,8 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
                       editedGame: _editedGame,
                       onPlay: () => _handlePlay(context),
                       onSave: _handleSave,
+                      onUndo: _editedGame.undo,
+                      onRedo: _editedGame.redo,
                       menus: const [
                     EditorMenu(subMenu: [
                       EditorTool(

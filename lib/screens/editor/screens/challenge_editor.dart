@@ -109,21 +109,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.challenge.name),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.undo),
-              onPressed: () {
-                _editedGame.undo();
-              }),
-          IconButton(
-              icon: const Icon(Icons.redo),
-              onPressed: () {
-                _editedGame.redo();
-              })
-        ],
-      ),
+      appBar: AppBar(title: Text(widget.challenge.name)),
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
@@ -133,6 +119,8 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
             menus: _menusForType(widget.challenge.data.type),
             onPlay: () => _handlePlay(context),
             onSave: _handleSave,
+            onUndo: _editedGame.undo,
+            onRedo: _editedGame.redo,
           )),
         ],
       ),

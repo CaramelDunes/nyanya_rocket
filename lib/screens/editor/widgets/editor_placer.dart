@@ -34,12 +34,16 @@ class EditorPlacer extends StatefulWidget {
   final List<EditorMenu> menus;
   final VoidCallback onSave;
   final VoidCallback? onPlay;
+  final VoidCallback onUndo;
+  final VoidCallback onRedo;
 
   const EditorPlacer({
     Key? key,
     required this.editedGame,
     required this.menus,
     required this.onSave,
+    required this.onUndo,
+    required this.onRedo,
     this.onPlay,
   }) : super(key: key);
 
@@ -194,8 +198,9 @@ class _EditorPlacerState extends State<EditorPlacer> {
                         child: Card(
                           color: _selected == i ? Colors.grey.shade300 : null,
                           child: InkWell(
-                            child: widget.menus[i].representative ??
-                                _toolView(widget.menus[i].subMenu[0]),
+                            child: Center(
+                                child: widget.menus[i].representative ??
+                                    _toolView(widget.menus[i].subMenu[0])),
                             onTap: () {
                               setState(() {
                                 _selected = i;
@@ -235,6 +240,15 @@ class _EditorPlacerState extends State<EditorPlacer> {
                                 }),
                           ),
                         ),
+                        ElevatedButton(
+                            child: const Icon(Icons.save),
+                            onPressed: widget.onUndo),
+                        IconButton(
+                            icon: const Icon(Icons.undo),
+                            onPressed: widget.onUndo),
+                        IconButton(
+                            icon: const Icon(Icons.redo),
+                            onPressed: widget.onRedo)
                       ],
                     ),
                   )
@@ -256,7 +270,8 @@ class _EditorPlacerState extends State<EditorPlacer> {
             child: Card(
               color: _subSelected[_selected] == i ? Colors.grey.shade300 : null,
               child: InkWell(
-                child: _toolView(widget.menus[_selected].subMenu[i]),
+                child: Center(
+                    child: _toolView(widget.menus[_selected].subMenu[i])),
                 onTap: () {
                   setState(() {
                     _subSelected[_selected] = i;

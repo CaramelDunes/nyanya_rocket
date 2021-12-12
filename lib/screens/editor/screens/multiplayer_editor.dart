@@ -58,21 +58,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.board.name),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.undo),
-              onPressed: () {
-                _editedGame.undo();
-              }),
-          IconButton(
-              icon: const Icon(Icons.redo),
-              onPressed: () {
-                _editedGame.redo();
-              })
-        ],
-      ),
+      appBar: AppBar(title: Text(widget.board.name)),
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
@@ -80,6 +66,8 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
               child: EditorPlacer(
                   editedGame: _editedGame,
                   onSave: _handleSave,
+                  onUndo: _editedGame.undo,
+                  onRedo: _editedGame.redo,
                   menus: const [
                 EditorMenu(
                     subMenu: [EditorTool(type: ToolType.tile, tile: Pit())]),
