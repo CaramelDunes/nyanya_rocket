@@ -199,8 +199,11 @@ class _EditorPlacerState extends State<EditorPlacer> {
                           color: _selected == i ? Colors.grey.shade300 : null,
                           child: InkWell(
                             child: Center(
-                                child: widget.menus[i].representative ??
-                                    _toolView(widget.menus[i].subMenu[0])),
+                                child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: widget.menus[i].representative ??
+                                  _toolView(widget.menus[i].subMenu[0]),
+                            )),
                             onTap: () {
                               setState(() {
                                 _selected = i;
@@ -268,7 +271,10 @@ class _EditorPlacerState extends State<EditorPlacer> {
               color: _subSelected[_selected] == i ? Colors.grey.shade300 : null,
               child: InkWell(
                 child: Center(
-                    child: _toolView(widget.menus[_selected].subMenu[i])),
+                    child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: _toolView(widget.menus[_selected].subMenu[i]),
+                )),
                 onTap: () {
                   setState(() {
                     _subSelected[_selected] = i;
