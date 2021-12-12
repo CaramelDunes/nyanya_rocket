@@ -10,9 +10,9 @@ import '../../widgets/input/draggable_arrow_grid.dart';
 import '../../widgets/board/animated_game_view.dart';
 import '../../widgets/board/tiles/arrow_image.dart';
 import '../../widgets/game/success_overlay.dart';
+import '../../widgets/navigation/guide_action.dart';
+import '../../widgets/navigation/settings_action.dart';
 import '../puzzle/widgets/draggable_arrow.dart';
-import '../settings/settings.dart';
-import '../tutorial/tutorial.dart';
 import 'challenge_game_controller.dart';
 import 'widgets/arrow_drawer.dart';
 
@@ -107,26 +107,7 @@ class _ChallengeState extends State<Challenge> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.challenge.name),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => const Settings()));
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.help_outline),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => const Tutorial()));
-            },
-          )
-        ],
+        actions: const [SettingsAction(), GuideAction()],
       ),
       body: Stack(
         fit: StackFit.expand,

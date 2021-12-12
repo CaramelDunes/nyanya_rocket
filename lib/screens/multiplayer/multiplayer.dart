@@ -6,8 +6,8 @@ import '../../blocs/multiplayer_queue.dart';
 import '../../localization/nyanya_localizations.dart';
 import '../../models/user.dart';
 import '../../widgets/navigation/bar_rail_tabs.dart';
+import '../../widgets/navigation/settings_action.dart';
 import '../settings/region.dart';
-import '../settings/settings.dart';
 import 'setup_widgets/extra_multiplayer_menu.dart';
 import 'setup_widgets/sign_up_prompt.dart';
 import 'tabs/friend_duel.dart';
@@ -29,17 +29,9 @@ class Multiplayer extends StatelessWidget {
           builder: (context, AsyncSnapshot<String?> snapshot) {
             return BarRailTabs(
                 title: localized.multiplayerTitle + ' (${region.label})',
-                appBarActions: [
-                  IconButton(
-                    icon: const Icon(Icons.settings),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return const Settings();
-                      }));
-                    },
-                  ),
-                  const ExtraMultiplayerMenu()
+                appBarActions: const [
+                  SettingsAction(),
+                  ExtraMultiplayerMenu()
                 ],
                 tabs: [
                   BarRailTab(

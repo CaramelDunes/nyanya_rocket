@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:nyanya_rocket/widgets/navigation/guide_action.dart';
+import 'package:nyanya_rocket/widgets/navigation/settings_action.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import '../../localization/nyanya_localizations.dart';
 import '../../models/named_puzzle_data.dart';
 import '../../routing/nyanya_route_path.dart';
 import '../../widgets/input/draggable_arrow_grid.dart';
 import '../../widgets/board/animated_game_view.dart';
 import '../../widgets/board/tiles/arrow_image.dart';
 import '../../widgets/game/success_overlay.dart';
-import '../settings/settings.dart';
-import '../tutorial/tutorial.dart';
 import 'puzzle_game_controller.dart';
 import 'widgets/available_arrows.dart';
 import 'widgets/draggable_arrow.dart';
@@ -164,33 +163,10 @@ class _PuzzleState extends State<Puzzle> {
 
   @override
   Widget build(BuildContext context) {
-    final localized = NyaNyaLocalizations.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.puzzle.name),
-        actions: [
-          IconButton(
-            tooltip: localized.settingsTitle,
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => const Settings()));
-            },
-          ),
-          IconButton(
-            tooltip: localized.tutorialTitle,
-            icon: const Icon(Icons.help_outline),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => const Tutorial()));
-            },
-          )
-        ],
+        actions: const [SettingsAction(), GuideAction()],
       ),
       body: Stack(
         fit: StackFit.passthrough,
