@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/named_puzzle_data.dart';
 import '../../routing/nyanya_route_path.dart';
 import '../puzzles/puzzle_progression_manager.dart';
 import '../puzzles/widgets/original_puzzles.dart';
@@ -15,7 +17,7 @@ class OriginalPuzzle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Puzzle(
-      puzzle: OriginalPuzzles.puzzles[id],
+      puzzle: NamedPuzzleData.fromJson(jsonDecode(OriginalPuzzles.jsons[id])),
       nextRoutePath: id + 1 < OriginalPuzzles.puzzles.length
           ? NyaNyaRoutePath.originalPuzzle(OriginalPuzzles.puzzles[id + 1].slug)
           : null,

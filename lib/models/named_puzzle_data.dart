@@ -11,8 +11,8 @@ class NamedPuzzleData extends NamedData<PuzzleData> {
       required List<int> availableArrows})
       : this(
             name: name,
-            puzzleData: PuzzleData(
-                gameData: gameData, availableArrows: availableArrows));
+            puzzleData: PuzzleData.fromJsonGameData(
+                jsonGameData: gameData, availableArrows: availableArrows));
 
   static NamedPuzzleData fromJson(Map<String, dynamic> json) {
     return NamedPuzzleData(
