@@ -9,26 +9,26 @@ import '../config.dart';
 enum StatusCode { success, failure, invalidArgument, unauthenticated }
 
 class User with ChangeNotifier {
-  final auth.FirebaseAuth authService;
-  auth.User? innerUser;
+  final auth.FirebaseAuth _authService;
+  auth.User? _innerUser;
 
-  User(this.authService) {
-    authService.userChanges().listen((auth.User? user) {
-      innerUser = user;
+  User(this._authService) {
+    _authService.userChanges().listen((auth.User? user) {
+      _innerUser = user;
       notifyListeners();
     });
   }
 
   bool get isConnected {
-    return innerUser != null;
+    return _innerUser != null;
   }
 
   String? get displayName {
-    return innerUser?.displayName;
+    return _innerUser?.displayName;
   }
 
   Future<String?> idToken() async {
-    return innerUser?.getIdToken();
+    return _innerUser?.getIdToken();
   }
 
   Future<bool> setDisplayName(String newDisplayName) async {
@@ -46,7 +46,7 @@ class User with ChangeNotifier {
             'data': {'displayName': newDisplayName}
           }));
 
-      await innerUser!.updateDisplayName(newDisplayName);
+      await _innerUser!.updateDisplayName(newDisplayName);
       return response.statusCode == 200;
     }
 
@@ -55,13 +55,13 @@ class User with ChangeNotifier {
 
   Future<bool> signInAnonymously() async {
     final auth.UserCredential credentials =
-        await authService.signInAnonymously();
+        await _authService.signInAnonymously();
 
-    innerUser = credentials.user;
+    _innerUser = credentials.user;
     return isConnected;
   }
 
   Future<void> signOut() {
-    return authService.signOut();
+    return _authService.signOut();
   }
 }
