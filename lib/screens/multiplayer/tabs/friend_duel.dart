@@ -159,7 +159,7 @@ class _FriendDuelState extends State<FriendDuel> {
                     _queue
                         .updateQueueJoinStatus(
                             masterServerHostname: widget.masterServerHostname,
-                            roomCode: _destCode!)
+                            roomCode: _destCode!.toUpperCase())
                         .then((status) {
                       if (status.ticket != null) {
                         _startIfNotInGame(
