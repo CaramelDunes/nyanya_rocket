@@ -208,10 +208,7 @@ class _FriendDuelState extends State<FriendDuel> {
       return SelectableText(
         _myRoomCode!,
         showCursor: true,
-        style: Theme.of(context)
-            .textTheme
-            .headline3!
-            .copyWith(color: Colors.black),
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 50),
       );
     } else {
       return Text(NyaNyaLocalizations.of(context).roomCodeRetrievalErrorText);
