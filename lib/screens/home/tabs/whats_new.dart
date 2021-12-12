@@ -7,6 +7,7 @@ import 'package:nyanya_rocket/screens/settings/first_run.dart';
 import 'package:provider/provider.dart';
 
 import '../../../services/firestore/firestore_service.dart';
+import '../../tutorial/tutorial.dart';
 
 class WhatsNew extends StatelessWidget {
   static Set<String> availableLocales = {'en', 'fr'};
@@ -60,9 +61,11 @@ class WhatsNew extends StatelessWidget {
                         NyaNyaLocalizations.of(context).firstTimeButtonLabel),
                     onPressed: () {
                       _dismissWelcomeCard(context);
-                      Router.of(context)
-                          .routerDelegate
-                          .setNewRoutePath(const NyaNyaRoutePath.guide());
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const Tutorial()));
                     },
                   )
                 ],

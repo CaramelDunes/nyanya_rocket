@@ -1,4 +1,4 @@
-enum PageKind { home, puzzle, challenge, editor, multiplayer, guide }
+enum PageKind { home, puzzle, challenge, editor, multiplayer }
 enum TabKind { original, community, local }
 
 extension PageKindSlug on PageKind {
@@ -14,8 +14,6 @@ extension PageKindSlug on PageKind {
         return 'editor';
       case PageKind.multiplayer:
         return 'multiplayer';
-      case PageKind.guide:
-        return 'guide';
     }
   }
 
@@ -27,6 +25,8 @@ extension PageKindSlug on PageKind {
         return PageKind.challenge;
       case 'editor':
         return PageKind.editor;
+      case 'multiplayer':
+        return PageKind.multiplayer;
     }
   }
 }
@@ -60,7 +60,18 @@ class NyaNyaRoutePath {
   final TabKind? tabKind;
   final String? id;
 
-  const NyaNyaRoutePath(this.kind, this.tabKind, this.id);
+  NyaNyaRoutePath(this.kind, TabKind? tabKind, String? id)
+      : tabKind = _maybeStrip(kind, tabKind),
+        id = tabKind == null ? null : _maybeStrip(kind, id);
+
+  static T? _maybeStrip<T>(PageKind kind, T? tabOrId) {
+    // Editor route doesn't have tabs nor ids.
+    if (kind == PageKind.editor) {
+      return null;
+    }
+
+    return tabOrId;
+  }
 
   const NyaNyaRoutePath.home()
       : id = null,
@@ -74,11 +85,6 @@ class NyaNyaRoutePath {
 
   const NyaNyaRoutePath.multiplayer()
       : kind = PageKind.multiplayer,
-        id = null,
-        tabKind = null;
-
-  const NyaNyaRoutePath.guide()
-      : kind = PageKind.guide,
         id = null,
         tabKind = null;
 

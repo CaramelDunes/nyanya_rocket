@@ -12,7 +12,6 @@ import 'package:nyanya_rocket/screens/multiplayer/multiplayer_not_available.dart
 import 'package:nyanya_rocket/screens/puzzle/loading_puzzle.dart';
 import 'package:nyanya_rocket/screens/puzzle/original_puzzle.dart';
 import '../screens/puzzles/widgets/original_puzzles.dart';
-import '../screens/tutorial/tutorial.dart';
 
 import '../screens/challenges/tabs/original_challenges.dart';
 import '../screens/puzzles/puzzles.dart';
@@ -62,10 +61,6 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
               key: ValueKey('MultiplayerPage'),
               child: MultiplayerNotAvailable());
         }
-
-      case PageKind.guide:
-        return const MaterialPage(
-            key: ValueKey('TutorialPage'), child: Tutorial());
     }
   }
 

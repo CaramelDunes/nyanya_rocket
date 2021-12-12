@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-import 'package:nyanya_rocket/screens/privacy_policy_prompt/privacy_policy_prompt.dart';
-import 'package:nyanya_rocket/screens/settings/settings.dart';
-import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
 
 import '../../config.dart';
+import '../../localization/nyanya_localizations.dart';
+import '../../routing/nyanya_route_path.dart';
+import '../../screens/privacy_policy_prompt/privacy_policy_prompt.dart';
+import '../../screens/settings/settings.dart';
+import '../../screens/tutorial/tutorial.dart';
 
 class DefaultDrawer extends StatelessWidget {
   const DefaultDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final localized = NyaNyaLocalizations.of(context);
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -25,7 +27,7 @@ class DefaultDrawer extends StatelessWidget {
                   Image.asset('assets/graphics/adaptive_icon_foreground.png')),
           ListTile(
             leading: const Icon(Icons.home),
-            title: Text(NyaNyaLocalizations.of(context).homeTitle),
+            title: Text(localized.homeTitle),
             onTap: () {
               Navigator.pop(context);
               Router.of(context)
@@ -35,7 +37,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const FaIcon(FontAwesomeIcons.puzzlePiece),
-            title: Text(NyaNyaLocalizations.of(context).puzzlesTitle),
+            title: Text(localized.puzzlesTitle),
             onTap: () {
               Navigator.pop(context);
               Router.of(context)
@@ -45,7 +47,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const FaIcon(FontAwesomeIcons.stopwatch),
-            title: Text(NyaNyaLocalizations.of(context).challengesTitle),
+            title: Text(localized.challengesTitle),
             onTap: () {
               Navigator.pop(context);
               Router.of(context)
@@ -55,7 +57,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const FaIcon(FontAwesomeIcons.gamepad),
-            title: Text(NyaNyaLocalizations.of(context).multiplayerTitle),
+            title: Text(localized.multiplayerTitle),
             onTap: () {
               Navigator.pop(context);
               Router.of(context)
@@ -65,7 +67,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.mode_edit),
-            title: Text(NyaNyaLocalizations.of(context).editorTitle),
+            title: Text(localized.editorTitle),
             onTap: () {
               Navigator.pop(context);
               Router.of(context)
@@ -76,7 +78,7 @@ class DefaultDrawer extends StatelessWidget {
           const Divider(),
           ListTile(
             leading: const FaIcon(FontAwesomeIcons.book),
-            title: Text(NyaNyaLocalizations.of(context).tutorialTitle),
+            title: Text(localized.tutorialTitle),
             onTap: () {
               Navigator.push(
                   context,
@@ -86,7 +88,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.settings),
-            title: Text(NyaNyaLocalizations.of(context).settingsTitle),
+            title: Text(localized.settingsTitle),
             onTap: () {
               Navigator.push(
                   context,
@@ -96,7 +98,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.library_books),
-            title: Text(NyaNyaLocalizations.of(context).privacyPolicyLabel),
+            title: Text(localized.privacyPolicyLabel),
             onTap: () {
               Navigator.push(
                   context,
