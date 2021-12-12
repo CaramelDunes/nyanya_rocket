@@ -1,49 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/user.dart';
-import 'package:nyanya_rocket/screens/multiplayer/tabs/friend_duel.dart';
-import 'package:nyanya_rocket/screens/multiplayer/tabs/queue_and_leaderboard.dart';
-import 'package:nyanya_rocket/screens/settings/region.dart';
-import 'package:nyanya_rocket/screens/settings/settings.dart';
 import 'package:provider/provider.dart';
 
+import '../../blocs/multiplayer_queue.dart';
+import '../../localization/nyanya_localizations.dart';
+import '../../models/user.dart';
 import '../../widgets/bar_rail_tabs.dart';
+import '../settings/region.dart';
+import '../settings/settings.dart';
 import 'setup_widgets/extra_multiplayer_menu.dart';
 import 'setup_widgets/sign_up_prompt.dart';
-
-class Multiplayer extends StatefulWidget {
-  const Multiplayer({Key? key}) : super(key: key);
-
-  @override
-  _MultiplayerState createState() => _MultiplayerState();
-}
+import 'tabs/friend_duel.dart';
+import 'tabs/queue_and_leaderboard.dart';
 
 typedef IdTokenBuilder = Widget Function(String idToken);
 
-class _MultiplayerState extends State<Multiplayer>
-    with SingleTickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+class Multiplayer extends StatelessWidget {
+  const Multiplayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final localized = NyaNyaLocalizations.of(context);
+
     return Consumer2<Region, User>(builder:
         (BuildContext context, Region region, User user, Widget? child) {
       return FutureBuilder(
           future: user.idToken(),
           builder: (context, AsyncSnapshot<String?> snapshot) {
             return BarRailTabs(
-                title: NyaNyaLocalizations.of(context).multiplayerTitle +
-                    ' (${region.label})',
+                title: localized.multiplayerTitle + ' (${region.label})',
                 appBarActions: [
                   IconButton(
                     icon: const Icon(Icons.settings),
@@ -59,10 +44,11 @@ class _MultiplayerState extends State<Multiplayer>
                 tabs: [
                   BarRailTab(
                     icon: const FaIcon(FontAwesomeIcons.userFriends),
-                    label: NyaNyaLocalizations.of(context).duelLabel,
+                    label: localized.duelLabel,
                     content: _wrapWithSignupPrompt(
                         snapshot,
                         (idToken) => QueueAndLeaderboard(
+                              key: const ValueKey('DuelsQueue'),
                               queueType: QueueType.duels,
                               displayName: user.displayName ?? '',
                               idToken: snapshot.data!,
@@ -71,10 +57,11 @@ class _MultiplayerState extends State<Multiplayer>
                   ),
                   BarRailTab(
                       icon: const FaIcon(FontAwesomeIcons.users),
-                      label: NyaNyaLocalizations.of(context).fourPlayersLabel,
+                      label: localized.fourPlayersLabel,
                       content: _wrapWithSignupPrompt(
                           snapshot,
                           (idToken) => QueueAndLeaderboard(
+                                key: const ValueKey('FoursQueue'),
                                 queueType: QueueType.fourPlayers,
                                 displayName: user.displayName ?? '',
                                 idToken: snapshot.data!,
@@ -83,7 +70,7 @@ class _MultiplayerState extends State<Multiplayer>
                               ))),
                   BarRailTab(
                       icon: const FaIcon(FontAwesomeIcons.peopleArrows),
-                      label: NyaNyaLocalizations.of(context).friendDuelLabel,
+                      label: localized.friendDuelLabel,
                       content: _wrapWithSignupPrompt(
                           snapshot,
                           (idToken) => FriendDuel(
