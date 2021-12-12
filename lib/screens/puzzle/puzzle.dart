@@ -120,11 +120,15 @@ class _PuzzleState extends State<Puzzle> {
         _buildGameView(),
         Flexible(
             child: AvailableArrows(
+          direction: Axis.horizontal,
           puzzleGameController: _puzzleController,
           draggedArrowCounts: _draggedArrowCount,
         )),
         Flexible(
-          child: PuzzleGameControls(puzzleController: _puzzleController),
+          child: PuzzleGameControls(
+            direction: Axis.horizontal,
+            puzzleController: _puzzleController,
+          ),
         )
       ],
     );
@@ -136,15 +140,20 @@ class _PuzzleState extends State<Puzzle> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Expanded(
-            child: PuzzleGameControls(puzzleController: _puzzleController)),
+            child: PuzzleGameControls(
+          direction: Axis.vertical,
+          puzzleController: _puzzleController,
+        )),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: _buildGameView(),
         ),
         Expanded(
             child: AvailableArrows(
-                puzzleGameController: _puzzleController,
-                draggedArrowCounts: _draggedArrowCount)),
+          direction: Axis.vertical,
+          puzzleGameController: _puzzleController,
+          draggedArrowCounts: _draggedArrowCount,
+        )),
       ],
     );
   }
@@ -156,6 +165,7 @@ class _PuzzleState extends State<Puzzle> {
         title: Text(widget.puzzle.name),
         actions: [
           IconButton(
+            tooltip: 'Settings',
             icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.push(

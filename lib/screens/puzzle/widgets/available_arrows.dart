@@ -6,11 +6,13 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 import 'draggable_arrow.dart';
 
 class AvailableArrows extends StatelessWidget {
+  final Axis direction;
   final PuzzleGameController puzzleGameController;
   final List<ValueNotifier<int>> draggedArrowCounts;
 
   const AvailableArrows(
       {Key? key,
+      required this.direction,
       required this.puzzleGameController,
       required this.draggedArrowCounts})
       : super(key: key);
@@ -69,30 +71,23 @@ class AvailableArrows extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OrientationBuilder(
-      builder: (BuildContext context, Orientation orientation) {
-        return ValueListenableBuilder(
-          valueListenable: puzzleGameController.state,
-          builder:
-              (BuildContext context, PuzzleGameState state, Widget? child) {
-            return Flex(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                direction: orientation == Orientation.landscape
-                    ? Axis.horizontal
-                    : Axis.vertical,
-                children: List.generate(
-                    4,
-                    (i) => Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: _buildDraggableArrow(
-                              Direction.values[i],
-                              puzzleGameController.remainingArrowsStreams[i],
-                              draggedArrowCounts[i]),
-                        ))));
-          },
-        );
+    return ValueListenableBuilder(
+      valueListenable: puzzleGameController.state,
+      builder: (BuildContext context, PuzzleGameState state, Widget? child) {
+        return Flex(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            direction: direction,
+            children: List.generate(
+                4,
+                (i) => Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: _buildDraggableArrow(
+                          Direction.values[i],
+                          puzzleGameController.remainingArrowsStreams[i],
+                          draggedArrowCounts[i]),
+                    ))));
       },
     );
   }
