@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 
-import 'widgets/game_view/entities/entity_painter.dart';
-import 'widgets/game_view/entities/image_cache_rive_painter.dart';
-import 'widgets/game_view/entities/picture_cache_rive_painter.dart';
-import 'widgets/game_view/entities/simple_painter.dart';
+import 'widgets/board/entities/entity_painter.dart';
+import 'widgets/board/entities/image_cache_rive_painter.dart';
+import 'widgets/board/entities/picture_cache_rive_painter.dart';
+import 'widgets/board/entities/simple_painter.dart';
 
 /// Ensure all Rive assets used by this app are cached and ready to
 /// be displayed as quickly as possible.

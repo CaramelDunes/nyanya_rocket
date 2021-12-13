@@ -3,119 +3,126 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:nyanya_rocket/models/challenge_data.dart';
+import '../../../models/challenge_data.dart';
+import '../../../models/named_challenge_data.dart';
+import '../../../routing/nyanya_route_path.dart';
+import '../../../widgets/layout/board_card.dart';
+import '../../../widgets/layout/board_list.dart';
+import '../../../widgets/navigation/completion_indicator.dart';
 import '../challenge_progression_manager.dart';
-import 'package:nyanya_rocket/models/named_challenge_data.dart';
-import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-import 'package:nyanya_rocket/widgets/completion_indicator.dart';
-import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 
 class OriginalChallenges extends StatefulWidget {
   static final List<NamedChallengeData> challenges = [
-    NamedChallengeData(
-        type: ChallengeType.GetMice,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.getMice,
         name: ' #1',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,1,1,1,1,1,1,1],[2,0,0,0,3,1,2,0,0],[2,0,3,1,0,0,3,0,1],[2,0,0,0,0,0,2,0,0],[2,0,0,0,0,0,2,0,0],[2,0,2,0,0,0,3,0,1],[2,0,1,1,3,2,2,0,0],[2,0,0,0,2,2,3,0,1],[2,0,0,0,2,2,2,0,0],[2,2,0,0,0,2,2,0,0],[2,1,0,0,0,2,3,1,1],[3,0,0,0,2,2,2,0,0]]},"entities":[{"type":1,"position":{"x":2,"y":8,"direction":0}},{"type":1,"position":{"x":3,"y":8,"direction":0}},{"type":1,"position":{"x":7,"y":8,"direction":0}},{"type":1,"position":{"x":8,"y":8,"direction":0}},{"type":1,"position":{"x":9,"y":6,"direction":2}},{"type":1,"position":{"x":8,"y":6,"direction":2}},{"type":1,"position":{"x":4,"y":6,"direction":2}},{"type":1,"position":{"x":3,"y":6,"direction":2}},{"type":1,"position":{"x":4,"y":8,"direction":1}},{"type":1,"position":{"x":4,"y":7,"direction":1}},{"type":1,"position":{"x":9,"y":8,"direction":1}},{"type":1,"position":{"x":9,"y":7,"direction":1}},{"type":1,"position":{"x":7,"y":6,"direction":3}},{"type":1,"position":{"x":7,"y":7,"direction":3}},{"type":1,"position":{"x":2,"y":6,"direction":3}},{"type":1,"position":{"x":2,"y":7,"direction":3}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.RunAway,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.runAway,
         name: ' #1',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":3,"player":0}]],"walls":[[3,1,3,3,3,1,1,3,1],[2,0,2,2,2,3,2,2,0],[2,0,2,1,0,2,2,2,0],[2,0,1,1,1,0,0,0,0],[2,0,3,1,1,1,1,0,0],[2,0,0,3,1,1,2,0,0],[2,0,0,1,1,1,0,2,0],[2,0,3,1,1,1,1,0,0],[2,0,0,3,1,1,2,0,0],[2,0,0,1,1,1,0,2,0],[2,0,1,1,1,1,1,0,0],[2,0,3,1,1,1,1,2,0]]},"entities":[{"type":0,"position":{"x":11,"y":2,"direction":3}},{"type":0,"position":{"x":0,"y":2,"direction":0}},{"type":1,"position":{"x":4,"y":2,"direction":0}},{"type":1,"position":{"x":5,"y":2,"direction":0}},{"type":1,"position":{"x":7,"y":2,"direction":0}},{"type":1,"position":{"x":8,"y":2,"direction":0}},{"type":1,"position":{"x":4,"y":6,"direction":1}},{"type":1,"position":{"x":4,"y":5,"direction":1}},{"type":1,"position":{"x":4,"y":4,"direction":1}},{"type":1,"position":{"x":4,"y":3,"direction":1}},{"type":1,"position":{"x":7,"y":6,"direction":1}},{"type":1,"position":{"x":7,"y":5,"direction":1}},{"type":1,"position":{"x":7,"y":4,"direction":1}},{"type":1,"position":{"x":7,"y":3,"direction":1}},{"type":1,"position":{"x":9,"y":2,"direction":3}},{"type":1,"position":{"x":9,"y":3,"direction":3}},{"type":1,"position":{"x":9,"y":5,"direction":3}},{"type":1,"position":{"x":9,"y":4,"direction":3}},{"type":1,"position":{"x":9,"y":6,"direction":2}},{"type":1,"position":{"x":8,"y":6,"direction":2}},{"type":1,"position":{"x":6,"y":6,"direction":2}},{"type":1,"position":{"x":5,"y":6,"direction":2}},{"type":1,"position":{"x":6,"y":2,"direction":3}},{"type":1,"position":{"x":6,"y":3,"direction":3}},{"type":1,"position":{"x":6,"y":4,"direction":3}},{"type":1,"position":{"x":6,"y":5,"direction":3}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.LunchTime,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.lunchTime,
         name: ' #1',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,3,3,3,1,1,3,3,3],[2,0,0,2,1,0,0,0,0],[2,0,0,0,2,0,0,0,0],[2,0,0,0,2,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,2,0,0,0,0],[2,0,0,0,0,2,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,2,0,0,0],[2,0,0,0,0,2,0,0,0],[2,0,0,0,0,0,2,0,0],[2,2,2,2,1,0,2,2,2]]},"entities":[{"type":1,"position":{"x":1,"y":0,"direction":0}},{"type":1,"position":{"x":0,"y":0,"direction":0}},{"type":1,"position":{"x":0,"y":1,"direction":0}},{"type":1,"position":{"x":1,"y":1,"direction":0}},{"type":1,"position":{"x":2,"y":1,"direction":0}},{"type":1,"position":{"x":0,"y":2,"direction":0}},{"type":1,"position":{"x":1,"y":2,"direction":0}},{"type":1,"position":{"x":3,"y":2,"direction":0}},{"type":1,"position":{"x":2,"y":2,"direction":0}},{"type":1,"position":{"x":2,"y":0,"direction":0}},{"type":1,"position":{"x":3,"y":0,"direction":0}},{"type":1,"position":{"x":3,"y":1,"direction":0}},{"type":1,"position":{"x":4,"y":0,"direction":0}},{"type":1,"position":{"x":5,"y":0,"direction":0}},{"type":1,"position":{"x":4,"y":1,"direction":0}},{"type":1,"position":{"x":5,"y":1,"direction":0}},{"type":1,"position":{"x":4,"y":2,"direction":0}},{"type":1,"position":{"x":5,"y":2,"direction":0}},{"type":1,"position":{"x":11,"y":8,"direction":2}},{"type":1,"position":{"x":11,"y":6,"direction":2}},{"type":1,"position":{"x":11,"y":7,"direction":2}},{"type":1,"position":{"x":10,"y":6,"direction":2}},{"type":1,"position":{"x":10,"y":7,"direction":2}},{"type":1,"position":{"x":10,"y":8,"direction":2}},{"type":1,"position":{"x":9,"y":8,"direction":2}},{"type":1,"position":{"x":9,"y":7,"direction":2}},{"type":1,"position":{"x":9,"y":6,"direction":2}},{"type":1,"position":{"x":8,"y":6,"direction":2}},{"type":1,"position":{"x":8,"y":7,"direction":2}},{"type":1,"position":{"x":8,"y":8,"direction":2}},{"type":1,"position":{"x":7,"y":8,"direction":2}},{"type":1,"position":{"x":7,"y":7,"direction":2}},{"type":1,"position":{"x":7,"y":6,"direction":2}},{"type":1,"position":{"x":6,"y":6,"direction":2}},{"type":1,"position":{"x":6,"y":7,"direction":2}},{"type":1,"position":{"x":6,"y":8,"direction":2}},{"type":0,"position":{"x":10,"y":5,"direction":2}},{"type":0,"position":{"x":7,"y":5,"direction":2}},{"type":1,"position":{"x":5,"y":6,"direction":2}},{"type":1,"position":{"x":5,"y":7,"direction":2}},{"type":1,"position":{"x":5,"y":8,"direction":2}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.OneHundredMice,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.oneHundredMice,
         name: ' #1',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":4,"direction":0},{"type":4,"direction":0}],[{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":3,"player":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":2},{"type":4,"direction":2},{"type":0},{"type":3,"player":0},{"type":3,"player":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,3,1,1,1,1,3,1],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,2,0,0,0,0],[2,0,0,1,3,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,2,2,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,2,0,0,0,0,2,0]]},"entities":[]}'),
-    NamedChallengeData(
-        type: ChallengeType.GetMice,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.getMice,
         name: ' #2',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,1,3,1,1,3,1,1],[2,0,0,0,0,0,0,0,0],[2,0,0,2,0,0,2,0,0],[3,1,1,3,1,1,3,0,1],[2,0,0,2,0,0,0,0,0],[2,0,0,2,0,0,2,0,0],[3,0,1,3,0,1,3,1,1],[2,0,0,0,0,0,0,0,0],[2,0,0,2,0,0,2,0,0],[3,0,1,3,1,1,3,1,1],[2,0,0,0,0,0,0,0,0],[2,0,0,2,0,0,2,0,0]]},"entities":[{"type":1,"position":{"x":0,"y":0,"direction":0}},{"type":1,"position":{"x":1,"y":0,"direction":0}},{"type":1,"position":{"x":3,"y":0,"direction":0}},{"type":1,"position":{"x":4,"y":0,"direction":0}},{"type":1,"position":{"x":6,"y":0,"direction":0}},{"type":1,"position":{"x":7,"y":0,"direction":0}},{"type":1,"position":{"x":9,"y":0,"direction":0}},{"type":1,"position":{"x":10,"y":0,"direction":0}},{"type":1,"position":{"x":0,"y":3,"direction":0}},{"type":1,"position":{"x":1,"y":3,"direction":0}},{"type":1,"position":{"x":3,"y":3,"direction":0}},{"type":1,"position":{"x":4,"y":3,"direction":0}},{"type":1,"position":{"x":6,"y":3,"direction":0}},{"type":1,"position":{"x":7,"y":3,"direction":0}},{"type":1,"position":{"x":9,"y":3,"direction":0}},{"type":1,"position":{"x":10,"y":3,"direction":0}},{"type":1,"position":{"x":0,"y":6,"direction":0}},{"type":1,"position":{"x":1,"y":6,"direction":0}},{"type":1,"position":{"x":3,"y":6,"direction":0}},{"type":1,"position":{"x":4,"y":6,"direction":0}},{"type":1,"position":{"x":6,"y":6,"direction":0}},{"type":1,"position":{"x":7,"y":6,"direction":0}},{"type":1,"position":{"x":9,"y":6,"direction":0}},{"type":1,"position":{"x":10,"y":6,"direction":0}},{"type":1,"position":{"x":11,"y":6,"direction":3}},{"type":1,"position":{"x":11,"y":7,"direction":3}},{"type":1,"position":{"x":11,"y":3,"direction":3}},{"type":1,"position":{"x":11,"y":4,"direction":3}},{"type":1,"position":{"x":11,"y":0,"direction":3}},{"type":1,"position":{"x":11,"y":1,"direction":3}},{"type":1,"position":{"x":8,"y":0,"direction":3}},{"type":1,"position":{"x":8,"y":1,"direction":3}},{"type":1,"position":{"x":5,"y":0,"direction":3}},{"type":1,"position":{"x":5,"y":1,"direction":3}},{"type":1,"position":{"x":5,"y":3,"direction":3}},{"type":1,"position":{"x":5,"y":4,"direction":3}},{"type":1,"position":{"x":5,"y":6,"direction":3}},{"type":1,"position":{"x":5,"y":7,"direction":3}},{"type":1,"position":{"x":2,"y":6,"direction":3}},{"type":1,"position":{"x":2,"y":7,"direction":3}},{"type":1,"position":{"x":2,"y":3,"direction":3}},{"type":1,"position":{"x":2,"y":4,"direction":3}},{"type":1,"position":{"x":2,"y":0,"direction":3}},{"type":1,"position":{"x":2,"y":1,"direction":3}},{"type":1,"position":{"x":2,"y":2,"direction":2}},{"type":1,"position":{"x":1,"y":2,"direction":2}},{"type":1,"position":{"x":5,"y":2,"direction":2}},{"type":1,"position":{"x":4,"y":2,"direction":2}},{"type":1,"position":{"x":8,"y":2,"direction":2}},{"type":1,"position":{"x":7,"y":2,"direction":2}},{"type":1,"position":{"x":11,"y":2,"direction":2}},{"type":1,"position":{"x":10,"y":2,"direction":2}},{"type":1,"position":{"x":11,"y":5,"direction":2}},{"type":1,"position":{"x":10,"y":5,"direction":2}},{"type":1,"position":{"x":11,"y":8,"direction":2}},{"type":1,"position":{"x":10,"y":8,"direction":2}},{"type":1,"position":{"x":8,"y":8,"direction":2}},{"type":1,"position":{"x":7,"y":8,"direction":2}},{"type":1,"position":{"x":5,"y":8,"direction":2}},{"type":1,"position":{"x":4,"y":8,"direction":2}},{"type":1,"position":{"x":2,"y":8,"direction":2}},{"type":1,"position":{"x":1,"y":8,"direction":2}},{"type":1,"position":{"x":2,"y":5,"direction":2}},{"type":1,"position":{"x":1,"y":5,"direction":2}},{"type":1,"position":{"x":5,"y":5,"direction":2}},{"type":1,"position":{"x":4,"y":5,"direction":2}},{"type":1,"position":{"x":8,"y":5,"direction":2}},{"type":1,"position":{"x":7,"y":5,"direction":2}},{"type":1,"position":{"x":8,"y":3,"direction":3}},{"type":1,"position":{"x":8,"y":4,"direction":3}},{"type":1,"position":{"x":8,"y":6,"direction":3}},{"type":1,"position":{"x":8,"y":7,"direction":3}},{"type":1,"position":{"x":0,"y":2,"direction":1}},{"type":1,"position":{"x":0,"y":1,"direction":1}},{"type":1,"position":{"x":0,"y":5,"direction":1}},{"type":1,"position":{"x":0,"y":4,"direction":1}},{"type":1,"position":{"x":0,"y":8,"direction":1}},{"type":1,"position":{"x":0,"y":7,"direction":1}},{"type":1,"position":{"x":3,"y":8,"direction":1}},{"type":1,"position":{"x":3,"y":7,"direction":1}},{"type":1,"position":{"x":3,"y":5,"direction":1}},{"type":1,"position":{"x":3,"y":4,"direction":1}},{"type":1,"position":{"x":3,"y":2,"direction":1}},{"type":1,"position":{"x":3,"y":1,"direction":1}},{"type":1,"position":{"x":6,"y":2,"direction":1}},{"type":1,"position":{"x":6,"y":1,"direction":1}},{"type":1,"position":{"x":9,"y":2,"direction":1}},{"type":1,"position":{"x":9,"y":1,"direction":1}},{"type":1,"position":{"x":9,"y":5,"direction":1}},{"type":1,"position":{"x":9,"y":4,"direction":1}},{"type":1,"position":{"x":6,"y":5,"direction":1}},{"type":1,"position":{"x":6,"y":4,"direction":1}},{"type":1,"position":{"x":6,"y":8,"direction":1}},{"type":1,"position":{"x":6,"y":7,"direction":1}},{"type":1,"position":{"x":9,"y":8,"direction":1}},{"type":1,"position":{"x":9,"y":7,"direction":1}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.RunAway,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.runAway,
         name: ' #2',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,1,1,1,1,1,1,1],[2,2,1,0,0,0,2,1,0],[2,0,0,0,0,0,0,0,0],[2,0,0,2,0,1,0,0,2],[2,1,0,0,0,0,1,1,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,2],[2,1,0,0,0,0,2,0,0],[2,2,0,1,0,2,0,1,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,2,0,0,0,2],[2,1,0,0,0,1,0,0,0]]},"entities":[{"type":1,"position":{"x":0,"y":0,"direction":0}},{"type":1,"position":{"x":2,"y":0,"direction":0}},{"type":1,"position":{"x":1,"y":0,"direction":0}},{"type":1,"position":{"x":0,"y":8,"direction":1}},{"type":1,"position":{"x":0,"y":7,"direction":1}},{"type":1,"position":{"x":0,"y":6,"direction":1}},{"type":1,"position":{"x":1,"y":7,"direction":1}},{"type":1,"position":{"x":1,"y":2,"direction":1}},{"type":1,"position":{"x":8,"y":7,"direction":1}},{"type":1,"position":{"x":10,"y":5,"direction":3}},{"type":1,"position":{"x":11,"y":0,"direction":3}},{"type":1,"position":{"x":11,"y":1,"direction":3}},{"type":1,"position":{"x":11,"y":2,"direction":3}},{"type":1,"position":{"x":10,"y":1,"direction":3}},{"type":1,"position":{"x":3,"y":1,"direction":3}},{"type":1,"position":{"x":3,"y":6,"direction":3}},{"type":1,"position":{"x":11,"y":8,"direction":2}},{"type":1,"position":{"x":10,"y":8,"direction":2}},{"type":1,"position":{"x":9,"y":8,"direction":2}},{"type":1,"position":{"x":10,"y":7,"direction":2}},{"type":1,"position":{"x":10,"y":3,"direction":2}},{"type":1,"position":{"x":3,"y":2,"direction":2}},{"type":1,"position":{"x":3,"y":7,"direction":2}},{"type":1,"position":{"x":1,"y":6,"direction":0}},{"type":1,"position":{"x":1,"y":1,"direction":0}},{"type":1,"position":{"x":8,"y":1,"direction":0}},{"type":1,"position":{"x":8,"y":3,"direction":0}},{"type":1,"position":{"x":8,"y":5,"direction":0}},{"type":0,"position":{"x":3,"y":3,"direction":0}},{"type":0,"position":{"x":4,"y":1,"direction":0}},{"type":0,"position":{"x":6,"y":1,"direction":3}},{"type":0,"position":{"x":7,"y":3,"direction":3}},{"type":0,"position":{"x":7,"y":5,"direction":2}},{"type":0,"position":{"x":6,"y":7,"direction":2}},{"type":0,"position":{"x":4,"y":7,"direction":1}},{"type":0,"position":{"x":3,"y":5,"direction":1}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.LunchTime,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.lunchTime,
         name: ' #2',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,3,1,1,1,1,1,1,1],[2,3,0,0,0,0,0,1,2],[2,3,3,0,0,0,1,2,0],[2,0,3,3,0,1,2,0,0],[2,0,0,3,3,2,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,2,2,0,0,0],[2,0,0,2,1,0,2,0,0],[2,0,2,1,0,1,0,2,0],[2,2,1,0,0,0,1,0,2],[2,1,0,0,0,0,0,1,0]]},"entities":[{"type":0,"position":{"x":5,"y":4,"direction":0}},{"type":1,"position":{"x":0,"y":0,"direction":0}},{"type":1,"position":{"x":1,"y":0,"direction":0}},{"type":1,"position":{"x":2,"y":1,"direction":0}},{"type":1,"position":{"x":3,"y":1,"direction":0}},{"type":1,"position":{"x":3,"y":2,"direction":0}},{"type":1,"position":{"x":4,"y":2,"direction":0}},{"type":1,"position":{"x":4,"y":3,"direction":0}},{"type":1,"position":{"x":5,"y":3,"direction":0}},{"type":1,"position":{"x":3,"y":3,"direction":3}},{"type":1,"position":{"x":3,"y":4,"direction":3}},{"type":1,"position":{"x":2,"y":2,"direction":3}},{"type":1,"position":{"x":2,"y":3,"direction":3}},{"type":1,"position":{"x":1,"y":1,"direction":3}},{"type":1,"position":{"x":1,"y":2,"direction":3}},{"type":1,"position":{"x":0,"y":1,"direction":3}},{"type":1,"position":{"x":0,"y":2,"direction":3}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.OneHundredMice,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.oneHundredMice,
         name: ' #2',
         gameData:
             '{"board":{"tiles":[[{"type":3,"player":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,1,1,1,1,3,1,1],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,2,0,0],[3,1,1,1,1,1,3,0,1],[2,0,2,0,0,2,0,0,0],[2,0,0,3,2,0,0,0,0],[2,0,0,2,2,0,0,0,0],[2,0,2,1,0,2,0,0,0],[2,0,0,0,0,0,2,0,0],[3,1,1,1,1,1,3,0,1],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,2,0,0]]},"entities":[]}'),
-    NamedChallengeData(
-        type: ChallengeType.GetMice,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.getMice,
         name: ' #3',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":3,"player":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":2},{"type":3,"player":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":2},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,1,1,3,1,1,1,1],[2,2,0,0,0,0,0,1,2],[2,2,2,1,0,0,2,0,0],[2,0,0,1,0,0,1,0,2],[2,2,0,1,0,0,0,0,0],[2,0,0,0,0,0,0,0,1],[3,1,0,0,2,0,0,0,0],[2,1,2,0,0,0,0,1,0],[2,0,1,0,1,0,0,0,2],[2,0,0,2,1,0,0,2,2],[2,1,0,0,0,3,0,2,2],[2,1,0,0,2,0,0,0,0]]},"entities":[{"type":1,"position":{"x":3,"y":2,"direction":0}},{"type":1,"position":{"x":3,"y":3,"direction":0}},{"type":1,"position":{"x":6,"y":6,"direction":0}},{"type":1,"position":{"x":6,"y":5,"direction":0}},{"type":1,"position":{"x":7,"y":6,"direction":2}},{"type":1,"position":{"x":7,"y":5,"direction":2}},{"type":1,"position":{"x":4,"y":3,"direction":2}},{"type":1,"position":{"x":4,"y":2,"direction":2}},{"type":1,"position":{"x":5,"y":6,"direction":0}},{"type":1,"position":{"x":5,"y":5,"direction":0}},{"type":1,"position":{"x":5,"y":3,"direction":2}},{"type":1,"position":{"x":5,"y":2,"direction":2}},{"type":1,"position":{"x":4,"y":6,"direction":1}},{"type":1,"position":{"x":3,"y":6,"direction":1}},{"type":1,"position":{"x":6,"y":4,"direction":1}},{"type":1,"position":{"x":7,"y":4,"direction":1}},{"type":1,"position":{"x":6,"y":3,"direction":1}},{"type":1,"position":{"x":7,"y":3,"direction":1}},{"type":1,"position":{"x":6,"y":2,"direction":3}},{"type":1,"position":{"x":7,"y":2,"direction":3}},{"type":1,"position":{"x":3,"y":4,"direction":3}},{"type":1,"position":{"x":4,"y":4,"direction":3}},{"type":1,"position":{"x":3,"y":5,"direction":3}},{"type":1,"position":{"x":4,"y":5,"direction":3}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.RunAway,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.runAway,
         name: ' #3',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":0},{"type":3,"player":0},{"type":0},{"type":3,"player":0},{"type":0},{"type":3,"player":0},{"type":0},{"type":0}],[{"type":2},{"type":0},{"type":2},{"type":0},{"type":2},{"type":0},{"type":2},{"type":0},{"type":2}]],"walls":[[3,1,1,1,1,1,1,1,1],[2,0,0,0,0,0,0,0,0],[3,0,0,0,0,0,0,0,1],[3,0,0,0,0,0,0,0,1],[2,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0,0],[2,2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2,2],[3,0,3,0,3,0,3,0,2],[2,0,2,0,2,0,2,0,2]]},"entities":[{"type":1,"position":{"x":0,"y":2,"direction":1}},{"type":1,"position":{"x":0,"y":3,"direction":1}},{"type":1,"position":{"x":0,"y":4,"direction":1}},{"type":1,"position":{"x":3,"y":2,"direction":1}},{"type":1,"position":{"x":3,"y":3,"direction":1}},{"type":1,"position":{"x":3,"y":4,"direction":1}},{"type":1,"position":{"x":2,"y":6,"direction":1}},{"type":1,"position":{"x":2,"y":7,"direction":1}},{"type":1,"position":{"x":2,"y":8,"direction":1}},{"type":1,"position":{"x":2,"y":0,"direction":3}},{"type":1,"position":{"x":2,"y":1,"direction":3}},{"type":1,"position":{"x":2,"y":2,"direction":3}},{"type":1,"position":{"x":1,"y":3,"direction":3}},{"type":1,"position":{"x":1,"y":4,"direction":3}},{"type":1,"position":{"x":1,"y":5,"direction":3}},{"type":1,"position":{"x":4,"y":3,"direction":3}},{"type":1,"position":{"x":4,"y":4,"direction":3}},{"type":1,"position":{"x":4,"y":5,"direction":3}},{"type":0,"position":{"x":6,"y":1,"direction":1}},{"type":0,"position":{"x":5,"y":7,"direction":1}},{"type":0,"position":{"x":5,"y":6,"direction":1}},{"type":0,"position":{"x":6,"y":6,"direction":1}},{"type":0,"position":{"x":6,"y":5,"direction":1}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.LunchTime,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.lunchTime,
         name: ' #3',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,1,1,3,3,1,1,1],[2,3,1,2,0,0,3,1,2],[2,2,0,2,2,2,2,0,2],[2,2,0,2,2,2,2,0,2],[3,1,1,1,2,3,1,1,1],[3,1,2,3,0,1,1,0,3],[2,0,2,0,0,0,0,2,2],[3,1,0,1,2,3,1,0,1],[3,1,1,1,2,3,1,1,1],[3,1,1,2,2,1,1,1,0],[2,0,0,2,0,0,0,0,2],[3,1,1,0,2,3,1,1,0]]},"entities":[{"type":1,"position":{"x":0,"y":8,"direction":0}},{"type":1,"position":{"x":1,"y":8,"direction":0}},{"type":1,"position":{"x":2,"y":8,"direction":0}},{"type":1,"position":{"x":3,"y":8,"direction":0}},{"type":1,"position":{"x":8,"y":8,"direction":0}},{"type":1,"position":{"x":9,"y":8,"direction":0}},{"type":1,"position":{"x":10,"y":8,"direction":0}},{"type":1,"position":{"x":5,"y":7,"direction":0}},{"type":1,"position":{"x":6,"y":7,"direction":0}},{"type":1,"position":{"x":3,"y":0,"direction":2}},{"type":1,"position":{"x":2,"y":0,"direction":2}},{"type":1,"position":{"x":1,"y":0,"direction":2}},{"type":1,"position":{"x":0,"y":0,"direction":3}},{"type":1,"position":{"x":0,"y":1,"direction":3}},{"type":1,"position":{"x":0,"y":2,"direction":3}},{"type":1,"position":{"x":0,"y":3,"direction":0}},{"type":1,"position":{"x":1,"y":3,"direction":0}},{"type":1,"position":{"x":2,"y":3,"direction":0}},{"type":1,"position":{"x":3,"y":3,"direction":0}},{"type":1,"position":{"x":4,"y":0,"direction":3}},{"type":1,"position":{"x":4,"y":1,"direction":3}},{"type":1,"position":{"x":4,"y":2,"direction":3}},{"type":1,"position":{"x":4,"y":3,"direction":3}},{"type":1,"position":{"x":7,"y":0,"direction":3}},{"type":1,"position":{"x":7,"y":1,"direction":3}},{"type":1,"position":{"x":7,"y":2,"direction":3}},{"type":1,"position":{"x":7,"y":3,"direction":3}},{"type":1,"position":{"x":8,"y":0,"direction":3}},{"type":1,"position":{"x":8,"y":1,"direction":3}},{"type":1,"position":{"x":8,"y":2,"direction":3}},{"type":1,"position":{"x":8,"y":3,"direction":0}},{"type":1,"position":{"x":9,"y":3,"direction":0}},{"type":1,"position":{"x":10,"y":3,"direction":0}},{"type":1,"position":{"x":11,"y":3,"direction":1}},{"type":1,"position":{"x":11,"y":2,"direction":1}},{"type":1,"position":{"x":11,"y":1,"direction":1}},{"type":1,"position":{"x":11,"y":0,"direction":1}},{"type":1,"position":{"x":11,"y":7,"direction":1}},{"type":1,"position":{"x":11,"y":6,"direction":1}},{"type":1,"position":{"x":11,"y":5,"direction":1}},{"type":1,"position":{"x":11,"y":8,"direction":1}},{"type":1,"position":{"x":8,"y":5,"direction":3}},{"type":1,"position":{"x":8,"y":6,"direction":3}},{"type":1,"position":{"x":8,"y":7,"direction":3}},{"type":1,"position":{"x":7,"y":5,"direction":3}},{"type":1,"position":{"x":7,"y":6,"direction":3}},{"type":1,"position":{"x":7,"y":7,"direction":3}},{"type":1,"position":{"x":7,"y":8,"direction":3}},{"type":1,"position":{"x":4,"y":5,"direction":3}},{"type":1,"position":{"x":4,"y":6,"direction":3}},{"type":1,"position":{"x":4,"y":7,"direction":3}},{"type":1,"position":{"x":4,"y":8,"direction":3}},{"type":1,"position":{"x":0,"y":5,"direction":3}},{"type":1,"position":{"x":0,"y":6,"direction":3}},{"type":1,"position":{"x":0,"y":7,"direction":3}},{"type":1,"position":{"x":1,"y":5,"direction":2}},{"type":1,"position":{"x":2,"y":5,"direction":2}},{"type":1,"position":{"x":3,"y":5,"direction":2}},{"type":1,"position":{"x":5,"y":2,"direction":0}},{"type":1,"position":{"x":6,"y":2,"direction":0}},{"type":0,"position":{"x":0,"y":4,"direction":0}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.OneHundredMice,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.oneHundredMice,
         name: ' #3',
         gameData:
             '{"board":{"tiles":[[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":3,"player":0}],[{"type":4,"direction":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":4,"direction":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":4,"direction":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[2,0,0,2,2,2,2,2,2],[2,0,0,2,2,0,2,2,2],[2,0,0,2,0,2,2,0,2],[2,0,0,2,2,0,2,2,2],[2,0,0,2,2,2,2,0,2],[2,0,0,2,0,2,2,2,2],[2,0,0,2,2,2,0,2,2],[2,0,0,2,0,2,2,2,0],[2,0,0,2,2,0,2,0,2],[2,0,0,2,0,2,2,2,2],[2,0,0,0,2,2,0,2,2],[2,0,0,2,2,2,2,2,2]]},"entities":[]}'),
-    NamedChallengeData(
-        type: ChallengeType.GetMice,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.getMice,
         name: ' #4',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":3,"player":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":3,"player":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":2},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,1,1,1,1,1,1,1],[2,0,0,0,0,0,0,0,0],[2,3,1,3,1,3,1,3,1],[2,0,0,2,0,0,0,2,0],[2,1,0,2,1,1,0,2,0],[2,0,0,2,0,0,0,2,0],[2,0,0,2,0,2,0,2,0],[2,0,0,2,0,2,0,2,0],[2,0,0,2,0,2,0,2,0],[2,2,0,0,0,2,0,0,0],[2,1,1,1,1,1,1,3,1],[2,0,0,0,0,0,0,0,0]]},"entities":[{"type":1,"position":{"x":11,"y":0,"direction":2}},{"type":1,"position":{"x":9,"y":0,"direction":2}},{"type":1,"position":{"x":7,"y":0,"direction":2}},{"type":1,"position":{"x":5,"y":0,"direction":2}},{"type":1,"position":{"x":3,"y":0,"direction":2}},{"type":1,"position":{"x":11,"y":6,"direction":1}},{"type":1,"position":{"x":11,"y":4,"direction":1}},{"type":1,"position":{"x":11,"y":2,"direction":1}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.RunAway,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.runAway,
         name: ' #4',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,1,1,1,1,1,3,1],[2,0,2,1,1,1,1,0,0],[3,1,0,0,2,1,0,3,1],[2,0,2,0,0,0,2,0,0],[3,1,0,2,1,0,0,3,1],[2,0,2,0,0,2,0,0,0],[3,1,0,1,2,1,0,3,1],[2,0,2,0,0,0,2,0,0],[3,1,0,2,1,0,0,3,1],[2,0,2,0,0,2,0,0,0],[3,1,0,1,2,1,0,3,1],[2,0,2,0,0,0,2,0,0]]},"entities":[{"type":1,"position":{"x":0,"y":7,"direction":0}},{"type":1,"position":{"x":2,"y":7,"direction":0}},{"type":1,"position":{"x":4,"y":7,"direction":0}},{"type":1,"position":{"x":6,"y":7,"direction":0}},{"type":1,"position":{"x":8,"y":7,"direction":0}},{"type":1,"position":{"x":10,"y":7,"direction":0}},{"type":1,"position":{"x":0,"y":0,"direction":0}},{"type":1,"position":{"x":2,"y":0,"direction":0}},{"type":1,"position":{"x":4,"y":0,"direction":0}},{"type":1,"position":{"x":6,"y":0,"direction":0}},{"type":1,"position":{"x":8,"y":0,"direction":0}},{"type":1,"position":{"x":10,"y":0,"direction":0}},{"type":1,"position":{"x":10,"y":4,"direction":0}},{"type":1,"position":{"x":8,"y":3,"direction":0}},{"type":1,"position":{"x":6,"y":4,"direction":0}},{"type":1,"position":{"x":4,"y":3,"direction":0}},{"type":1,"position":{"x":2,"y":4,"direction":0}},{"type":1,"position":{"x":3,"y":5,"direction":2}},{"type":1,"position":{"x":5,"y":4,"direction":2}},{"type":1,"position":{"x":7,"y":5,"direction":2}},{"type":1,"position":{"x":9,"y":4,"direction":2}},{"type":1,"position":{"x":11,"y":5,"direction":2}},{"type":1,"position":{"x":11,"y":1,"direction":2}},{"type":1,"position":{"x":9,"y":1,"direction":2}},{"type":1,"position":{"x":7,"y":1,"direction":2}},{"type":1,"position":{"x":5,"y":1,"direction":2}},{"type":1,"position":{"x":3,"y":1,"direction":2}},{"type":1,"position":{"x":1,"y":1,"direction":2}},{"type":1,"position":{"x":1,"y":8,"direction":2}},{"type":1,"position":{"x":3,"y":8,"direction":2}},{"type":1,"position":{"x":5,"y":8,"direction":2}},{"type":1,"position":{"x":7,"y":8,"direction":2}},{"type":1,"position":{"x":9,"y":8,"direction":2}},{"type":1,"position":{"x":11,"y":8,"direction":2}},{"type":0,"position":{"x":11,"y":6,"direction":2}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.LunchTime,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.lunchTime,
         name: ' #4',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":2},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0}],[{"type":2},{"type":2},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":2},{"type":2},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":2},{"type":2},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,3,1,1,1,3,1,1],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,2,0,0],[2,0,0,0,0,0,3,0,1],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,2,0,0],[2,0,0,0,0,0,3,0,1],[2,0,0,0,0,0,0,0,0],[2,0,2,0,0,0,2,0,0],[3,1,0,3,0,1,3,0,1],[2,0,0,0,0,0,0,0,0],[2,0,0,2,0,0,2,0,0]]},"entities":[{"type":1,"position":{"x":0,"y":6,"direction":0}},{"type":1,"position":{"x":1,"y":6,"direction":0}},{"type":1,"position":{"x":3,"y":6,"direction":0}},{"type":1,"position":{"x":4,"y":6,"direction":0}},{"type":1,"position":{"x":6,"y":6,"direction":0}},{"type":1,"position":{"x":7,"y":6,"direction":0}},{"type":1,"position":{"x":9,"y":6,"direction":0}},{"type":1,"position":{"x":10,"y":6,"direction":0}},{"type":1,"position":{"x":9,"y":3,"direction":0}},{"type":1,"position":{"x":10,"y":3,"direction":0}},{"type":1,"position":{"x":0,"y":8,"direction":1}},{"type":1,"position":{"x":0,"y":7,"direction":1}},{"type":1,"position":{"x":3,"y":8,"direction":1}},{"type":1,"position":{"x":3,"y":7,"direction":1}},{"type":1,"position":{"x":6,"y":8,"direction":1}},{"type":1,"position":{"x":6,"y":7,"direction":1}},{"type":1,"position":{"x":9,"y":8,"direction":1}},{"type":1,"position":{"x":9,"y":7,"direction":1}},{"type":1,"position":{"x":9,"y":5,"direction":1}},{"type":1,"position":{"x":9,"y":4,"direction":1}},{"type":1,"position":{"x":11,"y":4,"direction":3}},{"type":1,"position":{"x":11,"y":3,"direction":3}},{"type":1,"position":{"x":11,"y":6,"direction":3}},{"type":1,"position":{"x":11,"y":7,"direction":3}},{"type":1,"position":{"x":8,"y":6,"direction":3}},{"type":1,"position":{"x":8,"y":7,"direction":3}},{"type":1,"position":{"x":5,"y":6,"direction":3}},{"type":1,"position":{"x":5,"y":7,"direction":3}},{"type":1,"position":{"x":2,"y":6,"direction":3}},{"type":1,"position":{"x":2,"y":7,"direction":3}},{"type":1,"position":{"x":2,"y":8,"direction":2}},{"type":1,"position":{"x":1,"y":8,"direction":2}},{"type":1,"position":{"x":5,"y":8,"direction":2}},{"type":1,"position":{"x":4,"y":8,"direction":2}},{"type":1,"position":{"x":8,"y":8,"direction":2}},{"type":1,"position":{"x":7,"y":8,"direction":2}},{"type":1,"position":{"x":11,"y":8,"direction":2}},{"type":1,"position":{"x":10,"y":8,"direction":2}},{"type":1,"position":{"x":11,"y":5,"direction":2}},{"type":1,"position":{"x":10,"y":5,"direction":2}},{"type":0,"position":{"x":0,"y":1,"direction":0}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.OneHundredMice,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.oneHundredMice,
         name: ' #4',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":4,"direction":1},{"type":4,"direction":2},{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":3,"player":0},{"type":0}],[{"type":0},{"type":4,"direction":0},{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":3,"player":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,0,1,2,3,1,1,1],[2,0,0,0,2,2,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,2,2,0,0,0],[3,0,1,1,3,3,0,1,1],[2,0,0,0,2,2,0,0,0],[2,0,0,0,2,2,0,0,0],[2,0,0,0,2,2,0,0,0],[3,0,1,1,2,3,1,0,1],[2,0,0,0,2,2,0,0,0],[2,0,0,0,2,0,0,0,0],[2,0,0,0,2,2,0,0,0]]},"entities":[]}'),
-    NamedChallengeData(
-        type: ChallengeType.GetMice,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.getMice,
         name: ' #5',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":2},{"type":2},{"type":2},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,1,1,1,1,1,3,1],[2,0,0,0,0,0,0,0,0],[3,1,1,1,1,1,1,1,0],[2,0,0,0,0,0,0,0,0],[2,1,1,1,1,1,1,3,1],[2,0,0,0,0,0,0,0,0],[3,3,1,1,1,1,1,1,0],[2,0,0,2,0,0,0,0,0],[2,1,1,1,1,1,1,3,1],[2,0,0,0,0,0,0,0,0],[3,1,1,1,1,1,1,1,0],[2,0,0,0,2,0,0,0,0]]},"entities":[{"type":1,"position":{"x":8,"y":7,"direction":0}},{"type":1,"position":{"x":10,"y":0,"direction":0}},{"type":1,"position":{"x":11,"y":3,"direction":2}},{"type":1,"position":{"x":9,"y":8,"direction":2}},{"type":1,"position":{"x":11,"y":0,"direction":3}},{"type":1,"position":{"x":11,"y":1,"direction":3}},{"type":1,"position":{"x":11,"y":2,"direction":3}},{"type":1,"position":{"x":9,"y":7,"direction":3}},{"type":1,"position":{"x":8,"y":8,"direction":1}},{"type":1,"position":{"x":10,"y":3,"direction":1}},{"type":1,"position":{"x":10,"y":2,"direction":1}},{"type":1,"position":{"x":10,"y":1,"direction":1}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.RunAway,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.runAway,
         name: ' #5',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,3,1,1,1,1,1,1,1],[2,0,0,0,0,0,0,3,2],[2,0,0,2,0,1,1,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,2,0,0,0,0,2,0],[2,0,2,0,0,0,0,2,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,2,2,0],[2,2,3,1,0,0,0,0,0],[2,1,0,0,0,0,0,0,2]]},"entities":[{"type":1,"position":{"x":1,"y":7,"direction":0}},{"type":1,"position":{"x":2,"y":7,"direction":0}},{"type":1,"position":{"x":3,"y":7,"direction":0}},{"type":1,"position":{"x":5,"y":7,"direction":0}},{"type":1,"position":{"x":4,"y":7,"direction":0}},{"type":1,"position":{"x":7,"y":8,"direction":2}},{"type":1,"position":{"x":8,"y":8,"direction":2}},{"type":1,"position":{"x":9,"y":8,"direction":2}},{"type":1,"position":{"x":10,"y":8,"direction":2}},{"type":1,"position":{"x":11,"y":8,"direction":2}},{"type":0,"position":{"x":9,"y":6,"direction":2}},{"type":0,"position":{"x":8,"y":6,"direction":2}},{"type":0,"position":{"x":5,"y":6,"direction":2}},{"type":0,"position":{"x":2,"y":2,"direction":0}},{"type":0,"position":{"x":3,"y":2,"direction":0}},{"type":0,"position":{"x":6,"y":2,"direction":0}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.LunchTime,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.lunchTime,
         name: ' #5',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0}],[{"type":0},{"type":2},{"type":2},{"type":2},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,3,1,1,1,1,3,1],[2,0,0,0,0,0,2,0,0],[2,0,2,0,2,0,0,2,0],[3,0,1,1,1,1,1,3,1],[2,0,0,0,2,0,0,0,0],[2,0,0,0,0,0,0,2,0],[3,1,3,1,1,1,1,1,0],[2,0,0,0,0,0,0,0,0],[2,0,2,0,0,0,0,2,0],[2,3,1,3,1,3,1,3,1],[2,0,2,0,2,0,0,0,0],[2,2,2,0,0,0,0,2,0]]},"entities":[{"type":1,"position":{"x":3,"y":7,"direction":0}},{"type":1,"position":{"x":4,"y":7,"direction":0}},{"type":1,"position":{"x":0,"y":7,"direction":0}},{"type":1,"position":{"x":1,"y":7,"direction":0}},{"type":1,"position":{"x":0,"y":0,"direction":0}},{"type":1,"position":{"x":1,"y":0,"direction":0}},{"type":1,"position":{"x":6,"y":0,"direction":0}},{"type":1,"position":{"x":7,"y":0,"direction":0}},{"type":1,"position":{"x":5,"y":8,"direction":2}},{"type":1,"position":{"x":4,"y":8,"direction":2}},{"type":1,"position":{"x":2,"y":8,"direction":2}},{"type":1,"position":{"x":1,"y":8,"direction":2}},{"type":1,"position":{"x":2,"y":1,"direction":2}},{"type":1,"position":{"x":1,"y":1,"direction":2}},{"type":1,"position":{"x":8,"y":1,"direction":2}},{"type":1,"position":{"x":7,"y":1,"direction":2}},{"type":1,"position":{"x":6,"y":1,"direction":1}},{"type":1,"position":{"x":0,"y":1,"direction":1}},{"type":1,"position":{"x":0,"y":8,"direction":1}},{"type":1,"position":{"x":3,"y":8,"direction":1}},{"type":1,"position":{"x":5,"y":7,"direction":3}},{"type":1,"position":{"x":2,"y":7,"direction":3}},{"type":1,"position":{"x":2,"y":0,"direction":3}},{"type":1,"position":{"x":8,"y":0,"direction":3}},{"type":0,"position":{"x":11,"y":8,"direction":2}}]}'),
-    NamedChallengeData(
-        type: ChallengeType.OneHundredMice,
+    NamedChallengeData.fromGameData(
+        type: ChallengeType.oneHundredMice,
         name: ' #5',
         gameData:
             '{"board":{"tiles":[[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":3,"player":0},{"type":3,"player":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":2},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}]],"walls":[[3,1,3,1,1,1,0,2,2],[2,0,0,0,0,0,2,0,0],[2,0,0,0,0,0,0,2,2],[2,0,0,0,0,0,2,2,0],[3,1,1,1,1,1,2,0,2],[2,0,2,0,0,1,0,2,2],[3,1,1,1,1,1,2,0,0],[2,0,2,0,0,1,0,2,2],[3,1,1,1,1,1,2,0,2],[2,0,2,0,0,1,0,2,0],[3,1,1,1,1,1,2,2,2],[2,0,2,0,0,1,0,0,2]]},"entities":[]}'),
   ];
 
-  static Map<String, int> slugs =
-      challenges.asMap().map((index, value) => MapEntry(value.slug, index));
+  static Map<String, int> slugs = challenges.asMap().map(
+      (index, challengeData) => MapEntry(originalSlug(challengeData), index));
+
+  static String originalSlug(NamedChallengeData challengeData) {
+    return challengeData.type.toSlug() + '-' + challengeData.slug;
+  }
+
+  const OriginalChallenges({Key? key}) : super(key: key);
 
   @override
   _OriginalChallengesState createState() => _OriginalChallengesState();
@@ -133,12 +140,10 @@ class _OriginalChallengesState extends State<OriginalChallenges>
   @override
   bool get wantKeepAlive => true;
 
-  void _openChallenge(int i) {
-    if (OriginalChallenges.challenges.length > i + 1) {
-      Router.of(context).routerDelegate.setNewRoutePath(
-          NyaNyaRoutePath.originalChallenge(
-              OriginalChallenges.challenges[i].slug));
-    }
+  void _openChallenge(String slug) {
+    Router.of(context)
+        .routerDelegate
+        .setNewRoutePath(NyaNyaRoutePath.originalChallenge(slug));
   }
 
   @override
@@ -160,17 +165,19 @@ class _OriginalChallengesState extends State<OriginalChallenges>
     }
 
     return Column(
-      children: <Widget>[
+      children: [
         Expanded(
-          child: OrientationBuilder(
-            builder: (BuildContext context, Orientation orientation) {
-              if (orientation == Orientation.landscape ||
-                  MediaQuery.of(context).size.width >= 270 * 2.5)
-                return _buildLandscape(challengeIndices, times);
-              else
-                return _buildPortrait(challengeIndices, times);
-            },
-          ),
+          child: BoardList(
+              itemCount: challengeIndices.length,
+              tileBuilder: (BuildContext context, int index) {
+                return _buildChallengeTile(
+                    OriginalChallenges.challenges[challengeIndices[index]],
+                    times[index]);
+              },
+              cardBuilder: (BuildContext context, int index) =>
+                  _buildChallengeCard(
+                      OriginalChallenges.challenges[challengeIndices[index]],
+                      times[index])),
         ),
         CompletionIndicator(
           completedRatio: cleared.length / OriginalChallenges.challenges.length,
@@ -187,95 +194,44 @@ class _OriginalChallengesState extends State<OriginalChallenges>
     );
   }
 
-  Widget _buildPortrait(List<int> challengeIndices, Map<int, Duration> times) {
-    return ListView.builder(
-        itemCount: challengeIndices.length,
-        itemBuilder: (context, i) =>
-            _buildChallengeTile(challengeIndices[i], times));
-  }
-
-  Widget _buildLandscape(List<int> challengeIndices, Map<int, Duration> times) {
-    return GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 270,
-        ),
-        itemCount: challengeIndices.length,
-        itemBuilder: (context, i) =>
-            _buildChallengeCard(challengeIndices[i], times));
-  }
-
-  Widget _buildChallengeTile(int i, Map<int, Duration> times) {
+  Widget _buildChallengeTile(
+      NamedChallengeData namedChallengeData, Duration? time) {
     return ListTile(
-      title: Text(OriginalChallenges.challenges[i].challengeData.type
-              .toLocalizedString(context) +
-          OriginalChallenges.challenges[i].name),
-      subtitle: Text(OriginalChallenges.challenges[i].challengeData.type
-          .toLocalizedString(context)),
-      trailing: times.containsKey(i)
-          ? Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              Text(
-                  '${times[i]!.inSeconds}.${times[i]!.inMilliseconds % 1000 ~/ 10}s'),
-              Icon(
+      title: Text(namedChallengeData.data.type.toLocalizedString(context) +
+          namedChallengeData.name),
+      subtitle: Text(namedChallengeData.data.type.toLocalizedString(context)),
+      trailing: time != null
+          ? Row(mainAxisSize: MainAxisSize.min, children: [
+              Text('${time.inSeconds}.${time.inMilliseconds % 1000 ~/ 10}s'),
+              const Icon(
                 Icons.check,
                 color: Colors.green,
               )
             ])
           : null,
       onTap: () {
-        _openChallenge(i);
+        _openChallenge(OriginalChallenges.originalSlug(namedChallengeData));
       },
     );
   }
 
-  Widget _buildChallengeCard(int i, Map<int, Duration> times) {
+  Widget _buildChallengeCard(
+      NamedChallengeData namedChallengeData, Duration? time) {
     return InkWell(
-      key: ValueKey(i),
-      child: Card(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: AspectRatio(
-                  aspectRatio: 12 / 9,
-                  child: Stack(
-                    children: [
-                      StaticGameView(
-                        game: OriginalChallenges.challenges[i].challengeData
-                            .getGame(),
-                      ),
-                      Visibility(
-                        visible: times.containsKey(i),
-                        child: Container(
-                          color: Colors.black.withOpacity(0.5),
-                          child: Center(
-                            child: Icon(
-                              Icons.check,
-                              color: Colors.green,
-                              size: 150,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )),
-            Text(
-              OriginalChallenges.challenges[i].challengeData.type
-                      .toLocalizedString(context) +
-                  OriginalChallenges.challenges[i].name,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            if (times.containsKey(i))
-              Text(
-                  '${times[i]!.inSeconds}.${times[i]!.inMilliseconds % 1000 ~/ 10}s')
-            else
-              Text(''),
-          ],
+      key: ValueKey(namedChallengeData.slug),
+      child: BoardCard(game: namedChallengeData.data.getGame(), description: [
+        Text(
+          namedChallengeData.data.type.toLocalizedString(context) +
+              namedChallengeData.name,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-      ),
+        if (time != null)
+          Text('${time.inSeconds}.${time.inMilliseconds % 1000 ~/ 10}s')
+        else
+          const Text('')
+      ]),
       onTap: () {
-        _openChallenge(i);
+        _openChallenge(OriginalChallenges.originalSlug(namedChallengeData));
       },
     );
   }

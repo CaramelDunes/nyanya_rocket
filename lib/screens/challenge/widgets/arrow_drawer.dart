@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/arrow_image.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../widgets/board/tiles/arrow_image.dart';
+import '../../puzzle/widgets/draggable_arrow.dart';
 
 class ArrowDrawer extends StatelessWidget {
   final bool running;
@@ -18,13 +20,12 @@ class ArrowDrawer extends StatelessWidget {
             (i) => Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(6.0),
-                    child: Draggable<Direction>(
-                        maxSimultaneousDrags: running ? null : 0,
-                        feedback: const SizedBox.shrink(),
+                    child: DraggableArrow(
+                        maxSimultaneousDrags: running ? 1 : 0,
+                        data: DraggedArrowData(direction: Direction.values[i]),
                         child: ArrowImage(
                             player: running ? PlayerColor.Blue : null,
-                            direction: Direction.values[i]),
-                        data: Direction.values[i]),
+                            direction: Direction.values[i])),
                   ),
                 )));
   }

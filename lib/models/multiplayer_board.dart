@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class MultiplayerBoard {
@@ -9,9 +8,7 @@ class MultiplayerBoard {
   final String boardData;
 
   MultiplayerBoard(
-      {required this.name,
-      required this.maxPlayer,
-      required this.boardData});
+      {required this.name, required this.maxPlayer, required this.boardData});
 
   MultiplayerBoard.withBorder({
     required this.name,

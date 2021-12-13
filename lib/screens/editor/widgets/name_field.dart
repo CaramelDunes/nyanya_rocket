@@ -5,12 +5,11 @@ import 'package:nyanya_rocket/screens/editor/widgets/create_tab.dart';
 class NameFormField extends StatelessWidget {
   final FormFieldSetter<String> onSaved;
 
-  NameFormField({Key? key, required this.onSaved}) : super(key: key);
+  const NameFormField({Key? key, required this.onSaved}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      autofocus: true,
       autovalidateMode: AutovalidateMode.always,
       textCapitalization: TextCapitalization.words,
       maxLength: 24,

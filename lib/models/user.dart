@@ -1,47 +1,43 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/foundation.dart';
-import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import 'package:http/http.dart' as http;
 
-enum StatusCode { Success, Failure, InvalidArgument, Unauthenticated }
+import '../config.dart';
+
+enum StatusCode { success, failure, invalidArgument, unauthenticated }
 
 class User with ChangeNotifier {
-  String? _displayName;
-  final FirebaseService firebaseService;
+  final auth.FirebaseAuth _authService;
+  auth.User? _innerUser;
 
-  User(this.firebaseService) {
-    // firebaseService.signInStatusStream().asBroadcastStream().listen((signedIn) {
-    //   if (signedIn) {
-    //     print('User connected');
-    //   } else {
-    //     print('User not connected');
-    //   }
-    //   _signedIn = signedIn;
-    //   notifyListeners();
-    // });
+  User(this._authService) {
+    _authService.userChanges().listen((auth.User? user) {
+      _innerUser = user;
+      notifyListeners();
+    });
   }
 
   bool get isConnected {
-    return firebaseService.isSignedIn();
+    return _innerUser != null;
   }
 
-  String get displayName {
-    return _displayName ?? '';
+  String? get displayName {
+    return _innerUser?.displayName;
   }
 
-  Future<String?> idToken() => firebaseService.idToken();
-
-  Stream<bool> get signedInStream =>
-      firebaseService.signInStatusStream();
+  Future<String?> idToken() async {
+    return _innerUser?.getIdToken();
+  }
 
   Future<bool> setDisplayName(String newDisplayName) async {
     final token = await idToken();
+
     if (token != null) {
-      // Some doc: https://github.com/firebase/firebase-functions/blob/master/src/providers/https.ts
+      // https://github.com/firebase/firebase-functions/blob/master/src/providers/https.ts
       http.Response response = await http.post(
-          Uri.https('us-central1-nyanya-rocket.cloudfunctions.net',
-              '/setDisplayName'),
+          Uri.https(kCloudFunctionsHost, '/setDisplayName'),
           headers: {
             'Authorization': 'Bearer $token',
             'Content-Type': 'application/json'
@@ -50,18 +46,22 @@ class User with ChangeNotifier {
             'data': {'displayName': newDisplayName}
           }));
 
-      await firebaseService.updateDisplayName(newDisplayName);
+      await _innerUser!.updateDisplayName(newDisplayName);
       return response.statusCode == 200;
     }
 
     return false;
   }
 
-  Future<bool> signInAnonymously() {
-    return firebaseService.signInAnonymously();
+  Future<bool> signInAnonymously() async {
+    final auth.UserCredential credentials =
+        await _authService.signInAnonymously();
+
+    _innerUser = credentials.user;
+    return isConnected;
   }
 
-  Future<void> signOut() async {
-    await firebaseService.signOut();
+  Future<void> signOut() {
+    return _authService.signOut();
   }
 }

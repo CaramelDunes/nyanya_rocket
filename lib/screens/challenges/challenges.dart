@@ -1,56 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-import 'package:nyanya_rocket/screens/challenges/tabs/community_challenges.dart';
-import 'package:nyanya_rocket/screens/challenges/tabs/local_challenges.dart';
-import 'package:nyanya_rocket/screens/challenges/tabs/original_challenges.dart';
-import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
+
+import '../../localization/nyanya_localizations.dart';
+import '../../routing/nyanya_route_path.dart';
+import '../../widgets/navigation/bar_rail_tabs.dart';
+import 'tabs/community_challenges.dart';
+import 'tabs/local_challenges.dart';
+import 'tabs/original_challenges.dart';
 
 class Challenges extends StatelessWidget {
   final TabKind initialTab;
 
-  const Challenges({Key? key, this.initialTab = TabKind.Original})
-      : super(key: key);
+  const Challenges({Key? key, required this.initialTab}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bool displayIcons =
-        MediaQuery.of(context).orientation == Orientation.portrait;
+    final localized = NyaNyaLocalizations.of(context);
 
-    return DefaultTabController(
-      length: 3,
-      initialIndex: initialTab.index,
-      child: Scaffold(
-        appBar: AppBar(
-            title: Text(NyaNyaLocalizations.of(context).challengesTitle),
-            bottom: TabBar(
-              tabs: [
-                Tab(
-                  icon:
-                      displayIcons ? FaIcon(FontAwesomeIcons.stopwatch) : null,
-                  text: NyaNyaLocalizations.of(context).originalTab,
-                ),
-                Tab(
-                  icon: displayIcons ? FaIcon(FontAwesomeIcons.globe) : null,
-                  text: NyaNyaLocalizations.of(context).communityTab,
-                ),
-                Tab(
-                  icon:
-                      displayIcons ? FaIcon(FontAwesomeIcons.mobileAlt) : null,
-                  text: NyaNyaLocalizations.of(context).deviceTab,
-                ),
-              ],
-            )),
-        drawer: DefaultDrawer(),
-        body: TabBarView(
-          children: [
-            OriginalChallenges(),
-            CommunityChallenges(),
-            LocalChallenges()
-          ],
-        ),
-      ),
-    );
+    return BarRailTabs(
+        initialTab: initialTab.index,
+        title: NyaNyaLocalizations.of(context).challengesTitle,
+        tabs: [
+          BarRailTab(
+            content: const OriginalChallenges(),
+            icon: const FaIcon(FontAwesomeIcons.stopwatch),
+            label: localized.originalTab,
+            route: const NyaNyaRoutePath.originalChallenges(),
+          ),
+          BarRailTab(
+            content: const CommunityChallenges(),
+            icon: const FaIcon(FontAwesomeIcons.globe),
+            label: localized.communityTab,
+            route: const NyaNyaRoutePath.communityChallenges(),
+          ),
+          BarRailTab(
+            content: const LocalChallenges(),
+            icon: const FaIcon(FontAwesomeIcons.mobileAlt),
+            label: localized.deviceTab,
+            route: const NyaNyaRoutePath.localChallenges(),
+          )
+        ]);
   }
 }

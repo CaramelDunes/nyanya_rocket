@@ -22,6 +22,7 @@ class LocalGameController extends GameTicker<GameState> {
     updateGame();
   }
 
+  @override
   @mustCallSuper
   void dispose() {
     gameStream.dispose();

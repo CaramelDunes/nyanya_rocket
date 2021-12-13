@@ -13,14 +13,14 @@ abstract class PuzzleStore {
   static Future<Map<String, String>> registry() =>
       NamedDataStorage.active.readRegistry(storeName);
 
-  static Future<String?> saveNewPuzzle(NamedPuzzleData puzzleData) async {
+  static Future<String?> saveNew(NamedPuzzleData puzzleData) async {
     final Map<String, String> registry =
         await NamedDataStorage.active.readRegistry(storeName);
     final String uuid =
         _uuid.v4(); // Assume that the registry doesn't contain the new uuid.
 
     bool dataWritten = await NamedDataStorage.active
-        .writeData(storeName, uuid, jsonEncode(puzzleData.puzzleData.toJson()));
+        .writeData(storeName, uuid, jsonEncode(puzzleData.data.toJson()));
 
     if (dataWritten) {
       registry[uuid] = puzzleData.name;
@@ -31,24 +31,25 @@ abstract class PuzzleStore {
     }
   }
 
-  static Future<bool> updatePuzzle(String uuid, PuzzleData puzzleData) async {
+  static Future<bool> update(String uuid, PuzzleData puzzleData) async {
     return NamedDataStorage.active
         .writeData(storeName, uuid, jsonEncode(puzzleData.toJson()));
   }
 
-  static Future<NamedPuzzleData?> readPuzzle(String uuid) async {
+  static Future<NamedPuzzleData?> read(String uuid) async {
     final Map<String, String> registry =
         await NamedDataStorage.active.readRegistry(storeName);
     String? jsonEncoded =
         await NamedDataStorage.active.readData(storeName, uuid);
 
-    if (registry.containsKey(uuid) && jsonEncoded != null)
-      return NamedPuzzleData.fromPuzzleData(
+    if (registry.containsKey(uuid) && jsonEncoded != null) {
+      return NamedPuzzleData(
           name: registry[uuid]!,
           puzzleData: PuzzleData.fromJson(jsonDecode(jsonEncoded)));
+    }
   }
 
-  static Future<bool> deletePuzzle(String uuid) async {
+  static Future<bool> delete(String uuid) async {
     final Map<String, String> registry =
         await NamedDataStorage.active.readRegistry(storeName);
 
@@ -56,8 +57,9 @@ abstract class PuzzleStore {
         await NamedDataStorage.active.writeRegistry(storeName, registry)) {
       await NamedDataStorage.active.deleteData(storeName, uuid);
       return true;
-    } else
+    } else {
       return false;
+    }
   }
 
   static Future<bool> rename(String uuid, String name) async {

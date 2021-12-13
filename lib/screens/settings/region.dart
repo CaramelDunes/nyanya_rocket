@@ -66,8 +66,8 @@ class Region with ChangeNotifier {
   static ComputedRegions automaticValue() {
     Duration timezoneOffset = DateTime.now().timeZoneOffset;
 
-    if (timezoneOffset <= Duration(hours: -3) ||
-        timezoneOffset >= Duration(hours: 11)) {
+    if (timezoneOffset <= const Duration(hours: -3) ||
+        timezoneOffset >= const Duration(hours: 11)) {
       return ComputedRegions.usEast;
     } else {
       return ComputedRegions.euWest;

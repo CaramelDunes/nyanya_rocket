@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/models/multiplayer_board.dart';
-import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../../models/multiplayer_board.dart';
+import '../../../widgets/board/static_game_view.dart';
 
 class OriginalBoards extends StatelessWidget {
   static final List<MultiplayerBoard> boards = [
@@ -26,6 +27,8 @@ class OriginalBoards extends StatelessWidget {
             '{"tiles":[[{"type":4,"direction":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":4,"direction":1}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":3,"player":1},{"type":0},{"type":3,"player":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":2},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":3,"player":3},{"type":0},{"type":3,"player":2},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0}],[{"type":4,"direction":3},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":0},{"type":4,"direction":2}]],"walls":[[3,1,1,1,1,1,1,1,1],[2,2,0,0,0,0,0,0,1],[2,0,2,0,0,0,0,1,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,2,0,1,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,2,0],[2,0,1,0,0,0,0,0,2],[2,1,0,0,0,0,0,0,0]]}',
         maxPlayer: 4),
   ];
+
+  const OriginalBoards({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+import 'package:slugify/slugify.dart';
 
 enum ChallengeType {
-  GetMice, // Like Puzzle, without cats
-  RunAway, // Like Puzzle, with cats
-  LunchTime, // Feed all Mice to Cat
-  OneHundredMice,
+  getMice, // Like Puzzle, without cats
+  runAway, // Like Puzzle, with cats
+  lunchTime, // Feed all Mice to Cat
+  oneHundredMice,
   // CatSoccer // Needs an AI
 }
 
 extension LocalizedChallengeType on ChallengeType {
-  static const List<String> _names = const <String>[
+  static const List<String> _names = [
     'Get Mice', // Like Puzzle, without cats
     'Run Away', // Like Puzzle, with cats
     'Lunch Time', // Feed all Mice to Cat
@@ -22,17 +23,21 @@ extension LocalizedChallengeType on ChallengeType {
     // 'Cat Soccer', // Needs an AI
   ];
 
-  String toPrettyString() => '${_names[this.index]}';
+  static final List<String> _slugs = _names.map(slugify).toList();
+
+  String toPrettyString() => _names[index];
+
+  String toSlug() => _slugs[index];
 
   String toLocalizedString(BuildContext context) {
     switch (this) {
-      case ChallengeType.GetMice:
+      case ChallengeType.getMice:
         return NyaNyaLocalizations.of(context).challengeGetMiceType;
-      case ChallengeType.RunAway:
+      case ChallengeType.runAway:
         return NyaNyaLocalizations.of(context).challengeRunAwayType;
-      case ChallengeType.LunchTime:
+      case ChallengeType.lunchTime:
         return NyaNyaLocalizations.of(context).challengeLunchTimeType;
-      case ChallengeType.OneHundredMice:
+      case ChallengeType.oneHundredMice:
         return NyaNyaLocalizations.of(context).challengeOneHundredMiceType;
     }
   }

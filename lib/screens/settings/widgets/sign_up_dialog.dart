@@ -27,14 +27,14 @@ class _SignUpDialogState extends State<SignUpDialog> {
       contentPadding: const EdgeInsets.all(16.0),
       title: Text(NyaNyaLocalizations.of(context).displayNameDialogTitle),
       content: _loading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
               widthFactor: 1,
               heightFactor: 1,
             )
           : Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: [
                 Form(
                   key: _formKey,
                   child: TextFormField(
@@ -60,15 +60,15 @@ class _SignUpDialogState extends State<SignUpDialog> {
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    style: Theme.of(context).textTheme.bodyText1,
-                    children: <TextSpan>[
+                    style: Theme.of(context).textTheme.bodyText2,
+                    children: [
                       TextSpan(
                           text: NyaNyaLocalizations.of(context)
                               .privacyPolicySignUpText),
                       TextSpan(
                           text: NyaNyaLocalizations.of(context)
                               .privacyPolicyLabel,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.blue,
                               decoration: TextDecoration.underline),
                           recognizer: TapGestureRecognizer()
@@ -85,30 +85,29 @@ class _SignUpDialogState extends State<SignUpDialog> {
                 )
               ],
             ),
-      actions: <Widget>[
-        TextButton(
-            child: Text(
-                NyaNyaLocalizations.of(context).confirmLabel.toUpperCase()),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
+      actions: [
+        if (!_loading)
+          TextButton(
+              child: Text(
+                  NyaNyaLocalizations.of(context).confirmLabel.toUpperCase()),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
 
-                setState(() {
-                  _loading = true;
-                });
-
-                widget.user.signInAnonymously().then((success) {
-                  // FIXME
-                  // user?.updateProfile(
-                  //     displayName: _displayName!); // ! Because of validation.
-                  Navigator.pop(context, true);
-                }).catchError((e) {
                   setState(() {
-                    _loading = false;
+                    _loading = true;
                   });
-                });
-              }
-            }),
+
+                  widget.user.signInAnonymously().then((success) {
+                    widget.user.setDisplayName(_displayName!);
+                    Navigator.pop(context, true);
+                  }).catchError((e) {
+                    setState(() {
+                      _loading = false;
+                    });
+                  });
+                }
+              }),
         TextButton(
             child: Text(NyaNyaLocalizations.of(context).cancel.toUpperCase()),
             onPressed: () {

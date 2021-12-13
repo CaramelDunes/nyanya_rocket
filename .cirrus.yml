@@ -4,7 +4,14 @@ container:
 android_build_task:
   pub_cache:
     folder: ~/.pub-cache
+  gradle_cache:
+    folder: ~/.gradle/caches
   build_script: flutter build apk
+  cleanup_before_cache_script:
+    - rm -rf ~/.gradle/caches/$GRADLE_VERSION/
+    - rm -rf ~/.gradle/caches/transforms-1
+    - rm -rf ~/.gradle/caches/journal-1
+    - rm -rf ~/.gradle/caches/jars-3/*/buildSrc.jar
   apk_artifacts:
     path: "build/app/outputs/apk/release/app-release.apk"
 
@@ -13,14 +20,14 @@ web_build_task:
     folder: ~/.pub-cache
   build_script: flutter build web
   web_artifacts:
-    path: "build/web/*"
+    path: "build/web/**"
 
-#linux_build_task:
-#  pub_cache:
-#    folder: ~/.pub-cache
-#  build_script:
-#    - apt-get update && apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libblkid-dev liblzma-dev libgcrypt20-dev
-#    - flutter config --enable-linux-desktop
-#    - flutter build linux
-#  linux_artifacts:
-#    path: "build/linux/*"
+linux_build_task:
+  pub_cache:
+    folder: ~/.pub-cache
+  build_script:
+    - apt-get update && apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev
+    - flutter config --enable-linux-desktop
+    - flutter build linux
+  linux_artifacts:
+    path: "build/linux/x64/release/bundle/**"

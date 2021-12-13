@@ -1,5 +1,7 @@
-import 'package:nyanya_rocket/widgets/not_implemented.dart';
+import 'package:flutter/foundation.dart';
+import 'package:nyanya_rocket/widgets/input/not_implemented.dart';
 
 class Leaderboard extends NotImplemented {
-  Leaderboard() : super(featureId: 'R8RHFm0nhOoHTXu529Q7');
+  const Leaderboard({Key? key})
+      : super(key: key, featureId: 'R8RHFm0nhOoHTXu529Q7');
 }

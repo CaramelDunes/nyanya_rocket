@@ -1,167 +1,88 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nyanya_rocket/blocs/multiplayer_queue.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/user.dart';
-import 'package:nyanya_rocket/screens/multiplayer/setup_widgets/sign_up_prompt.dart';
-import 'package:nyanya_rocket/screens/multiplayer/tabs/friend_duel.dart';
-import 'package:nyanya_rocket/screens/multiplayer/tabs/queue_and_leaderboard.dart';
-import 'package:nyanya_rocket/screens/settings/region.dart';
-import 'package:nyanya_rocket/screens/settings/settings.dart';
-import 'package:nyanya_rocket/widgets/default_drawer/default_drawer.dart';
 import 'package:provider/provider.dart';
 
-import 'tabs/device_duel_setup.dart';
-import 'tabs/lan_multiplayer_setup.dart';
+import '../../blocs/multiplayer_queue.dart';
+import '../../localization/nyanya_localizations.dart';
+import '../../models/user.dart';
+import '../../widgets/navigation/bar_rail_tabs.dart';
+import '../../widgets/navigation/settings_action.dart';
+import '../settings/region.dart';
+import 'setup_widgets/extra_multiplayer_menu.dart';
+import 'setup_widgets/sign_up_prompt.dart';
+import 'tabs/friend_duel.dart';
+import 'tabs/queue_and_leaderboard.dart';
 
-class Multiplayer extends StatefulWidget {
-  @override
-  _MultiplayerState createState() => _MultiplayerState();
-}
+typedef IdTokenBuilder = Widget Function(String idToken);
 
-class _MultiplayerState extends State<Multiplayer>
-    with SingleTickerProviderStateMixin {
-  String? _idToken;
-  StreamSubscription? _idTokenSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-
-    final user = context.read<User>();
-
-    // FIXME
-    // _idTokenSubscription = user.signedInStream.listen((signedIn) {
-    //   if (mounted) {
-    //     print(signedIn);
-    //     if (signedIn) {
-    //       user.idToken().then((String? token) {
-    //         if (token != null)
-    //           setState(() {
-    //             _idToken = token;
-    //           });
-    //       });
-    //     }
-    //   }
-    // });
-
-    user.idToken().then((String? token) {
-      if (token != null)
-        setState(() {
-          _idToken = token;
-        });
-    });
-  }
-
-  @override
-  void dispose() {
-    _idTokenSubscription?.cancel();
-
-    super.dispose();
-  }
+class Multiplayer extends StatelessWidget {
+  const Multiplayer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bool displayIcons =
-        MediaQuery.of(context).orientation == Orientation.portrait;
+    final localized = NyaNyaLocalizations.of(context);
 
-    return DefaultTabController(
-        length: 3,
-        child: Consumer2<Region, User>(builder:
-            (BuildContext context, Region region, User user, Widget? child) {
-          return Scaffold(
-              resizeToAvoidBottomInset: false,
-              appBar: AppBar(
-                title: Text(NyaNyaLocalizations.of(context).multiplayerTitle +
-                    ' (${region.label})'),
-                bottom: TabBar(
-                  tabs: [
-                    Tab(
-                      icon: displayIcons
-                          ? FaIcon(FontAwesomeIcons.userFriends)
-                          : null,
-                      text: NyaNyaLocalizations.of(context).duelLabel,
-                    ),
-                    Tab(
-                      icon:
-                          displayIcons ? FaIcon(FontAwesomeIcons.users) : null,
-                      text: NyaNyaLocalizations.of(context).fourPlayersLabel,
-                    ),
-                    Tab(
-                      icon: displayIcons
-                          ? FaIcon(FontAwesomeIcons.peopleArrows)
-                          : null,
-                      text: NyaNyaLocalizations.of(context).friendDuelLabel,
-                    ),
-                  ],
-                ),
-                actions: [
-                  IconButton(
-                    icon: Icon(Icons.settings),
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return Settings();
-                      }));
-                    },
-                  ),
-                  PopupMenuButton<String>(
-                    itemBuilder: (BuildContext context) {
-                      return [
-                        PopupMenuItem(
-                          child: Text(
-                              NyaNyaLocalizations.of(context).deviceDuelLabel),
-                          value: 'device',
-                        ),
-                        PopupMenuItem(
-                          child: Text(NyaNyaLocalizations.of(context)
-                              .lanMultiplayerLabel),
-                          value: 'lan',
-                        )
-                      ];
-                    },
-                    onSelected: (value) {
-                      if (value == 'lan') {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return LanMultiplayerSetup();
-                        }));
-                      } else if (value == 'device') {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return DeviceDuelSetup();
-                        }));
-                      }
-                    },
-                  ),
+    return Consumer2<Region, User>(builder:
+        (BuildContext context, Region region, User user, Widget? child) {
+      return FutureBuilder(
+          future: user.idToken(),
+          builder: (context, AsyncSnapshot<String?> snapshot) {
+            return BarRailTabs(
+                title: localized.multiplayerTitle + ' (${region.label})',
+                appBarActions: const [
+                  SettingsAction(),
+                  ExtraMultiplayerMenu()
                 ],
-              ),
-              drawer: DefaultDrawer(),
-              body: _idToken == null
-                  ? Center(child: SignUpPrompt())
-                  : TabBarView(
-                      children: [
-                        QueueAndLeaderboard(
-                          queueType: QueueType.Duels,
-                          displayName: user.displayName,
-                          idToken: _idToken!,
-                          masterServerHostname: region.masterServerHostname,
-                        ),
-                        QueueAndLeaderboard(
-                          queueType: QueueType.FourPlayers,
-                          displayName: user.displayName,
-                          idToken: _idToken!,
-                          masterServerHostname: region.masterServerHostname,
-                        ),
-                        FriendDuel(
-                          displayName: user.displayName,
-                          idToken: _idToken!,
-                          masterServerHostname: region.masterServerHostname,
-                        )
-                      ],
-                    ));
-        }));
+                tabs: [
+                  BarRailTab(
+                    icon: const FaIcon(FontAwesomeIcons.userFriends),
+                    label: localized.duelLabel,
+                    content: _wrapWithSignupPrompt(
+                        snapshot,
+                        (idToken) => QueueAndLeaderboard(
+                              key: const ValueKey('DuelsQueue'),
+                              queueType: QueueType.duels,
+                              displayName: user.displayName ?? '',
+                              idToken: snapshot.data!,
+                              masterServerHostname: region.masterServerHostname,
+                            )),
+                  ),
+                  BarRailTab(
+                      icon: const FaIcon(FontAwesomeIcons.users),
+                      label: localized.fourPlayersLabel,
+                      content: _wrapWithSignupPrompt(
+                          snapshot,
+                          (idToken) => QueueAndLeaderboard(
+                                key: const ValueKey('FoursQueue'),
+                                queueType: QueueType.fourPlayers,
+                                displayName: user.displayName ?? '',
+                                idToken: snapshot.data!,
+                                masterServerHostname:
+                                    region.masterServerHostname,
+                              ))),
+                  BarRailTab(
+                      icon: const FaIcon(FontAwesomeIcons.peopleArrows),
+                      label: localized.friendDuelLabel,
+                      content: _wrapWithSignupPrompt(
+                          snapshot,
+                          (idToken) => FriendDuel(
+                              displayName: user.displayName ?? '',
+                              idToken: idToken,
+                              masterServerHostname:
+                                  region.masterServerHostname)))
+                ]);
+          });
+    });
+  }
+
+  Widget _wrapWithSignupPrompt(
+      AsyncSnapshot<String?> idTokenSnapshot, IdTokenBuilder idTokenBuilder) {
+    if (idTokenSnapshot.connectionState == ConnectionState.waiting) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (!idTokenSnapshot.hasData) {
+      return const Center(child: SignUpPrompt());
+    }
+
+    return idTokenBuilder(idTokenSnapshot.data!);
   }
 }

@@ -11,7 +11,7 @@ abstract class MultiplayerStore {
   static Future<Map<String, String>> registry() =>
       NamedDataStorage.active.readRegistry(storeName);
 
-  static Future<String?> saveNewBoard(MultiplayerBoard boardData) async {
+  static Future<String?> saveNew(MultiplayerBoard boardData) async {
     final Map<String, String> registry =
         await NamedDataStorage.active.readRegistry(storeName);
     final String uuid =
@@ -29,23 +29,23 @@ abstract class MultiplayerStore {
     }
   }
 
-  static Future<bool> updateBoard(
-      String uuid, MultiplayerBoard boardData) async {
+  static Future<bool> update(String uuid, MultiplayerBoard boardData) async {
     return NamedDataStorage.active
         .writeData(storeName, uuid, jsonEncode(boardData.toJson()));
   }
 
-  static Future<MultiplayerBoard?> readBoard(String uuid) async {
+  static Future<MultiplayerBoard?> read(String uuid) async {
     final Map<String, String> registry =
         await NamedDataStorage.active.readRegistry(storeName);
     String? jsonEncoded =
         await NamedDataStorage.active.readData(storeName, uuid);
 
-    if (registry.containsKey(uuid) && jsonEncoded != null)
+    if (registry.containsKey(uuid) && jsonEncoded != null) {
       return MultiplayerBoard.fromJson(jsonDecode(jsonEncoded));
+    }
   }
 
-  static Future<bool> deleteBoard(String uuid) async {
+  static Future<bool> delete(String uuid) async {
     return NamedDataStorage.active.deleteData(storeName, uuid);
   }
 

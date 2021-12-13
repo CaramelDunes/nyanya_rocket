@@ -15,10 +15,11 @@ class ChallengeEditor extends StatefulWidget {
   final NamedChallengeData challenge;
   final String? uuid;
 
-  ChallengeEditor({
+  const ChallengeEditor({
+    Key? key,
     required this.challenge,
     this.uuid,
-  });
+  }) : super(key: key);
 
   @override
   _ChallengeEditorState createState() => _ChallengeEditorState();
@@ -33,7 +34,7 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   void initState() {
     super.initState();
 
-    _editedGame = EditedGame(game: widget.challenge.challengeData.getGame());
+    _editedGame = EditedGame(game: widget.challenge.data.getGame());
 
     _uuid = widget.uuid;
   }
@@ -48,54 +49,53 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   NamedChallengeData _buildChallengeData() {
     dynamic gameJson = _editedGame.game.toJson();
 
-    return NamedChallengeData(
+    return NamedChallengeData.fromGameData(
       name: widget.challenge.name,
-      type: widget.challenge.challengeData.type,
+      type: widget.challenge.data.type,
       gameData: jsonEncode(gameJson),
     );
   }
 
   List<EditorMenu> _menusForType(ChallengeType type) {
     switch (type) {
-      case ChallengeType.GetMice:
+      case ChallengeType.getMice:
         return [
-          EditorMenu(subMenu: <EditorTool>[
+          const EditorMenu(subMenu: [
             EditorTool(
-                type: ToolType.Tile, tile: Rocket(player: PlayerColor.Blue)),
-            EditorTool(type: ToolType.Tile, tile: Pit())
+                type: ToolType.tile, tile: Rocket(player: PlayerColor.Blue)),
+            EditorTool(type: ToolType.tile, tile: Pit())
           ]),
           StandardMenus.mice,
           StandardMenus.walls,
         ];
 
-      case ChallengeType.RunAway:
+      case ChallengeType.runAway:
         return [
-          EditorMenu(subMenu: <EditorTool>[
+          const EditorMenu(subMenu: [
             EditorTool(
-                type: ToolType.Tile, tile: Rocket(player: PlayerColor.Blue)),
-            EditorTool(type: ToolType.Tile, tile: Pit())
-          ]),
-          StandardMenus.mice,
-          StandardMenus.cats,
-          StandardMenus.walls,
-        ];
-
-      case ChallengeType.LunchTime:
-        return [
-          EditorMenu(subMenu: <EditorTool>[
-            EditorTool(type: ToolType.Tile, tile: Pit())
+                type: ToolType.tile, tile: Rocket(player: PlayerColor.Blue)),
+            EditorTool(type: ToolType.tile, tile: Pit())
           ]),
           StandardMenus.mice,
           StandardMenus.cats,
           StandardMenus.walls,
         ];
 
-      case ChallengeType.OneHundredMice:
+      case ChallengeType.lunchTime:
         return [
-          EditorMenu(subMenu: <EditorTool>[
+          const EditorMenu(
+              subMenu: [EditorTool(type: ToolType.tile, tile: Pit())]),
+          StandardMenus.mice,
+          StandardMenus.cats,
+          StandardMenus.walls,
+        ];
+
+      case ChallengeType.oneHundredMice:
+        return [
+          const EditorMenu(subMenu: [
             EditorTool(
-                type: ToolType.Tile, tile: Rocket(player: PlayerColor.Blue)),
-            EditorTool(type: ToolType.Tile, tile: Pit())
+                type: ToolType.tile, tile: Rocket(player: PlayerColor.Blue)),
+            EditorTool(type: ToolType.tile, tile: Pit())
           ]),
           StandardMenus.generators,
           StandardMenus.walls,
@@ -109,30 +109,18 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.challenge.name),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.undo),
-              onPressed: () {
-                _editedGame.undo();
-              }),
-          IconButton(
-              icon: Icon(Icons.redo),
-              onPressed: () {
-                _editedGame.redo();
-              })
-        ],
-      ),
+      appBar: AppBar(title: Text(widget.challenge.name)),
       resizeToAvoidBottomInset: false,
       body: Column(
-        children: <Widget>[
+        children: [
           Expanded(
               child: EditorPlacer(
             editedGame: _editedGame,
-            menus: _menusForType(widget.challenge.challengeData.type),
+            menus: _menusForType(widget.challenge.data.type),
             onPlay: () => _handlePlay(context),
             onSave: _handleSave,
+            onUndo: _editedGame.undo,
+            onRedo: _editedGame.redo,
           )),
         ],
       ),
@@ -156,14 +144,13 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
     if (_uuid == null) {
       ChallengeStore.saveNew(_buildChallengeData()).then((String? uuid) {
         if (uuid != null) {
-          this._uuid = uuid;
+          _uuid = uuid;
           print('Saved $uuid');
           _saving = false;
         } // FIXME Handle failure.
       });
     } else {
-      ChallengeStore.updateChallenge(_uuid!, _buildChallengeData())
-          .then((bool status) {
+      ChallengeStore.update(_uuid!, _buildChallengeData()).then((bool status) {
         // FIXME Handle failure.
         print('Updated $_uuid');
         _saving = false;

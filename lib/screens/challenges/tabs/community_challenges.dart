@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
-import 'package:nyanya_rocket/widgets/star_count.dart';
+import 'package:nyanya_rocket/widgets/board/static_game_view.dart';
+import 'package:nyanya_rocket/widgets/navigation/star_count.dart';
 import 'package:provider/provider.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
-import '../../../services/firebase/firebase_service.dart';
 import '../../../models/challenge_data.dart';
+import '../../../services/firestore/firestore_service.dart';
+import '../../../widgets/navigation/community_filter_bar.dart';
 
 class CommunityChallenges extends StatefulWidget {
+  const CommunityChallenges({Key? key}) : super(key: key);
+
   @override
   _CommunityChallengesState createState() => _CommunityChallengesState();
 }
 
 class _CommunityChallengesState extends State<CommunityChallenges> {
   List<CommunityChallengeData> challenges = [];
-  Sorting _sorting = Sorting.ByPopularity;
+  Sorting _sorting = Sorting.byPopularity;
 
   @override
   void initState() {
@@ -25,7 +27,7 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
 
   Future<void> _refreshList() async {
     final List<CommunityChallengeData>? newChallenges = await context
-        .read<FirebaseService>()
+        .read<FirestoreService>()
         .getCommunityChallenges(sortBy: _sorting, limit: 50);
 
     if (newChallenges != null && mounted) {
@@ -39,80 +41,46 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                NyaNyaLocalizations.of(context).sortByLabel,
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              VerticalDivider(),
-              Expanded(
-                child: DropdownButton<Sorting>(
-                  isExpanded: true,
-                  value: _sorting,
-                  items: <DropdownMenuItem<Sorting>>[
-                    DropdownMenuItem<Sorting>(
-                      child: Text(NyaNyaLocalizations.of(context).dateLabel),
-                      value: Sorting.ByDate,
-                    ),
-                    DropdownMenuItem<Sorting>(
-                      child: Text(NyaNyaLocalizations.of(context).nameLabel),
-                      value: Sorting.ByName,
-                    ),
-                    DropdownMenuItem<Sorting>(
-                      child:
-                          Text(NyaNyaLocalizations.of(context).popularityLabel),
-                      value: Sorting.ByPopularity,
-                    )
-                  ],
-                  onChanged: (Sorting? value) {
-                    if (value != null) {
-                      setState(() {
-                        _sorting = value;
-                        _refreshList();
-                      });
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        Divider(),
+      children: [
         Expanded(
           child: RefreshIndicator(
             onRefresh: _refreshList,
             child: OrientationBuilder(
               builder: (BuildContext context, Orientation orientation) {
                 if (orientation == Orientation.landscape ||
-                    MediaQuery.of(context).size.width >= 270 * 2.5)
+                    MediaQuery.of(context).size.width >= 270 * 2.5) {
                   return _buildLandscape();
-                else
+                } else {
                   return _buildPortrait();
+                }
               },
             ),
           ),
+        ),
+        const Divider(height: 1.0),
+        CommunityFilterBar(
+          value: _sorting,
+          onRefresh: _refreshList,
+          onSortingChanged: (Sorting? value) {
+            setState(() {
+              _sorting = value ?? _sorting;
+              _refreshList();
+            });
+          },
         ),
       ],
     );
   }
 
   Widget _buildPortrait() {
-    return ListView.separated(
-        separatorBuilder: (context, int) => Divider(),
+    return ListView.builder(
         itemCount: challenges.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(challenges[i].name),
               subtitle: Text(
                   '${challenges[i].author}\n${MaterialLocalizations.of(context).formatMediumDate(challenges[i].date)}'),
               isThreeLine: true,
-              trailing: StarCount(
-                count: challenges[i].likes,
-              ),
+              trailing: StarCount(count: challenges[i].likes),
               onTap: () {
                 Router.of(context).routerDelegate.setNewRoutePath(
                     NyaNyaRoutePath.communityChallenge(challenges[i].uid));
@@ -122,7 +90,7 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
 
   Widget _buildLandscape() {
     return GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 270,
         ),
         itemCount: challenges.length,
@@ -141,12 +109,12 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
                 child: AspectRatio(
                   aspectRatio: 12 / 9,
                   child: StaticGameView(
-                    game: challenges[i].challengeData.getGame(),
+                    game: challenges[i].data.getGame(),
                   ),
                 )),
             Text(
-              '${challenges[i].name} (${challenges[i].challengeData.type.toLocalizedString(context)})',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              '${challenges[i].name} (${challenges[i].data.type.toLocalizedString(context)})',
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,

@@ -10,7 +10,7 @@ class QueueJoinStatus {
   QueueJoinStatus({this.ipAddress, this.port, this.ticket});
 }
 
-enum QueueType { Duels, FourPlayers }
+enum QueueType { duels, fourPlayers }
 
 class MultiplayerQueue {
   final String apiVersion = 'v1';
@@ -30,9 +30,9 @@ class MultiplayerQueue {
 
   static _queueTypeToString(QueueType queueType) {
     switch (queueType) {
-      case QueueType.Duels:
+      case QueueType.duels:
         return 'duels';
-      case QueueType.FourPlayers:
+      case QueueType.fourPlayers:
         return 'fours';
     }
   }

@@ -13,10 +13,11 @@ class MultiplayerEditor extends StatefulWidget {
   final MultiplayerBoard board;
   final String? uuid;
 
-  MultiplayerEditor({
+  const MultiplayerEditor({
+    Key? key,
     required this.board,
     this.uuid,
-  });
+  }) : super(key: key);
 
   @override
   _MultiplayerEditorState createState() => _MultiplayerEditorState();
@@ -57,32 +58,19 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.board.name),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.undo),
-              onPressed: () {
-                _editedGame.undo();
-              }),
-          IconButton(
-              icon: Icon(Icons.redo),
-              onPressed: () {
-                _editedGame.redo();
-              })
-        ],
-      ),
+      appBar: AppBar(title: Text(widget.board.name)),
       resizeToAvoidBottomInset: false,
       body: Column(
-        children: <Widget>[
+        children: [
           Expanded(
               child: EditorPlacer(
                   editedGame: _editedGame,
                   onSave: _handleSave,
-                  menus: [
-                EditorMenu(subMenu: <EditorTool>[
-                  EditorTool(type: ToolType.Tile, tile: Pit())
-                ]),
+                  onUndo: _editedGame.undo,
+                  onRedo: _editedGame.redo,
+                  menus: const [
+                EditorMenu(
+                    subMenu: [EditorTool(type: ToolType.tile, tile: Pit())]),
                 StandardMenus.rockets,
                 StandardMenus.generators,
                 StandardMenus.walls,
@@ -100,8 +88,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
     _saving = true;
 
     if (_uuid == null) {
-      MultiplayerStore.saveNewBoard(_buildMultiplayerBoard())
-          .then((String? uuid) {
+      MultiplayerStore.saveNew(_buildMultiplayerBoard()).then((String? uuid) {
         if (uuid != null) {
           _uuid = uuid;
           print('Saved $uuid');
@@ -109,7 +96,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
         } // FIXME Handle failure.
       });
     } else {
-      MultiplayerStore.updateBoard(_uuid!, _buildMultiplayerBoard())
+      MultiplayerStore.update(_uuid!, _buildMultiplayerBoard())
           .then((bool status) {
         print('Updated $_uuid');
         _saving = false;

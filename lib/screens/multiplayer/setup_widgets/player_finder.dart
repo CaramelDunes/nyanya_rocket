@@ -47,7 +47,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
         masterServerHostname: widget.masterServerHostname);
     _updateQueueLength();
 
-    _queueJoinUpdateTimer = Timer.periodic(Duration(seconds: 1), (_) {
+    _queueJoinUpdateTimer = Timer.periodic(const Duration(seconds: 1), (_) {
       _updateQueueJoinStatus();
     });
   }
@@ -73,8 +73,8 @@ class _PlayerFinderState extends State<PlayerFinder> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FaIcon(FontAwesomeIcons.search),
-            SizedBox(width: 8.0),
+            const FaIcon(FontAwesomeIcons.search),
+            const SizedBox(width: 8.0),
             Text(
               NyaNyaLocalizations.of(context).findPlayersLabel,
               style: Theme.of(context).textTheme.headline6,
@@ -83,7 +83,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Text(
@@ -98,13 +98,14 @@ class _PlayerFinderState extends State<PlayerFinder> {
                             ? ''
                             : NyaNyaLocalizations.of(context)
                                 .queueRefreshErrorText),
-                style: TextStyle(fontSize: 15),
+                style: const TextStyle(fontSize: 15),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 16,
             ),
-            if (_updatePending || _queue.joined) CircularProgressIndicator(),
+            if (_updatePending || _queue.joined)
+              const CircularProgressIndicator(),
           ],
         ),
         Row(

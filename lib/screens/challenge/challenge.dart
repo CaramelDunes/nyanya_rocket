@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
-import 'package:nyanya_rocket/models/challenge_data.dart';
-import 'package:nyanya_rocket/models/named_challenge_data.dart';
-import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
-import 'package:nyanya_rocket/screens/challenge/widgets/arrow_drawer.dart';
-import 'package:nyanya_rocket/screens/settings/settings.dart';
-import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
-import 'package:nyanya_rocket/widgets/arrow_image.dart';
-import 'package:nyanya_rocket/widgets/countdown.dart';
-import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../localization/nyanya_localizations.dart';
+import '../../models/challenge_data.dart';
+import '../../models/named_challenge_data.dart';
+import '../../routing/nyanya_route_path.dart';
+import '../../widgets/countdown.dart';
+import '../../widgets/input/draggable_arrow_grid.dart';
+import '../../widgets/board/animated_game_view.dart';
+import '../../widgets/board/tiles/arrow_image.dart';
+import '../../widgets/game/success_overlay.dart';
+import '../../widgets/navigation/guide_action.dart';
+import '../../widgets/navigation/settings_action.dart';
+import '../puzzle/widgets/draggable_arrow.dart';
+import 'challenge_game_controller.dart';
+import 'widgets/arrow_drawer.dart';
 
 class Challenge extends StatefulWidget {
   final NamedChallengeData challenge;
@@ -21,12 +23,14 @@ class Challenge extends StatefulWidget {
   final Duration? bestTime;
   final String? documentPath;
 
-  Challenge(
-      {required this.challenge,
+  const Challenge(
+      {Key? key,
+      required this.challenge,
       this.nextRoutePath,
       this.onWin,
       this.bestTime,
-      this.documentPath});
+      this.documentPath})
+      : super(key: key);
 
   @override
   _ChallengeState createState() => _ChallengeState();
@@ -41,7 +45,7 @@ class _ChallengeState extends State<Challenge> {
     super.initState();
 
     _challengeController = ChallengeGameController.proxy(
-        challenge: widget.challenge.challengeData, onWin: _handleWin);
+        challenge: widget.challenge.data, onWin: _handleWin);
   }
 
   @override
@@ -51,8 +55,12 @@ class _ChallengeState extends State<Challenge> {
     super.dispose();
   }
 
-  void _handleSwipeAndDrop(int x, int y, Direction direction) {
+  void _handleSwipe(int x, int y, Direction direction) {
     _challengeController.placeArrow(x, y, direction);
+  }
+
+  void _handleDrop(int x, int y, DraggedArrowData arrow) {
+    _challengeController.placeArrow(x, y, arrow.direction);
   }
 
   void _handleWin() {
@@ -60,33 +68,33 @@ class _ChallengeState extends State<Challenge> {
       _ended = true;
     });
 
-    widget.onWin
-        ?.call(Duration(seconds: 30) - _challengeController.remainingTime);
+    widget.onWin?.call(
+        const Duration(seconds: 30) - _challengeController.remainingTime);
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,
-      List rejectedData, int x, int y) {
+  Widget _dragTileBuilder(BuildContext context,
+      List<DraggedArrowData?> candidateData, List rejectedData, int x, int y) {
     if (candidateData.isEmpty) return const SizedBox.expand();
 
     return ArrowImage(
-      direction: candidateData[0]!,
+      direction: candidateData[0]!.direction,
       player: PlayerColor.Blue,
-      opaque: false,
+      isHalfTransparent: true,
     );
   }
 
   String _objectiveText(BuildContext context) {
     switch (_challengeController.challenge.type) {
-      case ChallengeType.GetMice:
+      case ChallengeType.getMice:
         return NyaNyaLocalizations.of(context).getMiceObjectiveText;
 
-      case ChallengeType.RunAway:
+      case ChallengeType.runAway:
         return NyaNyaLocalizations.of(context).runAwayObjectiveText;
 
-      case ChallengeType.LunchTime:
+      case ChallengeType.lunchTime:
         return NyaNyaLocalizations.of(context).lunchTimeObjectiveText;
 
-      case ChallengeType.OneHundredMice:
+      case ChallengeType.oneHundredMice:
         return NyaNyaLocalizations.of(context).oneHundredMiceObjectiveText;
 
       default:
@@ -99,30 +107,11 @@ class _ChallengeState extends State<Challenge> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.challenge.name),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Settings()));
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.help_outline),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Tutorial()));
-            },
-          )
-        ],
+        actions: const [SettingsAction(), GuideAction()],
       ),
       body: Stack(
         fit: StackFit.expand,
-        children: <Widget>[
+        children: [
           OrientationBuilder(
             builder: (BuildContext _, Orientation orientation) {
               if (orientation == Orientation.portrait) {
@@ -152,7 +141,7 @@ class _ChallengeState extends State<Challenge> {
   Widget _buildPortrait() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
+      children: [
         Text(
           _objectiveText(context),
           textAlign: TextAlign.center,
@@ -160,7 +149,7 @@ class _ChallengeState extends State<Challenge> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
+          children: [
             _buildElapsedTime(),
             _buildBestTime(),
             _buildTargetCount(),
@@ -176,10 +165,10 @@ class _ChallengeState extends State<Challenge> {
   Widget _buildLandscape() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
+      children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
+          children: [
             _buildElapsedTime(),
             _buildBestTime(),
             _buildTargetCount(),
@@ -200,37 +189,40 @@ class _ChallengeState extends State<Challenge> {
       elevation: 8.0,
       child: AspectRatio(
           aspectRatio: 12.0 / 9.0,
-          child: InputGridOverlay<Direction>(
+          child: DraggableArrowGrid<DraggedArrowData>(
             child: AnimatedGameView(
               game: _challengeController.gameStream,
               mistake: _challengeController.mistake,
             ),
-            onDrop: _handleSwipeAndDrop,
-            onSwipe: _handleSwipeAndDrop,
+            onDrop: _handleDrop,
+            onSwipe: _handleSwipe,
             previewBuilder: _dragTileBuilder,
+            onWillAccept: _handleOnWillAccept,
           )),
     );
   }
 
   Widget _buildElapsedTime() {
-    return ValueListenableBuilder<Duration>(
-        valueListenable: _challengeController.timeStream,
-        builder: (context, remaining, snapshot) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Countdown(
-                remaining: remaining,
-                color: _challengeController.remainingTime == Duration.zero
-                    ? Colors.red
-                    : null),
-          );
-        });
+    return RepaintBoundary(
+      child: ValueListenableBuilder<Duration>(
+          valueListenable: _challengeController.timeStream,
+          builder: (context, remaining, snapshot) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Countdown(
+                  remaining: remaining,
+                  color: _challengeController.remainingTime == Duration.zero
+                      ? Colors.red
+                      : null),
+            );
+          }),
+    );
   }
 
   Widget _buildTargetCount() {
     return ValueListenableBuilder<int>(
         valueListenable: _challengeController.scoreStream,
-        builder: (BuildContext context, int value, _) {
+        builder: (BuildContext context, int value, Widget? child) {
           return Text(
             '$value / ${_challengeController.targetScore}',
             style: Theme.of(context).textTheme.headline6,
@@ -279,5 +271,9 @@ class _ChallengeState extends State<Challenge> {
             });
           }),
     );
+  }
+
+  bool _handleOnWillAccept(int x, int y, Direction? arrowDirection) {
+    return _challengeController.game.board.tiles[x][y] is Empty;
   }
 }

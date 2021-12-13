@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:wifi_info_flutter/wifi_info_flutter.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/multiplayer_board.dart';
@@ -9,11 +9,13 @@ import 'package:nyanya_rocket/screens/multiplayer/screens/network_multiplayer.da
 import 'package:nyanya_rocket/screens/multiplayer/setup_widgets/board_picker.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
+import '../../../config.dart';
+
 class LanMultiplayerSetup extends StatefulWidget {
   static final RegExp hostnameMatcher = RegExp(
       r'^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$');
 
-  LanMultiplayerSetup({Key? key}) : super(key: key);
+  const LanMultiplayerSetup({Key? key}) : super(key: key);
 
   @override
   _LanMultiplayerSetupState createState() => _LanMultiplayerSetupState();
@@ -25,25 +27,26 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   String _hostname = '10.0.2.2';
 
   int _playerCount = 2;
-  Duration _duration = Duration(minutes: 3);
+  Duration _duration = const Duration(minutes: 3);
 
   static Isolate? _serverIsolate;
   final _formKey = GlobalKey<FormState>();
 
   MultiplayerBoard? _board;
 
-  FocusNode _nicknameFocusNode = FocusNode();
-  FocusNode _hostnameFocusNode = FocusNode();
+  final FocusNode _nicknameFocusNode = FocusNode();
+  final FocusNode _hostnameFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
 
-    WifiInfo().getWifiIP().then((String? ip) {
+    NetworkInfo().getWifiIP().then((String? ip) {
       if (mounted) {
         setState(() {
-          if (ip != null)
+          if (ip != null) {
             _localIpText = NyaNyaLocalizations.of(context).thisDeviceIpText(ip);
+          }
         });
       }
     });
@@ -61,186 +64,197 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('LAN Multiplayer'),
+        title: const Text('LAN Multiplayer'),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(8.0),
-        children: <Widget>[
-          Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  focusNode: _nicknameFocusNode,
-                  decoration: InputDecoration(
-                      labelText: NyaNyaLocalizations.of(context).nicknameLabel),
-                  maxLength: 16,
-                  textInputAction: TextInputAction.next,
-                  textCapitalization: TextCapitalization.words,
-                  onSaved: (String? value) => _nickname = value ?? _nickname,
-                  onFieldSubmitted: (term) {
-                    _nicknameFocusNode.unfocus();
-                    FocusScope.of(context).requestFocus(_hostnameFocusNode);
-                  },
-                  validator: (String? value) {
-                    if (value != null && value.isEmpty) {
-                      return NyaNyaLocalizations.of(context)
-                          .invalidNicknameText;
-                    }
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: kMaxWidthForBigScreens),
+          child: ListView(
+            padding: const EdgeInsets.all(8.0),
+            children: [
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      focusNode: _nicknameFocusNode,
+                      decoration: InputDecoration(
+                          labelText:
+                              NyaNyaLocalizations.of(context).nicknameLabel),
+                      maxLength: 16,
+                      textInputAction: TextInputAction.next,
+                      textCapitalization: TextCapitalization.words,
+                      onSaved: (String? value) =>
+                          _nickname = value ?? _nickname,
+                      onFieldSubmitted: (term) {
+                        _nicknameFocusNode.unfocus();
+                        FocusScope.of(context).requestFocus(_hostnameFocusNode);
+                      },
+                      validator: (String? value) {
+                        if (value != null && value.isEmpty) {
+                          return NyaNyaLocalizations.of(context)
+                              .invalidNicknameText;
+                        }
 
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  focusNode: _hostnameFocusNode,
-                  initialValue: _hostname,
-                  decoration: InputDecoration(
-                    labelText: NyaNyaLocalizations.of(context).hostnameLabel,
-                  ),
-                  onSaved: (String? value) => _hostname = value ?? _hostname,
-                  validator: (String? value) {
-                    if (value == null ||
-                        !LanMultiplayerSetup.hostnameMatcher.hasMatch(value)) {
-                      return NyaNyaLocalizations.of(context)
-                          .invalidHostnameText;
-                    }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      focusNode: _hostnameFocusNode,
+                      initialValue: _hostname,
+                      decoration: InputDecoration(
+                        labelText:
+                            NyaNyaLocalizations.of(context).hostnameLabel,
+                      ),
+                      onSaved: (String? value) =>
+                          _hostname = value ?? _hostname,
+                      validator: (String? value) {
+                        if (value == null ||
+                            !LanMultiplayerSetup.hostnameMatcher
+                                .hasMatch(value)) {
+                          return NyaNyaLocalizations.of(context)
+                              .invalidHostnameText;
+                        }
 
-                    return null;
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    child: Text(NyaNyaLocalizations.of(context).playLabel),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
+                        return null;
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        child: Text(NyaNyaLocalizations.of(context).playLabel),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
 
-                        InternetAddress.lookup(_hostname,
-                                type: InternetAddressType.IPv4)
-                            .then((List<InternetAddress> result) {
-                          if (result.length > 0) {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        NetworkMultiplayer(
-                                            nickname: _nickname,
-                                            serverAddress: result[0],
-                                            port: 43122)))
-                                .then((dynamic) {
-                              _LanMultiplayerSetupState._serverIsolate?.kill();
+                            InternetAddress.lookup(_hostname,
+                                    type: InternetAddressType.IPv4)
+                                .then((List<InternetAddress> result) {
+                              if (result.isNotEmpty) {
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            NetworkMultiplayer(
+                                                nickname: _nickname,
+                                                serverAddress: result[0],
+                                                port: 43122)))
+                                    .then((dynamic) {
+                                  _LanMultiplayerSetupState._serverIsolate
+                                      ?.kill();
+                                });
+                              }
                             });
                           }
-                        });
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Text(
-            _localIpText,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 25),
-          ),
-          Divider(),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: DropdownButton<Duration>(
-                  value: _duration,
-                  items: <DropdownMenuItem<Duration>>[
-                    DropdownMenuItem(
-                      child: Text(
-                          NyaNyaLocalizations.of(context).minuteCountLabel(2)),
-                      value: Duration(minutes: 2),
-                    ),
-                    DropdownMenuItem(
-                      child: Text(
-                          NyaNyaLocalizations.of(context).minuteCountLabel(3)),
-                      value: Duration(minutes: 3),
-                    ),
-                    DropdownMenuItem(
-                      child: Text(
-                          NyaNyaLocalizations.of(context).minuteCountLabel(4)),
-                      value: Duration(minutes: 4),
-                    ),
-                    DropdownMenuItem(
-                      child: Text(
-                          NyaNyaLocalizations.of(context).minuteCountLabel(5)),
-                      value: Duration(minutes: 5),
+                        },
+                      ),
                     ),
                   ],
-                  onChanged: (Duration? value) => setState(() {
-                    _duration = value ?? _duration;
-                  }),
                 ),
               ),
-              VerticalDivider(),
-              Expanded(
-                child: DropdownButton<int>(
-                  value: _playerCount,
-                  items: <DropdownMenuItem<int>>[
-                    DropdownMenuItem(
-                      child: Text(
-                          NyaNyaLocalizations.of(context).playerCountLabel(1)),
-                      value: 1,
+              Text(
+                _localIpText,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 25),
+              ),
+              const Divider(),
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButton<Duration>(
+                      value: _duration,
+                      items: <DropdownMenuItem<Duration>>[
+                        DropdownMenuItem(
+                          child: Text(NyaNyaLocalizations.of(context)
+                              .minuteCountLabel(2)),
+                          value: const Duration(minutes: 2),
+                        ),
+                        DropdownMenuItem(
+                          child: Text(NyaNyaLocalizations.of(context)
+                              .minuteCountLabel(3)),
+                          value: const Duration(minutes: 3),
+                        ),
+                        DropdownMenuItem(
+                          child: Text(NyaNyaLocalizations.of(context)
+                              .minuteCountLabel(4)),
+                          value: const Duration(minutes: 4),
+                        ),
+                        DropdownMenuItem(
+                          child: Text(NyaNyaLocalizations.of(context)
+                              .minuteCountLabel(5)),
+                          value: const Duration(minutes: 5),
+                        ),
+                      ],
+                      onChanged: (Duration? value) => setState(() {
+                        _duration = value ?? _duration;
+                      }),
                     ),
-                    DropdownMenuItem(
-                      child: Text(
-                          NyaNyaLocalizations.of(context).playerCountLabel(2)),
-                      value: 2,
+                  ),
+                  const VerticalDivider(),
+                  Expanded(
+                    child: DropdownButton<int>(
+                      value: _playerCount,
+                      items: <DropdownMenuItem<int>>[
+                        DropdownMenuItem(
+                          child: Text(NyaNyaLocalizations.of(context)
+                              .playerCountLabel(1)),
+                          value: 1,
+                        ),
+                        DropdownMenuItem(
+                          child: Text(NyaNyaLocalizations.of(context)
+                              .playerCountLabel(2)),
+                          value: 2,
+                        ),
+                        DropdownMenuItem(
+                          child: Text(NyaNyaLocalizations.of(context)
+                              .playerCountLabel(3)),
+                          value: 3,
+                        ),
+                        DropdownMenuItem(
+                          child: Text(NyaNyaLocalizations.of(context)
+                              .playerCountLabel(4)),
+                          value: 4,
+                        ),
+                      ],
+                      onChanged: (int? value) => setState(() {
+                        _playerCount = value ?? _playerCount;
+                      }),
                     ),
-                    DropdownMenuItem(
-                      child: Text(
-                          NyaNyaLocalizations.of(context).playerCountLabel(3)),
-                      value: 3,
-                    ),
-                    DropdownMenuItem(
-                      child: Text(
-                          NyaNyaLocalizations.of(context).playerCountLabel(4)),
-                      value: 4,
-                    ),
-                  ],
-                  onChanged: (int? value) => setState(() {
-                    _playerCount = value ?? _playerCount;
-                  }),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 150,
+                child: BoardPicker(
+                  onChanged: (MultiplayerBoard board) {
+                    setState(() {
+                      _board = board;
+                    });
+                  },
+                ),
+              ),
+              Center(
+                child: ElevatedButton(
+                  child: Text(NyaNyaLocalizations.of(context).createLabel),
+                  onPressed: _board == null
+                      ? null
+                      : () {
+                          _LanMultiplayerSetupState._serverIsolate?.kill();
+
+                          Isolate.spawn<_ArgumentBundle>(
+                                  _LanMultiplayerSetupState.serverEntryPoint,
+                                  _ArgumentBundle(
+                                      _board!.board(), _playerCount))
+                              .then((Isolate isolate) =>
+                                  _LanMultiplayerSetupState._serverIsolate =
+                                      isolate);
+
+                          _hostname = '10.0.2.2';
+                        },
                 ),
               ),
             ],
           ),
-          Container(
-            height: 150,
-            child: BoardPicker(
-              onChanged: (MultiplayerBoard board) {
-                setState(() {
-                  _board = board;
-                });
-              },
-            ),
-          ),
-          Container(
-            child: Center(
-              child: ElevatedButton(
-                child: Text(NyaNyaLocalizations.of(context).createLabel),
-                onPressed: _board == null
-                    ? null
-                    : () {
-                        _LanMultiplayerSetupState._serverIsolate?.kill();
-
-                        Isolate.spawn<_ArgumentBundle>(
-                                _LanMultiplayerSetupState.serverEntryPoint,
-                                _ArgumentBundle(_board!.board(), _playerCount))
-                            .then((Isolate isolate) => _LanMultiplayerSetupState
-                                ._serverIsolate = isolate);
-
-                        _hostname = '10.0.2.2';
-                      },
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

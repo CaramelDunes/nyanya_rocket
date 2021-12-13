@@ -1,4 +1,3 @@
-
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 
@@ -15,5 +14,5 @@ class CommunityPuzzleData extends NamedPuzzleData {
     required this.likes,
     required PuzzleData puzzleData,
     required this.date,
-  }) : super.fromPuzzleData(name: name, puzzleData: puzzleData);
+  }) : super(name: name, puzzleData: puzzleData);
 }

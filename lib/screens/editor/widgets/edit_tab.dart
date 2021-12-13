@@ -9,15 +9,17 @@ import 'package:nyanya_rocket/screens/editor/screens/challenge_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/multiplayer_editor.dart';
 import 'package:nyanya_rocket/screens/editor/screens/puzzle_editor.dart';
 import 'package:nyanya_rocket/screens/editor/widgets/name_field.dart';
-import 'package:nyanya_rocket/widgets/empty_list.dart';
+import 'package:nyanya_rocket/widgets/layout/empty_list.dart';
 
 import '../../../models/stores/puzzle_store.dart';
 import '../../../models/stores/multiplayer_store.dart';
 import '../../../models/stores/challenge_store.dart';
 
-enum EditorMode { Puzzle, Challenge, Multiplayer }
+enum EditorMode { puzzle, challenge, multiplayer }
 
 class EditTab extends StatefulWidget {
+  const EditTab({Key? key}) : super(key: key);
+
   @override
   _EditTabState createState() => _EditTabState();
 }
@@ -27,7 +29,7 @@ class _EditTabState extends State<EditTab> {
   Map<String, String> _challenges = HashMap();
   Map<String, String> _multiplayerBoards = HashMap();
   String? name;
-  EditorMode _mode = EditorMode.Puzzle;
+  EditorMode _mode = EditorMode.puzzle;
 
   @override
   void initState() {
@@ -64,7 +66,7 @@ class _EditTabState extends State<EditTab> {
               },
             ),
           ),
-          actions: <Widget>[
+          actions: [
             TextButton(
               child: Text(NyaNyaLocalizations.of(context).accept.toUpperCase()),
               onPressed: () {
@@ -89,15 +91,15 @@ class _EditTabState extends State<EditTab> {
         Map<String, String> activeRegistry;
 
         switch (_mode) {
-          case EditorMode.Puzzle:
+          case EditorMode.puzzle:
             renameFunction = PuzzleStore.rename;
             activeRegistry = _puzzles;
             break;
-          case EditorMode.Challenge:
+          case EditorMode.challenge:
             renameFunction = ChallengeStore.rename;
             activeRegistry = _challenges;
             break;
-          case EditorMode.Multiplayer:
+          case EditorMode.multiplayer:
             renameFunction = MultiplayerStore.rename;
             activeRegistry = _multiplayerBoards;
             break;
@@ -116,19 +118,19 @@ class _EditTabState extends State<EditTab> {
     List<String> uuidList = _puzzles.keys.toList().reversed.toList();
 
     if (uuidList.isEmpty) {
-      return Center(child: EmptyList());
+      return const Center(child: EmptyList());
     }
 
     return ListView.separated(
-        separatorBuilder: (context, int) => Divider(),
+        separatorBuilder: (context, index) => const Divider(),
         itemCount: _puzzles.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(_puzzles[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                children: [
                   IconButton(
-                    icon: Icon(Icons.text_format),
+                    icon: const Icon(Icons.text_format),
                     onPressed: () {
                       _showNameChangeDialog(context, uuidList[i]);
                     },
@@ -143,28 +145,29 @@ class _EditTabState extends State<EditTab> {
 //                    },
 //                  ),
                   IconButton(
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     onPressed: () {
-                      PuzzleStore.deletePuzzle(uuidList[i]).then((bool result) {
-                        if (result) // FIXME Handle failure.
+                      PuzzleStore.delete(uuidList[i]).then((bool result) {
+                        if (result) {
                           setState(() {
                             _puzzles.remove(uuidList[i]);
                           });
+                        }
                       });
                     },
                   ),
                 ],
               ),
               onTap: () {
-                PuzzleStore.readPuzzle(uuidList[i])
-                    .then((NamedPuzzleData? puzzle) {
-                  if (puzzle != null)
+                PuzzleStore.read(uuidList[i]).then((NamedPuzzleData? puzzle) {
+                  if (puzzle != null) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             PuzzleEditor(puzzle: puzzle, uuid: uuidList[i])));
-                  else
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Couldn\'t read puzzle data.')));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Couldn\'t read puzzle data.')));
+                  }
                 });
               },
             ));
@@ -174,19 +177,19 @@ class _EditTabState extends State<EditTab> {
     List<String> uuidList = _challenges.keys.toList();
 
     if (uuidList.isEmpty) {
-      return Center(child: EmptyList());
+      return const Center(child: EmptyList());
     }
 
     return ListView.separated(
-        separatorBuilder: (context, int) => Divider(),
+        separatorBuilder: (context, index) => const Divider(),
         itemCount: _challenges.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(_challenges[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                children: [
                   IconButton(
-                    icon: Icon(Icons.text_format),
+                    icon: const Icon(Icons.text_format),
                     onPressed: () {
                       _showNameChangeDialog(context, uuidList[i]);
                     },
@@ -201,21 +204,22 @@ class _EditTabState extends State<EditTab> {
 //                    },
 //                  ),
                   IconButton(
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     onPressed: () {
-                      ChallengeStore.deleteChallenge(uuidList[i])
+                      ChallengeStore.delete(uuidList[i])
                           .then((bool result) => setState(() {}));
                     },
                   ),
                 ],
               ),
               onTap: () {
-                ChallengeStore.readChallenge(uuidList[i])
+                ChallengeStore.read(uuidList[i])
                     .then((NamedChallengeData? challenge) {
-                  if (challenge != null)
+                  if (challenge != null) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ChallengeEditor(
                             challenge: challenge, uuid: uuidList[i])));
+                  }
                 });
               },
             ));
@@ -225,19 +229,19 @@ class _EditTabState extends State<EditTab> {
     List<String> uuidList = _multiplayerBoards.keys.toList();
 
     if (uuidList.isEmpty) {
-      return Center(child: EmptyList());
+      return const Center(child: EmptyList());
     }
 
     return ListView.separated(
-        separatorBuilder: (context, int) => Divider(),
+        separatorBuilder: (context, index) => const Divider(),
         itemCount: _multiplayerBoards.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(_multiplayerBoards[uuidList[i]]!),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                children: [
                   IconButton(
-                    icon: Icon(Icons.text_format),
+                    icon: const Icon(Icons.text_format),
                     onPressed: () {
                       _showNameChangeDialog(context, uuidList[i]);
                     },
@@ -252,21 +256,22 @@ class _EditTabState extends State<EditTab> {
 //                    },
 //                  ),
                   IconButton(
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     onPressed: () {
-                      MultiplayerStore.deleteBoard(uuidList[i])
+                      MultiplayerStore.delete(uuidList[i])
                           .then((bool result) => setState(() {}));
                     },
                   ),
                 ],
               ),
               onTap: () {
-                MultiplayerStore.readBoard(uuidList[i])
+                MultiplayerStore.read(uuidList[i])
                     .then((MultiplayerBoard? board) {
-                  if (board != null)
+                  if (board != null) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => MultiplayerEditor(
                             board: board, uuid: uuidList[i])));
+                  }
                 });
               },
             ));
@@ -275,7 +280,7 @@ class _EditTabState extends State<EditTab> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: DropdownButton<EditorMode>(
@@ -284,15 +289,15 @@ class _EditTabState extends State<EditTab> {
             items: <DropdownMenuItem<EditorMode>>[
               DropdownMenuItem(
                 child: Text(NyaNyaLocalizations.of(context).puzzleType),
-                value: EditorMode.Puzzle,
+                value: EditorMode.puzzle,
               ),
               DropdownMenuItem(
                 child: Text(NyaNyaLocalizations.of(context).challengeType),
-                value: EditorMode.Challenge,
+                value: EditorMode.challenge,
               ),
               DropdownMenuItem(
                 child: Text(NyaNyaLocalizations.of(context).multiplayerType),
-                value: EditorMode.Multiplayer,
+                value: EditorMode.multiplayer,
               ),
             ],
             onChanged: (EditorMode? value) => setState(() {
@@ -301,9 +306,9 @@ class _EditTabState extends State<EditTab> {
           ),
         ),
         Expanded(
-            child: _mode == EditorMode.Puzzle
+            child: _mode == EditorMode.puzzle
                 ? _puzzleListView()
-                : _mode == EditorMode.Challenge
+                : _mode == EditorMode.challenge
                     ? _challengeListView()
                     : _multiplayerBoardsListView()),
       ],

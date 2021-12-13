@@ -7,7 +7,7 @@ import 'puzzle.dart';
 class LoadingPuzzle extends StatelessWidget {
   final Future<CommunityPuzzleData> futurePuzzle;
 
-  LoadingPuzzle({Key? key, required this.futurePuzzle}) : super(key: key);
+  const LoadingPuzzle({Key? key, required this.futurePuzzle}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

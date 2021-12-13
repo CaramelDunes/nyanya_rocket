@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/models/user.dart';
 import '../account_management.dart';
 
 class DisplayNameChangeDialog extends StatefulWidget {
-  final String initialValue;
+  final String? initialValue;
   final User user;
 
   const DisplayNameChangeDialog(
@@ -28,14 +28,14 @@ class _DisplayNameChangeDialogState extends State<DisplayNameChangeDialog> {
       contentPadding: const EdgeInsets.all(16.0),
       title: Text(NyaNyaLocalizations.of(context).displayNameDialogTitle),
       content: _loading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
               widthFactor: 1,
               heightFactor: 1,
             )
           : Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: [
                 Form(
                   key: _formKey,
                   child: TextFormField(
@@ -60,36 +60,37 @@ class _DisplayNameChangeDialogState extends State<DisplayNameChangeDialog> {
                 ),
               ],
             ),
-      actions: <Widget>[
+      actions: [
         TextButton(
             child: Text(NyaNyaLocalizations.of(context).cancel.toUpperCase()),
             onPressed: () {
               Navigator.pop(context);
             }),
-        TextButton(
-            child: Text(
-                NyaNyaLocalizations.of(context).confirmLabel.toUpperCase()),
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
+        if (!_loading)
+          TextButton(
+              child: Text(
+                  NyaNyaLocalizations.of(context).confirmLabel.toUpperCase()),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
 
-                if (_displayName != null) {
-                  setState(() {
-                    _loading = true;
-                  });
+                  if (_displayName != null) {
+                    setState(() {
+                      _loading = true;
+                    });
 
-                  widget.user.setDisplayName(_displayName!).then((success) {
-                    if (success) {
-                      Navigator.pop(context, _displayName);
-                    } else {
-                      setState(() {
-                        _loading = false;
-                      });
-                    }
-                  });
+                    widget.user.setDisplayName(_displayName!).then((success) {
+                      if (success) {
+                        Navigator.pop(context, _displayName);
+                      } else {
+                        setState(() {
+                          _loading = false;
+                        });
+                      }
+                    });
+                  }
                 }
-              }
-            })
+              })
       ],
     );
   }

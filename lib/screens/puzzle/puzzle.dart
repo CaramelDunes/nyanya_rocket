@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
-import 'package:nyanya_rocket/screens/puzzle/puzzle_game_controller.dart';
-import 'package:nyanya_rocket/screens/puzzle/widgets/available_arrows.dart';
-import 'package:nyanya_rocket/screens/puzzle/widgets/puzzle_game_controls.dart';
-import 'package:nyanya_rocket/screens/settings/settings.dart';
-import 'package:nyanya_rocket/screens/tutorial/tutorial.dart';
-import 'package:nyanya_rocket/widgets/arrow_image.dart';
-import 'package:nyanya_rocket/widgets/game_view/animated_game_view.dart';
-import 'package:nyanya_rocket/widgets/input_grid_overlay.dart';
-import 'package:nyanya_rocket/widgets/success_overlay.dart';
+import 'package:nyanya_rocket/widgets/navigation/guide_action.dart';
+import 'package:nyanya_rocket/widgets/navigation/settings_action.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../models/named_puzzle_data.dart';
+import '../../routing/nyanya_route_path.dart';
+import '../../widgets/input/draggable_arrow_grid.dart';
+import '../../widgets/board/animated_game_view.dart';
+import '../../widgets/board/tiles/arrow_image.dart';
+import '../../widgets/game/success_overlay.dart';
+import 'puzzle_game_controller.dart';
+import 'widgets/available_arrows.dart';
+import 'widgets/draggable_arrow.dart';
+import 'widgets/puzzle_game_controls.dart';
 
 class Puzzle extends StatefulWidget {
   final NamedPuzzleData puzzle;
@@ -18,11 +20,13 @@ class Puzzle extends StatefulWidget {
   final String? documentPath;
   final NyaNyaRoutePath? nextRoutePath;
 
-  Puzzle(
-      {required this.puzzle,
+  const Puzzle(
+      {Key? key,
+      required this.puzzle,
       this.nextRoutePath,
       this.onWin,
-      this.documentPath});
+      this.documentPath})
+      : super(key: key);
 
   @override
   _PuzzleState createState() => _PuzzleState();
@@ -31,13 +35,15 @@ class Puzzle extends StatefulWidget {
 class _PuzzleState extends State<Puzzle> {
   late PuzzleGameController _puzzleController;
   bool _ended = false;
+  final List<ValueNotifier<int>> _draggedArrowCount =
+      List.generate(4, (_) => ValueNotifier(0), growable: false);
 
   @override
   void initState() {
     super.initState();
 
-    _puzzleController = PuzzleGameController(
-        puzzle: widget.puzzle.puzzleData, onWin: _handleWin);
+    _puzzleController =
+        PuzzleGameController(puzzle: widget.puzzle.data, onWin: _handleWin);
   }
 
   @override
@@ -51,7 +57,11 @@ class _PuzzleState extends State<Puzzle> {
     _puzzleController.removeArrow(x, y);
   }
 
-  void _handleDropAndSwipe(int x, int y, Direction direction) {
+  void _handleDrop(int x, int y, DraggedArrowData arrow) {
+    _puzzleController.placeArrow(x, y, arrow.direction);
+  }
+
+  void _handleSwipe(int x, int y, Direction direction) {
     _puzzleController.placeArrow(x, y, direction);
   }
 
@@ -70,17 +80,25 @@ class _PuzzleState extends State<Puzzle> {
     }
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,
-      List rejectedData, int x, int y) {
+  Widget _dragTileBuilder(BuildContext context,
+      List<DraggedArrowData?> candidateData, List rejectedData, int x, int y) {
     if (_puzzleController.game.board.tiles[x][y] is Arrow) {
-      return Draggable<Direction>(
-          maxSimultaneousDrags: 1,
-          onDragStarted: () {
-            _puzzleController.removeArrow(x, y);
-          },
-          child: Container(color: Colors.transparent),
-          feedback: const SizedBox.shrink(),
-          data: (_puzzleController.game.board.tiles[x][y] as Arrow).direction);
+      final Direction arrowDirection =
+          (_puzzleController.game.board.tiles[x][y] as Arrow).direction;
+      return ValueListenableBuilder<PuzzleGameState>(
+          valueListenable: _puzzleController.state,
+          builder: (context, value, __) {
+            return DraggableArrow(
+              maxSimultaneousDrags: value.reset ? 1 : 0,
+              data: DraggedArrowData(
+                  direction: arrowDirection, isOverBoard: true),
+              draggedCount: _draggedArrowCount[arrowDirection.index],
+              child: Container(color: Colors.transparent),
+              onDragStarted: () {
+                _puzzleController.removeArrow(x, y);
+              },
+            );
+          });
     }
 
     if (candidateData.isEmpty) {
@@ -88,9 +106,9 @@ class _PuzzleState extends State<Puzzle> {
     }
 
     return ArrowImage(
-      direction: candidateData.first!,
+      direction: candidateData.first!.direction,
       player: PlayerColor.Blue,
-      opaque: false,
+      isHalfTransparent: true,
     );
   }
 
@@ -98,12 +116,22 @@ class _PuzzleState extends State<Puzzle> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        _buildGameView(),
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: _buildGameView(),
+        ),
         Flexible(
-            child: AvailableArrows(puzzleGameController: _puzzleController)),
+            child: AvailableArrows(
+          direction: Axis.horizontal,
+          puzzleGameController: _puzzleController,
+          draggedArrowCounts: _draggedArrowCount,
+        )),
         Flexible(
-          child: PuzzleGameControls(puzzleController: _puzzleController),
+          child: PuzzleGameControls(
+            direction: Axis.horizontal,
+            puzzleController: _puzzleController,
+          ),
         )
       ],
     );
@@ -111,17 +139,23 @@ class _PuzzleState extends State<Puzzle> {
 
   Widget _buildLandscape() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
+      children: [
         Expanded(
-            child: PuzzleGameControls(puzzleController: _puzzleController)),
+            child: PuzzleGameControls(
+          direction: Axis.vertical,
+          puzzleController: _puzzleController,
+        )),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.all(8.0),
           child: _buildGameView(),
         ),
         Expanded(
-            child: AvailableArrows(puzzleGameController: _puzzleController)),
+            child: AvailableArrows(
+          direction: Axis.vertical,
+          puzzleGameController: _puzzleController,
+          draggedArrowCounts: _draggedArrowCount,
+        )),
       ],
     );
   }
@@ -131,30 +165,11 @@ class _PuzzleState extends State<Puzzle> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.puzzle.name),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Settings()));
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.help_outline),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => Tutorial()));
-            },
-          )
-        ],
+        actions: const [SettingsAction(), GuideAction()],
       ),
       body: Stack(
         fit: StackFit.passthrough,
-        children: <Widget>[
+        children: [
           OrientationBuilder(
             builder: (BuildContext context, Orientation orientation) {
               if (orientation == Orientation.portrait) {
@@ -187,16 +202,22 @@ class _PuzzleState extends State<Puzzle> {
       elevation: 8.0,
       child: AspectRatio(
           aspectRatio: 12.0 / 9.0,
-          child: InputGridOverlay<Direction>(
+          child: DraggableArrowGrid<DraggedArrowData>(
             child: AnimatedGameView(
               game: _puzzleController.gameStream,
               mistake: _puzzleController.mistake,
             ),
-            onDrop: _handleDropAndSwipe,
+            onDrop: _handleDrop,
+            onSwipe: _handleSwipe,
             onTap: _handleTap,
-            onSwipe: _handleDropAndSwipe,
             previewBuilder: _dragTileBuilder,
+            onWillAccept: _handleOnWillAccept,
           )),
     );
+  }
+
+  bool _handleOnWillAccept(int x, int y, Direction? draggedArrow) {
+    return _puzzleController.game.board.tiles[x][y] is Empty ||
+        _puzzleController.game.board.tiles[x][y] is Arrow;
   }
 }

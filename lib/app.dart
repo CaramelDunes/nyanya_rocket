@@ -1,48 +1,45 @@
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:nyanya_rocket/screens/challenges/challenge_progression_manager.dart';
-import 'package:nyanya_rocket/screens/puzzles/puzzle_progression_manager.dart';
-import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'routing/nyanya_route_information_parser.dart';
 import 'routing/nyanya_router_delegate.dart';
 import 'models/user.dart';
+import 'screens/challenges/challenge_progression_manager.dart';
+import 'screens/puzzles/puzzle_progression_manager.dart';
 import 'screens/settings/dark_mode.dart';
 import 'screens/settings/first_run.dart';
 import 'screens/settings/language.dart';
 import 'screens/settings/region.dart';
+import 'services/firestore/firestore_service.dart';
 
 class App extends StatefulWidget {
   static const List<Locale> supportedLocales = [
-    const Locale('en', ''),
-    const Locale('fr', ''),
-    const Locale('de', ''),
+    Locale('en'),
+    Locale('fr'),
+    Locale('de'),
   ];
 
-  static ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    primarySwatch: Colors.deepPurple,
-    accentColor: Colors.orangeAccent,
-    dividerTheme: DividerThemeData().copyWith(space: 8.0),
+  static final ThemeData lightTheme = ThemeData.from(
+    colorScheme: const ColorScheme.light(
+        primary: Colors.deepPurple, secondary: Colors.orangeAccent),
   );
 
-  static ThemeData lightTheme = ThemeData(
-    brightness: Brightness.light,
-    primarySwatch: Colors.deepPurple,
-    accentColor: Colors.orangeAccent,
-    dividerTheme: DividerThemeData().copyWith(space: 8.0),
+  static final ThemeData darkTheme = ThemeData.from(
+    colorScheme: const ColorScheme.dark(
+        primary: Colors.orange, secondary: Colors.deepPurpleAccent),
   );
 
   final SharedPreferences sharedPreferences;
-  final FirebaseService firebaseService;
+  final FirestoreService firestoreService;
 
   const App(
       {Key? key,
       required this.sharedPreferences,
-      required this.firebaseService})
+      required this.firestoreService})
       : super(key: key);
 
   @override
@@ -50,9 +47,9 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late final User _user = User(widget.firebaseService);
-  NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
-  NyaNyaRouteInformationParser _routeInformationParser =
+  late final User _user = User(auth.FirebaseAuth.instance);
+  final NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
+  final NyaNyaRouteInformationParser _routeInformationParser =
       NyaNyaRouteInformationParser();
 
   @override
@@ -80,20 +77,20 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(
             create: (_) =>
                 ChallengeProgressionManager(widget.sharedPreferences)),
-        Provider.value(value: widget.firebaseService)
+        Provider.value(value: widget.firestoreService)
       ],
       child: Consumer2<DarkMode, Language>(
         builder: (_, darkMode, language, __) {
           return MaterialApp.router(
-            localizationsDelegates: [
+            localizationsDelegates: const [
               AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
+              ...GlobalMaterialLocalizations.delegates,
             ],
             supportedLocales: App.supportedLocales,
             locale: language.value == 'auto' ? null : Locale(language.value),
             title: 'NyaNya Rocket!',
-            theme: darkMode.enabled ? App.darkTheme : App.lightTheme,
+            themeMode: darkMode.enabled ? ThemeMode.dark : ThemeMode.system,
+            theme: App.lightTheme,
             darkTheme: App.darkTheme,
             routerDelegate: _routerDelegate,
             routeInformationParser: _routeInformationParser,

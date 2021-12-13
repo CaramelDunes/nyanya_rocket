@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import '../../../localization/nyanya_localizations.dart';
+import '../../../widgets/board/entities/entity_painter.dart';
+import '../../../widgets/board/static_game_view.dart';
+import '../../../widgets/board/tiles/tile_painter.dart';
+import '../../../widgets/input/input_grid_overlay.dart';
 import '../edited_game.dart';
 import 'discard_confirmation_dialog.dart';
-import '../../../widgets/game_view/entities/entity_painter.dart';
-import '../../../widgets/game_view/static_game_view.dart';
-import '../../../widgets/game_view/tiles/tile_painter.dart';
-import '../../../widgets/input_grid_overlay.dart';
 
-enum ToolType { Tile, Entity, Wall }
+enum ToolType { tile, entity, wall }
 
 class EditorMenu {
   final List<EditorTool> subMenu;
@@ -34,12 +34,16 @@ class EditorPlacer extends StatefulWidget {
   final List<EditorMenu> menus;
   final VoidCallback onSave;
   final VoidCallback? onPlay;
+  final VoidCallback onUndo;
+  final VoidCallback onRedo;
 
   const EditorPlacer({
     Key? key,
     required this.editedGame,
     required this.menus,
     required this.onSave,
+    required this.onUndo,
+    required this.onRedo,
     this.onPlay,
   }) : super(key: key);
 
@@ -88,39 +92,42 @@ class _EditorPlacerState extends State<EditorPlacer> {
       return const SizedBox.shrink();
     }
 
-    if (tool.type == ToolType.Tile)
+    if (tool.type == ToolType.tile) {
       return TilePainter.widget(tool.tile!);
-    else if (tool.type == ToolType.Entity)
+    } else if (tool.type == ToolType.entity) {
       return EntityPainter.widget(tool.entityType!, tool.direction!);
-    else if (tool.type == ToolType.Wall)
+    } else if (tool.type == ToolType.wall) {
       return RotatedBox(
           quarterTurns: -tool.direction!.index,
           child: Image.asset('assets/graphics/wall.png'));
-    else {
+    } else {
       return const SizedBox.shrink();
     }
   }
 
   void _handleDrop(int x, int y, EditorTool selected) {
     switch (selected.type) {
-      case ToolType.Tile:
+      case ToolType.tile:
         widget.editedGame.clearTile(x, y);
         widget.editedGame.toggleTile(x, y, selected.tile!);
         break;
 
-      case ToolType.Entity:
+      case ToolType.entity:
         widget.editedGame.clearEntity(x, y);
         widget.editedGame
             .toggleEntity(x, y, selected.entityType!, selected.direction!);
         break;
 
-      case ToolType.Wall:
+      case ToolType.wall:
         widget.editedGame.toggleWall(x, y, selected.direction!);
         break;
 
       default:
         break;
     }
+
+    // TODO Use ValueListenableBuilder on the board.
+    setState(() {});
 
     _saved = false;
   }
@@ -129,22 +136,25 @@ class _EditorPlacerState extends State<EditorPlacer> {
     EditorTool selected = _currentTool();
 
     switch (selected.type) {
-      case ToolType.Tile:
+      case ToolType.tile:
         widget.editedGame.toggleTile(x, y, selected.tile!);
         break;
 
-      case ToolType.Entity:
+      case ToolType.entity:
         widget.editedGame
             .toggleEntity(x, y, selected.entityType!, selected.direction!);
         break;
 
-      case ToolType.Wall:
+      case ToolType.wall:
         widget.editedGame.toggleWall(x, y, selected.direction!);
         break;
 
       default:
         break;
     }
+
+    // TODO Use ValueListenableBuilder on the board.
+    setState(() {});
 
     _saved = false;
   }
@@ -159,7 +169,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
             direction: orientation == Orientation.portrait
                 ? Axis.vertical
                 : Axis.horizontal,
-            children: <Widget>[
+            children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AspectRatio(
@@ -179,7 +189,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
               ),
               Flexible(
                   child: Column(
-                children: <Widget>[
+                children: [
                   Expanded(
                       child: Row(
                     children:
@@ -188,8 +198,12 @@ class _EditorPlacerState extends State<EditorPlacer> {
                         child: Card(
                           color: _selected == i ? Colors.grey.shade300 : null,
                           child: InkWell(
-                            child: widget.menus[i].representative ??
-                                _toolView(widget.menus[i].subMenu[0]),
+                            child: Center(
+                                child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: widget.menus[i].representative ??
+                                  _toolView(widget.menus[i].subMenu[0]),
+                            )),
                             onTap: () {
                               setState(() {
                                 _selected = i;
@@ -204,7 +218,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Row(
-                      children: <Widget>[
+                      children: [
                         Visibility(
                           visible: widget.onPlay != null,
                           child: Expanded(
@@ -229,6 +243,12 @@ class _EditorPlacerState extends State<EditorPlacer> {
                                 }),
                           ),
                         ),
+                        IconButton(
+                            icon: const Icon(Icons.undo),
+                            onPressed: widget.onUndo),
+                        IconButton(
+                            icon: const Icon(Icons.redo),
+                            onPressed: widget.onRedo)
                       ],
                     ),
                   )
@@ -250,7 +270,11 @@ class _EditorPlacerState extends State<EditorPlacer> {
             child: Card(
               color: _subSelected[_selected] == i ? Colors.grey.shade300 : null,
               child: InkWell(
-                child: _toolView(widget.menus[_selected].subMenu[i]),
+                child: Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: _toolView(widget.menus[_selected].subMenu[i]),
+                )),
                 onTap: () {
                   setState(() {
                     _subSelected[_selected] = i;

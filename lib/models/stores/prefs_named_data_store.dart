@@ -15,11 +15,12 @@ class PrefsDataStore implements NamedDataStorage {
 
   PrefsDataStore(this.sharedPreferences);
 
+  @override
   Future<Map<String, String>> readRegistry(String storeName) async {
     List<String> contents =
         sharedPreferences.getStringList(_registryKey(storeName)) ?? [];
 
-    Map<String, String> registry = Map();
+    Map<String, String> registry = {};
 
     for (String entry in contents) {
       int separator = entry.indexOf(';');
@@ -37,6 +38,7 @@ class PrefsDataStore implements NamedDataStorage {
     return registry;
   }
 
+  @override
   Future<bool> writeRegistry(
       String storeName, Map<String, String> registry) async {
     return sharedPreferences.setStringList(
@@ -46,14 +48,17 @@ class PrefsDataStore implements NamedDataStorage {
             .toList());
   }
 
+  @override
   Future<bool> writeData(String storeName, String dataId, String data) async {
     return sharedPreferences.setString(_dataKey(storeName, dataId), data);
   }
 
+  @override
   Future<String?> readData(String storeName, String dataId) async {
     return sharedPreferences.getString(_dataKey(storeName, dataId));
   }
 
+  @override
   Future<bool> deleteData(String storeName, String dataId) async {
     return sharedPreferences.remove(_dataKey(storeName, dataId));
   }

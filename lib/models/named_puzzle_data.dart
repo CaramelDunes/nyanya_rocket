@@ -1,26 +1,23 @@
+import 'package:nyanya_rocket/models/named_data.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
-import 'package:slugify/slugify.dart';
 
-class NamedPuzzleData {
-  final String name;
-  final PuzzleData puzzleData;
+class NamedPuzzleData extends NamedData<PuzzleData> {
+  NamedPuzzleData({required String name, required PuzzleData puzzleData})
+      : super(name: name, data: puzzleData);
 
-  NamedPuzzleData(
-      {required this.name,
+  NamedPuzzleData.fromGameData(
+      {required String name,
       required String gameData,
       required List<int> availableArrows})
-      : puzzleData =
-            PuzzleData(gameData: gameData, availableArrows: availableArrows);
-
-  NamedPuzzleData.fromPuzzleData(
-      {required this.name, required this.puzzleData});
+      : this(
+            name: name,
+            puzzleData: PuzzleData.fromJsonGameData(
+                jsonGameData: gameData, availableArrows: availableArrows));
 
   static NamedPuzzleData fromJson(Map<String, dynamic> json) {
-    return NamedPuzzleData.fromPuzzleData(
+    return NamedPuzzleData(
         name: json['name'], puzzleData: PuzzleData.fromJson(json));
   }
 
-  Map<String, dynamic> toJson() => {'name': name}..addAll(puzzleData.toJson());
-
-  String get slug => slugify(name);
+  Map<String, dynamic> toJson() => {'name': name}..addAll(data.toJson());
 }

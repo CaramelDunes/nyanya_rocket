@@ -7,9 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/widgets/completion_indicator.dart';
-import 'package:nyanya_rocket/widgets/game_view/static_game_view.dart';
+import 'package:nyanya_rocket/widgets/navigation/completion_indicator.dart';
 
+import '../../../widgets/layout/board_card.dart';
+import '../../../widgets/layout/board_list.dart';
 import '../puzzle_progression_manager.dart';
 
 class OriginalPuzzles extends StatefulWidget {
@@ -124,6 +125,8 @@ class OriginalPuzzles extends StatefulWidget {
   static Map<String, int> slugs =
       puzzles.asMap().map((index, value) => MapEntry(value.slug, index));
 
+  const OriginalPuzzles({Key? key}) : super(key: key);
+
   @override
   _OriginalPuzzlesState createState() => _OriginalPuzzlesState();
 }
@@ -133,8 +136,48 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
   bool _showCompleted = true;
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    List<int> puzzleIndices =
+        Iterable<int>.generate(OriginalPuzzles.puzzles.length).toList();
+
+    final progression = context.watch<PuzzleProgressionManager>();
+    final cleared = progression.getCleared();
+    final starred = progression.getStarred();
+
+    if (!_showCompleted) {
+      puzzleIndices = SplayTreeSet<int>.from(puzzleIndices)
+          .difference(cleared)
+          .toList(growable: false);
+    }
+
+    return Column(
+      children: [
+        Expanded(
+          child: BoardList(
+            itemCount: puzzleIndices.length,
+            tileBuilder: (BuildContext context, int i) => _buildPuzzleTile(
+                puzzleIndices[i],
+                cleared.contains(puzzleIndices[i]),
+                starred.contains(puzzleIndices[i])),
+            cardBuilder: (BuildContext context, int i) => _buildPuzzleCard(
+                puzzleIndices[i], cleared.contains(puzzleIndices[i])),
+          ),
+        ),
+        CompletionIndicator(
+          showCompleted: _showCompleted,
+          completedRatio: cleared.length / OriginalPuzzles.puzzles.length,
+          onChanged: (bool? value) {
+            if (value != null) {
+              setState(() {
+                _showCompleted = value;
+              });
+            }
+          },
+        )
+      ],
+    );
   }
 
   void _openPuzzle(int puzzleIndex) {
@@ -159,30 +202,30 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
     }
   }
 
-  Widget _buildPuzzleTile(int i, Set<int> cleared, Set<int> starred) {
+  Widget _buildPuzzleTile(int i, bool cleared, bool starred) {
     return ListTile(
       key: ValueKey(i),
       leading: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Text(
           '${i + 1}',
-          style: TextStyle(fontSize: 15),
+          style: const TextStyle(fontSize: 15),
           textAlign: TextAlign.center,
         ),
       ),
       title: Text(OriginalPuzzles.puzzles[i].name),
       subtitle: Text(_difficultyFromIndex(context, i)),
-      trailing: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+      trailing: Row(mainAxisSize: MainAxisSize.min, children: [
         Visibility(
-          visible: starred.contains(i),
+          visible: starred,
           child: Icon(
             Icons.star,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
           ),
         ),
         Visibility(
-          visible: cleared.contains(i),
-          child: Icon(
+          visible: cleared,
+          child: const Icon(
             Icons.check,
             color: Colors.green,
           ),
@@ -194,116 +237,26 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-
-    List<int> puzzleIndices =
-        Iterable<int>.generate(OriginalPuzzles.puzzles.length).toList();
-
-    final progression = context.watch<PuzzleProgressionManager>();
-    final cleared = progression.getCleared();
-    final starred = progression.getStarred();
-
-    if (!_showCompleted) {
-      puzzleIndices = SplayTreeSet<int>.from(puzzleIndices)
-          .difference(cleared)
-          .toList(growable: false);
-    }
-
-    return Column(
-      children: [
-        Expanded(
-          child: OrientationBuilder(
-            builder: (BuildContext context, Orientation orientation) {
-              if (orientation == Orientation.landscape ||
-                  MediaQuery.of(context).size.width >= 270 * 2.5)
-                return _buildLandscape(context, puzzleIndices, cleared);
-              else
-                return _buildPortrait(puzzleIndices, cleared, starred);
-            },
-          ),
-        ),
-        CompletionIndicator(
-          showCompleted: _showCompleted,
-          completedRatio: cleared.length / OriginalPuzzles.puzzles.length,
-          onChanged: (bool? value) {
-            if (value != null) {
-              setState(() {
-                _showCompleted = value;
-              });
-            }
-          },
-        )
-      ],
-    );
-  }
-
-  Widget _buildPortrait(
-      List<int> puzzleIndices, Set<int> cleared, Set<int> starred) {
-    return ListView.builder(
-        itemCount: puzzleIndices.length,
-        itemBuilder: (context, i) =>
-            _buildPuzzleTile(puzzleIndices[i], cleared, starred));
-  }
-
-  Widget _buildLandscape(
-      BuildContext context, List<int> puzzleIndices, Set<int> cleared) {
-    return GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 270,
-        ),
-        itemCount: puzzleIndices.length,
-        itemBuilder: (context, i) =>
-            _buildPuzzleCard(puzzleIndices[i], cleared));
-  }
-
-  Widget _buildPuzzleCard(int i, Set<int> cleared) {
+  Widget _buildPuzzleCard(int i, bool cleared) {
     return InkWell(
       key: ValueKey(i),
-      child: Card(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: AspectRatio(
-                  aspectRatio: 12 / 9,
-                  child: Stack(
-                    children: [
-                      StaticGameView(
-                        game: OriginalPuzzles.puzzles[i].puzzleData.getGame(),
-                      ),
-                      Visibility(
-                        visible: cleared.contains(i),
-                        child: Container(
-                          color: Colors.black.withOpacity(0.5),
-                          child: Center(
-                            child: Icon(
-                              Icons.check,
-                              color: Colors.green,
-                              size: 150,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )),
-            Text(
-              OriginalPuzzles.puzzles[i].name,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(_difficultyFromIndex(context, i))
-          ],
-        ),
+      child: BoardCard(
+        cleared: cleared,
+        game: OriginalPuzzles.puzzles[i].data.getGame(),
+        description: [
+          Text(
+            OriginalPuzzles.puzzles[i].name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(_difficultyFromIndex(context, i))
+        ],
       ),
       onTap: () {
         _openPuzzle(i);
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

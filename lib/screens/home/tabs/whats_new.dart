@@ -4,11 +4,15 @@ import 'package:intl/intl.dart';
 import 'package:nyanya_rocket/localization/nyanya_localizations.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/settings/first_run.dart';
-import 'package:nyanya_rocket/services/firebase/firebase_service.dart';
 import 'package:provider/provider.dart';
+
+import '../../../services/firestore/firestore_service.dart';
+import '../../tutorial/tutorial.dart';
 
 class WhatsNew extends StatelessWidget {
   static Set<String> availableLocales = {'en', 'fr'};
+
+  const WhatsNew({Key? key}) : super(key: key);
 
   // static Future<QuerySnapshot> news = FirebaseFirestore.instance
   //     .collection('articles_${articleLocale()}')
@@ -33,7 +37,7 @@ class WhatsNew extends StatelessWidget {
 
   Widget _buildPortrait(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         Visibility(
           visible: Provider.of<FirstRun>(context).enabled,
           child: Dismissible(
@@ -43,7 +47,7 @@ class WhatsNew extends StatelessWidget {
             },
             child: Card(
               child: Column(
-                children: <Widget>[
+                children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -57,9 +61,11 @@ class WhatsNew extends StatelessWidget {
                         NyaNyaLocalizations.of(context).firstTimeButtonLabel),
                     onPressed: () {
                       _dismissWelcomeCard(context);
-                      Router.of(context)
-                          .routerDelegate
-                          .setNewRoutePath(NyaNyaRoutePath.guide());
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const Tutorial()));
                     },
                   )
                 ],
@@ -67,21 +73,20 @@ class WhatsNew extends StatelessWidget {
             ),
           ),
         ),
+        Expanded(child: _buildNews(context)),
         Padding(
           padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 0),
           child: Row(
             children: _buildShortcutList(context, Axis.vertical),
           ),
         ),
-        Divider(),
-        Expanded(child: _buildNews(context)),
       ],
     );
   }
 
   Widget _buildLandscape(BuildContext context) {
     return Row(
-      children: <Widget>[
+      children: [
         Expanded(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 0),
@@ -91,7 +96,7 @@ class WhatsNew extends StatelessWidget {
             ),
           ),
         ),
-        VerticalDivider(),
+        const VerticalDivider(),
         Expanded(
           flex: 2,
           child: Padding(
@@ -110,21 +115,21 @@ class WhatsNew extends StatelessWidget {
               context: context,
               faIcon: FontAwesomeIcons.puzzlePiece,
               name: NyaNyaLocalizations.of(context).puzzlesTitle,
-              routePath: NyaNyaRoutePath.puzzles(),
+              routePath: const NyaNyaRoutePath.originalPuzzles(),
               direction: direction)),
       Expanded(
           child: _buildShortcutCard(
               context: context,
               faIcon: FontAwesomeIcons.stopwatch,
               name: NyaNyaLocalizations.of(context).challengesTitle,
-              routePath: NyaNyaRoutePath.challenges(),
+              routePath: const NyaNyaRoutePath.originalChallenges(),
               direction: direction)),
       Expanded(
           child: _buildShortcutCard(
               context: context,
               faIcon: FontAwesomeIcons.gamepad,
               name: NyaNyaLocalizations.of(context).multiplayerTitle,
-              routePath: NyaNyaRoutePath.multiplayer(),
+              routePath: const NyaNyaRoutePath.multiplayer(),
               direction: direction))
     ];
   }
@@ -142,7 +147,7 @@ class WhatsNew extends StatelessWidget {
           child: Flex(
             direction: direction,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
+            children: [
               FaIcon(faIcon, size: 48),
               const SizedBox(height: 4.0),
               Text(
@@ -160,55 +165,58 @@ class WhatsNew extends StatelessWidget {
   }
 
   Widget _buildNews(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            SizedBox(width: 8.0),
-            Icon(Icons.new_releases),
-            SizedBox(width: 8.0),
-            Text(
-              NyaNyaLocalizations.of(context).newsLabel,
-              style: Theme.of(context).textTheme.headline5,
-            ),
-          ],
-        ),
-        Expanded(
-          child: ListView(
-            children: <Widget>[
-              FutureBuilder<List<Map<String, dynamic>>?>(
-                future:
-                    context.read<FirebaseService>().getNews(articleLocale()),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  }
-
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return Center(
-                          child: Text(
-                              NyaNyaLocalizations.of(context).loadingLabel));
-                    default:
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children:
-                            snapshot.data!.map((Map<String, dynamic> document) {
-                          return ListTile(
-                            title: Text(document['title']),
-                            trailing: Text(MaterialLocalizations.of(context)
-                                .formatShortDate(document['date'])),
-                          );
-                        }).toList(),
-                      );
-                  }
-                },
-              )
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              const SizedBox(width: 8.0),
+              const Icon(Icons.new_releases),
+              const SizedBox(width: 8.0),
+              Text(
+                NyaNyaLocalizations.of(context).newsLabel,
+                style: Theme.of(context).textTheme.headline5,
+              ),
             ],
           ),
-        ),
-      ],
+          Expanded(
+            child: ListView(
+              children: [
+                FutureBuilder<List<Map<String, dynamic>>?>(
+                  future:
+                      context.read<FirestoreService>().getNews(articleLocale()),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    }
+
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return Center(
+                            child: Text(
+                                NyaNyaLocalizations.of(context).loadingLabel));
+                      default:
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: snapshot.data!
+                              .map((Map<String, dynamic> document) {
+                            return ListTile(
+                              title: Text(document['title']),
+                              trailing: Text(MaterialLocalizations.of(context)
+                                  .formatShortDate(document['date'])),
+                            );
+                          }).toList(),
+                        );
+                    }
+                  },
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

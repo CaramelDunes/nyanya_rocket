@@ -14,10 +14,11 @@ class PuzzleEditor extends StatefulWidget {
   final NamedPuzzleData puzzle;
   final String? uuid;
 
-  PuzzleEditor({
+  const PuzzleEditor({
+    Key? key,
     required this.puzzle,
     this.uuid,
-  });
+  }) : super(key: key);
 
   @override
   _PuzzleEditorState createState() => _PuzzleEditorState();
@@ -32,11 +33,11 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   void initState() {
     super.initState();
 
-    _editedGame = EditedGame(game: widget.puzzle.puzzleData.getGame());
+    _editedGame = EditedGame(game: widget.puzzle.data.getGame());
 
     for (int direction = 0; direction < 4; direction++) {
       _initExistingArrows(Direction.values[direction],
-          widget.puzzle.puzzleData.availableArrows[direction]);
+          widget.puzzle.data.availableArrows[direction]);
     }
 
     _uuid = widget.uuid;
@@ -78,7 +79,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
         if (copy.tiles[x][y] is Arrow) {
           Arrow arrow = copy.tiles[x][y] as Arrow;
           availableArrows[arrow.direction.index]++;
-          copy.tiles[x][y] = Empty();
+          copy.tiles[x][y] = const Empty();
         }
       }
     }
@@ -86,7 +87,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     dynamic gameJson = _editedGame.game.toJson(); // TODO Cleaner way
     gameJson['board'] = copy.toJson();
 
-    return NamedPuzzleData(
+    return NamedPuzzleData.fromGameData(
         name: widget.puzzle.name,
         gameData: jsonEncode(gameJson),
         availableArrows: availableArrows);
@@ -110,16 +111,15 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     _saving = true;
 
     if (_uuid == null) {
-      PuzzleStore.saveNewPuzzle(_buildPuzzleData()).then((String? uuid) {
+      PuzzleStore.saveNew(_buildPuzzleData()).then((String? uuid) {
         if (uuid != null) {
-          this._uuid = uuid;
+          _uuid = uuid;
           print('Saved $uuid');
           _saving = false;
         } // TODO Handle failure.
       });
     } else {
-      PuzzleStore.updatePuzzle(_uuid!, _buildPuzzleData().puzzleData)
-          .then((bool status) {
+      PuzzleStore.update(_uuid!, _buildPuzzleData().data).then((bool status) {
         print('Updated $_uuid');
         _saving = false;
         // TODO Handle failure.
@@ -130,21 +130,7 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.puzzle.name),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.undo),
-              onPressed: () {
-                _editedGame.undo();
-              }),
-          IconButton(
-              icon: Icon(Icons.redo),
-              onPressed: () {
-                _editedGame.redo();
-              })
-        ],
-      ),
+      appBar: AppBar(title: Text(widget.puzzle.name)),
       resizeToAvoidBottomInset: false,
       body: OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
@@ -152,18 +138,20 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
             direction: orientation == Orientation.portrait
                 ? Axis.vertical
                 : Axis.horizontal,
-            children: <Widget>[
+            children: [
               Expanded(
                   child: EditorPlacer(
                       editedGame: _editedGame,
                       onPlay: () => _handlePlay(context),
                       onSave: _handleSave,
-                      menus: [
-                    EditorMenu(subMenu: <EditorTool>[
+                      onUndo: _editedGame.undo,
+                      onRedo: _editedGame.redo,
+                      menus: const [
+                    EditorMenu(subMenu: [
                       EditorTool(
-                          type: ToolType.Tile,
+                          type: ToolType.tile,
                           tile: Rocket(player: PlayerColor.Blue)),
-                      EditorTool(type: ToolType.Tile, tile: Pit())
+                      EditorTool(type: ToolType.tile, tile: Pit())
                     ]),
                     StandardMenus.arrows,
                     StandardMenus.mice,

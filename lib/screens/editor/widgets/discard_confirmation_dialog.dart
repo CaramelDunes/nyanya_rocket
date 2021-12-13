@@ -9,7 +9,7 @@ class DiscardConfirmationDialog extends StatelessWidget {
     return AlertDialog(
       title: Text(NyaNyaLocalizations.of(context).discardDialogTitle),
       content: Text(NyaNyaLocalizations.of(context).discardDialogMessage),
-      actions: <Widget>[
+      actions: [
         TextButton(
           child: Text(NyaNyaLocalizations.of(context).yes.toUpperCase()),
           onPressed: () {

@@ -4,19 +4,23 @@ import 'package:flutter/material.dart';
 
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-enum NetworkGameStatus { ConnectingToServer, WaitingForPlayers, Playing, Ended }
+import '../../utils.dart';
+
+enum NetworkGameStatus { connectingToServer, waitingForPlayers, playing, ended }
 
 class NetworkClient extends GameTicker<MultiplayerGameState> {
   late ClientSocket _socket;
-  NetworkGameStatus _status = NetworkGameStatus.ConnectingToServer;
+  NetworkGameStatus _status = NetworkGameStatus.connectingToServer;
 
   final List<String> _playerNicknames = List.filled(4, '<empty>');
   final ValueNotifier<GameState> gameStream = ValueNotifier(GameState());
   final ValueNotifier<Duration> timeStream = ValueNotifier(Duration.zero);
+  final ValueNotifier<GameEvent> gameEventListenable =
+      ValueNotifier(GameEvent.None);
   final List<ValueNotifier<int>> scoreStreams =
       List.generate(4, (_) => ValueNotifier(0), growable: false);
   final ValueNotifier<NetworkGameStatus> statusNotifier =
-      ValueNotifier(NetworkGameStatus.ConnectingToServer);
+      ValueNotifier(NetworkGameStatus.connectingToServer);
 
   final void Function(GameEvent event, Duration animationDuration)? onGameEvent;
   final void Function(PlayerColor assignedColor)? onRegisterSuccess;
@@ -46,10 +50,13 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
   NetworkGameStatus get status => _status;
 
+  @override
   void dispose() {
     _socket.dispose();
     timeStream.dispose();
-    scoreStreams.forEach((ValueNotifier stream) => stream.dispose());
+    for (ValueNotifier stream in scoreStreams) {
+      stream.dispose();
+    }
 
     super.dispose();
   }
@@ -77,13 +84,13 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
       case GameEvent.PlaceAgain:
         return GameTicker.updatePeriod * ((pauseUntil - tickCount) / 2) -
-            Duration(seconds: 3);
+            const Duration(seconds: 3);
 
       case GameEvent.CatAttack:
       case GameEvent.MouseMonopoly:
       case GameEvent.EverybodyMove:
         return GameTicker.updatePeriod * ((pauseUntil - tickCount) / 2) -
-            Duration(seconds: 2);
+            const Duration(seconds: 2);
 
       case GameEvent.None:
         return Duration.zero;
@@ -92,12 +99,15 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
   void _mixGameEvents(
       MultiplayerGameState newGame, MultiplayerGameState afterCatchup) {
-    if (newGame.currentEvent != GameEvent.None &&
-        newGame.eventEnd != afterCatchup.eventEnd) {
-      onGameEvent?.call(
-          newGame.currentEvent,
-          computeAnimationDuration(
-              newGame.currentEvent, newGame.tickCount, newGame.pauseUntil));
+    if (newGame.eventEnd != afterCatchup.eventEnd) {
+      if (newGame.currentEvent != GameEvent.None) {
+        onGameEvent?.call(
+            newGame.currentEvent,
+            computeAnimationDuration(
+                newGame.currentEvent, newGame.tickCount, newGame.pauseUntil));
+      }
+
+      gameEventListenable.value = newGame.currentEvent;
     }
   }
 
@@ -141,8 +151,9 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
     if (!running) {
       gameState = receivedGame;
+      gameStream.value = game;
       running = true;
-      _status = NetworkGameStatus.Playing;
+      _status = NetworkGameStatus.playing;
       statusNotifier.value = _status;
     }
 
@@ -159,17 +170,19 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
     if (game.currentEvent != GameEvent.None &&
         game.eventEnd <= game.tickCount) {
       game.currentEvent = GameEvent.None;
+      gameEventListenable.value = game.currentEvent;
     }
 
     gameStream.value = game;
-    timeStream.value = GameTicker.updatePeriod * (game.tickCount / 2);
+    timeStream.value = floorDurationToTenthOfASecond(
+        GameTicker.updatePeriod * (game.tickCount / 2));
   }
 
   void _handleRegisterSuccess(PlayerColor assignedColor) {
     print('Register Success!');
 
-    if (_status == NetworkGameStatus.ConnectingToServer) {
-      _status = NetworkGameStatus.WaitingForPlayers;
+    if (_status == NetworkGameStatus.connectingToServer) {
+      _status = NetworkGameStatus.waitingForPlayers;
     }
 
     this.assignedColor = assignedColor;

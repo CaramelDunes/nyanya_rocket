@@ -6,6 +6,8 @@ import 'package:nyanya_rocket/screens/multiplayer/picker_tabs/local_boards.dart'
 import 'package:nyanya_rocket/screens/multiplayer/picker_tabs/original_boards.dart';
 
 class BoardPickerLists extends StatelessWidget {
+  const BoardPickerLists({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -16,20 +18,20 @@ class BoardPickerLists extends StatelessWidget {
             bottom: TabBar(
               tabs: [
                 Tab(
-                  icon: FaIcon(FontAwesomeIcons.gamepad),
+                  icon: const FaIcon(FontAwesomeIcons.gamepad),
                   text: NyaNyaLocalizations.of(context).originalTab,
                 ),
                 Tab(
-                  icon: FaIcon(FontAwesomeIcons.globe),
+                  icon: const FaIcon(FontAwesomeIcons.globe),
                   text: NyaNyaLocalizations.of(context).communityTab,
                 ),
                 Tab(
-                  icon: FaIcon(FontAwesomeIcons.mobileAlt),
+                  icon: const FaIcon(FontAwesomeIcons.mobileAlt),
                   text: NyaNyaLocalizations.of(context).deviceTab,
                 ),
               ],
             )),
-        body: TabBarView(
+        body: const TabBarView(
           children: [OriginalBoards(), CommunityBoards(), LocalBoards()],
         ),
       ),

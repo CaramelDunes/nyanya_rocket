@@ -114,24 +114,6 @@
     "type": "text",
     "placeholders": {}
   },
-  "contributingTab": "Beitragen",
-  "@contributingTab": {
-    "description": "Contributing tab of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "contributingText": "Hilf NyaNya Rocket!\n\nDu brauchst keine besonderen Fähigkeiten, um einen Beitrag zu leisten, Du kannst:\n  • Melde Fehler und frage nach neuen Funktionen\n  • Übersetze\n  • Verbessere grafische Assets und Animationen\n  • Code\n\nWeitere Informationen findest du unter: ",
-  "@contributingText": {
-    "description": "Text of the Contributing tab of Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "contributorsLabel": "Beitragende",
-  "@contributorsLabel": {
-    "description": "Contributors label in Contributing tab of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "originalTab": "Original",
   "@originalTab": {
     "description": "Original tab of the Puzzles, Challenges screens.",
