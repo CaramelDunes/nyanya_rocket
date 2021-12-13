@@ -9,7 +9,7 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import '../../../localization/nyanya_localizations.dart';
 import '../../../utils.dart';
-import '../../../widgets/board/animated_game_view.dart';
+import '../../../widgets/board/animated_game_view_changing_background.dart';
 import '../../../widgets/board/tiles/arrow_image.dart';
 import '../../../widgets/input/input_grid_overlay.dart';
 import '../../../widgets/game/score_box.dart';
@@ -222,7 +222,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                       child: AspectRatio(
                           aspectRatio: 12.0 / 9.0,
                           child: InputGridOverlay<Direction>(
-                            child: AnimatedGameView(
+                            child: AnimatedGameViewChangingBackground(
                               game: _localMultiplayerController.gameStream,
                             ),
                             onSwipe: _handleSwipe,
