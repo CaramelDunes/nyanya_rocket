@@ -151,6 +151,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
     if (!running) {
       gameState = receivedGame;
+      gameStream.value = game;
       running = true;
       _status = NetworkGameStatus.playing;
       statusNotifier.value = _status;
