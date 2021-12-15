@@ -202,7 +202,7 @@ class _OriginalChallengesState extends State<OriginalChallenges>
       subtitle: Text(namedChallengeData.data.type.toLocalizedString(context)),
       trailing: time != null
           ? Row(mainAxisSize: MainAxisSize.min, children: [
-              Text('${time.inSeconds}.${time.inMilliseconds % 1000 ~/ 10}s'),
+              Text(_formatTime(time)),
               const Icon(
                 Icons.check,
                 color: Colors.green,
@@ -217,22 +217,32 @@ class _OriginalChallengesState extends State<OriginalChallenges>
 
   Widget _buildChallengeCard(
       NamedChallengeData namedChallengeData, Duration? time) {
+    final bool cleared = time != null;
+
     return InkWell(
       key: ValueKey(namedChallengeData.slug),
-      child: BoardCard(game: namedChallengeData.data.getGame(), description: [
-        Text(
-          namedChallengeData.data.type.toLocalizedString(context) +
-              namedChallengeData.name,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        if (time != null)
-          Text('${time.inSeconds}.${time.inMilliseconds % 1000 ~/ 10}s')
-        else
-          const Text('')
-      ]),
+      child: BoardCard(
+        game: namedChallengeData.data.getGame(),
+        description: [
+          Text(
+            namedChallengeData.data.type.toLocalizedString(context) +
+                namedChallengeData.name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(cleared ? _formatTime(time) : '')
+        ],
+        cleared: cleared,
+      ),
       onTap: () {
         _openChallenge(OriginalChallenges.originalSlug(namedChallengeData));
       },
     );
+  }
+
+  String _formatTime(Duration time) {
+    final String seconds = time.inSeconds.toString();
+    final String decimals =
+        (time.inMilliseconds % 1000 ~/ 10).toString().padLeft(2, '0');
+    return '$seconds.${decimals}s';
   }
 }
