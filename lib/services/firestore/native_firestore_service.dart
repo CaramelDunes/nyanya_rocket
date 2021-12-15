@@ -195,12 +195,13 @@ class NativeFirestoreService extends FirestoreService {
   }
 
   @override
-  Future<List<Map<String, dynamic>>?> getNews(String languageCode) async {
-    final List<Map<String, dynamic>>? rawNews =
-        await getCollection(['articles_$languageCode']);
-    rawNews?.forEach((element) {
-      element['date'] = element['date'].toDate();
-    });
-    return rawNews?.toList();
+  Future<List<Map<String, dynamic>>> getNews(String languageCode) async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('articles_$languageCode')
+        .orderBy('date', descending: true)
+        .limit(15)
+        .get();
+
+    return snapshot.docs.map((e) => e.data()).toList();
   }
 }

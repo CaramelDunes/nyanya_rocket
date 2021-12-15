@@ -5,7 +5,6 @@ import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
 import 'package:nyanya_rocket/screens/puzzles/community_puzzle_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firestore_service.dart';
 
@@ -214,7 +213,17 @@ class FiredartFirebaseService extends FirestoreService {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getNews(String languageCode) {
-    return getCollection(['articles_$languageCode']);
+  Future<List<Map<String, dynamic>>> getNews(String languageCode) async {
+    final docs = await Firestore.instance
+        .collection('articles_$languageCode')
+        .orderBy('date', descending: true)
+        .limit(15)
+        .get();
+
+    for (Document d in docs) {
+      d.map['documentId'] = d.id;
+    }
+
+    return docs.map((d) => d.map).toList();
   }
 }

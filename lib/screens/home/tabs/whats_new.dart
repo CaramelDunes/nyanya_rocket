@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -183,11 +184,11 @@ class WhatsNew extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                FutureBuilder<List<Map<String, dynamic>>?>(
+                FutureBuilder<List<Map<String, dynamic>>>(
                   future:
                       context.read<FirestoreService>().getNews(articleLocale()),
                   builder: (BuildContext context,
-                      AsyncSnapshot<List<Map<String, dynamic>>?> snapshot) {
+                      AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                     if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     }
@@ -205,7 +206,10 @@ class WhatsNew extends StatelessWidget {
                             return ListTile(
                               title: Text(document['title']),
                               trailing: Text(MaterialLocalizations.of(context)
-                                  .formatShortDate(document['date'])),
+                                  .formatShortDate(
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                          document['date']
+                                              .millisecondsSinceEpoch))),
                             );
                           }).toList(),
                         );

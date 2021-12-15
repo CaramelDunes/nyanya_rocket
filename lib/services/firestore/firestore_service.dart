@@ -91,7 +91,7 @@ abstract class FirestoreService {
 
   Future<void> incrementCommunityStar(String path);
 
-  Future<List<Map<String, dynamic>>?> getNews(String languageCode);
+  Future<List<Map<String, dynamic>>> getNews(String languageCode);
 }
 
 bool checkKeysForNull(List<String> keys) {
