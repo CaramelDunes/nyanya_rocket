@@ -51,18 +51,18 @@ class _EditTabState extends State<EditTab> {
   }
 
   void _showNameChangeDialog(BuildContext context, String uuid) {
-    String? _name;
-    final _formKey = GlobalKey<FormState>();
+    String? name;
+    final formKey = GlobalKey<FormState>();
 
     showDialog<String>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Form(
-            key: _formKey,
+            key: formKey,
             child: NameFormField(
               onSaved: (String? newValue) {
-                _name = newValue;
+                name = newValue;
               },
             ),
           ),
@@ -70,9 +70,9 @@ class _EditTabState extends State<EditTab> {
             TextButton(
               child: Text(NyaNyaLocalizations.of(context).accept.toUpperCase()),
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  Navigator.pop(context, _name);
+                if (formKey.currentState!.validate()) {
+                  formKey.currentState!.save();
+                  Navigator.pop(context, name);
                 }
               },
             ),
@@ -288,16 +288,16 @@ class _EditTabState extends State<EditTab> {
             value: _mode,
             items: <DropdownMenuItem<EditorMode>>[
               DropdownMenuItem(
-                child: Text(NyaNyaLocalizations.of(context).puzzleType),
                 value: EditorMode.puzzle,
+                child: Text(NyaNyaLocalizations.of(context).puzzleType),
               ),
               DropdownMenuItem(
-                child: Text(NyaNyaLocalizations.of(context).challengeType),
                 value: EditorMode.challenge,
+                child: Text(NyaNyaLocalizations.of(context).challengeType),
               ),
               DropdownMenuItem(
-                child: Text(NyaNyaLocalizations.of(context).multiplayerType),
                 value: EditorMode.multiplayer,
+                child: Text(NyaNyaLocalizations.of(context).multiplayerType),
               ),
             ],
             onChanged: (EditorMode? value) => setState(() {

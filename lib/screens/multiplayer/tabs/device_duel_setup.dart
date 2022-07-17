@@ -45,24 +45,24 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
                       value: _duration,
                       items: <DropdownMenuItem<Duration>>[
                         DropdownMenuItem(
+                          value: const Duration(minutes: 2),
                           child: Text(NyaNyaLocalizations.of(context)
                               .minuteCountLabel(2)),
-                          value: const Duration(minutes: 2),
                         ),
                         DropdownMenuItem(
+                          value: const Duration(minutes: 3),
                           child: Text(NyaNyaLocalizations.of(context)
                               .minuteCountLabel(3)),
-                          value: const Duration(minutes: 3),
                         ),
                         DropdownMenuItem(
+                          value: const Duration(minutes: 4),
                           child: Text(NyaNyaLocalizations.of(context)
                               .minuteCountLabel(4)),
-                          value: const Duration(minutes: 4),
                         ),
                         DropdownMenuItem(
+                          value: const Duration(minutes: 5),
                           child: Text(NyaNyaLocalizations.of(context)
                               .minuteCountLabel(5)),
-                          value: const Duration(minutes: 5),
                         ),
                       ],
                       onChanged: (Duration? value) => setState(() {
@@ -123,7 +123,6 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
                     ),
                     Flexible(
                       child: ElevatedButton(
-                        child: Text(NyaNyaLocalizations.of(context).playLabel),
                         onPressed: _board != null
                             ? () {
                                 _formState.currentState!.save();
@@ -136,6 +135,7 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
                                         )));
                               }
                             : null,
+                        child: Text(NyaNyaLocalizations.of(context).playLabel),
                       ),
                     )
                   ],

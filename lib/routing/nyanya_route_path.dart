@@ -28,6 +28,7 @@ extension PageKindSlug on PageKind {
       case 'multiplayer':
         return PageKind.multiplayer;
     }
+    return null;
   }
 }
 
@@ -52,6 +53,7 @@ extension TabKindSlug on TabKind {
       case 'local':
         return TabKind.local;
     }
+    return null;
   }
 }
 

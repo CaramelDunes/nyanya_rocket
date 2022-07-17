@@ -175,6 +175,9 @@ class _EditorPlacerState extends State<EditorPlacer> {
                 child: AspectRatio(
                     aspectRatio: 12.0 / 9.0,
                     child: InputGridOverlay<EditorTool>(
+                      previewBuilder: _dragTileBuilder,
+                      onDrop: _handleDrop,
+                      onTap: _handleTap,
                       child: ValueListenableBuilder<GameState>(
                           valueListenable: widget.editedGame.gameStream,
                           builder: (context, value, child) {
@@ -182,9 +185,6 @@ class _EditorPlacerState extends State<EditorPlacer> {
                               game: value,
                             );
                           }),
-                      previewBuilder: _dragTileBuilder,
-                      onDrop: _handleDrop,
-                      onTap: _handleTap,
                     )),
               ),
               Flexible(
@@ -225,9 +225,9 @@ class _EditorPlacerState extends State<EditorPlacer> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ElevatedButton(
+                                  onPressed: widget.onPlay,
                                   child: Text(NyaNyaLocalizations.of(context)
-                                      .playLabel),
-                                  onPressed: widget.onPlay),
+                                      .playLabel)),
                             ),
                           ),
                         ),
@@ -267,6 +267,8 @@ class _EditorPlacerState extends State<EditorPlacer> {
           (int i) {
         return Expanded(
           child: Draggable<EditorTool>(
+            feedback: const SizedBox.shrink(),
+            data: widget.menus[_selected].subMenu[i],
             child: Card(
               color: _subSelected[_selected] == i ? Colors.grey.shade300 : null,
               child: InkWell(
@@ -282,8 +284,6 @@ class _EditorPlacerState extends State<EditorPlacer> {
                 },
               ),
             ),
-            feedback: const SizedBox.shrink(),
-            data: widget.menus[_selected].subMenu[i],
           ),
         );
       }),

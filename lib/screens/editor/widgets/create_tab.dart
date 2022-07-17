@@ -53,16 +53,16 @@ class _CreateTabState extends State<CreateTab> {
                   value: _mode,
                   items: <DropdownMenuItem<EditorMode>>[
                     DropdownMenuItem(
-                      child: Text(localized.puzzleType),
                       value: EditorMode.puzzle,
+                      child: Text(localized.puzzleType),
                     ),
                     DropdownMenuItem(
-                      child: Text(localized.challengeType),
                       value: EditorMode.challenge,
+                      child: Text(localized.challengeType),
                     ),
                     DropdownMenuItem(
-                      child: Text(localized.multiplayerType),
                       value: EditorMode.multiplayer,
+                      child: Text(localized.multiplayerType),
                     ),
                   ],
                   onChanged: (EditorMode? value) {
@@ -80,24 +80,24 @@ class _CreateTabState extends State<CreateTab> {
                     value: _challengeType,
                     items: <DropdownMenuItem<ChallengeType>>[
                       DropdownMenuItem(
+                        value: ChallengeType.getMice,
                         child: Text(
                             ChallengeType.getMice.toLocalizedString(context)),
-                        value: ChallengeType.getMice,
                       ),
                       DropdownMenuItem(
+                        value: ChallengeType.runAway,
                         child: Text(
                             ChallengeType.runAway.toLocalizedString(context)),
-                        value: ChallengeType.runAway,
                       ),
                       DropdownMenuItem(
+                        value: ChallengeType.lunchTime,
                         child: Text(
                             ChallengeType.lunchTime.toLocalizedString(context)),
-                        value: ChallengeType.lunchTime,
                       ),
                       DropdownMenuItem(
+                        value: ChallengeType.oneHundredMice,
                         child: Text(ChallengeType.oneHundredMice
                             .toLocalizedString(context)),
-                        value: ChallengeType.oneHundredMice,
                       ),
                     ],
                     onChanged: (ChallengeType? value) {

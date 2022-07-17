@@ -29,6 +29,7 @@ abstract class ChallengeStore {
 
       if (success) return uuid;
     }
+    return null;
   }
 
   static Future<bool> update(
@@ -48,6 +49,7 @@ abstract class ChallengeStore {
           name: registry[uuid]!,
           challengeData: ChallengeData.fromJson(jsonDecode(jsonEncoded)));
     }
+    return null;
   }
 
   static Future<bool> delete(String uuid) async {

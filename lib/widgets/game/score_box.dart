@@ -21,29 +21,29 @@ class ScoreBox extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(4.0))),
                   child: FittedBox(
                     child: Text(
                       label ?? '',
                       textAlign: TextAlign.center,
                       style: const TextStyle(color: Colors.black),
                     ),
-                  ),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)))),
+                  )),
             ),
             Expanded(
               flex: 3,
               child: Container(
+                decoration: const BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.all(Radius.circular(4.0))),
                 child: FittedBox(
                   child: Text(
                     score.toString(),
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),
-                decoration: const BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.all(Radius.circular(4.0))),
               ),
             )
           ],

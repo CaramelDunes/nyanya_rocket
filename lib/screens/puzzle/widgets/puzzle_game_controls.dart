@@ -26,9 +26,13 @@ class PuzzleGameControls extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
-                    onPrimary: Colors.black,
+                    foregroundColor: Colors.black, backgroundColor: Colors.green,
                   ),
+                  onPressed: !puzzleController.madeMistake
+                      ? () {
+                          puzzleController.running = !puzzleController.running;
+                        }
+                      : null,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Icon(
@@ -37,11 +41,6 @@ class PuzzleGameControls extends StatelessWidget {
                             : Icons.pause_rounded,
                         size: iconSize),
                   ),
-                  onPressed: !puzzleController.madeMistake
-                      ? () {
-                          puzzleController.running = !puzzleController.running;
-                        }
-                      : null,
                 ),
               ),
             ),
@@ -50,18 +49,17 @@ class PuzzleGameControls extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.red,
-                    onPrimary: Colors.black,
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Icon(Icons.replay, size: iconSize),
+                    foregroundColor: Colors.black, backgroundColor: Colors.red,
                   ),
                   onPressed: state.reset
                       ? null
                       : () {
                           puzzleController.reset();
                         },
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    child: Icon(Icons.replay, size: iconSize),
+                  ),
                 ),
               ),
             ),
@@ -69,7 +67,7 @@ class PuzzleGameControls extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.blue),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: FaIcon(

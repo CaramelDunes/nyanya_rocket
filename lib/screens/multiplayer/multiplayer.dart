@@ -28,7 +28,7 @@ class Multiplayer extends StatelessWidget {
           future: user.idToken(),
           builder: (context, AsyncSnapshot<String?> snapshot) {
             return BarRailTabs(
-                title: localized.multiplayerTitle + ' (${region.label})',
+                title: '${localized.multiplayerTitle} (${region.label})',
                 appBarActions: const [
                   SettingsAction(),
                   ExtraMultiplayerMenu()

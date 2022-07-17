@@ -28,9 +28,9 @@ class _SignUpDialogState extends State<SignUpDialog> {
       title: Text(NyaNyaLocalizations.of(context).displayNameDialogTitle),
       content: _loading
           ? const Center(
-              child: CircularProgressIndicator(),
               widthFactor: 1,
               heightFactor: 1,
+              child: CircularProgressIndicator(),
             )
           : Column(
               mainAxisSize: MainAxisSize.min,

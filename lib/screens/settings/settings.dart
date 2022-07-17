@@ -82,20 +82,20 @@ class Settings extends StatelessWidget {
           value: language.value,
           items: const <DropdownMenuItem<String>>[
             DropdownMenuItem(
-              child: Text('Auto'),
               value: 'auto',
+              child: Text('Auto'),
             ),
             DropdownMenuItem(
-              child: Text('English'),
               value: 'en',
+              child: Text('English'),
             ),
             DropdownMenuItem(
-              child: Text('Français'),
               value: 'fr',
+              child: Text('Français'),
             ),
             DropdownMenuItem(
-              child: Text('Deutsch'),
               value: 'de',
+              child: Text('Deutsch'),
             ),
           ],
           onChanged: (String? newLanguage) {
@@ -113,16 +113,16 @@ class Settings extends StatelessWidget {
           value: region.value,
           items: <DropdownMenuItem<Regions>>[
             DropdownMenuItem(
-              child: Text('Auto (${Region.automaticValue().label})'),
               value: Regions.auto,
+              child: Text('Auto (${Region.automaticValue().label})'),
             ),
             DropdownMenuItem(
-              child: Text(ComputedRegions.euWest.label),
               value: Regions.euWest,
+              child: Text(ComputedRegions.euWest.label),
             ),
             DropdownMenuItem(
-              child: Text(ComputedRegions.usEast.label),
               value: Regions.usEast,
+              child: Text(ComputedRegions.usEast.label),
             ),
           ],
           onChanged: (Regions? newRegion) {

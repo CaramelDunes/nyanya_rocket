@@ -27,6 +27,7 @@ abstract class MultiplayerStore {
 
       if (success) return uuid;
     }
+    return null;
   }
 
   static Future<bool> update(String uuid, MultiplayerBoard boardData) async {
@@ -43,6 +44,7 @@ abstract class MultiplayerStore {
     if (registry.containsKey(uuid) && jsonEncoded != null) {
       return MultiplayerBoard.fromJson(jsonDecode(jsonEncoded));
     }
+    return null;
   }
 
   static Future<bool> delete(String uuid) async {
