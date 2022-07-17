@@ -35,7 +35,7 @@ class Challenges extends StatelessWidget {
           ),
           BarRailTab(
             content: const LocalChallenges(),
-            icon: const FaIcon(FontAwesomeIcons.mobileAlt),
+            icon: const FaIcon(FontAwesomeIcons.mobileScreenButton),
             label: localized.deviceTab,
             route: const NyaNyaRoutePath.localChallenges(),
           )

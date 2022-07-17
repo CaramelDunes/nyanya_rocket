@@ -21,14 +21,14 @@ dependencies:
   intl: ^0.17.0
 
   firebase_core: ^1.10.0  
-  firebase_core_desktop: ^0.1.1-dev.3
+  firebase_core_desktop: ^1.0.0
   firebase_auth: ^3.2.0
-  firebase_auth_desktop: ^0.1.1-dev.3
+  firebase_auth_desktop: ^1.0.0
   cloud_firestore: ^3.1.0
 
-  rive: ^0.8.1
+  rive: ^0.9.0
 
-  font_awesome_flutter: ^9.0.0
+  font_awesome_flutter: ^10.1.0
 
   shared_preferences: ^2.0.3
 
@@ -52,7 +52,7 @@ dependencies:
   firedart: ^0.9.0+1
 
 dev_dependencies:
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
 

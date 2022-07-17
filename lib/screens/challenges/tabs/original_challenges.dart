@@ -119,7 +119,7 @@ class OriginalChallenges extends StatefulWidget {
       (index, challengeData) => MapEntry(originalSlug(challengeData), index));
 
   static String originalSlug(NamedChallengeData challengeData) {
-    return challengeData.type.toSlug() + '-' + challengeData.slug;
+    return '${challengeData.type.toSlug()}-${challengeData.slug}';
   }
 
   const OriginalChallenges({Key? key}) : super(key: key);
@@ -128,17 +128,8 @@ class OriginalChallenges extends StatefulWidget {
   _OriginalChallengesState createState() => _OriginalChallengesState();
 }
 
-class _OriginalChallengesState extends State<OriginalChallenges>
-    with AutomaticKeepAliveClientMixin<OriginalChallenges> {
+class _OriginalChallengesState extends State<OriginalChallenges> {
   bool _showCompleted = true;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 
   void _openChallenge(String slug) {
     Router.of(context)
@@ -148,8 +139,6 @@ class _OriginalChallengesState extends State<OriginalChallenges>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     List<int> challengeIndices =
         Iterable<int>.generate(OriginalChallenges.challenges.length)
             .toList(growable: false);
@@ -196,11 +185,12 @@ class _OriginalChallengesState extends State<OriginalChallenges>
 
   Widget _buildChallengeTile(
       NamedChallengeData namedChallengeData, Duration? time) {
+    final bool cleared = time != null;
+
     return ListTile(
-      title: Text(namedChallengeData.data.type.toLocalizedString(context) +
-          namedChallengeData.name),
+      title: Text(_fullLocalizedName(namedChallengeData)),
       subtitle: Text(namedChallengeData.data.type.toLocalizedString(context)),
-      trailing: time != null
+      trailing: cleared
           ? Row(mainAxisSize: MainAxisSize.min, children: [
               Text(_formatTime(time)),
               const Icon(
@@ -225,8 +215,7 @@ class _OriginalChallengesState extends State<OriginalChallenges>
         game: namedChallengeData.data.getGame(),
         description: [
           Text(
-            namedChallengeData.data.type.toLocalizedString(context) +
-                namedChallengeData.name,
+            _fullLocalizedName(namedChallengeData),
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(cleared ? _formatTime(time) : '')
@@ -237,6 +226,11 @@ class _OriginalChallengesState extends State<OriginalChallenges>
         _openChallenge(OriginalChallenges.originalSlug(namedChallengeData));
       },
     );
+  }
+
+  String _fullLocalizedName(NamedChallengeData namedChallengeData) {
+    return namedChallengeData.data.type.toLocalizedString(context) +
+        namedChallengeData.name;
   }
 
   String _formatTime(Duration time) {
