@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 import 'config.dart';
+import 'firebase_options.dart';
 import 'models/stores/file_named_data_store.dart';
 import 'models/stores/prefs_named_data_store.dart';
 import 'models/stores/named_data_store.dart';
@@ -19,19 +20,7 @@ Future<void> main() async {
   final SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();
 
-  // When the native plugin in available,
-  // Firebase will initialize using the embedded config JSON.
-  if (FirestoreFactory.useNative) {
-    await Firebase.initializeApp();
-  } else {
-    await Firebase.initializeApp(
-        options: const FirebaseOptions(
-      apiKey: kFirebaseApiKey,
-      appId: kFirebaseAppId,
-      messagingSenderId: kFirebaseMessagingSenderId,
-      projectId: kFirebaseProjectId,
-    ));
-  }
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   if (kIsWeb) {
     await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
