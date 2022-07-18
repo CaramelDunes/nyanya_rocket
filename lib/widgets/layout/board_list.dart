@@ -13,7 +13,7 @@ class BoardList extends StatefulWidget {
       : super(key: key);
 
   @override
-  _BoardListState createState() => _BoardListState();
+  State<BoardList> createState() => _BoardListState();
 }
 
 class _BoardListState extends State<BoardList>

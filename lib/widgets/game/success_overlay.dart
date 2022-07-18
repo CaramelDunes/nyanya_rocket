@@ -15,7 +15,7 @@ class SuccessOverlay extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SuccessOverlayState createState() => _SuccessOverlayState();
+  State<SuccessOverlay> createState() => _SuccessOverlayState();
 }
 
 class _SuccessOverlayState extends State<SuccessOverlay> {

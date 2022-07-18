@@ -29,7 +29,7 @@ class Puzzle extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PuzzleState createState() => _PuzzleState();
+  State<Puzzle> createState() => _PuzzleState();
 }
 
 class _PuzzleState extends State<Puzzle> {

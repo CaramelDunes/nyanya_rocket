@@ -20,7 +20,7 @@ class FriendDuel extends StatefulWidget {
       : super(key: key);
 
   @override
-  _FriendDuelState createState() => _FriendDuelState();
+  State<FriendDuel> createState() => _FriendDuelState();
 }
 
 class _FriendDuelState extends State<FriendDuel> {

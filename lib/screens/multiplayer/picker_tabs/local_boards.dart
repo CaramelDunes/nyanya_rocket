@@ -8,7 +8,7 @@ class LocalBoards extends StatefulWidget {
   const LocalBoards({Key? key}) : super(key: key);
 
   @override
-  _LocalBoardsState createState() => _LocalBoardsState();
+  State<LocalBoards> createState() => _LocalBoardsState();
 }
 
 class _LocalBoardsState extends State<LocalBoards> {

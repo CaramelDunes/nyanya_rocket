@@ -35,7 +35,7 @@ class Multiplayer extends StatelessWidget {
                 ],
                 tabs: [
                   BarRailTab(
-                    icon: const FaIcon(FontAwesomeIcons.userFriends),
+                    icon: const FaIcon(FontAwesomeIcons.userGroup),
                     label: localized.duelLabel,
                     content: _wrapWithSignupPrompt(
                         snapshot,
@@ -61,7 +61,8 @@ class Multiplayer extends StatelessWidget {
                                     region.masterServerHostname,
                               ))),
                   BarRailTab(
-                      icon: const FaIcon(FontAwesomeIcons.peopleArrows),
+                      icon:
+                          const FaIcon(FontAwesomeIcons.peopleArrowsLeftRight),
                       label: localized.friendDuelLabel,
                       content: _wrapWithSignupPrompt(
                           snapshot,

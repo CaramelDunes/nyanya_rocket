@@ -48,7 +48,7 @@ class EditorPlacer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _EditorPlacerState createState() => _EditorPlacerState();
+  State<EditorPlacer> createState() => _EditorPlacerState();
 }
 
 class _EditorPlacerState extends State<EditorPlacer> {

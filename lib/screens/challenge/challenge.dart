@@ -33,7 +33,7 @@ class Challenge extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ChallengeState createState() => _ChallengeState();
+  State<Challenge> createState() => _ChallengeState();
 }
 
 class _ChallengeState extends State<Challenge> {

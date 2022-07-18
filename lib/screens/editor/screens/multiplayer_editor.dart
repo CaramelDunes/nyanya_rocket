@@ -20,7 +20,7 @@ class MultiplayerEditor extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MultiplayerEditorState createState() => _MultiplayerEditorState();
+  State<MultiplayerEditor> createState() => _MultiplayerEditorState();
 }
 
 class _MultiplayerEditorState extends State<MultiplayerEditor> {

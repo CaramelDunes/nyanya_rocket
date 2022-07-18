@@ -128,7 +128,7 @@ class OriginalPuzzles extends StatefulWidget {
   const OriginalPuzzles({Key? key}) : super(key: key);
 
   @override
-  _OriginalPuzzlesState createState() => _OriginalPuzzlesState();
+  State<OriginalPuzzles> createState() => _OriginalPuzzlesState();
 }
 
 class _OriginalPuzzlesState extends State<OriginalPuzzles>

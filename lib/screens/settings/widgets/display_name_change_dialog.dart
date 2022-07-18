@@ -13,7 +13,7 @@ class DisplayNameChangeDialog extends StatefulWidget {
       : super(key: key);
 
   @override
-  _DisplayNameChangeDialogState createState() =>
+  State<DisplayNameChangeDialog> createState() =>
       _DisplayNameChangeDialogState();
 }
 

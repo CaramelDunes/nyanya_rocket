@@ -21,7 +21,7 @@ class EditTab extends StatefulWidget {
   const EditTab({Key? key}) : super(key: key);
 
   @override
-  _EditTabState createState() => _EditTabState();
+  State<EditTab> createState() => _EditTabState();
 }
 
 class _EditTabState extends State<EditTab> {

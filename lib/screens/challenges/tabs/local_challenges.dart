@@ -16,7 +16,7 @@ class LocalChallenges extends StatefulWidget {
   const LocalChallenges({Key? key}) : super(key: key);
 
   @override
-  _LocalChallengesState createState() => _LocalChallengesState();
+  State<LocalChallenges> createState() => _LocalChallengesState();
 }
 
 class _LocalChallengesState extends State<LocalChallenges> {

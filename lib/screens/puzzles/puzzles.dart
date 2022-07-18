@@ -35,7 +35,7 @@ class Puzzles extends StatelessWidget {
           ),
           BarRailTab(
             content: const LocalPuzzles(),
-            icon: const FaIcon(FontAwesomeIcons.mobileAlt),
+            icon: const FaIcon(FontAwesomeIcons.mobileScreenButton),
             label: localized.deviceTab,
             route: const NyaNyaRoutePath.localPuzzles(),
           )

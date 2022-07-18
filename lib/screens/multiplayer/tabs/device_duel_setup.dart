@@ -10,7 +10,7 @@ class DeviceDuelSetup extends StatefulWidget {
   const DeviceDuelSetup({Key? key}) : super(key: key);
 
   @override
-  _DeviceDuelSetupState createState() => _DeviceDuelSetupState();
+  State<DeviceDuelSetup> createState() => _DeviceDuelSetupState();
 }
 
 class _DeviceDuelSetupState extends State<DeviceDuelSetup> {

@@ -12,7 +12,7 @@ class SignUpDialog extends StatefulWidget {
   const SignUpDialog({Key? key, required this.user}) : super(key: key);
 
   @override
-  _SignUpDialogState createState() => _SignUpDialogState();
+  State<SignUpDialog> createState() => _SignUpDialogState();
 }
 
 class _SignUpDialogState extends State<SignUpDialog> {

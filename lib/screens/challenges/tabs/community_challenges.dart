@@ -12,7 +12,7 @@ class CommunityChallenges extends StatefulWidget {
   const CommunityChallenges({Key? key}) : super(key: key);
 
   @override
-  _CommunityChallengesState createState() => _CommunityChallengesState();
+  State<CommunityChallenges> createState() => _CommunityChallengesState();
 }
 
 class _CommunityChallengesState extends State<CommunityChallenges> {

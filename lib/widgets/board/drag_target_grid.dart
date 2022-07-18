@@ -85,7 +85,7 @@ class DragTargetTile<T extends Object> extends StatefulWidget {
       : super(key: key);
 
   @override
-  _DragTargetTileState<T> createState() => _DragTargetTileState<T>();
+  State<DragTargetTile<T>> createState() => _DragTargetTileState<T>();
 }
 
 class _DragTargetTileState<T extends Object> extends State<DragTargetTile<T>> {

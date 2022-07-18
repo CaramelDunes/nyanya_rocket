@@ -125,7 +125,7 @@ class OriginalChallenges extends StatefulWidget {
   const OriginalChallenges({Key? key}) : super(key: key);
 
   @override
-  _OriginalChallengesState createState() => _OriginalChallengesState();
+  State<OriginalChallenges> createState() => _OriginalChallengesState();
 }
 
 class _OriginalChallengesState extends State<OriginalChallenges> {

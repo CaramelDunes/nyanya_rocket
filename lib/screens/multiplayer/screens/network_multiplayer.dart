@@ -34,7 +34,7 @@ class NetworkMultiplayer extends StatefulWidget {
       : super(key: key);
 
   @override
-  _NetworkMultiplayerState createState() => _NetworkMultiplayerState();
+  State<NetworkMultiplayer> createState() => _NetworkMultiplayerState();
 }
 
 class _NetworkMultiplayerState extends State<NetworkMultiplayer> {

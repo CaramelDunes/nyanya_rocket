@@ -18,7 +18,7 @@ class LanMultiplayerSetup extends StatefulWidget {
   const LanMultiplayerSetup({Key? key}) : super(key: key);
 
   @override
-  _LanMultiplayerSetupState createState() => _LanMultiplayerSetupState();
+  State<LanMultiplayerSetup> createState() => _LanMultiplayerSetupState();
 }
 
 class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
