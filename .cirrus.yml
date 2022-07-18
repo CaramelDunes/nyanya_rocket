@@ -1,12 +1,11 @@
 container:
-  image: cirrusci/flutter:latest
+  image: cirrusci/flutter:beta
 
 android_build_task:
   pub_cache:
     folder: ~/.pub-cache
   gradle_cache:
     folder: ~/.gradle/caches
-  flutter_upgrade_script: flutter upgrade
   build_script: flutter build apk
   cleanup_before_cache_script:
     - rm -rf ~/.gradle/caches/$GRADLE_VERSION/
@@ -19,7 +18,6 @@ android_build_task:
 web_build_task:
   pub_cache:
     folder: ~/.pub-cache
-  flutter_upgrade_script: flutter upgrade
   build_script: flutter build web
   web_artifacts:
     path: "build/web/**"
@@ -27,7 +25,6 @@ web_build_task:
 linux_build_task:
   pub_cache:
     folder: ~/.pub-cache
-  flutter_upgrade_script: flutter upgrade
   build_script:
     - apt-get update
     - apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libwebkit2gtk-4.0-dev
