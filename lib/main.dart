@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
-import 'config.dart';
 import 'firebase_options.dart';
 import 'models/stores/file_named_data_store.dart';
 import 'models/stores/prefs_named_data_store.dart';
