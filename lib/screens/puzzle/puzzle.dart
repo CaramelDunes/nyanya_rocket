@@ -37,6 +37,7 @@ class _PuzzleState extends State<Puzzle> {
   bool _ended = false;
   final List<ValueNotifier<int>> _draggedArrowCount =
       List.generate(4, (_) => ValueNotifier(0), growable: false);
+  Direction? selectedDirection;
 
   @override
   void initState() {
@@ -54,7 +55,11 @@ class _PuzzleState extends State<Puzzle> {
   }
 
   void _handleTap(int x, int y) {
-    _puzzleController.removeArrow(x, y);
+    if (_puzzleController.hasArrow(x, y)) {
+      _puzzleController.removeArrow(x, y);
+    } else if (selectedDirection != null) {
+      _puzzleController.placeArrow(x, y, selectedDirection!);
+    }
   }
 
   void _handleDrop(int x, int y, DraggedArrowData arrow) {
@@ -63,6 +68,12 @@ class _PuzzleState extends State<Puzzle> {
 
   void _handleSwipe(int x, int y, Direction direction) {
     _puzzleController.placeArrow(x, y, direction);
+  }
+
+  void _handleArrowTap(Direction direction) {
+    setState(() {
+      selectedDirection = direction;
+    });
   }
 
   void _handleWin() {
@@ -126,6 +137,8 @@ class _PuzzleState extends State<Puzzle> {
           direction: Axis.horizontal,
           puzzleGameController: _puzzleController,
           draggedArrowCounts: _draggedArrowCount,
+          onArrowTap: _handleArrowTap,
+          selectedDirection: selectedDirection,
         )),
         Flexible(
           child: PuzzleGameControls(
@@ -155,6 +168,8 @@ class _PuzzleState extends State<Puzzle> {
           direction: Axis.vertical,
           puzzleGameController: _puzzleController,
           draggedArrowCounts: _draggedArrowCount,
+          selectedDirection: selectedDirection,
+          onArrowTap: _handleArrowTap,
         )),
       ],
     );

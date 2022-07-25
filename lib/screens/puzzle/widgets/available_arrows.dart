@@ -9,12 +9,16 @@ class AvailableArrows extends StatelessWidget {
   final Axis direction;
   final PuzzleGameController puzzleGameController;
   final List<ValueNotifier<int>> draggedArrowCounts;
+  final Direction? selectedDirection;
+  final Function(Direction direction) onArrowTap;
 
   const AvailableArrows(
       {Key? key,
       required this.direction,
       required this.puzzleGameController,
-      required this.draggedArrowCounts})
+      required this.draggedArrowCounts,
+      required this.onArrowTap,
+      this.selectedDirection})
       : super(key: key);
 
   static Widget _buildArrowAndCount(
@@ -71,12 +75,18 @@ class AvailableArrows extends StatelessWidget {
                     puzzleGameController.canPlaceArrow);
               });
 
-          return DraggableArrow(
-              data: DraggedArrowData(direction: direction),
-              draggedCount: draggedCount,
-              maxSimultaneousDrags:
-                  puzzleGameController.canPlaceArrow ? count : 0,
-              child: arrowAndCount);
+          return GestureDetector(
+            onTap: () => onArrowTap(direction),
+            child: Material(
+              elevation: direction == selectedDirection ? 16.0 : 0,
+              child: DraggableArrow(
+                  data: DraggedArrowData(direction: direction),
+                  draggedCount: draggedCount,
+                  maxSimultaneousDrags:
+                      puzzleGameController.canPlaceArrow ? count : 0,
+                  child: arrowAndCount),
+            ),
+          );
         });
   }
 

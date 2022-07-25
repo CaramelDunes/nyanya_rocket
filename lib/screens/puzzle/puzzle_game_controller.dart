@@ -102,6 +102,10 @@ class PuzzleGameController extends LocalGameController {
     return false;
   }
 
+  bool hasArrow(int x, int y) {
+    return game.board.tiles[x][y] is Arrow;
+  }
+
   bool removeArrow(int x, int y) {
     if (!_canPlaceArrow) return false;
 
