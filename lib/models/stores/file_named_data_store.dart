@@ -7,14 +7,14 @@ import 'named_data_store.dart';
 class FileNamedDataStorage implements NamedDataStorage {
   @override
   Future<Map<String, String>> readRegistry(String storeName) async {
-    File _registryFile = File(await _registryFilePath(storeName));
+    File registryFile = File(await _registryFilePath(storeName));
 
-    if (!await _registryFile.exists()) {
-      await _registryFile.create(recursive: true);
+    if (!await registryFile.exists()) {
+      await registryFile.create(recursive: true);
       return {};
     }
 
-    String contents = await _registryFile.readAsString();
+    String contents = await registryFile.readAsString();
 
     Map<String, String> entries = {};
 
@@ -41,17 +41,17 @@ class FileNamedDataStorage implements NamedDataStorage {
 
     registry.forEach((String id, String name) => stringValue += '$id;$name\n');
 
-    File _registryFile = File(await _registryFilePath(storeName));
+    File registryFile = File(await _registryFilePath(storeName));
 
-    if (!await _registryFile.exists()) {
-      await _registryFile.create(recursive: true);
+    if (!await registryFile.exists()) {
+      await registryFile.create(recursive: true);
 
-      if (!await _registryFile.exists()) {
+      if (!await registryFile.exists()) {
         return false;
       }
     }
 
-    await _registryFile.writeAsString(stringValue, flush: true);
+    await registryFile.writeAsString(stringValue, flush: true);
     return true;
   }
 
@@ -62,6 +62,7 @@ class FileNamedDataStorage implements NamedDataStorage {
     if (await dataFile.exists()) {
       return dataFile.readAsString();
     }
+    return null;
   }
 
   @override

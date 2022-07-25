@@ -108,7 +108,7 @@ class DefaultDrawer extends StatelessWidget {
             },
           ),
           AboutListTile(
-            icon: const FaIcon(FontAwesomeIcons.questionCircle),
+            icon: const FaIcon(FontAwesomeIcons.circleQuestion),
             applicationLegalese: kAboutText,
             applicationVersion: kAboutVersion,
           )

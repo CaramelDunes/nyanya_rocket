@@ -21,7 +21,7 @@ class PuzzleEditor extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PuzzleEditorState createState() => _PuzzleEditorState();
+  State<PuzzleEditor> createState() => _PuzzleEditorState();
 }
 
 class _PuzzleEditorState extends State<PuzzleEditor> {

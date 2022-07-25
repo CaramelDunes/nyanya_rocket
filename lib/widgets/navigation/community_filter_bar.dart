@@ -33,16 +33,16 @@ class CommunityFilterBar extends StatelessWidget {
               value: value,
               items: <DropdownMenuItem<Sorting>>[
                 DropdownMenuItem<Sorting>(
-                  child: Text(NyaNyaLocalizations.of(context).dateLabel),
                   value: Sorting.byDate,
+                  child: Text(NyaNyaLocalizations.of(context).dateLabel),
                 ),
                 DropdownMenuItem<Sorting>(
-                  child: Text(NyaNyaLocalizations.of(context).nameLabel),
                   value: Sorting.byName,
+                  child: Text(NyaNyaLocalizations.of(context).nameLabel),
                 ),
                 DropdownMenuItem<Sorting>(
-                  child: Text(NyaNyaLocalizations.of(context).popularityLabel),
                   value: Sorting.byPopularity,
+                  child: Text(NyaNyaLocalizations.of(context).popularityLabel),
                 )
               ],
               onChanged: onSortingChanged,

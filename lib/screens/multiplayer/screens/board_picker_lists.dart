@@ -26,7 +26,7 @@ class BoardPickerLists extends StatelessWidget {
                   text: NyaNyaLocalizations.of(context).communityTab,
                 ),
                 Tab(
-                  icon: const FaIcon(FontAwesomeIcons.mobileAlt),
+                  icon: const FaIcon(FontAwesomeIcons.mobileScreenButton),
                   text: NyaNyaLocalizations.of(context).deviceTab,
                 ),
               ],

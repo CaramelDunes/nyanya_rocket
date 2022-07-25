@@ -33,7 +33,7 @@ class Challenge extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ChallengeState createState() => _ChallengeState();
+  State<Challenge> createState() => _ChallengeState();
 }
 
 class _ChallengeState extends State<Challenge> {
@@ -190,14 +190,14 @@ class _ChallengeState extends State<Challenge> {
       child: AspectRatio(
           aspectRatio: 12.0 / 9.0,
           child: DraggableArrowGrid<DraggedArrowData>(
-            child: AnimatedGameView(
-              game: _challengeController.gameStream,
-              mistake: _challengeController.mistake,
-            ),
             onDrop: _handleDrop,
             onSwipe: _handleSwipe,
             previewBuilder: _dragTileBuilder,
             onWillAccept: _handleOnWillAccept,
+            child: AnimatedGameView(
+              game: _challengeController.gameStream,
+              mistake: _challengeController.mistake,
+            ),
           )),
     );
   }

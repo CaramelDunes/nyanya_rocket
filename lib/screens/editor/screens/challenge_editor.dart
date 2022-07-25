@@ -22,7 +22,7 @@ class ChallengeEditor extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ChallengeEditorState createState() => _ChallengeEditorState();
+  State<ChallengeEditor> createState() => _ChallengeEditorState();
 }
 
 class _ChallengeEditorState extends State<ChallengeEditor> {

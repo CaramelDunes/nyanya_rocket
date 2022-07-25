@@ -17,12 +17,12 @@ class ExtraMultiplayerMenu extends StatelessWidget {
       itemBuilder: (BuildContext context) {
         return [
           PopupMenuItem(
-            child: Text(localized.deviceDuelLabel),
             value: ExtraMultiplayerOptions.device,
+            child: Text(localized.deviceDuelLabel),
           ),
           PopupMenuItem(
-            child: Text(localized.lanMultiplayerLabel),
             value: ExtraMultiplayerOptions.lan,
+            child: Text(localized.lanMultiplayerLabel),
           )
         ];
       },

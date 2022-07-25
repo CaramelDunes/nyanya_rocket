@@ -23,7 +23,7 @@ class PlayerFinder extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PlayerFinderState createState() => _PlayerFinderState();
+  State<PlayerFinder> createState() => _PlayerFinderState();
 }
 
 class _PlayerFinderState extends State<PlayerFinder> {
@@ -73,7 +73,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const FaIcon(FontAwesomeIcons.search),
+            const FaIcon(FontAwesomeIcons.magnifyingGlass),
             const SizedBox(width: 8.0),
             Text(
               NyaNyaLocalizations.of(context).findPlayersLabel,

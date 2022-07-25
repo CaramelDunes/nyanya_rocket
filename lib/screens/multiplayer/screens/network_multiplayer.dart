@@ -34,7 +34,7 @@ class NetworkMultiplayer extends StatefulWidget {
       : super(key: key);
 
   @override
-  _NetworkMultiplayerState createState() => _NetworkMultiplayerState();
+  State<NetworkMultiplayer> createState() => _NetworkMultiplayerState();
 }
 
 class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
@@ -120,7 +120,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
       // Possible fixes:
       // - make Wheel inherit ScrollView directly.
       // - make Wheel keep its ScrollView across builds.
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateToItem(
             // Not * 4 to have a card above and under on the wheel.
             (GameEvent.values.length - 1) * 3 + event.index - 1,
@@ -174,11 +174,11 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
     return Draggable<Direction>(
         maxSimultaneousDrags: 1,
         feedback: const SizedBox.shrink(),
+        data: direction,
         child: ArrowImage(
           player: player,
           direction: direction,
-        ),
-        data: direction);
+        ));
   }
 
   @override
@@ -222,14 +222,14 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                       child: AspectRatio(
                           aspectRatio: 12.0 / 9.0,
                           child: InputGridOverlay<Direction>(
+                            onSwipe: _handleSwipe,
+                            onDrop: _handleSwipe,
+                            previewBuilder: _dragTileBuilder,
                             child: AnimatedGameView(
                               game: _localMultiplayerController.running
                                   ? _localMultiplayerController.gameStream
                                   : ValueNotifier(GameState()),
                             ),
-                            onSwipe: _handleSwipe,
-                            onDrop: _handleSwipe,
-                            previewBuilder: _dragTileBuilder,
                           )),
                     ),
                     Expanded(

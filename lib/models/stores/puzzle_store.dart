@@ -29,6 +29,7 @@ abstract class PuzzleStore {
 
       if (success) return uuid;
     }
+    return null;
   }
 
   static Future<bool> update(String uuid, PuzzleData puzzleData) async {
@@ -47,6 +48,7 @@ abstract class PuzzleStore {
           name: registry[uuid]!,
           puzzleData: PuzzleData.fromJson(jsonDecode(jsonEncoded)));
     }
+    return null;
   }
 
   static Future<bool> delete(String uuid) async {

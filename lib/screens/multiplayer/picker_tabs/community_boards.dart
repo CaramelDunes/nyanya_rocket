@@ -5,7 +5,7 @@ class CommunityBoards extends StatefulWidget {
   const CommunityBoards({Key? key}) : super(key: key);
 
   @override
-  _CommunityBoardsState createState() => _CommunityBoardsState();
+  State<CommunityBoards> createState() => _CommunityBoardsState();
 }
 
 class _CommunityBoardsState extends State<CommunityBoards> {

@@ -37,7 +37,7 @@ class LocalDuel extends StatefulWidget {
       : super(key: key);
 
   @override
-  _LocalDuelState createState() => _LocalDuelState();
+  State<LocalDuel> createState() => _LocalDuelState();
 }
 
 class _LocalDuelState extends State<LocalDuel> {
@@ -101,11 +101,11 @@ class _LocalDuelState extends State<LocalDuel> {
     return Draggable<Arrow>(
         maxSimultaneousDrags: 1,
         feedback: const SizedBox.shrink(),
+        data: Arrow(player: player, direction: direction),
         child: ArrowImage(
           player: player,
           direction: direction,
-        ),
-        data: Arrow(player: player, direction: direction));
+        ));
   }
 
   void _handleGameEvent(GameEvent event) {
@@ -124,7 +124,7 @@ class _LocalDuelState extends State<LocalDuel> {
       // Possible fixes:
       // - make Wheel inherit ScrollView directly.
       // - make Wheel keep its ScrollView across redraws.
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateToItem(
             // Not * 4 to have a card above and under on the wheel.
             (GameEvent.values.length - 1) * 3 + event.index - 1,
@@ -177,12 +177,12 @@ class _LocalDuelState extends State<LocalDuel> {
                                   aspectRatio: 12.0 / 9.0,
                                   child: DraggableArrowGrid<
                                       DraggedArrowDataWithPlayer>(
+                                    onDrop: _handleDrop,
+                                    previewBuilder: _dragTileBuilder,
                                     child: AnimatedGameView(
                                       game: _localMultiplayerController
                                           .gameStream,
                                     ),
-                                    onDrop: _handleDrop,
-                                    previewBuilder: _dragTileBuilder,
                                   )),
                             ),
                           )),

@@ -20,7 +20,7 @@ class FriendDuel extends StatefulWidget {
       : super(key: key);
 
   @override
-  _FriendDuelState createState() => _FriendDuelState();
+  State<FriendDuel> createState() => _FriendDuelState();
 }
 
 class _FriendDuelState extends State<FriendDuel> {
@@ -153,7 +153,6 @@ class _FriendDuelState extends State<FriendDuel> {
             },
           ),
           ElevatedButton(
-            child: Text(NyaNyaLocalizations.of(context).playLabel),
             onPressed: _destCode != null
                 ? () {
                     _queue
@@ -170,6 +169,7 @@ class _FriendDuelState extends State<FriendDuel> {
                     });
                   }
                 : null,
+            child: Text(NyaNyaLocalizations.of(context).playLabel),
           )
         ],
       ),

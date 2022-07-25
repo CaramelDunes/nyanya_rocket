@@ -18,9 +18,9 @@ class EventWheel extends StatelessWidget {
     return ListWheelScrollView(
       controller: scrollController,
       physics: const NeverScrollableScrollPhysics(),
-      children: cards,
       itemExtent: 100,
       squeeze: 1.1,
+      children: cards,
     );
   }
 

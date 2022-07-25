@@ -28,14 +28,14 @@ class Multiplayer extends StatelessWidget {
           future: user.idToken(),
           builder: (context, AsyncSnapshot<String?> snapshot) {
             return BarRailTabs(
-                title: localized.multiplayerTitle + ' (${region.label})',
+                title: '${localized.multiplayerTitle} (${region.label})',
                 appBarActions: const [
                   SettingsAction(),
                   ExtraMultiplayerMenu()
                 ],
                 tabs: [
                   BarRailTab(
-                    icon: const FaIcon(FontAwesomeIcons.userFriends),
+                    icon: const FaIcon(FontAwesomeIcons.userGroup),
                     label: localized.duelLabel,
                     content: _wrapWithSignupPrompt(
                         snapshot,
@@ -61,7 +61,8 @@ class Multiplayer extends StatelessWidget {
                                     region.masterServerHostname,
                               ))),
                   BarRailTab(
-                      icon: const FaIcon(FontAwesomeIcons.peopleArrows),
+                      icon:
+                          const FaIcon(FontAwesomeIcons.peopleArrowsLeftRight),
                       label: localized.friendDuelLabel,
                       content: _wrapWithSignupPrompt(
                           snapshot,

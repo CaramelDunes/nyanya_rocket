@@ -34,7 +34,7 @@ class BarRailTabs extends StatefulWidget {
       : super(key: key);
 
   @override
-  _BarRailTabsState createState() => _BarRailTabsState();
+  State<BarRailTabs> createState() => _BarRailTabsState();
 }
 
 class _BarRailTabsState extends State<BarRailTabs> {

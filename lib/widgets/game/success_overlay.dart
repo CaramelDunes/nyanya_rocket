@@ -15,7 +15,7 @@ class SuccessOverlay extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SuccessOverlayState createState() => _SuccessOverlayState();
+  State<SuccessOverlay> createState() => _SuccessOverlayState();
 }
 
 class _SuccessOverlayState extends State<SuccessOverlay> {
@@ -111,14 +111,12 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                           ),
                           const SizedBox(width: 16),
                           ElevatedButton(
+                            onPressed: widget.onPlayAgain,
                             child: Text(
                                 NyaNyaLocalizations.of(context).playAgainLabel),
-                            onPressed: widget.onPlayAgain,
                           ),
                           const SizedBox(width: 16),
                           ElevatedButton(
-                            child: Text(
-                                NyaNyaLocalizations.of(context).nextLevelLabel),
                             onPressed: widget.nextRoutePath == null
                                 ? null
                                 : () {
@@ -126,6 +124,8 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                                         .routerDelegate
                                         .setNewRoutePath(widget.nextRoutePath);
                                   },
+                            child: Text(
+                                NyaNyaLocalizations.of(context).nextLevelLabel),
                           ),
                         ],
                       ),

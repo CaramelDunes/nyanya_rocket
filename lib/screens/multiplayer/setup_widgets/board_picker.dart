@@ -12,7 +12,7 @@ class BoardPicker extends StatefulWidget {
   const BoardPicker({Key? key, required this.onChanged}) : super(key: key);
 
   @override
-  _BoardPickerState createState() => _BoardPickerState();
+  State<BoardPicker> createState() => _BoardPickerState();
 }
 
 class _BoardPickerState extends State<BoardPicker> {

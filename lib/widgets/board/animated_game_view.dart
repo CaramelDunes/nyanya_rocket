@@ -16,7 +16,7 @@ class AnimatedGameView extends StatefulWidget {
       : super(key: key);
 
   @override
-  _AnimatedGameViewState createState() => _AnimatedGameViewState();
+  State<AnimatedGameView> createState() => _AnimatedGameViewState();
 }
 
 class _AnimatedGameViewState extends State<AnimatedGameView>

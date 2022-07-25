@@ -1,5 +1,5 @@
 container:
-  image: cirrusci/flutter:latest
+  image: cirrusci/flutter:beta
 
 android_build_task:
   pub_cache:
@@ -26,7 +26,8 @@ linux_build_task:
   pub_cache:
     folder: ~/.pub-cache
   build_script:
-    - apt-get update && apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev
+    - apt-get update
+    - apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libwebkit2gtk-4.0-dev
     - flutter config --enable-linux-desktop
     - flutter build linux
   linux_artifacts:

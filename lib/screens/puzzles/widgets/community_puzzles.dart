@@ -16,7 +16,7 @@ class CommunityPuzzles extends StatefulWidget {
   const CommunityPuzzles({Key? key, this.puzzles}) : super(key: key);
 
   @override
-  _CommunityPuzzlesState createState() => _CommunityPuzzlesState();
+  State<CommunityPuzzles> createState() => _CommunityPuzzlesState();
 }
 
 class _CommunityPuzzlesState extends State<CommunityPuzzles>

@@ -61,7 +61,7 @@ class DraggableArrow<T extends DraggedArrowData> extends StatelessWidget {
                 );
               }
             }),
-        child: child,
-        data: data);
+        data: data,
+        child: child);
   }
 }

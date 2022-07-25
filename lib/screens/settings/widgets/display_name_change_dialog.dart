@@ -13,7 +13,7 @@ class DisplayNameChangeDialog extends StatefulWidget {
       : super(key: key);
 
   @override
-  _DisplayNameChangeDialogState createState() =>
+  State<DisplayNameChangeDialog> createState() =>
       _DisplayNameChangeDialogState();
 }
 
@@ -29,9 +29,9 @@ class _DisplayNameChangeDialogState extends State<DisplayNameChangeDialog> {
       title: Text(NyaNyaLocalizations.of(context).displayNameDialogTitle),
       content: _loading
           ? const Center(
-              child: CircularProgressIndicator(),
               widthFactor: 1,
               heightFactor: 1,
+              child: CircularProgressIndicator(),
             )
           : Column(
               mainAxisSize: MainAxisSize.min,

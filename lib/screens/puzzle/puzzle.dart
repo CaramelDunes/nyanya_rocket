@@ -29,7 +29,7 @@ class Puzzle extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PuzzleState createState() => _PuzzleState();
+  State<Puzzle> createState() => _PuzzleState();
 }
 
 class _PuzzleState extends State<Puzzle> {
@@ -203,15 +203,15 @@ class _PuzzleState extends State<Puzzle> {
       child: AspectRatio(
           aspectRatio: 12.0 / 9.0,
           child: DraggableArrowGrid<DraggedArrowData>(
-            child: AnimatedGameView(
-              game: _puzzleController.gameStream,
-              mistake: _puzzleController.mistake,
-            ),
             onDrop: _handleDrop,
             onSwipe: _handleSwipe,
             onTap: _handleTap,
             previewBuilder: _dragTileBuilder,
             onWillAccept: _handleOnWillAccept,
+            child: AnimatedGameView(
+              game: _puzzleController.gameStream,
+              mistake: _puzzleController.mistake,
+            ),
           )),
     );
   }

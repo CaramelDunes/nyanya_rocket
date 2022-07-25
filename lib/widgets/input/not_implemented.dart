@@ -11,7 +11,7 @@ class NotImplemented extends StatefulWidget {
   const NotImplemented({Key? key, required this.featureId}) : super(key: key);
 
   @override
-  _NotImplementedState createState() => _NotImplementedState();
+  State<NotImplemented> createState() => _NotImplementedState();
 }
 
 class _NotImplementedState extends State<NotImplemented> {

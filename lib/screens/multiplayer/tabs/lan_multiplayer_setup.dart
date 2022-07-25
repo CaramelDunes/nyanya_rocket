@@ -18,7 +18,7 @@ class LanMultiplayerSetup extends StatefulWidget {
   const LanMultiplayerSetup({Key? key}) : super(key: key);
 
   @override
-  _LanMultiplayerSetupState createState() => _LanMultiplayerSetupState();
+  State<LanMultiplayerSetup> createState() => _LanMultiplayerSetupState();
 }
 
 class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
@@ -164,24 +164,24 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                       value: _duration,
                       items: <DropdownMenuItem<Duration>>[
                         DropdownMenuItem(
+                          value: const Duration(minutes: 2),
                           child: Text(NyaNyaLocalizations.of(context)
                               .minuteCountLabel(2)),
-                          value: const Duration(minutes: 2),
                         ),
                         DropdownMenuItem(
+                          value: const Duration(minutes: 3),
                           child: Text(NyaNyaLocalizations.of(context)
                               .minuteCountLabel(3)),
-                          value: const Duration(minutes: 3),
                         ),
                         DropdownMenuItem(
+                          value: const Duration(minutes: 4),
                           child: Text(NyaNyaLocalizations.of(context)
                               .minuteCountLabel(4)),
-                          value: const Duration(minutes: 4),
                         ),
                         DropdownMenuItem(
+                          value: const Duration(minutes: 5),
                           child: Text(NyaNyaLocalizations.of(context)
                               .minuteCountLabel(5)),
-                          value: const Duration(minutes: 5),
                         ),
                       ],
                       onChanged: (Duration? value) => setState(() {
@@ -195,24 +195,24 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                       value: _playerCount,
                       items: <DropdownMenuItem<int>>[
                         DropdownMenuItem(
+                          value: 1,
                           child: Text(NyaNyaLocalizations.of(context)
                               .playerCountLabel(1)),
-                          value: 1,
                         ),
                         DropdownMenuItem(
+                          value: 2,
                           child: Text(NyaNyaLocalizations.of(context)
                               .playerCountLabel(2)),
-                          value: 2,
                         ),
                         DropdownMenuItem(
+                          value: 3,
                           child: Text(NyaNyaLocalizations.of(context)
                               .playerCountLabel(3)),
-                          value: 3,
                         ),
                         DropdownMenuItem(
+                          value: 4,
                           child: Text(NyaNyaLocalizations.of(context)
                               .playerCountLabel(4)),
-                          value: 4,
                         ),
                       ],
                       onChanged: (int? value) => setState(() {
@@ -234,7 +234,6 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
               ),
               Center(
                 child: ElevatedButton(
-                  child: Text(NyaNyaLocalizations.of(context).createLabel),
                   onPressed: _board == null
                       ? null
                       : () {
@@ -250,6 +249,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
 
                           _hostname = '10.0.2.2';
                         },
+                  child: Text(NyaNyaLocalizations.of(context).createLabel),
                 ),
               ),
             ],
