@@ -39,4 +39,8 @@ macos_build_task:
   pub_cache:
     folder: ~/.pub-cache
   build_script:
+    - flutter channel beta
+    - flutter upgrade
     - flutter build macos
+  macos_artifacts:
+    path: "build/macos/Build/Products/Release/NyaNya Rocket!.app/**"
