@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = nyanya_rocket
+PRODUCT_NAME = NyaNya Rocket!
 
 // The application's bundle identifier
 PRODUCT_BUNDLE_IDENTIFIER = fr.carameldunes.nyanyaRocket
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2022 fr.carameldunes. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2022 carameldunes.fr All rights reserved.
