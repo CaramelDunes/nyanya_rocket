@@ -71,6 +71,10 @@ class _PuzzleState extends State<Puzzle> {
   }
 
   void _handleArrowTap(Direction direction) {
+    if (selectedDirection == direction) {
+      return;
+    }
+
     setState(() {
       selectedDirection = direction;
     });
