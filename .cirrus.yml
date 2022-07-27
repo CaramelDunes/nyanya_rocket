@@ -32,3 +32,11 @@ linux_build_task:
     - flutter build linux
   linux_artifacts:
     path: "build/linux/x64/release/bundle/**"
+
+macos_build_task:
+  macos_instance:
+    image: ghcr.io/cirruslabs/macos-monterey-xcode:latest
+  pub_cache:
+    folder: ~/.pub-cache
+  build_script:
+    - flutter build macos
