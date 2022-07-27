@@ -35,7 +35,7 @@ linux_build_task:
 
 macos_build_task:
   macos_instance:
-    image: ghcr.io/cirruslabs/macos-monterey-xcode:latest
+    image: ghcr.io/cirruslabs/macos-monterey-xcode:13.4.1
   pub_cache:
     folder: ~/.pub-cache
   build_script:
