@@ -23,15 +23,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         return windows;
       case TargetPlatform.linux:
@@ -45,7 +39,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBExG_dHwDwU9H2mEwawd0p5pzy2Atm-IY',
-    appId: '1:199775224910:web:94aea8f88266e4af52af1f',
+    appId: '1:199775224910:web:18b9b8e49879d18152af1f',
     messagingSenderId: '199775224910',
     projectId: 'nyanya-rocket',
     authDomain: 'nyanya-rocket.firebaseapp.com',
@@ -60,6 +54,30 @@ class DefaultFirebaseOptions {
     projectId: 'nyanya-rocket',
     databaseURL: 'https://nyanya-rocket.firebaseio.com',
     storageBucket: 'nyanya-rocket.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyB8V0_iMGUvimUu_O4dHSIMvZrJBWkNqoI',
+    appId: '1:199775224910:ios:6dcccd8c7c7fa63852af1f',
+    messagingSenderId: '199775224910',
+    projectId: 'nyanya-rocket',
+    databaseURL: 'https://nyanya-rocket.firebaseio.com',
+    storageBucket: 'nyanya-rocket.appspot.com',
+    androidClientId: '199775224910-lpenvrfoo0176g1rupnjvcuc36fee322.apps.googleusercontent.com',
+    iosClientId: '199775224910-6nqslh31fs2tq0l8fci6qio4n5c9lj6r.apps.googleusercontent.com',
+    iosBundleId: 'fr.carameldunes.nyanyaRocket',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyB8V0_iMGUvimUu_O4dHSIMvZrJBWkNqoI',
+    appId: '1:199775224910:ios:6dcccd8c7c7fa63852af1f',
+    messagingSenderId: '199775224910',
+    projectId: 'nyanya-rocket',
+    databaseURL: 'https://nyanya-rocket.firebaseio.com',
+    storageBucket: 'nyanya-rocket.appspot.com',
+    androidClientId: '199775224910-lpenvrfoo0176g1rupnjvcuc36fee322.apps.googleusercontent.com',
+    iosClientId: '199775224910-6nqslh31fs2tq0l8fci6qio4n5c9lj6r.apps.googleusercontent.com',
+    iosBundleId: 'fr.carameldunes.nyanyaRocket',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(

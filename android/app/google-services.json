@@ -38,6 +38,13 @@
             {
               "client_id": "199775224910-r3u2shk4vosfeak7u77098nlen2kd4c2.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "199775224910-6nqslh31fs2tq0l8fci6qio4n5c9lj6r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.carameldunes.nyanyaRocket"
+              }
             }
           ]
         }
