@@ -22,24 +22,26 @@ class ArrowDrawer extends StatelessWidget {
         direction: MediaQuery.of(context).orientation == Orientation.landscape
             ? Axis.vertical
             : Axis.horizontal,
-        children: List<Widget>.generate(
-            4,
-            (i) => Expanded(
+        children: Direction.values
+            .map((direction) => Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: GestureDetector(
-                      onTap: () => onTap(Direction.values[i]),
-                      child: DraggableArrow(
-                          maxSimultaneousDrags: running ? 1 : 0,
-                          data:
-                              DraggedArrowData(direction: Direction.values[i]),
-                          child: ArrowImage(
-                            player: running ? PlayerColor.Blue : null,
-                            direction: Direction.values[i],
-                            selected: Direction.values[i] == selectedDirection,
-                          )),
-                    ),
-                  ),
-                )));
+                      padding: const EdgeInsets.all(6.0),
+                      child: _buildDraggableArrow(direction)),
+                ))
+            .toList());
+  }
+
+  Widget _buildDraggableArrow(Direction direction) {
+    return GestureDetector(
+      onTap: () => onTap(direction),
+      child: DraggableArrow(
+          maxSimultaneousDrags: running ? 1 : 0,
+          data: DraggedArrowData(direction: direction),
+          child: ArrowImage(
+            player: running ? PlayerColor.Blue : null,
+            direction: direction,
+            selected: direction == selectedDirection,
+          )),
+    );
   }
 }
