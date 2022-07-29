@@ -6,8 +6,15 @@ import '../../puzzle/widgets/draggable_arrow.dart';
 
 class ArrowDrawer extends StatelessWidget {
   final bool running;
+  final Direction? selectedDirection;
+  final Function(Direction) onTap;
 
-  const ArrowDrawer({Key? key, required this.running}) : super(key: key);
+  const ArrowDrawer(
+      {Key? key,
+      required this.running,
+      required this.selectedDirection,
+      required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +27,18 @@ class ArrowDrawer extends StatelessWidget {
             (i) => Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(6.0),
-                    child: DraggableArrow(
-                        maxSimultaneousDrags: running ? 1 : 0,
-                        data: DraggedArrowData(direction: Direction.values[i]),
-                        child: ArrowImage(
+                    child: GestureDetector(
+                      onTap: () => onTap(Direction.values[i]),
+                      child: DraggableArrow(
+                          maxSimultaneousDrags: running ? 1 : 0,
+                          data:
+                              DraggedArrowData(direction: Direction.values[i]),
+                          child: ArrowImage(
                             player: running ? PlayerColor.Blue : null,
-                            direction: Direction.values[i])),
+                            direction: Direction.values[i],
+                            selected: Direction.values[i] == selectedDirection,
+                          )),
+                    ),
                   ),
                 )));
   }

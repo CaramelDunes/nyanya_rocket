@@ -39,6 +39,7 @@ class Challenge extends StatefulWidget {
 class _ChallengeState extends State<Challenge> {
   late ChallengeGameController _challengeController;
   bool _ended = false;
+  Direction? _selectedDirection;
 
   @override
   void initState() {
@@ -63,6 +64,14 @@ class _ChallengeState extends State<Challenge> {
     _challengeController.placeArrow(x, y, arrow.direction);
   }
 
+  void _handleTap(int x, int y) {
+    if (_selectedDirection == null) {
+      return;
+    }
+
+    _challengeController.placeArrow(x, y, _selectedDirection!);
+  }
+
   void _handleWin() {
     setState(() {
       _ended = true;
@@ -81,6 +90,16 @@ class _ChallengeState extends State<Challenge> {
       player: PlayerColor.Blue,
       isHalfTransparent: true,
     );
+  }
+
+  void _selectDirection(Direction direction) {
+    if (direction == _selectedDirection) {
+      return;
+    }
+
+    setState(() {
+      _selectedDirection = direction;
+    });
   }
 
   String _objectiveText(BuildContext context) {
@@ -156,7 +175,11 @@ class _ChallengeState extends State<Challenge> {
           ],
         ),
         _buildGameView(),
-        ArrowDrawer(running: _challengeController.running),
+        ArrowDrawer(
+          running: _challengeController.running,
+          selectedDirection: _selectedDirection,
+          onTap: _selectDirection,
+        ),
         _buildPlayResetButton(Orientation.portrait)
       ],
     );
@@ -179,7 +202,11 @@ class _ChallengeState extends State<Challenge> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: _buildGameView(),
         ),
-        ArrowDrawer(running: _challengeController.running),
+        ArrowDrawer(
+          running: _challengeController.running,
+          selectedDirection: _selectedDirection,
+          onTap: _selectDirection,
+        ),
       ],
     );
   }
@@ -194,6 +221,7 @@ class _ChallengeState extends State<Challenge> {
             onSwipe: _handleSwipe,
             previewBuilder: _dragTileBuilder,
             onWillAccept: _handleOnWillAccept,
+            onTap: _handleTap,
             child: AnimatedGameView(
               game: _challengeController.gameStream,
               mistake: _challengeController.mistake,
