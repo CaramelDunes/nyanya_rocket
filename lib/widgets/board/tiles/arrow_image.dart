@@ -9,20 +9,23 @@ class ArrowImage extends StatelessWidget {
   final Direction direction;
   final bool damaged;
   final bool isHalfTransparent;
+  final bool selected;
 
   const ArrowImage(
       {Key? key,
       required this.player,
       required this.direction,
       this.damaged = false,
-      this.isHalfTransparent = false})
+      this.isHalfTransparent = false,
+      this.selected = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final Widget arrow = CustomPaint(
       size: Size.infinite,
-      painter: ArrowPainter.fromPlayerColor(player, direction),
+      painter:
+          ArrowPainter.fromPlayerColor(player, direction, selected ? 1 : 0.8),
     );
 
     if (isHalfTransparent) {

@@ -32,17 +32,10 @@ class AvailableArrows extends StatelessWidget {
           alignment: Alignment.bottomLeft,
           widthFactor: 1 - bubbleFactor / 4,
           heightFactor: 1 - bubbleFactor / 4,
-          child: Container(
-            padding: const EdgeInsets.all(6.0),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.0),
-                border: Border.all(
-                    color: selected ? Colors.black : Colors.transparent,
-                    width: 2)),
-            child: ArrowImage(
-              player: count > 0 && canPlace ? PlayerColor.Blue : null,
-              direction: direction,
-            ),
+          child: ArrowImage(
+            player: count > 0 && canPlace ? PlayerColor.Blue : null,
+            direction: direction,
+            selected: selected,
           ),
         ),
         FractionallySizedBox(
