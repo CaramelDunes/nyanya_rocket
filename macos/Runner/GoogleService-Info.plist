@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>199775224910-6nqslh31fs2tq0l8fci6qio4n5c9lj6r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.199775224910-6nqslh31fs2tq0l8fci6qio4n5c9lj6r</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>199775224910-lpenvrfoo0176g1rupnjvcuc36fee322.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB8V0_iMGUvimUu_O4dHSIMvZrJBWkNqoI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>199775224910</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>fr.carameldunes.nyanyaRocket</string>
+	<key>PROJECT_ID</key>
+	<string>nyanya-rocket</string>
+	<key>STORAGE_BUCKET</key>
+	<string>nyanya-rocket.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:199775224910:ios:6dcccd8c7c7fa63852af1f</string>
+	<key>DATABASE_URL</key>
+	<string>https://nyanya-rocket.firebaseio.com</string>
+</dict>
+</plist>

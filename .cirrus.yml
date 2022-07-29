@@ -32,3 +32,15 @@ linux_build_task:
     - flutter build linux
   linux_artifacts:
     path: "build/linux/x64/release/bundle/**"
+
+macos_build_task:
+  macos_instance:
+    image: ghcr.io/cirruslabs/macos-monterey-xcode:13.4.1
+  pub_cache:
+    folder: ~/.pub-cache
+  build_script:
+    - flutter channel beta
+    - flutter upgrade
+    - flutter build macos
+  macos_artifacts:
+    path: "build/macos/Build/Products/Release/NyaNya Rocket!.app/**"
