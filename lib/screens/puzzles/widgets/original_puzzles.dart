@@ -238,9 +238,8 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
   }
 
   Widget _buildPuzzleCard(int i, bool cleared) {
-    return InkWell(
-      key: ValueKey(i),
-      child: BoardCard(
+    return BoardCard(
+        key: ValueKey(i),
         cleared: cleared,
         game: OriginalPuzzles.puzzles[i].data.getGame(),
         description: [
@@ -250,11 +249,9 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
           ),
           Text(_difficultyFromIndex(context, i))
         ],
-      ),
-      onTap: () {
-        _openPuzzle(i);
-      },
-    );
+        onTap: () {
+          _openPuzzle(i);
+        });
   }
 
   @override

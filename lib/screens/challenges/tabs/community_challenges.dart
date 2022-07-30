@@ -6,6 +6,8 @@ import 'package:nyanya_rocket/routing/nyanya_route_path.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
 import '../../../models/challenge_data.dart';
 import '../../../services/firestore/firestore_service.dart';
+import '../../../widgets/layout/board_card.dart';
+import '../../../widgets/layout/board_list.dart';
 import '../../../widgets/navigation/community_filter_bar.dart';
 
 class CommunityChallenges extends StatefulWidget {
@@ -45,16 +47,13 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
         Expanded(
           child: RefreshIndicator(
             onRefresh: _refreshList,
-            child: OrientationBuilder(
-              builder: (BuildContext context, Orientation orientation) {
-                if (orientation == Orientation.landscape ||
-                    MediaQuery.of(context).size.width >= 270 * 2.5) {
-                  return _buildLandscape();
-                } else {
-                  return _buildPortrait();
-                }
-              },
-            ),
+            child: BoardList(
+                itemCount: challenges.length,
+                tileBuilder: (BuildContext context, int index) {
+                  return _buildChallengeTile(challenges[index]);
+                },
+                cardBuilder: (BuildContext context, int index) =>
+                    _buildChallengeCard(challenges[index])),
           ),
         ),
         const Divider(height: 1.0),
@@ -72,63 +71,42 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
     );
   }
 
-  Widget _buildPortrait() {
-    return ListView.builder(
-        itemCount: challenges.length,
-        itemBuilder: (context, i) => ListTile(
-              title: Text(challenges[i].name),
-              subtitle: Text(
-                  '${challenges[i].author}\n${MaterialLocalizations.of(context).formatMediumDate(challenges[i].date)}'),
-              isThreeLine: true,
-              trailing: StarCount(count: challenges[i].likes),
-              onTap: () {
-                Router.of(context).routerDelegate.setNewRoutePath(
-                    NyaNyaRoutePath.communityChallenge(challenges[i].uid));
-              },
-            ));
-  }
-
-  Widget _buildLandscape() {
-    return GridView.builder(
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 270,
-        ),
-        itemCount: challenges.length,
-        itemBuilder: (context, i) => _buildChallengeCard(i));
-  }
-
-  Widget _buildChallengeCard(int i) {
-    return InkWell(
-      key: ValueKey(i),
-      child: Card(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: AspectRatio(
-                  aspectRatio: 12 / 9,
-                  child: StaticGameView(
-                    game: challenges[i].data.getGame(),
-                  ),
-                )),
-            Text(
-              '${challenges[i].name} (${challenges[i].data.type.toLocalizedString(context)})',
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(challenges[i].author),
-                StarCount(count: challenges[i].likes),
-              ],
-            )
-          ],
-        ),
-      ),
+  Widget _buildChallengeTile(CommunityChallengeData challenge) {
+    return ListTile(
+      title: Text(challenge.name),
+      subtitle: Text(
+          '${challenge.author}\n${MaterialLocalizations.of(context).formatMediumDate(challenge.date)}'),
+      isThreeLine: true,
+      trailing: StarCount(count: challenge.likes),
       onTap: () {
-        Router.of(context).routerDelegate.setNewRoutePath(
-            NyaNyaRoutePath.communityChallenge(challenges[i].uid));
+        Router.of(context)
+            .routerDelegate
+            .setNewRoutePath(NyaNyaRoutePath.communityChallenge(challenge.uid));
+      },
+    );
+  }
+
+  Widget _buildChallengeCard(CommunityChallengeData challenge) {
+    return BoardCard(
+      key: ValueKey(challenge.uid),
+      game: challenge.data.getGame(),
+      description: [
+        Text(
+          '${challenge.name} (${challenge.data.type.toLocalizedString(context)})',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(challenge.author),
+            StarCount(count: challenge.likes),
+          ],
+        )
+      ],
+      onTap: () {
+        Router.of(context)
+            .routerDelegate
+            .setNewRoutePath(NyaNyaRoutePath.communityChallenge(challenge.uid));
       },
     );
   }

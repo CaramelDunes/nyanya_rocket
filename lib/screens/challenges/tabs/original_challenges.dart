@@ -209,19 +209,17 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
       NamedChallengeData namedChallengeData, Duration? time) {
     final bool isCleared = time != null;
 
-    return InkWell(
+    return BoardCard(
       key: ValueKey(namedChallengeData.slug),
-      child: BoardCard(
-        game: namedChallengeData.data.getGame(),
-        description: [
-          Text(
-            _fullLocalizedName(namedChallengeData),
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(isCleared ? _formatTime(time) : '')
-        ],
-        cleared: isCleared,
-      ),
+      game: namedChallengeData.data.getGame(),
+      description: [
+        Text(
+          _fullLocalizedName(namedChallengeData),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Text(isCleared ? _formatTime(time) : '')
+      ],
+      cleared: isCleared,
       onTap: () {
         _openChallenge(OriginalChallenges.originalSlug(namedChallengeData));
       },

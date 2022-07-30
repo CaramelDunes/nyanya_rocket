@@ -76,9 +76,12 @@ class LocalPuzzles extends StatelessWidget {
 
   Widget _buildPuzzleCard(
       BuildContext context, String uuid, String name, User user) {
-    return InkWell(
+    return Card(
       key: ValueKey(uuid),
-      child: Card(
+      child: InkWell(
+        onTap: () {
+          _openPuzzle(context, uuid);
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -129,9 +132,6 @@ class LocalPuzzles extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {
-        _openPuzzle(context, uuid);
-      },
     );
   }
 
