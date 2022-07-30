@@ -5,12 +5,14 @@ import '../../../widgets/board/tiles/arrow_image.dart';
 import '../../puzzle/widgets/draggable_arrow.dart';
 
 class ArrowDrawer extends StatelessWidget {
+  final PlayerColor? player;
   final bool running;
   final Direction? selectedDirection;
   final Function(Direction) onTap;
 
   const ArrowDrawer(
       {Key? key,
+      required this.player,
       required this.running,
       required this.selectedDirection,
       required this.onTap})
@@ -35,10 +37,11 @@ class ArrowDrawer extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap(direction),
       child: DraggableArrow(
+          player: player,
           maxSimultaneousDrags: running ? 1 : 0,
           data: DraggedArrowData(direction: direction),
           child: ArrowImage(
-            player: running ? PlayerColor.Blue : null,
+            player: running ? player : null,
             direction: direction,
             selected: direction == selectedDirection,
           )),

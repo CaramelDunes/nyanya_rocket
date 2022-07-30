@@ -176,6 +176,7 @@ class _ChallengeState extends State<Challenge> {
         ),
         _buildGameView(),
         ArrowDrawer(
+          player: PlayerColor.Blue,
           running: _challengeController.running,
           selectedDirection: _selectedDirection,
           onTap: _selectDirection,
@@ -203,6 +204,7 @@ class _ChallengeState extends State<Challenge> {
           child: _buildGameView(),
         ),
         ArrowDrawer(
+          player: PlayerColor.Blue,
           running: _challengeController.running,
           selectedDirection: _selectedDirection,
           onTap: _selectDirection,

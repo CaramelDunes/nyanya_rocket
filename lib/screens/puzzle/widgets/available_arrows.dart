@@ -82,6 +82,7 @@ class AvailableArrows extends StatelessWidget {
           return GestureDetector(
             onTap: () => onArrowTap(direction),
             child: DraggableArrow(
+                player: PlayerColor.Blue,
                 data: DraggedArrowData(direction: direction),
                 draggedCount: draggedCount,
                 maxSimultaneousDrags:

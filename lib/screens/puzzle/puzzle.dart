@@ -104,6 +104,7 @@ class _PuzzleState extends State<Puzzle> {
           valueListenable: _puzzleController.state,
           builder: (context, value, __) {
             return DraggableArrow(
+              player: PlayerColor.Blue,
               maxSimultaneousDrags: value.reset ? 1 : 0,
               data: DraggedArrowData(
                   direction: arrowDirection, isOverBoard: true),
