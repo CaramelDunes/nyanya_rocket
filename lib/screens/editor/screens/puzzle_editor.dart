@@ -27,7 +27,7 @@ class PuzzleEditor extends StatefulWidget {
 class _PuzzleEditorState extends State<PuzzleEditor> {
   late EditedGame _editedGame;
   String? _uuid;
-  bool _saving = false;
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -104,24 +104,24 @@ class _PuzzleEditorState extends State<PuzzleEditor> {
     // Avoid creating 2 puzzles.
     // A better solution would be to move the effective puzzle creation to the
     // editor create tab.
-    if (_saving) {
+    if (_isSaving) {
       return;
     }
 
-    _saving = true;
+    _isSaving = true;
 
     if (_uuid == null) {
       PuzzleStore.saveNew(_buildPuzzleData()).then((String? uuid) {
         if (uuid != null) {
           _uuid = uuid;
           print('Saved $uuid');
-          _saving = false;
+          _isSaving = false;
         } // TODO Handle failure.
       });
     } else {
       PuzzleStore.update(_uuid!, _buildPuzzleData().data).then((bool status) {
         print('Updated $_uuid');
-        _saving = false;
+        _isSaving = false;
         // TODO Handle failure.
       });
     }

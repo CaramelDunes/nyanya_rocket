@@ -27,7 +27,7 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   late EditedGame _editedGame;
   late String? _uuid;
 
-  bool _saving = false;
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -81,25 +81,25 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
   }
 
   void _handleSave() {
-    if (_saving) {
+    if (_isSaving) {
       return;
     }
 
-    _saving = true;
+    _isSaving = true;
 
     if (_uuid == null) {
       MultiplayerStore.saveNew(_buildMultiplayerBoard()).then((String? uuid) {
         if (uuid != null) {
           _uuid = uuid;
           print('Saved $uuid');
-          _saving = false;
+          _isSaving = false;
         } // FIXME Handle failure.
       });
     } else {
       MultiplayerStore.update(_uuid!, _buildMultiplayerBoard())
           .then((bool status) {
         print('Updated $_uuid');
-        _saving = false;
+        _isSaving = false;
         // FIXME Handle failure.
       });
     }

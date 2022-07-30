@@ -19,10 +19,10 @@ abstract class ChallengeStore {
     final String uuid =
         _uuid.v4(); // Assume that the registry doesn't contain the new uuid.
 
-    bool dataWritten = await NamedDataStorage.active
+    bool wasDataWritten = await NamedDataStorage.active
         .writeData(storeName, uuid, jsonEncode(challengeData.toJson()));
 
-    if (dataWritten) {
+    if (wasDataWritten) {
       registry[uuid] = challengeData.name;
       bool success =
           await NamedDataStorage.active.writeRegistry(storeName, registry);

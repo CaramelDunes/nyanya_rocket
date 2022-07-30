@@ -38,7 +38,7 @@ class Challenge extends StatefulWidget {
 
 class _ChallengeState extends State<Challenge> {
   late ChallengeGameController _challengeController;
-  bool _ended = false;
+  bool _hasEnded = false;
   Direction? _selectedDirection;
 
   @override
@@ -74,7 +74,7 @@ class _ChallengeState extends State<Challenge> {
 
   void _handleWin() {
     setState(() {
-      _ended = true;
+      _hasEnded = true;
     });
 
     widget.onWin?.call(
@@ -141,14 +141,14 @@ class _ChallengeState extends State<Challenge> {
             },
           ),
           Visibility(
-              visible: _ended,
+              visible: _hasEnded,
               child: SuccessOverlay(
                 nextRoutePath: widget.nextRoutePath,
                 succeededPath: widget.documentPath,
                 onPlayAgain: () {
                   _challengeController.reset();
                   setState(() {
-                    _ended = false;
+                    _hasEnded = false;
                   });
                 },
               )),

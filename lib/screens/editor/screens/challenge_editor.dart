@@ -28,7 +28,7 @@ class ChallengeEditor extends StatefulWidget {
 class _ChallengeEditorState extends State<ChallengeEditor> {
   late EditedGame _editedGame;
   String? _uuid;
-  bool _saving = false;
+  bool _isSaving = false;
 
   @override
   void initState() {
@@ -135,25 +135,25 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
   }
 
   void _handleSave() {
-    if (_saving) {
+    if (_isSaving) {
       return;
     }
 
-    _saving = true;
+    _isSaving = true;
 
     if (_uuid == null) {
       ChallengeStore.saveNew(_buildChallengeData()).then((String? uuid) {
         if (uuid != null) {
           _uuid = uuid;
           print('Saved $uuid');
-          _saving = false;
+          _isSaving = false;
         } // FIXME Handle failure.
       });
     } else {
       ChallengeStore.update(_uuid!, _buildChallengeData()).then((bool status) {
         // FIXME Handle failure.
         print('Updated $_uuid');
-        _saving = false;
+        _isSaving = false;
       });
     }
   }

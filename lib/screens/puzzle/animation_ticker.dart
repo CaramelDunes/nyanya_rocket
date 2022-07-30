@@ -5,7 +5,7 @@ class AnimationTicker<T extends GameState> {
   T _game;
   final GameSimulator gameSimulator;
 
-  bool running = false;
+  bool isRunning = false;
 
   AnimationTicker(this._game, this.gameSimulator) {
     gameSimulator.onMouseEaten = onMouseEaten;
@@ -27,7 +27,7 @@ class AnimationTicker<T extends GameState> {
   void afterUpdate() {}
 
   void update() {
-    if (running) {
+    if (isRunning) {
       beforeUpdate();
 
       gameSimulator.update(_game);

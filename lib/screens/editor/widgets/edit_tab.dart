@@ -147,8 +147,9 @@ class _EditTabState extends State<EditTab> {
                   IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
-                      PuzzleStore.delete(uuidList[i]).then((bool result) {
-                        if (result) {
+                      PuzzleStore.delete(uuidList[i])
+                          .then((bool wasSuccessful) {
+                        if (wasSuccessful) {
                           setState(() {
                             _puzzles.remove(uuidList[i]);
                           });
@@ -207,7 +208,7 @@ class _EditTabState extends State<EditTab> {
                     icon: const Icon(Icons.delete),
                     onPressed: () {
                       ChallengeStore.delete(uuidList[i])
-                          .then((bool result) => setState(() {}));
+                          .then((bool wasSuccessful) => setState(() {}));
                     },
                   ),
                 ],
@@ -259,7 +260,7 @@ class _EditTabState extends State<EditTab> {
                     icon: const Icon(Icons.delete),
                     onPressed: () {
                       MultiplayerStore.delete(uuidList[i])
-                          .then((bool result) => setState(() {}));
+                          .then((bool wasSuccessful) => setState(() {}));
                     },
                   ),
                 ],
