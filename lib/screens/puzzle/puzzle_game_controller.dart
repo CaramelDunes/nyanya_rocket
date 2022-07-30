@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:nyanya_rocket/blocs/local_game_controller.dart';
-import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../blocs/local_game_controller.dart';
+import '../../models/puzzle_data.dart';
 
 class Position {
   final int x;

@@ -35,7 +35,7 @@ class AvailableArrows extends StatelessWidget {
           child: ArrowImage(
             player: count > 0 && canPlace ? PlayerColor.Blue : null,
             direction: direction,
-            selected: selected,
+            isSelected: selected,
           ),
         ),
         FractionallySizedBox(

@@ -43,7 +43,7 @@ class ArrowDrawer extends StatelessWidget {
           child: ArrowImage(
             player: running ? player : null,
             direction: direction,
-            selected: direction == selectedDirection,
+            isSelected: direction == selectedDirection,
           )),
     );
   }
