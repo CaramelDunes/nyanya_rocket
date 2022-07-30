@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/navigation/guide_action.dart';
-import 'package:nyanya_rocket/widgets/navigation/settings_action.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import '../../models/named_puzzle_data.dart';
@@ -9,6 +7,8 @@ import '../../widgets/input/draggable_arrow_grid.dart';
 import '../../widgets/board/animated_game_view.dart';
 import '../../widgets/board/tiles/arrow_image.dart';
 import '../../widgets/game/success_overlay.dart';
+import '../../widgets/navigation/guide_action.dart';
+import '../../widgets/navigation/settings_action.dart';
 import 'puzzle_game_controller.dart';
 import 'widgets/available_arrows.dart';
 import 'widgets/draggable_arrow.dart';

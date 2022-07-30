@@ -46,8 +46,8 @@ class DraggableArrow<T extends DraggedArrowData> extends StatelessWidget {
         },
         feedback: ValueListenableBuilder<bool>(
             valueListenable: data.isOverBoard,
-            builder: (context, value, _) {
-              if (!value) {
+            builder: (context, isOverBoard, _) {
+              if (!isOverBoard) {
                 return SizedBox(
                   width: 80,
                   height: 80,
