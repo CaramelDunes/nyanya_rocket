@@ -9,21 +9,22 @@ import '../../../utils.dart';
 class ArrowPainter extends CustomPainter {
   static final Map<Color, Picture> _cache = {};
 
-  const ArrowPainter(this.color, this.direction);
+  const ArrowPainter(this.color, this.direction, this.scale);
 
-  factory ArrowPainter.fromPlayerColor(
-      PlayerColor? color, Direction direction) {
-    return ArrowPainter(color?.color ?? Colors.grey, direction);
+  factory ArrowPainter.fromPlayerColor(PlayerColor? color, Direction direction,
+      [double scale = 1.0]) {
+    return ArrowPainter(color?.color ?? Colors.grey, direction, scale);
   }
 
   final Color color;
   final Direction direction;
+  final double scale;
 
   @override
   void paint(Canvas canvas, Size size) {
     canvas.save();
     canvas.scale(size.width, size.height);
-    paintUnit(canvas, color, direction, false);
+    paintUnit(canvas, color, direction, false, scale);
     canvas.restore();
   }
 
@@ -33,7 +34,8 @@ class ArrowPainter extends CustomPainter {
   }
 
   static void paintUnit(
-      Canvas canvas, Color color, Direction direction, bool damaged) {
+      Canvas canvas, Color color, Direction direction, bool damaged,
+      [double scale = 1.0]) {
     if (!_cache.containsKey(color)) {
       _cache[color] =
           createPicture((canvas) => _actuallyPaintUnit(canvas, color));
@@ -42,6 +44,7 @@ class ArrowPainter extends CustomPainter {
     canvas.save();
     canvas.translate(0.5, 0.5);
     if (damaged) canvas.scale(0.6);
+    canvas.scale(scale);
     canvas.rotate((1 - direction.index) * pi / 2);
 
     canvas.drawPicture(_cache[color]!);

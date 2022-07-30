@@ -28,7 +28,7 @@ class PuzzleGameControls extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                       foregroundColor: Colors.black),
-                  onPressed: !puzzleController.madeMistake
+                  onPressed: !puzzleController.hasMadeMistake
                       ? () {
                           puzzleController.running = !puzzleController.running;
                         }
@@ -36,7 +36,7 @@ class PuzzleGameControls extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Icon(
-                        !state.running
+                        !state.isRunning
                             ? Icons.play_arrow_rounded
                             : Icons.pause_rounded,
                         size: iconSize),
@@ -51,7 +51,7 @@ class PuzzleGameControls extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       foregroundColor: Colors.black),
-                  onPressed: state.reset
+                  onPressed: state.hasReset
                       ? null
                       : () {
                           puzzleController.reset();
@@ -73,7 +73,7 @@ class PuzzleGameControls extends StatelessWidget {
                     child: FaIcon(
                       Icons.fast_forward_rounded,
                       size: iconSize,
-                      color: state.spedUp ? Colors.white : Colors.black,
+                      color: state.isSpedUp ? Colors.white : Colors.black,
                     ),
                   ),
                   onPressed: () {

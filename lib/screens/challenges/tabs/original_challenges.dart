@@ -185,12 +185,12 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
 
   Widget _buildChallengeTile(
       NamedChallengeData namedChallengeData, Duration? time) {
-    final bool cleared = time != null;
+    final bool isCleared = time != null;
 
     return ListTile(
       title: Text(_fullLocalizedName(namedChallengeData)),
       subtitle: Text(namedChallengeData.data.type.toLocalizedString(context)),
-      trailing: cleared
+      trailing: isCleared
           ? Row(mainAxisSize: MainAxisSize.min, children: [
               Text(_formatTime(time)),
               const Icon(
@@ -207,7 +207,7 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
 
   Widget _buildChallengeCard(
       NamedChallengeData namedChallengeData, Duration? time) {
-    final bool cleared = time != null;
+    final bool isCleared = time != null;
 
     return InkWell(
       key: ValueKey(namedChallengeData.slug),
@@ -218,9 +218,9 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
             _fullLocalizedName(namedChallengeData),
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          Text(cleared ? _formatTime(time) : '')
+          Text(isCleared ? _formatTime(time) : '')
         ],
-        cleared: cleared,
+        cleared: isCleared,
       ),
       onTap: () {
         _openChallenge(OriginalChallenges.originalSlug(namedChallengeData));

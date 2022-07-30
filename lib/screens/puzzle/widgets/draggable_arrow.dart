@@ -12,6 +12,7 @@ class DraggedArrowData {
 }
 
 class DraggableArrow<T extends DraggedArrowData> extends StatelessWidget {
+  final PlayerColor? player;
   final DraggedArrowData data;
   final ValueNotifier<int>? draggedCount;
   final Widget child;
@@ -20,6 +21,7 @@ class DraggableArrow<T extends DraggedArrowData> extends StatelessWidget {
 
   const DraggableArrow(
       {Key? key,
+      required this.player,
       required this.data,
       required this.child,
       this.draggedCount,
@@ -44,13 +46,13 @@ class DraggableArrow<T extends DraggedArrowData> extends StatelessWidget {
         },
         feedback: ValueListenableBuilder<bool>(
             valueListenable: data.isOverBoard,
-            builder: (context, value, _) {
-              if (!value) {
+            builder: (context, isOverBoard, _) {
+              if (!isOverBoard) {
                 return SizedBox(
                   width: 80,
                   height: 80,
                   child: ArrowImage(
-                    player: PlayerColor.Blue,
+                    player: player,
                     direction: data.direction,
                   ),
                 );

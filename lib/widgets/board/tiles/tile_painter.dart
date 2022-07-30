@@ -28,7 +28,7 @@ class TilePainter extends StatelessWidget {
         return ArrowImage(
             player: arrow.player,
             direction: arrow.direction,
-            damaged: arrow.halfTurnPower == ArrowHalfTurnPower.OneCat);
+            isDamaged: arrow.halfTurnPower == ArrowHalfTurnPower.OneCat);
 
       case Rocket:
         Rocket rocket = tile as Rocket;

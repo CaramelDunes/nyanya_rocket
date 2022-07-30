@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:nyanya_rocket/blocs/local_game_controller.dart';
-import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+
+import '../../blocs/local_game_controller.dart';
+import '../../models/puzzle_data.dart';
 
 class Position {
   final int x;
@@ -12,16 +13,18 @@ class Position {
 }
 
 class PuzzleGameState {
-  final bool running;
-  final bool reset;
-  final bool spedUp;
+  final bool isRunning;
+  final bool hasReset;
+  final bool isSpedUp;
 
   PuzzleGameState(
-      {required this.running, required this.reset, required this.spedUp});
+      {required this.isRunning,
+      required this.hasReset,
+      required this.isSpedUp});
 
-  PuzzleGameState.reset({required this.spedUp})
-      : running = false,
-        reset = true;
+  PuzzleGameState.reset({required this.isSpedUp})
+      : isRunning = false,
+        hasReset = true;
 }
 
 class PuzzleGameController extends LocalGameController {
@@ -47,7 +50,7 @@ class PuzzleGameController extends LocalGameController {
 
   final ValueNotifier<BoardPosition?> _mistake = ValueNotifier(null);
   final ValueNotifier<PuzzleGameState> _gameStateNotifier =
-      ValueNotifier(PuzzleGameState.reset(spedUp: false));
+      ValueNotifier(PuzzleGameState.reset(isSpedUp: false));
 
   Iterable<Cat>? _preMistakeCats;
   Iterable<Mouse>? _preMistakeMice;
@@ -68,9 +71,9 @@ class PuzzleGameController extends LocalGameController {
 
   bool get canPlaceArrow => _canPlaceArrow;
 
-  bool get spedUp => gameSimulator.speed == GameSpeed.Fast;
+  bool get isSpedUp => gameSimulator.speed == GameSpeed.Fast;
 
-  bool get madeMistake => _mistake.value != null;
+  bool get hasMadeMistake => _mistake.value != null;
 
   void toggleSpeedUp() {
     gameSimulator.speed = gameSimulator.speed == GameSpeed.Normal
@@ -78,7 +81,7 @@ class PuzzleGameController extends LocalGameController {
         : GameSpeed.Normal;
 
     _gameStateNotifier.value = PuzzleGameState(
-        spedUp: spedUp, running: running, reset: _canPlaceArrow);
+        isSpedUp: isSpedUp, isRunning: running, hasReset: _canPlaceArrow);
   }
 
   int remainingArrows(Direction direction) =>
@@ -100,6 +103,10 @@ class PuzzleGameController extends LocalGameController {
     }
 
     return false;
+  }
+
+  bool hasArrow(int x, int y) {
+    return game.board.tiles[x][y] is Arrow;
   }
 
   bool removeArrow(int x, int y) {
@@ -154,9 +161,9 @@ class PuzzleGameController extends LocalGameController {
     _miceInRocket = 0;
 
     _gameStateNotifier.value = PuzzleGameState(
-        spedUp: gameSimulator.speed == GameSpeed.Fast,
-        running: running,
-        reset: _canPlaceArrow);
+        isSpedUp: gameSimulator.speed == GameSpeed.Fast,
+        isRunning: running,
+        hasReset: _canPlaceArrow);
   }
 
   @override
@@ -202,7 +209,7 @@ class PuzzleGameController extends LocalGameController {
     }
 
     _gameStateNotifier.value = PuzzleGameState(
-        spedUp: spedUp, running: running, reset: _canPlaceArrow);
+        isSpedUp: isSpedUp, isRunning: running, hasReset: _canPlaceArrow);
   }
 
   @override

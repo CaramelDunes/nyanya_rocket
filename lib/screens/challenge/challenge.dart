@@ -14,7 +14,7 @@ import '../../widgets/navigation/guide_action.dart';
 import '../../widgets/navigation/settings_action.dart';
 import '../puzzle/widgets/draggable_arrow.dart';
 import 'challenge_game_controller.dart';
-import 'widgets/arrow_drawer.dart';
+import '../../widgets/input/arrow_drawer.dart';
 
 class Challenge extends StatefulWidget {
   final NamedChallengeData challenge;
@@ -38,7 +38,8 @@ class Challenge extends StatefulWidget {
 
 class _ChallengeState extends State<Challenge> {
   late ChallengeGameController _challengeController;
-  bool _ended = false;
+  bool _hasEnded = false;
+  Direction? _selectedDirection;
 
   @override
   void initState() {
@@ -63,9 +64,17 @@ class _ChallengeState extends State<Challenge> {
     _challengeController.placeArrow(x, y, arrow.direction);
   }
 
+  void _handleTap(int x, int y) {
+    if (_selectedDirection == null) {
+      return;
+    }
+
+    _challengeController.placeArrow(x, y, _selectedDirection!);
+  }
+
   void _handleWin() {
     setState(() {
-      _ended = true;
+      _hasEnded = true;
     });
 
     widget.onWin?.call(
@@ -81,6 +90,16 @@ class _ChallengeState extends State<Challenge> {
       player: PlayerColor.Blue,
       isHalfTransparent: true,
     );
+  }
+
+  void _selectDirection(Direction direction) {
+    if (direction == _selectedDirection) {
+      return;
+    }
+
+    setState(() {
+      _selectedDirection = direction;
+    });
   }
 
   String _objectiveText(BuildContext context) {
@@ -122,14 +141,14 @@ class _ChallengeState extends State<Challenge> {
             },
           ),
           Visibility(
-              visible: _ended,
+              visible: _hasEnded,
               child: SuccessOverlay(
                 nextRoutePath: widget.nextRoutePath,
                 succeededPath: widget.documentPath,
                 onPlayAgain: () {
                   _challengeController.reset();
                   setState(() {
-                    _ended = false;
+                    _hasEnded = false;
                   });
                 },
               )),
@@ -156,7 +175,12 @@ class _ChallengeState extends State<Challenge> {
           ],
         ),
         _buildGameView(),
-        ArrowDrawer(running: _challengeController.running),
+        ArrowDrawer(
+          player: PlayerColor.Blue,
+          running: _challengeController.running,
+          selectedDirection: _selectedDirection,
+          onTap: _selectDirection,
+        ),
         _buildPlayResetButton(Orientation.portrait)
       ],
     );
@@ -179,7 +203,12 @@ class _ChallengeState extends State<Challenge> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: _buildGameView(),
         ),
-        ArrowDrawer(running: _challengeController.running),
+        ArrowDrawer(
+          player: PlayerColor.Blue,
+          running: _challengeController.running,
+          selectedDirection: _selectedDirection,
+          onTap: _selectDirection,
+        ),
       ],
     );
   }
@@ -194,6 +223,7 @@ class _ChallengeState extends State<Challenge> {
             onSwipe: _handleSwipe,
             previewBuilder: _dragTileBuilder,
             onWillAccept: _handleOnWillAccept,
+            onTap: _handleTap,
             child: AnimatedGameView(
               game: _challengeController.gameStream,
               mistake: _challengeController.mistake,

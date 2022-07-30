@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/navigation/guide_action.dart';
-import 'package:nyanya_rocket/widgets/navigation/settings_action.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import '../../models/named_puzzle_data.dart';
@@ -9,6 +7,8 @@ import '../../widgets/input/draggable_arrow_grid.dart';
 import '../../widgets/board/animated_game_view.dart';
 import '../../widgets/board/tiles/arrow_image.dart';
 import '../../widgets/game/success_overlay.dart';
+import '../../widgets/navigation/guide_action.dart';
+import '../../widgets/navigation/settings_action.dart';
 import 'puzzle_game_controller.dart';
 import 'widgets/available_arrows.dart';
 import 'widgets/draggable_arrow.dart';
@@ -37,6 +37,7 @@ class _PuzzleState extends State<Puzzle> {
   bool _ended = false;
   final List<ValueNotifier<int>> _draggedArrowCount =
       List.generate(4, (_) => ValueNotifier(0), growable: false);
+  Direction? selectedDirection;
 
   @override
   void initState() {
@@ -54,7 +55,11 @@ class _PuzzleState extends State<Puzzle> {
   }
 
   void _handleTap(int x, int y) {
-    _puzzleController.removeArrow(x, y);
+    if (_puzzleController.hasArrow(x, y)) {
+      _puzzleController.removeArrow(x, y);
+    } else if (selectedDirection != null) {
+      _puzzleController.placeArrow(x, y, selectedDirection!);
+    }
   }
 
   void _handleDrop(int x, int y, DraggedArrowData arrow) {
@@ -63,6 +68,16 @@ class _PuzzleState extends State<Puzzle> {
 
   void _handleSwipe(int x, int y, Direction direction) {
     _puzzleController.placeArrow(x, y, direction);
+  }
+
+  void _handleArrowTap(Direction direction) {
+    if (selectedDirection == direction) {
+      return;
+    }
+
+    setState(() {
+      selectedDirection = direction;
+    });
   }
 
   void _handleWin() {
@@ -89,7 +104,8 @@ class _PuzzleState extends State<Puzzle> {
           valueListenable: _puzzleController.state,
           builder: (context, value, __) {
             return DraggableArrow(
-              maxSimultaneousDrags: value.reset ? 1 : 0,
+              player: PlayerColor.Blue,
+              maxSimultaneousDrags: value.hasReset ? 1 : 0,
               data: DraggedArrowData(
                   direction: arrowDirection, isOverBoard: true),
               draggedCount: _draggedArrowCount[arrowDirection.index],
@@ -126,6 +142,8 @@ class _PuzzleState extends State<Puzzle> {
           direction: Axis.horizontal,
           puzzleGameController: _puzzleController,
           draggedArrowCounts: _draggedArrowCount,
+          onArrowTap: _handleArrowTap,
+          selectedDirection: selectedDirection,
         )),
         Flexible(
           child: PuzzleGameControls(
@@ -155,6 +173,8 @@ class _PuzzleState extends State<Puzzle> {
           direction: Axis.vertical,
           puzzleGameController: _puzzleController,
           draggedArrowCounts: _draggedArrowCount,
+          selectedDirection: selectedDirection,
+          onArrowTap: _handleArrowTap,
         )),
       ],
     );

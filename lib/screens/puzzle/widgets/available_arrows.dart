@@ -9,16 +9,20 @@ class AvailableArrows extends StatelessWidget {
   final Axis direction;
   final PuzzleGameController puzzleGameController;
   final List<ValueNotifier<int>> draggedArrowCounts;
+  final Direction? selectedDirection;
+  final Function(Direction direction) onArrowTap;
 
   const AvailableArrows(
       {Key? key,
       required this.direction,
       required this.puzzleGameController,
-      required this.draggedArrowCounts})
+      required this.draggedArrowCounts,
+      required this.onArrowTap,
+      this.selectedDirection})
       : super(key: key);
 
-  static Widget _buildArrowAndCount(
-      Direction direction, int count, Brightness brightness, bool canPlace) {
+  static Widget _buildArrowAndCount(Direction direction, int count,
+      Brightness brightness, bool canPlace, bool selected) {
     const double bubbleFactor = 0.33;
 
     return Stack(
@@ -31,6 +35,7 @@ class AvailableArrows extends StatelessWidget {
           child: ArrowImage(
             player: count > 0 && canPlace ? PlayerColor.Blue : null,
             direction: direction,
+            isSelected: selected,
           ),
         ),
         FractionallySizedBox(
@@ -58,6 +63,8 @@ class AvailableArrows extends StatelessWidget {
 
   Widget _buildDraggableArrow(Direction direction,
       ValueNotifier<int> remainingArrows, ValueNotifier<int> draggedCount) {
+    final bool selected = direction == selectedDirection;
+
     return ValueListenableBuilder<int>(
         valueListenable: remainingArrows,
         builder: (BuildContext context, int count, _) {
@@ -68,15 +75,21 @@ class AvailableArrows extends StatelessWidget {
                     direction,
                     count - offset,
                     Theme.of(context).brightness,
-                    puzzleGameController.canPlaceArrow);
+                    puzzleGameController.canPlaceArrow,
+                    selected);
               });
 
-          return DraggableArrow(
-              data: DraggedArrowData(direction: direction),
-              draggedCount: draggedCount,
-              maxSimultaneousDrags:
-                  puzzleGameController.canPlaceArrow ? count : 0,
-              child: arrowAndCount);
+          return GestureDetector(
+            onTap: () => onArrowTap(direction),
+            child: DraggableArrow(
+                player: PlayerColor.Blue,
+                data: DraggedArrowData(direction: direction),
+                draggedCount: draggedCount,
+                maxSimultaneousDrags:
+                    puzzleGameController.canPlaceArrow ? count : 0,
+                onDragStarted: () => onArrowTap(direction),
+                child: arrowAndCount),
+          );
         });
   }
 

@@ -54,7 +54,7 @@ class EditorPlacer extends StatefulWidget {
 class _EditorPlacerState extends State<EditorPlacer> {
   int _selected = 0;
   late List<int> _subSelected;
-  bool _saved = false;
+  bool _isSaved = false;
 
   @override
   void initState() {
@@ -68,7 +68,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
   }
 
   Future<bool> _confirmDiscard() {
-    if (_saved) {
+    if (_isSaved) {
       return Future.value(true);
     }
 
@@ -129,7 +129,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
     // TODO Use ValueListenableBuilder on the board.
     setState(() {});
 
-    _saved = false;
+    _isSaved = false;
   }
 
   void _handleTap(int x, int y) {
@@ -156,7 +156,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
     // TODO Use ValueListenableBuilder on the board.
     setState(() {});
 
-    _saved = false;
+    _isSaved = false;
   }
 
   @override
@@ -239,7 +239,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
                                     NyaNyaLocalizations.of(context).saveLabel),
                                 onPressed: () {
                                   widget.onSave();
-                                  _saved = true;
+                                  _isSaved = true;
                                 }),
                           ),
                         ),

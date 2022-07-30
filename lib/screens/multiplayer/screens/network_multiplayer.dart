@@ -11,8 +11,11 @@ import '../../../localization/nyanya_localizations.dart';
 import '../../../utils.dart';
 import '../../../widgets/board/animated_game_view.dart';
 import '../../../widgets/board/tiles/arrow_image.dart';
+import '../../../widgets/input/draggable_arrow_grid.dart';
 import '../../../widgets/input/input_grid_overlay.dart';
 import '../../../widgets/game/score_box.dart';
+import '../../../widgets/input/arrow_drawer.dart';
+import '../../puzzle/widgets/draggable_arrow.dart';
 import '../game_widgets/multiplayer_status_row.dart';
 import '../network_client.dart';
 import '../game_widgets/event_wheel.dart';
@@ -45,6 +48,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
   bool _displayRoulette = false;
   bool _hasEnded = false;
   PlayerColor? _myColor;
+  Direction? _selectedDirection;
 
   @override
   void initState() {
@@ -96,6 +100,18 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
 
   void _handleSwipe(int x, int y, Direction direction) {
     _localMultiplayerController.placeArrow(x, y, direction);
+  }
+
+  void _handleDrop(int x, int y, DraggedArrowData draggedArrow) {
+    _localMultiplayerController.placeArrow(x, y, draggedArrow.direction);
+  }
+
+  void _handleTap(int x, int y) {
+    if (_selectedDirection == null) {
+      return;
+    }
+
+    _localMultiplayerController.placeArrow(x, y, _selectedDirection!);
   }
 
   void _handleRegisterSuccess(PlayerColor assignedColor) {
@@ -159,26 +175,25 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
         color: player.color);
   }
 
-  Widget _dragTileBuilder(BuildContext context, List<Direction?> candidateData,
-      List rejectedData, int x, int y) {
+  Widget _dragTileBuilder(BuildContext context,
+      List<DraggedArrowData?> candidateData, List rejectedData, int x, int y) {
     if (candidateData.isEmpty) return const SizedBox.expand();
 
     return ArrowImage(
-      direction: candidateData[0]!,
+      direction: candidateData[0]!.direction,
       player: _myColor,
       isHalfTransparent: true,
     );
   }
 
-  Widget _draggableArrow(PlayerColor? player, Direction direction) {
-    return Draggable<Direction>(
-        maxSimultaneousDrags: 1,
-        feedback: const SizedBox.shrink(),
-        data: direction,
-        child: ArrowImage(
-          player: player,
-          direction: direction,
-        ));
+  void _handleSelectArrowDirection(Direction direction) {
+    if (direction == _selectedDirection) {
+      return;
+    }
+
+    setState(() {
+      _selectedDirection = direction;
+    });
   }
 
   @override
@@ -221,9 +236,10 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                       padding: const EdgeInsets.all(8.0),
                       child: AspectRatio(
                           aspectRatio: 12.0 / 9.0,
-                          child: InputGridOverlay<Direction>(
+                          child: DraggableArrowGrid<DraggedArrowData>(
                             onSwipe: _handleSwipe,
-                            onDrop: _handleSwipe,
+                            onDrop: _handleDrop,
+                            onTap: _handleTap,
                             previewBuilder: _dragTileBuilder,
                             child: AnimatedGameView(
                               game: _localMultiplayerController.running
@@ -233,14 +249,12 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                           )),
                     ),
                     Expanded(
-                      child: Column(
-                          children: Direction.values
-                              .map((e) => Expanded(
-                                      child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: _draggableArrow(_myColor, e),
-                                  )))
-                              .toList()),
+                      child: ArrowDrawer(
+                        player: _myColor,
+                        running: _localMultiplayerController.running,
+                        selectedDirection: _selectedDirection,
+                        onTap: _handleSelectArrowDirection,
+                      ),
                     ),
                   ],
                 ),
