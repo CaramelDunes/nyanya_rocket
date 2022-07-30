@@ -24,11 +24,13 @@ class App extends StatefulWidget {
   ];
 
   static final ThemeData lightTheme = ThemeData.from(
+    useMaterial3: true,
     colorScheme: const ColorScheme.light(
         primary: Colors.deepPurple, secondary: Colors.orangeAccent),
   );
 
   static final ThemeData darkTheme = ThemeData.from(
+    useMaterial3: true,
     colorScheme: const ColorScheme.dark(
         primary: Colors.orange, secondary: Colors.deepPurpleAccent),
   );
