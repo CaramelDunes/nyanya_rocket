@@ -17,15 +17,15 @@ class ArrowImage extends StatelessWidget {
       required this.direction,
       this.isDamaged = false,
       this.isHalfTransparent = false,
-      this.isSelected = false})
+      this.isSelected = true})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final Widget arrow = CustomPaint(
       size: Size.infinite,
-      painter:
-          ArrowPainter.fromPlayerColor(player, direction, isSelected ? 1 : 0.8),
+      painter: ArrowPainter.fromPlayerColor(
+          player, direction, isSelected ? 1 : 0.85),
     );
 
     if (isHalfTransparent) {
