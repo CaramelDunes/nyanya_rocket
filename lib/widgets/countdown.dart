@@ -25,7 +25,7 @@ class Countdown extends StatelessWidget {
     return Text(
       formatDuration(remaining),
       textAlign: textAlign,
-      style: Theme.of(context).textTheme.headline6!.copyWith(color: color),
+      style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: color),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:firedart/generated/google/firestore/v1/firestore.pbjson.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/navigation/star_count.dart';
 import 'package:provider/provider.dart';
@@ -113,7 +114,7 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles>
         description: [
           Text(
             puzzle.name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleSmall,
           ),
           Row(
             mainAxisSize: MainAxisSize.min,

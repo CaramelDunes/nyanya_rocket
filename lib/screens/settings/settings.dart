@@ -17,10 +17,7 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const EdgeInsets sectionInsets = EdgeInsets.only(top: 8.0, left: 8.0);
-    final TextStyle sectionStyle = Theme.of(context)
-        .textTheme
-        .subtitle1!
-        .copyWith(fontWeight: FontWeight.bold);
+    final TextStyle? sectionStyle = Theme.of(context).textTheme.headlineSmall;
 
     return Scaffold(
         appBar: AppBar(
@@ -47,7 +44,7 @@ class Settings extends StatelessWidget {
                 Consumer<Region>(
                     builder: (context, region, _) =>
                         _buildRegionTile(context, region)),
-                const Divider(height: 1.0),
+                // const Divider(height: 1.0),
                 Padding(
                   padding: sectionInsets,
                   child: Text(

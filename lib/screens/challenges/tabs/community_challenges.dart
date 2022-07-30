@@ -93,7 +93,7 @@ class _CommunityChallengesState extends State<CommunityChallenges> {
       description: [
         Text(
           '${challenge.name} (${challenge.data.type.toLocalizedString(context)})',
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         Row(
           mainAxisSize: MainAxisSize.min,

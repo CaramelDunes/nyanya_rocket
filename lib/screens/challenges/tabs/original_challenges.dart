@@ -215,7 +215,7 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
       description: [
         Text(
           _fullLocalizedName(namedChallengeData),
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         Text(isCleared ? _formatTime(time) : '')
       ],

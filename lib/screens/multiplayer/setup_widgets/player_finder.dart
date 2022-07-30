@@ -98,7 +98,6 @@ class _PlayerFinderState extends State<PlayerFinder> {
                             ? ''
                             : NyaNyaLocalizations.of(context)
                                 .queueRefreshErrorText),
-                style: const TextStyle(fontSize: 15),
               ),
             ),
             const SizedBox(

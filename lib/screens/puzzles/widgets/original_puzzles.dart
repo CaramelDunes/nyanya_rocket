@@ -245,7 +245,7 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
         description: [
           Text(
             OriginalPuzzles.puzzles[i].name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleSmall,
           ),
           Text(_difficultyFromIndex(context, i))
         ],

@@ -81,9 +81,6 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
             children: [
               const Spacer(flex: 2),
               Card(
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -91,8 +88,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                     children: [
                       Text(
                         NyaNyaLocalizations.of(context).stageClearedText,
-                        style:
-                            const TextStyle(color: Colors.green, fontSize: 40),
+                        style: Theme.of(context).textTheme.headlineLarge,
                         textAlign: TextAlign.center,
                       ),
                       if (widget.succeededPath != null && _stars != null)
