@@ -14,7 +14,7 @@ import '../../widgets/navigation/guide_action.dart';
 import '../../widgets/navigation/settings_action.dart';
 import '../puzzle/widgets/draggable_arrow.dart';
 import 'challenge_game_controller.dart';
-import 'widgets/arrow_drawer.dart';
+import '../../widgets/input/arrow_drawer.dart';
 
 class Challenge extends StatefulWidget {
   final NamedChallengeData challenge;

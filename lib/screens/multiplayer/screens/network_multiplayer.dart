@@ -14,7 +14,7 @@ import '../../../widgets/board/tiles/arrow_image.dart';
 import '../../../widgets/input/draggable_arrow_grid.dart';
 import '../../../widgets/input/input_grid_overlay.dart';
 import '../../../widgets/game/score_box.dart';
-import '../../challenge/widgets/arrow_drawer.dart';
+import '../../../widgets/input/arrow_drawer.dart';
 import '../../puzzle/widgets/draggable_arrow.dart';
 import '../game_widgets/multiplayer_status_row.dart';
 import '../network_client.dart';

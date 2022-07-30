@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
-import '../../../widgets/board/tiles/arrow_image.dart';
-import '../../puzzle/widgets/draggable_arrow.dart';
+import '../board/tiles/arrow_image.dart';
+import '../../screens/puzzle/widgets/draggable_arrow.dart';
 
 class ArrowDrawer extends StatelessWidget {
   final PlayerColor? player;
