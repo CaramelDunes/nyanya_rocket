@@ -13,7 +13,7 @@ import '../../../config.dart';
 import '../../../models/stores/challenge_store.dart';
 
 class LocalChallenges extends StatefulWidget {
-  const LocalChallenges({Key? key}) : super(key: key);
+  const LocalChallenges({super.key});
 
   @override
   State<LocalChallenges> createState() => _LocalChallengesState();

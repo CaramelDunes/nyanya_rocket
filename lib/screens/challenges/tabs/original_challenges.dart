@@ -122,7 +122,7 @@ class OriginalChallenges extends StatefulWidget {
     return '${challengeData.type.toSlug()}-${challengeData.slug}';
   }
 
-  const OriginalChallenges({Key? key}) : super(key: key);
+  const OriginalChallenges({super.key});
 
   @override
   State<OriginalChallenges> createState() => _OriginalChallengesState();

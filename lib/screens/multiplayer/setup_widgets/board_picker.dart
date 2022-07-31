@@ -9,7 +9,7 @@ import '../screens/board_picker_lists.dart';
 class BoardPicker extends StatefulWidget {
   final void Function(MultiplayerBoard value) onChanged;
 
-  const BoardPicker({Key? key, required this.onChanged}) : super(key: key);
+  const BoardPicker({super.key, required this.onChanged});
 
   @override
   State<BoardPicker> createState() => _BoardPickerState();

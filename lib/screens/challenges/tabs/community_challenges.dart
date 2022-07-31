@@ -10,7 +10,7 @@ import '../../../widgets/layout/board_list.dart';
 import '../../../widgets/navigation/community_filter_bar.dart';
 
 class CommunityChallenges extends StatefulWidget {
-  const CommunityChallenges({Key? key}) : super(key: key);
+  const CommunityChallenges({super.key});
 
   @override
   State<CommunityChallenges> createState() => _CommunityChallengesState();

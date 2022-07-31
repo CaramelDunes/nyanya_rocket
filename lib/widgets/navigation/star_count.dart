@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class StarCount extends StatelessWidget {
   final int count;
 
-  const StarCount({Key? key, required this.count}) : super(key: key);
+  const StarCount({super.key, required this.count});
 
   @override
   Widget build(BuildContext context) {

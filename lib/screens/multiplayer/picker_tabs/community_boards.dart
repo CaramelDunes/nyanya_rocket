@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/input/not_implemented.dart';
 
 class CommunityBoards extends StatefulWidget {
-  const CommunityBoards({Key? key}) : super(key: key);
+  const CommunityBoards({super.key});
 
   @override
   State<CommunityBoards> createState() => _CommunityBoardsState();

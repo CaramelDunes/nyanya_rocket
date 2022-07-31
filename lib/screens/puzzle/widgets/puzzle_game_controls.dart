@@ -7,8 +7,7 @@ class PuzzleGameControls extends StatelessWidget {
   final PuzzleGameController puzzleController;
 
   const PuzzleGameControls(
-      {Key? key, required this.direction, required this.puzzleController})
-      : super(key: key);
+      {super.key, required this.direction, required this.puzzleController});
 
   static const double iconSize = 50.0;
 

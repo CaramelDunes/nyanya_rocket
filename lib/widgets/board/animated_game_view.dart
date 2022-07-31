@@ -10,8 +10,7 @@ class AnimatedGameView extends StatefulWidget {
   final ValueListenable<GameState> game;
   final ValueListenable<BoardPosition?>? mistake;
 
-  const AnimatedGameView({Key? key, required this.game, this.mistake})
-      : super(key: key);
+  const AnimatedGameView({super.key, required this.game, this.mistake});
 
   @override
   State<AnimatedGameView> createState() => _AnimatedGameViewState();

@@ -18,7 +18,7 @@ import '../../../models/stores/challenge_store.dart';
 enum EditorMode { puzzle, challenge, multiplayer }
 
 class EditTab extends StatefulWidget {
-  const EditTab({Key? key}) : super(key: key);
+  const EditTab({super.key});
 
   @override
   State<EditTab> createState() => _EditTabState();

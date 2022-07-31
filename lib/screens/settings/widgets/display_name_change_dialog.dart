@@ -9,8 +9,7 @@ class DisplayNameChangeDialog extends StatefulWidget {
   final User user;
 
   const DisplayNameChangeDialog(
-      {Key? key, required this.initialValue, required this.user})
-      : super(key: key);
+      {super.key, required this.initialValue, required this.user});
 
   @override
   State<DisplayNameChangeDialog> createState() =>

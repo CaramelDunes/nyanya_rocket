@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../routing/nyanya_route_path.dart';
 import '../../utils.dart';
-import 'default_drawer.dart';
 
 class BarRailTab {
   final Widget content;
@@ -24,12 +23,11 @@ class BarRailTabs extends StatefulWidget {
   final List<Widget>? appBarActions;
 
   const BarRailTabs(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.tabs,
       this.initialTab = 0,
-      this.appBarActions})
-      : super(key: key);
+      this.appBarActions});
 
   @override
   State<BarRailTabs> createState() => _BarRailTabsState();

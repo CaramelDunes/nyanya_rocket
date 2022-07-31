@@ -7,7 +7,7 @@ import '../tabs/lan_multiplayer_setup.dart';
 enum ExtraMultiplayerOptions { device, lan }
 
 class ExtraMultiplayerMenu extends StatelessWidget {
-  const ExtraMultiplayerMenu({Key? key}) : super(key: key);
+  const ExtraMultiplayerMenu({super.key});
 
   @override
   Widget build(BuildContext context) {

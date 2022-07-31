@@ -15,12 +15,11 @@ class PlayerFinder extends StatefulWidget {
   final String masterServerHostname;
 
   const PlayerFinder(
-      {Key? key,
+      {super.key,
       required this.queueType,
       required this.displayName,
       required this.idToken,
-      required this.masterServerHostname})
-      : super(key: key);
+      required this.masterServerHostname});
 
   @override
   State<PlayerFinder> createState() => _PlayerFinderState();

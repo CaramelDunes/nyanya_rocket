@@ -8,7 +8,7 @@ import 'widgets/edit_tab.dart';
 enum EditorMode { puzzle, challenge, multiplayer }
 
 class Editor extends StatelessWidget {
-  const Editor({Key? key}) : super(key: key);
+  const Editor({super.key});
 
   @override
   Widget build(BuildContext context) {

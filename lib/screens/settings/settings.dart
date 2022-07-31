@@ -12,7 +12,7 @@ import 'region.dart';
 import 'widgets/display_name_change_dialog.dart';
 
 class Settings extends StatelessWidget {
-  const Settings({Key? key}) : super(key: key);
+  const Settings({super.key});
 
   @override
   Widget build(BuildContext context) {

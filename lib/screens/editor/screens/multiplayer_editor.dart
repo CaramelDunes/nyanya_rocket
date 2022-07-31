@@ -14,10 +14,10 @@ class MultiplayerEditor extends StatefulWidget {
   final String? uuid;
 
   const MultiplayerEditor({
-    Key? key,
+    super.key,
     required this.board,
     this.uuid,
-  }) : super(key: key);
+  });
 
   @override
   State<MultiplayerEditor> createState() => _MultiplayerEditorState();

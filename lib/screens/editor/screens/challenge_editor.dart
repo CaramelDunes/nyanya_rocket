@@ -16,10 +16,10 @@ class ChallengeEditor extends StatefulWidget {
   final String? uuid;
 
   const ChallengeEditor({
-    Key? key,
+    super.key,
     required this.challenge,
     this.uuid,
-  }) : super(key: key);
+  });
 
   @override
   State<ChallengeEditor> createState() => _ChallengeEditorState();

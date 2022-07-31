@@ -6,8 +6,7 @@ class RocketImage extends StatelessWidget {
   final PlayerColor? player;
   final bool departed;
 
-  const RocketImage({Key? key, required this.player, this.departed = false})
-      : super(key: key);
+  const RocketImage({super.key, required this.player, this.departed = false});
 
   @override
   Widget build(BuildContext context) {

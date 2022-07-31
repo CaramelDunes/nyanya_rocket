@@ -4,7 +4,7 @@ import '../../../localization/nyanya_localizations.dart';
 import '../../settings/account_management.dart';
 
 class SignUpPrompt extends StatelessWidget {
-  const SignUpPrompt({Key? key}) : super(key: key);
+  const SignUpPrompt({super.key});
 
   @override
   Widget build(BuildContext context) {

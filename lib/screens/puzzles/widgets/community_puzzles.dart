@@ -13,7 +13,7 @@ import '../../../widgets/layout/board_list.dart';
 class CommunityPuzzles extends StatefulWidget {
   final Future<List<CommunityPuzzleData>?>? puzzles;
 
-  const CommunityPuzzles({Key? key, this.puzzles}) : super(key: key);
+  const CommunityPuzzles({super.key, this.puzzles});
 
   @override
   State<CommunityPuzzles> createState() => _CommunityPuzzlesState();

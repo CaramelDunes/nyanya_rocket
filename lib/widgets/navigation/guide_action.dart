@@ -4,7 +4,7 @@ import '../../localization/nyanya_localizations.dart';
 import '../../screens/tutorial/tutorial.dart';
 
 class GuideAction extends StatelessWidget {
-  const GuideAction({Key? key}) : super(key: key);
+  const GuideAction({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -24,13 +24,12 @@ class Challenge extends StatefulWidget {
   final String? documentPath;
 
   const Challenge(
-      {Key? key,
+      {super.key,
       required this.challenge,
       this.nextRoutePath,
       this.onWin,
       this.bestTime,
-      this.documentPath})
-      : super(key: key);
+      this.documentPath});
 
   @override
   State<Challenge> createState() => _ChallengeState();

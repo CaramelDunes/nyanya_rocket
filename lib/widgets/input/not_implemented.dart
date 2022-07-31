@@ -8,7 +8,7 @@ import '../../services/firestore/firestore_service.dart';
 class NotImplemented extends StatefulWidget {
   final String featureId;
 
-  const NotImplemented({Key? key, required this.featureId}) : super(key: key);
+  const NotImplemented({super.key, required this.featureId});
 
   @override
   State<NotImplemented> createState() => _NotImplementedState();

@@ -8,11 +8,10 @@ class CompletionIndicator extends StatelessWidget {
   final ValueChanged<bool?> onChanged;
 
   const CompletionIndicator(
-      {Key? key,
+      {super.key,
       required this.completedRatio,
       required this.showCompleted,
-      required this.onChanged})
-      : super(key: key);
+      required this.onChanged});
 
   @override
   Widget build(BuildContext context) {

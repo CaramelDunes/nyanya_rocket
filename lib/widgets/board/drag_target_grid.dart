@@ -23,7 +23,7 @@ class DragTargetGrid<T extends Object> extends StatelessWidget {
   final LeaveAcceptor<T>? onLeave;
 
   const DragTargetGrid(
-      {Key? key,
+      {super.key,
       required this.width,
       required this.height,
       required this.tileBuilder,
@@ -31,8 +31,7 @@ class DragTargetGrid<T extends Object> extends StatelessWidget {
       this.tapAcceptor,
       this.swipeAcceptor,
       this.onWillAccept,
-      this.onLeave})
-      : super(key: key);
+      this.onLeave});
 
   Widget _dragTargetBuilder(int x, int y) {
     return DragTargetTile<T>(
@@ -73,7 +72,7 @@ class DragTargetTile<T extends Object> extends StatefulWidget {
   final LeaveAcceptor<T>? onLeave;
 
   const DragTargetTile(
-      {Key? key,
+      {super.key,
       required this.x,
       required this.y,
       required this.builder,
@@ -81,8 +80,7 @@ class DragTargetTile<T extends Object> extends StatefulWidget {
       this.swipeAcceptor,
       this.tapAcceptor,
       this.onWillAccept,
-      this.onLeave})
-      : super(key: key);
+      this.onLeave});
 
   @override
   State<DragTargetTile<T>> createState() => _DragTargetTileState<T>();

@@ -10,8 +10,7 @@ class EventWheel extends StatelessWidget {
         GameEvent.values[(index % (GameEvent.values.length - 1)) + 1]);
   });
 
-  const EventWheel({Key? key, required this.scrollController})
-      : super(key: key);
+  const EventWheel({super.key, required this.scrollController});
 
   @override
   Widget build(BuildContext context) {

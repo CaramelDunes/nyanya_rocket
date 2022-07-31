@@ -11,7 +11,7 @@ import 'tabs/original_challenges.dart';
 class Challenges extends StatelessWidget {
   final TabKind initialTab;
 
-  const Challenges({Key? key, required this.initialTab}) : super(key: key);
+  const Challenges({super.key, required this.initialTab});
 
   @override
   Widget build(BuildContext context) {

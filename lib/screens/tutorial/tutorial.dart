@@ -8,7 +8,7 @@ import 'tabs/general.dart';
 import 'tabs/puzzle.dart';
 
 class Tutorial extends StatelessWidget {
-  const Tutorial({Key? key}) : super(key: key);
+  const Tutorial({super.key});
 
   @override
   Widget build(BuildContext context) {

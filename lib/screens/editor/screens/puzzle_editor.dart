@@ -15,10 +15,10 @@ class PuzzleEditor extends StatefulWidget {
   final String? uuid;
 
   const PuzzleEditor({
-    Key? key,
+    super.key,
     required this.puzzle,
     this.uuid,
-  }) : super(key: key);
+  });
 
   @override
   State<PuzzleEditor> createState() => _PuzzleEditorState();

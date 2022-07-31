@@ -14,14 +14,14 @@ class DraggableArrowGrid<T extends DraggedArrowData> extends StatelessWidget {
   final OnWillAccept<Direction>? onWillAccept;
 
   const DraggableArrowGrid({
-    Key? key,
+    super.key,
     required this.child,
     required this.onDrop,
     required this.previewBuilder,
     this.onSwipe,
     this.onTap,
     this.onWillAccept,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

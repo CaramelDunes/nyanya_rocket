@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../config.dart';
 
 enum Regions { auto, usEast, euWest }
+
 enum ComputedRegions { usEast, euWest }
 
 extension ComputeRegion on Regions {

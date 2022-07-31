@@ -21,12 +21,11 @@ class Puzzle extends StatefulWidget {
   final NyaNyaRoutePath? nextRoutePath;
 
   const Puzzle(
-      {Key? key,
+      {super.key,
       required this.puzzle,
       this.nextRoutePath,
       this.onWin,
-      this.documentPath})
-      : super(key: key);
+      this.documentPath});
 
   @override
   State<Puzzle> createState() => _PuzzleState();

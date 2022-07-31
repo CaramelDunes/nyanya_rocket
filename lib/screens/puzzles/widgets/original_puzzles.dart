@@ -125,7 +125,7 @@ class OriginalPuzzles extends StatefulWidget {
   static Map<String, int> slugs =
       puzzles.asMap().map((index, value) => MapEntry(value.slug, index));
 
-  const OriginalPuzzles({Key? key}) : super(key: key);
+  const OriginalPuzzles({super.key});
 
   @override
   State<OriginalPuzzles> createState() => _OriginalPuzzlesState();

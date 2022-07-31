@@ -1,4 +1,5 @@
 enum PageKind { home, puzzle, challenge, editor, multiplayer }
+
 enum TabKind { original, community, local }
 
 extension PageKindSlug on PageKind {

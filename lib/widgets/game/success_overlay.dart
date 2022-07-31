@@ -11,8 +11,7 @@ class SuccessOverlay extends StatefulWidget {
   final VoidCallback? onPlayAgain;
 
   const SuccessOverlay(
-      {Key? key, this.nextRoutePath, this.onPlayAgain, this.succeededPath})
-      : super(key: key);
+      {super.key, this.nextRoutePath, this.onPlayAgain, this.succeededPath});
 
   @override
   State<SuccessOverlay> createState() => _SuccessOverlayState();

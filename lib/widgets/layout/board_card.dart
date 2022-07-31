@@ -10,12 +10,11 @@ class BoardCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   const BoardCard(
-      {Key? key,
+      {super.key,
       required this.game,
       required this.description,
       this.cleared = false,
-      this.onTap})
-      : super(key: key);
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {

@@ -30,11 +30,10 @@ class LocalDuel extends StatefulWidget {
   final Duration duration;
 
   const LocalDuel(
-      {Key? key,
+      {super.key,
       required this.board,
       required this.players,
-      required this.duration})
-      : super(key: key);
+      required this.duration});
 
   @override
   State<LocalDuel> createState() => _LocalDuelState();

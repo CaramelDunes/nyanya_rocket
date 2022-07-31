@@ -4,7 +4,7 @@ import '../../localization/nyanya_localizations.dart';
 import 'tabs/device_duel_setup.dart';
 
 class MultiplayerNotAvailable extends StatelessWidget {
-  const MultiplayerNotAvailable({Key? key}) : super(key: key);
+  const MultiplayerNotAvailable({super.key});
 
   @override
   Widget build(BuildContext context) {

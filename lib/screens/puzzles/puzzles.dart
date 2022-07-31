@@ -11,7 +11,7 @@ import 'widgets/original_puzzles.dart';
 class Puzzles extends StatelessWidget {
   final TabKind initialTab;
 
-  const Puzzles({Key? key, required this.initialTab}) : super(key: key);
+  const Puzzles({super.key, required this.initialTab});
 
   @override
   Widget build(BuildContext context) {

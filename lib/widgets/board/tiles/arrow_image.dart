@@ -12,13 +12,12 @@ class ArrowImage extends StatelessWidget {
   final bool isSelected;
 
   const ArrowImage(
-      {Key? key,
+      {super.key,
       required this.player,
       required this.direction,
       this.isDamaged = false,
       this.isHalfTransparent = false,
-      this.isSelected = true})
-      : super(key: key);
+      this.isSelected = true});
 
   @override
   Widget build(BuildContext context) {

@@ -15,7 +15,7 @@ import '../../../widgets/layout/empty_list.dart';
 import '../../puzzle/puzzle.dart';
 
 class LocalPuzzles extends StatelessWidget {
-  const LocalPuzzles({Key? key}) : super(key: key);
+  const LocalPuzzles({super.key});
 
   @override
   Widget build(BuildContext context) {

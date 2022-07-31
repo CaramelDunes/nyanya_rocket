@@ -39,10 +39,9 @@ class App extends StatefulWidget {
   final FirestoreService firestoreService;
 
   const App(
-      {Key? key,
+      {super.key,
       required this.sharedPreferences,
-      required this.firestoreService})
-      : super(key: key);
+      required this.firestoreService});
 
   @override
   State<App> createState() => _AppState();

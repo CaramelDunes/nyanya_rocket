@@ -11,12 +11,11 @@ class ArrowDrawer extends StatelessWidget {
   final Function(Direction) onTap;
 
   const ArrowDrawer(
-      {Key? key,
+      {super.key,
       required this.player,
       required this.running,
       required this.selectedDirection,
-      required this.onTap})
-      : super(key: key);
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {

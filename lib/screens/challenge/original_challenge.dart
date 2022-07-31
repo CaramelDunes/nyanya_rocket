@@ -12,7 +12,7 @@ import 'challenge.dart';
 class OriginalChallenge extends StatelessWidget {
   final int id;
 
-  const OriginalChallenge({Key? key, required this.id}) : super(key: key);
+  const OriginalChallenge({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {

@@ -27,13 +27,12 @@ class NetworkMultiplayer extends StatefulWidget {
   final Duration gameDuration;
 
   const NetworkMultiplayer(
-      {Key? key,
+      {super.key,
       required this.nickname,
       required this.serverAddress,
       required this.port,
       this.gameDuration = const Duration(minutes: 3),
-      this.ticket})
-      : super(key: key);
+      this.ticket});
 
   @override
   State<NetworkMultiplayer> createState() => _NetworkMultiplayerState();

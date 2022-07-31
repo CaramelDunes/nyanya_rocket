@@ -7,8 +7,7 @@ import 'challenge.dart';
 class LoadingChallenge extends StatelessWidget {
   final Future<CommunityChallengeData> futureChallenge;
 
-  const LoadingChallenge({Key? key, required this.futureChallenge})
-      : super(key: key);
+  const LoadingChallenge({super.key, required this.futureChallenge});
 
   @override
   Widget build(BuildContext context) {
