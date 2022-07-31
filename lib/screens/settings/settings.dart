@@ -54,6 +54,10 @@ class Settings extends StatelessWidget {
                 Consumer<User>(
                   builder: (context, user, _) =>
                       _buildAccountManagementTile(context, user),
+                ),
+                AboutListTile(
+                  applicationLegalese: kAboutText,
+                  applicationVersion: kAboutVersion,
                 )
               ],
             ),
