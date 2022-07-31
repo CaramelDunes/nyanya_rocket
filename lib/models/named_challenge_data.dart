@@ -4,8 +4,8 @@ import 'named_data.dart';
 
 class NamedChallengeData extends NamedData<ChallengeData> {
   NamedChallengeData(
-      {required String name, required ChallengeData challengeData})
-      : super(name: name, data: challengeData);
+      {required super.name, required ChallengeData challengeData})
+      : super(data: challengeData);
 
   NamedChallengeData.fromGameData(
       {required String name,

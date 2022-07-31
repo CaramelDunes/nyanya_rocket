@@ -19,9 +19,7 @@ import '../../../utils.dart';
 class DraggedArrowDataWithPlayer extends DraggedArrowData {
   final PlayerColor player;
 
-  DraggedArrowDataWithPlayer(
-      {required this.player, required Direction direction})
-      : super(direction: direction);
+  DraggedArrowDataWithPlayer({required this.player, required super.direction});
 }
 
 class LocalDuel extends StatefulWidget {

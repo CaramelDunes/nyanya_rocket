@@ -12,8 +12,7 @@ class BoardBackgroundPainter extends CustomPainter {
   final Brightness brightness;
   late final Picture cached;
 
-  BoardBackgroundPainter({required Board board, required this.brightness})
-      : super() {
+  BoardBackgroundPainter({required Board board, required this.brightness}) {
     cached = createPicture((canvas) {
       CheckerboardPainter.paintUnitCheckerboard(canvas, brightness);
       TilePainter.paintUnitNonArrowTiles(board, canvas);
