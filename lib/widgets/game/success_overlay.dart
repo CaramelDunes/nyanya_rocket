@@ -74,7 +74,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
       fit: StackFit.expand,
       children: [
         const AbsorbPointer(),
-        Material(
+        Container(
           color: Colors.black54,
           child: Column(
             children: [
@@ -87,7 +87,10 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                     children: [
                       Text(
                         NyaNyaLocalizations.of(context).stageClearedText,
-                        style: Theme.of(context).textTheme.headlineLarge,
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall!
+                            .apply(fontFamily: 'Russo One'),
                         textAlign: TextAlign.center,
                       ),
                       if (widget.succeededPath != null && _stars != null)
@@ -112,6 +115,17 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                           ),
                           const SizedBox(width: 16),
                           ElevatedButton(
+                            // Style hack from https://github.com/chayanforyou/flutter_material_3_demo/blob/master/lib/component_screen.dart
+                            // until FilledButton is added.
+                            style: ElevatedButton.styleFrom(
+                              // Foreground color
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
+                              // Background color
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                            ).copyWith(
+                                elevation: ButtonStyleButton.allOrNull(0.0)),
                             onPressed: widget.nextRoutePath == null
                                 ? null
                                 : () {
