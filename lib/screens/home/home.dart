@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
           const Spacer(),
           _buildTitleRow(context),
           const Spacer(),
-          Expanded(flex: 4, child: _buildPlayRow(context, Axis.vertical)),
+          Expanded(flex: 4, child: _buildPlayRow(context, Axis.horizontal)),
           const Spacer(),
           _buildFourthRow(context),
         ],
@@ -163,7 +163,9 @@ class _HomeState extends State<Home> {
           ),
         ),
         Expanded(
-          child: Row(
+          child: Flex(
+            direction:
+                direction == Axis.horizontal ? Axis.vertical : Axis.horizontal,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
