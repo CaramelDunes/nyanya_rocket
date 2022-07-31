@@ -11,6 +11,7 @@ import 'package:nyanya_rocket/screens/multiplayer/multiplayer.dart';
 import 'package:nyanya_rocket/screens/multiplayer/multiplayer_not_available.dart';
 import 'package:nyanya_rocket/screens/puzzle/loading_puzzle.dart';
 import 'package:nyanya_rocket/screens/puzzle/original_puzzle.dart';
+import '../screens/home/home.dart';
 import '../screens/puzzles/widgets/original_puzzles.dart';
 
 import '../screens/challenges/tabs/original_challenges.dart';

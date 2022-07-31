@@ -14,22 +14,19 @@ class Tutorial extends StatelessWidget {
   Widget build(BuildContext context) {
     final localized = NyaNyaLocalizations.of(context);
 
-    return BarRailTabs(
-        includeDrawer: false,
-        title: localized.tutorialTitle,
-        tabs: [
-          BarRailTab(
-              content: const General(),
-              label: localized.generalLabel,
-              icon: const FaIcon(FontAwesomeIcons.play)),
-          BarRailTab(
-              content: const Puzzle(),
-              label: localized.puzzleType,
-              icon: const FaIcon(FontAwesomeIcons.puzzlePiece)),
-          BarRailTab(
-              content: const Challenge(),
-              label: localized.challengeType,
-              icon: const FaIcon(FontAwesomeIcons.stopwatch)),
-        ]);
+    return BarRailTabs(title: localized.tutorialTitle, tabs: [
+      BarRailTab(
+          content: const General(),
+          label: localized.generalLabel,
+          icon: const FaIcon(FontAwesomeIcons.play)),
+      BarRailTab(
+          content: const Puzzle(),
+          label: localized.puzzleType,
+          icon: const FaIcon(FontAwesomeIcons.puzzlePiece)),
+      BarRailTab(
+          content: const Challenge(),
+          label: localized.challengeType,
+          icon: const FaIcon(FontAwesomeIcons.stopwatch)),
+    ]);
   }
 }

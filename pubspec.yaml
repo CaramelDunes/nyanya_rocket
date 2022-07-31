@@ -6,7 +6,7 @@ publish_to: none
 version: 2.5.0+60
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -72,6 +72,11 @@ flutter_icons:
 flutter:
   generate: true
   uses-material-design: true
+
+  fonts:
+    - family: Russo One
+      fonts:
+        - asset: assets/fonts/RussoOne-Regular.ttf
 
   assets:
     - assets/graphics/adaptive_icon_foreground.png
