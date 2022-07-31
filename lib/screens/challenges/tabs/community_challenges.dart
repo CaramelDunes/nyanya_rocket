@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nyanya_rocket/widgets/board/static_game_view.dart';
 import 'package:nyanya_rocket/widgets/navigation/star_count.dart';
 import 'package:provider/provider.dart';
 import 'package:nyanya_rocket/routing/nyanya_route_path.dart';

@@ -9,13 +9,13 @@ import 'checkerboard_painter.dart';
 import 'tiles/tile_painter.dart';
 
 class BoardBackgroundPainter extends CustomPainter {
-  final bool darkModeEnabled;
+  final Brightness brightness;
   late final Picture cached;
 
-  BoardBackgroundPainter({required Board board, required this.darkModeEnabled})
+  BoardBackgroundPainter({required Board board, required this.brightness})
       : super() {
     cached = createPicture((canvas) {
-      CheckerboardPainter.paintUnitCheckerboard(canvas, darkModeEnabled);
+      CheckerboardPainter.paintUnitCheckerboard(canvas, brightness);
       TilePainter.paintUnitNonArrowTiles(board, canvas);
     });
   }
@@ -36,6 +36,6 @@ class BoardBackgroundPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return oldDelegate is! BoardBackgroundPainter ||
-        darkModeEnabled != oldDelegate.darkModeEnabled;
+        brightness != oldDelegate.brightness;
   }
 }

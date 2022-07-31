@@ -6,7 +6,7 @@ import '../../localization/nyanya_localizations.dart';
 import '../../models/user.dart';
 import '../privacy_policy_prompt/privacy_policy_prompt.dart';
 import 'account_management.dart';
-import 'dark_mode.dart';
+import 'brightness_setting.dart';
 import 'language.dart';
 import 'region.dart';
 import 'widgets/display_name_change_dialog.dart';
@@ -35,16 +35,15 @@ class Settings extends StatelessWidget {
                     style: sectionStyle,
                   ),
                 ),
-                Consumer<DarkMode>(
-                    builder: (context, darkMode, _) =>
-                        _buildDarkModeTile(context, darkMode)),
+                Consumer<BrightnessSetting>(
+                    builder: (context, brightnessSetting, _) =>
+                        _buildBrightnessTile(context, brightnessSetting)),
                 Consumer<Language>(
                     builder: (context, language, _) =>
                         _buildLanguageTile(context, language)),
                 Consumer<Region>(
                     builder: (context, region, _) =>
                         _buildRegionTile(context, region)),
-                // const Divider(height: 1.0),
                 Padding(
                   padding: sectionInsets,
                   child: Text(
@@ -62,13 +61,31 @@ class Settings extends StatelessWidget {
         ));
   }
 
-  Widget _buildDarkModeTile(BuildContext context, DarkMode darkMode) {
-    return SwitchListTile(
+  Widget _buildBrightnessTile(
+      BuildContext context, BrightnessSetting brightnessSetting) {
+    return ListTile(
       title: Text(NyaNyaLocalizations.of(context).darkModeLabel),
-      onChanged: (bool value) {
-        darkMode.enabled = value;
-      },
-      value: darkMode.enabled,
+      trailing: DropdownButton<ThemeMode>(
+          value: brightnessSetting.value,
+          items: <DropdownMenuItem<ThemeMode>>[
+            DropdownMenuItem(
+              value: ThemeMode.system,
+              child: Text(BrightnessSetting.automaticValueLabel(context)),
+            ),
+            DropdownMenuItem(
+              value: ThemeMode.light,
+              child: Text(Brightness.light.toPrettyString()),
+            ),
+            DropdownMenuItem(
+              value: ThemeMode.dark,
+              child: Text(Brightness.dark.toPrettyString()),
+            ),
+          ],
+          onChanged: (ThemeMode? newMode) {
+            if (newMode != null) {
+              brightnessSetting.value = newMode;
+            }
+          }),
     );
   }
 

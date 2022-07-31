@@ -1,4 +1,3 @@
-import 'package:firedart/generated/google/firestore/v1/firestore.pbjson.dart';
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket/widgets/navigation/star_count.dart';
 import 'package:provider/provider.dart';

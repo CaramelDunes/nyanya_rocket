@@ -10,7 +10,7 @@ import 'routing/nyanya_router_delegate.dart';
 import 'models/user.dart';
 import 'screens/challenges/challenge_progression_manager.dart';
 import 'screens/puzzles/puzzle_progression_manager.dart';
-import 'screens/settings/dark_mode.dart';
+import 'screens/settings/brightness_setting.dart';
 import 'screens/settings/first_run.dart';
 import 'screens/settings/language.dart';
 import 'screens/settings/region.dart';
@@ -60,8 +60,9 @@ class _AppState extends State<App> {
       providers: [
         ChangeNotifierProvider.value(value: _user),
         ChangeNotifierProvider(
-            create: (_) =>
-                DarkMode(sharedPreferences: (widget.sharedPreferences))),
+            create: (_) => BrightnessSetting(
+                defaultValue: ThemeMode.system,
+                sharedPreferences: widget.sharedPreferences)),
         ChangeNotifierProvider(
             create: (_) => Language(
                 sharedPreferences: widget.sharedPreferences,
@@ -81,7 +82,7 @@ class _AppState extends State<App> {
                 ChallengeProgressionManager(widget.sharedPreferences)),
         Provider.value(value: widget.firestoreService)
       ],
-      child: Consumer2<DarkMode, Language>(
+      child: Consumer2<BrightnessSetting, Language>(
         builder: (_, darkMode, language, __) {
           return MaterialApp.router(
             localizationsDelegates: const [
@@ -91,7 +92,7 @@ class _AppState extends State<App> {
             supportedLocales: App.supportedLocales,
             locale: language.value == 'auto' ? null : Locale(language.value),
             title: 'NyaNya Rocket!',
-            themeMode: darkMode.enabled ? ThemeMode.dark : ThemeMode.system,
+            themeMode: darkMode.value,
             theme: App.lightTheme,
             darkTheme: App.darkTheme,
             routerDelegate: _routerDelegate,
