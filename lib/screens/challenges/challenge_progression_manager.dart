@@ -30,4 +30,18 @@ class ChallengeProgressionManager with ChangeNotifier {
       }
     }
   }
+
+  bool isChallengeCleared(int i) {
+    return _times.containsKey(i);
+  }
+
+  int getFirstNotClearedChallenge() {
+    int i = 0;
+
+    while (isChallengeCleared(i)) {
+      i++;
+    }
+
+    return i;
+  }
 }

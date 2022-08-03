@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nyanya_rocket/screens/challenges/challenge_progression_manager.dart';
+import 'package:nyanya_rocket/screens/challenges/tabs/original_challenges.dart';
+import 'package:nyanya_rocket/screens/puzzles/puzzle_progression_manager.dart';
+import 'package:provider/provider.dart';
 
 import '../../localization/nyanya_localizations.dart';
 import '../../routing/nyanya_route_path.dart';
@@ -80,7 +84,7 @@ class _HomeState extends State<Home> {
   Widget _buildPlayRow(BuildContext context, Axis direction) {
     return Flex(
       direction: direction,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
           child: Card(
@@ -90,16 +94,17 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  mainAxisSize: MainAxisSize.min,
+                  // mainAxisSize: MainAxisSize.min,
                   children: [
                     Expanded(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const FaIcon(
                             FontAwesomeIcons.puzzlePiece,
                             size: 50.0,
                           ),
+                          const SizedBox(height: 8.0),
                           Text(
                             NyaNyaLocalizations.of(context).puzzlesTitle,
                             style: Theme.of(context).textTheme.titleMedium,
@@ -107,11 +112,31 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: AspectRatio(
-                          aspectRatio: 12 / 9,
-                          child: StaticGameView(
-                              game: OriginalPuzzles.puzzles[0].data.gameData)),
+                    Flexible(
+                      flex: 2,
+                      child: Consumer<PuzzleProgressionManager>(
+                        builder: (context, value, child) {
+                          final unfinishedPuzzleId =
+                              value.getFirstNotClearedPuzzle();
+                          final unfinishedPuzzle =
+                              OriginalPuzzles.puzzles[unfinishedPuzzleId];
+
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                child: AspectRatio(
+                                    aspectRatio: 12 / 9,
+                                    child: StaticGameView(
+                                        game: unfinishedPuzzle.data.gameData)),
+                              ),
+                              Text(
+                                  '${unfinishedPuzzle.name} (${unfinishedPuzzleId + 1} / 100)',
+                                  style: Theme.of(context).textTheme.titleSmall)
+                            ],
+                          );
+                        },
+                      ),
                     )
                   ],
                 ),
@@ -135,22 +160,44 @@ class _HomeState extends State<Home> {
                   children: [
                     Expanded(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const FaIcon(
                             FontAwesomeIcons.stopwatch,
                             size: 50.0,
                           ),
+                          const SizedBox(height: 8.0),
                           Text(NyaNyaLocalizations.of(context).challengesTitle,
                               style: Theme.of(context).textTheme.titleMedium),
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: AspectRatio(
-                          aspectRatio: 12 / 9,
-                          child: StaticGameView(
-                              game: OriginalPuzzles.puzzles[0].data.gameData)),
+                    Flexible(
+                      flex: 2,
+                      child: Consumer<ChallengeProgressionManager>(
+                        builder: (context, value, child) {
+                          final unfinishedChallengeId =
+                              value.getFirstNotClearedChallenge();
+                          final unfinishedChallenge = OriginalChallenges
+                              .challenges[unfinishedChallengeId];
+
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                child: AspectRatio(
+                                    aspectRatio: 12 / 9,
+                                    child: StaticGameView(
+                                        game: unfinishedChallenge.data
+                                            .getGame())),
+                              ),
+                              Text(
+                                  '${unfinishedChallenge.name} (${unfinishedChallengeId + 1} / 20)',
+                                  style: Theme.of(context).textTheme.titleSmall)
+                            ],
+                          );
+                        },
+                      ),
                     )
                   ],
                 ),
@@ -181,13 +228,13 @@ class _HomeState extends State<Home> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Icon(
                             Icons.groups,
                             size: 50.0,
                           ),
+                          const SizedBox(height: 8.0),
                           Text(
                             NyaNyaLocalizations.of(context).multiplayerTitle,
                             style: Theme.of(context).textTheme.titleMedium,
@@ -205,13 +252,13 @@ class _HomeState extends State<Home> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Icon(
                             Icons.mode_edit,
                             size: 50.0,
                           ),
+                          const SizedBox(height: 8.0),
                           Text(NyaNyaLocalizations.of(context).editorTitle,
                               style: Theme.of(context).textTheme.titleMedium)
                         ],

@@ -46,4 +46,18 @@ class PuzzleProgressionManager with ChangeNotifier {
     notifyListeners();
     return sharedPreferences.setBool(_starredKeyOf(i), starred);
   }
+
+  bool isPuzzleCleared(int i) {
+    return _cleared.contains(i);
+  }
+
+  int getFirstNotClearedPuzzle() {
+    int i = 0;
+
+    while (isPuzzleCleared(i)) {
+      i++;
+    }
+
+    return i;
+  }
 }
