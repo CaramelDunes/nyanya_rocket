@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket/screens/challenges/challenge_progression_manager.dart';
 import 'package:nyanya_rocket/screens/challenges/tabs/original_challenges.dart';
 import 'package:nyanya_rocket/screens/puzzles/puzzle_progression_manager.dart';
+import 'package:nyanya_rocket/utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../localization/nyanya_localizations.dart';
@@ -22,49 +23,45 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Material(child: OrientationBuilder(builder: (context, orientation) {
-      switch (orientation) {
-        case Orientation.portrait:
-          return _buildPortrait(context);
-        case Orientation.landscape:
-          return _buildLandscape(context);
-      }
-    }));
-  }
-
-  Widget _buildPortrait(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(height: 16.0),
-          _buildTitleRow(context),
-          const SizedBox(height: 16.0),
-          Expanded(flex: 4, child: _buildPlayRow(context, Axis.vertical)),
-          const SizedBox(height: 24.0),
-          _buildFourthRow(context),
-        ],
+    return Material(
+      child: SafeArea(
+        minimum: const EdgeInsets.all(16.0),
+        child: OrientationBuilder(builder: (context, orientation) {
+          switch (orientation) {
+            case Orientation.portrait:
+              return _buildPortrait(context);
+            case Orientation.landscape:
+              return _buildLandscape(context);
+          }
+        }),
       ),
     );
   }
 
+  Widget _buildPortrait(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildTitleRow(context),
+        const SizedBox(height: 16.0),
+        Expanded(flex: 4, child: _buildPlayRow(context, Axis.vertical)),
+        const SizedBox(height: 16.0),
+        _buildFourthRow(context),
+      ],
+    );
+  }
+
   Widget _buildLandscape(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Spacer(),
-          _buildTitleRow(context),
-          const Spacer(),
-          Expanded(flex: 4, child: _buildPlayRow(context, Axis.horizontal)),
-          const Spacer(),
-          _buildFourthRow(context),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildTitleRow(context),
+        Flexible(flex: 4, child: _buildPlayRow(context, Axis.horizontal)),
+        const SizedBox(height: 4.0),
+        _buildFourthRow(context),
+      ],
     );
   }
 
@@ -91,54 +88,75 @@ class _HomeState extends State<Home> {
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const FaIcon(
-                            FontAwesomeIcons.puzzlePiece,
-                            size: 50.0,
-                          ),
-                          const SizedBox(height: 8.0),
-                          Text(
-                            NyaNyaLocalizations.of(context).puzzlesTitle,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Flexible(
-                      flex: 2,
-                      child: Consumer<PuzzleProgressionManager>(
-                        builder: (context, value, child) {
-                          final unfinishedPuzzleId =
-                              value.getFirstNotClearedPuzzle();
-                          final unfinishedPuzzle =
-                              OriginalPuzzles.puzzles[unfinishedPuzzleId];
+                padding: const EdgeInsets.all(4.0),
+                child: Consumer<PuzzleProgressionManager>(
+                  builder: (context, value, child) {
+                    final completedPercentage =
+                        ratioToPercentage(value.completedRatio);
+                    final unfinishedPuzzleId = value.getFirstNotClearedPuzzle();
+                    final unfinishedPuzzle =
+                        OriginalPuzzles.puzzles[unfinishedPuzzleId];
 
-                          return Column(
+                    return Flex(
+                      direction: direction == Axis.horizontal
+                          ? Axis.vertical
+                          : Axis.horizontal,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Flex(
+                            direction: direction,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Flexible(
-                                child: AspectRatio(
-                                    aspectRatio: 12 / 9,
-                                    child: StaticGameView(
-                                        game: unfinishedPuzzle.data.gameData)),
+                              const FaIcon(
+                                FontAwesomeIcons.puzzlePiece,
+                                size: 50.0,
                               ),
-                              Text(
-                                  '${unfinishedPuzzle.name} (${unfinishedPuzzleId + 1} / 100)',
-                                  style: Theme.of(context).textTheme.titleSmall)
+                              const SizedBox.square(dimension: 8.0),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    NyaNyaLocalizations.of(context)
+                                        .puzzlesTitle,
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                    softWrap: true,
+                                  ),
+                                  Text(
+                                    '$completedPercentage %',
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                ],
+                              ),
                             ],
-                          );
-                        },
-                      ),
-                    )
-                  ],
+                          ),
+                        ),
+                        Flexible(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  child: AspectRatio(
+                                      aspectRatio: 12 / 9,
+                                      child: StaticGameView(
+                                          game:
+                                              unfinishedPuzzle.data.gameData)),
+                                ),
+                                Text(unfinishedPuzzle.name,
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall)
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    );
+                  },
                 ),
               ),
               onTap: () {
@@ -154,52 +172,76 @@ class _HomeState extends State<Home> {
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const FaIcon(
-                            FontAwesomeIcons.stopwatch,
-                            size: 50.0,
-                          ),
-                          const SizedBox(height: 8.0),
-                          Text(NyaNyaLocalizations.of(context).challengesTitle,
-                              style: Theme.of(context).textTheme.titleMedium),
-                        ],
-                      ),
-                    ),
-                    Flexible(
-                      flex: 2,
-                      child: Consumer<ChallengeProgressionManager>(
-                        builder: (context, value, child) {
-                          final unfinishedChallengeId =
-                              value.getFirstNotClearedChallenge();
-                          final unfinishedChallenge = OriginalChallenges
-                              .challenges[unfinishedChallengeId];
+                padding: const EdgeInsets.all(4.0),
+                child: Consumer<ChallengeProgressionManager>(
+                  builder: (context, value, child) {
+                    final completedPercentage =
+                        ratioToPercentage(value.completedRatio);
+                    final unfinishedChallengeId =
+                        value.getFirstNotClearedChallenge();
+                    final unfinishedChallenge =
+                        OriginalChallenges.challenges[unfinishedChallengeId];
 
-                          return Column(
+                    return Flex(
+                      direction: direction == Axis.horizontal
+                          ? Axis.vertical
+                          : Axis.horizontal,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Flex(
+                            direction: direction,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Flexible(
-                                child: AspectRatio(
-                                    aspectRatio: 12 / 9,
-                                    child: StaticGameView(
-                                        game: unfinishedChallenge.data
-                                            .getGame())),
+                              const FaIcon(
+                                FontAwesomeIcons.stopwatch,
+                                size: 50.0,
                               ),
-                              Text(
-                                  '${unfinishedChallenge.name} (${unfinishedChallengeId + 1} / 20)',
-                                  style: Theme.of(context).textTheme.titleSmall)
+                              const SizedBox.square(dimension: 8.0),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                      NyaNyaLocalizations.of(context)
+                                          .challengesTitle,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium),
+                                  Text('$completedPercentage %',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium),
+                                ],
+                              ),
                             ],
-                          );
-                        },
-                      ),
-                    )
-                  ],
+                          ),
+                        ),
+                        Flexible(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  child: AspectRatio(
+                                      aspectRatio: 12 / 9,
+                                      child: StaticGameView(
+                                          game: unfinishedChallenge.data
+                                              .getGame())),
+                                ),
+                                Text(
+                                    OriginalChallenges.fullLocalizedName(
+                                        unfinishedChallenge, context),
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall)
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    );
+                  },
                 ),
               ),
               onTap: () {
@@ -227,14 +269,15 @@ class _HomeState extends State<Home> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Column(
+                      child: Flex(
+                        direction: direction,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Icon(
                             Icons.groups,
                             size: 50.0,
                           ),
-                          const SizedBox(height: 8.0),
+                          const SizedBox.square(dimension: 8.0),
                           Text(
                             NyaNyaLocalizations.of(context).multiplayerTitle,
                             style: Theme.of(context).textTheme.titleMedium,
@@ -251,14 +294,15 @@ class _HomeState extends State<Home> {
                   child: InkWell(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Column(
+                      child: Flex(
+                        direction: direction,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Icon(
                             Icons.mode_edit,
                             size: 50.0,
                           ),
-                          const SizedBox(height: 8.0),
+                          const SizedBox.square(dimension: 8.0),
                           Text(NyaNyaLocalizations.of(context).editorTitle,
                               style: Theme.of(context).textTheme.titleMedium)
                         ],

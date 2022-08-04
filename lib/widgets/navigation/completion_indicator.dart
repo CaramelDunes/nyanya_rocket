@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../localization/nyanya_localizations.dart';
+import '../../utils.dart';
 
 class CompletionIndicator extends StatelessWidget {
   final double completedRatio;
@@ -25,7 +26,9 @@ class CompletionIndicator extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(localized.completedPercentLabel((completedRatio * 100).floor()),
+          Text(
+              localized
+                  .completedPercentLabel(ratioToPercentage(completedRatio)),
               textAlign: TextAlign.center),
           Row(
             children: [

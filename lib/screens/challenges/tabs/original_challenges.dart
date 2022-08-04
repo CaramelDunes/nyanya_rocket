@@ -122,6 +122,12 @@ class OriginalChallenges extends StatefulWidget {
     return '${challengeData.type.toSlug()}-${challengeData.slug}';
   }
 
+  static String fullLocalizedName(
+      NamedChallengeData namedChallengeData, BuildContext context) {
+    return namedChallengeData.data.type.toLocalizedString(context) +
+        namedChallengeData.name;
+  }
+
   const OriginalChallenges({super.key});
 
   @override
@@ -188,7 +194,8 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
     final bool isCleared = time != null;
 
     return ListTile(
-      title: Text(_fullLocalizedName(namedChallengeData)),
+      title: Text(
+          OriginalChallenges.fullLocalizedName(namedChallengeData, context)),
       subtitle: Text(namedChallengeData.data.type.toLocalizedString(context)),
       trailing: isCleared
           ? Row(mainAxisSize: MainAxisSize.min, children: [
@@ -214,7 +221,7 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
       game: namedChallengeData.data.getGame(),
       description: [
         Text(
-          _fullLocalizedName(namedChallengeData),
+          OriginalChallenges.fullLocalizedName(namedChallengeData, context),
           style: Theme.of(context).textTheme.titleSmall,
         ),
         Text(isCleared ? _formatTime(time) : '')
@@ -224,11 +231,6 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
         _openChallenge(OriginalChallenges.originalSlug(namedChallengeData));
       },
     );
-  }
-
-  String _fullLocalizedName(NamedChallengeData namedChallengeData) {
-    return namedChallengeData.data.type.toLocalizedString(context) +
-        namedChallengeData.name;
   }
 
   String _formatTime(Duration time) {

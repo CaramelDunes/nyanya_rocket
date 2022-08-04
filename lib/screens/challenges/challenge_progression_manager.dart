@@ -1,13 +1,14 @@
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import 'tabs/original_challenges.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChallengeProgressionManager with ChangeNotifier {
   final SharedPreferences sharedPreferences;
+  final int numberOfChallenges;
   final Map<int, Duration> _times = {};
 
-  ChallengeProgressionManager(this.sharedPreferences) {
+  ChallengeProgressionManager(
+      {required this.sharedPreferences, required this.numberOfChallenges}) {
     _readTimes();
   }
 
@@ -22,7 +23,7 @@ class ChallengeProgressionManager with ChangeNotifier {
   static String _timeKeyOf(int i) => "challenge.original.$i.time";
 
   void _readTimes() {
-    for (int i = 0; i < OriginalChallenges.challenges.length; i += 1) {
+    for (int i = 0; i < numberOfChallenges; i += 1) {
       int? timeMilliseconds = sharedPreferences.getInt(_timeKeyOf(i));
 
       if (timeMilliseconds != null && timeMilliseconds > 0) {
@@ -43,5 +44,9 @@ class ChallengeProgressionManager with ChangeNotifier {
     }
 
     return i;
+  }
+
+  double get completedRatio {
+    return _times.length / numberOfChallenges;
   }
 }
