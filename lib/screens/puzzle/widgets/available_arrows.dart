@@ -20,43 +20,41 @@ class AvailableArrows extends StatelessWidget {
       required this.onArrowTap,
       this.selectedDirection});
 
-  static Widget _buildArrowAndCount(Direction direction, int count,
-      Brightness brightness, bool canPlace, bool selected) {
-    const double bubbleFactor = 0.33;
-
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        FractionallySizedBox(
-          alignment: Alignment.bottomLeft,
-          widthFactor: 1 - bubbleFactor / 4,
-          heightFactor: 1 - bubbleFactor / 4,
-          child: ArrowImage(
+  static Widget _buildArrowAndCount(BuildContext context, Direction direction,
+      int count, Brightness brightness, bool canPlace, bool selected) {
+    return AspectRatio(
+      aspectRatio: 1.0,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          ArrowImage(
             player: count > 0 && canPlace ? PlayerColor.Blue : null,
             direction: direction,
             isSelected: selected,
           ),
-        ),
-        FractionallySizedBox(
-          alignment: Alignment.topRight,
-          widthFactor: bubbleFactor,
-          heightFactor: bubbleFactor,
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.red.shade600,
-                borderRadius: BorderRadius.circular(8.0)),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2.0),
-              child: FittedBox(
-                child: Text(count.toString(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
+          FractionallySizedBox(
+            alignment: Alignment.topRight,
+            widthFactor: 0.4,
+            heightFactor: 0.4,
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: Colors.red.shade600,
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: SizedBox.expand(
+                child: FittedBox(
+                  child: Text(count.toString(),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          )),
+                ),
               ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
@@ -71,6 +69,7 @@ class AvailableArrows extends StatelessWidget {
               valueListenable: draggedCount,
               builder: (BuildContext context, int offset, _) {
                 return AvailableArrows._buildArrowAndCount(
+                    context,
                     direction,
                     count - offset,
                     Theme.of(context).brightness,
@@ -103,17 +102,12 @@ class AvailableArrows extends StatelessWidget {
             children: List.generate(
                 4,
                 (i) => Expanded(
-                        child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: AspectRatio(
-                          aspectRatio: 1.0,
-                          child: _buildDraggableArrow(
-                              Direction.values[i],
-                              puzzleGameController.remainingArrowsStreams[i],
-                              draggedArrowCounts[i]),
-                        ),
-                      ),
+                        child: Padding(
+                      padding: const EdgeInsets.all(0.5),
+                      child: _buildDraggableArrow(
+                          Direction.values[i],
+                          puzzleGameController.remainingArrowsStreams[i],
+                          draggedArrowCounts[i]),
                     ))));
       },
     );
