@@ -52,7 +52,8 @@ class LoadingPuzzle extends StatelessWidget {
                         ),
                         ElevatedButton(
                             onPressed: () => Navigator.pop(context),
-                            child: Text(NyaNyaLocalizations.of(context).back))
+                            child: Text(MaterialLocalizations.of(context)
+                                .backButtonTooltip))
                       ],
                     ),
                   ),

@@ -73,7 +73,7 @@ class Settings extends StatelessWidget {
   Widget _buildBrightnessTile(
       BuildContext context, BrightnessSetting brightnessSetting) {
     return ListTile(
-      title: Text(NyaNyaLocalizations.of(context).darkModeLabel),
+      title: Text(NyaNyaLocalizations.of(context).themeModeLabel),
       trailing: DropdownButton<ThemeMode>(
           value: brightnessSetting.value,
           items: <DropdownMenuItem<ThemeMode>>[
@@ -83,11 +83,11 @@ class Settings extends StatelessWidget {
             ),
             DropdownMenuItem(
               value: ThemeMode.light,
-              child: Text(Brightness.light.toPrettyString()),
+              child: Text(Brightness.light.toLocalizedString(context)),
             ),
             DropdownMenuItem(
               value: ThemeMode.dark,
-              child: Text(Brightness.dark.toPrettyString()),
+              child: Text(Brightness.dark.toLocalizedString(context)),
             ),
           ],
           onChanged: (ThemeMode? newMode) {

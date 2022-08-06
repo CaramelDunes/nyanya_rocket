@@ -308,9 +308,21 @@
     "type": "text",
     "placeholders": {}
   },
-  "darkModeLabel": "Dark Mode",
-  "@darkModeLabel": {
-    "description": "Dark Mode setting of the Settings screen.",
+  "themeModeLabel": "Theme",
+  "@themeModeLabel": {
+    "description": "Theme mode setting of the Settings screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "themeModeDarkLabel": "Dark",
+  "@themeModeDarkLabel": {
+    "description": "Dark theme mode setting.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "themeModeLightLabel": "Light",
+  "@themeModeLightLabel": {
+    "description": "Light theme mode setting.",
     "type": "text",
     "placeholders": {}
   },
@@ -473,12 +485,6 @@
   "deny": "Deny",
   "@deny": {
     "description": "Deny string.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "back": "Back",
-  "@back": {
-    "description": "Back string.",
     "type": "text",
     "placeholders": {}
   },

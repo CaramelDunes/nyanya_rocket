@@ -102,7 +102,8 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           ElevatedButton(
-                            child: Text(NyaNyaLocalizations.of(context).back),
+                            child: Text(MaterialLocalizations.of(context)
+                                .backButtonTooltip),
                             onPressed: () {
                               Navigator.pop(context);
                             },

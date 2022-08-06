@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,12 +18,6 @@ import 'screens/settings/region.dart';
 import 'services/firestore/firestore_service.dart';
 
 class App extends StatefulWidget {
-  static const List<Locale> supportedLocales = [
-    Locale('en'),
-    Locale('fr'),
-    Locale('de'),
-  ];
-
   static final ThemeData lightTheme = ThemeData.from(
     useMaterial3: true,
     colorScheme: const ColorScheme.light(
@@ -89,11 +82,8 @@ class _AppState extends State<App> {
       child: Consumer2<BrightnessSetting, Language>(
         builder: (_, darkMode, language, __) {
           return MaterialApp.router(
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              ...GlobalMaterialLocalizations.delegates,
-            ],
-            supportedLocales: App.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
             locale: language.value == 'auto' ? null : Locale(language.value),
             title: 'NyaNya Rocket!',
             themeMode: darkMode.value,

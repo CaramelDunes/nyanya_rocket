@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../localization/nyanya_localizations.dart';
+
 extension BrightnessToPrettyString on Brightness {
-  String toPrettyString() {
+  String toLocalizedString(BuildContext context) {
     switch (this) {
       case Brightness.dark:
-        return 'Dark';
+        return NyaNyaLocalizations.of(context).themeModeDarkLabel;
       case Brightness.light:
-        return 'Light';
+        return NyaNyaLocalizations.of(context).themeModeLightLabel;
     }
   }
 }
@@ -34,6 +37,6 @@ class BrightnessSetting with ChangeNotifier {
   }
 
   static String automaticValueLabel(BuildContext context) {
-    return 'Auto (${MediaQuery.of(context).platformBrightness.toPrettyString()})';
+    return 'Auto (${MediaQuery.of(context).platformBrightness.toLocalizedString(context)})';
   }
 }
