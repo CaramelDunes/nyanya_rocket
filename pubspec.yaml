@@ -19,6 +19,12 @@ dependencies:
   
   path: ^1.8.1
 
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding
+      path: plugins/window_size
+      ref: a738913c8ce2c9f47515382d40827e794a334274
+
   nyanya_rocket_base:
     git: https://github.com/CaramelDunes/nyanya_rocket_base.git
 
