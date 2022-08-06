@@ -91,6 +91,7 @@ class _AppState extends State<App> {
             darkTheme: App.darkTheme,
             routerDelegate: _routerDelegate,
             routeInformationParser: _routeInformationParser,
+            restorationScopeId: 'root',
           );
         },
       ),
