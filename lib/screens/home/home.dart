@@ -45,9 +45,9 @@ class _HomeState extends State<Home> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _buildTitleRow(context),
+        _buildTitle(context),
         const SizedBox(height: 16.0),
-        Expanded(flex: 4, child: _buildPlayRow(context, Axis.vertical)),
+        Expanded(flex: 4, child: _buildTilesFlex(context, Axis.vertical)),
         const SizedBox(height: 16.0),
         _buildGuideSettingsRow(context),
       ],
@@ -59,15 +59,19 @@ class _HomeState extends State<Home> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _buildTitleRow(context),
-        Flexible(flex: 4, child: _buildPlayRow(context, Axis.horizontal)),
+        _buildTitle(context),
+        Flexible(
+            flex: 4,
+            child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 496),
+                child: _buildTilesFlex(context, Axis.horizontal))),
         const SizedBox(height: 4.0),
         _buildGuideSettingsRow(context),
       ],
     );
   }
 
-  Widget _buildTitleRow(BuildContext context) {
+  Widget _buildTitle(BuildContext context) {
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: Text(
@@ -79,7 +83,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _buildPlayRow(BuildContext context, Axis direction) {
+  Widget _buildTilesFlex(BuildContext context, Axis direction) {
     return Flex(
       direction: direction,
       children: [
