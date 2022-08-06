@@ -30,13 +30,15 @@ class BoardCard extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 12 / 9,
                   child: Stack(
+                    fit: StackFit.expand,
                     children: [
                       StaticGameView(game: game),
                       Visibility(
                         visible: cleared,
                         child: Container(
                           color: Colors.black.withOpacity(0.5),
-                          child: const Center(
+                          child: const FittedBox(
+                            fit: BoxFit.scaleDown,
                             child: Icon(
                               Icons.check,
                               color: Colors.green,
