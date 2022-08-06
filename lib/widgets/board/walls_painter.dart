@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 class WallsPainter {
+  static const unitStrokeWidth = 0.08;
   static final Paint wallPaint = Paint()
     ..color = Colors.red
-    ..strokeWidth = 0.1
+    ..strokeWidth = unitStrokeWidth
     ..strokeCap = StrokeCap.round;
 
   static Offset centerOfPosition(BoardPosition position) {

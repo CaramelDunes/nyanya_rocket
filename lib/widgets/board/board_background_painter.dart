@@ -7,6 +7,7 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 import '../../utils.dart';
 import 'checkerboard_painter.dart';
 import 'tiles/tile_painter.dart';
+import 'walls_painter.dart';
 
 class BoardBackgroundPainter extends CustomPainter {
   final Brightness brightness;
@@ -21,12 +22,15 @@ class BoardBackgroundPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double tileWidth = size.width / 12;
-    final double tileHeight = size.height / 9;
+    final tileWidth = size.width / (12 + WallsPainter.unitStrokeWidth);
+    final tileHeight = size.height / (9 + WallsPainter.unitStrokeWidth);
 
     canvas.save();
 
     canvas.scale(tileWidth, tileHeight);
+    canvas.translate(
+        WallsPainter.unitStrokeWidth / 2, WallsPainter.unitStrokeWidth / 2);
+
     canvas.drawPicture(cached);
 
     canvas.restore();

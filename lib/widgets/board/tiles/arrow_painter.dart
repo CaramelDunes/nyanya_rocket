@@ -7,6 +7,12 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 import '../../../utils.dart';
 
 class ArrowPainter extends CustomPainter {
+  static const bodyHeightRatio = 0.55;
+  static const bodyWidthRatio = 0.5;
+  static const arrowHeightRatio = 0.75;
+  static const arrowWidthRatio = 0.65;
+  static const strokeWidth = 0.02;
+
   static final Map<Color, Picture> _cache = {};
 
   const ArrowPainter(this.color, this.direction, this.scale);
@@ -53,14 +59,9 @@ class ArrowPainter extends CustomPainter {
   }
 
   static void _actuallyPaintUnit(Canvas canvas, Color color) {
-    const bodyHeightRatio = 0.55;
-    const bodyWidthRatio = 0.5;
-
     final arrow = arrowPath(bodyHeightRatio, bodyWidthRatio);
-
-    const arrowHeightRatio = 0.75;
-    const arrowWidthRatio = 0.65;
-    const rect = Rect.fromLTRB(-0.5, -0.5, 0.5, 0.5);
+    const rect = Rect.fromLTRB(-0.5 + strokeWidth / 2, -0.5 + strokeWidth / 2,
+        0.5 - strokeWidth / 2, 0.5 - strokeWidth / 2);
     final roundedRect =
         RRect.fromRectAndRadius(rect, const Radius.circular(0.15));
 
@@ -69,7 +70,7 @@ class ArrowPainter extends CustomPainter {
         roundedRect,
         Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 0.02
+          ..strokeWidth = strokeWidth
           ..color = Colors.black);
 
     canvas.scale(arrowWidthRatio, arrowHeightRatio);

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
 import '../../../utils.dart';
 
 class RocketPainter extends CustomPainter {
+  static const unitRadius = 0.40;
+  static const unitStrokeWidth = 0.05;
+
   const RocketPainter(this.color, this.departed);
 
   factory RocketPainter.fromPlayerColor(PlayerColor? color,
@@ -30,12 +34,12 @@ class RocketPainter extends CustomPainter {
   static void paintUnit(Canvas canvas, Color color, bool departed) {
     const rect = Rect.fromLTRB(0, 0, 1, 1);
 
-    canvas.drawCircle(rect.center, 0.45, Paint()..color = color);
+    canvas.drawCircle(rect.center, unitRadius, Paint()..color = color);
     canvas.drawCircle(
         rect.center,
-        0.45,
+        unitRadius,
         Paint()
           ..style = departed ? PaintingStyle.fill : PaintingStyle.stroke
-          ..strokeWidth = 0.05);
+          ..strokeWidth = unitStrokeWidth);
   }
 }

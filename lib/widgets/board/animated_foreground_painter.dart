@@ -27,11 +27,14 @@ class AnimatedForegroundPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    double tileWidth = size.width / 12;
-    double tileHeight = size.height / 9;
+    final tileWidth = size.width / (12 + WallsPainter.unitStrokeWidth);
+    final tileHeight = size.height / (9 + WallsPainter.unitStrokeWidth);
 
     canvas.save();
+
     canvas.scale(tileWidth, tileHeight);
+    canvas.translate(
+        WallsPainter.unitStrokeWidth / 2, WallsPainter.unitStrokeWidth / 2);
 
     TilePainter.paintUnitArrowTiles(game.value.board, canvas);
     canvas.drawPicture(_wallsPicture);
