@@ -23,8 +23,8 @@ class OriginalChallenge extends StatelessWidget {
                   .toLocalizedString(context) +
               OriginalChallenges.challenges[id].name),
       nextRoutePath: id + 1 < OriginalChallenges.challenges.length
-          ? NyaNyaRoutePath.originalChallenge(
-              OriginalChallenges.challenges[id + 1].slug)
+          ? NyaNyaRoutePath.originalChallenge(OriginalChallenges.originalSlug(
+              OriginalChallenges.challenges[id + 1]))
           : null,
       onWin: (time) {
         context.read<ChallengeProgressionManager>().setTime(id, time);
