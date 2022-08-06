@@ -23,43 +23,48 @@ class Settings extends StatelessWidget {
         appBar: AppBar(
           title: Text(NyaNyaLocalizations.of(context).settingsTitle),
         ),
-        body: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: kMaxWidthForBigScreens),
-            child: ListView(
-              children: [
-                Padding(
-                  padding: sectionInsets,
-                  child: Text(
-                    NyaNyaLocalizations.of(context).generalLabel,
-                    style: sectionStyle,
+        body: SafeArea(
+          child: Center(
+            child: ConstrainedBox(
+              constraints:
+                  const BoxConstraints(maxWidth: kMaxWidthForBigScreens),
+              child: ListView(
+                children: [
+                  Padding(
+                    padding: sectionInsets,
+                    child: Text(
+                      NyaNyaLocalizations.of(context).generalLabel,
+                      style: sectionStyle,
+                    ),
                   ),
-                ),
-                Consumer<BrightnessSetting>(
-                    builder: (context, brightnessSetting, _) =>
-                        _buildBrightnessTile(context, brightnessSetting)),
-                Consumer<Language>(
-                    builder: (context, language, _) =>
-                        _buildLanguageTile(context, language)),
-                Consumer<Region>(
-                    builder: (context, region, _) =>
-                        _buildRegionTile(context, region)),
-                Padding(
-                  padding: sectionInsets,
-                  child: Text(
-                    NyaNyaLocalizations.of(context).accountManagementLabel,
-                    style: sectionStyle,
+                  Consumer<BrightnessSetting>(
+                      builder: (context, brightnessSetting, _) =>
+                          _buildBrightnessTile(context, brightnessSetting)),
+                  Consumer<Language>(
+                      builder: (context, language, _) =>
+                          _buildLanguageTile(context, language)),
+                  Consumer<Region>(
+                      builder: (context, region, _) =>
+                          _buildRegionTile(context, region)),
+                  const SizedBox(height: 16.0),
+                  Padding(
+                    padding: sectionInsets,
+                    child: Text(
+                      NyaNyaLocalizations.of(context).accountManagementLabel,
+                      style: sectionStyle,
+                    ),
                   ),
-                ),
-                Consumer<User>(
-                  builder: (context, user, _) =>
-                      _buildAccountManagementTile(context, user),
-                ),
-                AboutListTile(
-                  applicationLegalese: kAboutText,
-                  applicationVersion: kAboutVersion,
-                )
-              ],
+                  Consumer<User>(
+                    builder: (context, user, _) =>
+                        _buildAccountManagementTile(context, user),
+                  ),
+                  const SizedBox(height: 16.0),
+                  AboutListTile(
+                    applicationLegalese: kAboutText,
+                    applicationVersion: kAboutVersion,
+                  )
+                ],
+              ),
             ),
           ),
         ));
