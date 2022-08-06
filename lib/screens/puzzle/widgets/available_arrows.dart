@@ -13,13 +13,12 @@ class AvailableArrows extends StatelessWidget {
   final Function(Direction direction) onArrowTap;
 
   const AvailableArrows(
-      {Key? key,
+      {super.key,
       required this.direction,
       required this.puzzleGameController,
       required this.draggedArrowCounts,
       required this.onArrowTap,
-      this.selectedDirection})
-      : super(key: key);
+      this.selectedDirection});
 
   static Widget _buildArrowAndCount(Direction direction, int count,
       Brightness brightness, bool canPlace, bool selected) {

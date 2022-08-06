@@ -2,9 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
-import 'package:provider/provider.dart';
 
-import '../../screens/settings/dark_mode.dart';
 import 'animated_foreground_painter.dart';
 import 'board_background_painter.dart';
 
@@ -12,8 +10,7 @@ class AnimatedGameView extends StatefulWidget {
   final ValueListenable<GameState> game;
   final ValueListenable<BoardPosition?>? mistake;
 
-  const AnimatedGameView({Key? key, required this.game, this.mistake})
-      : super(key: key);
+  const AnimatedGameView({super.key, required this.game, this.mistake});
 
   @override
   State<AnimatedGameView> createState() => _AnimatedGameViewState();
@@ -49,8 +46,7 @@ class _AnimatedGameViewState extends State<AnimatedGameView>
           willChange: true,
           painter: BoardBackgroundPainter(
               board: widget.game.value.board,
-              darkModeEnabled:
-                  Provider.of<DarkMode>(context, listen: false).enabled),
+              brightness: Theme.of(context).brightness),
           foregroundPainter: AnimatedForegroundPainter(
               game: widget.game,
               mistake: widget.mistake,

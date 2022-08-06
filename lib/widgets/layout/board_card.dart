@@ -7,45 +7,52 @@ class BoardCard extends StatelessWidget {
   final GameState game;
   final List<Widget> description;
   final bool cleared;
+  final VoidCallback? onTap;
 
   const BoardCard(
-      {Key? key,
+      {super.key,
       required this.game,
       required this.description,
-      this.cleared = false})
-      : super(key: key);
+      this.cleared = false,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: AspectRatio(
-                aspectRatio: 12 / 9,
-                child: Stack(
-                  children: [
-                    StaticGameView(game: game),
-                    Visibility(
-                      visible: cleared,
-                      child: Container(
-                        color: Colors.black.withOpacity(0.5),
-                        child: const Center(
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.green,
-                            size: 120,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: AspectRatio(
+                  aspectRatio: 12 / 9,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      StaticGameView(game: game),
+                      Visibility(
+                        visible: cleared,
+                        child: Container(
+                          color: Colors.black.withOpacity(0.5),
+                          child: const FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.green,
+                              size: 120,
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              )),
-          ...description
-        ],
+                      )
+                    ],
+                  ),
+                )),
+            ...description
+          ],
+        ),
       ),
     );
   }

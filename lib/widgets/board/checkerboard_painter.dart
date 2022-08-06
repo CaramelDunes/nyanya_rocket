@@ -18,9 +18,10 @@ abstract class CheckerboardPainter {
   static final Picture darkModeCheckerboard =
       createPicture((canvas) => _paintUnitCheckerboard(canvas, true));
 
-  static void paintUnitCheckerboard(Canvas canvas, bool darkModeEnabled) {
-    canvas.drawPicture(
-        darkModeEnabled ? darkModeCheckerboard : lightModeCheckerboard);
+  static void paintUnitCheckerboard(Canvas canvas, Brightness brightness) {
+    canvas.drawPicture(brightness == Brightness.dark
+        ? darkModeCheckerboard
+        : lightModeCheckerboard);
   }
 
   static void _paintUnitCheckerboard(Canvas canvas, bool darkModeEnabled) {

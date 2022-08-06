@@ -1,13 +1,15 @@
 import 'package:flutter/foundation.dart';
-import 'package:nyanya_rocket/screens/puzzles/widgets/original_puzzles.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PuzzleProgressionManager with ChangeNotifier {
   final SharedPreferences sharedPreferences;
+  final int numberOfPuzzles;
   final Set<int> _cleared = {};
   final Set<int> _starred = {};
 
-  PuzzleProgressionManager(this.sharedPreferences) {
+  PuzzleProgressionManager(
+      {required this.sharedPreferences, required this.numberOfPuzzles}) {
     _readFromSharedPreferences();
   }
 
@@ -16,7 +18,7 @@ class PuzzleProgressionManager with ChangeNotifier {
   String _starredKeyOf(int i) => "puzzle.original.$i.starred";
 
   void _readFromSharedPreferences() {
-    for (int i = 0; i < OriginalPuzzles.puzzles.length; i += 1) {
+    for (int i = 0; i < numberOfPuzzles; i += 1) {
       if (sharedPreferences.getBool(_clearedKeyOf(i)) ?? false) {
         _cleared.add(i);
       }
@@ -45,5 +47,23 @@ class PuzzleProgressionManager with ChangeNotifier {
     _starred.add(i);
     notifyListeners();
     return sharedPreferences.setBool(_starredKeyOf(i), starred);
+  }
+
+  bool isPuzzleCleared(int i) {
+    return _cleared.contains(i);
+  }
+
+  int getFirstNotClearedPuzzle() {
+    int i = 0;
+
+    while (isPuzzleCleared(i)) {
+      i++;
+    }
+
+    return i;
+  }
+
+  double get completedRatio {
+    return _cleared.length / numberOfPuzzles;
   }
 }

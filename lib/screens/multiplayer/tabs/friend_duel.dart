@@ -13,11 +13,10 @@ class FriendDuel extends StatefulWidget {
   final String masterServerHostname;
 
   const FriendDuel(
-      {Key? key,
+      {super.key,
       required this.displayName,
       required this.idToken,
-      required this.masterServerHostname})
-      : super(key: key);
+      required this.masterServerHostname});
 
   @override
   State<FriendDuel> createState() => _FriendDuelState();

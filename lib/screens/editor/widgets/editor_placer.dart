@@ -38,14 +38,14 @@ class EditorPlacer extends StatefulWidget {
   final VoidCallback onRedo;
 
   const EditorPlacer({
-    Key? key,
+    super.key,
     required this.editedGame,
     required this.menus,
     required this.onSave,
     required this.onUndo,
     required this.onRedo,
     this.onPlay,
-  }) : super(key: key);
+  });
 
   @override
   State<EditorPlacer> createState() => _EditorPlacerState();

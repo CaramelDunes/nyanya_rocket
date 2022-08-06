@@ -12,7 +12,6 @@ import '../../../utils.dart';
 import '../../../widgets/board/animated_game_view.dart';
 import '../../../widgets/board/tiles/arrow_image.dart';
 import '../../../widgets/input/draggable_arrow_grid.dart';
-import '../../../widgets/input/input_grid_overlay.dart';
 import '../../../widgets/game/score_box.dart';
 import '../../../widgets/input/arrow_drawer.dart';
 import '../../puzzle/widgets/draggable_arrow.dart';
@@ -28,13 +27,12 @@ class NetworkMultiplayer extends StatefulWidget {
   final Duration gameDuration;
 
   const NetworkMultiplayer(
-      {Key? key,
+      {super.key,
       required this.nickname,
       required this.serverAddress,
       required this.port,
       this.gameDuration = const Duration(minutes: 3),
-      this.ticket})
-      : super(key: key);
+      this.ticket});
 
   @override
   State<NetworkMultiplayer> createState() => _NetworkMultiplayerState();
@@ -359,7 +357,8 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                   ),
                   ElevatedButton(
                       onPressed: Navigator.of(context).pop,
-                      child: Text(NyaNyaLocalizations.of(context).back))
+                      child: Text(
+                          MaterialLocalizations.of(context).backButtonTooltip))
                 ],
               ),
             ),

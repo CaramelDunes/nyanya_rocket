@@ -12,12 +12,11 @@ class QueueAndLeaderboard extends StatelessWidget {
   final String masterServerHostname;
 
   const QueueAndLeaderboard(
-      {Key? key,
+      {super.key,
       required this.queueType,
       required this.displayName,
       required this.idToken,
-      required this.masterServerHostname})
-      : super(key: key);
+      required this.masterServerHostname});
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/screens/editor/widgets/create_tab.dart';
 class NameFormField extends StatelessWidget {
   final FormFieldSetter<String> onSaved;
 
-  const NameFormField({Key? key, required this.onSaved}) : super(key: key);
+  const NameFormField({super.key, required this.onSaved});
 
   @override
   Widget build(BuildContext context) {

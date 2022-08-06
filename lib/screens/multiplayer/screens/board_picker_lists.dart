@@ -6,7 +6,7 @@ import 'package:nyanya_rocket/screens/multiplayer/picker_tabs/local_boards.dart'
 import 'package:nyanya_rocket/screens/multiplayer/picker_tabs/original_boards.dart';
 
 class BoardPickerLists extends StatelessWidget {
-  const BoardPickerLists({Key? key}) : super(key: key);
+  const BoardPickerLists({super.key});
 
   @override
   Widget build(BuildContext context) {

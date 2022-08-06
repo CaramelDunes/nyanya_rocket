@@ -7,7 +7,7 @@ import 'puzzle.dart';
 class LoadingPuzzle extends StatelessWidget {
   final Future<CommunityPuzzleData> futurePuzzle;
 
-  const LoadingPuzzle({Key? key, required this.futurePuzzle}) : super(key: key);
+  const LoadingPuzzle({super.key, required this.futurePuzzle});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,8 @@ class LoadingPuzzle extends StatelessWidget {
                         ),
                         ElevatedButton(
                             onPressed: () => Navigator.pop(context),
-                            child: Text(NyaNyaLocalizations.of(context).back))
+                            child: Text(MaterialLocalizations.of(context)
+                                .backButtonTooltip))
                       ],
                     ),
                   ),

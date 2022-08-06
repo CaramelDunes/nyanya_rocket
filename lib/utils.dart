@@ -41,3 +41,7 @@ Picture createPicture(void Function(Canvas) callback) {
 Duration floorDurationToTenthOfASecond(Duration duration) {
   return Duration(milliseconds: (duration.inMilliseconds ~/ 100) * 100);
 }
+
+int ratioToPercentage(double ratio) {
+  return (ratio * 100).floor();
+}

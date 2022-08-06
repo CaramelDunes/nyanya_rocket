@@ -6,8 +6,7 @@ class Countdown extends StatelessWidget {
   final TextAlign? textAlign;
 
   const Countdown(
-      {Key? key, required this.remaining, this.color, this.textAlign})
-      : super(key: key);
+      {super.key, required this.remaining, this.color, this.textAlign});
 
   static String formatDuration(Duration duration) {
     final String paddedMinutes =
@@ -25,7 +24,7 @@ class Countdown extends StatelessWidget {
     return Text(
       formatDuration(remaining),
       textAlign: textAlign,
-      style: Theme.of(context).textTheme.headline6!.copyWith(color: color),
+      style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: color),
     );
   }
 }

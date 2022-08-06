@@ -9,7 +9,7 @@ import '../../../models/user.dart';
 class SignUpDialog extends StatefulWidget {
   final User user;
 
-  const SignUpDialog({Key? key, required this.user}) : super(key: key);
+  const SignUpDialog({super.key, required this.user});
 
   @override
   State<SignUpDialog> createState() => _SignUpDialogState();

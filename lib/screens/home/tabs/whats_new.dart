@@ -12,7 +12,7 @@ import '../../tutorial/tutorial.dart';
 class WhatsNew extends StatelessWidget {
   static Set<String> availableLocales = {'en', 'fr'};
 
-  const WhatsNew({Key? key}) : super(key: key);
+  const WhatsNew({super.key});
 
   // static Future<QuerySnapshot> news = FirebaseFirestore.instance
   //     .collection('articles_${articleLocale()}')

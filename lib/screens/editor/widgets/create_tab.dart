@@ -16,7 +16,7 @@ enum EditorMode { puzzle, challenge, multiplayer }
 class CreateTab extends StatefulWidget {
   static final RegExp nameRegExp = RegExp(r'^[ -~]{2,24}$');
 
-  const CreateTab({Key? key}) : super(key: key);
+  const CreateTab({super.key});
 
   @override
   State<CreateTab> createState() => _CreateTabState();

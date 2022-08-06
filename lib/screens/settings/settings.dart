@@ -6,72 +6,95 @@ import '../../localization/nyanya_localizations.dart';
 import '../../models/user.dart';
 import '../privacy_policy_prompt/privacy_policy_prompt.dart';
 import 'account_management.dart';
-import 'dark_mode.dart';
+import 'brightness_setting.dart';
 import 'language.dart';
 import 'region.dart';
 import 'widgets/display_name_change_dialog.dart';
 
 class Settings extends StatelessWidget {
-  const Settings({Key? key}) : super(key: key);
+  const Settings({super.key});
 
   @override
   Widget build(BuildContext context) {
     const EdgeInsets sectionInsets = EdgeInsets.only(top: 8.0, left: 8.0);
-    final TextStyle sectionStyle = Theme.of(context)
-        .textTheme
-        .subtitle1!
-        .copyWith(fontWeight: FontWeight.bold);
+    final TextStyle? sectionStyle = Theme.of(context).textTheme.headlineSmall;
 
     return Scaffold(
         appBar: AppBar(
           title: Text(NyaNyaLocalizations.of(context).settingsTitle),
         ),
-        body: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: kMaxWidthForBigScreens),
-            child: ListView(
-              children: [
-                Padding(
-                  padding: sectionInsets,
-                  child: Text(
-                    NyaNyaLocalizations.of(context).generalLabel,
-                    style: sectionStyle,
+        body: SafeArea(
+          child: Center(
+            child: ConstrainedBox(
+              constraints:
+                  const BoxConstraints(maxWidth: kMaxWidthForBigScreens),
+              child: ListView(
+                children: [
+                  Padding(
+                    padding: sectionInsets,
+                    child: Text(
+                      NyaNyaLocalizations.of(context).generalLabel,
+                      style: sectionStyle,
+                    ),
                   ),
-                ),
-                Consumer<DarkMode>(
-                    builder: (context, darkMode, _) =>
-                        _buildDarkModeTile(context, darkMode)),
-                Consumer<Language>(
-                    builder: (context, language, _) =>
-                        _buildLanguageTile(context, language)),
-                Consumer<Region>(
-                    builder: (context, region, _) =>
-                        _buildRegionTile(context, region)),
-                const Divider(height: 1.0),
-                Padding(
-                  padding: sectionInsets,
-                  child: Text(
-                    NyaNyaLocalizations.of(context).accountManagementLabel,
-                    style: sectionStyle,
+                  Consumer<BrightnessSetting>(
+                      builder: (context, brightnessSetting, _) =>
+                          _buildBrightnessTile(context, brightnessSetting)),
+                  Consumer<Language>(
+                      builder: (context, language, _) =>
+                          _buildLanguageTile(context, language)),
+                  Consumer<Region>(
+                      builder: (context, region, _) =>
+                          _buildRegionTile(context, region)),
+                  const SizedBox(height: 16.0),
+                  Padding(
+                    padding: sectionInsets,
+                    child: Text(
+                      NyaNyaLocalizations.of(context).accountManagementLabel,
+                      style: sectionStyle,
+                    ),
                   ),
-                ),
-                Consumer<User>(
-                  builder: (context, user, _) =>
-                      _buildAccountManagementTile(context, user),
-                )
-              ],
+                  Consumer<User>(
+                    builder: (context, user, _) =>
+                        _buildAccountManagementTile(context, user),
+                  ),
+                  const SizedBox(height: 16.0),
+                  AboutListTile(
+                    applicationLegalese: kAboutText,
+                    applicationVersion: kAboutVersion,
+                  )
+                ],
+              ),
             ),
           ),
         ));
   }
 
-  Widget _buildDarkModeTile(BuildContext context, DarkMode darkMode) {
-    return SwitchListTile(
-      title: Text(NyaNyaLocalizations.of(context).darkModeLabel),
-      onChanged: (bool value) {
-        darkMode.enabled = value;
-      },
-      value: darkMode.enabled,
+  Widget _buildBrightnessTile(
+      BuildContext context, BrightnessSetting brightnessSetting) {
+    return ListTile(
+      title: Text(NyaNyaLocalizations.of(context).themeModeLabel),
+      trailing: DropdownButton<ThemeMode>(
+          value: brightnessSetting.value,
+          items: <DropdownMenuItem<ThemeMode>>[
+            DropdownMenuItem(
+              value: ThemeMode.system,
+              child: Text(BrightnessSetting.automaticValueLabel(context)),
+            ),
+            DropdownMenuItem(
+              value: ThemeMode.light,
+              child: Text(Brightness.light.toLocalizedString(context)),
+            ),
+            DropdownMenuItem(
+              value: ThemeMode.dark,
+              child: Text(Brightness.dark.toLocalizedString(context)),
+            ),
+          ],
+          onChanged: (ThemeMode? newMode) {
+            if (newMode != null) {
+              brightnessSetting.value = newMode;
+            }
+          }),
     );
   }
 

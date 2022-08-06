@@ -122,7 +122,13 @@ class OriginalChallenges extends StatefulWidget {
     return '${challengeData.type.toSlug()}-${challengeData.slug}';
   }
 
-  const OriginalChallenges({Key? key}) : super(key: key);
+  static String fullLocalizedName(
+      NamedChallengeData namedChallengeData, BuildContext context) {
+    return namedChallengeData.data.type.toLocalizedString(context) +
+        namedChallengeData.name;
+  }
+
+  const OriginalChallenges({super.key});
 
   @override
   State<OriginalChallenges> createState() => _OriginalChallengesState();
@@ -188,7 +194,8 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
     final bool isCleared = time != null;
 
     return ListTile(
-      title: Text(_fullLocalizedName(namedChallengeData)),
+      title: Text(
+          OriginalChallenges.fullLocalizedName(namedChallengeData, context)),
       subtitle: Text(namedChallengeData.data.type.toLocalizedString(context)),
       trailing: isCleared
           ? Row(mainAxisSize: MainAxisSize.min, children: [
@@ -209,28 +216,21 @@ class _OriginalChallengesState extends State<OriginalChallenges> {
       NamedChallengeData namedChallengeData, Duration? time) {
     final bool isCleared = time != null;
 
-    return InkWell(
+    return BoardCard(
       key: ValueKey(namedChallengeData.slug),
-      child: BoardCard(
-        game: namedChallengeData.data.getGame(),
-        description: [
-          Text(
-            _fullLocalizedName(namedChallengeData),
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(isCleared ? _formatTime(time) : '')
-        ],
-        cleared: isCleared,
-      ),
+      game: namedChallengeData.data.getGame(),
+      description: [
+        Text(
+          OriginalChallenges.fullLocalizedName(namedChallengeData, context),
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        Text(isCleared ? _formatTime(time) : '')
+      ],
+      cleared: isCleared,
       onTap: () {
         _openChallenge(OriginalChallenges.originalSlug(namedChallengeData));
       },
     );
-  }
-
-  String _fullLocalizedName(NamedChallengeData namedChallengeData) {
-    return namedChallengeData.data.type.toLocalizedString(context) +
-        namedChallengeData.name;
   }
 
   String _formatTime(Duration time) {

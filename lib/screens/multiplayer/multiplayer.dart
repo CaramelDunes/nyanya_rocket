@@ -16,7 +16,7 @@ import 'tabs/queue_and_leaderboard.dart';
 typedef IdTokenBuilder = Widget Function(String idToken);
 
 class Multiplayer extends StatelessWidget {
-  const Multiplayer({Key? key}) : super(key: key);
+  const Multiplayer({super.key});
 
   @override
   Widget build(BuildContext context) {

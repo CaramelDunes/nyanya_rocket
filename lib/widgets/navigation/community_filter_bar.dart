@@ -9,11 +9,10 @@ class CommunityFilterBar extends StatelessWidget {
   final VoidCallback onRefresh;
 
   const CommunityFilterBar(
-      {Key? key,
+      {super.key,
       required this.value,
       required this.onSortingChanged,
-      required this.onRefresh})
-      : super(key: key);
+      required this.onRefresh});
 
   @override
   Widget build(BuildContext context) {

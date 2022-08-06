@@ -1,639 +1,110 @@
 {
   "@@last_modified": "2019-08-12T16:31:57.427643",
   "puzzleType": "Puzzle",
-  "@puzzleType": {
-    "description": "Puzzle type of game.",
-    "type": "text",
-    "placeholders": {}
-  },
   "challengeType": "Herausforderung",
-  "@challengeType": {
-    "description": "Challenge type of game.",
-    "type": "text",
-    "placeholders": {}
-  },
   "challengeGetMiceType": "Hol Mäuse",
-  "@challengeGetMiceType": {
-    "description": "Get Mice type of challenge.",
-    "type": "text",
-    "placeholders": {}
-  },
   "challengeRunAwayType": "Lauf weg",
-  "@challengeRunAwayType": {
-    "description": "Run Away type of challenge.",
-    "type": "text",
-    "placeholders": {}
-  },
   "challengeLunchTimeType": "Mahlzeit",
-  "@challengeLunchTimeType": {
-    "description": "Lunch Time type of challenge.",
-    "type": "text",
-    "placeholders": {}
-  },
   "challengeOneHundredMiceType": "100 Mäuse",
-  "@challengeOneHundredMiceType": {
-    "description": "One Hundred Mice type of challenge.",
-    "type": "text",
-    "placeholders": {}
-  },
   "multiplayerType": "Mehrspieler",
-  "@multiplayerType": {
-    "description": "Multiplayer type of game.",
-    "type": "text",
-    "placeholders": {}
-  },
   "challengesTitle": "Herausforderungen",
-  "@challengesTitle": {
-    "description": "Challenges title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
   "puzzlesTitle": "Puzzles",
-  "@puzzlesTitle": {
-    "description": "Puzzles title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
   "multiplayerTitle": "Mehrspieler",
-  "@multiplayerTitle": {
-    "description": "Multiplayer title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
   "editorTitle": "Editor",
-  "@editorTitle": {
-    "description": "Editor title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
   "settingsTitle": "Einstellungen",
-  "@settingsTitle": {
-    "description": "Settings title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
   "homeTitle": "Start",
-  "@homeTitle": {
-    "description": "Home title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
   "tutorialTitle": "Anleitung",
-  "@tutorialTitle": {
-    "description": "Tutorial title in AppBar, Drawer...",
-    "type": "text",
-    "placeholders": {}
-  },
   "whatsNewTab": "Was gibt's Neues?",
-  "@whatsNewTab": {
-    "description": "What's New tab of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "firstTimeWelcome": "Willkommen,",
-  "@firstTimeWelcome": {
-    "description": "First time welcome label of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "firstTimeText": "Neu hier?, dann schau in die Anleitung",
-  "@firstTimeText": {
-    "description": "First time welcome text of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "firstTimeButtonLabel": "Bring mich hin!",
-  "@firstTimeButtonLabel": {
-    "description": "First time, go to tutorial button of the Home screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "newsLabel": "Neuigkeiten",
-  "@newsLabel": {
-    "description": "News label of the What's New tab.",
-    "type": "text",
-    "placeholders": {}
-  },
   "originalTab": "Original",
-  "@originalTab": {
-    "description": "Original tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
   "communityTab": "Community",
-  "@communityTab": {
-    "description": "Community tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
   "sortByLabel": "Sortieren nach",
-  "@sortByLabel": {
-    "description": "Community tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
   "dateLabel": "Datum",
-  "@dateLabel": {
-    "description": "Community tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
   "popularityLabel": "Bekanntheit",
-  "@popularityLabel": {
-    "description": "Community tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
   "deviceTab": "Gerät",
-  "@deviceTab": {
-    "description": "Device tab of the Puzzles, Challenges screens.",
-    "type": "text",
-    "placeholders": {}
-  },
   "loginPromptText": "Bitte melde dich zuerst an! (Einstellungen—Account verwalten)",
-  "@loginPromptText": {
-    "description": "Login prompt of the Local Puzzles and Challenges tabs.",
-    "type": "text",
-    "placeholders": {}
-  },
   "publishLabel": "Veröffentlichen",
-  "@publishLabel": {
-    "description": "Publish tooltip of the Local Puzzles and Challenges tabs.",
-    "type": "text",
-    "placeholders": {}
-  },
   "publishSuccessText": "Puzzle veröffentlicht!",
-  "@publishSuccessText": {
-    "description": "Publish success text (snackbar) of the Local Puzzles and Challenges tabs.",
-    "type": "text",
-    "placeholders": {}
-  },
   "puzzleNotCompletedLocallyText": "Puzzle nicht veröffentlicht, da es nicht gelöst wurde.",
-  "@puzzleNotCompletedLocallyText": {
-    "description": "Local Puzzles and Challenges tabs.",
-    "type": "text",
-    "placeholders": {}
-  },
   "getMiceObjectiveText": "Alle Mäuse müssen innerhalb von 30 Sekunden zum Ziel.",
-  "@getMiceObjectiveText": {
-    "description": "Short explanation of the Get Mice challenge type.",
-    "type": "text",
-    "placeholders": {}
-  },
   "runAwayObjectiveText": "Auf dem Weg zum Ziel alle Katzen vermeiden!",
-  "@runAwayObjectiveText": {
-    "description": "Short explanation of the Run Away challenge type.",
-    "type": "text",
-    "placeholders": {}
-  },
   "lunchTimeObjectiveText": "Füttere die Katze!",
-  "@lunchTimeObjectiveText": {
-    "description": "Short explanation of the Lunch Time challenge type.",
-    "type": "text",
-    "placeholders": {}
-  },
   "oneHundredMiceObjectiveText": "Sammele 100 Mäuse innerhalb von 30 Sekunden.",
-  "@oneHundredMiceObjectiveText": {
-    "description": "Short explanation of the One Hundred Mice challenge type.",
-    "type": "text",
-    "placeholders": {}
-  },
   "lanTab": "LAN",
-  "@lanTab": {
-    "description": "LAN tab of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "matchmakingTab": "Online",
-  "@matchmakingTab": {
-    "description": "Matchmaking tab of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "nicknameLabel": "Spitzname",
-  "@nicknameLabel": {
-    "description": "Nickname field label of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "invalidNicknameText": "Bitte einen gültigen Spitznamen eingeben.",
-  "@invalidNicknameText": {
-    "description": "When entered nickname is incorrect in the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "invalidHostnameText": "Bitte einen gültigen Hostnamen eingeben.",
-  "@invalidHostnameText": {
-    "description": "When entered hostname is incorrect in the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "hostnameLabel": "Server hostname",
-  "@hostnameLabel": {
-    "description": "Server hostname field label of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "createLabel": "Erstellen",
-  "@createLabel": {
-    "description": "Create button label of the Multiplayer screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "newTab": "Neu",
-  "@newTab": {
-    "description": "New tab of the Editor screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "nameLabel": "Name",
-  "@nameLabel": {
-    "description": "Name field of the new tab of the Editor screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "invalidNameText": "Bitte einen gültigen Namen eingeben.",
-  "@invalidNameText": {
-    "description": "When entered name is invalid in the new tab of the Editor screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "editTab": "Editieren",
-  "@editTab": {
-    "description": "Edit tab of the Editor screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "discardDialogTitle": "Beenden bestätigen",
-  "@discardDialogTitle": {
-    "description": "Discard confirmation dialog of editor.",
-    "type": "text",
-    "placeholders": {}
-  },
   "discardDialogMessage": "Bist du sicher, das du aufhören möchtest?\nAlle nicht gespeicherten Änderungen werden verworfen!",
-  "@discardDialogMessage": {
-    "description": "Discard confirmation dialog of editor.",
-    "type": "text",
-    "placeholders": {}
-  },
   "saveLabel": "Speichern",
-  "@saveLabel": {
-    "description": "Save button label of editor.",
-    "type": "text",
-    "placeholders": {}
-  },
   "enableAnimationsLabel": "Aktiviere Animationen",
-  "@enableAnimationsLabel": {
-    "description": "Enable Animations setting of the Settings screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "darkModeLabel": "Dunkles Design",
-  "@darkModeLabel": {
-    "description": "Dark Mode setting of the Settings screen.",
-    "type": "text",
-    "placeholders": {}
-  },
+  "themeModeLabel": "Dunkles design",
+  "themeModeDarkLabel": "On",
+  "themeModeLightLabel": "Off",
   "languageLabel": "Sprache",
-  "@languageLabel": {
-    "description": "Language setting of the Settings screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "stageClearedText": "Level geschafft!",
-  "@stageClearedText": {
-    "description": "Stage cleared text of success overlay.",
-    "type": "text",
-    "placeholders": {}
-  },
   "nextLevelLabel": "Nächstes Level",
-  "@nextLevelLabel": {
-    "description": "Next level button label of success overlay.",
-    "type": "text",
-    "placeholders": {}
-  },
   "generalLabel": "Allgemeines",
-  "@generalLabel": {
-    "description": "General label of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "tilesTutorialLabel": "Elemente",
-  "@tilesTutorialLabel": {
-    "description": "Tiles label of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "pitTutorialText": "Schwarzes Loch (technisch gesehen ein Quadrat ...)",
-  "@pitTutorialText": {
-    "description": "Pit text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "rocketTutorialText": "Rakete",
-  "@rocketTutorialText": {
-    "description": "Rocket text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "arrowTutorialText": "Pfeil",
-  "@arrowTutorialText": {
-    "description": "Arrow text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "entitiesTutorialLabel": "Wesen",
-  "@entitiesTutorialLabel": {
-    "description": "Entities label of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "mouseTutorialText": "Mäuse",
-  "@mouseTutorialText": {
-    "description": "Mouse text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "catTutorialText": "Katzen sind langsamer als Mäuse.\nWenn eine Katze frontal auf einen Pfeil trifft, beschädigt sie ihn oder zerstört ihn, wenn er bereits beschädigt ist.",
-  "@catTutorialText": {
-    "description": "Cat text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "movementTutorialText": "\nEin Wesen geht geradeaus, bis sie auf einen Pfeil oder eine Wand trifft.\nAus einigen Gründen ziehen es Mäuse und Katzen vor, beim Aufprall auf eine Wand nach rechts abzubiegen...\n",
-  "@movementTutorialText": {
-    "description": "Movement text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "placementTutorialLabel": "Pfeilplatzierung",
-  "@placementTutorialLabel": {
-    "description": "Arrow placement label of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "arrowDnDTutorialText": "Pfeile können auf Spielfeld gezogen werden...",
-  "@arrowDnDTutorialText": {
-    "description": "Arrow drag n drop placement text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "arrowSwipeTutorialText": "...oder durch Wischen platziert werden",
-  "@arrowSwipeTutorialText": {
-    "description": "Arrow swipe placement text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "arrowRemoveTutorialText": "Pfeile können durch Tippen entfernt werden",
-  "@arrowRemoveTutorialText": {
-    "description": "Arrow remove text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "puzzleTutorialText": "Ein Puzzle-Spiel ist gewonnen, wenn jede Maus eine Rakete erreicht hat.\nEs gibt nur eine begrenzte Anzahl von Pfeilen, um dieses Ziel zu erreichen.\n\nBeachte dass du keine Pfeile verändern oder entfernen kannst nach dem Start eines Levels, dies geht erst wieder nach dem Zurücksetzten des Levels.\n\nDu verlierst, wenn:\n  • Eine Katze eine Rakete erreicht bevor alle Mäuse in Sicherheit sind.\n  • Eine Maus gefressen wird von einer Katze.\n  • Eine Maus in ein Schwarzes Loch fällt.\n\nDu erhälst einen Stern, wenn ein Level abgeschlossen wird, ohne alle verfügbaren Pfeile zu verwenden.\n",
-  "@puzzleTutorialText": {
-    "description": "Puzzle text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "challengeTutorialText": "Herausforderungen sind rasante Spiele, bei denen du nur 30 Sekunden Zeit hast, um ein Ziel zu erreichen, das von der Art der Herausforderung abhängt.\n\nIm Gegensatz zum Puzzle-Modus können Sie so viele Pfeile platzieren wie Sie möchten, aber sie verschwinden nach 10 Sekunden und es können nur 3 Pfeile gleichzeitig platziert sein (Falls weitere platziert werden, wird der älteste gelöscht).",
-  "@challengeTutorialText": {
-    "description": "Challenge text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "challengeGetMiceText": "Wie im Puzzle-Modus, müssen alle Mäuse gerettet werden...Allerdings auf Zeit!",
-  "@challengeGetMiceText": {
-    "description": "Get Mice challenge text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "challengeLunchTimeText": "Keine Rakete hier, füttere die Katzen mit jeder einzelnen Maus!",
-  "@challengeLunchTimeText": {
-    "description": "Lunch Time challenge text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "challengeOneHundredMiceText": "Mice and cats will naturally spawn, get one hundred of mice!",
-  "@challengeOneHundredMiceText": {
-    "description": "One Hundred Mice challenge text of the tutorial screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "yes": "Ja",
-  "@yes": {
-    "description": "Yes string.",
-    "type": "text",
-    "placeholders": {}
-  },
   "no": "Nein",
-  "@no": {
-    "description": "No string.",
-    "type": "text",
-    "placeholders": {}
-  },
   "cancel": "Abbrechen",
-  "@cancel": {
-    "description": "Cancel string.",
-    "type": "text",
-    "placeholders": {}
-  },
   "accept": "Annehmen",
-  "@accept": {
-    "description": "Accept string.",
-    "type": "text",
-    "placeholders": {}
-  },
   "deny": "Ablehnen",
-  "@deny": {
-    "description": "Deny string.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "back": "Zurück",
-  "@back": {
-    "description": "Back string.",
-    "type": "text",
-    "placeholders": {}
-  },
   "loadingLabel": "Laden...",
-  "@loadingLabel": {
-    "description": "Loading... label of async loaded data.",
-    "type": "text",
-    "placeholders": {}
-  },
   "notImplementedText": "Nicht verfügbar momentan!\nSoll ich es priorisieren? :-)",
-  "@notImplementedText": {
-    "description": "Text of the NotImplementedWidget.",
-    "type": "text",
-    "placeholders": {}
-  },
   "emptyListText": "Nichts hier...",
-  "@emptyListText": {
-    "description": "Displayed when a list is empty.",
-    "type": "text",
-    "placeholders": {}
-  },
   "privacyPolicyLabel": "Datenschutz",
-  "@privacyPolicyLabel": {
-    "description": "Displayed in the drawer.",
-    "type": "text",
-    "placeholders": {}
-  },
   "playLabel": "Start",
-  "@playLabel": {
-    "description": "Displayed in various buttons.",
-    "type": "text",
-    "placeholders": {}
-  },
   "playersLabel": "Spieler",
-  "@playersLabel": {
-    "description": "Displayed in various locations.",
-    "type": "text",
-    "placeholders": {}
-  },
   "boardSelectionText": "Tippen zum auswählen",
-  "@boardSelectionText": {
-    "description": "Displayed in board picker.",
-    "type": "text",
-    "placeholders": {}
-  },
   "easyLabel": "Einfach",
-  "@easyLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {}
-  },
   "intermediateLabel": "Mittel",
-  "@intermediateLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {}
-  },
   "hardLabel": "Schwer",
-  "@hardLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {}
-  },
   "veryHardLabel": "Sehr schwer",
-  "@veryHardLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {}
-  },
   "completedLabel": "% Abgeschlossen",
-  "@completedLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {}
-  },
   "showCompletedLabel": "Zeige Abgeschlossene",
-  "@showCompletedLabel": {
-    "description": "Displayed in original puzzles tab.",
-    "type": "text",
-    "placeholders": {}
-  },
   "accountManagementLabel": "Account verwalten",
-  "@accountManagementLabel": {
-    "description": "Displayed in the settings screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "loginStatusLabel": "Status",
-  "@loginStatusLabel": {
-    "description": "Displayed in the settings and account management screens.",
-    "type": "text",
-    "placeholders": {}
-  },
   "connectedStatusLabel": "Verbunden",
-  "@connectedStatusLabel": {
-    "description": "Displayed in the account management screens.",
-    "type": "text",
-    "placeholders": {}
-  },
   "disconnectedStatusLabel": "Nicht verbunden",
-  "@disconnectedStatusLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "signInLabel": "Tippen zum Anmelden",
-  "@signInLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "signInDialogTitle": "Datenschutz",
-  "@signInDialogTitle": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "signOutLabel": "Tippen zum Abmelden",
-  "@signOutLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "signOutDialogTitle": "Abmelden bestätigen",
-  "@signOutDialogTitle": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "signOutDialogText": "Möchtest du dich wirklich abmelden?\n\nDu verlierest die Möglichkeit, Community-Herausforderungen und Rätsel zu veröffentlichen.",
-  "@signOutDialogText": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "displayNameDialogTitle": "Bitte gib einen neuen Spitznamen ein.",
-  "@displayNameDialogTitle": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "unauthenticatedError": "Fehler: Nicht authentifiziert",
-  "@unauthenticatedError": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "invalidDisplayNameError": "Fehler: Der angegebene Spitzname ist ungültig!",
-  "@invalidDisplayNameError": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "displayNameLabel": "Spitzname",
-  "@displayNameLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "tapToChangeDisplayNameLabel": "Tippen zum ändern",
-  "@tapToChangeDisplayNameLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "displayNameChangeSuccessText": "Spitzname erfolgreich geändert!",
-  "@displayNameChangeSuccessText": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
   "confirmLabel": "bestätigen",
-  "@confirmLabel": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  },
-  "displayNameFormatText": "Zwischen 2 und 24 Zeichen (keine Leerzeichen).",
-  "@displayNameFormatText": {
-    "description": "Displayed in the account management screen.",
-    "type": "text",
-    "placeholders": {}
-  }
+  "displayNameFormatText": "Zwischen 2 und 24 Zeichen (keine Leerzeichen)."
 }

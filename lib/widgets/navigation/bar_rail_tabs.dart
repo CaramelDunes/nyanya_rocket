@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../routing/nyanya_route_path.dart';
 import '../../utils.dart';
-import 'default_drawer.dart';
 
 class BarRailTab {
   final Widget content;
@@ -22,16 +21,13 @@ class BarRailTabs extends StatefulWidget {
   final int initialTab;
   final List<BarRailTab> tabs;
   final List<Widget>? appBarActions;
-  final bool includeDrawer;
 
   const BarRailTabs(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.tabs,
       this.initialTab = 0,
-      this.appBarActions,
-      this.includeDrawer = true})
-      : super(key: key);
+      this.appBarActions});
 
   @override
   State<BarRailTabs> createState() => _BarRailTabsState();
@@ -64,7 +60,6 @@ class _BarRailTabsState extends State<BarRailTabs> {
   Widget _buildPortrait(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      drawer: _buildAppDrawer(),
       body: widget.tabs[_selectedTab].content,
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedTab,
@@ -78,7 +73,6 @@ class _BarRailTabsState extends State<BarRailTabs> {
   Widget _buildLandscape(BuildContext context) {
     return Scaffold(
         appBar: _buildAppBar(),
-        drawer: _buildAppDrawer(),
         body: Row(
           children: [
             NavigationRail(
@@ -100,14 +94,6 @@ class _BarRailTabsState extends State<BarRailTabs> {
       title: Text(widget.title),
       actions: widget.appBarActions,
     );
-  }
-
-  Widget? _buildAppDrawer() {
-    if (widget.includeDrawer) {
-      return const DefaultDrawer();
-    }
-
-    return null;
   }
 
   List<T> _makeNavigationList<T>(

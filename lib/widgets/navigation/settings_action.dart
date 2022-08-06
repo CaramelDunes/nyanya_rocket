@@ -4,7 +4,7 @@ import '../../localization/nyanya_localizations.dart';
 import '../../screens/settings/settings.dart';
 
 class SettingsAction extends StatelessWidget {
-  const SettingsAction({Key? key}) : super(key: key);
+  const SettingsAction({super.key});
 
   @override
   Widget build(BuildContext context) {

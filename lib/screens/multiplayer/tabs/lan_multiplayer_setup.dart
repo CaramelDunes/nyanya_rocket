@@ -15,7 +15,7 @@ class LanMultiplayerSetup extends StatefulWidget {
   static final RegExp hostnameMatcher = RegExp(
       r'^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$');
 
-  const LanMultiplayerSetup({Key? key}) : super(key: key);
+  const LanMultiplayerSetup({super.key});
 
   @override
   State<LanMultiplayerSetup> createState() => _LanMultiplayerSetupState();

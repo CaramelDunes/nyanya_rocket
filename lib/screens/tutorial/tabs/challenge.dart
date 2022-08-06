@@ -4,7 +4,7 @@ import '../../../config.dart';
 import '../../../localization/nyanya_localizations.dart';
 
 class Challenge extends StatelessWidget {
-  const Challenge({Key? key}) : super(key: key);
+  const Challenge({super.key});
 
   @override
   Widget build(BuildContext context) {

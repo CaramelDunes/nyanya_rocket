@@ -15,12 +15,11 @@ class PlayerFinder extends StatefulWidget {
   final String masterServerHostname;
 
   const PlayerFinder(
-      {Key? key,
+      {super.key,
       required this.queueType,
       required this.displayName,
       required this.idToken,
-      required this.masterServerHostname})
-      : super(key: key);
+      required this.masterServerHostname});
 
   @override
   State<PlayerFinder> createState() => _PlayerFinderState();
@@ -98,7 +97,6 @@ class _PlayerFinderState extends State<PlayerFinder> {
                             ? ''
                             : NyaNyaLocalizations.of(context)
                                 .queueRefreshErrorText),
-                style: const TextStyle(fontSize: 15),
               ),
             ),
             const SizedBox(

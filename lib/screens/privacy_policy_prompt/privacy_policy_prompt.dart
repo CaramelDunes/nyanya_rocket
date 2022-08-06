@@ -6,8 +6,7 @@ import '../../config.dart';
 class PrivacyPolicyPrompt extends StatelessWidget {
   final bool askUser;
 
-  const PrivacyPolicyPrompt({Key? key, required this.askUser})
-      : super(key: key);
+  const PrivacyPolicyPrompt({super.key, required this.askUser});
 
   @override
   Widget build(BuildContext context) {

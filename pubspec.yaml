@@ -6,7 +6,7 @@ publish_to: none
 version: 2.5.0+60
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -18,6 +18,12 @@ dependencies:
   meta: ^1.7.0
   
   path: ^1.8.1
+
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding
+      path: plugins/window_size
+      ref: a738913c8ce2c9f47515382d40827e794a334274
 
   nyanya_rocket_base:
     git: https://github.com/CaramelDunes/nyanya_rocket_base.git
@@ -72,6 +78,11 @@ flutter_icons:
 flutter:
   generate: true
   uses-material-design: true
+
+  fonts:
+    - family: Russo One
+      fonts:
+        - asset: assets/fonts/RussoOne-Regular.ttf
 
   assets:
     - assets/graphics/adaptive_icon_foreground.png

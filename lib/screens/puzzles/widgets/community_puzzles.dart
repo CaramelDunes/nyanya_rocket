@@ -13,7 +13,7 @@ import '../../../widgets/layout/board_list.dart';
 class CommunityPuzzles extends StatefulWidget {
   final Future<List<CommunityPuzzleData>?>? puzzles;
 
-  const CommunityPuzzles({Key? key, this.puzzles}) : super(key: key);
+  const CommunityPuzzles({super.key, this.puzzles});
 
   @override
   State<CommunityPuzzles> createState() => _CommunityPuzzlesState();
@@ -107,24 +107,24 @@ class _CommunityPuzzlesState extends State<CommunityPuzzles>
   }
 
   Widget _buildPuzzleCard(CommunityPuzzleData puzzle) {
-    return InkWell(
-      key: ValueKey(puzzle.uid),
-      child: BoardCard(game: puzzle.data.getGame(), description: [
-        Text(
-          puzzle.name,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [Text(puzzle.author), StarCount(count: puzzle.likes)],
-        )
-      ]),
-      onTap: () {
-        Router.of(context)
-            .routerDelegate
-            .setNewRoutePath(NyaNyaRoutePath.communityPuzzle(puzzle.uid));
-      },
-    );
+    return BoardCard(
+        key: ValueKey(puzzle.uid),
+        game: puzzle.data.getGame(),
+        description: [
+          Text(
+            puzzle.name,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [Text(puzzle.author), StarCount(count: puzzle.likes)],
+          )
+        ],
+        onTap: () {
+          Router.of(context)
+              .routerDelegate
+              .setNewRoutePath(NyaNyaRoutePath.communityPuzzle(puzzle.uid));
+        });
   }
 
   @override

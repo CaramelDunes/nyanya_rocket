@@ -15,7 +15,7 @@ import '../../../widgets/layout/empty_list.dart';
 import '../../puzzle/puzzle.dart';
 
 class LocalPuzzles extends StatelessWidget {
-  const LocalPuzzles({Key? key}) : super(key: key);
+  const LocalPuzzles({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +76,12 @@ class LocalPuzzles extends StatelessWidget {
 
   Widget _buildPuzzleCard(
       BuildContext context, String uuid, String name, User user) {
-    return InkWell(
+    return Card(
       key: ValueKey(uuid),
-      child: Card(
+      child: InkWell(
+        onTap: () {
+          _openPuzzle(context, uuid);
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -107,7 +110,7 @@ class LocalPuzzles extends StatelessWidget {
                       child: Text(
                         name,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ),
                   ],
@@ -129,9 +132,6 @@ class LocalPuzzles extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {
-        _openPuzzle(context, uuid);
-      },
     );
   }
 

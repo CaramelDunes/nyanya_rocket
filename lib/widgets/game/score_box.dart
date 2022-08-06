@@ -5,8 +5,7 @@ class ScoreBox extends StatelessWidget {
   final int score;
   final Color color;
 
-  const ScoreBox({Key? key, this.label, this.score = 0, required this.color})
-      : super(key: key);
+  const ScoreBox({super.key, this.label, this.score = 0, required this.color});
 
   @override
   Widget build(BuildContext context) {

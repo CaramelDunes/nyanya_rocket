@@ -125,7 +125,7 @@ class OriginalPuzzles extends StatefulWidget {
   static Map<String, int> slugs =
       puzzles.asMap().map((index, value) => MapEntry(value.slug, index));
 
-  const OriginalPuzzles({Key? key}) : super(key: key);
+  const OriginalPuzzles({super.key});
 
   @override
   State<OriginalPuzzles> createState() => _OriginalPuzzlesState();
@@ -238,23 +238,20 @@ class _OriginalPuzzlesState extends State<OriginalPuzzles>
   }
 
   Widget _buildPuzzleCard(int i, bool cleared) {
-    return InkWell(
-      key: ValueKey(i),
-      child: BoardCard(
+    return BoardCard(
+        key: ValueKey(i),
         cleared: cleared,
         game: OriginalPuzzles.puzzles[i].data.getGame(),
         description: [
           Text(
             OriginalPuzzles.puzzles[i].name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleSmall,
           ),
           Text(_difficultyFromIndex(context, i))
         ],
-      ),
-      onTap: () {
-        _openPuzzle(i);
-      },
-    );
+        onTap: () {
+          _openPuzzle(i);
+        });
   }
 
   @override

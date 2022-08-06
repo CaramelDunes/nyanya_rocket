@@ -1,5 +1,4 @@
 import 'package:nyanya_rocket/models/named_puzzle_data.dart';
-import 'package:nyanya_rocket/models/puzzle_data.dart';
 
 class CommunityPuzzleData extends NamedPuzzleData {
   final String uid;
@@ -9,10 +8,10 @@ class CommunityPuzzleData extends NamedPuzzleData {
 
   CommunityPuzzleData({
     required this.uid,
-    required String name,
+    required super.name,
     required this.author,
     required this.likes,
-    required PuzzleData puzzleData,
+    required super.puzzleData,
     required this.date,
-  }) : super(name: name, puzzleData: puzzleData);
+  });
 }

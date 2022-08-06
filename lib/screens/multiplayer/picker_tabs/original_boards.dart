@@ -28,7 +28,7 @@ class OriginalBoards extends StatelessWidget {
         maxPlayer: 4),
   ];
 
-  const OriginalBoards({Key? key}) : super(key: key);
+  const OriginalBoards({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -11,11 +11,10 @@ class MultiplayerStatusRow extends StatelessWidget {
   final ValueListenable<Duration> countdown;
 
   const MultiplayerStatusRow(
-      {Key? key,
+      {super.key,
       required this.displayGameEvent,
       required this.currentEvent,
-      required this.countdown})
-      : super(key: key);
+      required this.countdown});
 
   @override
   Widget build(BuildContext context) {

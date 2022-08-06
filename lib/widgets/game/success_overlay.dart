@@ -11,8 +11,7 @@ class SuccessOverlay extends StatefulWidget {
   final VoidCallback? onPlayAgain;
 
   const SuccessOverlay(
-      {Key? key, this.nextRoutePath, this.onPlayAgain, this.succeededPath})
-      : super(key: key);
+      {super.key, this.nextRoutePath, this.onPlayAgain, this.succeededPath});
 
   @override
   State<SuccessOverlay> createState() => _SuccessOverlayState();
@@ -75,15 +74,12 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
       fit: StackFit.expand,
       children: [
         const AbsorbPointer(),
-        Material(
+        Container(
           color: Colors.black54,
           child: Column(
             children: [
               const Spacer(flex: 2),
               Card(
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.white
-                    : Colors.black,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -91,8 +87,10 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                     children: [
                       Text(
                         NyaNyaLocalizations.of(context).stageClearedText,
-                        style:
-                            const TextStyle(color: Colors.green, fontSize: 40),
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall!
+                            .apply(fontFamily: 'Russo One'),
                         textAlign: TextAlign.center,
                       ),
                       if (widget.succeededPath != null && _stars != null)
@@ -104,7 +102,8 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           ElevatedButton(
-                            child: Text(NyaNyaLocalizations.of(context).back),
+                            child: Text(MaterialLocalizations.of(context)
+                                .backButtonTooltip),
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -117,6 +116,17 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                           ),
                           const SizedBox(width: 16),
                           ElevatedButton(
+                            // Style hack from https://github.com/chayanforyou/flutter_material_3_demo/blob/master/lib/component_screen.dart
+                            // until FilledButton is added.
+                            style: ElevatedButton.styleFrom(
+                              // Foreground color
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
+                              // Background color
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                            ).copyWith(
+                                elevation: ButtonStyleButton.allOrNull(0.0)),
                             onPressed: widget.nextRoutePath == null
                                 ? null
                                 : () {

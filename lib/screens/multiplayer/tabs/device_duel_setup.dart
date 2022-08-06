@@ -7,7 +7,7 @@ import '../../../config.dart';
 import '../setup_widgets/board_picker.dart';
 
 class DeviceDuelSetup extends StatefulWidget {
-  const DeviceDuelSetup({Key? key}) : super(key: key);
+  const DeviceDuelSetup({super.key});
 
   @override
   State<DeviceDuelSetup> createState() => _DeviceDuelSetupState();

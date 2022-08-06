@@ -14,15 +14,14 @@ class InputGridOverlay<T extends Object> extends StatelessWidget {
   final LeaveAcceptor<T>? onLeave;
 
   const InputGridOverlay(
-      {Key? key,
+      {super.key,
       required this.child,
       required this.onDrop,
       this.onTap,
       this.onSwipe,
       this.previewBuilder,
       this.onWillAccept,
-      this.onLeave})
-      : super(key: key);
+      this.onLeave});
 
   @override
   Widget build(BuildContext context) {

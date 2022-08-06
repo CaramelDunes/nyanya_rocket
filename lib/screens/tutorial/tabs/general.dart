@@ -10,7 +10,7 @@ import '../../../widgets/board/tiles/pit_image.dart';
 import '../../../widgets/board/tiles/tile_painter.dart';
 
 class General extends StatelessWidget {
-  const General({Key? key}) : super(key: key);
+  const General({super.key});
 
   @override
   Widget build(BuildContext context) {

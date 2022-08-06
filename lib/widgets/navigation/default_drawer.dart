@@ -9,7 +9,7 @@ import '../../screens/settings/settings.dart';
 import '../../screens/tutorial/tutorial.dart';
 
 class DefaultDrawer extends StatelessWidget {
-  const DefaultDrawer({Key? key}) : super(key: key);
+  const DefaultDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {

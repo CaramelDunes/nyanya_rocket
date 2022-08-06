@@ -5,7 +5,7 @@ import 'package:nyanya_rocket/widgets/layout/empty_list.dart';
 import '../../../models/stores/multiplayer_store.dart';
 
 class LocalBoards extends StatefulWidget {
-  const LocalBoards({Key? key}) : super(key: key);
+  const LocalBoards({super.key});
 
   @override
   State<LocalBoards> createState() => _LocalBoardsState();

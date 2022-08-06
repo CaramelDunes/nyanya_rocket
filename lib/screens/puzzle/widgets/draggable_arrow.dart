@@ -20,14 +20,13 @@ class DraggableArrow<T extends DraggedArrowData> extends StatelessWidget {
   final VoidCallback? onDragStarted;
 
   const DraggableArrow(
-      {Key? key,
+      {super.key,
       required this.player,
       required this.data,
       required this.child,
       this.draggedCount,
       this.maxSimultaneousDrags,
-      this.onDragStarted})
-      : super(key: key);
+      this.onDragStarted});
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,7 @@ import 'puzzle.dart';
 class OriginalPuzzle extends StatelessWidget {
   final int id;
 
-  const OriginalPuzzle({Key? key, required this.id}) : super(key: key);
+  const OriginalPuzzle({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {

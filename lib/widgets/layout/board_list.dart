@@ -6,11 +6,10 @@ class BoardList extends StatefulWidget {
   final IndexedWidgetBuilder cardBuilder;
 
   const BoardList(
-      {Key? key,
+      {super.key,
       required this.itemCount,
       required this.tileBuilder,
-      required this.cardBuilder})
-      : super(key: key);
+      required this.cardBuilder});
 
   @override
   State<BoardList> createState() => _BoardListState();
