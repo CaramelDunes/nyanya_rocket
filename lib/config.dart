@@ -22,7 +22,7 @@ final kContributors =
     kContributorsList.map((String contributor) => ' - $contributor').join('\n');
 final kAboutText =
     'Made with ❤ by CaramelDunes️\n\nMany thanks to:\n$kContributors';
-const kAboutVersion = '2.5.0+60';
+const kAboutVersion = '2.6.0+61';
 
 const String kPrivacyPolicyUrl =
     'https://carameldunes.fr/NyaNyaPrivacyPolicy.html';

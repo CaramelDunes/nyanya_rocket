@@ -3,7 +3,7 @@ description: Save cute mice from dangerous cats!
 homepage: https://github.com/CaramelDunes/nyanya_rocket
 publish_to: none
 
-version: 2.5.0+60
+version: 2.6.0+61
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
