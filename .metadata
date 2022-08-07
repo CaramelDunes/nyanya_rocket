@@ -31,8 +31,8 @@ migration:
       create_revision: 7ac27ac8e6a42750c475ba8a2a3c7047b93fd949
       base_revision: 7ac27ac8e6a42750c475ba8a2a3c7047b93fd949
     - platform: windows
-      create_revision: f90da9b1672f7d006ba760fbb8fd1aa17af1a82a
-      base_revision: f90da9b1672f7d006ba760fbb8fd1aa17af1a82a
+      create_revision: 7ac27ac8e6a42750c475ba8a2a3c7047b93fd949
+      base_revision: 7ac27ac8e6a42750c475ba8a2a3c7047b93fd949
 
   # User provided section
 
