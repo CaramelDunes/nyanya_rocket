@@ -8,10 +8,13 @@
     The path provided below has to start and end with a slash "/" in order for
     it to work correctly.
 
-    Fore more details:
+    For more details:
     * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="/">
+  <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -23,111 +26,68 @@
   <meta name="apple-mobile-web-app-title" content="nyanya_rocket">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <title>NyaNya Rocket!</title>
-  <link rel="manifest" href="manifest.json">
-  <style type="text/css">
-    html,
-    body {
-      background-color: #673AB7
-    }
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
 
-    .splash {
-      width: 128px;
-      height: 128px;
-      margin: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin-right: -50%;
-      transform: translate(-50%, -50%);
+  <title>NyaNya Rocket!</title>
+  <style>
+    body {
+      background-color: #673AB7;
     }
   </style>
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    var serviceWorkerVersion = null;
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
 </head>
 <body>
-  <img src="icons/Icon-192.png" class="splash" />
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: "AIzaSyBExG_dHwDwU9H2mEwawd0p5pzy2Atm-IY",
-      authDomain: "nyanya-rocket.firebaseapp.com",
-      databaseURL: "https://nyanya-rocket.firebaseio.com",
-      projectId: "nyanya-rocket",
-      storageBucket: "nyanya-rocket.appspot.com",
-      messagingSenderId: "199775224910",
-      appId: "1:199775224910:web:94aea8f88266e4af52af1f"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-  </script>
-  <!-- This script installs service_worker.js to provide PWA functionality to
-       application. For more information, see:
-       https://developers.google.com/web/fundamentals/primers/service-workers -->
-  <script>
-    var serviceWorkerVersion = null;
-    var scriptLoaded = false;
-    function loadMainDartJs() {
-      if (scriptLoaded) {
-        return;
+  <div id="loading">
+    <style>
+      body {
+        inset: 0; overflow: hidden;
+        margin: 0; padding: 0;
+        position: fixed;
       }
-      scriptLoaded = true;
-      var scriptTag = document.createElement('script');
-      scriptTag.src = 'main.dart.js';
-      scriptTag.type = 'application/javascript';
-      document.body.append(scriptTag);
-    }
-
-    if ('serviceWorker' in navigator) {
-      // Service workers are supported. Use them.
-      window.addEventListener('load', function () {
-        // Wait for registration to finish before dropping the <script> tag.
-        // Otherwise, the browser will load the script multiple times,
-        // potentially different versions.
-        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
-        navigator.serviceWorker.register(serviceWorkerUrl)
-          .then((reg) => {
-            function waitForActivation(serviceWorker) {
-              serviceWorker.addEventListener('statechange', () => {
-                if (serviceWorker.state == 'activated') {
-                  console.log('Installed new service worker.');
-                  loadMainDartJs();
-                }
-              });
-            }
-            if (!reg.active && (reg.installing || reg.waiting)) {
-              // No active web worker and we have installed or are installing
-              // one for the first time. Simply wait for it to activate.
-              waitForActivation(reg.installing ?? reg.waiting);
-            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
-              // When the app updates the serviceWorkerVersion changes, so we
-              // need to ask the service worker to update.
-              console.log('New service worker available.');
-              reg.update();
-              waitForActivation(reg.installing);
-            } else {
-              // Existing service worker is still good.
-              console.log('Loading app from service worker.');
-              loadMainDartJs();
-            }
-          });
-
-        // If service worker doesn't succeed in a reasonable amount of time,
-        // fallback to plaint <script> tag.
-        setTimeout(() => {
-          if (!scriptLoaded) {
-            console.warn(
-              'Failed to load app from service worker. Falling back to plain <script> tag.',
-            );
-            loadMainDartJs();
-          }
-        }, 4000);
+      #loading {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        width: 100%;
+      }
+      #loading img {
+        animation: 1s ease-in-out 0s infinite alternate breathe;
+        opacity: .66;
+        transition: opacity .4s;
+      }
+      #loading.main_done img {
+        opacity: 1;
+      }
+      @keyframes breathe { from { transform: scale(1) } to { transform: scale(0.95)}}
+      </style>
+    <img src="icons/Icon-192.png" alt="Loading indicator..." />
+  </div>
+  <script>
+    window.addEventListener('load', function(ev) {
+      const loading = document.querySelector('#loading');
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        }
+      }).then(function(engineInitializer) {
+        loading.classList.add('main_done');
+        return engineInitializer.initializeEngine();
+      }).then(function(appRunner) {
+        return appRunner.runApp();
+      }).then(function(app) {
+        loading.remove();
       });
-    } else {
-      // Service workers not supported. Just drop the <script> tag.
-      loadMainDartJs();
-    }
+    });
   </script>
 </body>
 </html>
