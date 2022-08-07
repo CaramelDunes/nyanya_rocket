@@ -22,6 +22,9 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+// START: FlutterFire Configuration
+apply plugin: 'com.google.gms.google-services'
+// END: FlutterFire Configuration
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
@@ -31,10 +34,9 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
-apply plugin: 'com.google.gms.google-services'
-
 android {
     compileSdkVersion flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -51,6 +53,8 @@ android {
 
     defaultConfig {
         applicationId "fr.carameldunes.nyanyarocket"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
@@ -64,13 +68,12 @@ android {
            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
            storePassword keystoreProperties['storePassword']
        }
-   }
-   
-   buildTypes {
-       release {
-           signingConfig keystoreProperties['storeFile'] ? signingConfigs.release : signingConfigs.debug
-       }
-   }
+    }
+    buildTypes {
+        release {
+            signingConfig keystoreProperties['storeFile'] ? signingConfigs.release : signingConfigs.debug
+        }
+    }
 }
 
 flutter {
