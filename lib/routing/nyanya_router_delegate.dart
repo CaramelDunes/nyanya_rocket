@@ -11,9 +11,9 @@ import 'package:nyanya_rocket/screens/multiplayer/multiplayer_not_available.dart
 import 'package:nyanya_rocket/screens/puzzle/loading_puzzle.dart';
 import 'package:nyanya_rocket/screens/puzzle/original_puzzle.dart';
 
+import '../boards/original_challenges.dart';
+import '../boards/original_puzzles.dart';
 import '../screens/home/home.dart';
-import '../screens/puzzles/widgets/original_puzzles.dart';
-import '../screens/challenges/tabs/original_challenges.dart';
 import '../screens/puzzles/puzzles.dart';
 import '../services/firestore/firestore_service.dart';
 import 'nyanya_route_path.dart';
@@ -74,20 +74,20 @@ class NyaNyaRouterDelegate extends RouterDelegate<NyaNyaRoutePath>
         if (_pageKind == PageKind.puzzle &&
             _id != null &&
             _tabKind == TabKind.original &&
-            OriginalPuzzles.slugs.containsKey(_id))
+            originalPuzzleSlugs.containsKey(_id))
           MaterialPage(
               key: ValueKey('OriginalPuzzle$_id'),
               child: OriginalPuzzle(
-                id: OriginalPuzzles.slugs[_id]!,
+                id: originalPuzzleSlugs[_id]!,
               ))
         else if (_pageKind == PageKind.challenge &&
             _id != null &&
             _tabKind == TabKind.original &&
-            OriginalChallenges.slugs.containsKey(_id))
+            originalChallengeSlugs.containsKey(_id))
           MaterialPage(
               key: ValueKey('OriginalChallenge$_id'),
               child: OriginalChallenge(
-                id: OriginalChallenges.slugs[_id]!,
+                id: originalChallengeSlugs[_id]!,
               ))
         else if (_pageKind == PageKind.puzzle &&
             _id != null &&

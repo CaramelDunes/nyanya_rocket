@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/challenge_data.dart';
+import '../../boards/original_challenges.dart';
 import '../../models/named_challenge_data.dart';
 import '../../routing/nyanya_route_path.dart';
 import '../challenges/challenge_progression_manager.dart';
-import '../challenges/tabs/original_challenges.dart';
 import 'challenge.dart';
 
 class OriginalChallenge extends StatelessWidget {
@@ -16,15 +16,17 @@ class OriginalChallenge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final challenge = originalChallenges[id];
+    final nextChallenge =
+        id + 1 < originalChallenges.length ? originalChallenges[id + 1] : null;
+
     return Challenge(
       challenge: NamedChallengeData(
-          challengeData: OriginalChallenges.challenges[id].data,
-          name: OriginalChallenges.challenges[id].data.type
-                  .toLocalizedString(context) +
-              OriginalChallenges.challenges[id].name),
-      nextRoutePath: id + 1 < OriginalChallenges.challenges.length
-          ? NyaNyaRoutePath.originalChallenge(OriginalChallenges.originalSlug(
-              OriginalChallenges.challenges[id + 1]))
+          challengeData: challenge.data,
+          name:
+              challenge.data.type.toLocalizedString(context) + challenge.name),
+      nextRoutePath: nextChallenge != null
+          ? NyaNyaRoutePath.originalChallenge(nextChallenge.originalSlug())
           : null,
       onWin: (time) {
         context.read<ChallengeProgressionManager>().setTime(id, time);
