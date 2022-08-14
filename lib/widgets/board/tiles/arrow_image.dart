@@ -21,10 +21,12 @@ class ArrowImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+
     final Widget arrow = CustomPaint(
       size: Size.infinite,
       painter: ArrowPainter.fromPlayerColor(
-          player, direction, isSelected ? 1 : 0.85),
+          player, direction, isSelected ? 1 : 0.85, brightness),
     );
 
     if (isHalfTransparent) {

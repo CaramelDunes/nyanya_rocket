@@ -65,7 +65,7 @@ class TilePainter extends StatelessWidget {
     return Stack(children: overlay);
   }
 
-  static paintUnitTiles(Board board, Canvas canvas) {
+  static paintUnitTiles(Board board, Canvas canvas, Brightness brightness) {
     for (int x = 0; x < Board.width; x++) {
       for (int y = 0; y < Board.height; y++) {
         Tile tile = board.tiles[x][y];
@@ -73,13 +73,14 @@ class TilePainter extends StatelessWidget {
 
         canvas.save();
         canvas.translate(x.toDouble(), y.toDouble());
-        paintUnitTile(tile, canvas);
+        paintUnitTile(tile, canvas, brightness);
         canvas.restore();
       }
     }
   }
 
-  static paintUnitNonArrowTiles(Board board, Canvas canvas) {
+  static paintUnitNonArrowTiles(
+      Board board, Canvas canvas, Brightness brightness) {
     for (int x = 0; x < Board.width; x++) {
       for (int y = 0; y < Board.height; y++) {
         Tile tile = board.tiles[x][y];
@@ -87,13 +88,14 @@ class TilePainter extends StatelessWidget {
 
         canvas.save();
         canvas.translate(x.toDouble(), y.toDouble());
-        paintUnitTile(tile, canvas);
+        paintUnitTile(tile, canvas, brightness);
         canvas.restore();
       }
     }
   }
 
-  static paintUnitArrowTiles(Board board, Canvas canvas) {
+  static paintUnitArrowTiles(
+      Board board, Canvas canvas, Brightness brightness) {
     for (int x = 0; x < Board.width; x++) {
       for (int y = 0; y < Board.height; y++) {
         Tile tile = board.tiles[x][y];
@@ -101,13 +103,13 @@ class TilePainter extends StatelessWidget {
 
         canvas.save();
         canvas.translate(x.toDouble(), y.toDouble());
-        paintUnitTile(tile, canvas);
+        paintUnitTile(tile, canvas, brightness);
         canvas.restore();
       }
     }
   }
 
-  static paintUnitTile(Tile tile, Canvas canvas) {
+  static paintUnitTile(Tile tile, Canvas canvas, Brightness brightness) {
     switch (tile.runtimeType) {
       case Pit:
         PitPainter.paintUnit(canvas);
@@ -118,8 +120,13 @@ class TilePainter extends StatelessWidget {
 
         // Make arrow blink 1 second (120 ticks) before expiration.
         if (arrow.expiration > 120 || arrow.expiration % 20 < 10) {
-          ArrowPainter.paintUnit(canvas, arrow.player.color, arrow.direction,
-              arrow.halfTurnPower == ArrowHalfTurnPower.OneCat);
+          ArrowPainter.paintUnit(
+              canvas,
+              arrow.player.color,
+              arrow.direction,
+              arrow.halfTurnPower == ArrowHalfTurnPower.OneCat,
+              1.0,
+              brightness);
         }
         break;
 

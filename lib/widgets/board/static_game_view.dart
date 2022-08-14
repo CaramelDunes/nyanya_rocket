@@ -11,13 +11,16 @@ class StaticGameView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+
     return CustomPaint(
       willChange: false,
       isComplex: true,
       size: Size.infinite,
-      painter: BoardBackgroundPainter(
-          board: game.board, brightness: Theme.of(context).brightness),
-      foregroundPainter: StaticForegroundPainter(game: game),
+      painter:
+          BoardBackgroundPainter(board: game.board, brightness: brightness),
+      foregroundPainter:
+          StaticForegroundPainter(game: game, brightness: brightness),
     );
   }
 }
