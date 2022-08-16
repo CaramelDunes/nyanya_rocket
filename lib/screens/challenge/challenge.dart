@@ -127,15 +127,19 @@ class _ChallengeState extends State<Challenge> {
         title: Text(widget.challenge.name),
         actions: const [SettingsAction(), GuideAction()],
       ),
-      body: Stack(
-        fit: StackFit.expand,
+      body: SafeArea(
+          child: Stack(
         children: [
           OrientationBuilder(
             builder: (BuildContext _, Orientation orientation) {
               if (orientation == Orientation.portrait) {
-                return _buildPortrait();
+                return LayoutBuilder(builder: (context, constraints) {
+                  return _buildPortrait(constraints);
+                });
               } else {
-                return _buildLandscape();
+                return LayoutBuilder(builder: (context, constraints) {
+                  return _buildLandscape(constraints);
+                });
               }
             },
           ),
@@ -152,11 +156,11 @@ class _ChallengeState extends State<Challenge> {
                 },
               )),
         ],
-      ),
+      )),
     );
   }
 
-  Widget _buildPortrait() {
+  Widget _buildPortrait(BoxConstraints constraints) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -165,31 +169,39 @@ class _ChallengeState extends State<Challenge> {
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.subtitle1,
         ),
-        Row(
+        Flexible(
+            child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildElapsedTime(),
             _buildBestTime(),
             _buildTargetCount(),
           ],
-        ),
-        _buildGameView(),
-        ArrowDrawer(
+        )),
+        ConstrainedBox(
+            constraints: constraints.copyWith(
+                minWidth: 0,
+                minHeight: 0,
+                maxHeight: constraints.maxHeight - 300),
+            child: _buildGameView()),
+        Flexible(
+            child: ArrowDrawer(
           player: PlayerColor.Blue,
           running: _challengeController.running,
           selectedDirection: _selectedDirection,
           onTap: _selectDirection,
-        ),
+        )),
         _buildPlayResetButton(Orientation.portrait)
       ],
     );
   }
 
-  Widget _buildLandscape() {
+  Widget _buildLandscape(BoxConstraints constraints) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Column(
+        Flexible(
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildElapsedTime(),
@@ -197,17 +209,20 @@ class _ChallengeState extends State<Challenge> {
             _buildTargetCount(),
             _buildPlayResetButton(Orientation.landscape)
           ],
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: _buildGameView(),
-        ),
-        ArrowDrawer(
+        )),
+        ConstrainedBox(
+            constraints: constraints.copyWith(
+                minWidth: 0,
+                maxWidth: constraints.maxWidth - 300,
+                minHeight: 0),
+            child: _buildGameView()),
+        Flexible(
+            child: ArrowDrawer(
           player: PlayerColor.Blue,
           running: _challengeController.running,
           selectedDirection: _selectedDirection,
           onTap: _selectDirection,
-        ),
+        )),
       ],
     );
   }
