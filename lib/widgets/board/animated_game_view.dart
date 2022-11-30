@@ -40,17 +40,20 @@ class _AnimatedGameViewState extends State<AnimatedGameView>
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+
     return RepaintBoundary(
       child: CustomPaint(
           isComplex: true,
           willChange: true,
           painter: BoardBackgroundPainter(
-              board: widget.game.value.board,
-              brightness: Theme.of(context).brightness),
+              board: widget.game.value.board, brightness: brightness),
           foregroundPainter: AnimatedForegroundPainter(
-              game: widget.game,
-              mistake: widget.mistake,
-              entityAnimation: _animation)),
+            game: widget.game,
+            mistake: widget.mistake,
+            entityAnimation: _animation,
+            brightness: brightness,
+          )),
     );
   }
 }

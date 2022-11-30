@@ -15,11 +15,15 @@ class AnimatedForegroundPainter extends CustomPainter {
   final ValueListenable<BoardPosition?>? mistake;
 
   final Animation entityAnimation;
+  final Brightness brightness;
 
   late final Picture _wallsPicture;
 
   AnimatedForegroundPainter(
-      {required this.game, required this.entityAnimation, this.mistake})
+      {required this.game,
+      required this.entityAnimation,
+      required this.brightness,
+      this.mistake})
       : super(repaint: entityAnimation) {
     _wallsPicture = createPicture(
         (canvas) => WallsPainter.paintUnitWalls(canvas, game.value.board));
@@ -36,7 +40,7 @@ class AnimatedForegroundPainter extends CustomPainter {
     canvas.translate(
         WallsPainter.unitStrokeWidth / 2, WallsPainter.unitStrokeWidth / 2);
 
-    TilePainter.paintUnitArrowTiles(game.value.board, canvas);
+    TilePainter.paintUnitArrowTiles(game.value.board, canvas, brightness);
     canvas.drawPicture(_wallsPicture);
     EntityPainter.paintUnitEntities(
         canvas, game.value.mice, entityAnimation.value);
