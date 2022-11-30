@@ -16,7 +16,7 @@ class Challenge extends StatelessWidget {
           children: [
             Text(
               NyaNyaLocalizations.of(context).generalLabel,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -25,20 +25,20 @@ class Challenge extends StatelessWidget {
             ),
             Text(
                 '${NyaNyaLocalizations.of(context).challengeGetMiceType} / ${NyaNyaLocalizations.of(context).challengeRunAwayType}',
-                style: Theme.of(context).textTheme.headline5),
+                style: Theme.of(context).textTheme.headlineSmall),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(NyaNyaLocalizations.of(context).challengeGetMiceText),
             ),
             Text(NyaNyaLocalizations.of(context).challengeLunchTimeType,
-                style: Theme.of(context).textTheme.headline5),
+                style: Theme.of(context).textTheme.headlineSmall),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child:
                   Text(NyaNyaLocalizations.of(context).challengeLunchTimeText),
             ),
             Text(NyaNyaLocalizations.of(context).challengeOneHundredMiceType,
-                style: Theme.of(context).textTheme.headline5),
+                style: Theme.of(context).textTheme.headlineSmall),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(

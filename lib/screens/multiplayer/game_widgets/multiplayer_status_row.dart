@@ -33,7 +33,7 @@ class MultiplayerStatusRow extends StatelessWidget {
               !displayGameEvent || currentEvent == GameEvent.None
                   ? ''
                   : currentEvent.name,
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
           Expanded(

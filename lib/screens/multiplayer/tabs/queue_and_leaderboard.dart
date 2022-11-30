@@ -84,7 +84,7 @@ class QueueAndLeaderboard extends StatelessWidget {
                 const SizedBox(width: 8.0),
                 Text(
                   NyaNyaLocalizations.of(context).leaderBoardLabel,
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ],
             ),

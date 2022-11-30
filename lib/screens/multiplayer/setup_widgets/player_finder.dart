@@ -76,7 +76,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
             const SizedBox(width: 8.0),
             Text(
               NyaNyaLocalizations.of(context).findPlayersLabel,
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ],
         ),
