@@ -4,7 +4,8 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_webview_auth
-  network_info_plus_windows
+  network_info_plus
+  share_plus
   url_launcher_windows
   window_size
 )
