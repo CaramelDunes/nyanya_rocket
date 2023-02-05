@@ -5,6 +5,7 @@ import '../board/tiles/arrow_image.dart';
 import '../../screens/puzzle/widgets/draggable_arrow.dart';
 
 class ArrowDrawer extends StatelessWidget {
+  final Axis layoutDirection;
   final PlayerColor? player;
   final bool running;
   final Direction? selectedDirection;
@@ -12,6 +13,7 @@ class ArrowDrawer extends StatelessWidget {
 
   const ArrowDrawer(
       {super.key,
+      required this.layoutDirection,
       required this.player,
       required this.running,
       required this.selectedDirection,
@@ -20,9 +22,7 @@ class ArrowDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Flex(
-        direction: MediaQuery.of(context).orientation == Orientation.landscape
-            ? Axis.vertical
-            : Axis.horizontal,
+        direction: layoutDirection,
         children: Direction.values
             .map((direction) => Expanded(
                   child: Padding(

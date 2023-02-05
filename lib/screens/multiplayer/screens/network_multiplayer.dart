@@ -248,6 +248,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                     ),
                     Expanded(
                       child: ArrowDrawer(
+                        layoutDirection: Axis.vertical,
                         player: _myColor,
                         running: _localMultiplayerController.running,
                         selectedDirection: _selectedDirection,

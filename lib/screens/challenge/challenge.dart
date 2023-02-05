@@ -169,29 +169,31 @@ class _ChallengeState extends State<Challenge> {
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.titleMedium,
         ),
-        Flexible(
-            child: Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildElapsedTime(),
             _buildBestTime(),
             _buildTargetCount(),
           ],
-        )),
-        ConstrainedBox(
-            constraints: constraints.copyWith(
-                minWidth: 0,
-                minHeight: 0,
-                maxHeight: constraints.maxHeight - 300),
-            child: _buildGameView()),
-        Flexible(
-            child: ArrowDrawer(
-          player: PlayerColor.Blue,
-          running: _challengeController.running,
-          selectedDirection: _selectedDirection,
-          onTap: _selectDirection,
-        )),
-        _buildPlayResetButton(Orientation.portrait)
+        ),
+        Expanded(
+          child: Center(child: _buildGameView()),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+                child: ArrowDrawer(
+              layoutDirection: Axis.horizontal,
+              player: PlayerColor.Blue,
+              running: _challengeController.running,
+              selectedDirection: _selectedDirection,
+              onTap: _selectDirection,
+            )),
+            _buildPlayResetButton(Orientation.portrait)
+          ],
+        ),
       ],
     );
   }
@@ -200,8 +202,7 @@ class _ChallengeState extends State<Challenge> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Flexible(
-            child: Column(
+        Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _buildElapsedTime(),
@@ -209,20 +210,15 @@ class _ChallengeState extends State<Challenge> {
             _buildTargetCount(),
             _buildPlayResetButton(Orientation.landscape)
           ],
-        )),
-        ConstrainedBox(
-            constraints: constraints.copyWith(
-                minWidth: 0,
-                maxWidth: constraints.maxWidth - 300,
-                minHeight: 0),
-            child: _buildGameView()),
-        Flexible(
-            child: ArrowDrawer(
+        ),
+        Expanded(child: Center(child: _buildGameView())),
+        ArrowDrawer(
+          layoutDirection: Axis.vertical,
           player: PlayerColor.Blue,
           running: _challengeController.running,
           selectedDirection: _selectedDirection,
           onTap: _selectDirection,
-        )),
+        ),
       ],
     );
   }
