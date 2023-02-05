@@ -22,7 +22,7 @@ class General extends StatelessWidget {
           children: [
             Text(
               NyaNyaLocalizations.of(context).tilesTutorialLabel,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             Card(
               child: SizedBox(
@@ -96,7 +96,7 @@ class General extends StatelessWidget {
             const Divider(),
             Text(
               NyaNyaLocalizations.of(context).entitiesTutorialLabel,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             Card(
               child: SizedBox(
@@ -148,7 +148,7 @@ class General extends StatelessWidget {
             const Divider(),
             Text(
               NyaNyaLocalizations.of(context).placementTutorialLabel,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             Card(
                 child: Padding(

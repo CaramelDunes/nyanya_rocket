@@ -52,7 +52,7 @@ class WhatsNew extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       NyaNyaLocalizations.of(context).firstTimeWelcome,
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
                   Text(NyaNyaLocalizations.of(context).firstTimeText),
@@ -152,7 +152,7 @@ class WhatsNew extends StatelessWidget {
               const SizedBox(height: 4.0),
               Text(
                 name,
-                style: Theme.of(context).textTheme.subtitle1,
+                style: Theme.of(context).textTheme.titleMedium,
               )
             ],
           ),
@@ -176,7 +176,7 @@ class WhatsNew extends StatelessWidget {
               const SizedBox(width: 8.0),
               Text(
                 NyaNyaLocalizations.of(context).newsLabel,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ],
           ),

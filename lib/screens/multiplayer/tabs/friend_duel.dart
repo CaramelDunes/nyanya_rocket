@@ -102,7 +102,7 @@ class _FriendDuelState extends State<FriendDuel> {
         children: [
           Text(
             NyaNyaLocalizations.of(context).yourRoomCodeLabel,
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           _buildRoomCode(),
           if (_inQueue && _myRoomCode != null)
@@ -137,7 +137,7 @@ class _FriendDuelState extends State<FriendDuel> {
         children: [
           Text(
             NyaNyaLocalizations.of(context).joinRoomLabel,
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           TextField(
             decoration: InputDecoration(
@@ -207,7 +207,7 @@ class _FriendDuelState extends State<FriendDuel> {
       return SelectableText(
         _myRoomCode!,
         showCursor: true,
-        style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 50),
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 50),
       );
     } else {
       return Text(NyaNyaLocalizations.of(context).roomCodeRetrievalErrorText);

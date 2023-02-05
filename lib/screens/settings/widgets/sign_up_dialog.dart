@@ -60,7 +60,7 @@ class _SignUpDialogState extends State<SignUpDialog> {
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     children: [
                       TextSpan(
                           text: NyaNyaLocalizations.of(context)
