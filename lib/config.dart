@@ -1,8 +1,8 @@
 const String kProjectUrl = 'https://github.com/CaramelDunes/nyanya_rocket';
 const String kFirebaseApiKey = 'AIzaSyBExG_dHwDwU9H2mEwawd0p5pzy2Atm-IY';
 const String kFirebaseProjectId = 'nyanya-rocket';
-const String kMasterUsEast = 'nyanya-us-east.carameldunes.fr';
-const String kMasterEuWest = 'nyanya-eu-west.carameldunes.fr';
+const String kMasterUsEast = 'nyanya-us-east.carameldunes.com';
+const String kMasterEuWest = 'nyanya-eu-west.carameldunes.com';
 const String kCloudFunctionsHost =
     'us-central1-nyanya-rocket.cloudfunctions.net';
 const double kMaxWidthForBigScreens = 600;
