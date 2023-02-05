@@ -20,66 +20,48 @@ class PuzzleGameControls extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           direction: direction,
           children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.black),
-                  onPressed: !puzzleController.hasMadeMistake
-                      ? () {
-                          puzzleController.running = !puzzleController.running;
-                        }
-                      : null,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Icon(
-                        !state.isRunning
-                            ? Icons.play_arrow_rounded
-                            : Icons.pause_rounded,
-                        size: iconSize),
-                  ),
-                ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green, foregroundColor: Colors.black),
+              onPressed: !puzzleController.hasMadeMistake
+                  ? () {
+                      puzzleController.running = !puzzleController.running;
+                    }
+                  : null,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Icon(
+                    !state.isRunning
+                        ? Icons.play_arrow_rounded
+                        : Icons.pause_rounded,
+                    size: iconSize),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.black),
-                  onPressed: state.hasReset
-                      ? null
-                      : () {
-                          puzzleController.reset();
-                        },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Icon(Icons.replay, size: iconSize),
-                  ),
-                ),
-              ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red, foregroundColor: Colors.black),
+              onPressed: state.hasReset
+                  ? null
+                  : () {
+                      puzzleController.reset();
+                    },
+              child: const FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Icon(Icons.replay, size: iconSize)),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: FaIcon(
-                      Icons.fast_forward_rounded,
-                      size: iconSize,
-                      color: state.isSpedUp ? Colors.white : Colors.black,
-                    ),
-                  ),
-                  onPressed: () {
-                    puzzleController.toggleSpeedUp();
-                  },
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: FaIcon(
+                  Icons.fast_forward_rounded,
+                  size: iconSize,
+                  color: state.isSpedUp ? Colors.white : Colors.black,
                 ),
               ),
+              onPressed: () {
+                puzzleController.toggleSpeedUp();
+              },
             ),
           ],
         );

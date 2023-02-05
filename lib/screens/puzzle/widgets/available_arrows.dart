@@ -97,11 +97,11 @@ class AvailableArrows extends StatelessWidget {
       valueListenable: puzzleGameController.state,
       builder: (BuildContext context, PuzzleGameState state, Widget? child) {
         return Flex(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             direction: direction,
             children: List.generate(
                 4,
-                (i) => Expanded(
+                (i) => Flexible(
                         child: Padding(
                       padding: const EdgeInsets.all(0.5),
                       child: _buildDraggableArrow(

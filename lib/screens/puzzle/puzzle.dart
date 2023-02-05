@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/named_puzzle_data.dart';
 import '../../routing/nyanya_route_path.dart';
@@ -9,6 +10,7 @@ import '../../widgets/board/tiles/arrow_image.dart';
 import '../../widgets/game/success_overlay.dart';
 import '../../widgets/navigation/guide_action.dart';
 import '../../widgets/navigation/settings_action.dart';
+import '../puzzles/puzzle_progression_manager.dart';
 import 'puzzle_game_controller.dart';
 import 'widgets/available_arrows.dart';
 import 'widgets/draggable_arrow.dart';
@@ -129,26 +131,36 @@ class _PuzzleState extends State<Puzzle> {
 
   Widget _buildPortrait() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: _buildGameView(),
-        ),
-        Flexible(
-            child: AvailableArrows(
-          direction: Axis.horizontal,
-          puzzleGameController: _puzzleController,
-          draggedArrowCounts: _draggedArrowCount,
-          onArrowTap: _handleArrowTap,
-          selectedDirection: selectedDirection,
-        )),
-        Flexible(
-          child: PuzzleGameControls(
-            direction: Axis.horizontal,
-            puzzleController: _puzzleController,
+        Expanded(
+          flex: 6,
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Center(
+              child: _buildGameView(),
+            ),
           ),
+        ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: AvailableArrows(
+                direction: Axis.horizontal,
+                puzzleGameController: _puzzleController,
+                draggedArrowCounts: _draggedArrowCount,
+                onArrowTap: _handleArrowTap,
+                selectedDirection: selectedDirection,
+              ),
+            ),
+            Flexible(
+              child: PuzzleGameControls(
+                direction: Axis.horizontal,
+                puzzleController: _puzzleController,
+              ),
+            ),
+          ],
         )
       ],
     );
@@ -158,23 +170,32 @@ class _PuzzleState extends State<Puzzle> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Expanded(
-            child: PuzzleGameControls(
-          direction: Axis.vertical,
-          puzzleController: _puzzleController,
-        )),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: _buildGameView(),
+        Flexible(
+          child: PuzzleGameControls(
+            direction: Axis.vertical,
+            puzzleController: _puzzleController,
+          ),
         ),
-        Expanded(
-            child: AvailableArrows(
-          direction: Axis.vertical,
-          puzzleGameController: _puzzleController,
-          draggedArrowCounts: _draggedArrowCount,
-          selectedDirection: selectedDirection,
-          onArrowTap: _handleArrowTap,
-        )),
+        ConstraintsTransformBox(
+          constraintsTransform: (constraints) {
+            return constraints.copyWith(
+                minWidth: 0,
+                maxWidth: MediaQuery.of(context).size.width - 200.0);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: _buildGameView(),
+          ),
+        ),
+        Flexible(
+          child: AvailableArrows(
+            direction: Axis.vertical,
+            puzzleGameController: _puzzleController,
+            draggedArrowCounts: _draggedArrowCount,
+            selectedDirection: selectedDirection,
+            onArrowTap: _handleArrowTap,
+          ),
+        ),
       ],
     );
   }
@@ -183,7 +204,23 @@ class _PuzzleState extends State<Puzzle> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.puzzle.name),
+        title: Consumer<PuzzleProgressionManager>(
+            builder: (context, value, child) {
+              return Row(
+                children: [
+                  child!,
+                  const SizedBox(width: 8.0),
+                  const Icon(
+                    Icons.check,
+                    color: Colors.green,
+                  )
+                ],
+              );
+            },
+            child: Flexible(
+              child: FittedBox(
+                  fit: BoxFit.scaleDown, child: Text(widget.puzzle.name)),
+            )),
         actions: const [SettingsAction(), GuideAction()],
       ),
       body: Stack(
