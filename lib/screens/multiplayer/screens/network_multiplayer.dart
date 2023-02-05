@@ -303,7 +303,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
         padding: const EdgeInsets.all(16.0),
         child: Text(
           _networkGameStatusToString(_localMultiplayerController.status),
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
     );
@@ -328,7 +328,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                               maxScore)
                           ? NyaNyaLocalizations.of(context).victoryLabel
                           : NyaNyaLocalizations.of(context).defeatLabel,
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   Expanded(
                     child: Padding(

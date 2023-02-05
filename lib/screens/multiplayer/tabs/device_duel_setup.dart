@@ -39,7 +39,7 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
                   children: [
                     Text(
                       NyaNyaLocalizations.of(context).durationLabel,
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                     DropdownButtonFormField<Duration>(
                       value: _duration,
@@ -74,7 +74,7 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
                     const Divider(),
                     Text(
                       NyaNyaLocalizations.of(context).boardLabel,
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -92,7 +92,7 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
                     const Divider(),
                     Text(
                       NyaNyaLocalizations.of(context).nicknamesLabel,
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                     TextFormField(
                       focusNode: _nicknameNodes[0],

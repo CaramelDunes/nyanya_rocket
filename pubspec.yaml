@@ -30,14 +30,23 @@ dependencies:
 
   intl: ^0.17.0
 
-  firebase_core: ^1.10.0  
-  firebase_core_desktop: ^1.0.0
-  firebase_auth_platform_interface: 6.3.2
-  firebase_auth: ^3.2.0
-  firebase_auth_desktop: ^1.0.0
-  cloud_firestore: ^3.1.0
+  firebase_core: ^2.3.0  
+  firebase_auth_platform_interface: ^6.10.1
+  firebase_auth: ^4.1.4
+  cloud_firestore: ^4.1.0
 
-  rive: ^0.9.0
+# Replace with pub.dev packages when fixed.
+# https://github.com/invertase/flutterfire_desktop
+  firebase_core_desktop:
+    git:
+      url: https://github.com/NirmalAriyathilake/flutterfire_desktop.git
+      path: packages/firebase_core/firebase_core_desktop
+  firebase_auth_desktop:
+    git:
+      url: https://github.com/NirmalAriyathilake/flutterfire_desktop.git
+      path: packages/firebase_auth/firebase_auth_desktop
+
+  rive: ^0.10.1
 
   font_awesome_flutter: ^10.1.0
 
@@ -47,11 +56,11 @@ dependencies:
 
   uuid: ^3.0.1
 
-  network_info_plus: ^2.1.1
+  network_info_plus: ^3.0.1
 
   url_launcher: ^6.0.2
 
-  share_plus: ^4.0.10
+  share_plus: ^6.3.0
 
   provider: ^6.0.0
   characters: ^1.1.0

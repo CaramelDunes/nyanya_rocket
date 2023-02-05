@@ -23,7 +23,7 @@ class CommunityFilterBar extends StatelessWidget {
         children: [
           Text(
             NyaNyaLocalizations.of(context).sortByLabel,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           const VerticalDivider(),
           Expanded(
