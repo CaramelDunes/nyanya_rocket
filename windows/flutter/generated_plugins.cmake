@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_webview_auth
   network_info_plus
+  rive_common
   share_plus
   url_launcher_windows
   window_size

@@ -37,6 +37,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     compileSdkVersion 33
     ndkVersion flutter.ndkVersion
+    ndkVersion "25.1.8937393"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

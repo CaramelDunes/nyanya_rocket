@@ -46,7 +46,7 @@ dependencies:
       url: https://github.com/NirmalAriyathilake/flutterfire_desktop.git
       path: packages/firebase_auth/firebase_auth_desktop
 
-  rive: ^0.9.0
+  rive: ^0.10.1
 
   font_awesome_flutter: ^10.1.0
 
