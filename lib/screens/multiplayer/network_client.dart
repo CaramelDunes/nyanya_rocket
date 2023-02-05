@@ -37,7 +37,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
       : super(MultiplayerGameState(), MultiplayerGameSimulator()) {
     gameSimulator.onEntityInRocket = _handleEntityInRocket;
 
-    print('Connecting to $serverAddress:$port using ticket $ticket');
+    debugPrint('Connecting to $serverAddress:$port using ticket $ticket');
     _socket = ClientSocket(
         serverAddress: serverAddress,
         serverPort: port,
@@ -119,11 +119,12 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
       if (game.tickCount == receivedGame.tickCount &&
           game.rng.state != receivedGame.rng.state) {
-        print('On-time client RNG state discrepancy.');
+        debugPrint('On-time client RNG state discrepancy.');
       }
 
       if (game.tickCount < receivedGame.tickCount) {
-        print('Skipping ${receivedGame.tickCount - game.tickCount} ticks.');
+        debugPrint(
+            'Skipping ${receivedGame.tickCount - game.tickCount} ticks.');
       }
 
       gameState = receivedGame;
@@ -131,7 +132,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
       // We are slightly early, align the server snapshot to our tick count.
       int earliness = game.tickCount - receivedGame.tickCount;
 
-      print('Client is early by $earliness ticks.');
+      debugPrint('Client is early by $earliness ticks.');
 
       // Only use our time frame if we are less than 60 ticks (~0.5 seconds)
       // in advance on the server.
@@ -143,7 +144,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
       _mixGameEvents(receivedGame, game);
 
       if (game.rng.state != receivedGame.rng.state) {
-        print('Early client RNG state discrepancy');
+        debugPrint('Early client RNG state discrepancy');
       }
 
       gameState = receivedGame;
@@ -179,7 +180,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
   }
 
   void _handleRegisterSuccess(PlayerColor assignedColor) {
-    print('Register Success!');
+    debugPrint('Register Success!');
 
     if (_status == NetworkGameStatus.connectingToServer) {
       _status = NetworkGameStatus.waitingForPlayers;
@@ -192,7 +193,7 @@ class NetworkClient extends GameTicker<MultiplayerGameState> {
 
   void _handlePlayerNicknames(List<String> nicknames) {
     if (nicknames.length != 4) {
-      print('Got ${nicknames.length} nicknames!');
+      debugPrint('Got ${nicknames.length} nicknames!');
     }
 
     for (int i = 0; i < nicknames.length; i++) {

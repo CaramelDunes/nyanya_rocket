@@ -46,7 +46,7 @@ class _LocalChallengesState extends State<LocalChallenges> {
                     //   'challenge_data':
                     //       jsonEncode(challenge.challengeData.toJson()),
                     // }).then((HttpsCallableResult result) {
-                    //   print(result.data);
+                    //   debugPrint(result.data);
                     // });
 
                     context

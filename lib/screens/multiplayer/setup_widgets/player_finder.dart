@@ -154,7 +154,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
           }
         }
       } catch (e) {
-        print('Could not join queue: $e');
+        debugPrint('Could not join queue: $e');
       }
     }
   }
@@ -172,7 +172,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
     try {
       await _queue.queueLength();
     } catch (e) {
-      print('Could not refresh queue size: $e');
+      debugPrint('Could not refresh queue size: $e');
     }
 
     _updatePending = false;

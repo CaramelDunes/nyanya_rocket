@@ -145,14 +145,14 @@ class _ChallengeEditorState extends State<ChallengeEditor> {
       ChallengeStore.saveNew(_buildChallengeData()).then((String? uuid) {
         if (uuid != null) {
           _uuid = uuid;
-          print('Saved $uuid');
+          debugPrint('Saved $uuid');
           _isSaving = false;
         } // FIXME Handle failure.
       });
     } else {
       ChallengeStore.update(_uuid!, _buildChallengeData()).then((bool status) {
         // FIXME Handle failure.
-        print('Updated $_uuid');
+        debugPrint('Updated $_uuid');
         _isSaving = false;
       });
     }

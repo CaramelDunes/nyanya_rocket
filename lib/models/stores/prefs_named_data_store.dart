@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'named_data_store.dart';
@@ -27,7 +28,7 @@ class PrefsDataStore implements NamedDataStorage {
 
       if (separator == -1) {
         if (entry.isNotEmpty) {
-          print('Ignoring invalid entry: $entry');
+          debugPrint('Ignoring invalid entry: $entry');
         }
         continue;
       }

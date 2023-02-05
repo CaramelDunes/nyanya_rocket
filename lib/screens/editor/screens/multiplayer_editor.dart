@@ -91,14 +91,14 @@ class _MultiplayerEditorState extends State<MultiplayerEditor> {
       MultiplayerStore.saveNew(_buildMultiplayerBoard()).then((String? uuid) {
         if (uuid != null) {
           _uuid = uuid;
-          print('Saved $uuid');
+          debugPrint('Saved $uuid');
           _isSaving = false;
         } // FIXME Handle failure.
       });
     } else {
       MultiplayerStore.update(_uuid!, _buildMultiplayerBoard())
           .then((bool status) {
-        print('Updated $_uuid');
+        debugPrint('Updated $_uuid');
         _isSaving = false;
         // FIXME Handle failure.
       });

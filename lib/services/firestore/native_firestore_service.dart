@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
@@ -37,11 +38,11 @@ class NativeFirestoreService extends FirestoreService {
       {String? documentId, bool addUserPath = true}) async {
     if (documentId != null) {
       keys.add(documentId);
-      print("Add Doc ${getPathFromKeys(keys)}");
+      debugPrint("Add Doc ${getPathFromKeys(keys)}");
       await firestore
           .doc(getPathFromKeys(keys, addUserPath: addUserPath))
           .set(json);
-      print("Add Doc Complete");
+      debugPrint("Add Doc Complete");
       return documentId;
     }
     CollectionReference ref =
@@ -66,7 +67,7 @@ class NativeFirestoreService extends FirestoreService {
       DocumentSnapshot d = (await _getDoc(keys)!.get());
       return d.data() as Map<String, dynamic>?;
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     return null;
   }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firedart/firedart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/models/puzzle_data.dart';
 import 'package:nyanya_rocket/screens/challenges/community_challenge_data.dart';
@@ -23,19 +24,19 @@ class FiredartFirebaseService extends FirestoreService {
 
   @override
   Future<Map<String, dynamic>?> getDoc(List<String> keys) async {
-    //print("getDocData: ${keys.toString()}");
+    //debugPrint("getDocData: ${keys.toString()}");
     try {
       Document d = (await _getDoc(keys)!.get());
       return d.map..['documentId'] = d.id;
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     return null;
   }
 
   @override
   Future<List<Map<String, dynamic>>> getCollection(List<String> keys) async {
-    //print("getDocStream: ${keys.toString()}");
+    //debugPrint("getDocStream: ${keys.toString()}");
     Page<Document> docs = (await _getCollection(keys)!.get());
     for (Document d in docs) {
       d.map['documentId'] = d.id;
@@ -45,13 +46,13 @@ class FiredartFirebaseService extends FirestoreService {
 
   @override
   Stream<Map<String, dynamic>> getDocStream(List<String> keys) {
-    //print("getDocStream: ${keys.toString()}");
+    //debugPrint("getDocStream: ${keys.toString()}");
     return _getDoc(keys)!.stream.map((d) => d!.map..['documentId'] = d.id);
   }
 
   @override
   Stream<List<Map<String, dynamic>>> getListStream(List<String> keys) {
-    //print("getListStream: ${keys.toString()}");
+    //debugPrint("getListStream: ${keys.toString()}");
     return _getCollection(keys)!.stream.map(
       (List<Document> docs) {
         return (docs).map((d) => d.map..['documentId'] = d.id).toList();
@@ -83,7 +84,7 @@ class FiredartFirebaseService extends FirestoreService {
         .document(getPathFromKeys(keys))
         .delete()
         .catchError((Object e) {
-      print(e);
+      debugPrint(e.toString());
     });
   }
 
@@ -96,14 +97,14 @@ class FiredartFirebaseService extends FirestoreService {
   DocumentReference? _getDoc(List<String> keys) {
     if (checkKeysForNull(keys) == false) return null;
     DocumentReference docRef = firestore.document(getPathFromKeys(keys));
-    //print("getDoc: " + docRef.path);
+    //debugPrint("getDoc: " + docRef.path);
     return docRef;
   }
 
   CollectionReference? _getCollection(List<String> keys) {
     if (checkKeysForNull(keys) == false) return null;
     final colRef = firestore.collection(getPathFromKeys(keys));
-    //print("Got path: " + colRef.path);
+    //debugPrint("Got path: " + colRef.path);
     return colRef;
   }
 

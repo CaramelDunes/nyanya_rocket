@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class QueueJoinStatus {
@@ -51,7 +52,7 @@ class PrivateQueue {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
-      print(data);
+      debugPrint(data.toString());
 
       if (data.containsKey('port')) {
         return QueueJoinStatus(
@@ -73,7 +74,7 @@ class PrivateQueue {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
-      print(data);
+      debugPrint(data.toString());
     } else {
       throw Exception(
           'Could not cancel search: Got status code ${response.statusCode}.');

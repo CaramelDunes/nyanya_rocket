@@ -150,7 +150,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
         }
       });
     } else {
-      print('No');
+      debugPrint('No');
     }
   }
 

@@ -43,7 +43,7 @@ class FirestoreFactory {
       _initComplete = true;
       await service.init();
     }
-    print('Using Firestore ${useNative ? 'NATIVE' : 'DART'}.');
+    debugPrint('Using Firestore ${useNative ? 'NATIVE' : 'DART'}.');
     return service;
   }
 }
@@ -96,7 +96,7 @@ abstract class FirestoreService {
 
 bool checkKeysForNull(List<String> keys) {
   if (keys.contains(null)) {
-    print("ERROR: invalid key was passed to firestore: $keys");
+    debugPrint("ERROR: invalid key was passed to firestore: $keys");
     return false;
   }
   return true;
