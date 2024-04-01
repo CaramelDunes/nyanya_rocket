@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -16,7 +16,7 @@ class BoardBackgroundPainter extends CustomPainter {
   BoardBackgroundPainter({required Board board, required this.brightness}) {
     cached = createPicture((canvas) {
       CheckerboardPainter.paintUnitCheckerboard(canvas, brightness);
-      TilePainter.paintUnitNonArrowTiles(board, canvas);
+      TilePainter.paintUnitNonArrowTiles(board, canvas, brightness);
     });
   }
 
@@ -37,8 +37,7 @@ class BoardBackgroundPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return oldDelegate is! BoardBackgroundPainter ||
-        brightness != oldDelegate.brightness;
+  bool shouldRepaint(BoardBackgroundPainter oldDelegate) {
+    return brightness != oldDelegate.brightness;
   }
 }

@@ -7,8 +7,9 @@ import 'tiles/tile_painter.dart';
 
 class StaticForegroundPainter extends CustomPainter {
   final GameState game;
+  final Brightness brightness;
 
-  const StaticForegroundPainter({required this.game});
+  const StaticForegroundPainter({required this.game, required this.brightness});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -21,13 +22,13 @@ class StaticForegroundPainter extends CustomPainter {
     canvas.translate(
         WallsPainter.unitStrokeWidth / 2, WallsPainter.unitStrokeWidth / 2);
 
-    paintUnit(canvas, game);
+    paintUnit(canvas, game, brightness);
 
     canvas.restore();
   }
 
-  static void paintUnit(Canvas canvas, GameState game) {
-    TilePainter.paintUnitArrowTiles(game.board, canvas);
+  static void paintUnit(Canvas canvas, GameState game, Brightness brightness) {
+    TilePainter.paintUnitArrowTiles(game.board, canvas, brightness);
     WallsPainter.paintUnitWalls(canvas, game.board);
 
     EntityPainter.paintUnitEntities(canvas, game.mice);
@@ -35,7 +36,7 @@ class StaticForegroundPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+  bool shouldRepaint(StaticForegroundPainter oldDelegate) {
+    return brightness != oldDelegate.brightness;
   }
 }

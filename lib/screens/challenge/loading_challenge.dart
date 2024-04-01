@@ -24,7 +24,7 @@ class LoadingChallenge extends StatelessWidget {
                 body: Center(
                   child: Text(
                     NyaNyaLocalizations.of(context).loadingLabel,
-                    style: Theme.of(context).textTheme.headline2,
+                    style: Theme.of(context).textTheme.displayMedium,
                   ),
                 ),
               );
@@ -48,7 +48,7 @@ class LoadingChallenge extends StatelessWidget {
                         Text(
                           NyaNyaLocalizations.of(context)
                               .couldNotLoadChallengeText,
-                          style: Theme.of(context).textTheme.headline2,
+                          style: Theme.of(context).textTheme.displayMedium,
                         ),
                         ElevatedButton(
                             onPressed: () => Navigator.pop(context),

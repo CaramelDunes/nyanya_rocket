@@ -163,7 +163,7 @@ class _ChallengeState extends State<Challenge> {
         Text(
           _objectiveText(context),
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -254,7 +254,7 @@ class _ChallengeState extends State<Challenge> {
         builder: (BuildContext context, int value, Widget? child) {
           return Text(
             '$value / ${_challengeController.targetScore}',
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           );
         });
   }
@@ -265,7 +265,7 @@ class _ChallengeState extends State<Challenge> {
           ? Countdown.formatDuration(widget.bestTime!)
           : '',
       style:
-          Theme.of(context).textTheme.headline6!.copyWith(color: Colors.green),
+          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.green),
     );
   }
 
