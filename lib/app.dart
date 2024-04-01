@@ -4,13 +4,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'boards/original_challenges.dart';
+import 'boards/original_puzzles.dart';
 import 'routing/nyanya_route_information_parser.dart';
 import 'routing/nyanya_router_delegate.dart';
 import 'models/user.dart';
 import 'screens/challenges/challenge_progression_manager.dart';
-import 'screens/challenges/tabs/original_challenges.dart';
 import 'screens/puzzles/puzzle_progression_manager.dart';
-import 'screens/puzzles/widgets/original_puzzles.dart';
 import 'screens/settings/brightness_setting.dart';
 import 'screens/settings/first_run.dart';
 import 'screens/settings/language.dart';
@@ -31,7 +31,7 @@ class App extends StatefulWidget {
   );
 
   final SharedPreferences sharedPreferences;
-  final FirestoreService firestoreService;
+  final FirestoreService? firestoreService;
 
   const App(
       {super.key,
@@ -43,7 +43,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late final User _user = User(auth.FirebaseAuth.instance);
+  late final User _user =
+      User(widget.firestoreService == null ? null : auth.FirebaseAuth.instance);
   final NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
   final NyaNyaRouteInformationParser _routeInformationParser =
       NyaNyaRouteInformationParser();
@@ -72,11 +73,11 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(
             create: (_) => PuzzleProgressionManager(
                 sharedPreferences: widget.sharedPreferences,
-                numberOfPuzzles: OriginalPuzzles.jsons.length)),
+                numberOfPuzzles: originalPuzzles.length)),
         ChangeNotifierProvider(
             create: (_) => ChallengeProgressionManager(
                 sharedPreferences: widget.sharedPreferences,
-                numberOfChallenges: OriginalChallenges.challenges.length)),
+                numberOfChallenges: originalChallenges.length)),
         Provider.value(value: widget.firestoreService)
       ],
       child: Consumer2<BrightnessSetting, Language>(

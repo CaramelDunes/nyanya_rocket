@@ -112,7 +112,7 @@ class _CreateTabState extends State<CreateTab> {
                   ),
                 ),
                 const SizedBox(height: 16.0),
-                ElevatedButton(
+                FilledButton(
                     child: Text(localized.createLabel),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {

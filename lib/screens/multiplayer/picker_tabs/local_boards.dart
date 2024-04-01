@@ -37,7 +37,7 @@ class _LocalBoardsState extends State<LocalBoards> {
         itemCount: _boards.length,
         itemBuilder: (context, i) => ListTile(
               title: Text(_boards[uuidList[i]]!),
-              trailing: Row(
+              trailing: const Row(
                 mainAxisSize: MainAxisSize.min,
               ),
               onTap: () {

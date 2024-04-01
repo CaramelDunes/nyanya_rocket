@@ -355,7 +355,7 @@ class _NetworkMultiplayerState extends State<NetworkMultiplayer> {
                               .toList()),
                     ),
                   ),
-                  ElevatedButton(
+                  FilledButton(
                       onPressed: Navigator.of(context).pop,
                       child: Text(
                           MaterialLocalizations.of(context).backButtonTooltip))

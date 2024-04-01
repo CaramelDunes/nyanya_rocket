@@ -1,5 +1,5 @@
 container:
-  image: cirrusci/flutter:beta
+  image: ghcr.io/cirruslabs/flutter:beta
 
 android_build_task:
   pub_cache:
@@ -35,7 +35,7 @@ linux_build_task:
 
 macos_build_task:
   macos_instance:
-    image: ghcr.io/cirruslabs/macos-monterey-xcode:13.4.1
+    image: ghcr.io/cirruslabs/macos-sonoma-xcode:15.3
   pub_cache:
     folder: ~/.pub-cache
   build_script:

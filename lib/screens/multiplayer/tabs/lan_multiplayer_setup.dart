@@ -121,7 +121,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
+                      child: FilledButton(
                         child: Text(NyaNyaLocalizations.of(context).playLabel),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
@@ -233,7 +233,7 @@ class _LanMultiplayerSetupState extends State<LanMultiplayerSetup> {
                 ),
               ),
               Center(
-                child: ElevatedButton(
+                child: FilledButton(
                   onPressed: _board == null
                       ? null
                       : () {

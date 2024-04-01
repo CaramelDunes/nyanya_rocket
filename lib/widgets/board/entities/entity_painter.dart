@@ -16,15 +16,15 @@ class EntityPainter {
 
     const double catBonusSize = 1 / 2;
 
-    switch (entity.runtimeType) {
-      case Cat:
+    switch (entity) {
+      case Cat _:
         canvas.translate(0.1, -catBonusSize);
         canvas.scale(1 - 0.2, 1 + catBonusSize);
         catAnimations![entity.position.direction.index]
             .paintUnit(canvas, frameNumber);
         break;
 
-      case GoldenMouse:
+      case GoldenMouse _:
         mouseAnimations![entity.position.direction.index].paintUnit(
             canvas,
             frameNumber,
@@ -33,7 +33,7 @@ class EntityPainter {
                   Colors.yellow.withOpacity(0.5), BlendMode.srcATop));
         break;
 
-      case SpecialMouse:
+      case SpecialMouse _:
         mouseAnimations![entity.position.direction.index].paintUnit(
             canvas,
             frameNumber,
@@ -42,7 +42,7 @@ class EntityPainter {
                   Colors.pink.withOpacity(0.5), BlendMode.srcATop));
         break;
 
-      case Mouse:
+      case Mouse _:
         mouseAnimations![entity.position.direction.index]
             .paintUnit(canvas, frameNumber);
         break;

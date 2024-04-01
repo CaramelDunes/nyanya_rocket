@@ -122,7 +122,7 @@ class _DeviceDuelSetupState extends State<DeviceDuelSetup> {
                       },
                     ),
                     Flexible(
-                      child: ElevatedButton(
+                      child: FilledButton(
                         onPressed: _board != null
                             ? () {
                                 _formState.currentState!.save();

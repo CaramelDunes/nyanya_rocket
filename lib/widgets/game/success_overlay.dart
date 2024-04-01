@@ -101,7 +101,7 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ElevatedButton(
+                          FilledButton(
                             child: Text(MaterialLocalizations.of(context)
                                 .backButtonTooltip),
                             onPressed: () {
@@ -109,16 +109,16 @@ class _SuccessOverlayState extends State<SuccessOverlay> {
                             },
                           ),
                           const SizedBox(width: 16),
-                          ElevatedButton(
+                          FilledButton(
                             onPressed: widget.onPlayAgain,
                             child: Text(
                                 NyaNyaLocalizations.of(context).playAgainLabel),
                           ),
                           const SizedBox(width: 16),
-                          ElevatedButton(
+                          FilledButton(
                             // Style hack from https://github.com/chayanforyou/flutter_material_3_demo/blob/master/lib/component_screen.dart
                             // until FilledButton is added.
-                            style: ElevatedButton.styleFrom(
+                            style: FilledButton.styleFrom(
                               // Foreground color
                               foregroundColor:
                                   Theme.of(context).colorScheme.onPrimary,

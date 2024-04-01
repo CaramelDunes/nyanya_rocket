@@ -7,7 +7,7 @@ class NyaNyaRouteInformationParser
   @override
   Future<NyaNyaRoutePath> parseRouteInformation(
       RouteInformation routeInformation) async {
-    String location = routeInformation.location ?? '';
+    String location = routeInformation.uri.path;
 
     // Strip URL # on mobile.
     if (location.startsWith('/#')) {
@@ -30,18 +30,20 @@ class NyaNyaRouteInformationParser
 
   @override
   RouteInformation restoreRouteInformation(NyaNyaRoutePath configuration) {
-    if (configuration.id == null || configuration.tabKind == null) {
-      if (configuration.tabKind != null) {
-        return RouteInformation(
-            location:
-                '/${configuration.kind.slug}/${configuration.tabKind!.slug}');
-      } else {
-        return RouteInformation(location: '/${configuration.kind.slug}');
-      }
+    final kindSlug = configuration.kind.slug;
+    final tabSlug = configuration.tabKind?.slug;
+    final id = configuration.id;
+
+    Uri uri;
+
+    if (id != null && tabSlug != null) {
+      uri = Uri.parse('/$kindSlug/$tabSlug/$id');
+    } else if (tabSlug != null) {
+      uri = Uri.parse('/$kindSlug/$tabSlug');
     } else {
-      return RouteInformation(
-          location:
-              '/${configuration.kind.slug}/${configuration.tabKind!.slug}/${configuration.id}');
+      uri = Uri.parse('/$kindSlug');
     }
+
+    return RouteInformation(uri: uri);
   }
 }

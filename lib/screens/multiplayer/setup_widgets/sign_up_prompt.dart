@@ -13,7 +13,7 @@ class SignUpPrompt extends StatelessWidget {
       children: [
         Text(NyaNyaLocalizations.of(context).loginPromptText),
         const SizedBox(height: 8.0),
-        ElevatedButton(
+        FilledButton(
             child: Text(NyaNyaLocalizations.of(context).loginButtonLabel),
             onPressed: () {
               AccountManagement.promptSignUp(context);

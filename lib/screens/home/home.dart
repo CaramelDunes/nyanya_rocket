@@ -4,14 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 import 'package:provider/provider.dart';
 
+import '../../boards/original_challenges.dart';
+import '../../boards/original_puzzles.dart';
 import '../../localization/nyanya_localizations.dart';
 import '../../routing/nyanya_route_path.dart';
 import '../../utils.dart';
 import '../../widgets/board/static_game_view.dart';
 import '../challenges/challenge_progression_manager.dart';
-import '../challenges/tabs/original_challenges.dart';
 import '../puzzles/puzzle_progression_manager.dart';
-import '../puzzles/widgets/original_puzzles.dart';
 import '../settings/settings.dart';
 import '../tutorial/tutorial.dart';
 
@@ -88,8 +88,7 @@ class Home extends StatelessWidget {
               final completedPercentage =
                   ratioToPercentage(value.completedRatio);
               final unfinishedPuzzleId = value.getFirstNotClearedPuzzle();
-              final unfinishedPuzzle =
-                  OriginalPuzzles.puzzles[unfinishedPuzzleId];
+              final unfinishedPuzzle = originalPuzzles[unfinishedPuzzleId];
 
               return _buildBoardTile(
                   context,
@@ -110,7 +109,7 @@ class Home extends StatelessWidget {
                   ratioToPercentage(value.completedRatio);
               final unfinishedChallengeId = value.getFirstNotClearedChallenge();
               final unfinishedChallenge =
-                  OriginalChallenges.challenges[unfinishedChallengeId];
+                  originalChallenges[unfinishedChallengeId];
 
               return _buildBoardTile(
                   context,
@@ -119,8 +118,7 @@ class Home extends StatelessWidget {
                   FontAwesomeIcons.stopwatch,
                   completedPercentage,
                   unfinishedChallenge.data.getGame(),
-                  OriginalChallenges.fullLocalizedName(
-                      unfinishedChallenge, context),
+                  unfinishedChallenge.fullLocalizedName(context),
                   const NyaNyaRoutePath.originalChallenges());
             },
           ),
@@ -163,7 +161,7 @@ class Home extends StatelessWidget {
       runAlignment: WrapAlignment.spaceEvenly,
       runSpacing: 8.0,
       children: [
-        ElevatedButton.icon(
+        TextButton.icon(
           icon: const Icon(Icons.help),
           label: Text(NyaNyaLocalizations.of(context).tutorialTitle),
           onPressed: () {
@@ -171,7 +169,7 @@ class Home extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const Tutorial()));
           },
         ),
-        ElevatedButton.icon(
+        TextButton.icon(
           icon: const Icon(Icons.settings),
           label: Text(NyaNyaLocalizations.of(context).settingsTitle),
           onPressed: () {

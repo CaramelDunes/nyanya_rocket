@@ -5,9 +5,8 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class LocalGameController extends GameTicker<GameState> {
   final ValueNotifier<GameState> gameStream;
 
-  LocalGameController(GameState game, GameSimulator gameSimulator)
-      : gameStream = ValueNotifier(game),
-        super(game, gameSimulator) {
+  LocalGameController(super.game, super.gameSimulator)
+      : gameStream = ValueNotifier(game) {
     updateGame();
   }
 
