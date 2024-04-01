@@ -17,7 +17,7 @@ import 'warm_up_flare.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (defaultTargetPlatform == TargetPlatform.windows ||
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows ||
       defaultTargetPlatform == TargetPlatform.linux ||
       defaultTargetPlatform == TargetPlatform.macOS) {
     setWindowMinSize(const Size(512, 512));
@@ -28,7 +28,14 @@ Future<void> main() async {
   final SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  final isFirebaseSupported =
+      !(defaultTargetPlatform == TargetPlatform.windows ||
+          defaultTargetPlatform == TargetPlatform.linux);
+
+  if (isFirebaseSupported) {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+  }
 
   if (kIsWeb) {
     await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
@@ -39,6 +46,7 @@ Future<void> main() async {
 
   runApp(App(
     sharedPreferences: sharedPreferences,
-    firestoreService: await FirestoreFactory.create(),
+    firestoreService:
+        isFirebaseSupported ? await FirestoreFactory.create() : null,
   ));
 }

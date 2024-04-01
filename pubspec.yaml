@@ -6,7 +6,7 @@ publish_to: none
 version: 2.6.0+61
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ">=3.2.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -28,25 +28,13 @@ dependencies:
   nyanya_rocket_base:
     git: https://github.com/CaramelDunes/nyanya_rocket_base.git
 
-  intl: ^0.17.0
+  intl: ^0.18.1
 
   firebase_core: ^2.3.0  
-  firebase_auth_platform_interface: ^6.10.1
+  firebase_auth_platform_interface: ^7.2.0
   firebase_auth: ^4.1.4
   cloud_firestore: ^4.1.0
-
-# Replace with pub.dev packages when fixed.
-# https://github.com/invertase/flutterfire_desktop
-  firebase_core_desktop:
-    git:
-      url: https://github.com/NirmalAriyathilake/flutterfire_desktop.git
-      path: packages/firebase_core/firebase_core_desktop
-  firebase_auth_desktop:
-    git:
-      url: https://github.com/NirmalAriyathilake/flutterfire_desktop.git
-      path: packages/firebase_auth/firebase_auth_desktop
-
-  rive: ^0.10.1
+  rive: ^0.13.1
 
   font_awesome_flutter: ^10.1.0
 
@@ -54,25 +42,25 @@ dependencies:
 
   path_provider: ^2.0.1
 
-  uuid: ^3.0.1
+  uuid: ^4.3.3
 
-  network_info_plus: ^3.0.1
+  network_info_plus: ^5.0.2
 
   url_launcher: ^6.0.2
 
-  share_plus: ^6.3.0
+  share_plus: ^8.0.2
 
   provider: ^6.0.0
   characters: ^1.1.0
 
-  http: ^0.13.0
+  http: ^0.13.6
 
   slugify: ^2.0.0
 
-  firedart: ^0.9.0+1
+  firedart: ^0.9.3
 
 dev_dependencies:
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.2
   flutter_test:
     sdk: flutter
 

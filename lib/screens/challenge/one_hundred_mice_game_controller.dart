@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:nyanya_rocket/models/challenge_data.dart';
 import 'package:nyanya_rocket/screens/challenge/challenge_game_controller.dart';
 import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 
@@ -8,8 +7,7 @@ class OneHundredMiceGameController extends ChallengeGameController {
   final ValueNotifier<int> _scoreStream = ValueNotifier(0);
 
   OneHundredMiceGameController(
-      {required void Function() onWin, required ChallengeData challenge})
-      : super(onWin: onWin, challenge: challenge);
+      {required super.onWin, required super.challenge});
 
   @override
   ValueNotifier<int> get scoreStream => _scoreStream;

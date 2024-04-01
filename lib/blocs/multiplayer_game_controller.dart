@@ -5,9 +5,7 @@ import 'package:nyanya_rocket_base/nyanya_rocket_base.dart';
 class MultiplayerGameController extends MultiplayerGameTicker {
   final ValueNotifier<GameState> gameStream;
 
-  MultiplayerGameController(MultiplayerGameState game)
-      : gameStream = ValueNotifier(game),
-        super(game);
+  MultiplayerGameController(super.game) : gameStream = ValueNotifier(game);
 
   @protected
   void updateGame() {

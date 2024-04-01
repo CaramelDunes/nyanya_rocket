@@ -31,7 +31,7 @@ class App extends StatefulWidget {
   );
 
   final SharedPreferences sharedPreferences;
-  final FirestoreService firestoreService;
+  final FirestoreService? firestoreService;
 
   const App(
       {super.key,
@@ -43,7 +43,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late final User _user = User(auth.FirebaseAuth.instance);
+  late final User _user =
+      User(widget.firestoreService == null ? null : auth.FirebaseAuth.instance);
   final NyaNyaRouterDelegate _routerDelegate = NyaNyaRouterDelegate();
   final NyaNyaRouteInformationParser _routeInformationParser =
       NyaNyaRouteInformationParser();

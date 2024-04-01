@@ -1,4 +1,3 @@
-import '../../models/challenge_data.dart';
 import '../../models/named_challenge_data.dart';
 
 class CommunityChallengeData extends NamedChallengeData {
@@ -9,10 +8,10 @@ class CommunityChallengeData extends NamedChallengeData {
 
   CommunityChallengeData({
     required this.uid,
-    required String name,
+    required super.name,
     required this.author,
     required this.likes,
-    required ChallengeData challengeData,
+    required super.challengeData,
     required this.date,
-  }) : super(name: name, challengeData: challengeData);
+  });
 }

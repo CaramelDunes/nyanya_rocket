@@ -16,23 +16,20 @@ class TilePainter extends StatelessWidget {
   final BoxConstraints constraints;
 
   static Widget widget(Tile tile) {
-    switch (tile.runtimeType) {
-      case Pit:
+    switch (tile) {
+      case Pit _:
         return const PitImage();
 
-      case Generator:
+      case Generator _:
         return const SpawnerImage();
 
-      case Arrow:
-        Arrow arrow = tile as Arrow;
+      case Arrow arrow:
         return ArrowImage(
             player: arrow.player,
             direction: arrow.direction,
             isDamaged: arrow.halfTurnPower == ArrowHalfTurnPower.OneCat);
 
-      case Rocket:
-        Rocket rocket = tile as Rocket;
-
+      case Rocket rocket:
         return RocketImage(
           player: rocket.player,
           departed: rocket.departed,
@@ -110,13 +107,12 @@ class TilePainter extends StatelessWidget {
   }
 
   static paintUnitTile(Tile tile, Canvas canvas, Brightness brightness) {
-    switch (tile.runtimeType) {
-      case Pit:
+    switch (tile) {
+      case Pit _:
         PitPainter.paintUnit(canvas);
         break;
 
-      case Arrow:
-        Arrow arrow = tile as Arrow;
+      case Arrow arrow:
 
         // Make arrow blink 1 second (120 ticks) before expiration.
         if (arrow.expiration > 120 || arrow.expiration % 20 < 10) {
@@ -130,12 +126,11 @@ class TilePainter extends StatelessWidget {
         }
         break;
 
-      case Rocket:
-        Rocket rocket = tile as Rocket;
+      case Rocket rocket:
         RocketPainter.paintUnit(canvas, rocket.player.color, rocket.departed);
         break;
 
-      case Generator:
+      case Generator _:
         SpawnerPainter.paintUnit(canvas);
         break;
     }

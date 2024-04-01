@@ -9,11 +9,11 @@ import '../config.dart';
 enum StatusCode { success, failure, invalidArgument, unauthenticated }
 
 class User with ChangeNotifier {
-  final auth.FirebaseAuth _authService;
+  final auth.FirebaseAuth? _authService;
   auth.User? _innerUser;
 
   User(this._authService) {
-    _authService.userChanges().listen((auth.User? user) {
+    _authService?.userChanges().listen((auth.User? user) {
       _innerUser = user;
       notifyListeners();
     });
@@ -54,6 +54,8 @@ class User with ChangeNotifier {
   }
 
   Future<bool> signInAnonymously() async {
+    if (_authService == null) return Future.value(false);
+
     final auth.UserCredential credentials =
         await _authService.signInAnonymously();
 
@@ -62,6 +64,8 @@ class User with ChangeNotifier {
   }
 
   Future<void> signOut() {
+    if (_authService == null) return Future.value();
+
     return _authService.signOut();
   }
 }
