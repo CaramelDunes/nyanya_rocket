@@ -151,7 +151,7 @@ class _FriendDuelState extends State<FriendDuel> {
               });
             },
           ),
-          ElevatedButton(
+          FilledButton(
             onPressed: _destCode != null
                 ? () {
                     _queue

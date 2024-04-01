@@ -224,7 +224,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
                           child: Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: ElevatedButton(
+                              child: FilledButton(
                                   onPressed: widget.onPlay,
                                   child: Text(NyaNyaLocalizations.of(context)
                                       .playLabel)),
@@ -234,7 +234,7 @@ class _EditorPlacerState extends State<EditorPlacer> {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: ElevatedButton(
+                            child: FilledButton(
                                 child: Text(
                                     NyaNyaLocalizations.of(context).saveLabel),
                                 onPressed: () {

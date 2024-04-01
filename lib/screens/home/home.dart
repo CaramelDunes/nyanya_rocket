@@ -161,7 +161,7 @@ class Home extends StatelessWidget {
       runAlignment: WrapAlignment.spaceEvenly,
       runSpacing: 8.0,
       children: [
-        ElevatedButton.icon(
+        TextButton.icon(
           icon: const Icon(Icons.help),
           label: Text(NyaNyaLocalizations.of(context).tutorialTitle),
           onPressed: () {
@@ -169,7 +169,7 @@ class Home extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const Tutorial()));
           },
         ),
-        ElevatedButton.icon(
+        TextButton.icon(
           icon: const Icon(Icons.settings),
           label: Text(NyaNyaLocalizations.of(context).settingsTitle),
           onPressed: () {

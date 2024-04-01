@@ -50,7 +50,7 @@ class LoadingChallenge extends StatelessWidget {
                               .couldNotLoadChallengeText,
                           style: Theme.of(context).textTheme.displayMedium,
                         ),
-                        ElevatedButton(
+                        FilledButton(
                             onPressed: () => Navigator.pop(context),
                             child: Text(MaterialLocalizations.of(context)
                                 .backButtonTooltip))

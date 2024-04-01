@@ -109,7 +109,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
+            FilledButton(
               child: Text(_queue.joined
                   ? NyaNyaLocalizations.of(context).cancel
                   : NyaNyaLocalizations.of(context).joinQueueLabel),
@@ -119,7 +119,7 @@ class _PlayerFinderState extends State<PlayerFinder> {
                 });
               },
             ),
-            ElevatedButton(
+            FilledButton(
               child: Text(NyaNyaLocalizations.of(context).refreshLabel),
               onPressed: () {
                 _updateQueueLength();

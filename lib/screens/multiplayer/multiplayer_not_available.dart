@@ -23,7 +23,7 @@ class MultiplayerNotAvailable extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8.0),
-            ElevatedButton(
+            FilledButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const DeviceDuelSetup();
