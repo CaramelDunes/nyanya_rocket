@@ -12,6 +12,7 @@ import 'models/user.dart';
 import 'screens/challenges/challenge_progression_manager.dart';
 import 'screens/puzzles/puzzle_progression_manager.dart';
 import 'screens/settings/brightness_setting.dart';
+import 'screens/settings/first_run.dart';
 import 'screens/settings/language.dart';
 import 'screens/settings/region.dart';
 import 'services/firestore/firestore_service.dart';
@@ -60,6 +61,10 @@ class _AppState extends State<App> {
             create: (_) => Language(
                 sharedPreferences: widget.sharedPreferences,
                 defaultValue: 'auto')),
+        // TODO Move this to the What's New tab
+        ChangeNotifierProvider(
+            create: (_) =>
+                FirstRun(sharedPreferences: widget.sharedPreferences)),
         ChangeNotifierProvider(
             create: (_) => Region(
                 sharedPreferences: widget.sharedPreferences,
